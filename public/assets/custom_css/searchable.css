@@ -420,7 +420,7 @@
   padding: 100px;
 }
 .loginLogo {
-  background: url(../loginformbg.png) !important;
+  background: url('../image/login/loginformbg.png') !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   height: 700px !important;
@@ -599,7 +599,9 @@ input {
   top: 0;
   font-size: 14px;
 }
-
+.loginpageS {
+  box-shadow: rgb(112 112 112) -4px 3px 5px -1px;
+}
 .ACP {
   margin-top: 42px !important;
 }

@@ -19,7 +19,7 @@
     <div id="app">
         <div class="BoxTop"></div>
         <div class="BoxBottom"></div>
-        <div class="width-80 pt-20 vh-100 d-flex align-items-center justify-content-center">
+        <div class="width-78 m-auto vh-100 d-flex align-items-center justify-content-center">
             @yield('content')
         </div>
     </div>
