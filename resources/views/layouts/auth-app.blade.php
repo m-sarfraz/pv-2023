@@ -11,7 +11,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')  }}" />
-    {{--<link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('assets/custom_css/login.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
