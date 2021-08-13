@@ -1,0 +1,9 @@
+.loginForm {
+  padding: 100px;
+}
+.loginLogo {
+  background: url(../loginformbg.png) !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  height: 700px !important;
+}
