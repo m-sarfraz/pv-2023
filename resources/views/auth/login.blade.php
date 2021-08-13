@@ -2,7 +2,8 @@
 @section('content')
     <div class="loginpageS d-flex flex-wrap w-100">
         <div class="col-lg-6 bg-white">
-            <form class="loginForm">
+            <form class="loginForm" method="POST" action="{{ route('login') }}">
+                @csrf
                 <div class="d-flex justify-content-center pb-2">
                     <img width="25" src="{{'assets/image/login/loginIcon.png'}}" alt="" />
                 </div>
@@ -20,17 +21,27 @@
                                 </svg>
                             </span>
                         </div>
-                        <input class="form-control EmailInput-F" id="email" name="email" placeholder="Enter Email Address" required/>
+                        <input class="form-control EmailInput-F @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Enter Email Address" required/>
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="mb-1 d-block font-size-3">
                         Password
                     </label>
-                    <input type="password" class="form-control EmailInput-F" name="password" required/>
+                    <input type="password" class="form-control EmailInput-F @error('password') is-invalid @enderror" name="password" required/>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <a class="font-size-3 text-dodger line-height-reset">
+                    <a href="{{ route('password.request') }}" class="font-size-3 text-dodger line-height-reset">
                         Forget Password
                     </a>
                 </div>
