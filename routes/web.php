@@ -18,6 +18,8 @@ Auth::routes(['register' => false]);
 
 Route::view('editProfile','profile.editProfile');
 Route::view('addUser','profile.addUser');
+Route::view('team','profile.team');
+Route::view('userList','profile.userList');
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
     Route::get('/profile', 'ProfileController@view_profile')->name('profile');

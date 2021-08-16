@@ -5,7 +5,7 @@
                 <div class="mb-15 mb-lg-23">
                     <div class="row m-0">
                         <div class="col-xl-12 px-5">
-                            <h4 class="font-size-6 font-weight-semibold mb-4">Add User</h4>
+                            <h4 class="font-size-6 font-weight-semibold C-Heading mb-4">Add User</h4>
                             <div style="border-top: 4px solid red; box-shadow: 0 9px 7px -1px #707070; border-radius: 15px;padding: 70px 40px;" class="contact-form bg-white shadow-8">
                                 <form action="">
                                     <fieldset>

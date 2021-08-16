@@ -1,0 +1,4 @@
+table thead tr{
+    border-bottom: 1px solid red !important;
+    border-top: 2px solid red !important;
+}

@@ -15,9 +15,10 @@
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}">
    {{-- <link rel="stylesheet" href="{{ asset('assets/custom_css/searchable.css') }}">--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>  <div>
-    <div class="w-100 px-3">
+    <div class="w-100 px-3 d-none">
         <i class="fa fa-bars menu-block" aria-hidden="true"></i>
     </div>
     <nav id="asad" style="background: #dc8627;">
@@ -55,7 +56,7 @@
             <div class="">
                 <div class="dropdown pt-2 pl-2 text-white">
                     Clients Profile
-                    <i class="fas fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: -76px;">
                         <a href="#">
                             Companies
@@ -66,7 +67,7 @@
             <div class="">
                 <div class="dropdown pt-2 pl-2 text-white">
                     Users Management
-                    <i class="fas fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: 14px;">
                         <a href="#">
                             Users
@@ -91,7 +92,7 @@
                     Eallaine System
                 </h4>
                 <div class="dropdown px-3">
-                    <img class="mb-1 dropbtn" src="/assets/image/header-profile.png" alt="" />
+                    <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
                     <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
                     <div class="dropdown-content">
                         <a href="/editprofile">
@@ -120,14 +121,12 @@
 
     </div>
 </div>
-<div>
+
+        <div>
                 @yield('content')
         </div>
 
-        <footer>
-            there is footer
-        </footer>
-
+        <script src="{{ asset('assets/plugins/bootstrap/script/jquery.min.js') }}"></script>
         @yield('script')
 </body>
 </html>
