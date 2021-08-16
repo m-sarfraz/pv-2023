@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@include('layouts.no_menu_navbar')
 @section('content')
 <div class="container-fluid mt-10">
         <div class="col-lg-12">
@@ -52,10 +51,7 @@
             <p class="C-Heading">Connect Sheets Standard</p>
             <div class="card">
               <div class="card-body">
-
-
                 <!-- load sheet start -->
-
                 <div class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
                     <div class="col-sm-12 col-md-6">
                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
