@@ -14,7 +14,8 @@
 Route::get('/', function () {
     return redirect()->route('login');
 });
-
+Route::view('editProfile','profile.editProfile');
+Route::view('addUser','profile.addUser');
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
