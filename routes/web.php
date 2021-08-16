@@ -14,8 +14,13 @@
 Route::get('/', function () {
     return redirect()->route('login');
 });
+Auth::routes(['register' => false]);
+
 Route::view('editProfile','profile.editProfile');
 Route::view('addUser','profile.addUser');
-Auth::routes(['register' => false]);
+
+Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
+    Route::get('/profile', 'ProfileController@view_profile')->name('profile');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');

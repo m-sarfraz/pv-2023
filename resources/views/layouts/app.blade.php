@@ -13,14 +13,10 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')  }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/custom_css/searchable.css') }}">
+   {{-- <link rel="stylesheet" href="{{ asset('assets/custom_css/searchable.css') }}">--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-        <nav>
-            there is navbar
-        </nav>
-
         <div>
                 @yield('content')
         </div>

@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@include('layouts.no_menu_navbar')
 @section('content')
 <div class="container-fluid mt-10">
         <div class="col-lg-12">
@@ -17,7 +18,7 @@
                         </div>
                         <div class="col-lg-9">
                             <form action="" class="p-6">
-                               
+
                                 <div class="form-group mb-8">
                                     <label class="Label" style="font-size: 19px;">
                                         Name
@@ -44,7 +45,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container-fluid container_FluidSheets my-5">
         <div class="row">
           <div class="col-lg-6">
@@ -54,7 +55,7 @@
 
 
                 <!-- load sheet start -->
-                
+
                 <div class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
                     <div class="col-sm-12 col-md-6">
                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
@@ -75,7 +76,7 @@
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="row mb-xl-1 mb-9 justify-content-center">
                                     <div class="col-lg-8">
                                         <div class="mt-2">
@@ -96,7 +97,7 @@
                             <div style="padding: 93px;" class="pb-3 Coud_icon">
                                 <img style="width: 105px; cursor: pointer" src="./assets/image/editProfile/cloud.png" onclick="showFieldSheet(this)"/>
                             </div>
-                
+
                             <fieldset class="ml-20 showExcelfield fieldSheet d-none">
                                 <div class="row mb-xl-1 mb-9 justify-content-center">
                                     <div class="col-lg-8">
@@ -108,7 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="row mb-xl-1 mb-9 justify-content-center">
                                     <div class="col-lg-7 p-0">
                                         <div class="mt-2">
@@ -122,9 +123,9 @@
                         </form>
                     </div>
                 </div>
-                
+
                 <!-- load sheet end-->
-                
+
                 <LOADSHEET />
               </div>
             </div>
@@ -155,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <div class="row mb-xl-1 mb-9 justify-content-center">
                                 <div class="col-lg-8">
                                     <div class="mt-2">
@@ -176,7 +177,7 @@
                         <div style="padding: 93px;" class="pb-3 Coud_icon">
                             <img style="width: 105px; cursor: pointer" src="./assets/image/editProfile/cloud.png"  onclick="showFieldJDL(this)"/>
                         </div>
-            
+
                         <fieldset class="ml-20 showExcelfield fieldJDL d-none">
                             <div class="row mb-xl-1 mb-9 justify-content-center">
                                 <div class="col-lg-8">
@@ -188,7 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <div class="row mb-xl-1 mb-9 justify-content-center">
                                 <div class="col-lg-7 p-0">
                                     <div class="mt-2">
@@ -234,7 +235,7 @@
             }else{
                 e.parentNode.nextElementSibling.classList.remove('d-block')
                 e.parentNode.nextElementSibling.classList.add('d-none')
-            }  
+            }
         }
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
