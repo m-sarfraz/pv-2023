@@ -11,15 +11,34 @@
 |
 */
 
+/* =================== */
+/* Route for clear cache */
+Route::get('/clear-all', function () {
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:cache');
+    Artisan::call('view:clear');
+    $homeURL = url('/');
+    return 'Views Cleared, Routes Cleared, Cache Cleared, and Config Cleared Successfully ! <a href="' . $homeURL . '">Go Back To Home</a>';
+});
+/* Route for clear cache */
+/* ===================*/
+
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
 Auth::routes(['register' => false]);
 
 Route::view('editProfile','profile.editProfile');
-Route::view('addUser','profile.addUser');
 Route::view('team','profile.team');
-Route::view('userList','profile.userList');
+Route::view('addUser','user.addUser');
+Route::view('userList','user.userList');
+Route::view('dataEntry','dataEntry.main');
+
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
     Route::get('/profile', 'ProfileController@view_profile')->name('profile');
