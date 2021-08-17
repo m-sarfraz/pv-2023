@@ -38,6 +38,7 @@ Route::view('team','profile.team');
 Route::view('addUser','user.addUser');
 Route::view('userList','user.userList');
 Route::view('dataEntry','dataEntry.main');
+Route::view('jdl','JDL.index');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
