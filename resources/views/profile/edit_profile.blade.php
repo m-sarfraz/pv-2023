@@ -9,26 +9,35 @@
                         <div class="col-lg-3 edit_profile_I_P">
                             <ul>
                                 <li>
-                                    <img style="width: 210px; height: 209px;" src="./assets/image/editProfile/edit_profile-img.png" alt="" />
+                                    <img style="width: 210px; height: 209px;" src="{{ asset('assets/image/profile/profile.png')  }}" alt="" />
                                 </li>
-                                <li class="mt-4"><h4>User Name</h4></li>
-                                <li>User Email</li>
                             </ul>
                         </div>
                         <div class="col-lg-9">
-                            <form action="" class="p-6">
-
+                            <form method="post" id="profileForm" class="p-6" enctype="multipart/form-data" >
+                               @csrf
+                                <?php
+                                    $user   =   Auth::user();
+                                ?>
+                                <input name="user_id" type="hidden" value="{{ $user->id  }}" />
                                 <div class="form-group mb-8">
                                     <label class="Label" style="font-size: 19px;">
                                         Name
                                     </label>
-                                    <input type="text" class="w-100 border-top-0 border-right-0 border-left-0" name="name" placeholder="Your name here " required />
+                                    <input type="text" value="{{ $user->name  }}" class="w-100 border-top-0 border-right-0 border-left-0" name="name" placeholder="Your name here " required />
                                 </div>
                                 <div class="form-group mb-8">
                                     <label class="Label" style="font-size: 19px;">
                                         Email
                                     </label>
-                                    <input type="email" class="w-100 border-top-0 border-right-0 border-left-0" name="email" placeholder="Your email here" required />
+                                    <input type="email" {{ $user->email  }} class="w-100 border-top-0 border-right-0 border-left-0" name="email" placeholder="Your email here" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="Label" style="font-size: 19px;">
+                                        Profile Picture
+                                    </label>
+                                    <input type="file" class="w-100 border-top-0 border-right-0 border-left-0" name="profile">
                                 </div>
                                 <div class="form-group">
                                     <label class="Label" style="font-size: 19px;">
@@ -36,7 +45,7 @@
                                     </label>
                                     <input type="password" name="password" placeholder="Enter password" class="w-100 border-top-0 border-right-0 border-left-0" required/>
                                 </div>
-                                <input type="submit" name=""  />
+                                <button >Submit</button>
                             </form>
                         </div>
                     </div>
@@ -210,49 +219,40 @@
 @endsection
 
 @section('script')
-<script>
-        const showFieldJDL=(e)=>{
-            $('.fieldJDL').addClass('d-none')
-            $('.fieldJDL').removeClass('d-block')
-            if(e.parentNode.nextElementSibling.classList.contains('d-none')){
-                e.parentNode.nextElementSibling.classList.remove('d-none')
-                e.parentNode.nextElementSibling.classList.add('d-block')
-            }else{
-                e.parentNode.nextElementSibling.classList.remove('d-block')
-                e.parentNode.nextElementSibling.classList.add('d-none')
-            }
-        }
-        const showFieldSheet=(e)=>{
-            $('.fieldSheet').addClass('d-none')
-            $('.fieldSheet').removeClass('d-block')
-            if(e.parentNode.nextElementSibling.classList.contains('d-none')){
-                e.parentNode.nextElementSibling.classList.remove('d-none')
-                e.parentNode.nextElementSibling.classList.add('d-block')
-            }else{
-                e.parentNode.nextElementSibling.classList.remove('d-block')
-                e.parentNode.nextElementSibling.classList.add('d-none')
-            }
-        }
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-        'use strict'
+    <script>
+        $(document).ready(function () {
+            $('#profileForm').submit(function () {
+                $("#loader").show();
+                var data = new FormData(this);
+                $.ajax({
+                    url: "{{Route('save-profile')}}",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (res) {
+                        if(res.success == true){
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
+                            swal("{{ __('Success') }}", res.message, 'success');
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
+                        }else if(res.success == false){
+                            swal("{{ __('Warning') }}", res.message, 'error');
+                        }
 
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-                }
+                        $("#loader").hide();
+                    },
+                    error: function () {
+                        $("#loader").hide();
+                    }
+                });
 
-                form.classList.add('was-validated')
-            }, false)
+
+                return false;
             })
-        })()
+        });
+
 
     </script>
 @endsection

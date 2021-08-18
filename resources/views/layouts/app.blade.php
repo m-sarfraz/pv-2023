@@ -16,7 +16,11 @@
    {{-- <link rel="stylesheet" href="{{ asset('assets/custom_css/searchable.css') }}">--}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>  <div>
+<body>
+<div>
+    <!--loader-->
+    <div id="loader" style="display: none;" ></div>
+
     <div class="w-100 px-3">
         <i class="fa fa-bars menu-block" aria-hidden="true"></i>
     </div>
@@ -120,14 +124,13 @@
 
     </div>
 </div>
-<div>
-                @yield('content')
-        </div>
+    <div>
+        @yield('content')
+    </div>
 
-        <footer>
-            there is footer
-        </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- sweet alert cdn-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @yield('script')
 </body>
 </html>

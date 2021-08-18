@@ -21,6 +21,7 @@ Route::view('addUser','profile.addUser');
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
     Route::get('/profile', 'ProfileController@view_profile')->name('profile');
+    Route::post('/save-profile', 'ProfileController@save_profile')->name('save-profile');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
