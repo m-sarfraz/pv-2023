@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid mt-10">
+<div class="container-fluid mt-5 px-5">
         <div class="col-lg-12">
-            <p class="C-Heading">Edit Profile</p>
+            <p class="C-Heading mb-4">Edit Profile</p>
             <div class="card mb-13">
                 <div class="card-body">
                     <div class="row mb-4">

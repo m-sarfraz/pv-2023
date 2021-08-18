@@ -9,12 +9,16 @@
     <link rel="shortcut icon" href="{{ asset('assets/image/global/favicon.png')  }}" type="image/x-icon">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')  }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}">
-   {{-- <link rel="stylesheet" href="{{ asset('assets/custom_css/searchable.css') }}">--}}
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    @yield('style')
+
+
 </head>
 <body>
 <div>
@@ -22,6 +26,8 @@
     <div id="loader" style="display: none;" ></div>
 
     <div class="w-100 px-3">
+<body>  <div>
+    <div class="w-100 px-3 d-none">
         <i class="fa fa-bars menu-block" aria-hidden="true"></i>
     </div>
     <nav id="asad" style="background: #dc8627;">
@@ -59,7 +65,7 @@
             <div class="">
                 <div class="dropdown pt-2 pl-2 text-white">
                     Clients Profile
-                    <i class="fas fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: -76px;">
                         <a href="#">
                             Companies
@@ -70,7 +76,7 @@
             <div class="">
                 <div class="dropdown pt-2 pl-2 text-white">
                     Users Management
-                    <i class="fas fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: 14px;">
                         <a href="#">
                             Users
@@ -95,7 +101,7 @@
                     Eallaine System
                 </h4>
                 <div class="dropdown px-3">
-                    <img class="mb-1 dropbtn" src="/assets/image/header-profile.png" alt="" />
+                    <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
                     <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
                     <div class="dropdown-content">
                         <a href="/editprofile">
@@ -124,13 +130,13 @@
 
     </div>
 </div>
-    <div>
-        @yield('content')
-    </div>
+        <div>
+                @yield('content')
+        </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- sweet alert cdn-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/script/jquery.min.js') }}"></script>
+        <!-- sweet alert cdn-->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @yield('script')
 </body>
 </html>

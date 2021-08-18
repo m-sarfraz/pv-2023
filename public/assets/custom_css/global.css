@@ -550,8 +550,9 @@ input {
   border-top: 2px solid red !important;
   border-bottom: 1px solid red !important;
   border-radius: 5px !important;
-  vertical-align: bottom !important;
+  vertical-align: bottom;
 }
+
 .dataTables_paginate .page-item.active .page-link {
   z-index: 3;
   color: #fff;
