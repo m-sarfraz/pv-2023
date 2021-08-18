@@ -41,7 +41,7 @@ Route::view('dataEntry','dataEntry.main');
 Route::view('jdl','JDL.index');
 
 
-Route::group(['prefix' =>'admin','namespace' => 'Admin'],function(){
+Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
     Route::get('/profile', 'ProfileController@view_profile')->name('profile');
     Route::post('/save-profile', 'ProfileController@save_profile')->name('save-profile');
 });
