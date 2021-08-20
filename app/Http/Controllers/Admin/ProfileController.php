@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
@@ -12,36 +14,51 @@ class ProfileController extends Controller
         return view('profile.edit_profile');
     }
     public function save_profile(Request  $request){
-
-        $validator = Validator::make($request->all(), [
+        $userId = $request->user_id;
+        $arrayCheck =  [
             'name' => ['required', 'string', 'max:255'],
-            'email' => 'required|email|unique:users',
-            'password' => ['required', 'string', 'min:8'],
-
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['error' => false, 'error' => $validator->errors()->all()]);
-        } else {
-
-
+            'email' => 'required|unique:users,email,'.$userId,
+        ];
+        if($request->password != ""){
+            $arrayCheck['password'] =   ['required', 'string', 'min:8'];
         }
 
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        } else {
+            $userdata   =   [
+                'name'     => $request->name,
+                'email'     => $request->email,
+            ];
 
-        /*if ($request->hasFile('profile')) {
-            $file_name = time() . '.' . $request->profile->getClientOriginalExtension();
-            $customerLogo = UsersMeta::where(['user_id' => $userId, 'meta_key' => 'customer_logo'])->exists();
-            if ($customerLogo) {
-                $customerLogo = UsersMeta::where(['user_id' => $userId, 'meta_key' => 'customer_logo'])->value('meta_value');
-                $destinationPath = base_path() . '/assets/img/customer_logo/';
-                $delFile = File::delete($destinationPath . $customerLogo);
-                if (!$delFile) {
-                    return response()->json(['success' => false, 'message' => __('Existing file not deleted')]);
+           if ($request->hasFile('profile')) {
+                $file_name = $userId.time() . '.' . $request->profile->getClientOriginalExtension();
+                 $user = User::where('id', $userId)->first();
+                if ($user->image != "") {
+                    $userLogo = $user->image;
+                    $delFile    =   Storage::delete($userLogo);
+                    if (!$delFile) {
+                        return response()->json(['success' => false, 'message' =>'Existing file not deleted']);
+                    }
                 }
+                   $filepath       = "public/".$userId."/".$request->image_type."/".$file_name;
+                   Storage::put($filepath, $file_name);
+                   $userdata['image']   =   $filepath;
             }
-            $request->profile->move(base_path() . '/assets/img/customer_logo/', $file_name);
-            UsersMeta::updateOrCreate(['user_id' => $userId, 'meta_key' => 'customer_logo'], ['meta_value' => $file_name]);
+            if ($request->password != '') {
+                $userdata['password']   =   bcrypt($request->password);
+            }
+            $Where = ['id' => $userId];
 
-        }*/
+            $UpdateUser = User::updateOrCreate($Where,$userdata);
+            if($UpdateUser){
+                return response()->json(['success' => true, 'message' =>'Profile Updated successfully']);
+            }else{
+                return response()->json(['success' => false, 'message' =>'Error while updating profile']);
+            }
+
+        }
 
     }
 }

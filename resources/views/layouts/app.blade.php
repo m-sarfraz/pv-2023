@@ -59,7 +59,7 @@
             <a class="nav-link nav_Link" style="cursor: pointer;">
                 dropdowns
             </a>
-            <a class="nav-link nav_Link" style="cursor: pointer;">
+            <a href="{{ route('team.index')  }}" class="nav-link nav_Link" style="cursor: pointer;">
                 Teams
             </a>
             <div class="">
@@ -104,8 +104,8 @@
                     <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
                     <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
                     <div class="dropdown-content">
-                        <a href="/editprofile">
-                            <a href="#">Edit Profile</a>
+                        <a href="{{ route('profile')  }}">
+                            Edit Profile
                         </a>
                         <a href="" class="text-danger">Logout</a>
                     </div>
@@ -134,7 +134,7 @@
                 @yield('content')
         </div>
 
-        <script src="{{ asset('assets/plugins/bootstrap/script/jquery.min.js') }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- sweet alert cdn-->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         @yield('script')

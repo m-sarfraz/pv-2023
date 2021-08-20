@@ -9,16 +9,22 @@
                         <div class="col-lg-3 edit_profile_I_P">
                             <ul>
                                 <li>
-                                    <img style="width: 210px; height: 209px;" src="{{ asset('assets/image/profile/profile.png')  }}" alt="" />
+                                    <?php
+                                        $user   =   Auth::user();
+                                        if($user->image != ""){
+                                            $image  =   $user->image;
+                                        }else{
+                                            $image  =   'assets/image/profile/profile.png';
+                                        }
+
+                                    ?>
+                                    <img style="width: 210px; height: 209px;" src="{{ asset($image)  }}" alt="" />
                                 </li>
                             </ul>
                         </div>
                         <div class="col-lg-9">
                             <form method="post" id="profileForm" class="p-6" enctype="multipart/form-data" >
                                @csrf
-                                <?php
-                                    $user   =   Auth::user();
-                                ?>
                                 <input name="user_id" type="hidden" value="{{ $user->id  }}" />
                                 <div class="form-group mb-8">
                                     <label class="Label" style="font-size: 19px;">
@@ -30,7 +36,7 @@
                                     <label class="Label" style="font-size: 19px;">
                                         Email
                                     </label>
-                                    <input type="email" {{ $user->email  }} class="w-100 border-top-0 border-right-0 border-left-0" name="email" placeholder="Your email here" required />
+                                    <input type="email" value="{{ $user->email  }} " class="w-100 border-top-0 border-right-0 border-left-0" name="email" placeholder="Your email here" required />
                                 </div>
 
                                 <div class="form-group">
@@ -38,12 +44,13 @@
                                         Profile Picture
                                     </label>
                                     <input type="file" class="w-100 border-top-0 border-right-0 border-left-0" name="profile">
+                                    <input type="hidden" name="image_type" value="profile" >
                                 </div>
                                 <div class="form-group">
                                     <label class="Label" style="font-size: 19px;">
                                         Password
                                     </label>
-                                    <input type="password" name="password" placeholder="Enter password" class="w-100 border-top-0 border-right-0 border-left-0" required/>
+                                    <input type="password" name="password" placeholder="Enter password" class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
                                 <button >Submit</button>
                             </form>
