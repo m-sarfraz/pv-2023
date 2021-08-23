@@ -30,6 +30,7 @@
                                                 </label>
                                                 <div class="d-flex justify-content-between">
 
+
                                                     <select class="js-example-disabled-results w-75">
                                                         <option value="two" disabled="disabled">Choose options</option>
                                                         <option value="one">First</option>
@@ -43,43 +44,47 @@
                                     </div>
                                 </fieldset>
                             </form>
+                            <div class="row m-0">
+                                    <div class="col-7 d-flex py-3">Options</div>
+                                    <div class="col-5 d-flex text-center py-3">
+                                        <div>Action</div>     
+                                    </div>
+                            </div>
 
-                            <div class="row m-0 dropdown_table pt-5">
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
-                                <div class="col-12 d-flex justify-content-between py-2">
-                                    <div>Heading is here</div>
-                                    <div>xbcxmbczmx</div>
-                                    <div>action</div>
-                                </div>
+                            <div class="row m-0 shadow dropdown_table text-uppercase border rounded">
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
+                                    <div class="col-5 d-flex text-center py-3 border-bottom">
+                                        <button class="bg-transparent text-danger border-0">Delete</button>
+                                    </div>
+                             
                             </div>
                         </div>
                     </div>
