@@ -78,11 +78,11 @@
                     Users Management
                     <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: 14px;">
-                        <a href="#">
-                            Users
+                        <a href="{{ route('role.index')  }}">
+                            Roles
                         </a>
-                        <a href="#">
-                            Add User
+                        <a href="{{ route('user.index')  }}">
+                            Users
                         </a>
                     </div>
                 </div>

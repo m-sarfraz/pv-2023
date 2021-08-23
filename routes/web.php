@@ -33,7 +33,6 @@ Route::get('/', function () {
 });
 Auth::routes(['register' => false]);
 
-Route::view('team','profile.team');
 Route::view('addUser','user.addUser');
 Route::view('userList','user.userList');
 Route::view('dataEntry','dataEntry.main');
@@ -42,9 +41,14 @@ Route::view('dropdown','dropdowns.add_dropdowns');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
+
+    Route::resource('role','RoleController')->name('*','role');
+    Route::resource('user','UserController')->name('*','user');
+    Route::resource('team', 'TeamController')->name('*','team');
+
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
-    Route::resource('team', 'TeamController')->name('*','team');
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
