@@ -26,17 +26,6 @@
             <div class="w-100 px-3 d-none">
                 <i class="fa fa-bars menu-block" aria-hidden="true"></i>
             </div>
-            <div class="">
-                <div class="dropdown pt-2 pl-2 text-white">
-                    Users Management
-                    <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
-                    <div class="dropdown-content" style="left: 14px;">
-                        <a href="{{ route('role.index')  }}">
-                            Roles
-                        </a>
-                        <a href="{{ route('user.index')  }}">
-                            Users
-                        </a>
             <nav id="asad" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
                     <a class="nav-link active" style="cursor: pointer;">
@@ -85,11 +74,11 @@
                             Users Management
                             <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
-                                <a href="#">
-                                    Users
+                                <a href="{{ route('role.index')  }}">
+                                    Roles
                                 </a>
-                                <a href="#">
-                                    Add User
+                                <a href="{{ route('user.index')  }}">
+                                    Users
                                 </a>
                             </div>
                         </div>
