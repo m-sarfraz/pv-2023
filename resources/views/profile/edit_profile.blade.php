@@ -52,7 +52,9 @@
                                     </label>
                                     <input type="password" name="password" placeholder="Enter password" class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
-                                <button >Submit</button>
+                                @can('save-profile')
+                                    <button >Submit</button>
+                                @endcan
                             </form>
                         </div>
                     </div>
@@ -121,7 +123,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row mb-xl-1 mb-9 justify-content-center">
                                     <div class="col-lg-7 p-0">
                                         <div class="mt-2">
@@ -201,23 +202,21 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row mb-xl-1 mb-9 justify-content-center">
-                                <div class="col-lg-7 p-0">
-                                    <div class="mt-2">
-                                        <div class="form-group">
-                                            <input type="button" value="Upload" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                <div class="row mb-xl-1 mb-9 justify-content-center">
+                                    <div class="col-lg-7 p-0">
+                                        <div class="mt-2">
+                                            <div class="form-group">
+                                                <input type="button" value="Upload" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
                         </fieldset>
                     </form>
                 </div>
             </div>
-
                <!-- load sheetJDL end-->
-
               </div>
             </div>
           </div>

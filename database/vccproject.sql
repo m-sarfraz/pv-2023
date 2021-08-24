@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2021 at 09:57 AM
+-- Generation Time: Aug 24, 2021 at 09:39 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -88,7 +88,6 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 4),
-(1, 'App\\User', 5),
 (3, 'App\\User', 5);
 
 -- --------------------------------------------------------
@@ -122,10 +121,15 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'role-list', 'web', '2021-08-23 01:37:17', '2021-08-23 01:37:17'),
-(2, 'role-create', 'web', '2021-08-23 01:37:17', '2021-08-23 01:37:17'),
-(3, 'role-edit', 'web', '2021-08-23 01:37:17', '2021-08-23 01:37:17'),
-(4, 'role-delete', 'web', '2021-08-23 01:37:17', '2021-08-23 01:37:17');
+(1, 'user-list', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(2, 'user-create', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(3, 'user-edit', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(4, 'role-list', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(5, 'role-create', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(6, 'role-edit', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(7, 'role-delete', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(8, 'view-profile', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
+(9, 'save-profile', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23');
 
 -- --------------------------------------------------------
 
@@ -147,7 +151,6 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'web', '2021-08-23 01:39:01', '2021-08-23 01:39:01'),
-(2, 'test role', 'web', '2021-08-23 01:56:48', '2021-08-23 01:56:48'),
 (3, 'test role 1', 'web', '2021-08-23 01:58:09', '2021-08-23 01:58:09');
 
 -- --------------------------------------------------------
@@ -169,11 +172,14 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
 (1, 3),
 (2, 1),
-(2, 3),
 (3, 1),
-(3, 2),
-(3, 3),
-(4, 1);
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(8, 3),
+(9, 3);
 
 -- --------------------------------------------------------
 
@@ -200,8 +206,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `type`, `image`, `phone`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'malik irfann', 'testirfan@gmail.com', 1, 'public/1/profile/11629440604.jpg', NULL, NULL, '$2y$10$qyc3kXUp5YU19AHz0R4c/.PtRs.btQ.BbYhLdF.7iOzSMtEgGgRpy', 'KKWAiSrWJ4BZPok4LZCZk1H1fV3OVaFxoKVIVmDwI7T65SfEuy7eWC8YtkL4', '2021-08-12 01:56:46', '2021-08-20 23:51:39'),
-(3, 'asdg', 'asdfasdg@gmail.com', 2, NULL, '23423422', NULL, '$2y$10$m90TFIyelkXsYZWNL/hBWecVTtn8n6kCByAapR634v.XeZh2/8SvW', NULL, '2021-08-20 02:26:37', '2021-08-20 02:47:14'),
+(1, 'malik irfann', 'testirfan@gmail.com', 3, 'public/1/profile/11629440604.jpg', NULL, NULL, '$2y$10$qyc3kXUp5YU19AHz0R4c/.PtRs.btQ.BbYhLdF.7iOzSMtEgGgRpy', 'KKWAiSrWJ4BZPok4LZCZk1H1fV3OVaFxoKVIVmDwI7T65SfEuy7eWC8YtkL4', '2021-08-12 01:56:46', '2021-08-20 23:51:39'),
 (4, 'Test User', 'admin@gmail.com', 1, NULL, NULL, NULL, '$2y$10$ALa9tfuJNtcR3z5kTJm1KuKqJZNmVR/Oc0BhPs1bJBA0K7Zq4AeYm', NULL, '2021-08-23 01:39:01', '2021-08-23 01:39:01'),
 (5, 'test irfan update', 'testirf@gmail.com', 3, NULL, '123412311', NULL, '$2y$10$wlLaSHd1uLIa9CpOIZVH/.xyR1u0UQzQeD4C8tH29Z9r9vGG2TNRi', NULL, '2021-08-23 02:41:25', '2021-08-23 02:55:06');
 
@@ -288,7 +293,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `roles`
