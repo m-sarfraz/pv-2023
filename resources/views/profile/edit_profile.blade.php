@@ -14,7 +14,7 @@
                                         if($user->image != ""){
                                             $image  =   $user->image;
                                         }else{
-                                            $image  =   'assets/image/profile/profile.png';
+                                            $image  =   'assets/image/editProfile/profile.png';
                                         }
 
                                     ?>
