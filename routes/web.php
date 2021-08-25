@@ -42,7 +42,7 @@ Route::get('jdl', function () {
 
 Route::view('dataEntry','dataEntry.main');
 Route::view('jdl','JDL.index');
-Route::view('dropdown','dropdowns.add_dropdowns');
+Route::view('dropdown','dropdown.add_dropdown');
 Route::view('domain','domains.add_domain');
 Route::view('record','record.view_record');
 

@@ -171,8 +171,8 @@
 
             <!-- ================= -->
             <!-- Datatable code start-->
-           <div class="mt-5">
-           <table id="example1" class="table border-0 mt-3">
+           <div class="mt-5 table-responsive">
+           <table id="example1" class="table border-0 mt-3 "  >
                 <thead>
                     <tr>
                         <th>Client:</th>
@@ -209,7 +209,7 @@
                        <td>no data</td>
                        <td>no data</td>
                        <td>no data</td>
-                       <td>no data</td>
+                       <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem et at quisquam illo quas consequuntur qui, possimus dicta similique quasi ex, recusandae corrupti commodi. Temporibus voluptate accusamus nesciunt quia doloremque!</td>
                     </tr>
                   
                 </tbody>
