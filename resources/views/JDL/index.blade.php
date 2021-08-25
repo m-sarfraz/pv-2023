@@ -24,7 +24,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
+    <div class="row m-0 pt-4">
         <div class="col-lg-6">
             <p class="C-Heading">Requirements Finder:</p>
             <div class="card mb-13">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="mb-0">Filter by:</p>
+                        <p class="mb-0 pt-2">Filter by:</p>
                         <div class="row mb-1">
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
