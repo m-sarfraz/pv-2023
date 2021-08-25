@@ -1,11 +1,11 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('style')
 <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')  }}" />
 <style>
     .dropdown_table div.col-12:nth-child(even) {background: #CCC}
 .dropdown_table div.col-12:nth-child(odd) {background: #FFF}
-  
+
 </style>
 @endsection
 
@@ -33,9 +33,9 @@
 
                                                     <select class="js-example-disabled-results w-75">
                                                         <option value="two" disabled="disabled">Choose options</option>
-                                                        <option value="one">First</option>
-                                                        <option value="two">Second</option>
-                                                        <option value="three">Third</option>
+                                                        @foreach($dropdowns as $dropdown)
+                                                            <option value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <button class="btn btn-warning px-5 text-white" type="submit">Add</button>
                                                 </div>
@@ -47,7 +47,7 @@
                             <div class="row m-0">
                                     <div class="col-7 d-flex py-3">Options</div>
                                     <div class="col-5 d-flex text-center py-3">
-                                        <div>Action</div>     
+                                        <div>Action</div>
                                     </div>
                             </div>
 
@@ -84,8 +84,8 @@
                                     <div class="col-5 d-flex text-center py-3 border-bottom">
                                         <button class="bg-transparent text-danger border-0">Delete</button>
                                     </div>
-                             
                             </div>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-@endsection 
+@endsection
 
 
 @section('script')

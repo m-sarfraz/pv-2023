@@ -33,9 +33,13 @@ Route::get('/', function () {
 });
 Auth::routes(['register' => false]);
 
-Route::view('team','profile.team');
-Route::view('addUser','user.addUser');
-Route::view('userList','user.userList');
+/*Route::get('dataEntry', function () {
+    return view('dataEntry.main');
+});
+Route::get('jdl', function () {
+    return view('JDL.index');
+});*/
+
 Route::view('dataEntry','dataEntry.main');
 Route::view('jdl','JDL.index');
 Route::view('dropdown','dropdowns.add_dropdowns');
@@ -44,9 +48,15 @@ Route::view('record','record.view_record');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
+
+    Route::resource('role','RoleController')->name('*','role');
+    Route::resource('user','UserController')->name('*','user');
+    Route::resource('team', 'TeamController')->name('*','team');
+
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
-    Route::resource('team', 'TeamController')->name('*','team');
+    Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

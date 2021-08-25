@@ -31,10 +31,10 @@
                     <a class="nav-link active" style="cursor: pointer;">
                         Dashboard
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="https://ewdtech.com/ewdtech/vccproject/dataEntry" class="nav-link nav_Link" style="cursor: pointer;">
                         Data Entry
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">
                         JDL
                     </a>
                     <a class="nav-link nav_Link" style="cursor: pointer;">
@@ -52,12 +52,14 @@
                     <a class="nav-link nav_Link" style="cursor: pointer;">
                         Smart Search
                     </a>
-                    <a href="#" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('dropdown') }}" class="nav-link nav_Link" style="cursor: pointer;">
                         dropdowns
                     </a>
-                    <a href="{{ route('team.index')  }}" class="nav-link nav_Link" style="cursor: pointer;">
+                    @can('role-list')
+                    <a href="{{ route('role.index')  }}" class="nav-link nav_Link" style="cursor: pointer;">
                         Teams
                     </a>
+                    @endcan
                     <div class="">
                         <div class="dropdown pt-2 pl-2 text-white">
                             Clients Profile
@@ -69,20 +71,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="">
+                    @can('user-list')
                         <div class="dropdown pt-2 pl-2 text-white">
                             Users Management
                             <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
-                                <a href="#">
+                                <a href="{{ route('user.index')  }}">
                                     Users
                                 </a>
-                                <a href="#">
-                                    Add User
-                                </a>
+
                             </div>
                         </div>
-                    </div>
+                    @endcan
                     <div class="ml-auto E_S_icon pr-8">
                         <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
                             <div class="pt-0">
@@ -100,9 +100,11 @@
                             <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
                             <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
                             <div class="dropdown-content">
+                                @can('view-profile')
                                 <a href="{{ route('profile')  }}">
                                     Edit Profile
                                 </a>
+                                @endcan
                                 <a href="{{ route('logout') }}" class="text-danger" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
                                     Logout
                                 </a>

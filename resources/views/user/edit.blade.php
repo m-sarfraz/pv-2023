@@ -5,12 +5,11 @@
                 <div class="mb-15 mb-lg-23">
                     <div class="row m-0">
                         <div class="col-xl-12 px-5">
-                            <h4 class="font-size-6 font-weight-semibold C-Heading mb-4">Edit Team</h4>
+                            <h4 class="font-size-6 font-weight-semibold C-Heading mb-4">Edit User</h4>
                             <div style="border-top: 4px solid red; box-shadow: 0 9px 7px -1px #707070; border-radius: 15px;padding: 70px 40px;" class="contact-form bg-white shadow-8">
-                                <form id="edit_team" >
+                                <form method="post" id="create_user">
                                     @csrf
                                     @method('PATCH')
-
                                     <fieldset>
                                         <div class="row mb-xl-1 mb-9">
                                             <div class="col-lg-6">
@@ -18,7 +17,7 @@
                                                     <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                         Name
                                                     </label>
-                                                    <input type="text" name="name" value="{{ $user->name  }}" placeholder="Enter Name" class="form-control h-px-48" />
+                                                    <input type="text" value="{{ $user->name  }}" name="name" placeholder="Enter Name" class="form-control h-px-48" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -47,19 +46,37 @@
                                                     <input type="text" name="password" placeholder="Enter password" class="form-control h-px-48" />
                                                 </div>
                                             </div>
+
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                        Confirm Password
+                                                      Confirm  Password
                                                     </label>
                                                     <input type="text" name="password_confirmation" placeholder="Enter confirm password" class="form-control h-px-48" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-xl-1 mb-9">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
+                                                        Role
+                                                    </label>
+                                                    <select name="roles[]" required="" multiple class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
+                                                        @if(count($roles) > 0)
+
+                                                            @foreach($roles as $role)
+                                                                <option {{ (in_array($role, $userRole) ? 'selected' : "")  }} value="{{ $role }}">{{ $role }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <button style="background: #dc8627;" class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase"  >Create</button>
-
+                                                <input type="submit" style="background: #dc8627;" value="Create" class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
                                             </div>
                                         </div>
                                     </fieldset>
@@ -75,11 +92,11 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            $('#edit_team').submit(function () {
+            $('#create_user').submit(function () {
                 $("#loader").show();
                 var data = new FormData(this);
                 $.ajax({
-                    url: "{{Route('team.update',$user->id)}}",
+                    url: "{{Route('user.update',$user->id)}}",
                     data: data,
                     contentType: false,
                     processData: false,

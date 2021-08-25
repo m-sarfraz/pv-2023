@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-iconv" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
     </include_path>
   </component>
   <component name="ProjectId" id="1wc6Xrky1jrwkkqHwBb38cHPKHS" />
@@ -165,6 +166,9 @@
       <workItem from="1629091792783" duration="5901000" />
       <workItem from="1629102078709" duration="1766000" />
       <workItem from="1629435128505" duration="11288000" />
+      <workItem from="1629521092049" duration="938000" />
+      <workItem from="1629694895842" duration="9120000" />
+      <workItem from="1629866140445" duration="7727000" />
     </task>
     <servers />
   </component>
