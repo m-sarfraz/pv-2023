@@ -84,8 +84,7 @@
                                     <div class="col-5 d-flex text-center py-3 border-bottom">
                                         <button class="bg-transparent text-danger border-0">Delete</button>
                                     </div>
-                             
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </div>
