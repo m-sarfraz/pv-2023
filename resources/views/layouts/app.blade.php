@@ -52,7 +52,7 @@
                     <a class="nav-link nav_Link" style="cursor: pointer;">
                         Smart Search
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="#" class="nav-link nav_Link" style="cursor: pointer;">
                         dropdowns
                     </a>
                     <a href="{{ route('team.index')  }}" class="nav-link nav_Link" style="cursor: pointer;">

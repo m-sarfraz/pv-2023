@@ -39,6 +39,8 @@ Route::view('userList','user.userList');
 Route::view('dataEntry','dataEntry.main');
 Route::view('jdl','JDL.index');
 Route::view('dropdown','dropdowns.add_dropdowns');
+Route::view('domain','domains.add_domain');
+Route::view('record','record.view_record');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){

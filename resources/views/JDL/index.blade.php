@@ -175,78 +175,43 @@
            <table id="example1" class="table border-0 mt-3">
                 <thead>
                     <tr>
-                        <th>Action</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Contact</th>
-                        <th>Created At</th>
+                        <th>Client:</th>
+                        <th>Segment</th>
+                        <th>Sub-Segment</th>
+                        <th>Start Date</th>
+                        <th>Carrer Level</th>
+                        <th>SLL No:</th>
+                        <th>Location:</th>
+                        <th>Work Schedule:</th>
+                        <th>Budget:</th>
+                        <th>Educational Background:</th>
+                        <th>Job Description & Work Experience:</th>
+                        <th>Recruitment Process:</th>
+                        <th>Notes:</th>
+                        <th>Assigned Recruiters:</th>
+                        <th>Updated Date:</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="bg-transparent">
                         <!-- Table data 1 -->
-                        <td>
-                            <i style="cursor: pointer;" class="fa fa-edit"></i>
-                        </td>
-                        <td>
-                            Jp
-                        </td>
-                        <td>
-                            Jp@gmail.com
-                        </td>
-                        <td>
-                            Admin
-                        </td>
-                        <td>
-                            03090844077
-                        </td>
-                        <td>
-                            16-8-21 : 5:30pm
-                        </td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
+                       <td>no data</td>
                     </tr>
-                    <tr class="bg-transparent">
-                        <!-- Table data 1 -->
-                        <td>
-                            <i style="cursor: pointer;" class="fa fa-edit"></i>
-                        </td>
-                        <td>
-                            Jp
-                        </td>
-                        <td>
-                            Jp@gmail.com
-                        </td>
-                        <td>
-                            Admin
-                        </td>
-                        <td>
-                            03090844077
-                        </td>
-                        <td>
-                            16-8-21 : 5:30pm
-                        </td>
-                    </tr>
-                    <tr class="bg-transparent">
-                        <!-- Table data 1 -->
-                        <td>
-                            <i style="cursor: pointer;" class="fa fa-edit"></i>
-                        </td>
-                        <td>
-                            Jp
-                        </td>
-                        <td>
-                            Jp@gmail.com
-                        </td>
-                        <td>
-                            Admin
-                        </td>
-                        <td>
-                            03090844077
-                        </td>
-                        <td>
-                            16-8-21 : 5:30pm
-                        </td>
-                    </tr>
+                  
                 </tbody>
             </table>
 
