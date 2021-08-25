@@ -47,7 +47,7 @@
                 </div>
                 <div class="d-flex justify-content-center">
                     <button style="background-color: #dc8627;" type="submit" class="btn btn-primary">
-                        Submit
+                        Login
                     </button>
                 </div>
             </form>

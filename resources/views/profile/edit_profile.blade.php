@@ -11,11 +11,11 @@
                                 <li>
                                     <?php
                                         $user   =   Auth::user();
-                                        if($user->image != ""){
+                                        /*if($user->image != ""){
                                             $image  =   $user->image;
-                                        }else{
+                                        }else{*/
                                             $image  =   'assets/image/profile/profile.png';
-                                        }
+                                        //}
 
                                     ?>
                                     <img style="width: 210px; height: 209px;" src="{{ asset($image)  }}" alt="" />
@@ -77,7 +77,7 @@
                         </label>
                         <form class="C_To_GS">
                             <div style="padding: 93px;" class="pb-3">
-                                <img style="width: 68.75px; cursor: pointer" src="./assets/image/editProfile/sheetImage.png" onclick="showFieldSheet(this)"/>
+                                <img style="width: 68.75px; cursor: pointer" src="{{ asset('assets/image/profile/sheetImage.png')  }}" onclick="showFieldSheet(this)"/>
                             </div>
                             <fieldset class="ml-10 mr-10 fieldSheet d-none">
                                 <div class="row mb-xl-1 mb-9 justify-content-center">
@@ -109,7 +109,7 @@
                         </label>
                         <form>
                             <div style="padding: 93px;" class="pb-3 Coud_icon">
-                                <img style="width: 105px; cursor: pointer" src="./assets/image/editProfile/cloud.png" onclick="showFieldSheet(this)"/>
+                                <img style="width: 105px; cursor: pointer" src="{{ asset('assets/image/profile/cloud.png')  }}" onclick="showFieldSheet(this)"/>
                             </div>
 
                             <fieldset class="ml-20 showExcelfield fieldSheet d-none">
@@ -156,7 +156,7 @@
                     </label>
                     <form class="C_To_GS">
                         <div style="padding: 93px;" class="pb-3">
-                            <img style="width: 68.75px; cursor: pointer" src="./assets/image/editProfile/sheetImage.png" onclick="showFieldJDL(this)"/>
+                            <img style="width: 68.75px; cursor: pointer" src="{{ asset('assets/image/profile/sheetImage.png')  }}" onclick="showFieldJDL(this)"/>
                         </div>
                         <fieldset class="ml-10 mr-10 fieldJDL d-none">
                             <div class="row mb-xl-1 mb-9 justify-content-center">
@@ -188,7 +188,7 @@
                     </label>
                     <form>
                         <div style="padding: 93px;" class="pb-3 Coud_icon">
-                            <img style="width: 105px; cursor: pointer" src="./assets/image/editProfile/cloud.png"  onclick="showFieldJDL(this)"/>
+                            <img style="width: 105px; cursor: pointer" src="{{ asset('assets/image/profile/cloud.png')  }}"  onclick="showFieldJDL(this)"/>
                         </div>
 
                         <fieldset class="ml-20 showExcelfield fieldJDL d-none">
@@ -253,9 +253,7 @@
                         $("#loader").hide();
                     }
                 });
-
-
-                return false;
+             return false;
             })
         });
 

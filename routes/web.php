@@ -33,9 +33,16 @@ Route::get('/', function () {
 });
 Auth::routes(['register' => false]);
 
+/*Route::get('dataEntry', function () {
+    return view('dataEntry.main');
+});
+Route::get('jdl', function () {
+    return view('JDL.index');
+});*/
+
 Route::view('dataEntry','dataEntry.main');
 Route::view('jdl','JDL.index');
-Route::view('dropdown','dropdowns.add_dropdowns');
+Route::view('dropdown','dropdown.add_dropdown');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
@@ -46,6 +53,7 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
 
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
+    Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
 
 });
 

@@ -31,10 +31,10 @@
                     <a class="nav-link active" style="cursor: pointer;">
                         Dashboard
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="https://ewdtech.com/ewdtech/vccproject/dataEntry" class="nav-link nav_Link" style="cursor: pointer;">
                         Data Entry
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">
                         JDL
                     </a>
                     <a class="nav-link nav_Link" style="cursor: pointer;">
@@ -52,7 +52,7 @@
                     <a class="nav-link nav_Link" style="cursor: pointer;">
                         Smart Search
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('dropdown') }}" class="nav-link nav_Link" style="cursor: pointer;">
                         dropdowns
                     </a>
                     @can('role-list')
