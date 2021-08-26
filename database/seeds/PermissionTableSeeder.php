@@ -15,6 +15,7 @@ class PermissionTableSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         DB::table('permissions')->truncate();
+        DB::table('role_has_permissions')->truncate();
         $admin = Role::where('name', 'Admin')->first();
         $permissions = [
             'user-list',
@@ -26,6 +27,7 @@ class PermissionTableSeeder extends Seeder
             'role-delete',
             'view-profile',
             'save-profile',
+            'add-option'
 
         ];
 
