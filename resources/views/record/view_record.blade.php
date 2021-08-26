@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-5">
-            <p class="C-Heading">Record Finder:</p>
+            <p class="C-Heading pt-3">Record Finder:</p>
             <div class="card mb-13">
                 <div class="card-body">
                     <form action="">
@@ -155,13 +155,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
                                     <label class="Label">Endo Date:</label>
-                                    <select name="" id="" class="w-100">
+                                    <input type="date" class="w-100">
+                                    <!-- <select name="" id="" class="w-100">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
                                         <option value="4">Four</option>
                                         <option value="5">Five</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                             </div>
                         </div>
@@ -169,38 +170,109 @@
                 </div>
             </div>
 
-            <!-- ================= -->
+           <!-- ================= -->
             <!-- Datatable code start-->
-            <div class="table-responsive">
-              <div class="mt-5">
-                <table id="example1" class="table border-0">
-                        <thead>
-                            <tr>
-                                <th>Client:</th>
-                                <th>Segment</th>
-                                <th>Sub-Segment</th>
-                                <th>Start Date</th>
-                                <th>Carrer Level</th>
-                                <th>SLL No:</th>
-                                <th>Location:</th>
-                                <th>Work Schedule:</th>
-                                <th>Budget:</th>
+            <div class="table-responsive border-right pt-3">
+              <div class="">
+                <table id="example1" class="table">
+                        <thead class="bg-light w-100">
+                            <tr style="border-bottom: 3px solid white;border-top: 3px solid white;">
+                                <th>Team<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                                <th>Recruiter</th>
+                                <th>Reprocess</th>
+                                <th>Canidate</th>
+                                <th>Roles<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                                <th>Canidate</th>
+                                <th>Role<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                                <th>Canidate</th>
+                                <th>Role<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
                             </tr>
                         </thead>
                         <tbody>
+                        <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
                             <tr class="bg-transparent">
                                 <!-- Table data 1 -->
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
-                            <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
                             </tr>
-                        
+                            <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
+                            <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
+                            <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
+                            <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
+                            <tr class="bg-transparent">
+                                <!-- Table data 1 -->
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                                <td>no data</td>
+                            </tr>
                         </tbody>
                     </table>
                </div>
@@ -208,10 +280,9 @@
             <!-- Datatable code end-->
             <!-- ================= -->
 
-
         </div>
         <div class="col-lg-7">
-            <p class="C-Heading">Requirement Details:</p>
+            <p class="C-Heading pt-3">Requirement Details:</p>
             <div class="card mb-13">
                 <div class="card-body">
                     <form action="">
@@ -455,7 +526,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <p class="C-Heading">Endorsement Details:</p>
+                                    <p class="C-Heading pt-3">Endorsement Details:</p>
                                     <div class="card mb-13">
                                         <div class="card-body">
                                             <form action="">
@@ -690,7 +761,7 @@
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
-    <script>
+    <!-- <script>
         $(function() {
             $("#example1").DataTable({
             "responsive": true,
@@ -699,7 +770,7 @@
         });
             });
   
-    </script>
+    </script> -->
     <!-- Datatable js end-->
     <!-- ================= -->
 @endsection

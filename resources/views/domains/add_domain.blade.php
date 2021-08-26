@@ -17,14 +17,14 @@
     <div class="">
         <div class="mb-15 mb-lg-23">
             <div class="row">
-                <div class="col-xl-12 px-lg-5 mt-5 ">
-                    <p class="C-Heading">Add Segments</p>
+                <div class="col-xl-12 px-lg-5">
+                    <p class="C-Heading pt-3">Add Segments</p>
                     <div class="card">
                         <div class="card-body">
                             <form action="/">
                                 <fieldset>
                                     <div class="row mb-xl-1 mb-9">
-                                    <div class="col-lg-6 mb-xl-0 mb-7">
+                                    <div class="col-lg-6 col-md-3 col-sm-12 mb-xl-0 mb-7">
                                             <div class="form-group">
                                                 <label for="select3" class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                                     Domains
@@ -71,8 +71,8 @@
     <div class="">
         <div class="mb-15 mb-lg-23">
             <div class="row">
-                <div class="col-xl-12 px-lg-5 mt-5 ">
-                    <p class="C-Heading">Add sub Segments</p>
+                <div class="col-xl-12 px-lg-5">
+                    <p class="C-Heading pt-3">Add sub Segments</p>
                     <div class="card d-flex justify-content-center">
                         <div class="card-body">
                             
