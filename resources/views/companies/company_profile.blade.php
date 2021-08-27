@@ -47,6 +47,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                         <tr class="bg-transparent">
                                 <!-- Table data 1 -->
                                 <td><i class="fa fa-address-card-o" aria-hidden="true"></i></td>
