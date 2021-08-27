@@ -123,6 +123,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-oracle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1wc6Xrky1jrwkkqHwBb38cHPKHS" />
@@ -170,6 +171,7 @@
       <workItem from="1629694895842" duration="9120000" />
       <workItem from="1629866140445" duration="7727000" />
       <workItem from="1629952188901" duration="10704000" />
+      <workItem from="1630038817119" duration="11077000" />
     </task>
     <servers />
   </component>

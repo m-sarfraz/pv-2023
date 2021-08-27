@@ -1,23 +1,10 @@
 @extends('layouts.app')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')  }}"
-<!-- Datatable css start-->
-<link href="{{asset('assets/data-tables/css/css1.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css2.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css3.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css4.css')}}"/>
-<!-- Datatable css end-->
-<!-- ================= -->/>
-<style>
-    .dropdown_table div.col-12:nth-child(even) {background: #CCC}
-.dropdown_table div.col-12:nth-child(odd) {background: #FFF}
+<link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')  }}" />
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
 
-</style>
 @endsection
-
-
-
 @section('content')
 <div class="container-fluid mt-8 mt-lg-11" id="dashboard-body">
     <div class="">
@@ -37,8 +24,8 @@
                                                     Dropdowns
                                                 </label>
                                                 <div class="d-flex justify-content-between">
-                                                    <select name="dropdown_id" class="dropdown_select w-75">
-                                                        <option value="" disabled="disabled">Choose options</option>
+                                                    <select  onchange="get_dropdown_value(this.value);" name="dropdown_id" class="dropdown_select w-75">
+                                                        <option value=""  disabled="disabled">Choose options</option>
                                                         @foreach($dropdowns as $dropdown)
                                                             <option value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>
                                                         @endforeach
@@ -55,49 +42,16 @@
                                     </div>
                                 </fieldset>
                             </form>
-                            <div class="row m-0">
-                                    <div class="col-7 d-flex py-3">Options</div>
-                                    <div class="col-5 d-flex text-center py-3">
-                                        <div>Action</div>
-                                    </div>
-                            </div>
-                            <div class="row m-0 shadow dropdown_table text-uppercase border rounded">
 
-
-                                 <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                            </div>
-                                </div>
+                            <table id="option_table" class="display">
+                                <thead>
+                                <tr>
+                                    <th>Option</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -106,20 +60,88 @@
     </div>
 </div>
 
+
 @endsection
 
 
 @section('script')
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-
+    <script src="//cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
+
+    $(document).ready(function () {
+        dropdownId  =   1
+        get_dropdown_value(dropdownId);
+        var $disabledResults = $(".dropdown_select");
+        $disabledResults.select2();
+    });
+
+    function delete_option(obj){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((delete_option) => {
+            $("#loader").show();
+            var optionId    =   $(obj).data('id');
+            $.ajax({
+                url: "{{Route('delete-option')}}",
+                data: {
+                    '_token':$('meta[name=csrf-token]').attr("content"),
+                    'option_id' : optionId
+                },
+                type: 'POST',
+                success: function (res) {
+                    if(res.success == true){
+
+                        swal("{{ __('Success') }}", res.message, 'success');
+                        setTimeout(function(){
+                            location.reload();
+                        },1000);
+                    }else if(res.success == false){
+                        swal("{{ __('Warning') }}", res.message, 'error');
+                    }
+
+                    $("#loader").hide();
+                },
+                error: function () {
+                    $("#loader").hide();
+                }
+            });
+            return false;
+        });
+
+    }
+    function  load_datatable(dropdownId){
+        var option_table =  $('#option_table').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            ajax : {
+                url : "{{ route('view-options') }}",
+                type : "POST",
+                data : {
+                    'dropdown_id' : dropdownId,
+                    '_token':$('meta[name=csrf-token]').attr("content")
+                }
+            },
+            columns: [
+                {data: 'option_name', name: 'option_name'},
+                {data: 'action', name: 'action', searchable: false, orderable: false}
+            ]
+        });
+
+
+    }
+    function get_dropdown_value(dropdownId){
+        $("#loader").show();
+        load_datatable(dropdownId);
+        $("#loader").hide();
+    }
     function save_options(){
         $("#loader").show();
-        var form = document.querySelector('#add_option_form'); // You need to use standard javascript object here
         var data = new FormData(form);
         $.ajax({
             url: "{{Route('save-options')}}",
@@ -147,28 +169,6 @@
         return false;
 
     }
-    $(document).ready(function () {
-        var $disabledResults = $(".dropdown_select");
-        $disabledResults.select2();
-     /*   $('#options_datatable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('view-options') }}",
-            columnDefs: [
-                {
-                    targets: 5,
-                    className: 'text-center'
-                }
-            ],
-            columns: [
-                {data: 'option_name', name: 'option_name'},
-                {data: 'action', name: 'action', searchable: false, orderable: false}
-            ]
-        });*/
-
-
-
-    });
     function removeOptionField(obj){
         $(obj).parent().parent().remove();
         var eleLen  =   $(".option_input_append").children().length;
@@ -193,6 +193,5 @@
 
 
     }
-    <!-- ================= -->
 </script>
 @endsection

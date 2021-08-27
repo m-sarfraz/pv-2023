@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\DropDown;
 use App\DropDownOption;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class DropDownController extends Controller
 {
@@ -51,7 +51,7 @@ class DropDownController extends Controller
 
     public function view_options(Request $request)
     {
-        $view_options = DropDownOption::where('dropdown_id', 1);
+        $view_options = DropDownOption::where('dropdown_id',$request->dropdown_id)->get();
         return Datatables::of($view_options)
             ->addColumn('option_name', function ($view_options) {
                 $name = $view_options->option_name;
@@ -65,11 +65,19 @@ class DropDownController extends Controller
                     </div></a>';
                 return $b;
             })*/
-            ->addColumn('action', function ($users) {
-                $b = '<button class="bg-transparent text-danger border-0">Delete</button>';
+            ->addColumn('action', function ($view_options) {
+                $b = '<button onclick="delete_option(this);" data-id="'.$view_options->id.'" class="bg-transparent text-danger border-0">Delete</button>';
                 return $b;
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+    public function delete_option(Request $request){
+        $deleteOption   =   DropDownOption::where('id',$request->option_id)->delete();
+        if($deleteOption){
+            return response()->json(['success' => true, 'message' =>'Options deleted successfully']);
+        }else{
+            return response()->json(['success' => false, 'message' =>'Error while deleting option']);
+        }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2021 at 09:39 AM
+-- Generation Time: Aug 27, 2021 at 09:49 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -20,6 +20,57 @@ SET time_zone = "+00:00";
 --
 -- Database: `vccproject`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drop_downs`
+--
+
+CREATE TABLE `drop_downs` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `drop_downs`
+--
+
+INSERT INTO `drop_downs` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Application status', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
+(2, 'Candidates profile', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
+(3, 'Career level', '2021-08-25 07:53:06', '2021-08-25 07:53:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drop_down_options`
+--
+
+CREATE TABLE `drop_down_options` (
+  `id` int(11) NOT NULL,
+  `dropdown_id` int(11) NOT NULL,
+  `2nd_dropdown_id` int(11) DEFAULT NULL,
+  `option_name` varchar(255) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 for active 0 for inactive',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `drop_down_options`
+--
+
+INSERT INTO `drop_down_options` (`id`, `dropdown_id`, `2nd_dropdown_id`, `option_name`, `status`, `created_at`, `updated_at`) VALUES
+(2, 1, NULL, 'test 2', 1, '2021-08-26 06:50:20', '2021-08-26 06:50:20'),
+(3, 1, NULL, 'test 3', 1, '2021-08-26 07:03:00', '2021-08-26 07:03:00'),
+(4, 1, NULL, 'test 4', 1, '2021-08-26 07:03:00', '2021-08-26 07:03:00'),
+(5, 2, NULL, 'can 1', 1, '2021-08-26 07:03:25', '2021-08-26 07:03:25'),
+(6, 2, NULL, 'can 2', 1, '2021-08-26 07:03:25', '2021-08-26 07:03:25'),
+(8, 3, NULL, 'test 6', 1, '2021-08-26 08:10:26', '2021-08-26 08:10:26'),
+(9, 3, NULL, 'test 7', 1, '2021-08-26 08:10:26', '2021-08-26 08:10:26');
 
 -- --------------------------------------------------------
 
@@ -121,15 +172,16 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'user-list', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(2, 'user-create', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(3, 'user-edit', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(4, 'role-list', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(5, 'role-create', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(6, 'role-edit', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(7, 'role-delete', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(8, 'view-profile', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23'),
-(9, 'save-profile', 'web', '2021-08-24 01:40:23', '2021-08-24 01:40:23');
+(1, 'user-list', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(2, 'user-create', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(3, 'user-edit', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(4, 'role-list', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(5, 'role-create', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(6, 'role-edit', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(7, 'role-delete', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(8, 'view-profile', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(9, 'save-profile', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
+(10, 'add-option', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27');
 
 -- --------------------------------------------------------
 
@@ -170,7 +222,6 @@ CREATE TABLE `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
-(1, 3),
 (2, 1),
 (3, 1),
 (4, 1),
@@ -178,8 +229,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (6, 1),
 (7, 1),
 (8, 1),
-(8, 3),
-(9, 3);
+(9, 1),
+(10, 1);
 
 -- --------------------------------------------------------
 
@@ -213,6 +264,18 @@ INSERT INTO `users` (`id`, `name`, `email`, `type`, `image`, `phone`, `email_ver
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `drop_downs`
+--
+ALTER TABLE `drop_downs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `drop_down_options`
+--
+ALTER TABLE `drop_down_options`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -278,6 +341,18 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `drop_downs`
+--
+ALTER TABLE `drop_downs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `drop_down_options`
+--
+ALTER TABLE `drop_down_options`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -293,7 +368,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `roles`
