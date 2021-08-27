@@ -3,10 +3,8 @@
 @section('style')
 <!-- ================= -->
 <!-- Datatable css start-->
-<link href="{{asset('assets/data-tables/css/css1.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css2.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css3.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css4.css')}}"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
+
 <!-- Datatable css end-->
 <!-- ================= -->
 <style>

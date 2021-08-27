@@ -3,10 +3,7 @@
 @section('style')
 <!-- ================= -->
 <!-- Datatable css start-->
-<link href="{{asset('assets/data-tables/css/css1.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css2.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css3.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css4.css')}}"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
 <!-- Datatable css end-->
 <!-- ================= -->
 <style>
@@ -47,7 +44,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         <tr class="bg-transparent">
                                 <!-- Table data 1 -->
                                 <td><i class="fa fa-address-card-o" aria-hidden="true"></i></td>
@@ -314,10 +311,7 @@
 @section('script')
     <!-- ================= -->
     <!-- Datatable js start-->
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="//cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
 
     <!-- <script>
         $(function() {

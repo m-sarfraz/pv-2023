@@ -289,7 +289,6 @@
   height: 25px !important;
   font-size: 14px !important;
   padding: 0 !important;
-  border: 1px solid !important;
   border-radius: 3px !important;
 }
 .nav_Link {
@@ -398,7 +397,10 @@
   height: 275px !important;
 }
 .E_HI {
-  height: 250px !important;
+  height: 220px !important;
+}
+.E_NEG {
+  margin-top: -50px !important;
 }
 .E_HC {
   height: 157px !important;
