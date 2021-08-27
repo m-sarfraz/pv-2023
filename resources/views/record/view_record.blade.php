@@ -3,10 +3,8 @@
 @section('style')
 <!-- ================= -->
 <!-- Datatable css start-->
-<link href="{{asset('assets/data-tables/css/css1.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css2.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css3.css')}}"/>
-<link href="{{asset('assets/data-tables/css/css4.css')}}"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
+
 <!-- Datatable css end-->
 <!-- ================= -->
 <style>
@@ -512,7 +510,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Certification:
                                         </label>
-                                        <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_HI h-px-20_custom" placeholder="Enter Interview Notes"></textarea>
+                                        <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control E_HI" style="height: 225px" placeholder="Enter Interview Notes"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -525,7 +523,7 @@
                                         <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom" placeholder="Enter Interview Notes"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 E_NEG">
                                     <p class="C-Heading pt-3">Endorsement Details:</p>
                                     <div class="card mb-13">
                                         <div class="card-body">
@@ -533,15 +531,15 @@
                                                 <div class="row mb-4">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
-                                                                Endorsement Type:
+                                                            <label class="Label-00">
+                                                                Endrsment Type:
                                                             </label>
                                                             <input type="text" name="REF_CODE" placeholder="search keyword" required="" class="form-control h-px-20_custom border" value="" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Career Level:
                                                             </label>
                                                             <input type="text" name="REF_CODE" value="" disabled="" required="" class="form-control h-px-20_custom border" />
@@ -551,7 +549,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">Site</label>
+                                                            <label class="Label-00">Site</label>
                                                             <select name="" id="" class="w-100" >
                                                                 <option value="1">One</option>
                                                                 <option value="2">Two</option>
@@ -563,7 +561,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Remarks (for Finance)
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -579,7 +577,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Client
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -593,7 +591,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Status:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -609,7 +607,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Position Title:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -623,7 +621,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Reason for not progressing:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -639,7 +637,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Domain:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -667,7 +665,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Segment:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -695,7 +693,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 sub-segment:
                                                             </label>
                                                             <select name="" id="" class="w-100">
@@ -723,7 +721,7 @@
                                                 <div class="row mb-1">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="Label-00">
                                                                 Date Undated:
                                                             </label>
                                                             <select name="" id="" class="w-100">
