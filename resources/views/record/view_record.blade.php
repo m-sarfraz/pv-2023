@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="mb-0">Filter by:</p>
+                        <p class="mb-0 ml-3">Filter by:</p>
                         <div class="row mb-1">
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
@@ -515,7 +515,7 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 mb-5">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
                                             Recruitment Process:

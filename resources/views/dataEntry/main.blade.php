@@ -16,13 +16,13 @@
                 <div class="col-lg-3">
                     <p class="C-Heading">Command</p>
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <form action="">
                                 <div class="form-group">
                                     <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
                                         User&#x27;s Name
                                     </label>
-                                    <input type="email" disabled="" class="form-control users-input" style="padding-left: 12px !important; text-align: center;" aria-describedby="emailHelp" placeholder="enter candidate name" />
+                                    <input type="email" disabled="" class="form-control users-input m-3 w-75" style="padding-left: 12px !important;" aria-describedby="emailHelp" placeholder="enter candidate name" />
                                 </div>
                                 <div class="d-grid gap-2 form-group col-md-12">
                                     <button class="btn btn_Group mb-4 btn-sm" type="button">
