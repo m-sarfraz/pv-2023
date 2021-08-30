@@ -38,9 +38,9 @@ class ProfileController extends Controller
                 'email'     => $request->email,
             ];
 
-           if ($request->hasFile('profile')) {
+            if ($request->hasFile('profile')) {
                 $file_name = $userId.time() . '.' . $request->profile->getClientOriginalExtension();
-                 $user = User::where('id', $userId)->first();
+                $user = User::where('id', $userId)->first();
                 if ($user->image != "") {
                     $userLogo = $user->image;
                     $delFile    =   Storage::delete($userLogo);
@@ -48,9 +48,10 @@ class ProfileController extends Controller
                         return response()->json(['success' => false, 'message' =>'Existing file not deleted']);
                     }
                 }
-                   $filepath       = "public/".$userId."/".$request->image_type."/".$file_name;
-                   Storage::put($filepath, $file_name);
-                   $userdata['image']   =   $filepath;
+                $filepath       = "public/".$userId."/".$request->image_type;
+                $path = $request->file('profile')->storeAs($filepath, $file_name);
+                //Storage::put($filepath, $file_name);
+                $userdata['image']   =   $filepath.".".$file_name;
             }
             if ($request->password != '') {
                 $userdata['password']   =   bcrypt($request->password);
