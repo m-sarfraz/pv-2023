@@ -49,6 +49,7 @@ Route::view('finance','finance.finance');
 Route::view('log','logs.log');
 Route::view('search','smartSearch.smart_search');
 Route::view('company','companies.company_profile');
+Route::view('add_company','companies.add_company_profile');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
