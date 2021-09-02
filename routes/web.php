@@ -48,11 +48,14 @@ Route::view('record','record.view_record');
 Route::view('finance','finance.finance');
 Route::view('log','logs.log');
 Route::view('search','smartSearch.smart_search');
-Route::view('company','companies.company_profile');
-Route::view('add_company','companies.add_company_profile');
+// Route::view('company','companies.company_profile');
+// Route::view('add_company','companies.add_company_profile');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
+    // companies routes
+    Route::get('company', 'CompanyController@show')->name('companies');
+    Route::match(['get', 'post'], 'add_company', 'CompanyController@add_company')->name('add_company');
 
     Route::resource('role','RoleController')->name('*','role');
     Route::resource('user','UserController')->name('*','user');
