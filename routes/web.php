@@ -40,14 +40,14 @@ Route::get('jdl', function () {
     return view('JDL.index');
 });*/
 
-Route::view('dataEntry','dataEntry.main');
-Route::view('jdl','JDL.index');
-Route::view('dropdown','dropdown.add_dropdown');
-Route::view('domain','domains.add_domain');
-Route::view('record','record.view_record');
-Route::view('finance','finance.finance');
-Route::view('log','logs.log');
-Route::view('search','smartSearch.smart_search');
+//Route::view('dataEntry','data_entry.main')->name('dataEntry');
+Route::view('jdl','JDL.index')->name('jdl');
+//Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
+Route::view('domain','domains.add_domain')->name('domain');
+Route::view('record','record.view_record')->name('record');
+Route::view('finance','finance.finance')->name('finance');
+Route::view('log','logs.log')->name('log');
+Route::view('search','smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
@@ -58,7 +58,7 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
     Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
-    
+
     Route::resource('role','RoleController')->name('*','role');
     Route::resource('user','UserController')->name('*','user');
     Route::resource('team', 'TeamController')->name('*','team');

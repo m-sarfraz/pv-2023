@@ -1,42 +1,39 @@
+
 <div>
-    
-    <?php
-    $routeName  =   Route::currentRouteName();
-    ?>
             <div class="w-100 px-3 d-none">
                 <i class="fa fa-bars menu-block" aria-hidden="true"></i>
             </div>
             <nav id="asad" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
-                    <a class="nav-link {{ $routeName == 'home' ? 'nav-active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
+                    <a class="nav-link {{ Request::is('home') ? 'active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
                         Dashboard
                     </a>
-                    <a href="{{ route('data-entry')  }}" class="nav-link {{ $routeName == 'data-entry' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
+                    <a href="{{ route('data-entry')  }}" class="nav-link nav_Link" style="cursor: pointer;">
                         Data Entry
                     </a>
-                    <a href="{{ route('jdl')  }}" class="nav-link  {{ $routeName == 'jdl' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
+                    <a href="{{ route('jdl')  }}" class="nav-link nav_Link {{ Request::is('jdl') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         JDL
                     </a>
-                    <a class="nav-link {{ $routeName == 'record' ? 'nav-active' : 'text-white'  }} " href="{{ route('record') }}" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('record') ? 'active' : 'text-white'  }}" href="{{ route('record') }}" style="cursor: pointer;">
                         View Records
                     </a>
-                    <a class="nav-link {{ $routeName == 'finance' ? 'nav-active' : 'text-white'  }} " href="{{ route('finance') }}" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('finance') ? 'active' : 'text-white'  }}" href="{{ route('finance') }}" style="cursor: pointer;">
                         Finance
                     </a>
-                    <a class="nav-link {{ $routeName == 'log' ? 'nav-active' : 'text-white'  }}" href="{{ route('log') }}" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('log') ? 'active' : 'text-white'  }}" href="{{ route('log') }}" style="cursor: pointer;">
                         Logs
                     </a>
-                    <a class="nav-link {{ $routeName == 'domain' ? 'nav-active' : 'text-white'  }}" href="{{ route('domain') }}" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('domain') ? 'active' : 'text-white'  }}" href="{{ route('domain') }}" style="cursor: pointer;">
                         domains
                     </a>
-                    <a class="nav-link {{ $routeName == 'search' ? 'nav-active' : 'text-white'  }}" href="{{ route('search') }}" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('search') ? 'active' : 'text-white'  }}" href="{{ route('search') }}" style="cursor: pointer;">
                         Smart Search
                     </a>
-                    <a href="{{ route('dropdown') }}" class="nav-link {{ $routeName == 'dropdown' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
+                    <a href="{{ route('dropdown') }}" class="nav-link nav_Link {{ Request::is('dropdown') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         dropdowns
                     </a>
                     @can('role-list')
-                    <a href="{{ route('role.index')  }}" class="nav-link {{ $routeName == 'role.index' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
+                    <a href="{{ route('role.index')  }}" class="nav-link nav_Link {{ Request::is('role.index') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         Teams
                     </a>
                     @endcan

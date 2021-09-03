@@ -875,8 +875,19 @@ button {
 width: 100% !important;
 border-collapse: collapse;
 }
+
 #option_table_wrapper{
   /* padding: 10px 20px; */
   padding:20px;
   border-radius: 10px;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
+.nav-active{
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
 }
