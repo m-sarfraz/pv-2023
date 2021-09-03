@@ -1,14 +1,24 @@
-
 <div>
+    <style>
+        .nav-active{
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+
+    </style>
+    <?php
+    $routeName  =   Route::currentRouteName();
+    ?>
             <div class="w-100 px-3 d-none">
                 <i class="fa fa-bars menu-block" aria-hidden="true"></i>
             </div>
             <nav id="asad" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
-                    <a class="nav-link {{ Request::is('home') ? 'active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
+                    <a class="nav-link {{ $routeName == 'home' ? 'nav-active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
                         Dashboard
                     </a>
-                    <a href="{{ route('data-entry')  }}" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('data-entry')  }}" class="nav-link {{ $routeName == 'data-entry' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
                         Data Entry
                     </a>
                     <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">

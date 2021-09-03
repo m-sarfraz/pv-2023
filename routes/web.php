@@ -40,9 +40,9 @@ Route::get('jdl', function () {
     return view('JDL.index');
 });*/
 
-Route::view('dataEntry','data_entry.main')->name('dataEntry');
+//Route::view('dataEntry','data_entry.main')->name('dataEntry');
 Route::view('jdl','JDL.index')->name('jdl');
-Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
+//Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
 Route::view('domain','domains.add_domain')->name('domain');
 Route::view('record','record.view_record')->name('record');
 Route::view('finance','finance.finance')->name('finance');
@@ -58,7 +58,7 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
     Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
-    
+
     Route::resource('role','RoleController')->name('*','role');
     Route::resource('user','UserController')->name('*','user');
     Route::resource('team', 'TeamController')->name('*','team');
