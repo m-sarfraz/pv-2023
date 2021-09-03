@@ -1278,10 +1278,10 @@
             $("#myForm :input[name!='button']").prop("disabled", false);
         });
         $('#save').click(function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             $("#myForm :input[name!='button']").prop("disabled", false);
-            $(this).prop("disabled", true);
-            $('#edit').prop("disabled", false);
+            // $(this).prop("disabled", true);
+            $('#edit').prop("disabled", true);
             var formData = new FormData(document.getElementById('myForm'));
             formData.append("_token", "{{ csrf_token() }}");
             //Calling Ajax
@@ -1292,15 +1292,51 @@
                 contentType: false,
                 data: formData,
                 success: function(res) {
-                    if (res.success == true) {
 
-                        swal("{{ __('Success') }}", res.message, 'success');
-                        setTimeout(function() {
-                            // location.reload();
-                        }, 1000);
-                    } else if (res.success == false) {
-                        swal("{{ __('Warning') }}", res.message, 'error');
+                    if (res.success == true) {
+                        swal("success", res.message, "success").then((value) => {
+
+                            location.reload();
+                        });
+                    } else {
+
+                        if (res.hasOwnProperty("message")) {
+                            var err = "";
+                            $("input").parent().siblings('span').remove();
+                            $("input").css('border-color', '#ced4da');
+                            $.each(res.message, function(i, e) {
+                                $("input[name='" + i + "']").css('border-color', 'red');
+                                $("input[name='" + i + "']").parent().siblings('span').remove();
+                                $("input[name='" + i + "']").parent().parent().append('<span style="color:red;" >' + e + '</span>');
+                            });
+
+                            // var wrapper = document.createElement("div");
+
+                            // $.each(res.message, function(i, e) {
+
+                            //     err += "<p>" + e + "</p>";
+                            // });
+
+                            // wrapper.innerHTML = err;
+                            swal({
+                                icon: "error",
+                                text: "{{ __('Please fix the highlighted errors!') }}",
+                                //content: wrapper,
+                                icon: "error",
+                            });
+                        }
                     }
+
+
+                    // if (res.success == true) {
+
+                    //     swal("{{ __('Success') }}", res.message, 'success');
+                    //     setTimeout(function() {
+                    //         // location.reload();
+                    //     }, 1000);
+                    // } else if (res.success == false) {
+                    //     swal("{{ __('Warning') }}", res.message, 'error');
+                    // }
 
                     $("#loader").hide();
                 },
@@ -1308,7 +1344,7 @@
                     $("#loader").hide();
                 }
             });
-            $("#myForm :input[name!='button']").prop("disabled", true);
+            //$("#myForm :input[name!='button']").prop("disabled", true);
         });
     </script>
 @endsection
