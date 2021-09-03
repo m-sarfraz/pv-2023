@@ -880,3 +880,9 @@ border-collapse: collapse;
   padding:20px;
   border-radius: 10px;
 }
+
+.nav-active{
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
