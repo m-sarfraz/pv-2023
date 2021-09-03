@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Company;
 use App\Gl;
 use App\Http\Controllers\Controller;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,10 +12,11 @@ class CompanyController extends Controller
 {
     public function show()
     {
-        $company = DB::table('companies')
-            ->join('gl', 'companies.id', 'gl.company_id')
-            ->select('companies.*', 'gl.*')
-            ->get();
+        $company = Company::
+            join('gl', 'companies.id', 'gl.company_id')
+            ->select('companies.*', 'gl.*', 'companies.id as company_id')
+        // ->get();
+            ->paginate(25);
         // return $company;
         $data = [
             'company' => $company,
@@ -39,11 +39,11 @@ class CompanyController extends Controller
                 "candidate_ownership" => "required",
                 "replacement_gurantee_A" => "required",
                 "replacement_gurantee_NA" => "required",
-                "A_EL_rates" => "required",
-                "A_entry_complex_specialized_rates" => "required",
-                "A_seasonal_programs_project_base_contractualHires" => "required",
-                "A_complex_voice_relay_programs_TSR_collections" => "required",
-                "A_high_priority_account_night_shift" => "required",
+                "A_EL_rates" => "required", 'numeric',
+                "A_entry_complex_specialized_rates" => "required", 'numeric',
+                "A_seasonal_programs_project_base_contractualHires" => "required", 'numeric',
+                "A_complex_voice_relay_programs_TSR_collections" => "required", 'numeric',
+                "A_high_priority_account_night_shift" => "required", 'numeric',
                 "A_gateway_hire_SET" => "required",
                 "A_google_NA_sales_representative" => "required",
                 "A_sales_CSR_TSR_airBNB_google" => "required", 'numeric',
@@ -119,15 +119,15 @@ class CompanyController extends Controller
                 "GL_28_business_OPS" => "required", 'numeric',
                 "GL_29_business_OPS" => "required", 'numeric',
                 "GL_29_business_OPS" => "required", 'numeric',
-                "GL_30_shared_services" => "required", 'numeric',
-                "GL_29_shared_services" => "required", 'numeric',
-                "GL_28_shared_services" => "required", 'numeric',
-                "GL_27_shared_services" => "required", 'numeric',
-                "GL_26_shared_services" => "required", 'numeric',
-                "GL_25_shared_services" => "required", 'numeric',
-                "GL_24_shared_services" => "required", 'numeric',
-                "GL_23_shared_services" => "required", 'numeric',
-                "GL_22_shared_services" => "required", 'numeric',
+                "GL_30_ss" => "required", 'numeric',
+                "GL_29_ss" => "required", 'numeric',
+                "GL_28_ss" => "required", 'numeric',
+                "GL_27_ss" => "required", 'numeric',
+                "GL_26_ss" => "required", 'numeric',
+                "GL_25_ss" => "required", 'numeric',
+                "GL_24_ss" => "required", 'numeric',
+                "GL_23_ss" => "required", 'numeric',
+                "GL_22_ss" => "required", 'numeric',
                 "GL_30_business_OPS" => "required", 'numeric',
                 "trainee_NCR" => "required", 'numeric',
 
@@ -136,7 +136,7 @@ class CompanyController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator);
             } else {
-                return $request->all();
+                // return $request->all();
                 $company = new Company;
                 $company->company_name = $request->company;
                 // $start_date = Carbon::parse($request->startDate)->format('d-m-Y H:i:s');
@@ -209,7 +209,7 @@ class CompanyController extends Controller
                 $company->advisor_2 = $request->advisor2;
                 $company->advisor_1 = $request->advisor1;
                 $gl = new Gl;
-                $gl->company_id = $request-> $company->id;
+                $gl->company_id = $company->id;
                 $gl->gl23_tech = $request->GL_23_tech;
                 $gl->gl24_tech = $request->GL_24_tech;
                 $gl->gl25_tech = $request->GL_25_tech;
@@ -245,4 +245,141 @@ class CompanyController extends Controller
 
         }
     }
+    public function view_company(Request $request, $id)
+    {
+        $company = Company::join('gl', 'companies.id', 'gl.company_id')
+            ->select('companies.*', 'gl.*', 'companies.id as company_id')
+            ->where('companies.id', $id)
+            ->first();
+        $data = [
+            'company' => $company,
+        ];
+        if ($request->isMethod('get')) {
+            return view('companies.detail_company', $data);
+        }
+
+    }
+    public function update_company(Request $request, $id)
+    {
+        $arrayCheck = [
+            'company_name' => 'required',
+            "start_date" => "required",
+            "end_date" => "required",
+            "candidate_ownership" => "required",
+            "a_entry_level" => "required",
+            "executive_level" => "required",
+            "e_rates" => "required", 'numeric',
+            "e_c_s_rates" => "required", 'numeric',
+            "c_v_r_programs" => "required", 'numeric',
+            "c_hires" => "required", 'numeric',
+            "night_shift" => "required", 'numeric',
+            "gateway_hire" => "required",
+            "google_sr" => "required",
+            "csr_tsr" => "required", 'numeric',
+            "in_luzon" => "required", 'numeric',
+            "in_visayas" => "required", 'numeric',
+            "local_acccount" => "required", 'numeric',
+            "aa_intl" => "required", 'numeric',
+            "aa_local" => "required", 'numeric',
+            "trainee_ncr" => "required", 'numeric',
+            "trainee_vm" => "required", 'numeric',
+            "pfsc" => "required", 'numeric',
+            "cl13_v" => "required", 'numeric',
+            "cl13_nv" => "required", 'numeric',
+            "cl12_v" => "required", 'numeric',
+            "cl12_nv" => "required", 'numeric',
+            "cl11" => "required", 'numeric',
+            "cl10_sa" => "required", 'numeric',
+            "cl10_usrn" => "required", 'numeric',
+            "cl9" => "required", 'numeric',
+            "cl8" => "required", 'numeric',
+            "cl7" => "required", 'numeric',
+            "cl6" => "required", 'numeric',
+            "cl5" => "required", 'numeric',
+            "executive" => "required", 'numeric',
+            "md" => "required", 'numeric',
+            "director" => "required", 'numeric',
+            "vp" => "required", 'numeric',
+            "avp" => "required", 'numeric',
+            "sm" => "required", 'numeric',
+            "m" => "required", 'numeric',
+            "am" => "required", 'numeric',
+            "team_lead" => "required", 'numeric',
+            "supervisor" => "required", 'numeric',
+            "non_supervisory" => "required", 'numeric',
+            "multilingual" => "required", 'numeric',
+            "bilingual" => "required", 'numeric',
+            "usrn_active_license" => "required", 'numeric',
+            "usrn_inactive_license" => "required", 'numeric',
+            "nclex" => "required", 'numeric',
+            "na_entry_level" => "required", 'numeric',
+            "specialized_account" => "required", 'numeric',
+            // "specialist" => "required", 'numeric',
+            "associate" => "required", 'numeric',
+            "advisor" => "required", 'numeric',
+            "senior_level" => "required", 'numeric',
+            "mid_level" => "required", 'numeric',
+            "junior_level" => "required", 'numeric',
+            "assoc_analyst" => "required", 'numeric',
+            "sen_analyst" => "required", 'numeric',
+            "analyst" => "required", 'numeric',
+            "b6" => "required", 'numeric',
+            "b7" => "required", 'numeric',
+            "b8" => "required", 'numeric',
+            "b9" => "required", 'numeric',
+            "b10" => "required", 'numeric',
+            "sme_level" => "required", 'numeric',
+            "advisor_2" => "required", 'numeric',
+            "advisor_1" => "required", 'numeric',
+            "gl23_tech" => "required", 'numeric',
+            "gl24_tech" => "required", 'numeric',
+            "gl25_tech" => "required", 'numeric',
+            "gl26_tech" => "required", 'numeric',
+            "gl27_tech" => "required", 'numeric',
+            "gl28_tech" => "required", 'numeric',
+            "gl29_tech" => "required", 'numeric',
+            "gl30_tech" => "required", 'numeric',
+            "gl22_bo" => "required", 'numeric',
+            "gl23_bo" => "required", 'numeric',
+            "gl24_bo_usrn" => "required", 'numeric', 
+            "gl_24_bo" => "required", 'numeric',
+            "gl_25_bo" => "required", 'numeric',
+            "gl_26_bo" => "required", 'numeric',
+            "gl_27_bo" => "required", 'numeric',
+            "gl_28_bo" => "required", 'numeric',
+            "gl_29_bo" => "required", 'numeric',
+            "gl_30_bo" => "required", 'numeric',
+            "gl30_ss" => "required", 'numeric',
+            "gl29_ss" => "required", 'numeric',
+            "gl28_ss" => "required", 'numeric',
+            "gl27_ss" => "required", 'numeric',
+            "gl26_ss" => "required", 'numeric',
+            "gl25_ss" => "required", 'numeric',
+            "gl24_ss" => "required", 'numeric',
+            "gl23_ss" => "required", 'numeric',
+            "gl22_ss" => "required", 'numeric',
+
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => 'Please fill all fields']);
+        } else {
+        $data = $request->except('_token', 'gl24_bo_usrn', 'gl23_tech', 'gl24_tech', 'gl25_tech', 'gl26_tech', 'gl27_tech', 'gl28_tech', 'gl29_tech', 'gl30_tech', 'gl22_bo',
+            'gl23_bo', 'gl_24_bo', 'gl_25_bo', 'gl_26_bo', 'gl_27_bo', 'gl_28_bo', 'gl_29_bo', 'gl_30_bo', 'gl22_ss', 'gl23_ss', 'gl24_ss', 'gl25_ss', 'gl26_ss',
+            'gl27_ss', 'gl28_ss', 'gl29_ss', 'gl30_ss',
+        );
+
+        Company::where('id', $id)->update($data);
+        $dataGl = $request->except('company_name', '_token', "start_date", "end_date", "candidate_ownership", "a_entry_level",
+            "executive_level", "e_rates", "e_c_s_rates",
+            "c_hires", "c_v_r_programs", "night_shift", "A_gateway_hire_SET", "gateway_hire", "google_sr", 'csr_tsr', "in_luzon", "in_visayas", "local_acccount", "aa_intl",
+            "aa_local", "trainee_ncr", "trainee_vm", 'pfsc', "cl13_v", "cl13_nv", "cl12_v", 'sme_level', 'b6', 'b7', 'b8', 'b9', 'b10', "cl12_nv", "cl11", "cl10_sa", "cl10_usrn", "cl9",
+            "cl8", "cl7", "cl6", "cl5", "executive", "md", "director", 'vp', 'avp', "sm", "m", "am", "team_lead", "supervisor", "non_supervisory", "multilingual", "bilingual",
+            "usrn_active_license", "usrn_inactive_license", "nclex", "na_entry_level", "specialized_account", "specialist", "associate", "advisor", "senior_level", "mid_level",
+            "junior_level", "assoc_analyst", "sen_analyst", "analyst", 'advisor_2', 'advisor_1'
+        );
+        Gl::where('company_id', $id)->update($dataGl);
+        return response()->json(['success' => true, 'message' => 'Updated successfully']);
+    }
+}
 }
