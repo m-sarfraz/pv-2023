@@ -5,7 +5,7 @@
             </div>
             <nav id="asad" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
-                    <a class="nav-link active" style="cursor: pointer;">
+                    <a class="nav-link {{ Request::is('home') ? 'active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
                         Dashboard
                     </a>
                     <a href="{{ route('data-entry')  }}" class="nav-link nav_Link" style="cursor: pointer;">
@@ -14,26 +14,26 @@
                     <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">
                         JDL
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('record') ? 'active' : 'text-white'  }}" href="{{ route('record') }}" style="cursor: pointer;">
                         View Records
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('finance') ? 'active' : 'text-white'  }}" href="{{ route('finance') }}" style="cursor: pointer;">
                         Finance
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('log') ? 'active' : 'text-white'  }}" href="{{ route('log') }}" style="cursor: pointer;">
                         Logs
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('domain') ? 'active' : 'text-white'  }}" href="{{ route('domain') }}" style="cursor: pointer;">
                         domains
                     </a>
-                    <a class="nav-link nav_Link" style="cursor: pointer;">
+                    <a class="nav-link nav_Link {{ Request::is('search') ? 'active' : 'text-white'  }}" href="{{ route('search') }}" style="cursor: pointer;">
                         Smart Search
                     </a>
-                    <a href="{{ route('dropdown') }}" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('dropdown') }}" class="nav-link nav_Link {{ Request::is('dropdown') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         dropdowns
                     </a>
                     @can('role-list')
-                    <a href="{{ route('role.index')  }}" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('role.index')  }}" class="nav-link nav_Link {{ Request::is('role.index') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         Teams
                     </a>
                     @endcan
