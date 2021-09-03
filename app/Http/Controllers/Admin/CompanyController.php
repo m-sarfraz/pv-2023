@@ -17,7 +17,6 @@ class CompanyController extends Controller
             ->select('companies.*', 'gl.*', 'companies.id as company_id')
         // ->get();
             ->paginate(25);
-        // return $company;
         $data = [
             'company' => $company,
         ];
