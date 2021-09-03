@@ -758,6 +758,7 @@
             $('#data_entry').submit(function() {
                 $("#loader").show();
                 var data = new FormData(this);
+                data.append("_token", "{{ csrf_token() }}");
                 $.ajax({
                     url: "{{ Route('save-data-entry') }}",
                     data: data,
