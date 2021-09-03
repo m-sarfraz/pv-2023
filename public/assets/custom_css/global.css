@@ -869,3 +869,14 @@ input,
 button {
   outline: none !important;
 }
+
+
+#option_table{
+width: 100% !important;
+border-collapse: collapse;
+}
+#option_table_wrapper{
+  /* padding: 10px 20px; */
+  padding:20px;
+  border-radius: 10px;
+}

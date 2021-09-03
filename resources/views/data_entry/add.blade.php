@@ -7,8 +7,8 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row d-E-Row mb-6">
-        <form id="data_entry" method="post" >
+    <form id="data_entry" method="post" >
+            <div class="row d-E-Row mb-6">
             @csrf
             <div class="col-lg-7">
                 <!-- ================== -->
@@ -22,7 +22,7 @@
                                         <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
                                             User&#x27;s Name
                                         </label>
-                                        <input type="email" disabled="" class="form-control users-input m-3 w-75" style="padding-left: 12px !important;" aria-describedby="emailHelp" placeholder="enter candidate name" />
+                                        <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75" style="padding-left: 12px !important;" aria-describedby="emailHelp" placeholder="enter candidate name" />
                                     </div>
                                     <div class="d-grid gap-2 form-group col-md-12">
                                         <button class="btn btn_Group mb-4 btn-sm" type="button">
@@ -671,8 +671,8 @@
             <!-- FINANCE section end -->
             <!-- ================== -->
         </div>
-        </form>
     </div>
+        </form>
 </div>
 
 @endsection
