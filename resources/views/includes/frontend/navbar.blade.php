@@ -11,7 +11,7 @@
                     <a href="{{ route('data-entry')  }}" class="nav-link nav_Link" style="cursor: pointer;">
                         Data Entry
                     </a>
-                    <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('jdl')  }}" class="nav-link nav_Link {{ Request::is('jdl') ? 'active' : 'text-white'  }}" style="cursor: pointer;">
                         JDL
                     </a>
                     <a class="nav-link nav_Link {{ Request::is('record') ? 'active' : 'text-white'  }}" href="{{ route('record') }}" style="cursor: pointer;">
