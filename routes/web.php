@@ -63,6 +63,10 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::resource('user','UserController')->name('*','user');
     Route::resource('team', 'TeamController')->name('*','team');
 
+    Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
+    Route::post('save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
+
+
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');

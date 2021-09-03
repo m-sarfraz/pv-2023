@@ -8,7 +8,7 @@
                     <a class="nav-link active" style="cursor: pointer;">
                         Dashboard
                     </a>
-                    <a href="https://ewdtech.com/ewdtech/vccproject/dataEntry" class="nav-link nav_Link" style="cursor: pointer;">
+                    <a href="{{ route('data-entry')  }}" class="nav-link nav_Link" style="cursor: pointer;">
                         Data Entry
                     </a>
                     <a href="https://ewdtech.com/ewdtech/vccproject/jdl" class="nav-link nav_Link" style="cursor: pointer;">
