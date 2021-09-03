@@ -753,6 +753,7 @@
             $('#new').prop("disabled", true);
             $('#COURSE').prop("disabled", true);
             $('#new').click(function() {
+                $(this).prop("disabled", true);
                 $(this).closest('form').find(':input').val("");
             });
             $('#data_entry').submit(function() {
