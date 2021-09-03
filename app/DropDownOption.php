@@ -9,4 +9,8 @@ class DropDownOption extends Model
     protected $fillable = [
         'dropdown_id','sec_dropdown_id', 'option_name'
     ];
+
+    public function dropdown(){
+        return $this->belongsTo(DropDown::class);
+    }
 }
