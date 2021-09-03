@@ -183,20 +183,17 @@
                                                     <label class="mb-0 d-block font-size-3 mb-0">
                                                         Educational Attainment:
                                                     </label>
+                                                    <?php
+                                                        $eduAttainment   =   Helper::get_dropdown('educational_attainment');
+                                                    ?>
+
                                                     <select name="EDUCATIONAL_ATTAINTMENT"
                                                         class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                                        <option value="Associate Course Graduate">Associate Course Graduate
-                                                        </option>
-                                                        <option value="Doctoriate">Doctoriate</option>
-                                                        <option value="Graduate">Graduate</option>
-                                                        <option value="High School Graduate">High School Graduate</option>
-                                                        <option value="Masters">Masters</option>
-                                                        <option value="MBA">MBA</option>
-                                                        <option value="Senior High School Graduate">Senior High School
-                                                            Graduate</option>
-                                                        <option value="Undergraduate">Undergraduate</option>
-                                                        <option value="Vocational">Vocational</option>
-                                                    </select>
+                                                        <option value="" disabled >select option</option>
+                                                            @foreach($eduAttainment->options as $eduAttainmentOptions)
+                                                                <option value="{{ $eduAttainmentOptions->id }}">{{ $eduAttainmentOptions->option_name  }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     <div>
                                                         <small class="text-danger"></small>
                                                     </div>
@@ -205,11 +202,14 @@
                                             <div class="col-lg-5">
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Course</label>
+                                                    <?php
+                                                    $course   =   Helper::get_dropdown('course');
+                                                    ?>
                                                     <select name="COURSE" class="form-control p-0 users-input-S-C"
                                                         id="COURSE">
-                                                        <option value="Humanities">Humanities</option>
-                                                        <option value="Natural Sciences">Natural Sciences</option>
-                                                        <option value="Social Sciences">Social Sciences</option>
+                                                        @foreach($course->options as $courseOptions)
+                                                            <option value="{{ $courseOptions->id }}">{{ $courseOptions->option_name  }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -809,7 +809,7 @@
             })
         });
 
-        // Change course according to the selected education attainment 
+        // Change course according to the selected education attainment
         $('#EDUCATIONAL_ATTAINTMENT').change(function() {
 
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text();
