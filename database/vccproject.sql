@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 09:02 AM
+-- Generation Time: Sep 03, 2021 at 03:47 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -153,6 +153,7 @@ INSERT INTO `companies` (`id`, `company_name`, `start_date`, `end_date`, `candid
 
 CREATE TABLE `drop_downs` (
   `id` int(11) NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -162,13 +163,13 @@ CREATE TABLE `drop_downs` (
 -- Dumping data for table `drop_downs`
 --
 
-INSERT INTO `drop_downs` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Application status', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
-(2, 'Candidates profile', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
-(3, 'Career level', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
-(4, 'Remarks For Finance', '2021-08-30 05:49:21', '2021-08-30 05:49:21'),
-(5, 'COURSE', '2021-09-03 06:40:53', '2021-09-03 06:40:53'),
-(6, 'EDUCATIONAL_ATTAINTMENT', '2021-09-03 06:41:43', '2021-09-03 06:41:43');
+INSERT INTO `drop_downs` (`id`, `type`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'application_status', 'Application status', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
+(2, 'candidates_profile', 'Candidates profile', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
+(3, 'career_level', 'Career level', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
+(4, 'remarks_for_finance', 'Remarks For Finance', '2021-08-30 05:49:21', '2021-08-30 05:49:21'),
+(5, 'course', 'COURSE', '2021-09-03 06:40:53', '2021-09-03 06:40:53'),
+(6, 'educational_attainment', 'EDUCATIONAL_ATTAINTMENT', '2021-09-03 06:41:43', '2021-09-03 06:41:43');
 
 -- --------------------------------------------------------
 
@@ -178,7 +179,7 @@ INSERT INTO `drop_downs` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `drop_down_options` (
   `id` int(11) NOT NULL,
-  `dropdown_id` int(11) NOT NULL,
+  `drop_down_id` int(11) NOT NULL,
   `sec_dropdown_id` int(11) DEFAULT NULL,
   `option_name` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 for active 0 for inactive',
@@ -190,7 +191,7 @@ CREATE TABLE `drop_down_options` (
 -- Dumping data for table `drop_down_options`
 --
 
-INSERT INTO `drop_down_options` (`id`, `dropdown_id`, `sec_dropdown_id`, `option_name`, `status`, `created_at`, `updated_at`) VALUES
+INSERT INTO `drop_down_options` (`id`, `drop_down_id`, `sec_dropdown_id`, `option_name`, `status`, `created_at`, `updated_at`) VALUES
 (2, 1, NULL, 'test 2', 1, '2021-08-26 06:50:20', '2021-08-26 06:50:20'),
 (3, 1, NULL, 'test 3', 1, '2021-08-26 07:03:00', '2021-08-26 07:03:00'),
 (4, 1, NULL, 'test 4', 1, '2021-08-26 07:03:00', '2021-08-26 07:03:00'),
@@ -217,7 +218,9 @@ INSERT INTO `drop_down_options` (`id`, `dropdown_id`, `sec_dropdown_id`, `option
 (26, 6, NULL, 'MBA', 1, '2021-09-03 06:45:53', '2021-09-03 06:45:53'),
 (27, 6, NULL, 'SENIOR HIGH SCHOOL GRADUATE', 1, '2021-09-03 06:46:05', '2021-09-03 06:46:05'),
 (28, 6, NULL, 'UNDERGRADUATE', 1, '2021-09-03 06:46:15', '2021-09-03 06:46:15'),
-(29, 6, NULL, 'VOCATIONAL', 1, '2021-09-03 06:46:25', '2021-09-03 06:46:25');
+(29, 6, NULL, 'VOCATIONAL', 1, '2021-09-03 06:46:25', '2021-09-03 06:46:25'),
+(30, 1, NULL, 'as1', 1, '2021-09-03 13:47:01', '2021-09-03 13:47:01'),
+(31, 1, NULL, 'as2', 1, '2021-09-03 13:47:01', '2021-09-03 13:47:01');
 
 -- --------------------------------------------------------
 
@@ -590,7 +593,7 @@ ALTER TABLE `drop_downs`
 -- AUTO_INCREMENT for table `drop_down_options`
 --
 ALTER TABLE `drop_down_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`

@@ -24,10 +24,10 @@
                                                     </label>
                                                     <div class="d-flex justify-content-between">
                                                         <div class="col-md-6" >
-                                                            <select  onchange="get_dropdown_value(this.value);" name="dropdown_id" class="dropdown_select">
+                                                            <select  onchange="get_dropdown_value();" name="drop_down_id" class="dropdown_select">
                                                                 <option value=""  disabled="disabled">Choose options</option>
                                                                 @foreach($dropdowns as $dropdown)
-                                                                    <option value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>
+                                                                    <option data-type="{{ $dropdown->type  }}" value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -80,8 +80,7 @@
     <script>
 
         $(document).ready(function () {
-            dropdownId  =   1
-            get_dropdown_value(dropdownId);
+            get_dropdown_value();
             var $disabledResults = $(".dropdown_select");
             $disabledResults.select2();
         });
@@ -164,7 +163,7 @@
                 });
 
         }
-        function  load_datatable(dropdownId){
+        function  load_datatable(dropdownType){
             var option_table =  $('#option_table').DataTable({
                 destroy: true,
                 processing: true,
@@ -173,7 +172,7 @@
                     url : "{{ route('view-options') }}",
                     type : "POST",
                     data : {
-                        'dropdown_id' : dropdownId,
+                        'drop_down_type' : dropdownType,
                         '_token':$('meta[name=csrf-token]').attr("content")
                     }
                 },
@@ -185,14 +184,15 @@
 
 
         }
-        function get_dropdown_value(dropdownId){
-            if(dropdownId == 4) //Remarks for finance dropdown
+        function get_dropdown_value(){
+           var dropdownType =    $("select[name='drop_down_id']").find(":selected").data('type');
+            if(dropdownType == 'remarks_for_finance') //Remarks for finance dropdown
                 $("select[name='sec_dropdown_id']").prop('hidden',false);
             else
                 $("select[name='sec_dropdown_id']").prop('hidden',true);
 
             $("#loader").show();
-            load_datatable(dropdownId);
+            load_datatable(dropdownType);
             $("#loader").hide();
         }
         function save_options(){
@@ -234,7 +234,6 @@
 
         }
         function AddOption(){
-            //$("#add_option_btn").hide();
             var AppendContent = '<div class="row" >'+
                 '<div class="col-md-9 mt-1 mb-1" >'+
                 '<input type="text" name="option_name[]" required class="form-control">'+
@@ -244,7 +243,6 @@
                 '</div>'+
                 '</div>';
             $('.option_input_append').append(AppendContent);
-            //$("#add_option_btn").hide();
             $("#option_save_btn").show();
 
 

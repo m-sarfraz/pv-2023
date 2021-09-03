@@ -16,7 +16,7 @@ class DropDownController extends Controller
     }
     public function save_options(Request $request){
         $arrayCheck =  [
-            'dropdown_id' => ['required', 'numeric'],
+            'drop_down_id' => ['required', 'numeric'],
             "option_name"    => "required|array|min:1",
             "option_name.*"  => "required|string|min:1|unique:drop_down_options,option_name",
         ];
@@ -25,7 +25,7 @@ class DropDownController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
             $optionNames    =   $request->option_name;
-            $dropDownId     =   $request->dropdown_id;
+            $dropDownId     =   $request->drop_down_id;
             $secDropdownId  =   null;
             if($dropDownId == 4) { //Remarks for finance
                 $secDropdownId  =   $request->sec_dropdown_id;
@@ -33,7 +33,7 @@ class DropDownController extends Controller
             $addoptions =   [];
             $i = 0;
             foreach($optionNames as $optionName){
-                $addoptions[$i]['dropdown_id']  =   $dropDownId;
+                $addoptions[$i]['drop_down_id']  =   $dropDownId;
                 $addoptions[$i]['sec_dropdown_id']  =   $secDropdownId;
                 $addoptions[$i]['option_name']  =   $optionName;
                 $i++;
@@ -55,7 +55,8 @@ class DropDownController extends Controller
 
     public function view_options(Request $request)
     {
-        $view_options = DropDownOption::where('dropdown_id',$request->dropdown_id)->get();
+        $dropdowntype    = DropDown::with('options')->where('type',$request->drop_down_type)->first();
+        $view_options    = $dropdowntype->options;
         return Datatables::of($view_options)
             ->addColumn('option_name', function ($view_options) {
                 $secdropdown    =   "";
@@ -88,7 +89,7 @@ class DropDownController extends Controller
                     $statusText     =   'Inactive';
                 }
                 $b  =   '';
-                if($view_options->dropdown_id == 4){
+                if($view_options->drop_down_id == 4){
                     $b = '<button onclick="change_status(this);" data-status="'.$view_options->status.'" data-id="'.$view_options->id.'" class="btn '.$statusColor.' border-0"  >'.$statusText.'</button>';
                 }
                 $b .= '<button onclick="delete_option(this);" data-id="'.$view_options->id.'" class="bg-transparent text-danger border-0">Delete</button>';
