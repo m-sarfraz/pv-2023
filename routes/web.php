@@ -54,9 +54,11 @@ Route::view('search','smartSearch.smart_search')->name('search');
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
     // companies routes
-    Route::get('company', 'CompanyController@show')->name('companies');
-    Route::match(['get', 'post'], 'add_company', 'CompanyController@add_company')->name('add_company');
-
+    Route::get('companies', 'CompanyController@show')->name('companies');
+    Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
+    Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
+    Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
+    
     Route::resource('role','RoleController')->name('*','role');
     Route::resource('user','UserController')->name('*','user');
     Route::resource('team', 'TeamController')->name('*','team');

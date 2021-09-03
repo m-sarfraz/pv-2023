@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2021 at 10:11 AM
+-- Generation Time: Sep 03, 2021 at 09:02 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -70,8 +70,8 @@ CREATE TABLE `companies` (
   `candidate_ownership` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `a_entry_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `executive_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `e_rates` bigint(20) UNSIGNED DEFAULT NULL COMMENT 'Entry level rates',
-  `e_c_s_rates` bigint(20) UNSIGNED DEFAULT NULL COMMENT 'entry/complex/specialized level rates',
+  `e_rates` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Entry level rates',
+  `e_c_s_rates` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'entry/complex/specialized level rates',
   `c_v_r_programs` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Agent/complex-Voice Relay Programs/TSR/ Collections',
   `c_hires` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Project Base and Contractual hires',
   `night_shift` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -111,11 +111,12 @@ CREATE TABLE `companies` (
   `non_supervisory` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `multilingual` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bilingual` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `usrn_active_license` bigint(20) UNSIGNED DEFAULT NULL,
-  `usrn_inactive_license` bigint(20) UNSIGNED DEFAULT NULL,
+  `usrn_active_license` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `usrn_inactive_license` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nclex` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `na_entry_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `specialized_account` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `specialist` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `associate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `advisor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `senior_level` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -135,6 +136,14 @@ CREATE TABLE `companies` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `company_name`, `start_date`, `end_date`, `candidate_ownership`, `a_entry_level`, `executive_level`, `e_rates`, `e_c_s_rates`, `c_v_r_programs`, `c_hires`, `night_shift`, `gateway_hire`, `google_sr`, `csr_tsr`, `in_luzon`, `in_visayas`, `local_acccount`, `aa_intl`, `aa_local`, `trainee_ncr`, `trainee_vm`, `pfsc`, `cl13_v`, `cl13_nv`, `cl12_v`, `cl12_nv`, `cl11`, `cl10_sa`, `cl10_usrn`, `cl9`, `cl8`, `cl7`, `cl6`, `cl5`, `executive`, `md`, `director`, `vp`, `avp`, `sm`, `m`, `am`, `team_lead`, `supervisor`, `non_supervisory`, `multilingual`, `bilingual`, `usrn_active_license`, `usrn_inactive_license`, `nclex`, `na_entry_level`, `specialized_account`, `specialist`, `associate`, `advisor`, `senior_level`, `mid_level`, `junior_level`, `assoc_analyst`, `sen_analyst`, `analyst`, `b6`, `b7`, `b8`, `b9`, `b10`, `sme_level`, `advisor_2`, `advisor_1`, `created_at`, `updated_at`) VALUES
+(11, 'EWD TECH FSD', '2021-09-10', '2021-09-03', 'sarfraz', 'GfgDQIErSX', 'u4QrcgxV1j', '2', '2', '2', '2', '2', '2', 'rc4XyHsb9e', '2', '2', '2', 12123, 123123, 123123, 123, 33, '34534', 345, 5554, 345435, 34545, 34545, 345435, 345435, 34545, 3454, 555, 345435, 3345, '34543', '34534', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', NULL, '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2021-09-02 00:20:46', '2021-09-03 01:51:09'),
+(12, 'Test Company FSD', '2021-09-10', '2021-09-03', 'sdfsdf', 'GfgDQIErSX', 'u4QrcgxV1j', '5555', '457', '574', '4555', '444', 'IGnwb9vlTQ', 'rc4XyHsb9e', '444', '5555', '888', 12123, 123123, 123123, 123, 33, '34534', 345, 5554, 345435, 34545, 34545, 345435, 345435, 34545, 3454, 555, 345435, 3345, '34543', '34534', '546757', '47457', '57457', '47457', '57457', '4747', '74574575', '747', '7457', '7474', '457457', '574574', '2', '74574', '2', '47457', NULL, '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2021-09-02 00:20:46', '2021-09-03 01:57:41');
 
 -- --------------------------------------------------------
 
@@ -157,7 +166,9 @@ INSERT INTO `drop_downs` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Application status', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
 (2, 'Candidates profile', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
 (3, 'Career level', '2021-08-25 07:53:06', '2021-08-25 07:53:06'),
-(4, 'Remarks For Finance', '2021-08-30 05:49:21', '2021-08-30 05:49:21');
+(4, 'Remarks For Finance', '2021-08-30 05:49:21', '2021-08-30 05:49:21'),
+(5, 'COURSE', '2021-09-03 06:40:53', '2021-09-03 06:40:53'),
+(6, 'EDUCATIONAL_ATTAINTMENT', '2021-09-03 06:41:43', '2021-09-03 06:41:43');
 
 -- --------------------------------------------------------
 
@@ -194,7 +205,19 @@ INSERT INTO `drop_down_options` (`id`, `dropdown_id`, `sec_dropdown_id`, `option
 (14, 4, 2, 't1m', 0, '2021-08-30 07:00:29', '2021-08-30 02:23:24'),
 (15, 4, 2, 't2m', 1, '2021-08-30 07:00:29', '2021-08-30 07:00:29'),
 (16, 4, 3, 't1f', 1, '2021-08-30 07:19:46', '2021-08-30 07:19:46'),
-(17, 4, 3, 't2f', 1, '2021-08-30 07:19:46', '2021-08-30 07:19:46');
+(17, 4, 3, 't2f', 1, '2021-08-30 07:19:46', '2021-08-30 07:19:46'),
+(18, 5, NULL, 'HUMANITIES', 1, '2021-09-03 06:43:42', '2021-09-03 06:43:42'),
+(19, 5, NULL, 'NATURAL SCIENCES', 1, '2021-09-03 06:43:59', '2021-09-03 06:43:59'),
+(20, 5, NULL, 'SOCIAL SCIENCES', 1, '2021-09-03 06:44:14', '2021-09-03 06:44:14'),
+(21, 6, NULL, 'ASSOCIATE COURSE GRADUATE', 1, '2021-09-03 06:44:42', '2021-09-03 06:44:42'),
+(22, 6, NULL, 'DOCTORIATE', 1, '2021-09-03 06:44:58', '2021-09-03 06:44:58'),
+(23, 6, NULL, 'GRADUATE', 1, '2021-09-03 06:45:11', '2021-09-03 06:45:11'),
+(24, 6, NULL, 'HIGH SCHOOL GRADUATE', 1, '2021-09-03 06:45:25', '2021-09-03 06:45:25'),
+(25, 6, NULL, 'MASTERS', 1, '2021-09-03 06:45:40', '2021-09-03 06:45:40'),
+(26, 6, NULL, 'MBA', 1, '2021-09-03 06:45:53', '2021-09-03 06:45:53'),
+(27, 6, NULL, 'SENIOR HIGH SCHOOL GRADUATE', 1, '2021-09-03 06:46:05', '2021-09-03 06:46:05'),
+(28, 6, NULL, 'UNDERGRADUATE', 1, '2021-09-03 06:46:15', '2021-09-03 06:46:15'),
+(29, 6, NULL, 'VOCATIONAL', 1, '2021-09-03 06:46:25', '2021-09-03 06:46:25');
 
 -- --------------------------------------------------------
 
@@ -250,6 +273,14 @@ CREATE TABLE `gl` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `gl`
+--
+
+INSERT INTO `gl` (`id`, `company_id`, `gl23_tech`, `gl24_tech`, `gl25_tech`, `gl26_tech`, `gl27_tech`, `gl28_tech`, `gl29_tech`, `gl30_tech`, `gl22_bo`, `gl23_bo`, `gl24_bo_usrn`, `gl_24_bo`, `gl_25_bo`, `gl_26_bo`, `gl_27_bo`, `gl_28_bo`, `gl_29_bo`, `gl_30_bo`, `gl22_ss`, `gl23_ss`, `gl24_ss`, `gl25_ss`, `gl26_ss`, `gl27_ss`, `gl28_ss`, `gl29_ss`, `gl30_ss`, `created_at`, `updated_at`) VALUES
+(8, 11, 2, 2, 2, 2, 2, 2, 2, 2, 2200, 2200, 2, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 3, 200, '2021-09-02 00:20:46', '2021-09-03 01:51:09'),
+(9, 12, 2, 2, 2, 2, 2, 2, 2, 2, 22, 22, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, '2021-09-02 00:20:46', '2021-09-03 01:57:41');
 
 -- --------------------------------------------------------
 
@@ -547,19 +578,19 @@ ALTER TABLE `candidate_informations`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `drop_downs`
 --
 ALTER TABLE `drop_downs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `drop_down_options`
 --
 ALTER TABLE `drop_down_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -571,7 +602,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `gl`
 --
 ALTER TABLE `gl`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `migrations`
