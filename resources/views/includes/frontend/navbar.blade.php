@@ -42,7 +42,7 @@
                             Clients Profile
                             <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: -76px;">
-                                <a href="#">
+                                <a href="{{route('companies')}}">
                                     Companies
                                 </a>
                             </div>
