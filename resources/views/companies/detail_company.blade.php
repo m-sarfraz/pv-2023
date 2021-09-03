@@ -24,7 +24,8 @@
         <div data-theme-mode-panel-active="true" data-theme="light">
             <div class="site-wrapper overflow-hidden bg-default-2">
                 <div class="container mt-5" id="dashboard-body">
-                    <h5 style="color: rgb(0, 176, 116); margin-bottom: 20px;">Company Data</h5>
+                    <h5 style="color: rgb(0, 176, 116); margin-bottom: 20px;"> <b> {{ $company->company_name }}</b>  
+                    </h5>
                     <form method="POST" action="" id="myForm" enctype="multipart"> @csrf
                         <div class="row mb-xl-1 mb-9">
                             <div class="col-lg-6">
@@ -1307,7 +1308,8 @@
                             $.each(res.message, function(i, e) {
                                 $("input[name='" + i + "']").css('border-color', 'red');
                                 $("input[name='" + i + "']").parent().siblings('span').remove();
-                                $("input[name='" + i + "']").parent().parent().append('<span style="color:red;" >' + e + '</span>');
+                                $("input[name='" + i + "']").parent().parent().append(
+                                    '<span style="color:red;" >' + e + '</span>');
                             });
 
                             // var wrapper = document.createElement("div");
