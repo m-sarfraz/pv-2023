@@ -749,13 +749,18 @@
 @section('script')
 
     <script>
+        // Seciton loads on document ready
         $(document).ready(function() {
             $('#new').prop("disabled", true);
             $('#COURSE').prop("disabled", true);
+
+            // If new record button is clicked empty input fields
             $('#new').click(function() {
                 $(this).prop("disabled", true);
                 $(this).closest('form').find(':input').val("");
             });
+
+            // On form submit call ajax for data saving
             $('#data_entry').submit(function() {
                 $("#loader").show();
                 var data = new FormData(this);
@@ -767,11 +772,9 @@
                     processData: false,
                     type: 'POST',
                     success: function(res) {
-                        console.log(res)
                         if (res.success == true) {
                             $('#new').prop("disabled", false);
                             swal("success", res.message, "success").then((value) => {
-                                // location.reload();
                             });
                         } else {
 
@@ -789,15 +792,9 @@
                                             '<span style="color:red;" >' + e + '</span>'
                                         );
                                 });
-                                // var wrapper = document.createElement("div");
-                                // $.each(res.message, function(i, e) {
-                                //     err += "<p>" + e + "</p>";
-                                // });
-                                // wrapper.innerHTML = err;
                                 swal({
                                     icon: "error",
                                     text: "{{ __('Please fix the highlighted errors!') }}",
-                                    //content: wrapper,
                                     icon: "error",
                                 });
                             }
@@ -816,7 +813,6 @@
         $('#EDUCATIONAL_ATTAINTMENT').change(function() {
 
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text();
-            console.log(value);
             if (value == 'Graduate') {
                 $('#COURSE').prop("disabled", true);
             } else {
