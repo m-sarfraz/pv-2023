@@ -24,7 +24,7 @@
                                                     </label>
                                                     <div class="d-flex justify-content-between">
                                                         <div class="col-md-6" >
-                                                            <select  onchange="get_dropdown_value();" name="drop_down_id" class="dropdown_select">
+                                                            <select  onchange="get_dropdown_value();" name="drop_down_id" class="select2_dropdown">
                                                                 <option value=""  disabled="disabled">Choose options</option>
                                                                 @foreach($dropdowns as $dropdown)
                                                                     <option data-type="{{ $dropdown->type  }}" value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>
@@ -81,8 +81,7 @@
 
         $(document).ready(function () {
             get_dropdown_value();
-            var $disabledResults = $(".dropdown_select");
-            $disabledResults.select2();
+            select2Dropdown("select2_dropdown");
         });
 
         function change_status(obj){
