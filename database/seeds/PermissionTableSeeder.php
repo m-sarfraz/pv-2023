@@ -26,8 +26,14 @@ class PermissionTableSeeder extends Seeder
             'role-delete',
             'view-profile',
             'save-profile',
-            'add-option'
-
+            'list-dropdown',
+            'add-option',
+            'delete-option',
+            'option-status',
+            'add-domain',
+            'add-segment',
+            'add-sub-segment',
+            'list-domain',
         ];
 
         foreach ($permissions as $permission) {

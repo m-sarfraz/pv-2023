@@ -36,7 +36,7 @@
                                                                 <button onclick="AddOption();" type="button" id="add_option_btn" class="btn btn-warning px-5 text-white" >Add</button> &nbsp;
                                                             </div>
                                                             <div class="col-md-3" >
-                                                                <button onclick="save_options();"  type="button" style="display: none;" id="option_save_btn" class="btn btn-warning px-5 text-white"  >Save</button>
+                                                                <button onclick="save_form('add_option_form',{{ route('save-options') }});"  type="button" style="display: none;" id="option_save_btn" class="btn btn-warning px-5 text-white"  >Save</button>
                                                             </div>
                                                         @endcan
                                                     </div>
@@ -194,7 +194,7 @@
             load_datatable(dropdownType);
             $("#loader").hide();
         }
-        function save_options(){
+       /* function save_options(){
             $("#loader").show();
             var form    = document.querySelector('#add_option_form');
             var data = new FormData(form);
@@ -223,7 +223,7 @@
             });
             return false;
 
-        }
+        }*/
         function removeOptionField(obj){
             $(obj).parent().parent().remove();
             var eleLen  =   $(".option_input_append").children().length;

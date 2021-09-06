@@ -1,5 +1,5 @@
 <div>
-    
+
     <?php
     $routeName  =   Route::currentRouteName();
     ?>
@@ -26,15 +26,19 @@
                     <a class="nav-link {{ $routeName == 'log' ? 'nav-active' : 'text-white'  }}" href="{{ route('log') }}" style="cursor: pointer;">
                         Logs
                     </a>
+                    @can('list-domain')
                     <a class="nav-link {{ $routeName == 'domain' ? 'nav-active' : 'text-white'  }}" href="{{ route('domain') }}" style="cursor: pointer;">
                         domains
                     </a>
+                    @endcan
                     <a class="nav-link {{ $routeName == 'search' ? 'nav-active' : 'text-white'  }}" href="{{ route('search') }}" style="cursor: pointer;">
                         Smart Search
                     </a>
+                    @can('list-dropdown')
                     <a href="{{ route('dropdown') }}" class="nav-link {{ $routeName == 'dropdown' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
                         dropdowns
                     </a>
+                    @endcan
                     @can('role-list')
                     <a href="{{ route('role.index')  }}" class="nav-link {{ $routeName == 'role.index' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
                         Teams

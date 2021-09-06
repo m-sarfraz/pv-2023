@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2021 at 03:47 PM
+-- Generation Time: Sep 06, 2021 at 10:20 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.8
 
@@ -144,6 +144,27 @@ CREATE TABLE `companies` (
 INSERT INTO `companies` (`id`, `company_name`, `start_date`, `end_date`, `candidate_ownership`, `a_entry_level`, `executive_level`, `e_rates`, `e_c_s_rates`, `c_v_r_programs`, `c_hires`, `night_shift`, `gateway_hire`, `google_sr`, `csr_tsr`, `in_luzon`, `in_visayas`, `local_acccount`, `aa_intl`, `aa_local`, `trainee_ncr`, `trainee_vm`, `pfsc`, `cl13_v`, `cl13_nv`, `cl12_v`, `cl12_nv`, `cl11`, `cl10_sa`, `cl10_usrn`, `cl9`, `cl8`, `cl7`, `cl6`, `cl5`, `executive`, `md`, `director`, `vp`, `avp`, `sm`, `m`, `am`, `team_lead`, `supervisor`, `non_supervisory`, `multilingual`, `bilingual`, `usrn_active_license`, `usrn_inactive_license`, `nclex`, `na_entry_level`, `specialized_account`, `specialist`, `associate`, `advisor`, `senior_level`, `mid_level`, `junior_level`, `assoc_analyst`, `sen_analyst`, `analyst`, `b6`, `b7`, `b8`, `b9`, `b10`, `sme_level`, `advisor_2`, `advisor_1`, `created_at`, `updated_at`) VALUES
 (11, 'EWD TECH FSD', '2021-09-10', '2021-09-03', 'sarfraz', 'GfgDQIErSX', 'u4QrcgxV1j', '2', '2', '2', '2', '2', '2', 'rc4XyHsb9e', '2', '2', '2', 12123, 123123, 123123, 123, 33, '34534', 345, 5554, 345435, 34545, 34545, 345435, 345435, 34545, 3454, 555, 345435, 3345, '34543', '34534', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', NULL, '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2021-09-02 00:20:46', '2021-09-03 01:51:09'),
 (12, 'Test Company FSD', '2021-09-10', '2021-09-03', 'sdfsdf', 'GfgDQIErSX', 'u4QrcgxV1j', '5555', '457', '574', '4555', '444', 'IGnwb9vlTQ', 'rc4XyHsb9e', '444', '5555', '888', 12123, 123123, 123123, 123, 33, '34534', 345, 5554, 345435, 34545, 34545, 345435, 345435, 34545, 3454, 555, 345435, 3345, '34543', '34534', '546757', '47457', '57457', '47457', '57457', '4747', '74574575', '747', '7457', '7474', '457457', '574574', '2', '74574', '2', '47457', NULL, '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2021-09-02 00:20:46', '2021-09-03 01:57:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `domains`
+--
+
+CREATE TABLE `domains` (
+  `id` int(11) NOT NULL,
+  `domain_name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `domains`
+--
+
+INSERT INTO `domains` (`id`, `domain_name`, `created_at`, `updated_at`) VALUES
+(1, 'test domain', '2021-09-06 07:51:36', '2021-09-06 07:51:36'),
+(2, 'test domain 2', '2021-09-06 07:51:36', '2021-09-06 07:51:36');
 
 -- --------------------------------------------------------
 
@@ -372,16 +393,23 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'user-list', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(2, 'user-create', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(3, 'user-edit', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(4, 'role-list', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(5, 'role-create', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(6, 'role-edit', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(7, 'role-delete', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(8, 'view-profile', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(9, 'save-profile', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27'),
-(10, 'add-option', 'web', '2021-08-26 00:52:27', '2021-08-26 00:52:27');
+(1, 'user-list', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(2, 'user-create', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(3, 'user-edit', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(4, 'role-list', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(5, 'role-create', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(6, 'role-edit', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(7, 'role-delete', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(8, 'view-profile', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(9, 'save-profile', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(10, 'list-dropdown', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(11, 'add-option', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(12, 'delete-option', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(13, 'option-status', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(14, 'add-domain', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(15, 'add-segment', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(16, 'add-sub-segment', 'web', '2021-09-06 02:11:28', '2021-09-06 02:11:28'),
+(17, 'list-domain', 'web', '2021-09-06 02:11:29', '2021-09-06 02:11:29');
 
 -- --------------------------------------------------------
 
@@ -430,7 +458,37 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (7, 1),
 (8, 1),
 (9, 1),
-(10, 1);
+(9, 3),
+(10, 1),
+(10, 3),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `segments`
+--
+
+CREATE TABLE `segments` (
+  `id` int(11) NOT NULL,
+  `segment_name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `segments`
+--
+
+INSERT INTO `segments` (`id`, `segment_name`, `created_at`, `updated_at`) VALUES
+(1, 'test segment', '2021-09-06 08:16:30', '2021-09-06 08:16:30'),
+(2, 'segment 1', '2021-09-06 08:16:30', '2021-09-06 08:16:30');
 
 -- --------------------------------------------------------
 
@@ -459,7 +517,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `type`, `image`, `phone`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'malik irfann', 'testirfan@gmail.com', 3, 'public/1/profile/11629440604.jpg', NULL, NULL, '$2y$10$qyc3kXUp5YU19AHz0R4c/.PtRs.btQ.BbYhLdF.7iOzSMtEgGgRpy', 'KKWAiSrWJ4BZPok4LZCZk1H1fV3OVaFxoKVIVmDwI7T65SfEuy7eWC8YtkL4', '2021-08-12 01:56:46', '2021-08-20 23:51:39'),
 (4, 'Test User', 'admin@gmail.com', 1, 'public/4/profile/41630309686.png', NULL, NULL, '$2y$10$ALa9tfuJNtcR3z5kTJm1KuKqJZNmVR/Oc0BhPs1bJBA0K7Zq4AeYm', NULL, '2021-08-23 01:39:01', '2021-08-30 02:48:06'),
-(5, 'test irfan update', 'testirf@gmail.com', 3, NULL, '123412311', NULL, '$2y$10$wlLaSHd1uLIa9CpOIZVH/.xyR1u0UQzQeD4C8tH29Z9r9vGG2TNRi', NULL, '2021-08-23 02:41:25', '2021-08-23 02:55:06');
+(5, 'test irfan update', 'testirf@gmail.com', 3, NULL, '123412311', NULL, '$2y$10$corzNgVjrdTmG8cxPVqQcOisBbMY3.5lWAMg8a8rkQvRdBm3veYTq', NULL, '2021-08-23 02:41:25', '2021-09-06 02:12:42');
 
 --
 -- Indexes for dumped tables
@@ -481,6 +539,12 @@ ALTER TABLE `candidate_informations`
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `domains`
+--
+ALTER TABLE `domains`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -556,6 +620,12 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `segments`
+--
+ALTER TABLE `segments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -582,6 +652,12 @@ ALTER TABLE `candidate_informations`
 --
 ALTER TABLE `companies`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `domains`
+--
+ALTER TABLE `domains`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `drop_downs`
@@ -617,13 +693,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `segments`
+--
+ALTER TABLE `segments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

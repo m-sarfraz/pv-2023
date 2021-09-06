@@ -43,7 +43,7 @@ Route::get('jdl', function () {
 //Route::view('dataEntry','data_entry.main')->name('dataEntry');
 Route::view('jdl','JDL.index')->name('jdl');
 //Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
-Route::view('domain','domains.add_domain')->name('domain');
+
 Route::view('record','record.view_record')->name('record');
 Route::view('finance','finance.finance')->name('finance');
 Route::view('log','logs.log')->name('log');
@@ -74,6 +74,9 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
+    Route::get('domain','DomainController@domain')->name('domain');
+    Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
+    Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
 
 });
 

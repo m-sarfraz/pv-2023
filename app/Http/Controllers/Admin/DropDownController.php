@@ -13,6 +13,9 @@ class DropDownController extends Controller
     public function __construct()
     {
         $this->middleware('permission:add-option', ['only' => ['add_options']]);
+        $this->middleware('permission:list-dropdown', ['only' => ['view_dropdown']]);
+        $this->middleware('permission:delete-option', ['only' => ['delete_option']]);
+        $this->middleware('permission:option-status', ['only' => ['change_status']]);
     }
     public function save_options(Request $request){
         $arrayCheck =  [
@@ -80,7 +83,7 @@ class DropDownController extends Controller
                 $name = $view_options->option_name.$secdropdown;
                 return $name;
             })
-            ->addColumn('action', function ($view_options) {
+            ->addColumn('action', function ($view_options)  use($request) {
                 if($view_options->status == 1){
                     $statusColor    =   'btn-success';
                     $statusText     =   'Active';
@@ -89,9 +92,11 @@ class DropDownController extends Controller
                     $statusText     =   'Inactive';
                 }
                 $b  =   '';
-                if($view_options->drop_down_id == 4){
+                if($request->drop_down_type == 'remarks_for_finance'){
+                    //$this->authorize('option-status');
                     $b = '<button onclick="change_status(this);" data-status="'.$view_options->status.'" data-id="'.$view_options->id.'" class="btn '.$statusColor.' border-0"  >'.$statusText.'</button>';
                 }
+                //$this->authorize('delete-option');
                 $b .= '<button onclick="delete_option(this);" data-id="'.$view_options->id.'" class="bg-transparent text-danger border-0">Delete</button>';
 
                 return $b;
