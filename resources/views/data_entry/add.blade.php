@@ -184,16 +184,17 @@
                                                         Educational Attainment:
                                                     </label>
                                                     <?php
-                                                        $eduAttainment   =   Helper::get_dropdown('educational_attainment');
+                                                    $eduAttainment = Helper::get_dropdown('educational_attainment');
                                                     ?>
 
                                                     <select name="EDUCATIONAL_ATTAINTMENT"
                                                         class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                                        <option value="" disabled >select option</option>
-                                                            @foreach($eduAttainment->options as $eduAttainmentOptions)
-                                                                <option value="{{ $eduAttainmentOptions->id }}">{{ $eduAttainmentOptions->option_name  }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <option value="" disabled>select option</option>
+                                                        @foreach ($eduAttainment->options as $eduAttainmentOptions)
+                                                            <option value="{{ $eduAttainmentOptions->id }}">
+                                                                {{ $eduAttainmentOptions->option_name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                     <div>
                                                         <small class="text-danger"></small>
                                                     </div>
@@ -203,12 +204,13 @@
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Course</label>
                                                     <?php
-                                                    $course   =   Helper::get_dropdown('course');
+                                                    $course = Helper::get_dropdown('course');
                                                     ?>
                                                     <select name="COURSE" class="form-control p-0 users-input-S-C"
                                                         id="COURSE">
-                                                        @foreach($course->options as $courseOptions)
-                                                            <option value="{{ $courseOptions->id }}">{{ $courseOptions->option_name  }}</option>
+                                                        @foreach ($course->options as $courseOptions)
+                                                            <option value="{{ $courseOptions->id }}">
+                                                                {{ $courseOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div>
@@ -253,9 +255,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
+
+                                                        <?php
+                                                        $domain = Helper::get_dropdown('domains');
+                                                        ?>
+
                                                         <label class="Label">Domains</label>
                                                         <select name="DOMAIN" class="form-control p-0 users-input-S-C">
-                                                            <option value="item">item</option>
+                                                            <option selected disabled></option>
+                                                            @foreach ($domain->options as $domainOption)
+                                                                <option value="{{$domainOption->id}}">
+                                                                    {{ $domainOption->option_name }}</option>
+                                                            @endforeach
                                                         </select>
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -264,23 +275,34 @@
                                                 </div>
                                                 <div class="row mb-xl-1 mb-9">
                                                     <div class="col-lg-6">
+                                                        <?php
+                                                        $segment = Helper::get_dropdown('segments');
+                                                        ?>
                                                         <label class="Label">segment</label>
                                                         <select name="SEGMENT" class="form-control p-0 users-input-S-C">
-                                                            <option value="segment">
-                                                                segment
-                                                            </option>
+                                                            <option selected disabled></option>
+                                                            @foreach ($segment->options as $segmentOption)
+                                                                <option value="{{$segmentOption->id}}">
+                                                                    {{ $segmentOption->option_name }}</option>
+                                                            @endforeach
+
                                                         </select>
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
+                                                        <?php
+                                                        $sub_segment = Helper::get_dropdown('sub_segment');
+                                                        ?>
                                                         <label class="Label">sub-segment</label>
                                                         <select name="SUB_SEGMENT"
                                                             class="form-control p-0 users-input-S-C">
-                                                            <option value="subSegment ">
-                                                                subSegment
-                                                            </option>
+                                                            <option selected disabled></option>
+                                                            @foreach ($sub_segment->options as $sub_segmentOption)
+                                                                <option value="{{$sub_segmentOption->id}}">
+                                                                    {{ $sub_segmentOption->option_name }}</option>
+                                                            @endforeach
                                                         </select>
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -289,8 +311,8 @@
                                                 </div>
                                                 <div class="row mb-xl-1 mb-9">
                                                     <div class="col-lg-12">
-                                                        <label
-                                                            class="text-black-2 font-size-3 font-weight-semibold mb-0"></label>
+                                                        <label class="text-black-2 font-size-3 font-weight-semibold mb-0">
+                                                            Employement History</label>
                                                         <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                             class="form-control border E_HC h-px-20_custom"></textarea>
                                                     </div>
@@ -299,13 +321,21 @@
                                         </div>
                                         <div class="row mb-2">
                                             <div class="col-lg-4">
+                                                <?php
+                                                $profile = Helper::get_dropdown('candidate_profile');
+                                                ?>
                                                 <div class="form-group mb-0">
                                                     <label class="Label">
                                                         candidate profile
                                                     </label>
                                                     <select name="CANDIDATES_PROFILE"
                                                         class="form-control p-0 users-input-S-C">
-                                                        <option value="1">item</option>
+                                                        <option selected disabled></option>
+                                                        @foreach ($profile->options as $profileOption)
+                                                            <option value="{{$profileOption->id}}">
+                                                                {{ $profileOption->option_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div>
@@ -326,7 +356,7 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="form-group mb-0">
-                                                    <label class="font-size-3 mb-0"></label>
+                                                    <label class=" p-0 users-input-S-C mb-0"> Date Invited</label>
                                                     <input type="date" name="DATE_INVITED"
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
@@ -335,12 +365,19 @@
                                         <div class="row mb-2">
                                             <div class="col-lg-4">
                                                 <div class="form-group mb-0">
+                                                    <?php
+                                                    $manner_of_invite = Helper::get_dropdown('manner_of_invite');
+                                                    ?>
                                                     <label class="Label">
                                                         Manner of invite
                                                     </label>
                                                     <select name="MANNER_OF_INVITE"
                                                         class="form-control p-0 users-input-S-C">
-                                                        <option value="1">item</option>
+                                                        <option selected disabled></option>
+                                                        @foreach ($manner_of_invite->options as $manner_of_inviteOption)
+                                                            <option value="{{$manner_of_inviteOption->id}}">
+                                                                {{ $manner_of_inviteOption->option_name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div>
@@ -424,18 +461,25 @@
                 <div class="col-lg-5">
                     <!-- ================== -->
                     <!-- ENDORSMENT section start -->
-                    <fieldset disabled="">
+                    {{-- <fieldset disabled="false"> --}}
                         <p class="C-Heading">Endorsement Details</p>
                         <div class="card mb-10">
                             <div class="card-body pt-4">
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
+                                        <?php
+                                        $status = Helper::get_dropdown('application_status');
+                                        ?>
                                         <label class="d-block font-size-3 mb-0">
                                             Application Status
                                         </label>
                                         <select name="APPLICATION_STATUS"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                            <option value="item">item</option>
+                                            <option value="" disabled>select option</option>
+                                            @foreach ($status->options as $statusOptions)
+                                                <option value="{{ $statusOptions->id }}">
+                                                    {{ $statusOptions->option_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-lg-6">
@@ -598,7 +642,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                    </fieldset>
+                    {{-- </fieldset> --}}
 
                     <!-- ENDORSMENT section end -->
                     <!-- ================== -->
@@ -774,8 +818,7 @@
                     success: function(res) {
                         if (res.success == true) {
                             $('#new').prop("disabled", false);
-                            swal("success", res.message, "success").then((value) => {
-                            });
+                            swal("success", res.message, "success").then((value) => {});
                         } else {
 
                             if (res.hasOwnProperty("message")) {

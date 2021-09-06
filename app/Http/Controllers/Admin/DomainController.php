@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domain;
+use App\DropDownOption;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
@@ -79,5 +80,17 @@ class DomainController extends Controller
         }
 
 
+    }
+    public function enter(Request $request){
+        if ($request->isMethod('get')) {
+            return view('enter');
+        }
+        if ($request->isMethod('post')) {
+            $enter = new DropDownOption();
+            $enter->option_name = $request->option;
+            $enter->drop_down_id = '11';
+            $enter->save();
+            return redirect()->back()->with('message', 'added');
+        }
     }
 }

@@ -77,6 +77,7 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::get('domain','DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
+    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
 
 });
 
