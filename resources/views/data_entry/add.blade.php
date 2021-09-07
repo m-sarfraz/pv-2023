@@ -83,7 +83,7 @@
                                                         Middle Initial
                                                     </label>
                                                     <input type="text" class="form-control users-input-S-C"
-                                                        name="MIDDLE_NAME" required />
+                                                        name="MIDDLE_NAME"   />
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -191,8 +191,7 @@
                                                         class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
                                                         <option value="" disabled>select option</option>
                                                         @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                                            <option value="{{ $eduAttainmentOptions->id }}">
-                                                                {{ $eduAttainmentOptions->option_name }}</option>
+                                                            <option value="{{ $eduAttainmentOptions->id }}">{{ $eduAttainmentOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div>
@@ -236,7 +235,7 @@
                                                 <label class="` Label">
                                                     Interview Notes
                                                 </label>
-                                                <textarea name="INTERVIEW_NOTES" rows="3" type="text"
+                                                <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
                                                     class="form-control border t-HC h-px-20_custom"></textarea>
                                                 <div>
                                                     <small class="text-danger"></small>
@@ -322,7 +321,7 @@
                                         <div class="row mb-2">
                                             <div class="col-lg-4">
                                                 <?php
-                                                $profile = Helper::get_dropdown('candidate_profile');
+                                                $profile = Helper::get_dropdown('candidates_profile');
                                                 ?>
                                                 <div class="form-group mb-0">
                                                     <label class="Label">
@@ -389,7 +388,7 @@
                                                     <label class="Label">
                                                         Current Salary:
                                                     </label>
-                                                    <input type="number" class="form-control p-0 users-input-S-C`"
+                                                    <input type="number" class="form-control p-0 users-input-S-C`" id="current_salary"
                                                         name="CURRENT_SALARY" />
                                                 </div>
                                                 <div>
@@ -412,7 +411,7 @@
                                                     <label class="Label">
                                                         Expected Salary:
                                                     </label>
-                                                    <input type="text" name="EXPECTED_SALARY"
+                                                    <input type="text" name="EXPECTED_SALARY" id="expec_salary"
                                                         class="form-control p-0 users-input-S-C" />
                                                 </div>
                                                 <div>
@@ -424,7 +423,7 @@
                                                     <label class="Label" name="OFFERED_SALARY">
                                                         Offered Salary:
                                                     </label>
-                                                    <input type="number" name="OFFERED_SALARY" id="off_salary"
+                                                    <input type="number" name="OFFERED_SALARY" id="off_salary" disabled=""
                                                         class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
@@ -433,23 +432,28 @@
                                                     <label class="Label">
                                                         Offered Allowance:
                                                     </label>
-                                                    <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
+                                                    <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance" disabled=""
                                                         class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-6"></div>
-                                            <div class="col-lg-6">
-                                                <div
-                                                    class="d-flex w-100 flex-wrap gap-2 flex-column form-group mt-5 col-md-12">
-                                                    <div style="text-align: end; margin-bottom: 6px;"
-                                                        class="w-100"></div>
+                                    </fieldset>
+
+                                    <div class="row">
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
+                                                <div class="w-100" style="text-align: end; margin-bottom: 6px;">
+                                                    <input type="file" id="sheetFile" name="file" required=""
+                                                        accept="application/pdf" class="uploadcv  w-100">
+                                                </div>
+                                                <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
+                                                    <a href="" download="">Download Cv</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                    <button type = "button"> Download Results</button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -627,7 +631,7 @@
                                                 <label class="d-block font-size-3 mb-0">
                                                     Endo Date:
                                                 </label>
-                                                <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                                <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="setDate()"
                                                     class="form-control border h-px-20_custom" />
                                             </div>
                                         </div>
@@ -646,9 +650,7 @@
                                                 @endphp
                                                 <option value="" disabled selected></option>
                                                 @foreach ($remarks->options as $remarksOptions)
-                                                    <option value="{{ $remarksOptions->id }}">
-                                                        {{ $remarksOptions->option_name }}
-                                                    </option>
+                                                    <option value="{{ $remarksOptions->id }}">{{ $remarksOptions->option_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -696,7 +698,7 @@
                                                     <label class="d-block font-size-3 mb-0">
                                                         Onboarding Date
                                                     </label>
-                                                    <input type="date" name="ONBOARDING_DATE" id="onboard_date"
+                                                    <input type="date" name="ONBOARDING_DATE" id="onboard_date" readonly
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -866,15 +868,14 @@
                                     icon: "error",
                                 });
                             }
+                        } else if (res.success == 'duplicate') {
+                            $("#loader").hide();
+                            swal({
+                                icon: "error",
+                                text: "{{ __('Duplicate data detected') }}",
+                                icon: "error",
+                            });
                         }
-                       else if (res.success == 'duplicate') {
-                        $("#loader").hide();
-                        swal({
-                                    icon: "error",
-                                    text: "{{ __('Duplicate data detected') }}",
-                                    icon: "error",
-                                });
-                       }
                         $("#loader").hide();
                     },
                     error: function() {
@@ -889,7 +890,8 @@
         $('#EDUCATIONAL_ATTAINTMENT').change(function() {
 
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text();
-            if (value == 'Graduate') {
+            alert(value)
+            if (value == 'GRADUATE') {
                 $('#COURSE').prop("disabled", true);
             } else {
                 $('#COURSE').prop("disabled", false);
@@ -901,6 +903,14 @@
             var value = $(this).find(":selected").val();
             console.log(value);
             if (value == '2') {
+                if($('#current_salary').val() == "" || $('#expec_salary').val() == "" )
+                {
+                    swal({
+                                icon: "warning",
+                                text: "{{ __('Dont forget to write Current Salary and Expected Salray') }}",
+                                icon: "warning",
+                            });
+                }    
                 console.log('a gya');
                 $('#remarks').prop("disabled", false);
                 $('#status').prop("disabled", false);
@@ -914,6 +924,7 @@
                 $('#sub_segment').prop("disabled", false);
                 $('#endo_date').prop("disabled", false);
                 $('#remarks_for_finance').prop("disabled", false);
+            
             } else {
                 console.log('moo');
                 $('#remarks').prop("disabled", true);
@@ -932,18 +943,31 @@
         });
 
         $('#remarks_for_finance').change(function() {
-            var value = $(this).find(":selected").val();
+            var value = $(this).find(":selected").text();
             console.log(value);
-            if (value == '11') {
+            if (value == 'on board') {
                 $('#finance_fieldset').prop("disabled", false);
             } else {
                 $('#finance_fieldset').prop("disabled", true);
+            }
+            
+            if( $("#remarks_for_finance:contains(board)")){
+                $('#off_salary').prop("disabled", false);
+                $('#off_allowance').prop("disabled", false);
             }
         });
         $('#off_salary').change(function() {
             var salary = $('#off_salary').val();
             $('#off_salary_fianance').val(salary);
         });
+
+        // $('#endo_date').change(function() {
+            const setDate = () => {
+                // console.log(date1.value);
+                onboard_date.value = endo_date.value
+            }
+
+        // });
 
         $('#off_allowance').change(function() {
             var allowance = $('#off_allowance').val();

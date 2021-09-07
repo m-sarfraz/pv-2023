@@ -23,13 +23,11 @@ class CandidateController extends Controller
         // dd($request->all());
         $arrayCheck = [
             'LAST_NAME' => 'required',
-            "MIDDLE_NAME" => "required",
             "FIRST_NAME" => "required",
             "EMAIL_ADDRESS" => "required",
             "CONTACT_NUMBER" => "required",
             "GENDER" => "required",
             "RESIDENCE" => 'required ',
-            "DATE_OF_BIRTH" => 'required ',
             "EDUCATIONAL_ATTAINTMENT" => 'required ',
             // "COURSE" => 'required ',
             "CERTIFICATIONS" => 'required ',
