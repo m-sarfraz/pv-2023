@@ -97,7 +97,9 @@ class DropDownController extends Controller
                     $b = '<button onclick="change_status(this);" data-status="'.$view_options->status.'" data-id="'.$view_options->id.'" class="btn '.$statusColor.' border-0"  >'.$statusText.'</button>';
                 }
                 //$this->authorize('delete-option');
-                $b .= '<button onclick="delete_option(this);" data-id="'.$view_options->id.'" class="bg-transparent text-danger border-0">Delete</button>';
+                $route  =  Route("delete-option");
+                $function   =   'delete_data(this,"'.$route.'")';
+                $b .= '<button onclick='.$function.'  data-id="'.$view_options->id.'" class="bg-transparent text-danger border-0">Delete</button>';
 
                 return $b;
             })
@@ -118,7 +120,7 @@ class DropDownController extends Controller
         }
     }
     public function delete_option(Request $request){
-        $deleteOption   =   DropDownOption::where('id',$request->option_id)->delete();
+        $deleteOption   =   DropDownOption::where('id',$request->id)->delete();
         if($deleteOption){
             return response()->json(['success' => true, 'message' =>'Options deleted successfully']);
         }else{

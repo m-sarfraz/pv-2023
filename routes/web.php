@@ -53,6 +53,8 @@ Route::view('search','smartSearch.smart_search')->name('search');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
+    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
+
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
@@ -77,7 +79,9 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::get('domain','DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
-    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
+    Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
+    Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
+    Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
 
 });
 

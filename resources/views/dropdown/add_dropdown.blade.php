@@ -36,7 +36,7 @@
                                                                 <button onclick="AddOption();" type="button" id="add_option_btn" class="btn btn-warning px-5 text-white" >Add</button> &nbsp;
                                                             </div>
                                                             <div class="col-md-3" >
-                                                                <button onclick="save_form('add_option_form',{{ route('save-options') }});"  type="button" style="display: none;" id="option_save_btn" class="btn btn-warning px-5 text-white"  >Save</button>
+                                                                <button onclick="save_form('add_option_form','{{ route('save-options') }}');"  type="button" style="display: none;" id="option_save_btn" class="btn btn-warning px-5 text-white"  >Save</button>
                                                             </div>
                                                         @endcan
                                                     </div>
@@ -123,46 +123,7 @@
                 });
 
         }
-
-        function delete_option(obj){
-            swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((delete_option) => {
-                    $("#loader").show();
-                    var optionId    =   $(obj).data('id');
-                    $.ajax({
-                        url: "{{Route('delete-option')}}",
-                        data: {
-                            '_token':$('meta[name=csrf-token]').attr("content"),
-                            'option_id' : optionId
-                        },
-                        type: 'POST',
-                        success: function (res) {
-                            if(res.success == true){
-
-                                swal("{{ __('Success') }}", res.message, 'success');
-                                setTimeout(function(){
-                                    location.reload();
-                                },1000);
-                            }else if(res.success == false){
-                                swal("{{ __('Warning') }}", res.message, 'error');
-                            }
-
-                            $("#loader").hide();
-                        },
-                        error: function () {
-                            $("#loader").hide();
-                        }
-                    });
-                    return false;
-                });
-
-        }
-        function  load_datatable(dropdownType){
+         function  load_datatable(dropdownType){
             var option_table =  $('#option_table').DataTable({
                 destroy: true,
                 processing: true,
@@ -194,36 +155,6 @@
             load_datatable(dropdownType);
             $("#loader").hide();
         }
-       /* function save_options(){
-            $("#loader").show();
-            var form    = document.querySelector('#add_option_form');
-            var data = new FormData(form);
-            $.ajax({
-                url: "{{Route('save-options')}}",
-                data: data,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function (res) {
-                    if(res.success == true){
-
-                        swal("{{ __('Success') }}", res.message, 'success');
-                        setTimeout(function(){
-                            location.reload();
-                        },1000);
-                    }else if(res.success == false){
-                        swal("{{ __('Warning') }}", res.message, 'error');
-                    }
-
-                    $("#loader").hide();
-                },
-                error: function () {
-                    $("#loader").hide();
-                }
-            });
-            return false;
-
-        }*/
         function removeOptionField(obj){
             $(obj).parent().parent().remove();
             var eleLen  =   $(".option_input_append").children().length;
