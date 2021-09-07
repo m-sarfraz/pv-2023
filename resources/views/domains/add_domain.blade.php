@@ -97,52 +97,27 @@
                     <p class="C-Heading pt-3">Add sub Segments</p>
                     <div class="card d-flex justify-content-center">
                         <div class="card-body">
-
-                            <div class="row m-0">
-                                  <div class="col-md-3">
-                                      <button style="background: #dc8627;" onclick="AddOption('sub_segment','sub_segment_input_append','sub_segment_save_btn')"  class="btn px-2 mt-2 text-white rounded-0" type="submit">Add SUBSEGMENT</button>
-                                  </div>
-                                  <div class="col-md-2">
-                                      <button style="background: #dc8627;display: none;" onclick="save_options();"  type="button"   class="sub_segment_save_btn  btn px-2 mt-2 text-white rounded-0"  >Save</button>
-                                  </div>
-                                <div class="sub_segment_input_append mb-3 col-md-12" ></div>
-
-                                <div class="col-7 d-flex py-3">Sub Segments</div>
-                                    <div class="col-5 d-flex text-center py-3">
-                                        <div>Action</div>
-                                    </div>
-                            </div>
-
-                            <div class="row m-0  dropdown_table text-uppercase border rounded">
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 bg-light border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center bg-light py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 bg-light border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 bg-light border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 bg-light border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center bg-light py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                                    <div class="col-7 d-flex py-3 border-bottom">Heading is here</div>
-                                    <div class="col-5 d-flex text-center py-3 border-bottom">
-                                        <button class="bg-transparent text-danger border-0">Delete</button>
-                                    </div>
-                            </div>
+                            <form id="sub_segment_form" method="POST">
+                                @csrf
+                                <div class="row m-0">
+                                      <div class="col-md-3">
+                                          <button style="background: #dc8627;" onclick="AddOption('sub_segment_name','sub_segment_input_append','sub_segment_save_btn')"  class="btn px-2 mt-2 text-white rounded-0" type="submit">Add SUBSEGMENT</button>
+                                      </div>
+                                      <div class="col-md-2">
+                                          <button style="background: #dc8627;display: none;" onclick="save_form('sub_segment_form','{{ Route('add-sub-segments') }}');"  type="button"   class="sub_segment_save_btn  btn px-2 mt-2 text-white rounded-0"  >Save</button>
+                                      </div>
+                                    <div class="sub_segment_input_append mb-3 col-md-12" ></div>
+                                </div>
+                            </form>
+                            <table id="sub_segment_table" class="display">
+                                <thead>
+                                <tr>
+                                    <th>Option</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -155,7 +130,11 @@
 @endsection
 @section('script')
 <script>
-    select2Dropdown("select2_dropdown");
+    $(document).ready(function(){
+        load_datatable();
+        select2Dropdown("select2_dropdown");
+    });
+
 
     function AddOption(appendFieldName,appendClass,appendSaveBtnClass){
        var AppendContent =
@@ -170,8 +149,6 @@
         $('.'+appendClass).append(AppendContent);
         $("."+appendSaveBtnClass).show();
     }
-
-
     function removeOptionField(obj,appendClass,appendSaveBtnClass){
         $(obj).parent().parent().remove();
         var eleLen  =   $("."+appendClass).children().length;
@@ -180,6 +157,22 @@
         }
 
     }
+    function  load_datatable(){
+        var option_table =  $('#sub_segment_table').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            ajax : {
+                url : "{{ route('view-sub-segments') }}",
+                type : "GET",
+            },
+            columns: [
+                {data: 'sub_segment_name', name: 'sub_segment_name'},
+                {data: 'action', name: 'action', searchable: false, orderable: false}
+            ]
+        });
 
+
+    }
 </script>
 @endsection

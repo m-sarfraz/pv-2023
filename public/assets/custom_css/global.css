@@ -575,9 +575,9 @@ input {
 .dashboard-main-container {
   margin-left: 154px !important;
 }
-.dataTables_wrapper {
+/*.dataTables_wrapper {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
+}*/
 .Application_List {
   border-top: 5px solid red;
   border-left: 1px solid red;

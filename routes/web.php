@@ -53,6 +53,8 @@ Route::view('search','smartSearch.smart_search')->name('search');
 
 
 Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
+    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
+
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
@@ -70,6 +72,9 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
+    Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
+    Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
+    Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
@@ -77,7 +82,9 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::get('domain','DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
-    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
+    Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
+    Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
+    Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
 
 });
 

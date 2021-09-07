@@ -35,9 +35,19 @@
                         Smart Search
                     </a>
                     @can('list-dropdown')
-                    <a href="{{ route('dropdown') }}" class="nav-link {{ $routeName == 'dropdown' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
-                        dropdowns
-                    </a>
+                        <div class="dropdown pt-2 pl-2 text-white">
+                            Dropdowns
+                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <div class="dropdown-content" style="left: 14px;">
+                                <a href="{{ route('dropdown') }}">
+                                    Add Options
+                                </a>
+                                <a href="{{ route('add-dropdown') }}">
+                                    Add Dropdowns
+                                </a>
+
+                            </div>
+                        </div>
                     @endcan
                     @can('role-list')
                     <a href="{{ route('role.index')  }}" class="nav-link {{ $routeName == 'role.index' ? 'nav-active' : 'text-white'  }}" style="cursor: pointer;">
