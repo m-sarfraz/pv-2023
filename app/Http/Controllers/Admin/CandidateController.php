@@ -30,7 +30,6 @@ class CandidateController extends Controller
             "RESIDENCE" => 'required ',
             "EDUCATIONAL_ATTAINTMENT" => 'required ',
             // "COURSE" => 'required ',
-            "CERTIFICATIONS" => 'required ',
             "CANDIDATES_PROFILE" => 'required ',
             "INTERVIEW_NOTES" => 'required ',
             "DATE_SIFTED" => 'required ',

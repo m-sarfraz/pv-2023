@@ -83,7 +83,7 @@
                                                         Middle Initial
                                                     </label>
                                                     <input type="text" class="form-control users-input-S-C"
-                                                        name="MIDDLE_NAME"   />
+                                                        name="MIDDLE_NAME" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -191,7 +191,8 @@
                                                         class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
                                                         <option value="" disabled>select option</option>
                                                         @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                                            <option value="{{ $eduAttainmentOptions->id }}">{{ $eduAttainmentOptions->option_name }}</option>
+                                                            <option value="{{ $eduAttainmentOptions->id }}">
+                                                                {{ $eduAttainmentOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div>
@@ -356,7 +357,7 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group mb-0">
                                                     <label class=" p-0 users-input-S-C mb-0"> Date Invited</label>
-                                                    <input type="date" name="DATE_INVITED"
+                                                    <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -370,7 +371,7 @@
                                                     <label class="Label">
                                                         Manner of invite
                                                     </label>
-                                                    <select name="MANNER_OF_INVITE"
+                                                    <select name="MANNER_OF_INVITE" id="manners"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option selected disabled></option>
                                                         @foreach ($manner_of_invite->options as $manner_of_inviteOption)
@@ -388,8 +389,8 @@
                                                     <label class="Label">
                                                         Current Salary:
                                                     </label>
-                                                    <input type="number" class="form-control p-0 users-input-S-C`" id="current_salary"
-                                                        name="CURRENT_SALARY" />
+                                                    <input type="number" class="form-control p-0 users-input-S-C`"
+                                                        id="current_salary" name="CURRENT_SALARY" />
                                                 </div>
                                                 <div>
                                                     <small class="text-danger"></small>
@@ -424,7 +425,7 @@
                                                         Offered Salary:
                                                     </label>
                                                     <input type="number" name="OFFERED_SALARY" id="off_salary" disabled=""
-                                                        class="form-control users-input-S-C" />
+                                                        oninput="SalaryAppend()" class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -432,7 +433,8 @@
                                                     <label class="Label">
                                                         Offered Allowance:
                                                     </label>
-                                                    <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance" disabled=""
+                                                    <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
+                                                        oninput="SalaryAppend()" disabled=""
                                                         class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
@@ -631,8 +633,8 @@
                                                 <label class="d-block font-size-3 mb-0">
                                                     Endo Date:
                                                 </label>
-                                                <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="setDate()"
-                                                    class="form-control border h-px-20_custom" />
+                                                <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                                    onchange="setDate()" class="form-control border h-px-20_custom" />
                                             </div>
                                         </div>
                                     </div>
@@ -650,7 +652,8 @@
                                                 @endphp
                                                 <option value="" disabled selected></option>
                                                 @foreach ($remarks->options as $remarksOptions)
-                                                    <option value="{{ $remarksOptions->id }}">{{ $remarksOptions->option_name }}</option>
+                                                    <option value="{{ $remarksOptions->id }}">
+                                                        {{ $remarksOptions->option_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -741,6 +744,7 @@
                                                         Total Bilable Ammount
                                                     </label>
                                                     <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
+                                                        oninput="amountFinder(this)"
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -764,8 +768,9 @@
                                                         Rate
                                                     </label>
                                                     <select name="RATE" class="form-control border h-px-20_custom"
-                                                        id="rate_finance">
-                                                        <option value="item">item</option>
+                                                        id="rate" id="rate_finance" oninput="amountFinder(this)">
+                                                        <option value="10" selected>10%</option>
+                                                        <option value="20">20%</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -777,7 +782,7 @@
                                                         Offered Salary
                                                     </label>
                                                     <input type="number" name="OFFERED_SALARY" id="off_salary_fianance"
-                                                        class="form-control border h-px-20_custom" />
+                                                        readonly class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -785,7 +790,7 @@
                                                     <label class="d-block font-size-3 mb-0">
                                                         Placement Fee
                                                     </label>
-                                                    <input type="number" name="PLACEMENT_FEE" id="placement_fee"
+                                                    <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -797,7 +802,7 @@
                                                         Allowance
                                                     </label>
                                                     <input type="number" name="ALLOWANCE" id="off_allowance_finance"
-                                                        class="form-control border h-px-20_custom" />
+                                                        readonly class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-6"></div>
@@ -889,8 +894,7 @@
         // Change course according to the selected education attainment
         $('#EDUCATIONAL_ATTAINTMENT').change(function() {
 
-            var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text();
-            alert(value)
+            var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
             if (value == 'GRADUATE') {
                 $('#COURSE').prop("disabled", true);
             } else {
@@ -900,39 +904,34 @@
         });
         $('#ap_status').change(function() {
 
-            var value = $(this).find(":selected").val();
+            var value = $(this).find(":selected").text().trim();
             console.log(value);
-            if (value == '2') {
-                if($('#current_salary').val() == "" || $('#expec_salary').val() == "" )
-                {
+            if (value == 'To Be Endorsed') {
+                if ($('#current_salary').val() == "" || $('#expec_salary').val() == "") {
                     swal({
-                                icon: "warning",
-                                text: "{{ __('Dont forget to write Current Salary and Expected Salray') }}",
-                                icon: "warning",
-                            });
-                }    
-                console.log('a gya');
+                        icon: "warning",
+                        text: "{{ __('Dont forget to write Current Salary and Expected Salray') }}",
+                        icon: "warning",
+                    });
+                }
                 $('#remarks').prop("disabled", false);
                 $('#status').prop("disabled", false);
                 $('#site').prop("disabled", false);
                 $('#client').prop("disabled", false);
                 $('#position').prop("disabled", false);
-                $('#rfp').prop("disabled", false);
                 $('#domain').prop("disabled", false);
                 $('#career').prop("disabled", false);
                 $('#segment').prop("disabled", false);
                 $('#sub_segment').prop("disabled", false);
                 $('#endo_date').prop("disabled", false);
                 $('#remarks_for_finance').prop("disabled", false);
-            
+
             } else {
-                console.log('moo');
                 $('#remarks').prop("disabled", true);
                 $('#status').prop("disabled", true);
                 $('#site').prop("disabled", true);
                 $('#client').prop("disabled", true);
                 $('#position').prop("disabled", true);
-                $('#rfp').prop("disabled", true);
                 $('#domain').prop("disabled", true);
                 $('#career').prop("disabled", true);
                 $('#segment').prop("disabled", true);
@@ -940,39 +939,59 @@
                 $('#endo_date').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
             }
+            if (value.includes('Failed') || value.includes('Withdrawn')) {
+                $('#rfp').prop("disabled", false);
+            } else {
+                $('#rfp').prop("disabled", true);
+            }
         });
 
         $('#remarks_for_finance').change(function() {
-            var value = $(this).find(":selected").text();
-            console.log(value);
-            if (value == 'on board') {
+            var value = $(this).find(":selected").text().trim();
+            if (value == 'Offer Accepted' || value == 'On Boarded' || value == 'Hired') {
                 $('#finance_fieldset').prop("disabled", false);
-            } else {
-                $('#finance_fieldset').prop("disabled", true);
-            }
-            
-            if( $("#remarks_for_finance:contains(board)")){
                 $('#off_salary').prop("disabled", false);
                 $('#off_allowance').prop("disabled", false);
+            } else {
+                $('#finance_fieldset').prop("disabled", true);
+                $('#off_salary').prop("disabled", true);
+                $('#off_allowance').prop("disabled", true);
             }
-        });
-        $('#off_salary').change(function() {
-            var salary = $('#off_salary').val();
-            $('#off_salary_fianance').val(salary);
+
+
         });
 
+        function SalaryAppend() {
+            var allowance = $('#off_allowance').val();
+            var salary = $('#off_salary').val();
+            $('#off_allowance_finance').val(allowance)
+            $('#off_salary_fianance').val(salary);
+        }
+
         // $('#endo_date').change(function() {
-            const setDate = () => {
-                // console.log(date1.value);
-                onboard_date.value = endo_date.value
-            }
+        const setDate = () => {
+            // console.log(date1.value);
+            onboard_date.value = endo_date.value
+        }
 
         // });
 
-        $('#off_allowance').change(function() {
-            var allowance = $('#off_allowance').val();
-            $('#off_allowance_finance').val(allowance)
+        $('#manners').change(function() {
+            var value = $(this).find(":selected").text().trim();
+            if (value == 'Pending') {
+                $('#date_invited').prop("disabled", true);
+            } else {
+
+                $('#date_invited').prop("disabled", false);
+            }
         });
+
+        function amountFinder(id) {
+            amount = $('#bilable_amount').val();
+            rate = $('#rate').val();
+            placmentFee = amount * rate;
+            $('#placement_fee').val(placmentFee);
+        }
     </script>
 
 @endsection
