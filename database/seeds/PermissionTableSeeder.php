@@ -27,6 +27,7 @@ class PermissionTableSeeder extends Seeder
             'view-profile',
             'save-profile',
             'list-dropdown',
+            'add-dropdown',
             'add-option',
             'delete-option',
             'option-status',

@@ -72,6 +72,9 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
+    Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
+    Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
+    Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
