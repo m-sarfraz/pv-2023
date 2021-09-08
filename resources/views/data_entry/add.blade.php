@@ -490,12 +490,20 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
+                                        @php
+                                            $remarks = Helper::get_dropdown('remarks_for_finance');
+                                        @endphp
                                         <label class="Label">
                                             Remarks (From Recruiter):
                                         </label>
                                         <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                            <option value="item">item</option>
+                                            <option value="" disabled selected>Select Option</option>
+                                            @foreach ($remarks->options as $remarksOptions)
+                                                <option value="{{ $remarksOptions->id }}">
+                                                    {{ $remarksOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -503,23 +511,39 @@
                             <fieldset>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
+                                        @php
+                                            $client = Helper::get_dropdown('clients');
+                                        @endphp
                                         <div class="form-group mb-0">
                                             <label class="Label">Client</label>
                                             <select name="CLIENT" disabled="" id="client"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($client->options as $clientOptions)
+                                                    <option value="{{ $clientOptions->id }}">
+                                                        {{ $clientOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $status = Helper::get_dropdown('status');
+                                            @endphp
                                             <label class="d-block font-size-3 mb-0">
-                                                Status:
+                                                Status
                                             </label>
                                             <select name="STATUS" id="status" disabled=""
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">
-                                                    &quot;item&quot;
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($status->options as $statusOptions)
+                                                    <option value="{{ $statusOptions->id }}">
+                                                        {{ $statusOptions->option_name }}
+                                                    </option>
+                                                @endforeach
+                                                &quot;item&quot;
                                                 </option>
                                             </select>
                                         </div>
@@ -528,23 +552,39 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $endoType = Helper::get_dropdown('endorsement_type');
+                                            @endphp
                                             <label class="d-block font-size-3 mb-0">
                                                 Endorsement Type:
                                             </label>
                                             <select name="ENDORSEMENT_TYPE" id=""
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($endoType->options as $endoTypeOptions)
+                                                    <option value="{{ $endoTypeOptions->id }}">
+                                                        {{ $endoTypeOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $site = Helper::get_dropdown('site');
+                                            @endphp
                                             <label class="d-block font-size-3 mb-0">
                                                 Site:
                                             </label>
                                             <select name="SITE" disabled="" id="site"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($site->options as $siteOptions)
+                                                    <option value="{{ $siteOptions->id }}">
+                                                        {{ $siteOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -552,23 +592,39 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $position_title = Helper::get_dropdown('position_title');
+                                            @endphp
                                             <label class="d-block font-size-3 mb-0">
                                                 Position Title:
                                             </label>
                                             <select name="POSITION_TITLE" disabled="" id="position"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($position_title->options as $position_titleOptions)
+                                                    <option value="{{ $position_titleOptions->id }}">
+                                                        {{ $position_titleOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                                            @endphp
                                             <label class="Label">
                                                 Reason for not progressing:
                                             </label>
                                             <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
+                                                    <option value="{{ $ReasonForNotPOptions->id }}">
+                                                        {{ $ReasonForNotPOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -576,12 +632,20 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $domain = Helper::get_dropdown('domains');
+                                            @endphp
                                             <label class="d-block font-size-3 mb-0">
                                                 Domain
                                             </label>
-                                            <select disabled="" id="domain" name="DOMAIN"
+                                            <select disabled="" id="domain" name="DOMAIN_ENDORSEMENT"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($domain->options as $domainOptions)
+                                                    <option value="{{ $domainOptions->id }}">
+                                                        {{ $domainOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -595,35 +659,57 @@
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
+                                        @php
+                                            $segments = Helper::get_dropdown('segments');
+                                        @endphp
                                         <div class="form-group mb-0">
                                             <label class="Label">Segment</label>
                                             <select disabled="" id="segment" name="SEGMENT"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="segment">segment</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($segments->options as $segmentsOptions)
+                                                    <option value="{{ $segmentsOptions->id }}">
+                                                        {{ $segmentsOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
+                                        @php
+                                            $CareerLevel = Helper::get_dropdown('career_level');
+                                        @endphp
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
                                                 Career Level:
                                             </label>
                                             <select name="CAREER_LEVEL" disabled="" id="career"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="item">item</option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                                    <option value="{{ $CareerLevelOptions->id }}">
+                                                        {{ $CareerLevelOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
+                                        @php
+                                            $sub_segment = Helper::get_dropdown('sub_segment');
+                                        @endphp
                                         <div class="form-group mb-0">
                                             <label class="Label">sub-segment</label>
                                             <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value="subSegment">
-                                                    subSegment
-                                                </option>
+                                                <option value="" disabled selected>Select Option</option>
+                                                @foreach ($sub_segment->options as $sub_segmentOptions)
+                                                    <option value="{{ $sub_segmentOptions->id }}">
+                                                        {{ $sub_segmentOptions->option_name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -642,6 +728,9 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $endoType = Helper::get_dropdown('endorsement_type');
+                                            @endphp
                                             <label class="Label">
                                                 Remarks (For Finance):
                                             </label>
@@ -729,12 +818,20 @@
                                         <div class="row mb-6">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
+                                                    @php
+                                                        $client = Helper::get_dropdown('clients');
+                                                    @endphp
                                                     <label class="d-block font-size-3 mb-0">
                                                         client
                                                     </label>
-                                                    <select name="CLIENT" class="form-control border h-px-20_custom"
-                                                        id="client_finance">
-                                                        <option value="item">item</option>
+                                                    <select name="CLIENT_FINANCE"
+                                                        class="form-control border h-px-20_custom" id="client_finance">
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach ($client->options as $clientOptions)
+                                                            <option value="{{ $clientOptions->id }}">
+                                                                {{ $clientOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -752,13 +849,20 @@
                                         <div class="row mb-6">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
+                                                    @php
+                                                    $careerLevel = Helper::get_dropdown('career_level');
+                                                @endphp
                                                     <label class="d-block font-size-3 mb-0">
                                                         Career level
                                                     </label>
-                                                    <select name="CAREER_LEVEL" required="" id="career_finance"
+                                                    <select name="CAREER_LEVEL_FINANCE" required="" id="career_finance"
                                                         class="form-control border h-px-20_custom">
-                                                        <option value="itemCode">item</option>
-
+                                                        <option value="" disabled selected>Select Option</option>
+                                                        @foreach ($careerLevel->options as $careerLevelOptions)
+                                                            <option value="{{ $careerLevelOptions->id }}">
+                                                                {{ $careerLevelOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -939,15 +1043,16 @@
                 $('#endo_date').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
             }
+
+        });
+
+        $('#remarks_for_finance').change(function() {
+            var value = $(this).find(":selected").text().trim();
             if (value.includes('Failed') || value.includes('Withdrawn')) {
                 $('#rfp').prop("disabled", false);
             } else {
                 $('#rfp').prop("disabled", true);
             }
-        });
-
-        $('#remarks_for_finance').change(function() {
-            var value = $(this).find(":selected").text().trim();
             if (value == 'Offer Accepted' || value == 'On Boarded' || value == 'Hired') {
                 $('#finance_fieldset').prop("disabled", false);
                 $('#off_salary').prop("disabled", false);
@@ -967,14 +1072,9 @@
             $('#off_allowance_finance').val(allowance)
             $('#off_salary_fianance').val(salary);
         }
-
-        // $('#endo_date').change(function() {
         const setDate = () => {
-            // console.log(date1.value);
             onboard_date.value = endo_date.value
         }
-
-        // });
 
         $('#manners').change(function() {
             var value = $(this).find(":selected").text().trim();
