@@ -127,12 +127,12 @@ class CandidateController extends Controller
 
             // save data to finance tables
             $finance = new Finance();
-            $finance->candidate_id = $request->$CandidateInformation->id;
-            $finance->endorsement_id = $request->$endorsement->id;
+            $finance->candidate_id = $CandidateInformation->id;
+            $finance->endorsement_id = $endorsement->id;
             $finance->remarks_recruiter = $request->REMARKS;
             $finance->onboardnig_date = $request->ONBOARDING_DATE;
             $finance->invoice_number = $request->INVOICE_NUMBER;
-            $finance->client = $request->CLIENT;
+            $finance->client = $request->CLIENT_FINANCE;
             $finance->career = $request->CAREER_LEVEL;
             $finance->rate = $request->RATE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
