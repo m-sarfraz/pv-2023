@@ -16,40 +16,48 @@ class CandidateController extends Controller
 {
     public function data_entry()
     {
-        return view('data_entry.add');
+        $user = CandidateInformation::all();
+        // return $user;
+        $data = [
+            'user' => $user,
+        ];
+
+        return view('data_entry.add', $data);
     }
     public function save_data_entry(Request $request)
     {
         // dd($request->all());
         $arrayCheck = [
             'LAST_NAME' => 'required',
-            "FIRST_NAME" => "required",
-            "EMAIL_ADDRESS" => "required",
-            "CONTACT_NUMBER" => "required",
-            "GENDER" => "required",
-            "RESIDENCE" => 'required ',
-            "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // "COURSE" => 'required ',
-            "CANDIDATES_PROFILE" => 'required ',
-            "INTERVIEW_NOTES" => 'required ',
-            "DATE_SIFTED" => 'required ',
-            "DOMAIN" => 'required ',
-            "SEGMENT" => 'required ',
-            "SUB_SEGMENT" => 'required ',
-            "EMPLOYMENT_HISTORY" => 'required ',
-            "POSITION_TITLE_APPLIED" => 'required ',
-            "DATE_INVITED" => 'required ',
-            "MANNER_OF_INVITE" => 'required ',
-            "CURRENT_SALARY" => 'required ',
-            "CURRENT_ALLOWANCE" => 'required ',
-            "EXPECTED_SALARY" => 'required ',
-            "OFFERED_SALARY" => 'required ',
-            "OFFERED_ALLOWANCE" => 'required ',
+            // "FIRST_NAME" => "required",
+            // "EMAIL_ADDRESS" => "required",
+            // "CONTACT_NUMBER" => "required",
+            // "GENDER" => "required",
+            // "RESIDENCE" => 'required ',
+            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            // // "COURSE" => 'required ',
+            // "CANDIDATES_PROFILE" => 'required ',
+            // "INTERVIEW_NOTES" => 'required ',
+            // "DATE_SIFTED" => 'required ',
+            // "DOMAIN" => 'required ',
+            // "SEGMENT" => 'required ',
+            // "SUB_SEGMENT" => 'required ',
+            // "EMPLOYMENT_HISTORY" => 'required ',
+            // "POSITION_TITLE_APPLIED" => 'required ',
+            // "DATE_INVITED" => 'required ',
+            // "MANNER_OF_INVITE" => 'required ',
+            // "CURRENT_SALARY" => 'required ',
+            // "CURRENT_ALLOWANCE" => 'required ',
+            // "EXPECTED_SALARY" => 'required ',
+            // "OFFERED_SALARY" => 'required ',
+            // "OFFERED_ALLOWANCE" => 'required ',
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
+            //get users data for matching duplicates
+
             $lname = explode(" ", $request->LAST_NAME);
             $fname = explode(" ", $request->FIRST_NAME);
             $phone = explode(" ", $request->CONTACT_NUMBER);
@@ -95,6 +103,14 @@ class CandidateController extends Controller
             $CandidiatePosition->off_salary = $request->OFFERED_SALARY;
             $CandidiatePosition->curr_allowance = $request->CURRENT_ALLOWANCE;
             $CandidiatePosition->off_allowance = $request->OFFERED_ALLOWANCE;
+
+            // Upload Image
+            if ($request->hasFile('file')) {
+                $fileName = $request->CONTACT_NUMBER . time() . '.' . $request->file->extension();
+                $path = 'assets/cv';
+                $request->file->move($path, $fileName);
+                $CandidiatePosition->cv = $fileName;
+            }
             $CandidiatePosition->save();
 
             //  save data to candidate domain table
@@ -140,6 +156,9 @@ class CandidateController extends Controller
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
             $finance->save();
+
+            // return response success if data is entered
+        
             return response()->json(['success' => true, 'message' => 'Data added successfully']);
 
         }

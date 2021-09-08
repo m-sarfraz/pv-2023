@@ -24,7 +24,7 @@
                                         </label>
                                         <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75"
                                             style="padding-left: 12px !important;" aria-describedby="emailHelp"
-                                            placeholder="enter candidate name" />
+                                            value="{{ Auth::user()->name }}" placeholder="enter candidate name" />
                                     </div>
                                     <div class="d-grid gap-2 form-group col-md-12">
                                         <button class="btn btn_Group mb-4 btn-sm" type="button" id="new">
@@ -44,6 +44,13 @@
                                     </div>
                                     <div class="form-group mb-8"></div>
                                     <div class="d-grid gap-2 form-group col-md-12">
+                                        <Select name="USERS" class="mb-4 select2_dropdown w-100">
+                                            @foreach ($user as $key => $value)
+                                                <option value="{{ $value->id }}">
+                                                    {{ $value->first_name }}.{{ $value->last_name }}</option>
+                                            @endforeach
+                                        </Select>
+
                                         <button class="btn btn_Group mb-4 btn-sm" type="button">
                                             Search Record
                                         </button>
@@ -328,7 +335,7 @@
                                                     <label class="Label">
                                                         candidate profile
                                                     </label>
-                                                    <select name="CANDIDATES_PROFILE"
+                                                    <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option selected disabled></option>
                                                         @foreach ($profile->options as $profileOption)
@@ -450,7 +457,10 @@
                                                         accept="application/pdf" class="uploadcv  w-100">
                                                 </div>
                                                 <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                                    <a href="" download="">Download Cv</a>
+                                                    <a type="button" btn_Group href="" download=""
+                                                        style=" pointer-events: none; cursor: default;">
+                                                        Download Cv
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -491,7 +501,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         @php
-                                            $remarks = Helper::get_dropdown('remarks_for_finance');
+                                            $remarks = Helper::get_dropdown('remarks_from_finance');
                                         @endphp
                                         <label class="Label">
                                             Remarks (From Recruiter):
@@ -517,7 +527,7 @@
                                         <div class="form-group mb-0">
                                             <label class="Label">Client</label>
                                             <select name="CLIENT" disabled="" id="client"
-                                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                 <option value="" disabled selected>Select Option</option>
                                                 @foreach ($client->options as $clientOptions)
                                                     <option value="{{ $clientOptions->id }}">
@@ -599,6 +609,7 @@
                                                 Position Title:
                                             </label>
                                             <select name="POSITION_TITLE" disabled="" id="position"
+                                                class="select2_dropdown  w-100"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 <option value="" disabled selected>Select Option</option>
                                                 @foreach ($position_title->options as $position_titleOptions)
@@ -618,7 +629,7 @@
                                                 Reason for not progressing:
                                             </label>
                                             <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                 <option value="" disabled selected>Select Option</option>
                                                 @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                     <option value="{{ $ReasonForNotPOptions->id }}">
@@ -735,6 +746,7 @@
                                                 Remarks (For Finance):
                                             </label>
                                             <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
+                                                class="select2_dropdown  w-100"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 @php
                                                     $remarks = Helper::get_dropdown('remarks_for_finance');
@@ -769,7 +781,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $remarks = Helper::get_dropdown('remarks_for_finance');
+                                                        $remarks = Helper::get_dropdown('remarks_from_finance');
                                                     @endphp
                                                     <label class="d-block font-size-3 mb-0">
                                                         Remarks For Recruiter
@@ -825,7 +837,7 @@
                                                         client
                                                     </label>
                                                     <select name="CLIENT_FINANCE"
-                                                        class="form-control border h-px-20_custom" id="client_finance">
+                                                        class="form-control border h-px-20_custom w-100" id="client_finance">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
                                                             <option value="{{ $clientOptions->id }}">
@@ -850,8 +862,8 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                    $careerLevel = Helper::get_dropdown('career_level');
-                                                @endphp
+                                                        $careerLevel = Helper::get_dropdown('career_level');
+                                                    @endphp
                                                     <label class="d-block font-size-3 mb-0">
                                                         Career level
                                                     </label>
@@ -931,9 +943,9 @@
     <script>
         // Seciton loads on document ready
         $(document).ready(function() {
+            select2Dropdown("select2_dropdown");
             $('#new').prop("disabled", true);
             $('#COURSE').prop("disabled", true);
-
             // If new record button is clicked empty input fields
             $('#new').click(function() {
                 $(this).prop("disabled", true);
@@ -1048,12 +1060,12 @@
 
         $('#remarks_for_finance').change(function() {
             var value = $(this).find(":selected").text().trim();
-            if (value.includes('Failed') || value.includes('Withdrawn')) {
+            if (value.includes('Failed') || value.includes('Withdraw')) {
                 $('#rfp').prop("disabled", false);
             } else {
                 $('#rfp').prop("disabled", true);
             }
-            if (value == 'Offer Accepted' || value == 'On Boarded' || value == 'Hired') {
+            if (value == 'Offer accepted' || value == 'Onboarded' || value == 'Hired') {
                 $('#finance_fieldset').prop("disabled", false);
                 $('#off_salary').prop("disabled", false);
                 $('#off_allowance').prop("disabled", false);
