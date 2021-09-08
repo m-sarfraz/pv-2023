@@ -19,6 +19,7 @@
                             <div class="card">
                                 <div class="card-body p-0">
                                     <div class="form-group">
+                                        
                                         <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
                                             User&#x27;s Name
                                         </label>
@@ -44,7 +45,7 @@
                                     </div>
                                     <div class="form-group mb-8"></div>
                                     <div class="d-grid gap-2 form-group col-md-12">
-                                        <Select name="USERS" class="mb-4 select2_dropdown w-100">
+                                        <Select name="USERS" class="mb-4 select2_dropdown w-100" id ="user">
                                             @foreach ($user as $key => $value)
                                                 <option value="{{ $value->id }}">
                                                     {{ $value->first_name }}.{{ $value->last_name }}</option>
@@ -491,7 +492,7 @@
                                     </label>
                                     <select name="APPLICATION_STATUS" id="ap_status"
                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                        <option value="" selected disabled>select option</option>
+                                        <option value="" selected disabled>Select Option</option>
                                         @foreach ($status->options as $statusOptions)
                                             <option value="{{ $statusOptions->id }}">{{ $statusOptions->option_name }}
                                             </option>
@@ -751,7 +752,7 @@
                                                 @php
                                                     $remarks = Helper::get_dropdown('remarks_for_finance');
                                                 @endphp
-                                                <option value="" disabled selected></option>
+                                                <option value="" disabled selected>Select Option</option>
                                                 @foreach ($remarks->options as $remarksOptions)
                                                     <option value="{{ $remarksOptions->id }}">
                                                         {{ $remarksOptions->option_name }}</option>
@@ -886,7 +887,14 @@
                                                     <select name="RATE" class="form-control border h-px-20_custom"
                                                         id="rate" id="rate_finance" oninput="amountFinder(this)">
                                                         <option value="10" selected>10%</option>
-                                                        <option value="20">20%</option>
+                                                        <option value="30">30 %</option>
+                                                        <option value="40">40 %</option>
+                                                        <option value="50">50 %</option>
+                                                        <option value="60">60 %</option>
+                                                        <option value="70">70 %</option>
+                                                        <option value="80">80 %</option>
+                                                        <option value="90">90 %</option>
+                                                        <option value="100">100 %</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1101,7 +1109,7 @@
         function amountFinder(id) {
             amount = $('#bilable_amount').val();
             rate = $('#rate').val();
-            placmentFee = amount * rate;
+            placmentFee = (amount * rate)/100;
             $('#placement_fee').val(placmentFee);
         }
     </script>
