@@ -83,7 +83,6 @@ class CreateCompaniesTable extends Migration
             $table->string('sme_level')->nullable();
             $table->string('advisor_2')->nullable();
             $table->string('advisor_1')->nullable();
-
             $table->timestamps();
         });
     }
