@@ -132,11 +132,12 @@ class CandidateController extends Controller
             $endorsement->status = $request->STATUS;
             $endorsement->type = $request->ENDORSEMENT_TYPE;
             $endorsement->site = $request->SITE;
-            $endorsement->domain = $request->DOMAIN;
+            $endorsement->domain_endo = $request->DOMAIN;
+            $endorsement->position_title = $request->POSITION_TITLE;
             // $endorsement->interview_date = $request->;
-            $endorsement->career = $request->CAREER_LEVEL;
-            $endorsement->segment = $request->SEGMENT;
-            $endorsement->sub_segment = $request->SUB_SEGMENT;
+            $endorsement->career_endo = $request->CAREER_LEVEL;
+            $endorsement->segment_endo = $request->SEGMENT;
+            $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
             $endorsement->endi_date = $request->DATE_ENDORSED;
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
             $endorsement->save();
@@ -148,8 +149,8 @@ class CandidateController extends Controller
             $finance->remarks_recruiter = $request->REMARKS;
             $finance->onboardnig_date = $request->ONBOARDING_DATE;
             $finance->invoice_number = $request->INVOICE_NUMBER;
-            $finance->client = $request->CLIENT_FINANCE;
-            $finance->career = $request->CAREER_LEVEL;
+            $finance->client_finance = $request->CLIENT_FINANCE;
+            $finance->career_finance = $request->CAREER_LEVEL;
             $finance->rate = $request->RATE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
             // $finance->offered_salary = $request->
@@ -158,9 +159,27 @@ class CandidateController extends Controller
             $finance->save();
 
             // return response success if data is entered
-        
+
             return response()->json(['success' => true, 'message' => 'Data added successfully']);
 
         }
+    }
+    public function SearchUserData(Request $request, $id)
+    {
+        $user = CandidateInformation::
+            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->where('candidate_informations.id', $request->id)
+            ->first();
+        // return $user;
+        $data = [
+            'user' => $user,
+        ];
+        return view('data_entry.userSearch', $data);
+
     }
 }

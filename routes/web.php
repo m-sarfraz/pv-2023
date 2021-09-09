@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 /* =================== */
 /* Route for clear cache */
@@ -27,33 +27,31 @@ Route::get('/clear-all', function () {
 /* Route for clear cache */
 /* ===================*/
 
-
 Route::get('/', function () {
     return redirect()->route('login');
 });
 Auth::routes(['register' => false]);
 
 /*Route::get('dataEntry', function () {
-    return view('dataEntry.main');
+return view('dataEntry.main');
 });
 Route::get('jdl', function () {
-    return view('JDL.index');
+return view('JDL.index');
 });*/
 
 //Route::view('dataEntry','data_entry.main')->name('dataEntry');
-Route::view('jdl','JDL.index')->name('jdl');
+Route::view('jdl', 'JDL.index')->name('jdl');
 //Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
 
-Route::view('record','record.view_record')->name('record');
-Route::view('finance','finance.finance')->name('finance');
-Route::view('log','logs.log')->name('log');
-Route::view('search','smartSearch.smart_search')->name('search');
+Route::view('record', 'record.view_record')->name('record');
+Route::view('finance', 'finance.finance')->name('finance');
+Route::view('log', 'logs.log')->name('log');
+Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
-
-Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],function(){
-    Route::match(['get', 'post'],'enter', 'DomainController@enter')->name('enter');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+    Route::match(['get', 'post'], 'enter', 'DomainController@enter')->name('enter');
 
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
@@ -61,13 +59,15 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
 
-    Route::resource('role','RoleController')->name('*','role');
-    Route::resource('user','UserController')->name('*','user');
-    Route::resource('team', 'TeamController')->name('*','team');
+    //Search User data route
+
+    Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+    Route::resource('role', 'RoleController')->name('*', 'role');
+    Route::resource('user', 'UserController')->name('*', 'user');
+    Route::resource('team', 'TeamController')->name('*', 'team');
 
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::post('save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
-
 
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
@@ -79,7 +79,7 @@ Route::group(['prefix' =>'admin','namespace' => 'Admin','middleware' => 'auth'],
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
-    Route::get('domain','DomainController@domain')->name('domain');
+    Route::get('domain', 'DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
     Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
