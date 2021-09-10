@@ -60,12 +60,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
 
     //Search User data route
-
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
     Route::resource('team', 'TeamController')->name('*', 'team');
 
+    // data entry route
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::post('save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
 

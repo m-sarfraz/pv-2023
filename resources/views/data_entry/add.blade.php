@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <form id="data_entry" method="post" onsubmit="formSubmit(this)">
+        <form id="data_entry" method="post">
             <div class="row d-E-Row mb-6">
                 @csrf
                 <div class="col-lg-2">
@@ -43,6 +43,7 @@
                             <div class="d-grid gap-2 form-group col-md-12">
                                 <Select name="USERS" class="mb-4 select2_dropdown w-100" id="user" disabled=""
                                     onchange="SearchUserData(this,'#UserData_div')">
+                                    <option value="" disabled selected></option>
                                     @foreach ($user as $key => $value)
                                         <option value="{{ $value->id }}">
                                             {{ $value->first_name }} {{ $value->last_name }}
@@ -720,7 +721,8 @@
                                                     <label class="d-block font-size-3 mb-0">
                                                         Career Level:
                                                     </label>
-                                                    <select name="CAREER_LEVEL" disabled="" id="career" onchange="SPRCalculator(this)"
+                                                    <select name="CAREER_LEVEL" disabled="" id="career"
+                                                        onchange="SPRCalculator(this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -987,5 +989,80 @@
         select2Dropdown("select2_dropdown");
         $('#new').prop("disabled", true);
         $('#COURSE').prop("disabled", true);
+        // On form submit call ajax for data saving
+
+        $('#data_entry').submit(function() {
+                    $("#loader").show();
+
+                    // making a variable containg all for data and append token
+                    var data = new FormData(this);
+                    data.append("_token", "{{ csrf_token() }}");
+
+                    // call ajax for data entry ad validation
+                    $.ajax({
+                        url: "{{ Route('save-data-entry') }}",
+                        data: data,
+                        contentType: false,
+                        processData: false,
+                        type: 'POST',
+
+                        // Ajax success function
+                        success: function(res) {
+                            if (res.success == true) {
+
+                                // show success sweet alert and enable entering new record button
+                                $('#new').prop("disabled", false);
+                                swal("success", res.message, "success").then((value) => {});
+                            } else if (res.success == false) {
+
+                                // show validation error on scree with border color changed and text
+                                if (res.hasOwnProperty("message")) {
+                                    var err = "";
+                                    $("input").parent().siblings('span').remove();
+                                    $("input").css('border-color', '#ced4da');
+
+                                    //function for appending span and changing css color for input
+                                    $.each(res.message, function(i, e) {
+                                        $("input[name='" + i + "']").css('border-color',
+                                            'red');
+                                        $("input[name='" + i + "']").parent().siblings(
+                                            'span').remove();
+                                        $("input[name='" + i + "']").parent().parent()
+                                            .append(
+                                                '<span style="color:red;" >' + e + '</span>'
+                                            );
+                                    });
+
+                                    // show warning message to user if firld is required
+                                    swal({
+                                        icon: "error",
+                                        text: "{{ __('Please fix the highlighted errors!') }}",
+                                        icon: "error",
+                                    });
+                                }
+
+                                //if duplicate values are detected in database for use data
+                            } else if (res.success == 'duplicate') {
+                                $("#loader").hide();
+
+                                //show warning message to change the data
+                                swal({
+                                    icon: "error",
+                                    text: "{{ __('Duplicate data detected') }}",
+                                    icon: "error",
+                                });
+                            }
+
+                            //hide loader
+                            $("#loader").hide();
+                        },
+
+                        //if there is error in ajax call
+                        error: function() {
+                            $("#loader").hide();
+                        }
+                    });
+                    return false;
+                });
     </script>
 @endsection
