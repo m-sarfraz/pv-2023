@@ -27,7 +27,8 @@
                                 <button class="btn btn_Group mb-4 btn-sm" type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
-                                <button class="btn btn_Group mb-4 btn-sm" type="submit" id="save">
+                                <button class="btn btn_Group mb-4 btn-sm" type="button"
+                                    onclick="CreateUpdateData('{{ route('save-data-entry') }}')" id="save">
                                     Save Record
                                 </button>
                             </div>
@@ -41,8 +42,8 @@
                             </div>
                             <div class="form-group mb-8"></div>
                             <div class="d-grid gap-2 form-group col-md-12">
-                                <Select name="USERS" class="mb-4 select2_dropdown w-100" id="user" disabled=""
-                                    onchange="SearchUserData(this,'#UserData_div')">
+                                <Select name="USERS" class="mb-4 select2_dropdown w-100" id="user"
+                                    onchange="enableSearch('#searchRecord')">
                                     <option value="" disabled selected></option>
                                     @foreach ($user as $key => $value)
                                         <option value="{{ $value->id }}">
@@ -51,13 +52,16 @@
                                     @endforeach
                                 </Select>
 
-                                <a class="btn btn_Group mb-4 mt-4 btn-sm" type="button" onclick="enableSearch()">
+                                <button class="btn btn_Group mb-4 mt-4 btn-sm" type="button" id="searchRecord"
+                                    onclick="SearchUserData(this,'#UserData_div')" disabled="">
                                     Search Record
-                                </a>
-                                <button class="btn btn_Group mb-4 btn-sm" type="button">
+                                </button>
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
+                                    onclick="EnableUserEdit(this)">
                                     Edit Record
                                 </button>
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button">
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord"
+                                    onclick="CreateUpdateData('{{ url('admin/update-data-entry') }}')">
                                     Save Edit
                                 </button>
                             </div>
@@ -482,10 +486,10 @@
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
-                                                            <a type="button" btn_Group href="" download=""
+                                                            <button type="button" btn_Group href=""
                                                                 style=" pointer-events: none; cursor: default;">
                                                                 Download Cv
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -991,78 +995,130 @@
         $('#COURSE').prop("disabled", true);
         // On form submit call ajax for data saving
 
-        $('#data_entry').submit(function() {
-                    $("#loader").show();
+        function CreateUpdateData(targetURL) {
+            if (targetURL == '{{ url('admin/update-data-entry') }}') {
+                id = $('#user').val();
+                // targetURL = '{{ url('update-data-entry') }}'
+                targetURL = targetURL + '/' + id
+            }
+            alert(targetURL)
+            $("#loader").show();
 
-                    // making a variable containg all for data and append token
-                    var data = new FormData(this);
-                    data.append("_token", "{{ csrf_token() }}");
+            // making a variable containg all for data and append token
+            var data = new FormData(document.getElementById('data_entry'));
+            data.append("_token", "{{ csrf_token() }}");
 
-                    // call ajax for data entry ad validation
-                    $.ajax({
-                        url: "{{ Route('save-data-entry') }}",
-                        data: data,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
+            // call ajax for data entry ad validation
+            $.ajax({
+                url: targetURL,
+                data: data,
+                contentType: false,
+                processData: false,
+                type: 'POST',
 
-                        // Ajax success function
-                        success: function(res) {
-                            if (res.success == true) {
+                // Ajax success function
+                success: function(res) {
+                    if (res.success == true) {
 
-                                // show success sweet alert and enable entering new record button
-                                $('#new').prop("disabled", false);
-                                swal("success", res.message, "success").then((value) => {});
-                            } else if (res.success == false) {
+                        // show success sweet alert and enable entering new record button
+                        $('#new').prop("disabled", false);
+                        swal("success", res.message, "success").then((value) => {});
+                    } else if (res.success == false) {
 
-                                // show validation error on scree with border color changed and text
-                                if (res.hasOwnProperty("message")) {
-                                    var err = "";
-                                    $("input").parent().siblings('span').remove();
-                                    $("input").css('border-color', '#ced4da');
+                        // show validation error on scree with border color changed and text
+                        if (res.hasOwnProperty("message")) {
+                            var err = "";
+                            $("input").parent().siblings('span').remove();
+                            $("input").css('border-color', '#ced4da');
 
-                                    //function for appending span and changing css color for input
-                                    $.each(res.message, function(i, e) {
-                                        $("input[name='" + i + "']").css('border-color',
-                                            'red');
-                                        $("input[name='" + i + "']").parent().siblings(
-                                            'span').remove();
-                                        $("input[name='" + i + "']").parent().parent()
-                                            .append(
-                                                '<span style="color:red;" >' + e + '</span>'
-                                            );
-                                    });
+                            //function for appending span and changing css color for input
+                            $.each(res.message, function(i, e) {
+                                $("input[name='" + i + "']").css('border-color',
+                                    'red');
+                                $("input[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("input[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + e + '</span>'
+                                    );
+                            });
 
-                                    // show warning message to user if firld is required
-                                    swal({
-                                        icon: "error",
-                                        text: "{{ __('Please fix the highlighted errors!') }}",
-                                        icon: "error",
-                                    });
-                                }
-
-                                //if duplicate values are detected in database for use data
-                            } else if (res.success == 'duplicate') {
-                                $("#loader").hide();
-
-                                //show warning message to change the data
-                                swal({
-                                    icon: "error",
-                                    text: "{{ __('Duplicate data detected') }}",
-                                    icon: "error",
-                                });
-                            }
-
-                            //hide loader
-                            $("#loader").hide();
-                        },
-
-                        //if there is error in ajax call
-                        error: function() {
-                            $("#loader").hide();
+                            // show warning message to user if firld is required
+                            swal({
+                                icon: "error",
+                                text: "{{ __('Please fix the highlighted errors!') }}",
+                                icon: "error",
+                            });
                         }
-                    });
-                    return false;
-                });
+
+                        //if duplicate values are detected in database for use data
+                    } else if (res.success == 'duplicate') {
+                        $("#loader").hide();
+
+                        //show warning message to change the data
+                        swal({
+                            icon: "error",
+                            text: "{{ __('Duplicate data detected') }}",
+                            icon: "error",
+                        });
+                    }
+
+                    //hide loader
+                    $("#loader").hide();
+                },
+
+                //if there is error in ajax call
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+            return false;
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function DownloadCV(elem) {
+            id = $('#user').val();
+            targetURL = '{{ url('admin/download_cv') }}'
+            targetURL = targetURL + '/' + id
+            $.ajax({
+                url: targetURL,
+                data: id,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+
+                // Ajax success function
+                success: function(res) {
+                    if (res.success == true) {
+
+                        // show success sweet alert and enable entering new record button
+                        $('#new').prop("disabled", false);
+                        swal("success", res.message, "success").then((value) => {});
+                    } else if (res.success == 'duplicate') {
+                        $("#loader").hide();
+
+                        //show warning message to change the data
+                        swal({
+                            icon: "error",
+                            text: "{{ __('Duplicate data detected') }}",
+                            icon: "error",
+                        });
+                    }
+
+                    //hide loader
+                    $("#loader").hide();
+                },
+
+                //if there is error in ajax call
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+            return false;
+        }
     </script>
 @endsection

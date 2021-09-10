@@ -163,10 +163,11 @@ function amountFinder(id) {
 
 // search user data and append in data entry fields starts
 function SearchUserData(e, div) {
-
+    $('#searchRecord').prop("disabled", true)
+    $('#saveRecord').prop("disabled", false)
+    $('#editRecord').prop("disabled", false)
     $("#loader").show();
-    var id = $(e).val();
-    console.log(id);
+    var id = $('#user').val();
     // ajax call for user data fetching starts
     $.ajax({
         type: "GET",
@@ -187,8 +188,10 @@ function SearchUserData(e, div) {
 
 }
 // search user data and append in data entry fields starts
-function enableSearch() {
-    $('#user').prop("disabled", false)
+function enableSearch(id) {
+    $(id).prop("disabled", false)
+    $('#saveRecord').prop("disabled", true)
+    $('#editRecord').prop("disabled", true)
 }
 // search user data and append in data entry fields ends
 
@@ -197,4 +200,8 @@ function SPRCalculator(elem) {
     var value1 = $('#domain').find(":selected").text().trim();
     // alert(value1);
 
+}
+function EnableUserEdit(elem) {
+    $('#candidateFieldset').prop('disabled', false)
+    $('#endoFinanceFieldset').prop('disabled', false)
 }

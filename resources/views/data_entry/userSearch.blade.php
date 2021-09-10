@@ -4,7 +4,7 @@
         <!-- ================== -->
         <!-- Candidate section start -->
         <div class="row">
-            <fieldset disabled="">
+            <fieldset disabled="" id="candidateFieldset">
                 <div class="col-lg-12 p-0">
                     <p class="C-Heading">Sourcing &amp; Demographics</p>
                     <div class="card">
@@ -416,14 +416,15 @@
                                 <div class="col-lg-6">
                                     <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                         <div class="w-100" style="text-align: end; margin-bottom: 6px;">
+                                            <label class="Label"></label>
                                             <input type="file" id="sheetFile" name="file" required=""
-                                                value="{{ $user->cv }}" accept="application/pdf"
+                                                value=" " accept="application/pdf"
                                                 class="uploadcv  w-100">
                                         </div>
                                         <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                            <a type="button" btn_Group href="" download="">
+                                            <button type="button" btn_Group href="" download="{{$user->FIRST_NAME}}"  onclick="DownloadCV(this)">
                                                 Download Cv
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -439,7 +440,7 @@
         <!-- ================== -->
     </div>
     <div class="col-lg-6">
-        <fieldset disabled="">
+        <fieldset disabled="" id="endoFinanceFieldset">
 
             <!-- ================== -->
             <!-- ENDORSMENT section start -->

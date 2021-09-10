@@ -11,6 +11,7 @@ use App\Finance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Response;
 
 class CandidateController extends Controller
 {
@@ -181,5 +182,117 @@ class CandidateController extends Controller
         ];
         return view('data_entry.userSearch', $data);
 
+    }
+    public function update_data_entry(Request $request, $id)
+    {
+        // return $request->all();
+        $arrayCheck = [
+            'LAST_NAME' => 'required',
+            // "FIRST_NAME" => "required",
+            // "EMAIL_ADDRESS" => "required",
+            // "CONTACT_NUMBER" => "required",
+            // "GENDER" => "required",
+            // "RESIDENCE" => 'required ',
+            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            // // "COURSE" => 'required ',
+            // "CANDIDATES_PROFILE" => 'required ',
+            // "INTERVIEW_NOTES" => 'required ',
+            // "DATE_SIFTED" => 'required ',
+            // "DOMAIN" => 'required ',
+            // "SEGMENT" => 'required ',
+            // "SUB_SEGMENT" => 'required ',
+            // "EMPLOYMENT_HISTORY" => 'required ',
+            // "POSITION_TITLE_APPLIED" => 'required ',
+            // "DATE_INVITED" => 'required ',
+            // "MANNER_OF_INVITE" => 'required ',
+            // "CURRENT_SALARY" => 'required ',
+            // "CURRENT_ALLOWANCE" => 'required ',
+            // "EXPECTED_SALARY" => 'required ',
+            // "OFFERED_SALARY" => 'required ',
+            // "OFFERED_ALLOWANCE" => 'required ',
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()]);
+        } else {
+            // Update data of eantry page
+            CandidateInformation::where('id', $id)->update([
+                'first_name' => $request->FIRST_NAME,
+                'middle_name' => $request->MIDDLE_NAME,
+                'last_name' => $request->LAST_NAME,
+                'email' => $request->EMAIL_ADDRESS,
+                'phone' => $request->CONTACT_NUMBER,
+                'address' => $request->RESIDENCE,
+                'gender' => $request->GENDER,
+                'dob' => $request->DATE_OF_BIRTH,
+                'status' => $request->STATUS,
+
+            ]);
+            CandidateEducation::where('candidate_id', $id)->update([
+                'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
+                'course' => $request->COURSE,
+                'qualification' => $request->CERTIFICATIONS,
+            ]);
+            CandidateDomain::where('candidate_id', $id)->update([
+                'date_shifted' => $request->DATE_SIFTED,
+                'domain' => $request->DOMAIN,
+                'emp_history' => $request->EMPLOYMENT_HISTORY,
+                'interview_note' => $request->INTERVIEW_NOTES,
+                'segment' => $request->SEGMENT,
+                'sub_segment' => $request->SUB_SEGMENT,
+            ]);
+            CandidatePosition::where('candidate_id', $id)->update([
+                'candidate_profile' => $request->CANDIDATES_PROFILE,
+                'position_applied' => $request->POSITION_TITLE_APPLIED,
+                'date_invited' => $request->DATE_INVITED,
+                'manner_of_invite' => $request->MANNER_OF_INVITE,
+                'curr_salary' => $request->CURRENT_SALARY,
+                'exp_salary' => $request->EXPECTED_SALARY,
+                'off_salary' => $request->OFFERED_SALARY,
+                'curr_allowance' => $request->CURRENT_ALLOWANCE,
+                'cv' => $request->cv,
+                'off_allowance' => $request->OFFERED_ALLOWANCE,
+            ]);
+            Endorsement::where('candidate_id', $id)->update([
+                'app_status' => $request->APPLICATION_STATUS,
+                'remarks' => $request->REMARKS_FROM_FINANCE,
+                'client' => $request->CLIENT,
+                'status' => $request->STATUS,
+                'type' => $request->ENDORSEMENT_TYPE,
+                'site' => $request->SITE,
+                'position_title' => $request->POSITION_TITLE,
+                'domain_endo' => $request->DOMAIN,
+                'interview_date' => $request->cv,
+                'career_endo' => $request->CAREER_LEVEL,
+                'segment_endo' => $request->SEGMENT,
+                'sub_segment_endo' => $request->SUB_SEGMENT,
+                'endi_date' => $request->DATE_ENDORSED,
+                'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
+            ]);
+            Finance::where('candidate_id', $id)->update([
+                'remarks_recruiter' => $request->REMARKS,
+                'onboardnig_date' => $request->ONBOARDING_DATE,
+                'invoice_number' => $request->INVOICE_NUMBER,
+                'client_finance' => $request->CLIENT_FINANCE,
+                'career_finance' => $request->CAREER_LEVEL,
+                'rate' => $request->EXPECTED_SALARY,
+                'Total_bilable_ammount' => $request->TOTAL_BILLABLE_AMOUNT,
+                'srp' => $request->STANDARD_PROJECTED_REVENUE,
+                'offered_salary' => $request->OFFERED_SALARY,
+                'placement_fee' => $request->PLACEMENT_FEE,
+                'allowance' => $request->ALLOWANCE,
+            ]);
+            return response()->json(['success' => true, 'message' => 'Updated successfully']);
+        }
+    }
+    public function downloadCv(Request $request, $id)
+    {
+        // return $id;
+        $user = CandidatePosition::where('candidate_id', $id)->first();
+        $file = 'assets/cv/' . $user->cv;
+        $headers = array(
+            'Content-Type: application/pdf',
+        );
+        return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
     }
 }
