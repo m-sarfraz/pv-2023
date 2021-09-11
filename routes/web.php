@@ -43,7 +43,7 @@ return view('JDL.index');
 Route::view('jdl', 'JDL.index')->name('jdl');
 //Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
 
-Route::view('record', 'record.view_record')->name('record');
+// Route::view('record', 'record.view_record')->name('record');
 Route::view('finance', 'finance.finance')->name('finance');
 Route::view('log', 'logs.log')->name('log');
 Route::view('search', 'smartSearch.smart_search')->name('search');
@@ -61,6 +61,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+
+    // Record routes
+    Route::get('record', 'RecordController@index')->name('record');
+    Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
 
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');

@@ -694,7 +694,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Interview :</label>
-                                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
+                                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
                                                         class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
@@ -871,7 +871,7 @@
                                                             </label>
                                                             <select name="CLIENT_FINANCE"
                                                                 class="form-control border h-px-20_custom w-100"
-                                                                id="client_finance">
+                                                                id="client_finance" disabled="">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($client->options as $clientOptions)
                                                                     <option value="{{ $clientOptions->id }}">

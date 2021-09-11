@@ -100,7 +100,7 @@ function RemarksChange(elem) {
     }
 
     // enable and disable finance section on selected text of remarks for finance
-    if (value == 'Offer accepted' || value == 'Onboarded' || value == 'Hired') {
+    if (value == 'Offer accepted' || value == 'Onboarded' || value.includes('Offer') || value.includes('Hire') || value.includes('Reneged')) {
         $('#finance_fieldset').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
         $('#off_allowance').prop("disabled", false);
@@ -110,6 +110,16 @@ function RemarksChange(elem) {
         $('#finance_fieldset').prop("disabled", true);
         $('#off_salary').prop("disabled", true);
         $('#off_allowance').prop("disabled", true);
+    }
+
+    // enalbe the interview date if remark include schedule
+    if (value.includes('Scheduled')) {
+        $('#interview_schedule').prop("disabled", false);
+    }
+
+    // enable the standard project revenue if the remark incliudes mid / mid stage
+    if (value.includes('Mid')) {
+        $('#client_finance').prop("disabled", false);
     }
 
     // on remarks for finance change shwo user input fields ends

@@ -639,7 +639,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
                                     <label class="Label">Interview :</label>
-                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
+                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id = "interview_schedule"
                                         class="form-control users-input-S-C" />
                                 </div>
                             </div>
