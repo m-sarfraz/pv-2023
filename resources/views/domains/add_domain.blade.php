@@ -34,7 +34,8 @@
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                                     Domains
                                                 </label>
-                                                <select class="select2_dropdown w-100" onchange="domainChange(this)" id="domain">
+                                                <select class="select2_dropdown w-100" onchange="domainChange(this)"
+                                                    id="domain">
                                                     <option value="" selected disabled="disabled">Choose options</option>
                                                     @if (count($domains) > 0)
                                                         @foreach ($domains as $domain)
@@ -56,7 +57,7 @@
                                                             type="button"
                                                             class="domain_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="domain_input_append mb-3"></div>
                                             </div>
@@ -96,7 +97,7 @@
                                                                 type="button"
                                                                 class="segment_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
                                                         </div>
-                                                    <input type="hidden" name="domain" id="hiddenInputS">
+                                                        <input type="hidden" name="domain" id="hiddenInputS">
                                                     </div>
                                                     <div class="segment_input_append mb-3"></div>
                                                 </div>
@@ -225,18 +226,15 @@
                     }
                 ]
             });
-
-
         }
 
         function save_Segments(id, route) {
-            if(route == '{{ Route('add-sub-segments') }}'){
-                url =  '{{ Route('add-sub-segments') }}'
+            if (route == '{{ Route('add-sub-segments') }}') {
+                url = '{{ Route('add-sub-segments') }}'
                 domain = $('#segment').val();
                 $('#hiddenInputSub').val(domain);
-            }
-            else {
-                url =  '{{ Route('add-segments') }}'
+            } else {
+                url = '{{ Route('add-segments') }}'
                 domain = $('#domain').val();
                 $('#hiddenInputS').val(domain);
             }
@@ -270,6 +268,5 @@
             return false;
 
         }
-        
     </script>
 @endsection

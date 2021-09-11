@@ -6,9 +6,11 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Domain;
 use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
+use App\Segment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
@@ -18,9 +20,13 @@ class CandidateController extends Controller
     public function data_entry()
     {
         $user = CandidateInformation::all();
+        $domain = Domain::all();
+        $segment = Segment::all();
         // return $user;
         $data = [
             'user' => $user,
+            'domain' => $domain,
+            'segment' => $segment,
         ];
 
         return view('data_entry.add', $data);
