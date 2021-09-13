@@ -103,13 +103,13 @@ function RemarksChange(elem) {
     if (value == 'Offer accepted' || value == 'Onboarded' || value.includes('Offer') || value.includes('Hire') || value.includes('Reneged')) {
         $('#finance_fieldset').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
-        $('#off_allowance').prop("disabled", false);
+        // $('#off_allowance').prop("disabled", false);
     } else {
 
         // else disable the finance section and disable salray fields
         $('#finance_fieldset').prop("disabled", true);
         $('#off_salary').prop("disabled", true);
-        $('#off_allowance').prop("disabled", true);
+        // $('#off_allowance').prop("disabled", true);
     }
 
     // enalbe the interview date if remark include schedule
@@ -127,10 +127,13 @@ function RemarksChange(elem) {
 }
 
 // append selected salary and alloeance to finance portion starts
-function SalaryAppend() {
-
+function SalaryAppend(id) {
+    var value = $('#remarks_finance').find(":selected").text().trim();
+    if (value == 'Billed') {
+        $('#off_allowance').prop("disabled", false);
+        var allowance = $('#off_allowance').val();
+    }
     // get vlaues of input field of candidate position
-    var allowance = $('#off_allowance').val();
     var salary = $('#off_salary').val();
 
     // append values to inputs of finance section
@@ -269,3 +272,10 @@ function EnableUserEdit(elem) {
     $('#endoFinanceFieldset').prop('disabled', false)
 }
 // function for enabling the edit of searched user ends
+
+//function for appending endorsement client to finance portion starts
+function clientChanged(elem) {
+    var selected = $(elem).find(":selected").text().trim();
+    $('#client_finance').html('<option>' + selected + '</option>');
+}
+//function for appending endorsement client to finance portion ends

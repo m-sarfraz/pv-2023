@@ -176,12 +176,20 @@
                                 <div class="row mb-8">
                                     <div class="col-lg-12">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $certificate = Helper::get_dropdown('certifications'); 
+                                            ?>
                                             <label class="Label">
                                                 CERTIFICATIONS
                                             </label>
-                                            <input type="text" name="CERTIFICATIONS"
-                                                value="{{ $user->qualification }}"
-                                                class="form-control border h-px-20_custom" required />
+                                            <select name="CERTIFICATIONS" class="form-control p-0 users-input-S-C">
+                                                <option selected disabled></option>
+                                                @foreach ($certificate->options as $certificateOption)
+                                                    <option value="{{ $certificateOption->id }}"
+                                                        {{ $user->certificate == $certificateOption->id ? 'selected' : '' }}>
+                                                        {{ $certificateOption->option_name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

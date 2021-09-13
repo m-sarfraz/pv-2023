@@ -98,7 +98,7 @@ class CandidateController extends Controller
             } else {
                 $CandidateEducation->course = $request->COURSE;
             }
-            $CandidateEducation->qualification = $request->CERTIFICATIONS;
+            $CandidateEducation->certification = $request->CERTIFICATIONS;
             $CandidateEducation->save();
 
             //  save data to candidate position table
@@ -114,7 +114,7 @@ class CandidateController extends Controller
             $CandidiatePosition->curr_allowance = $request->CURRENT_ALLOWANCE;
             $CandidiatePosition->off_allowance = $request->OFFERED_ALLOWANCE;
 
-            // Upload Image
+            // Upload CV of user
             if ($request->hasFile('file')) {
                 $fileName = $request->CONTACT_NUMBER . time() . '.' . $request->file->extension();
                 $path = 'assets/cv';
@@ -240,7 +240,7 @@ class CandidateController extends Controller
             CandidateEducation::where('candidate_id', $id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
-                'qualification' => $request->CERTIFICATIONS,
+                'certification' => $request->CERTIFICATIONS,
             ]);
             CandidateDomain::where('candidate_id', $id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
@@ -250,6 +250,16 @@ class CandidateController extends Controller
                 'segment' => $request->SEGMENT,
                 'sub_segment' => $request->SUB_SEGMENT,
             ]);
+
+            // Upload CV of user
+            if ($request->hasFile('file')) {
+                $fileName = $request->CONTACT_NUMBER . time() . '.' . $request->file->extension();
+                $path = 'assets/cv';
+                $request->file->move($path, $fileName);
+                CandidatePosition::where('candidate_id', $id)->update([
+                    'cv' => $request->cv,
+                ]);
+            }
             CandidatePosition::where('candidate_id', $id)->update([
                 'candidate_profile' => $request->CANDIDATES_PROFILE,
                 'position_applied' => $request->POSITION_TITLE_APPLIED,

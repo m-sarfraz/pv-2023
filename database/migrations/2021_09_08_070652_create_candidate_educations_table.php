@@ -19,7 +19,7 @@ class CreateCandidateEducationsTable extends Migration
             $table->foreign('candidate_id')->references('id')->on('candidate_informations')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('educational_attain');
             $table->string('course')->nullable();
-            $table->string('qualification')->nullable();
+            $table->string('certification')->nullable();
             $table->timestamps();
         });
     }

@@ -247,11 +247,20 @@
                                                 <div class="row mb-8">
                                                     <div class="col-lg-12">
                                                         <div class="form-group mb-0">
+                                                            <?php
+                                                            $certificate = Helper::get_dropdown('certifications');
+                                                            ?>
                                                             <label class="Label">
                                                                 CERTIFICATIONS
                                                             </label>
-                                                            <input type="text" name="CERTIFICATIONS"
-                                                                class="form-control border h-px-20_custom" required />
+                                                            <select name="CERTIFICATIONS"
+                                                                class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                                                <option selected disabled></option>
+                                                                @foreach ($certificate->options as $certificateOption)
+                                                                    <option value="{{ $certificateOption->id }}">
+                                                                        {{ $certificateOption->option_name }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -456,7 +465,7 @@
                                                                 Offered Salary:
                                                             </label>
                                                             <input type="number" name="OFFERED_SALARY" id="off_salary"
-                                                                disabled="" oninput="SalaryAppend()"
+                                                                disabled="" oninput="SalaryAppend('#remarks')"
                                                                 class="form-control users-input-S-C" />
                                                         </div>
                                                     </div>
@@ -466,7 +475,7 @@
                                                                 Offered Allowance:
                                                             </label>
                                                             <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
-                                                                oninput="SalaryAppend()" disabled=""
+                                                                oninput="SalaryAppend('#remarks')" disabled=""
                                                                 class="form-control users-input-S-C" />
                                                         </div>
                                                     </div>
@@ -556,7 +565,7 @@
                                                 @endphp
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Client</label>
-                                                    <select name="CLIENT" disabled="" id="client"
+                                                    <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
@@ -726,7 +735,6 @@
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" disabled="" id="career"
-                                                        
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -819,7 +827,7 @@
                                                             <label class="d-block font-size-3 mb-0">
                                                                 Remarks For Recruiter
                                                             </label>
-                                                            <select name="REMARKS" id="remarks"
+                                                            <select name="REMARKS" id="remarks_finance"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                 <option value="" disabled selected></option>
                                                                 @foreach ($remarks->options as $remarksOptions)
@@ -873,11 +881,11 @@
                                                                 class="form-control border h-px-20_custom w-100"
                                                                 id="client_finance" disabled="">
                                                                 <option value="" disabled selected>Select Option</option>
-                                                                @foreach ($client->options as $clientOptions)
+                                                                {{-- @foreach ($client->options as $clientOptions)
                                                                     <option value="{{ $clientOptions->id }}">
                                                                         {{ $clientOptions->option_name }}
                                                                     </option>
-                                                                @endforeach
+                                                                @endforeach --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1002,7 +1010,6 @@
                 // targetURL = '{{ url('update-data-entry') }}'
                 targetURL = targetURL + '/' + id
             }
-            alert(targetURL)
             $("#loader").show();
 
             // making a variable containg all for data and append token
@@ -1122,6 +1129,7 @@
             return false;
         }
 
+        // function for (if domain is changed append segments acoordingly) starts
         function DomainChange(elem) {
             $('#Domainsub').empty()
             $('#sub_segment').empty()
@@ -1145,15 +1153,14 @@
                 }
             }
         }
+        // function for (if domain is changed append segments acoordingly) starts
 
+        // function for (if segment is changed append segments acoordingly) starts
         function SegmentChange(elem) {
             $('#Domainsub').empty()
             $('#sub_segment').empty()
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
-            console.log($(elem).val());
-            // var selected = $('#segment').find(":selected").text().trim();
-            // $('#Domainsegment').html('<option>' + selected + '</option>');
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
                 if ($(elem).val() == sub_segmentsDropDown[i].segment_id) {
                     count++;
@@ -1166,11 +1173,13 @@
                 }
             }
         }
+        // function for (if segment is changed append segments acoordingly) ends
+
+        // apppending endorsements segments starts
         $('#segment').change(function() {
             $('#sub_segment').empty()
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
-            console.log($(this).val());
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
                 if ($(this).val() == sub_segmentsDropDown[i].segment_id) {
                     count++;
@@ -1181,5 +1190,7 @@
                 }
             }
         });
+        // apppending endorsements segments ends
+        
     </script>
 @endsection
