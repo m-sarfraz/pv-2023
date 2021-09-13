@@ -7,6 +7,7 @@
 
 @section('content')
     <div class="container-fluid">
+        <div id="loader"></div>
         <form id="data_entry" method="post">
             <div class="row d-E-Row mb-6">
                 @csrf
@@ -35,7 +36,8 @@
                         </div>
                     </div>
                     <p class="C-Heading mt-5">Candidate</p>
-                    <div class="card">
+                    <div class="card position-relative">
+                        <div id="loader1"></div>
                         <div class="card-body" style="display: flex; justify-content: center;">
                             <div class="form-group">
                                 {{-- <label class="Label">Candidate:</label> --}}
@@ -565,7 +567,8 @@
                                                 @endphp
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Client</label>
-                                                    <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                                                    <select name="CLIENT" disabled="" id="client"
+                                                        onchange="clientChanged(this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
@@ -995,10 +998,20 @@
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
     <script>
         // Seciton loads on document ready starts
-        // $(document).ready(function() {
-        //     ready();
-        // });
+        $(document).ready(function() {
+            // show and hide loader after time set starts
+            $('#loader').show();
+            setTimeout(function() {
+                $('#loader').hide();
+                $('#loader1').hide();
+            }, 2500);
+            // show and hide loader after time set ends
+        });
+
+        //empty and disable required fields
         $('#segment').empty();
+
+        // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
         $('#new').prop("disabled", true);
         $('#COURSE').prop("disabled", true);
@@ -1191,6 +1204,5 @@
             }
         });
         // apppending endorsements segments ends
-        
     </script>
 @endsection
