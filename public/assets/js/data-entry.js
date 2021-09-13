@@ -1,5 +1,5 @@
 
-// Seciton loads on document ready ends
+// Js for add data entry page
 
 // on document ready starts
 function ready() {
@@ -205,13 +205,67 @@ function enableSearch(id) {
 }
 // search user data and append in data entry fields ends
 
+// calculate standard proejct revenue value on career level change starts
 function SPRCalculator(elem) {
-    var value = $(elem).find(":selected").text().trim();
-    var value1 = $('#domain').find(":selected").text().trim();
-    // alert(value1);
+    var domain = $('#domain').find(":selected").text().trim();
+    var CL = $(elem).find(":selected").text().trim();
 
+    // create object of data for technology/CPI and price
+    let data = [
+        {
+            "Technology": [{
+                "CL5": '447000',
+                "CL6": '447000',
+                "CL7": '300000',
+                "CL8": '178000',
+                "CL9": '134000',
+                "CL10": '96000',
+                "CL11": '69500',
+                "CL12": '15700',
+                "CL13": '15000',
+                "CL14": '15000',
+                "CL15": '15000',
+            }],
+            "CORPORATE FUNCTIONS": [{
+                "CL5": '638000',
+                "CL6": '638000',
+                "CL7": '316000',
+                "CL8": '206000',
+                "CL9": '117000',
+                "CL10": '72000',
+                "CL11": '38000',
+                "CL12": '14800',
+                "CL13": '15000',
+                "CL14": '15000',
+                "CL15": '15000',
+            }],
+            "OPERATIONS": [{
+                "CL5": '638000',
+                "CL6": '638000',
+                "CL7": '316000',
+                "CL8": '206000',
+                "CL9": '117000',
+                "CL10": '72000',
+                "CL11": '38000',
+                "CL12": '14800',
+                "CL13": '15000',
+                "CL14": '15000',
+                "CL15": '15000',
+            }],
+
+        },
+    ];
+    //g getting and appending the value of standard project revenue value
+    var revenue = data[0][domain][0][CL];
+    // appending the value of revenue 
+    $('#srp').val(revenue)
 }
+
+// function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
+
+    // enabling th fieldset value
     $('#candidateFieldset').prop('disabled', false)
     $('#endoFinanceFieldset').prop('disabled', false)
 }
+// function for enabling the edit of searched user ends

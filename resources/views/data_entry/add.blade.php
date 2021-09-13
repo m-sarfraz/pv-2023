@@ -726,7 +726,7 @@
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" disabled="" id="career"
-                                                        onchange="SPRCalculator(this)"
+                                                        
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -902,7 +902,7 @@
                                                                 Career level
                                                             </label>
                                                             <select name="CAREER_LEVEL_FINANCE" required=""
-                                                                id="career_finance"
+                                                                id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($careerLevel->options as $careerLevelOptions)
