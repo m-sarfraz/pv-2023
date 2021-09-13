@@ -1004,7 +1004,7 @@
             setTimeout(function() {
                 $('#loader').hide();
                 $('#loader1').hide();
-            }, 2500);
+            }, 1200);
             // show and hide loader after time set ends
         });
 
@@ -1115,17 +1115,16 @@
                 // Ajax success function
                 success: function(res) {
                     if (res.success == true) {
-
                         // show success sweet alert and enable entering new record button
                         $('#new').prop("disabled", false);
                         swal("success", res.message, "success").then((value) => {});
-                    } else if (res.success == 'duplicate') {
+                    } else if (res.success == false) {
                         $("#loader").hide();
 
-                        //show warning message to change the data
+                        //show warning message if file not found error occured
                         swal({
                             icon: "error",
-                            text: "{{ __('Duplicate data detected') }}",
+                            text: "Error occured while downloading file",
                             icon: "error",
                         });
                     }

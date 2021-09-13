@@ -18,6 +18,8 @@ use Response;
 
 class CandidateController extends Controller
 {
+
+    //index function for data entry page showing starts
     public function data_entry()
     {
         $user = CandidateInformation::all();
@@ -34,6 +36,8 @@ class CandidateController extends Controller
 
         return view('data_entry.add', $data);
     }
+    //index function for data entry page showing ends
+
     public function save_data_entry(Request $request)
     {
         // dd($request->all());
@@ -93,6 +97,8 @@ class CandidateController extends Controller
             //  save data to candidate education table
             $CandidateEducation = new CandidateEducation();
             $CandidateEducation->educational_attain = $request->EDUCATIONAL_ATTAINTMENT;
+
+            // save course if according to selcteedd educational attainment
             if ($request->COURSE === null) {
                 $CandidateEducation->course = 'N/A';
             } else {
@@ -174,6 +180,8 @@ class CandidateController extends Controller
 
         }
     }
+
+    // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request, $id)
     {
         $user = CandidateInformation::
@@ -221,6 +229,8 @@ class CandidateController extends Controller
             // "OFFERED_ALLOWANCE" => 'required ',
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
+
+        // send response mesage if validations are not according to requierd
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
@@ -237,11 +247,15 @@ class CandidateController extends Controller
                 'status' => $request->STATUS,
 
             ]);
+
+            // update candidate education data
             CandidateEducation::where('candidate_id', $id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
                 'certification' => $request->CERTIFICATIONS,
             ]);
+
+            // update candidae domain data
             CandidateDomain::where('candidate_id', $id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
                 'domain' => $request->DOMAIN,
@@ -257,9 +271,11 @@ class CandidateController extends Controller
                 $path = 'assets/cv';
                 $request->file->move($path, $fileName);
                 CandidatePosition::where('candidate_id', $id)->update([
-                    'cv' => $request->cv,
+                    'cv' => $fileName,
                 ]);
             }
+
+            // update candidate position data according to requested data
             CandidatePosition::where('candidate_id', $id)->update([
                 'candidate_profile' => $request->CANDIDATES_PROFILE,
                 'position_applied' => $request->POSITION_TITLE_APPLIED,
@@ -269,9 +285,10 @@ class CandidateController extends Controller
                 'exp_salary' => $request->EXPECTED_SALARY,
                 'off_salary' => $request->OFFERED_SALARY,
                 'curr_allowance' => $request->CURRENT_ALLOWANCE,
-                'cv' => $request->cv,
                 'off_allowance' => $request->OFFERED_ALLOWANCE,
             ]);
+
+            //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
                 'app_status' => $request->APPLICATION_STATUS,
                 'remarks' => $request->REMARKS_FROM_FINANCE,
@@ -288,6 +305,8 @@ class CandidateController extends Controller
                 'endi_date' => $request->DATE_ENDORSED,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
+
+            //update data of finance table acooridngly starts
             Finance::where('candidate_id', $id)->update([
                 'remarks_recruiter' => $request->REMARKS,
                 'onboardnig_date' => $request->ONBOARDING_DATE,
@@ -301,9 +320,14 @@ class CandidateController extends Controller
                 'placement_fee' => $request->PLACEMENT_FEE,
                 'allowance' => $request->ALLOWANCE,
             ]);
+            //update data of finance table acooridngly starts
+
+            //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);
         }
     }
+
+    //doanload candidate cv function starts
     public function downloadCv(Request $request, $id)
     {
         // return $id;
@@ -313,5 +337,10 @@ class CandidateController extends Controller
             'Content-Type: application/pdf',
         );
         return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
+        // } else {
+        //     return response()->json(['success' => false, 'message' => 'file not found']);
+        // }
     }
+
+// download canidate cv functon ends
 }
