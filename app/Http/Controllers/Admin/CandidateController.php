@@ -12,6 +12,7 @@ use App\Finance;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Response;
 
@@ -20,13 +21,15 @@ class CandidateController extends Controller
     public function data_entry()
     {
         $user = CandidateInformation::all();
-        $domain = Domain::all();
-        $segment = Segment::all();
-        // return $user;
+        $domainDrop = Domain::all();
+        $segmentsDropDown = DB::table('segments')->get();
+        $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        // return $sub_segmentsDropDown;
         $data = [
             'user' => $user,
-            'domain' => $domain,
-            'segment' => $segment,
+            'domainDrop' => $domainDrop,
+            'segmentsDropDown' => $segmentsDropDown,
+            'sub_segmentsDropDown' => $sub_segmentsDropDown,
         ];
 
         return view('data_entry.add', $data);

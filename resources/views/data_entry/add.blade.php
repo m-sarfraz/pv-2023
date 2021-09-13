@@ -281,12 +281,13 @@
                                                             </div>
                                                             <div class="col-lg-6">
 
-                                                         
+
                                                                 <label class="Label">Domains</label>
-                                                                <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
+                                                                <select name="DOMAIN" id="domain"
+                                                                    onchange="DomainChange(this)"
                                                                     class="form-control p-0 users-input-S-C">
-                                                                    <option selected disabled></option>
-                                                                    @foreach ($domain as $domainOption)
+                                                                    <option selected disabled>Select Option</option>
+                                                                    @foreach ($domainDrop as $domainOption)
                                                                         <option value="{{ $domainOption->id }}">
                                                                             {{ $domainOption->domain_name }}</option>
                                                                     @endforeach
@@ -303,8 +304,9 @@
                                                                 ?>
                                                                 <label class="Label">segment</label>
                                                                 <select name="SEGMENT" id="Domainsegment"
+                                                                    onchange="SegmentChange(this)"
                                                                     class="form-control p-0 users-input-S-C">
-                                                                    <option selected disabled></option>
+                                                                    <option selected disabled>Select Option</option>
                                                                     {{-- @foreach ($segment->options as $segmentOption)
                                                                         <option value="{{ $segmentOption->id }}">
                                                                             {{ $segmentOption->option_name }}</option>
@@ -320,7 +322,7 @@
                                                                 $sub_segment = Helper::get_dropdown('sub_segment');
                                                                 ?>
                                                                 <label class="Label">sub-segment</label>
-                                                                <select name="SUB_SEGMENT"
+                                                                <select name="SUB_SEGMENT" id="Domainsub"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option selected disabled></option>
                                                                     {{-- @foreach ($sub_segment->options as $sub_segmentOption)
@@ -677,14 +679,15 @@
                                                     <label class="d-block font-size-3 mb-0">
                                                         Domain
                                                     </label>
-                                                    <select disabled="" id="domain" name="DOMAIN_ENDORSEMENT"
+                                                    <select id="domain_endo" readonly name="DOMAIN_ENDORSEMENT"
+                                                        onchange="DomainChange(this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
-                                                        @foreach ($domain->options as $domainOptions)
+                                                        {{-- @foreach ($domain->options as $domainOptions)
                                                             <option value="{{ $domainOptions->id }}">
                                                                 {{ $domainOptions->option_name }}
                                                             </option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -706,11 +709,11 @@
                                                     <select disabled="" id="segment" name="SEGMENT"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
-                                                        @foreach ($segments->options as $segmentsOptions)
+                                                        {{-- @foreach ($segments->options as $segmentsOptions)
                                                             <option value="{{ $segmentsOptions->id }}">
                                                                 {{ $segmentsOptions->option_name }}
                                                             </option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -745,11 +748,11 @@
                                                     <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
-                                                        @foreach ($sub_segment->options as $sub_segmentOptions)
+                                                        {{-- @foreach ($sub_segment->options as $sub_segmentOptions)
                                                             <option value="{{ $sub_segmentOptions->id }}">
                                                                 {{ $sub_segmentOptions->option_name }}
                                                             </option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -1120,18 +1123,63 @@
         }
 
         function DomainChange(elem) {
-            var segments = {!! $segment !!};
-            var domains = {!! $domain !!};
+            $('#Domainsub').empty()
+            $('#sub_segment').empty()
+            $('#Domainsegment').empty()
+            $('#segment').empty()
+            var selected = $('#domain').find(":selected").text().trim();
+            $('#domain_endo').html('<option>' + selected + '</option>');
+            var domains = {!! $domainDrop !!};
+            var segmentsDropDown = {!! $segmentsDropDown !!};
             var count = 0;
-            console.log (segments.length)
-            for (let i = 0; i < segments.length; i++) {
-                if ($(elem).val() == segments[i].domain_id) {
+            for (let i = 0; i < segmentsDropDown.length; i++) {
+                if ($(elem).val() == segmentsDropDown[i].domain_id) {
                     count++;
-                    $('#Domainsegment').append('<option value="' + segments[i].id + '">' + segments[i].segment_name +
+                    $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                        .segment_name +
                         '</option>');
-                        cosole.log('hi')
+
+                    $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                        .segment_name +
+                        '</option>');
                 }
             }
         }
+
+        function SegmentChange(elem) {
+            $('#Domainsub').empty()
+            $('#sub_segment').empty()
+            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+            var count = 0;
+            console.log($(elem).val());
+            // var selected = $('#segment').find(":selected").text().trim();
+            // $('#Domainsegment').html('<option>' + selected + '</option>');
+            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                if ($(elem).val() == sub_segmentsDropDown[i].segment_id) {
+                    count++;
+                    $('#Domainsub').append('<option value="' + sub_segmentsDropDown[i].id + '">' + sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' + sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                }
+            }
+        }
+        $('#segment').change(function() {
+            $('#sub_segment').empty()
+            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+            var count = 0;
+            console.log($(this).val());
+            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                if ($(this).val() == sub_segmentsDropDown[i].segment_id) {
+                    count++;
+                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                }
+            }
+        });
     </script>
 @endsection

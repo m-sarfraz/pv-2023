@@ -49,7 +49,7 @@ function ApplicationStatusChange(elem) {
             // Show notification message if fields are empty in candidate position fields
             swal({
                 icon: "warning",
-                text: "{{ __('Dont forget to write Current Salary and Expected Salray') }}",
+                text: " Dont forget to write Current Salary and Expected Salray ",
                 icon: "warning",
             });
         }
