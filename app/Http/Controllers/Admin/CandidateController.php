@@ -92,6 +92,8 @@ class CandidateController extends Controller
             $CandidateInformation->address = $request->RESIDENCE;
             $CandidateInformation->dob = $request->DATE_OF_BIRTH;
             $CandidateInformation->status = '1';
+            $recruiter = Auth::user()->id;
+            $CandidateInformation->saved_by = $recruiter;
             $CandidateInformation->save();
 
             //  save data to candidate education table
@@ -184,6 +186,9 @@ class CandidateController extends Controller
     // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request, $id)
     {
+        $domainDrop = Domain::all();
+        $segmentsDropDown = DB::table('segments')->get();
+        $sub_segmentsDropDown = DB::table('sub_segments')->get();
         $user = CandidateInformation::
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -195,7 +200,10 @@ class CandidateController extends Controller
             ->first();
         // return $user;
         $data = [
+            'domainDrop' => $domainDrop,
             'user' => $user,
+            'segmentsDropDown' => $segmentsDropDown,
+            'sub_segmentsDropDown' => $sub_segmentsDropDown,
         ];
         return view('data_entry.userSearch', $data);
 

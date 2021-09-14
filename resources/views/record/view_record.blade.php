@@ -50,7 +50,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label">Recruiter</label>
-                                        <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100" onchange="filterUserData()">
+                                        <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($user as $key => $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
@@ -62,7 +63,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Canidate
                                         </label>
-                                        <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100" onchange="filterUserData()">
+                                        <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->id }}">{{ $candidate->first_name }}
                                                     {{ $candidate->last_name }}</option>
@@ -80,7 +82,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Profile
                                         </label>
-                                        <select multiple name="profile" id="profile" class="select2_dropdown  w-100" onchange="filterUserData()">
+                                        <select multiple name="profile" id="profile" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($profile->options as $profileOption)
                                                 <option value="{{ $profileOption->id }}">
                                                     {{ $profileOption->option_name }}
@@ -97,8 +100,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             S-Segment
                                         </label>
-                                        <select multiple name="sub_segment" id="sub_segment"
-                                            class="select2_dropdown  w-100" onchange="filterUserData()">
+                                        <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($sub_segment->options as $sub_segmentOption)
                                                 <option value="{{ $sub_segmentOption->id }}">
                                                     {{ $sub_segmentOption->option_name }}
@@ -155,7 +158,8 @@
                                         </label>
                                         <select multiple name="cl" id="cl" class="select2_dropdown  w-100">
                                             @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                                <option value="{{ $CareerLevelOptions->id }}" onchange="filterUserData()">
+                                                <option value="{{ $CareerLevelOptions->id }}"
+                                                    onchange="filterUserData()">
                                                     {{ $CareerLevelOptions->option_name }}
                                                 </option>
                                             @endforeach
@@ -165,7 +169,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label">Endo Date:</label>
-                                        <input type="date" class="w-100" name="date" id="date" oninput="filterUserData()">
+                                        <input type="date" class="w-100" name="date" id="date"
+                                            oninput="filterUserData()">
                                     </div>
                                 </div>
                             </div>
@@ -175,14 +180,14 @@
 
                 <!-- ================= -->
                 <!-- Datatable code start-->
-                <div class="table-responsive border-right pt-3" id = "filter_table_div">
-                
+                <div class="table-responsive border-right pt-3" id="filter_table_div">
+
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
-
+                <input type="hidden" name="candidate">
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-7" id="record_detail">
                 <p class="C-Heading pt-3">Requirement Details:</p>
                 <div class="card mb-13">
                     <div class="card-body">
@@ -233,13 +238,13 @@
                                         </div>
                                     </div>
                                     <!-- <div class="col-lg-4">
-                                                                                                                                                                    <div class="form-group mb-0">
-                                                                                                                                                                        <label class="d-block font-size-3 mb-0">
-                                                                                                                                                                            Segment
-                                                                                                                                                                        </label>
-                                                                                                                                                                        <input type="text" class="form-control users-input-S-C" />
-                                                                                                                                                                    </div>
-                                                                                                                                                                </div> -->
+                                                                                                                                                                            <div class="form-group mb-0">
+                                                                                                                                                                                <label class="d-block font-size-3 mb-0">
+                                                                                                                                                                                    Segment
+                                                                                                                                                                                </label>
+                                                                                                                                                                                <input type="text" class="form-control users-input-S-C" />
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div> -->
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
@@ -683,7 +688,7 @@
         });
 
         function filterUserData() {
-
+            $("#loader").show();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();
             profile = $('#profile').val();
@@ -694,7 +699,7 @@
 
             $.ajax({
                 type: "GET",
-                url: '{{url('admin/filter_records')}}',
+                url: '{{ url('admin/filter_records') }}',
                 data: {
                     _token: token,
                     user_id: user_id,
@@ -708,6 +713,40 @@
                 success: function(data) {
                     $('#filter_table_div').html(data);
                     // $('#count').val(data.count);
+                    $("#loader").hide();
+
+                },
+            });
+        }
+
+        function UserDetail() {
+            user_id = $('#recruiter').val();
+            candidate = $('#candidate').val();
+            profile = $('#profile').val();
+            sub_segmet = $('#sub_segmet').val();
+            app_status = $('#app_status').val();
+            cl = $('#cl').val();
+            date = $('#date').val();
+            $("#loader").show();
+
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/filter_records_detail') }}',
+                data: {
+                    _token: token,
+                    user_id: user_id,
+                    candidate: candidate,
+                    profile: profile,
+                    sub_segmet: sub_segmet,
+                    app_status: app_status,
+                    cl: cl,
+                    date: date,
+                },
+                success: function(data) {
+                    $('#record_detail').html('');
+                    $('#record_detail').html(data);
+                    // $('#count').val(data.count);
+                    $("#loader").hide();
 
                 },
             });

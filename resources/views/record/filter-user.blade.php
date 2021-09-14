@@ -19,17 +19,15 @@
     <tbody>
         @forelse ( $Userdata as $key=>$value )
 
-            <tr class="bg-transparent">
+            <tr class="bg-transparent" onclick="UserDetail()">
                 <!-- Table data 1 -->
                 <td>{{ $key + 1 }}</td>
                 <td>Recruiter</td>
                 <td>
-                    <a href="">
-                        @if (isset($value->first_name))
-                            {{ $value->first_name }} {{ $value->last_name }}
+                    @if (isset($value->first_name))
+                        {{ $value->first_name }} {{ $value->last_name }}
 
-                        @endif
-                    </a>
+                    @endif
                 </td>
                 <td>Profile</td>
                 <td>S segment</td>
@@ -58,7 +56,10 @@
             </tr>
 
         @empty
+        <tr> 
 
+            <td> no data found</td>
+        </tr>
         @endforelse
 
     </tbody>
