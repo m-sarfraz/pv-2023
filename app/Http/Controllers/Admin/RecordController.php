@@ -21,7 +21,7 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->get();
+            ->paginate(2);
         // return $Userdata;
         $candidates = CandidateInformation::all();
         $count = count($Userdata);
