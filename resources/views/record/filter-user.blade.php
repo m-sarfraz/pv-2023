@@ -21,16 +21,21 @@
             <tr class="bg-transparent" onclick="UserDetail()">
                 <!-- Table data 1 -->
                 <td>{{ $key + 1 }}</td>
-                <td>Recruiter</td>
+                @php
+                    $name = \App\User::with('candidate_information')
+                        ->where('id', $value->saved_by)
+                        ->first();
+                @endphp
+                <td>{{ $name->name }}</td>
                 <td>
                     @if (isset($value->first_name))
                         {{ $value->first_name }} {{ $value->last_name }}
 
                     @endif
                 </td>
-                <td>{{$value->candidate_profile}}
+                <td>{{ $value->candidate_profile }}
                 </td>
-                <td>{{$value->sub_segment}}</td>
+                <td>{{ $value->sub_segment }}</td>
                 <td>
                     @if (isset($value->curr_salary))
                         {{ $value->curr_salary }}
@@ -43,9 +48,9 @@
 
                     @endif
                 </td>
-                <td>{{$value->app_status}}</td>
-                <td>{{$value->client}}</td>
-                <td>{{$value->career_endo }}</td>
+                <td>{{ $value->app_status }}</td>
+                <td>{{ $value->client }}</td>
+                <td>{{ $value->career_endo }}</td>
                 <td>
                     @if (isset($value->endi_date))
                         {{ $value->endi_date }}
@@ -56,10 +61,10 @@
             </tr>
 
         @empty
-        <tr> 
+            <tr>
 
-            <td> no data found</td>
-        </tr>
+                <td> no data found</td>
+            </tr>
         @endforelse
 
     </tbody>
