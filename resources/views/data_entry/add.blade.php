@@ -20,7 +20,7 @@
                                 <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
                                     User&#x27;s Name
                                 </label>
-                                <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75"
+                                <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75" 
                                     style="padding-left: 12px !important;" aria-describedby="emailHelp"
                                     value="{{ Auth::user()->name }}" placeholder="enter candidate name" />
                             </div>
@@ -127,7 +127,7 @@
                                                             <select name="GENDER"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                 @foreach ($gender->options as $genderOptions)
-                                                                    <option value="{{ $genderOptions->id }}">
+                                                                    <option value="{{ $genderOptions->option_name }}">
                                                                         {{ $genderOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -218,7 +218,7 @@
                                                                 id="EDUCATIONAL_ATTAINTMENT">
                                                                 <option value="" disabled>select option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                                                    <option value="{{ $eduAttainmentOptions->id }}">
+                                                                    <option value="{{ $eduAttainmentOptions->option_name }}">
                                                                         {{ $eduAttainmentOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -236,7 +236,7 @@
                                                             <select name="COURSE" class="form-control p-0 users-input-S-C"
                                                                 id="COURSE">
                                                                 @foreach ($course->options as $courseOptions)
-                                                                    <option value="{{ $courseOptions->id }}">
+                                                                    <option value="{{ $courseOptions->option_name }}">
                                                                         {{ $courseOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -259,7 +259,7 @@
                                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                                                 <option selected disabled></option>
                                                                 @foreach ($certificate->options as $certificateOption)
-                                                                    <option value="{{ $certificateOption->id }}">
+                                                                    <option value="{{ $certificateOption->option_name }}">
                                                                         {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -372,7 +372,7 @@
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled></option>
                                                                 @foreach ($profile->options as $profileOption)
-                                                                    <option value="{{ $profileOption->id }}">
+                                                                    <option value="{{ $profileOption->option_name }}">
                                                                         {{ $profileOption->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -416,7 +416,7 @@
                                                                 id="manners" class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled></option>
                                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
-                                                                    <option value="{{ $manner_of_inviteOption->id }}">
+                                                                    <option value="{{ $manner_of_inviteOption->option_name }}">
                                                                         {{ $manner_of_inviteOption->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -533,7 +533,7 @@
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 <option value="" selected disabled>Select Option</option>
                                                 @foreach ($status->options as $statusOptions)
-                                                    <option value="{{ $statusOptions->id }}">
+                                                    <option value="{{ $statusOptions->option_name }}">
                                                         {{ $statusOptions->option_name }}
                                                     </option>
                                                 @endforeach
@@ -551,7 +551,7 @@
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     @foreach ($remarks->options as $remarksOptions)
-                                                        <option value="{{ $remarksOptions->id }}">
+                                                        <option value="{{ $remarksOptions->option_name }}">
                                                             {{ $remarksOptions->option_name }}
                                                         </option>
                                                     @endforeach
@@ -572,7 +572,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
-                                                            <option value="{{ $clientOptions->id }}">
+                                                            <option value="{{ $clientOptions->option_name }}">
                                                                 {{ $clientOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -591,7 +591,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($status->options as $statusOptions)
-                                                            <option value="{{ $statusOptions->id }}">
+                                                            <option value="{{ $statusOptions->option_name }}">
                                                                 {{ $statusOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -614,7 +614,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($endoType->options as $endoTypeOptions)
-                                                            <option value="{{ $endoTypeOptions->id }}">
+                                                            <option value="{{ $endoTypeOptions->option_name }}">
                                                                 {{ $endoTypeOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -633,7 +633,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($site->options as $siteOptions)
-                                                            <option value="{{ $siteOptions->id }}">
+                                                            <option value="{{ $siteOptions->option_name }}">
                                                                 {{ $siteOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -655,7 +655,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
-                                                            <option value="{{ $position_titleOptions->id }}">
+                                                            <option value="{{ $position_titleOptions->option_name }}">
                                                                 {{ $position_titleOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -674,7 +674,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                                            <option value="{{ $ReasonForNotPOptions->id }}">
+                                                            <option value="{{ $ReasonForNotPOptions->option_name }}">
                                                                 {{ $ReasonForNotPOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -741,7 +741,7 @@
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                                            <option value="{{ $CareerLevelOptions->id }}">
+                                                            <option value="{{ $CareerLevelOptions->option_name }}">
                                                                 {{ $CareerLevelOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -797,7 +797,7 @@
                                                         @endphp
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
-                                                            <option value="{{ $remarksOptions->id }}">
+                                                            <option value="{{ $remarksOptions->option_name }}">
                                                                 {{ $remarksOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -834,7 +834,7 @@
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                 <option value="" disabled selected></option>
                                                                 @foreach ($remarks->options as $remarksOptions)
-                                                                    <option value="{{ $remarksOptions->id }}">
+                                                                    <option value="{{ $remarksOptions->option_name }}">
                                                                         {{ $remarksOptions->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -917,7 +917,7 @@
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($careerLevel->options as $careerLevelOptions)
-                                                                    <option value="{{ $careerLevelOptions->id }}">
+                                                                    <option value="{{ $careerLevelOptions->option_name }}">
                                                                         {{ $careerLevelOptions->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -1013,7 +1013,7 @@
 
         // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
-        $('#new').prop("disabled", true);
+        // $('#new').prop("disabled", true);
         $('#COURSE').prop("disabled", true);
         // On form submit call ajax for data saving
 
@@ -1042,7 +1042,7 @@
                     if (res.success == true) {
 
                         // show success sweet alert and enable entering new record button
-                        $('#new').prop("disabled", false);
+                        // $('#new').prop("disabled", false);
                         swal("success", res.message, "success").then((value) => {});
                     } else if (res.success == false) {
 
@@ -1116,7 +1116,7 @@
                 success: function(res) {
                     if (res.success == true) {
                         // show success sweet alert and enable entering new record button
-                        $('#new').prop("disabled", false);
+                        // $('#new').prop("disabled", false);
                         swal("success", res.message, "success").then((value) => {});
                     } else if (res.success == false) {
                         $("#loader").hide();

@@ -5,7 +5,7 @@
 function ready() {
     // select 3 for select option
     select2Dropdown("select2_dropdown");
-    $('#new').prop("disabled", true);
+    // $('#new').prop("disabled", true);
     $('#COURSE').prop("disabled", true);
 }
 // on document ready ends
@@ -14,8 +14,9 @@ function ready() {
 // If new record button is clicked empty input fields
 function newRecord(elem) {
     // reset form and disable button
-    $(elem).prop("disabled", true);
-    $(elem).closest('form').find(':input').val("");
+    // $(elem).prop("disabled", true);
+    // $(elem).closest('form').find(':input').val("");
+    location.reload()
 }
 
 
@@ -25,7 +26,7 @@ function EducationalAttainChange() {
 
     // enable and disable course fields on selected educational attainment
     var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-    if (value == 'GRADUATE') {
+    if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
 
         // if selected text is gradute disable course field for user
         $('#COURSE').prop("disabled", true);

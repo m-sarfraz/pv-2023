@@ -11,6 +11,7 @@ use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
 use App\Segment;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -40,31 +41,30 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-        // dd($request->all());
         $arrayCheck = [
             'LAST_NAME' => 'required',
-            // "FIRST_NAME" => "required",
-            // "EMAIL_ADDRESS" => "required",
-            // "CONTACT_NUMBER" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
-            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // // "COURSE" => 'required ',
-            // "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
+            "FIRST_NAME" => "required",
+            "EMAIL_ADDRESS" => "required|email",
+            "CONTACT_NUMBER" => "required",
+            "GENDER" => "required",
+            "RESIDENCE" => 'required ',
+            "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            // "COURSE" => 'required ',
+            "CANDIDATES_PROFILE" => 'required ',
+            "INTERVIEW_NOTES" => 'required ',
             // "DATE_SIFTED" => 'required ',
             // "DOMAIN" => 'required ',
             // "SEGMENT" => 'required ',
             // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            // "POSITION_TITLE_APPLIED" => 'required ',
+            "EMPLOYMENT_HISTORY" => 'required ',
+            "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
-            // "MANNER_OF_INVITE" => 'required ',
-            // "CURRENT_SALARY" => 'required ',
-            // "CURRENT_ALLOWANCE" => 'required ',
-            // "EXPECTED_SALARY" => 'required ',
-            // "OFFERED_SALARY" => 'required ',
-            // "OFFERED_ALLOWANCE" => 'required ',
+            "MANNER_OF_INVITE" => 'required ',
+            "CURRENT_SALARY" => 'required ',
+            "CURRENT_ALLOWANCE" => 'required ',
+            "EXPECTED_SALARY" => 'required ',
+            "OFFERED_SALARY" => 'required ',
+            "OFFERED_ALLOWANCE" => 'required ',
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
@@ -99,6 +99,7 @@ class CandidateController extends Controller
             //  save data to candidate education table
             $CandidateEducation = new CandidateEducation();
             $CandidateEducation->educational_attain = $request->EDUCATIONAL_ATTAINTMENT;
+            $CandidateEducation->candidate_id = $CandidateInformation->id;
 
             // save course if according to selcteedd educational attainment
             if ($request->COURSE === null) {
@@ -144,6 +145,7 @@ class CandidateController extends Controller
 
             //Save Endorsement Details
             $endorsement = new Endorsement();
+            $endorsement->candidate_id = $CandidateInformation->id;
             $endorsement->app_status = $request->APPLICATION_STATUS;
             $endorsement->remarks = $request->REMARKS_FROM_FINANCE;
             $endorsement->client = $request->CLIENT;
@@ -213,22 +215,22 @@ class CandidateController extends Controller
         // return $request->all();
         $arrayCheck = [
             'LAST_NAME' => 'required',
-            // "FIRST_NAME" => "required",
-            // "EMAIL_ADDRESS" => "required",
-            // "CONTACT_NUMBER" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
+            "FIRST_NAME" => "required",
+            "EMAIL_ADDRESS" => "required|email",
+            "CONTACT_NUMBER" => "required",
+            "GENDER" => "required",
+            "RESIDENCE" => 'required ',
             // "EDUCATIONAL_ATTAINTMENT" => 'required ',
             // // "COURSE" => 'required ',
             // "CANDIDATES_PROFILE" => 'required ',
             // "INTERVIEW_NOTES" => 'required ',
-            // "DATE_SIFTED" => 'required ',
-            // "DOMAIN" => 'required ',
-            // "SEGMENT" => 'required ',
-            // "SUB_SEGMENT" => 'required ',
+            // // "DATE_SIFTED" => 'required ',
+            // // "DOMAIN" => 'required ',
+            // // "SEGMENT" => 'required ',
+            // // "SUB_SEGMENT" => 'required ',
             // "EMPLOYMENT_HISTORY" => 'required ',
             // "POSITION_TITLE_APPLIED" => 'required ',
-            // "DATE_INVITED" => 'required ',
+            // // "DATE_INVITED" => 'required ',
             // "MANNER_OF_INVITE" => 'required ',
             // "CURRENT_SALARY" => 'required ',
             // "CURRENT_ALLOWANCE" => 'required ',

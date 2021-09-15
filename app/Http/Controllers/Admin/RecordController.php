@@ -20,9 +20,10 @@ class RecordController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->get();
         // return $Userdata;
+        $candidates = CandidateInformation::all();
         $count = count($Userdata);
         $data = [
             'user' => $user,
@@ -40,9 +41,11 @@ class RecordController extends Controller
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+        // ->join('drop_down_options', 'endorsements.app_status', 'drop_down_options.id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as CID', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
+            ->join('drop_down_options', 'candidate_positions.candidate_profile', 'drop_down_options.id')
+            ->select('drop_down_options.*', 'candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as CID', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
         if ($request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->cl == null && $request->date == null) {
             $Userdata->whereIn('candidate_informations.saved_by', $request->user_id);
         }
@@ -69,10 +72,12 @@ class RecordController extends Controller
         }
         $a = $Userdata->get();
         // return $Userdata;
+        $candidates = CandidateInformation::all();
         $count = $a->count();
         $data = [
             'count' => $count,
             'Userdata' => $a,
+            'candidates' => $candidates,
         ];
         return view('record.filter-user', $data);
     }

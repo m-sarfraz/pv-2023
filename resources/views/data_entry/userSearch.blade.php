@@ -46,9 +46,10 @@
                                         </label>
                                         <select name="GENDER"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                            <option value="" selected disabled>select option</option>
                                             @foreach ($gender->options as $genderOptions)
-                                                <option value="{{ $genderOptions->id }}" 
-                                                    {{ $user->gender == $genderOptions->id ? 'selected' : '' }}>
+                                                <option value="{{ $genderOptions->option_name }}" 
+                                                    {{ $user->gender == $genderOptions->option_name ? 'selected' : '' }}>
                                                     {{ $genderOptions->option_name }}</option>
                                             @endforeach
                                         </select>
@@ -135,8 +136,8 @@
                                             class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
                                             <option value="" disabled>select option</option>
                                             @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                                <option value="{{ $eduAttainmentOptions->id }}"
-                                                    {{ $user->educational_attain == $eduAttainmentOptions->id ? 'selected' : '' }}>
+                                                <option value="{{ $eduAttainmentOptions->option_name }}"
+                                                    {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
                                                     {{ $eduAttainmentOptions->option_name }}</option>
                                             @endforeach
                                         </select>
@@ -153,8 +154,8 @@
                                         ?>
                                         <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
                                             @foreach ($course->options as $courseOptions)
-                                                <option value="{{ $courseOptions->id }}" @if ($user->course != null) {
-                                                        {{ $user->course == $courseOptions->id ? 'selected' : '' }}
+                                                <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
+                                                        {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
                                                          }
                                                     @endif
                                                     >
@@ -181,8 +182,8 @@
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                             <option selected disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
-                                                <option value="{{ $certificateOption->id }}"
-                                                {{ $user->certificate == $certificateOption->id ? 'selected' : '' }}>
+                                                <option value="{{ $certificateOption->option_name }}"
+                                                {{ $user->certificate == $certificateOption->option_name ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
                                         </select>
@@ -224,7 +225,7 @@
                                                 <option selected disabled>Select Option</option>
                                                 @foreach ($domainDrop as $domainOption)
                                                     <option value="{{ $domainOption->id }}"
-                                                    {{ $user->domain == $domainOption->id ? 'selected' : '' }}>
+                                                    {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
                                                         {{ $domainOption->domain_name }}</option>
                                                 @endforeach
                                             </select>
@@ -297,8 +298,8 @@
                                             class="form-control p-0 users-input-S-C">
                                             <option selected disabled></option>
                                             @foreach ($profile->options as $profileOption)
-                                                <option value="{{ $profileOption->id }}"
-                                                    {{ $user->candidate_profile == $profileOption->id ? 'selected' : '' }}>
+                                                <option value="{{ $profileOption->option_name }}"
+                                                    {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
                                                     {{ $profileOption->option_name }}
                                                 </option>
                                             @endforeach
@@ -343,8 +344,8 @@
                                             class="form-control p-0 users-input-S-C">
                                             <option selected disabled></option>
                                             @foreach ($manner_of_invite->options as $manner_of_inviteOption)
-                                                <option value="{{ $manner_of_inviteOption->id }}"
-                                                    {{ $user->manner_of_invite == $manner_of_inviteOption->id ? 'selected' : '' }}>
+                                                <option value="{{ $manner_of_inviteOption->option_name }}"
+                                                    {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
                                                     {{ $manner_of_inviteOption->option_name }}
                                                 </option>
                                             @endforeach
@@ -422,8 +423,8 @@
                                             accept="application/pdf" class="uploadcv  w-100">
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                        <button type="button" btn_Group href=""
-                                            style=" pointer-events: none; cursor: default;">
+                                        <button type="button" btn_Group href=""  onclick="DownloadCV(this)"
+                                            >
                                             Download Cv
                                         </button>
                                     </div>
@@ -462,8 +463,8 @@
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" selected disabled>Select Option</option>
                             @foreach ($status->options as $statusOptions)
-                                <option value="{{ $statusOptions->id }}"
-                                {{ $user->app_status == $statusOptions->id ? 'selected' : '' }}>
+                                <option value="{{ $statusOptions->option_name }}"
+                                {{ $user->app_status == $statusOptions->option_name ? 'selected' : '' }}>
                                     {{ $statusOptions->option_name }}
                                 </option>
                             @endforeach
@@ -481,8 +482,8 @@
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                 <option value="" disabled selected>Select Option</option>
                                 @foreach ($remarks->options as $remarksOptions)
-                                    <option value="{{ $remarksOptions->id }}"
-                                        {{ $user->remarks == $remarksOptions->id ? 'selected' : '' }}>
+                                    <option value="{{ $remarksOptions->option_name }}"
+                                        {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
                                         {{ $remarksOptions->option_name }}
                                     </option>
                                 @endforeach
@@ -502,8 +503,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($client->options as $clientOptions)
-                                        <option value="{{ $clientOptions->id }}"
-                                            {{ $user->client == $clientOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $clientOptions->option_name }}"
+                                            {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
                                             {{ $clientOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -522,8 +523,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($status->options as $statusOptions)
-                                        <option value="{{ $statusOptions->id }}"
-                                            {{ $user->status == $statusOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $statusOptions->option_name }}"
+                                            {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
                                             {{ $statusOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -546,8 +547,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($endoType->options as $endoTypeOptions)
-                                        <option value="{{ $endoTypeOptions->id }}"
-                                            {{ $user->type == $endoTypeOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $endoTypeOptions->option_name }}"
+                                            {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
                                             {{ $endoTypeOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -566,8 +567,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($site->options as $siteOptions)
-                                        <option value="{{ $siteOptions->id }}"
-                                            {{ $user->site == $siteOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $siteOptions->option_name }}"
+                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
                                             {{ $siteOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -588,8 +589,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($position_title->options as $position_titleOptions)
-                                        <option value="{{ $position_titleOptions->id }}"
-                                            {{ $user->site == $siteOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $position_titleOptions->option_name }}"
+                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
                                             {{ $position_titleOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -608,7 +609,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                        <option value="{{ $ReasonForNotPOptions->id }}">
+                                            {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
+                                            <option value="{{ $ReasonForNotPOptions->option_name }}" >
                                             {{ $ReasonForNotPOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -677,8 +679,8 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                        <option value="{{ $CareerLevelOptions->id }}"
-                                            {{ $user->career_endo == $CareerLevelOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $CareerLevelOptions->option_name }}"
+                                            {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
                                             {{ $CareerLevelOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -734,8 +736,8 @@
                                     @endphp
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($remarks->options as $remarksOptions)
-                                        <option value="{{ $remarksOptions->id }}"
-                                            {{ $user->remarks_for_finance == $remarksOptions->id ? 'selected' : '' }}>
+                                        <option value="{{ $remarksOptions->option_name }}"
+                                            {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
                                             {{ $remarksOptions->option_name }}</option>
                                     @endforeach
                                 </select>
@@ -772,8 +774,8 @@
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                             <option value="" disabled selected></option>
                                             @foreach ($remarks->options as $remarksOptions)
-                                                <option value="{{ $remarksOptions->id }}"
-                                                    {{ $user->remarks_recruiter == $remarksOptions->id ? 'selected' : '' }}>
+                                                <option value="{{ $remarksOptions->option_name }}"
+                                                    {{ $user->remarks_recruiter == $remarksOptions->option_name ? 'selected' : '' }}>
                                                     {{ $remarksOptions->option_name }}
                                                 </option>
                                             @endforeach
@@ -858,8 +860,8 @@
                                             onchange="SPRCalculator(this)" class="form-control border h-px-20_custom">
                                             <option value="" disabled selected>Select Option</option>
                                             @foreach ($careerLevel->options as $careerLevelOptions)
-                                                <option value="{{ $careerLevelOptions->id }}"
-                                                    {{ $user->career_finance == $careerLevelOptions->id ? 'selected' : '' }}>
+                                                <option value="{{ $careerLevelOptions->option_name }}"
+                                                    {{ $user->career_finance == $careerLevelOptions->option_name ? 'selected' : '' }}>
                                                     {{ $careerLevelOptions->option_name }}
                                                 </option>
                                             @endforeach

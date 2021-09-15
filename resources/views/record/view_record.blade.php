@@ -677,6 +677,8 @@
     <script>
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
+            $('#candidate').empty();
+
         });
 
         $(function() {
@@ -751,6 +753,19 @@
                 },
             });
         }
+        $('#recruiter').change(function(){
+            $('#candidate').empty();
+            console.log($(this).val())
+            var candidate = {!! $candidates !!};
+            var count = 0;
+            for (let i = 0; i < candidate.length; i++) {
+                if ($(this).val() == candidate[i].saved_by) {
+                    count++;
+                    $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i].first_name +
+                        '</option>');
+                }
+            }
+        });
     </script>
 
 @endsection

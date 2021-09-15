@@ -18,7 +18,6 @@
     </thead>
     <tbody>
         @forelse ( $Userdata as $key=>$value )
-
             <tr class="bg-transparent" onclick="UserDetail()">
                 <!-- Table data 1 -->
                 <td>{{ $key + 1 }}</td>
@@ -29,8 +28,9 @@
 
                     @endif
                 </td>
-                <td>Profile</td>
-                <td>S segment</td>
+                <td>{{$value->applied_position}}
+                </td>
+                <td>{{$value->sub_segment}}</td>
                 <td>
                     @if (isset($value->curr_salary))
                         {{ $value->curr_salary }}
@@ -43,9 +43,9 @@
 
                     @endif
                 </td>
-                <td>App.Status</td>
-                <td>Client</td>
-                <td>CL</td>
+                <td>{{$value->app_status}}</td>
+                <td>{{$value->client}}</td>
+                <td>{{$value->career_level }}</td>
                 <td>
                     @if (isset($value->endi_date))
                         {{ $value->endi_date }}

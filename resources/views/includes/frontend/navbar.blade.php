@@ -40,9 +40,6 @@
                             <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
                                 <a href="{{ route('dropdown') }}">
-                                    Add Options
-                                </a>
-                                <a href="{{ route('add-dropdown') }}">
                                     Add Dropdowns
                                 </a>
 
