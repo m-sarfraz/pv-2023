@@ -11,6 +11,7 @@ use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
 use App\Segment;
+use App\SubSegment;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -45,26 +46,26 @@ class CandidateController extends Controller
             'LAST_NAME' => 'required',
             "FIRST_NAME" => "required",
             "EMAIL_ADDRESS" => "required|email",
-            "CONTACT_NUMBER" => "required",
-            "GENDER" => "required",
-            "RESIDENCE" => 'required ',
-            "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // "COURSE" => 'required ',
-            "CANDIDATES_PROFILE" => 'required ',
-            "INTERVIEW_NOTES" => 'required ',
-            // "DATE_SIFTED" => 'required ',
-            // "DOMAIN" => 'required ',
-            // "SEGMENT" => 'required ',
-            // "SUB_SEGMENT" => 'required ',
-            "EMPLOYMENT_HISTORY" => 'required ',
-            "POSITION_TITLE_APPLIED" => 'required ',
+            // "CONTACT_NUMBER" => "required",
+            // "GENDER" => "required",
+            // "RESIDENCE" => 'required ',
+            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            // // "COURSE" => 'required ',
+            // "CANDIDATES_PROFILE" => 'required ',
+            // "INTERVIEW_NOTES" => 'required ',
+            // // "DATE_SIFTED" => 'required ',
+            // // "DOMAIN" => 'required ',
+            // // "SEGMENT" => 'required ',
+            // // "SUB_SEGMENT" => 'required ',
+            // "EMPLOYMENT_HISTORY" => 'required ',
+            // "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
-            "MANNER_OF_INVITE" => 'required ',
-            "CURRENT_SALARY" => 'required ',
-            "CURRENT_ALLOWANCE" => 'required ',
-            "EXPECTED_SALARY" => 'required ',
-            "OFFERED_SALARY" => 'required ',
-            "OFFERED_ALLOWANCE" => 'required ',
+            // "MANNER_OF_INVITE" => 'required ',
+            // "CURRENT_SALARY" => 'required ',
+            // "CURRENT_ALLOWANCE" => 'required ',
+            // "EXPECTED_SALARY" => 'required ',
+            // "OFFERED_SALARY" => 'required ',
+            // "OFFERED_ALLOWANCE" => 'required ',
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
@@ -136,11 +137,14 @@ class CandidateController extends Controller
             $CandidiateDomain = new CandidateDomain();
             $CandidiateDomain->candidate_id = $CandidateInformation->id;
             $CandidiateDomain->date_shifted = $request->DATE_SIFTED;
-            $CandidiateDomain->domain = $request->DOMAIN;
+            $domain_name = Domain::where('id', $request->DOMAIN)->first();
+            $CandidiateDomain->domain = $domain_name->domain_name;
             $CandidiateDomain->emp_history = $request->EMPLOYMENT_HISTORY;
             $CandidiateDomain->interview_note = $request->INTERVIEW_NOTES;
-            $CandidiateDomain->segment = $request->SEGMENT;
-            $CandidiateDomain->sub_segment = $request->SUB_SEGMENT;
+            $name = Segment::where('id', $request->SEGMENT)->first();
+            $CandidiateDomain->segment = $name->segment_name;
+            $Sub_name = SubSegment::where('id', $request->SUB_SEGMENT)->first();
+            $CandidiateDomain->sub_segment = $Sub_name->sub_segment_name;
             $CandidiateDomain->save();
 
             //Save Endorsement Details
@@ -214,12 +218,12 @@ class CandidateController extends Controller
     {
         // return $request->all();
         $arrayCheck = [
-            'LAST_NAME' => 'required',
-            "FIRST_NAME" => "required",
-            "EMAIL_ADDRESS" => "required|email",
-            "CONTACT_NUMBER" => "required",
-            "GENDER" => "required",
-            "RESIDENCE" => 'required ',
+            // 'LAST_NAME' => 'required',
+            // "FIRST_NAME" => "required",
+            // "EMAIL_ADDRESS" => "required|email",
+            // "CONTACT_NUMBER" => "required",
+            // "GENDER" => "required",
+            // "RESIDENCE" => 'required ',
             // "EDUCATIONAL_ATTAINTMENT" => 'required ',
             // // "COURSE" => 'required ',
             // "CANDIDATES_PROFILE" => 'required ',
@@ -254,7 +258,7 @@ class CandidateController extends Controller
                 'address' => $request->RESIDENCE,
                 'gender' => $request->GENDER,
                 'dob' => $request->DATE_OF_BIRTH,
-                'status' => $request->STATUS,
+                // 'status' => $request->STATUS,
 
             ]);
 

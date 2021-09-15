@@ -44,8 +44,7 @@ class RecordController extends Controller
         // ->join('drop_down_options', 'endorsements.app_status', 'drop_down_options.id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->join('drop_down_options', 'candidate_positions.candidate_profile', 'drop_down_options.id')
-            ->select('drop_down_options.*', 'candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as CID', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as CID', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
         if ($request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->cl == null && $request->date == null) {
             $Userdata->whereIn('candidate_informations.saved_by', $request->user_id);
         }
@@ -70,13 +69,13 @@ class RecordController extends Controller
             $Userdata->whereIn('candidate_informations.id', $request->candidate)->whereIn('candidate_positions.candidate_profile', $request->profile)
                 ->whereIn('candidate_domains.sub_segment', $request->sub_segment)->whereIn('candidate_domains.segment', $request->segment)->whereIn('endorsements.app_status', $request->app_status);
         }
-        $a = $Userdata->get();
-        // return $Userdata;
+        $Alldata = $Userdata->get();
+        // dd($Alldata);
         $candidates = CandidateInformation::all();
-        $count = $a->count();
+        $count = $Alldata->count();
         $data = [
             'count' => $count,
-            'Userdata' => $a,
+            'Userdata' => $Alldata,
             'candidates' => $candidates,
         ];
         return view('record.filter-user', $data);

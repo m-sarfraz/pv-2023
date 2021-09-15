@@ -28,7 +28,7 @@
 
                     @endif
                 </td>
-                <td>{{$value->applied_position}}
+                <td>{{$value->candidate_profile}}
                 </td>
                 <td>{{$value->sub_segment}}</td>
                 <td>
@@ -45,7 +45,7 @@
                 </td>
                 <td>{{$value->app_status}}</td>
                 <td>{{$value->client}}</td>
-                <td>{{$value->career_level }}</td>
+                <td>{{$value->career_endo }}</td>
                 <td>
                     @if (isset($value->endi_date))
                         {{ $value->endi_date }}
