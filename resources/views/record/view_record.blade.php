@@ -750,6 +750,12 @@
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
             // $('#candidate').empty();
+                        // show and hide loader after time set starts
+                        $('#loader').show();
+            setTimeout(function() {
+                $('#loader').hide();
+            }, 1000);
+            // show and hide loader after time set ends
 
         });
 
