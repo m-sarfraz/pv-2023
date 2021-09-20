@@ -31,7 +31,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
+                                        <input type="text" name="REF_CODE" placeholder="search keyword" required="" id ="search" oninput="ManualSearchFunction()"
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -40,8 +40,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             # of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" readonly required=""
-                                            class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" readonly required="" id = "recordNumber"
+                                            class="form-control h-px-20_custom border" value="{{$count}}" />
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                             Canidate
                                         </label>
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
-                                        onchange="AppendSelect(this)" onchange="filterUserData()" >
+                                            onchange="filterUserData()">
                                             @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->id }}">{{ $candidate->first_name }}
                                                     {{ $candidate->last_name }}</option>
@@ -85,7 +85,7 @@
                                         <select multiple name="profile" id="profile" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
                                             @foreach ($profile->options as $profileOption)
-                                                <option value="{{ $profileOption->id }}">
+                                                <option value="{{ $profileOption->option_name }}">
                                                     {{ $profileOption->option_name }}
                                                 </option>
                                             @endforeach
@@ -103,7 +103,7 @@
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
                                             @foreach ($sub_segment->options as $sub_segmentOption)
-                                                <option value="{{ $sub_segmentOption->id }}">
+                                                <option value="{{ $sub_segmentOption->option_name }}">
                                                     {{ $sub_segmentOption->option_name }}
                                                 </option>
                                             @endforeach
@@ -120,9 +120,10 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Application Status:
                                         </label>
-                                        <select multiple name="app_status" id="app_status" class="select2_dropdown  w-100">
+                                        <select multiple name="app_status" id="app_status" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($status->options as $statusOptions)
-                                                <option value="{{ $statusOptions->id }}" onchange="filterUserData()">
+                                                <option value="{{ $statusOptions->option_name }}">
                                                     {{ $statusOptions->option_name }}
                                                 </option>
                                             @endforeach
@@ -137,9 +138,10 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="client" id="client" class="select2_dropdown  w-100">
+                                        <select multiple name="client" id="client" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($client->options as $clientOptions)
-                                                <option value="{{ $clientOptions->id }}" onchange="filterUserData()">
+                                                <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
                                                 </option>
                                             @endforeach
@@ -156,10 +158,10 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Career 1 level:
                                         </label>
-                                        <select multiple name="cl" id="cl" class="select2_dropdown  w-100">
+                                        <select multiple name="career_level" id="career_level" class="select2_dropdown  w-100"
+                                            onchange="filterUserData()">
                                             @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                                <option value="{{ $CareerLevelOptions->id }}"
-                                                    onchange="filterUserData()">
+                                                <option value="{{ $CareerLevelOptions->option_name }}">
                                                     {{ $CareerLevelOptions->option_name }}
                                                 </option>
                                             @endforeach
@@ -309,14 +311,6 @@
                                                 placeholder="enter you cell" />
                                         </div>
                                     </div>
-                                    <!-- <div class="col-lg-4">
-                                                                                                                                                                                <div class="form-group mb-0">
-                                                                                                                                                                                    <label class="d-block font-size-3 mb-0">
-                                                                                                                                                                                        Segment
-                                                                                                                                                                                    </label>
-                                                                                                                                                                                    <input type="text" class="form-control users-input-S-C" />
-                                                                                                                                                                                </div>
-                                                                                                                                                                            </div> -->
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
@@ -747,18 +741,21 @@
 
 @section('script')
     <script>
+        // Section for docement ready funciton starts
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
             // $('#candidate').empty();
-                        // show and hide loader after time set starts
-                        $('#loader').show();
+            // show and hide loader after time set starts
+            $('#loader').show();
             setTimeout(function() {
                 $('#loader').hide();
             }, 1000);
             // show and hide loader after time set ends
 
         });
+        // Section for docement ready funciton starts
 
+        // funciton for channging the data to Dat Table starts
         $(function() {
             $("#record").DataTable({
                 "responsive": true,
@@ -766,17 +763,24 @@
                 "autoWidth": false,
             });
         });
+        // funciton for changing data to data tabl ends
 
+        // funciton for filtering the data according to selected input starts
         function filterUserData() {
             $("#loader").show();
+
+            // get values of selected inputs of users
+            search = $('#search').val();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();
             profile = $('#profile').val();
-            sub_segmet = $('#sub_segmet').val();
+            sub_segment = $('#sub_segment').val();
             app_status = $('#app_status').val();
-            cl = $('#cl').val();
+            career_level = $('#career_level').val();
+            client = $('#client').val();
             date = $('#date').val();
 
+            // call Ajx for returning the data as view
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/filter_records') }}',
@@ -785,66 +789,124 @@
                     user_id: user_id,
                     candidate: candidate,
                     profile: profile,
-                    sub_segmet: sub_segmet,
+                    sub_segment: sub_segment,
                     app_status: app_status,
-                    cl: cl,
+                    career_level: career_level,
+                    client: client,
                     date: date,
+                    search: search,
                 },
+
+                // Success fucniton of Ajax
                 success: function(data) {
                     $('#filter_table_div').html(data);
                     // $('#count').val(data.count);
                     $("#loader").hide();
-
+                    // appennd count value coming from hidden input of appended view to count
+                    recordCount = $('#abc').val()
+                    $('#recordNumber').val(recordCount)
                 },
             });
         }
+        // funciton for filtering the data according to selected input ends
 
-        function UserDetail() {
+        // function for selected candidate of table to show detail data on right starts
+        function UserDetail(id) {
+
+            // get values of curretn data selected
             user_id = $('#recruiter').val();
-            candidate = $('#candidate').val();
             profile = $('#profile').val();
-            sub_segmet = $('#sub_segmet').val();
+            sub_segment = $('#sub_segment').val();
             app_status = $('#app_status').val();
             cl = $('#cl').val();
             date = $('#date').val();
             $("#loader").show();
 
+            // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/filter_records_detail') }}',
                 data: {
                     _token: token,
                     user_id: user_id,
-                    candidate: candidate,
+                    id: id,
                     profile: profile,
-                    sub_segmet: sub_segmet,
+                    sub_segment: sub_segment,
                     app_status: app_status,
                     cl: cl,
                     date: date,
                 },
+
+                // Ajax Success funciton
                 success: function(data) {
+                    // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-                    // $('#count').val(data.count);
+
                     $("#loader").hide();
 
                 },
             });
         }
+        // function for selected candidate of table to show detail data on right starts
+
+        // On recruiter change append the candidates of selected recruiter
         $('#recruiter').change(function() {
             $('#candidate').empty();
-            console.log($(this).val())
             var candidate = {!! $candidates !!};
             var count = 0;
-            for (let i = 0; i < candidate.length; i++) {
-                if ($(this).val() == candidate[i].saved_by) {
-                    count++;
-                    $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i].first_name +
-                        '</option>');
+
+            // append data for each recruiter to candidate field
+            $.each($(this).val(), function(i, v) {
+                for (let i = 0; i < candidate.length; i++) {
+                    if (v == candidate[i].saved_by) {
+                        count++;
+                        // append resulting options to select field 
+                        $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
+                            .first_name +
+                            '</option>');
+                    }
                 }
-            }
+            })
         });
-         function AppendSelect(elem){
+        $('#candidate').change(function() {
+            $('#profile').empty();
+            $('#sub_segment').empty();
+            $('#date').empty();
+            $('#client').empty();
+            $('#career_level').empty();
+            $('#app_status').empty();
+            var profile = {!! $candidateprofile !!};
+            var segment = {!! $candidateDomain !!};
+            var status = {!! $endorsement !!};
+            var client = {!! $endorsement !!};
+            var career = {!! $endorsement !!};
+            var count = 0;
+            $.each($(this).val(), function(i, v) {
+                for (let i = 0; i < profile.length; i++) {
+                    if (v == profile[i].candidate_id) {
+                        count++;
+                        $('#profile').append('<option value="' + profile[i].candidate_profile + '">' +
+                            profile[i].candidate_profile +
+                            '</option>');
+                        $('#sub_segment').append('<option value="' + segment[i].sub_segment + '">' +
+                            segment[i].sub_segment +
+                            '</option>');
+                        $('#app_status').append('<option value="' + status[i].app_status + '">' + status[i]
+                            .app_status +
+                            '</option>');
+                            $('#client').append('<option value="' + client[i].client + '">' + client[i]
+                                .client +
+                                '</option>');
+                        $('#career_level').append('<option value="' + career[i].career_endo + '">' + status[i]
+                            .career_endo +
+                            '</option>');
+                    }
+                }
+            })
+        });
+
+        function AppendSelect(elem) {
             console.log($(this).val);
         }
     </script>

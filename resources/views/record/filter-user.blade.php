@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         @forelse ( $Userdata as $key=>$value )
-            <tr class="bg-transparent" onclick="UserDetail()">
+            <tr class="bg-transparent" onclick="UserDetail('{{$value->CID}}')">
                 <!-- Table data 1 -->
                 <td>{{ $key + 1 }}</td>
                 @php
@@ -69,4 +69,5 @@
 
     </tbody>
     </table>
+    <input type="hidden" name="abc" id="abc" value="{{$count}}">
 </div>
