@@ -1100,47 +1100,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-        function DownloadCV(elem) {
-            id = $('#user').val();
-            targetURL = '{{ url('admin/download_cv') }}'
-            targetURL = targetURL + '/' + id
-            $.ajax({
-                url: targetURL,
-                data: id,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-
-                // Ajax success function
-                success: function(res) {
-                    if (res.success == true) {
-                        // show success sweet alert and enable entering new record button
-                        // $('#new').prop("disabled", false);
-                        swal("success", res.message, "success").then((value) => {});
-                    } else if (res.success == false) {
-                        $("#loader").hide();
-
-                        //show warning message if file not found error occured
-                        swal({
-                            icon: "error",
-                            text: "Error occured while downloading file",
-                            icon: "error",
-                        });
-                    }
-
-                    //hide loader
-                    $("#loader").hide();
-                },
-
-                //if there is error in ajax call
-                error: function() {
-                    $("#loader").hide();
-                }
-            });
-            return false;
-        }
-
+ 
         // function for (if domain is changed append segments acoordingly) starts
         function DomainChange(elem) {
             $('#Domainsub').empty()

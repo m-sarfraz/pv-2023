@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use Auth;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -201,7 +202,7 @@ class CandidateController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
         // return $user;
@@ -342,19 +343,18 @@ class CandidateController extends Controller
     }
 
     //doanload candidate cv function starts
-    public function downloadCv(Request $request, $id)
+    public function downloadCv(Request $request)
     {
-        // return $id;
-        $user = CandidatePosition::where('candidate_id', $id)->first();
-        $file = 'assets/cv/' . $user->cv;
-        $headers = array(
-            'Content-Type: application/pdf',
-        );
-        return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
-        // } else {
-        //     return response()->json(['success' => false, 'message' => 'file not found']);
-        // }
+        $user = CandidatePosition::where('candidate_id', $request->id)->first();
+        if (File::exists('assets/cv/' . $user->cv)) {
+            $file = 'assets/cv/' . $user->cv;
+            $headers = array(
+                'Content-Type: application/pdf',
+            );
+            return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
+        } else {
+            return response()->json(['success' => false, 'message' => 'file not found']);
+        }
     }
-
-// download canidate cv functon ends
+    // download canidate cv functon ends
 }

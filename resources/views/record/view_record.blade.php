@@ -31,7 +31,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required="" id ="search" oninput="ManualSearchFunction()"
+                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
+                                            id="search" oninput="filterUserData()"
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -40,8 +41,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             # of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" readonly required="" id = "recordNumber"
-                                            class="form-control h-px-20_custom border" value="{{$count}}" />
+                                        <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
+                                            class="form-control h-px-20_custom border" value="{{ $count }}" />
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +159,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Career 1 level:
                                         </label>
-                                        <select multiple name="career_level" id="career_level" class="select2_dropdown  w-100"
-                                            onchange="filterUserData()">
+                                        <select multiple name="career_level" id="career_level"
+                                            class="select2_dropdown  w-100" onchange="filterUserData()">
                                             @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                 <option value="{{ $CareerLevelOptions->option_name }}">
                                                     {{ $CareerLevelOptions->option_name }}
@@ -173,7 +174,9 @@
                                         <label class="Label">Endo Date:</label>
                                         <input type="date" class="w-100" name="date" id="date"
                                             oninput="filterUserData()">
+                                        <span id="reset"> <i class="fa fa-refresh"></i> </span>
                                     </div>
+
                                 </div>
                             </div>
                         </form>
@@ -203,7 +206,7 @@
                         </thead>
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
-                                <tr class="bg-transparent" onclick="UserDetail()">
+                                <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
                                     <!-- Table data 1 -->
                                     <td>{{ $key + 1 }}</td>
                                     @php
@@ -886,19 +889,25 @@
                 for (let i = 0; i < profile.length; i++) {
                     if (v == profile[i].candidate_id) {
                         count++;
-                        $('#profile').append('<option value="' + profile[i].candidate_profile + '">' +
+                        $('#profile').append('<option  selected  value="' + profile[i].candidate_profile +
+                            '">' +
                             profile[i].candidate_profile +
                             '</option>');
-                        $('#sub_segment').append('<option value="' + segment[i].sub_segment + '">' +
+                        $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
+                            '">' +
                             segment[i].sub_segment +
                             '</option>');
-                        $('#app_status').append('<option value="' + status[i].app_status + '">' + status[i]
+                        $('#app_status').append('<option selected  value="' + status[i].app_status + '">' +
+                            status[i]
                             .app_status +
                             '</option>');
-                            $('#client').append('<option value="' + client[i].client + '">' + client[i]
-                                .client +
-                                '</option>');
-                        $('#career_level').append('<option value="' + career[i].career_endo + '">' + status[i]
+                        $('#client').append('<option  selected value="' + client[i].client + '">' + client[
+                                i]
+                            .client +
+                            '</option>');
+                        $('#career_level').append('<option selected  value="' + career[i].career_endo +
+                            '">' + status[
+                                i]
                             .career_endo +
                             '</option>');
                     }
@@ -909,6 +918,11 @@
         function AppendSelect(elem) {
             console.log($(this).val);
         }
+        $("#reset").click(function() {
+            $('#date').val("")
+            filterUserData();
+        })
+
     </script>
 
 @endsection

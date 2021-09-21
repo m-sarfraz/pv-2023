@@ -69,3 +69,41 @@ function save_form(id,route){
     return false;
 
 }
+
+//General function for downloading CV of Candidate starts
+function downloadCv(id, targetURL) {
+
+    // call ajax with data to controller 
+    $.ajax({
+        type: 'POST',
+        url: targetURL,
+        data:{ _token: token,id:id},
+
+        // Ajax success function
+        success: function(res) {
+            if (res.success == true) {
+                // show success sweet alert and enable entering new record button
+                swal("success", res.message, "success").then((value) => {});
+            } else if (res.success == false) {
+                $("#loader").hide();
+
+                //show warning message if file not found error occured
+                swal({
+                    icon: "error",
+                    text: "Error occured while downloading file",
+                    icon: "error",
+                });
+            }
+
+            //hide loader
+            $("#loader").hide();
+        },
+
+        //if there is error in ajax call
+        error: function() {
+            $("#loader").hide();
+        }
+    });
+    return false;
+}
+//General function for downloading CV of Candidate ends
