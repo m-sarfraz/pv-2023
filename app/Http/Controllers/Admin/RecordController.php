@@ -27,11 +27,13 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->paginate(2);
+            ->paginate(3);
 
         // get required data to use for select purpose
         $count = $Userdata->count();
         $candidates = CandidateInformation::all();
+        $candidatess = CandidateInformation::paginate(1);
+        $links = str_replace('/?', '?', $Userdata->render());
         $candidateprofile = CandidatePosition::all();
         $candidateDomain = CandidateDomain::all();
         $endorsement = Endorsement::all();
@@ -44,6 +46,7 @@ class RecordController extends Controller
             'Userdata' => $Userdata,
             'candidateprofile' => $candidateprofile,
             'candidateDomain' => $candidateDomain,
+            'candidatess' => $candidatess,
             'endorsement' => $endorsement,
         ];
         return view('record.view_record', $data);
@@ -367,6 +370,7 @@ class RecordController extends Controller
             ->where('candidate_informations.id', $request->id)
             ->first();
         // return $user;
+
         $domainDrop = Domain::all();
 
         $data = [
@@ -377,4 +381,8 @@ class RecordController extends Controller
     }
     // function for appending the data of selected row candidate ends
 
+    public function updateDetails(Request $request)
+    {
+        return $request->id;
+    }
 }

@@ -2,7 +2,7 @@
 <div class="card mb-13">
     <div class="card-body">
         <form action="">
-            <fieldset disabled="">
+            <fieldset disabled="" id="recordFieldset">
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
@@ -592,9 +592,20 @@
                 </div>
 
             </fieldset>
-            <button class="btn btn-success mt-5 btn-lg" onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download CV</button>
-            <button class="btn btn-primary mt-5 btn-lg" onclick="">Tap</button>
+            <button class="btn btn-success mt-5 btn-lg"
+                onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download CV</button>
+            <button class="btn btn-primary mt-5 btn-lg" onclick="UpdateRecord('{{$user->cid}}')">Tap</button>
 
         </form>
     </div>
 </div>
+
+<script>
+    var recruiter = "{{ Auth::user()->id }}";
+    var candidate = "{{ $user->saved_by }}";
+    if (recruiter == candidate) {
+        $('#recordFieldset').prop("disabled", false)
+    } else {
+        $('#recordFieldset').prop("disabled", true)
+    }
+</script>

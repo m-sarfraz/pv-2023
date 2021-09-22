@@ -783,7 +783,7 @@
             client = $('#client').val();
             date = $('#date').val();
 
-            // call Ajx for returning the data as view
+            // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/filter_records') }}',
@@ -816,13 +816,7 @@
         // function for selected candidate of table to show detail data on right starts
         function UserDetail(id) {
 
-            // get values of curretn data selected
-            user_id = $('#recruiter').val();
-            profile = $('#profile').val();
-            sub_segment = $('#sub_segment').val();
-            app_status = $('#app_status').val();
-            cl = $('#cl').val();
-            date = $('#date').val();
+            // show loader for waiting
             $("#loader").show();
 
             // call Ajax whihc will return view of detail data of user
@@ -831,13 +825,7 @@
                 url: '{{ url('admin/filter_records_detail') }}',
                 data: {
                     _token: token,
-                    user_id: user_id,
                     id: id,
-                    profile: profile,
-                    sub_segment: sub_segment,
-                    app_status: app_status,
-                    cl: cl,
-                    date: date,
                 },
 
                 // Ajax Success funciton
@@ -845,7 +833,6 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-
                     $("#loader").hide();
 
                 },
@@ -854,24 +841,24 @@
         // function for selected candidate of table to show detail data on right starts
 
         // On recruiter change append the candidates of selected recruiter
-        $('#recruiter').change(function() {
-            $('#candidate').empty();
-            var candidate = {!! $candidates !!};
-            var count = 0;
+        // $('#recruiter').change(function() {
+        //     $('#candidate').empty();
+        //     var candidate = {!! $candidates !!};
+        //     var count = 0;
 
-            // append data for each recruiter to candidate field
-            $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < candidate.length; i++) {
-                    if (v == candidate[i].saved_by) {
-                        count++;
-                        // append resulting options to select field 
-                        $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
-                            .first_name +
-                            '</option>');
-                    }
-                }
-            })
-        });
+        //     // append data for each recruiter to candidate field
+        //     $.each($(this).val(), function(i, v) {
+        //         for (let i = 0; i < candidate.length; i++) {
+        //             if (v == candidate[i].saved_by) {
+        //                 count++;
+        //                 // append resulting options to select field 
+        //                 $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
+        //                     .first_name +
+        //                     '</option>');
+        //             }
+        //         }
+        //     })
+        // });
         $('#candidate').change(function() {
             $('#profile').empty();
             $('#sub_segment').empty();
@@ -923,6 +910,33 @@
             filterUserData();
         })
 
+        function UpdateRecord(id) {
+            // show loader for waiting
+            $("#loader").show();
+
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "POST",
+                url: '{{ url('admin/update_records_detail') }}',
+                data: {
+                    _token: token,
+                    id: id,
+                },
+
+                // Ajax Success funciton
+                success: function(res) {
+                    // append retured view view to div 
+                    console.log('hello')
+                    swal({
+                        icon: "success",
+                        text: "{{ __('Updated Successfully') }}",
+                        icon: "success",
+                    });
+                    $("#loader").hide();
+
+                },
+            });
+        }
     </script>
 
 @endsection
