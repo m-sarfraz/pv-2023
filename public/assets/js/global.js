@@ -1,7 +1,7 @@
-function select2Dropdown(obj){
-   $("."+obj).select2();
+function select2Dropdown(obj) {
+    $("." + obj).select2();
 }
-function delete_data(obj,route){
+function delete_data(obj, route) {
     swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -10,22 +10,22 @@ function delete_data(obj,route){
     })
         .then((delete_data) => {
             $("#loader").show();
-            var id    =   $(obj).data('id');
+            var id = $(obj).data('id');
             $.ajax({
                 url: route,
                 data: {
-                    '_token':$('meta[name=csrf-token]').attr("content"),
-                    'id' : id
+                    '_token': $('meta[name=csrf-token]').attr("content"),
+                    'id': id
                 },
                 type: 'POST',
                 success: function (res) {
-                    if(res.success == true){
+                    if (res.success == true) {
 
                         swal("Success", res.message, 'success');
-                        setTimeout(function(){
+                        setTimeout(function () {
                             location.reload();
-                        },1000);
-                    }else if(res.success == false){
+                        }, 1000);
+                    } else if (res.success == false) {
                         swal("Warning", res.message, 'error');
                     }
 
@@ -39,9 +39,9 @@ function delete_data(obj,route){
         });
 
 }
-function save_form(id,route){
+function save_form(id, route) {
     $("#loader").show();
-    var form    = document.querySelector("#"+id);
+    var form = document.querySelector("#" + id);
     var data = new FormData(form);
     $.ajax({
         url: route,
@@ -50,13 +50,13 @@ function save_form(id,route){
         processData: false,
         type: 'POST',
         success: function (res) {
-            if(res.success == true){
+            if (res.success == true) {
 
                 swal("Success", res.message, 'success');
-                setTimeout(function(){
+                setTimeout(function () {
                     location.reload();
-                },1000);
-            }else if(res.success == false){
+                }, 1000);
+            } else if (res.success == false) {
                 swal("Warning", res.message, 'error');
             }
 
@@ -72,18 +72,23 @@ function save_form(id,route){
 
 //General function for downloading CV of Candidate starts
 function downloadCv(id, targetURL) {
+    $("#loader").show();
 
     // call ajax with data to controller 
     $.ajax({
         type: 'POST',
         url: targetURL,
-        data:{ _token: token,id:id},
+        data: { _token: token, id: id },
 
         // Ajax success function
-        success: function(res) {
+        success: function (res) {
+            $("#loader").hide();
+
             if (res.success == true) {
+                $("#loader").hide();
+
                 // show success sweet alert and enable entering new record button
-                swal("success", res.message, "success").then((value) => {});
+                swal("success", res.message, "success").then((value) => { });
             } else if (res.success == false) {
                 $("#loader").hide();
 
@@ -100,7 +105,7 @@ function downloadCv(id, targetURL) {
         },
 
         //if there is error in ajax call
-        error: function() {
+        error: function () {
             $("#loader").hide();
         }
     });

@@ -90,6 +90,12 @@ class RecordController extends Controller
                 ->whereIn('candidate_domains.sub_segment', $request->sub_segment)->whereIn('candidate_informations.saved_by', $request->user_id)
                 ->whereIn('endorsements.app_status', $request->app_status)->whereIn('endorsements.client', $request->client);
         }
+        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null) {
+            $Userdata->whereIn('candidate_informations.id', $request->candidate)->whereIn('candidate_positions.candidate_profile', $request->profile)
+                ->whereIn('endorsements.career_endo', $request->career_level)
+                ->whereIn('candidate_domains.sub_segment', $request->sub_segment)->whereIn('candidate_informations.saved_by', $request->user_id)
+                ->whereIn('endorsements.app_status', $request->app_status)->whereIn('endorsements.client', $request->client);
+        }
         if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client != null && $request->career_level != null && $request->date != null) {
             // dd($request->career_level);
             $time = strtotime($request->date);
@@ -323,6 +329,9 @@ class RecordController extends Controller
         }
         // Custom condition if user id not null with all other select ends
 
+        // condiiton for one null with all other starts
+
+        // condiiton for one null with all other ends
         $Alldata = $Userdata->where('candidate_informations.first_name', 'like', '%' . $request->search . '%')
         //     ->where('candidate_positions.candidate_profile', 'like', '%' . $request->search . '%')
         //     ->where('endorsements.career_endo', 'like', '%' . $request->search . '%')

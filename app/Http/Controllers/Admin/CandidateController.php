@@ -47,23 +47,24 @@ class CandidateController extends Controller
             'LAST_NAME' => 'required',
             "FIRST_NAME" => "required",
             "EMAIL_ADDRESS" => "required|email",
-            // "CONTACT_NUMBER" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
-            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // // "COURSE" => 'required ',
-            // "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
-            // // "DATE_SIFTED" => 'required ',
-            // // "DOMAIN" => 'required ',
-            // // "SEGMENT" => 'required ',
-            // // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            // "POSITION_TITLE_APPLIED" => 'required ',
+            "CONTACT_NUMBER" => "required",
+            "GENDER" => "required",
+            "RESIDENCE" => 'required ',
+            "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            "COURSE" => 'required ',
+            "CANDIDATES_PROFILE" => 'required ',
+            "INTERVIEW_NOTES" => 'required ',
+            "DATE_SIFTED" => 'required ',
+            "DOMAIN" => 'required ',
+            "SEGMENT" => 'required ',
+            "SUB_SEGMENT" => 'required ',
+            "EMPLOYMENT_HISTORY" => 'required ',
+            "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
-            // "MANNER_OF_INVITE" => 'required ',
-            // "CURRENT_SALARY" => 'required ',
-            // "CURRENT_ALLOWANCE" => 'required ',
+            "MANNER_OF_INVITE" => 'required ',
+            "CURRENT_SALARY" => 'required ',
+            "file" => 'required ',
+            "CURRENT_ALLOWANCE" => 'required ',
             // "EXPECTED_SALARY" => 'required ',
             // "OFFERED_SALARY" => 'required ',
             // "OFFERED_ALLOWANCE" => 'required ',
@@ -271,13 +272,17 @@ class CandidateController extends Controller
             ]);
 
             // update candidae domain data
+            $domain_name = Domain::where('id', $request->DOMAIN)->first();
+            $name = Segment::where('id', $request->SEGMENT)->first();
+            $Sub_name = SubSegment::where('id', $request->SUB_SEGMENT)->first();
+
             CandidateDomain::where('candidate_id', $id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
-                'domain' => $request->DOMAIN,
+                'domain' => $domain_name->name,
                 'emp_history' => $request->EMPLOYMENT_HISTORY,
                 'interview_note' => $request->INTERVIEW_NOTES,
-                'segment' => $request->SEGMENT,
-                'sub_segment' => $request->SUB_SEGMENT,
+                'segment' => $name->segment_name,
+                'sub_segment' => $Sub_name->sub_segment_name,
             ]);
 
             // Upload CV of user

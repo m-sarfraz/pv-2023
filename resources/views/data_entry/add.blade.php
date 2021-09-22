@@ -20,7 +20,7 @@
                                 <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
                                     User&#x27;s Name
                                 </label>
-                                <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75" 
+                                <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75"
                                     style="padding-left: 12px !important;" aria-describedby="emailHelp"
                                     value="{{ Auth::user()->name }}" placeholder="enter candidate name" />
                             </div>
@@ -218,7 +218,8 @@
                                                                 id="EDUCATIONAL_ATTAINTMENT">
                                                                 <option value="" disabled>select option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                                                    <option value="{{ $eduAttainmentOptions->option_name }}">
+                                                                    <option
+                                                                        value="{{ $eduAttainmentOptions->option_name }}">
                                                                         {{ $eduAttainmentOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -259,7 +260,8 @@
                                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                                                 <option selected disabled></option>
                                                                 @foreach ($certificate->options as $certificateOption)
-                                                                    <option value="{{ $certificateOption->option_name }}">
+                                                                    <option
+                                                                        value="{{ $certificateOption->option_name }}">
                                                                         {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -315,7 +317,7 @@
                                                                 ?>
                                                                 <label class="Label">segment</label>
                                                                 <select name="SEGMENT" id="Domainsegment"
-                                                                    onchange="SegmentChange(this)"
+                                                                    onchange="SegmentChange('Domainsegment')"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option selected disabled>Select Option</option>
                                                                     {{-- @foreach ($segment->options as $segmentOption)
@@ -335,7 +337,7 @@
                                                                 <label class="Label">sub-segment</label>
                                                                 <select name="SUB_SEGMENT" id="Domainsub"
                                                                     class="form-control p-0 users-input-S-C">
-                                                                    <option selected disabled></option>
+                                                                    <option selected disabled>Select Option</option>
                                                                     {{-- @foreach ($sub_segment->options as $sub_segmentOption)
                                                                         <option value="{{ $sub_segmentOption->id }}">
                                                                             {{ $sub_segmentOption->option_name }}
@@ -416,7 +418,8 @@
                                                                 id="manners" class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled></option>
                                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
-                                                                    <option value="{{ $manner_of_inviteOption->option_name }}">
+                                                                    <option
+                                                                        value="{{ $manner_of_inviteOption->option_name }}">
                                                                         {{ $manner_of_inviteOption->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -431,7 +434,7 @@
                                                             <label class="Label">
                                                                 Current Salary:
                                                             </label>
-                                                            <input type="number" class="form-control p-0 users-input-S-C`"
+                                                            <input type="number" class="form-control users-input-S-C"
                                                                 id="current_salary" name="CURRENT_SALARY" />
                                                         </div>
                                                         <div>
@@ -912,12 +915,13 @@
                                                             <label class="d-block font-size-3 mb-0">
                                                                 Career level
                                                             </label>
-                                                            <select name="CAREER_LEVEL_FINANCE" required=""
+                                                            <select name="CAREER_LEVEL_FINANCE" required="" disabled=""
                                                                 id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($careerLevel->options as $careerLevelOptions)
-                                                                    <option value="{{ $careerLevelOptions->option_name }}">
+                                                                    <option
+                                                                        value="{{ $careerLevelOptions->option_name }}">
                                                                         {{ $careerLevelOptions->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -1054,20 +1058,20 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").css('border-color',
-                                    'red');
+                                $("input[name='" + i + "']").css('border',
+                                    '2px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
                                     .append(
-                                        '<span style="color:red;" >' + e + '</span>'
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
                             });
 
                             // show warning message to user if firld is required
                             swal({
                                 icon: "error",
-                                text: "{{ __('Please fix the highlighted errors!') }}",
+                                text: "{{ __('Please fill all required fields!') }}",
                                 icon: "error",
                             });
                         }
@@ -1100,7 +1104,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
- 
+
         // function for (if domain is changed append segments acoordingly) starts
         function DomainChange(elem) {
             $('#Domainsub').empty()
@@ -1123,7 +1127,10 @@
                         .segment_name +
                         '</option>');
                 }
+
             }
+            SegmentChange("Domainsegment");
+
         }
         // function for (if domain is changed append segments acoordingly) starts
 
@@ -1134,7 +1141,7 @@
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
-                if ($(elem).val() == sub_segmentsDropDown[i].segment_id) {
+                if ($('#Domainsegment').val()== sub_segmentsDropDown[i].segment_id) {
                     count++;
                     $('#Domainsub').append('<option value="' + sub_segmentsDropDown[i].id + '">' + sub_segmentsDropDown[i]
                         .sub_segment_name +
@@ -1163,5 +1170,6 @@
             }
         });
         // apppending endorsements segments ends
+
     </script>
 @endsection
