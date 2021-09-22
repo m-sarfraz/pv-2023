@@ -1155,12 +1155,12 @@
         // function for (if segment is changed append segments acoordingly) ends
 
         // apppending endorsements segments starts
-        $('#segment').change(function() {
+  function changeSegment(elem) {
             $('#sub_segment').empty()
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
-                if ($(this).val() == sub_segmentsDropDown[i].segment_id) {
+                if ($('#'+elem).val() == sub_segmentsDropDown[i].segment_id) {
                     count++;
                     $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
                         sub_segmentsDropDown[i]
@@ -1168,7 +1168,7 @@
                         '</option>');
                 }
             }
-        });
+        }
         // apppending endorsements segments ends
 
     </script>

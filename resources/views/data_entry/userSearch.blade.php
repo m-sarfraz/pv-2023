@@ -626,15 +626,15 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Domain
                                 </label>
-                                <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
-                                    class="form-control p-0 users-input-S-C">
-                                    <option selected disabled>Select Option</option>
-                                    @foreach ($domainDrop as $domainOption)
-                                        <option value="{{ $domainOption->domain_name }}">
-                                            {{ $user->domain_endo == $domainOption->domain_name ? 'selected' : '' }}>
-                                            {{ $domainOption->domain_name }}
-                                        </option>
-                                    @endforeach
+                                <select id="domain_endo" readonly name="DOMAIN_ENDORSEMENT"
+                                    onchange="DomainChange(this)"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" disabled selected>Select Option</option>
+                                    {{-- @foreach ($domain->options as $domainOptions)
+                                    <option value="{{ $domainOptions->id }}">
+                                        {{ $domainOptions->option_name }}
+                                    </option>
+                                @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -650,14 +650,15 @@
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="Label">Segment</label>
-                                <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange('Domainsegment')"
-                                    class="form-control p-0 users-input-S-C">
-                                    <option selected disabled>Select Option</option>
-                                    {{-- @foreach ($segment->options as $segmentOption)
-                                                                        <option value="{{ $segmentOption->id }}">
-                                                                            {{ $segmentOption->option_name }}</option>
-                                                                    @endforeach --}}
-
+                                <select disabled="" id="segment" name="SEGMENT"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100"
+                                    onchange="changeSegment('segment')">
+                                    <option value="" disabled selected>Select Option</option>
+                                    {{-- @foreach ($segments->options as $segmentsOptions)
+                                                            <option value="{{ $segmentsOptions->id }}">
+                                                                {{ $segmentsOptions->option_name }}
+                                                            </option>
+                                                        @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -689,13 +690,14 @@
                             @endphp
                             <div class="form-group mb-0">
                                 <label class="Label">sub-segment</label>
-                                <select name="SUB_SEGMENT" id="Domainsub" class="form-control p-0 users-input-S-C">
-                                    <option selected disabled>Select Option</option>
-                                    {{-- @foreach ($sub_segment->options as $sub_segmentOption)
-                                                                        <option value="{{ $sub_segmentOption->id }}">
-                                                                            {{ $sub_segmentOption->option_name }}
-                                                                        </option>
-                                                                    @endforeach --}}
+                                <select disabled="" id="sub_segment" name="SUB_SEGMENT"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" disabled selected>Select Option</option>
+                                    {{-- @foreach ($sub_segment->options as $sub_segmentOptions)
+                                                            <option value="{{ $sub_segmentOptions->id }}">
+                                                                {{ $sub_segmentOptions->option_name }}
+                                                            </option>
+                                                        @endforeach --}}
                                 </select>
                             </div>
                         </div>
