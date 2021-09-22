@@ -77,11 +77,13 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
-                                <form class="C_To_GS">
+                                <!-- <form class="C_To_GS"> -->
+                                    <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}">
                                     <div style="padding: 93px;" class="pb-3">
                                         <img style="width: 68.75px; cursor: pointer" src="{{ asset('assets/image/profile/sheetImage.png')  }}" onclick="showFieldSheet(this)"/>
                                     </div>
-                                    <fieldset class="ml-10 mr-10 fieldSheet d-none">
+                                    </a>
+                                    <!-- <fieldset class="ml-10 mr-10 fieldSheet d-none">
                                         <div class="row mb-xl-1 mb-9 justify-content-center">
                                             <div class="col-lg-8">
                                                 <div class="form-group">
@@ -102,8 +104,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </form>
+                                    </fieldset> -->
+                                <!-- </form> -->
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">

@@ -78,6 +78,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'download_cv/{id}', 'CandidateController@downloadCv');
 
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
+    Route::get('connect-to-sheet', 'ProfileController@readsheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
@@ -97,3 +98,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/testsheet', 'HomeController@testsheet');
