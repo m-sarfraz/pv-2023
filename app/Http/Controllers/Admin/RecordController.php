@@ -369,7 +369,6 @@ class RecordController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
-        // return $user;
 
         $domainDrop = Domain::all();
 
