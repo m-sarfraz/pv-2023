@@ -9,7 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\CandidateInformation;
+use App\CandidateEducation;
+use App\CandidateDomain;
+use App\CandidatePosition;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -76,25 +80,134 @@ class ProfileController extends Controller
 
         $data = $googleSheet->readGoogleSheet();
 
-        $data[0][1][14];
-        foreach ($data[0] as $render) {
-            
-            // Make validation 
-            $Validated = CandidateInformation::all();
-            //store by for loop
-            
+        foreach ($data as $render_skipped_rows) {
+            //unset first two rows
+            unset($data[0][0]);
+            unset($data[0][1]);
+            foreach ($render_skipped_rows as $render) {
 
-            $store_by_google_sheet = new CandidateInformation();
-            $store_by_google_sheet->first_name = $render[14];
-            $store_by_google_sheet->middle_name = $render[15];
-            $store_by_google_sheet->last_name = $render[16];
-            $store_by_google_sheet->gender = $render[17];
-            $store_by_google_sheet->dob =  $render[18];
-            $store_by_google_sheet->phone = $render[19];
-            $store_by_google_sheet->email = $render[20];
-            $store_by_google_sheet->address = $render[21];
-            $store_by_google_sheet->save();
+
+
+                //Explode candidate index into first,middle,last
+                $candidate_name = explode(' ', $render[13]);
+                $candidate_phone = $render[19];
+
+
+                $con = 0;
+                $con1 = 1;
+                $con2 = 2;
+                $query = DB::table("candidate_informations")
+                    ->where("first_name", $render[14])
+                    ->orwhere("last_name", $render[16])
+                    ->orwhere("phone", $candidate_phone)
+                    ->first();
+
+                if (isset($query->id)) {
+                    // update record
+
+
+                    $store_by_google_sheet = CandidateInformation::find($query->id);
+                } else {
+                    // insert record
+                    $store_by_google_sheet = new CandidateInformation();
+                }
+
+
+                if (!empty($candidate_name[2])) {
+
+                    $store_by_google_sheet->first_name = $candidate_name[$con];
+                    $store_by_google_sheet->middle_name = $candidate_name[$con1];
+                    $store_by_google_sheet->last_name = $candidate_name[$con2];
+                } else {
+
+                    $store_by_google_sheet->first_name = $candidate_name[$con];
+                    $store_by_google_sheet->middle_name = $candidate_name[$con1];
+                }
+
+                $store_by_google_sheet->gender = $render[17];
+                $store_by_google_sheet->dob =  $render[18];
+                if (strstr($candidate_phone, ';', false)) {
+
+                    $store_by_google_sheet->phone = strstr($candidate_phone, ';', true);
+                } else {
+                    $store_by_google_sheet->phone = $candidate_phone;
+                }
+
+                $store_by_google_sheet->email = $render[20];
+                $store_by_google_sheet->address = $render[21];
+                // $store_by_google_sheet->status = $render[21];
+                $store_by_google_sheet->saved_by = Auth::user()->id;
+                $store_by_google_sheet->save();
+                // start store data in candidate_educations 
+                $query = DB::table("candidate_educations")
+                    ->where("candidate_id", $store_by_google_sheet->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $candidateEducation = CandidateEducation::find($query->id);
+                } else {
+                    // insert record
+                    $candidateEducation  = new CandidateEducation();
+                }
+                $candidateEducation->course = $render[22];
+                $candidateEducation->educational_attain = $render[23];
+                $candidateEducation->certification = $render[24];
+                $candidateEducation->candidate_id = $store_by_google_sheet->id;
+                $candidateEducation->save();
+
+                // end  store data in candidate_educations 
+                // start  store data in candidate_domains 
+                $query = DB::table("candidate_domains")
+                    ->where("candidate_id", $store_by_google_sheet->id)
+                    ->first();
+
+                if (isset($query->id)) {
+                    // update record
+                    $candidateDomain = CandidateDomain::find($query->id);
+                } else {
+                    // insert record
+                    $candidateDomain  = new CandidateDomain();
+                }
+                $candidateDomain->candidate_id = $store_by_google_sheet->id;
+                $candidateDomain->date_shifted = $render[4];
+                $candidateDomain->domain = $render[8];
+                $candidateDomain->emp_history = $render[25];
+                $candidateDomain->interview_note = $render[26];
+                $candidateDomain->segment = $render[9];
+                $candidateDomain->sub_segment = $render[10];
+                $candidateDomain->save();
+                // end  store data in candidate_domains 
+                // start store data in candidate_position
+                $query = DB::table("candidate_positions")
+                    ->where("candidate_id", $store_by_google_sheet->id)
+                    ->first();
+
+                if (isset($query->id)) {
+                    // update record
+                    $candidatePosition = CandidatePosition::find($query->id);
+                } else {
+                    // insert record
+                    $candidatePosition  = new CandidatePosition();
+                }
+                $candidatePosition->candidate_id = $store_by_google_sheet->id;
+                $candidatePosition->candidate_profile = $render[7];
+                $candidatePosition->position_applied = $render[6];
+                $candidatePosition->date_invited = $render[12];
+                $candidatePosition->manner_of_invite = $render[11];
+                $candidatePosition->curr_salary = intval($render[27]);
+                $candidatePosition->exp_salary = intval($render[29]);
+                $candidatePosition->exp_salary = intval($render[29]);
+                $candidatePosition->off_salary = intval($render[30]);
+                $candidatePosition->curr_allowance = intval($render[28]);
+                $candidatePosition->off_allowance = intval($render[31]);
+                $candidatePosition->save();
+
+                // end store data in candidate_position
+
+                $con++;
+                $con1++;
+                $con2++;
+            }
         }
-        dd("Completed");
     }
 }

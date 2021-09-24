@@ -80,6 +80,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::get('connect-to-sheet', 'ProfileController@readsheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
+    Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
