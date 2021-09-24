@@ -1082,7 +1082,7 @@
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
                                 $("input[name='" + i + "']").css('border',
-                                    '2px solid red');
+                                    '1px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
@@ -1090,7 +1090,7 @@
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
                                     $("select[name='" + i + "']").css('border',
-                                    '2px solid red');
+                                    '1px solid red');
                                 $("select[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("select[name='" + i + "']").parent().parent()
