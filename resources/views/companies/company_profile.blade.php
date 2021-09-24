@@ -3,7 +3,7 @@
 @section('style')
     <!-- ================= -->
     <!-- Datatable css start-->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
@@ -269,7 +269,7 @@
 @section('script')
     <!-- ================= -->
     <!-- Datatable js start-->
-    <script src="//cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <script src= "{{ asset('assets/js/jquery.dataTables.min.js') }}" ></script>
 
     <script>
         $(function() {

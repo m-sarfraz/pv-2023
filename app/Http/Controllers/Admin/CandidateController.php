@@ -24,7 +24,19 @@ class CandidateController extends Controller
 
     //index function for data entry page showing starts
     public function data_entry()
-    {
+    {$candidateDetail = null;
+        if (isset($_GET['id'])) {
+            $candidateDetail = CandidateInformation::
+                join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+                ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+                ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+                ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+                ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+                ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+                ->where('candidate_informations.id', $_GET['id'])
+                ->first();
+        } # code...
+
         $user = CandidateInformation::all();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
@@ -34,6 +46,7 @@ class CandidateController extends Controller
             'user' => $user,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
+            'candidateDetail' => $candidateDetail,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
         ];
 

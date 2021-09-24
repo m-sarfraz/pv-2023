@@ -1,7 +1,7 @@
 <p class="C-Heading pt-3">Requirement Details:</p>
 <div class="card mb-13">
     <div class="card-body">
-        <form action="">
+        <form action="" id = "user_detail_form">
             <fieldset disabled="" id="recordFieldset">
                 <div class="row mb-1">
                     <div class="col-lg-6">
@@ -159,7 +159,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Domains</label>
-                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C">
+                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C" onchange = "DomainChange(this)">
                                 <option selected disabled>Select Option</option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
@@ -192,7 +192,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Segment:</label>
-                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C">
+                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C" onchange="SegmentChange(this)">
                                 <option selected disabled>Select Option</option>
 
                             </select>
@@ -203,7 +203,7 @@
                             <label class="Label">
                                 Sub Segment:
                             </label>
-                            <select name="sub_segment" id="sub_segment" class="form-control p-0 users-input-S-C">
+                            <select name="sub_segment" id="Domain_sub_segment" class="form-control p-0 users-input-S-C">
                                 <option selected disabled>Select Option</option>
 
                             </select>
@@ -504,7 +504,7 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
-                                                    <select name="DOMAIN" id="domain"
+                                                    <select name="DOMAIN_endo" id="domain" onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option selected disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
@@ -529,7 +529,8 @@
                                                     <label class="Label-00">
                                                         Segment:
                                                     </label>
-                                                    <select name="endo_segment" id="" class="w-100">
+                                                    <select name="endo_segment" id="Domainsegment" class="w-100" onchange="changeSegment(this)">
+                                                        <option value="" disabled selected>Select Option</option>
 
                                                     </select>
                                                 </div>
@@ -560,7 +561,8 @@
                                                     <label class="Label-00">
                                                         sub-segment:
                                                     </label>
-                                                    <select name="endo_sub_segment" id="" class="w-100">
+                                                    <select name="endo_sub_segment" id="endo_sub_segment" class="w-100">
+                                                        <option value="" disabled selected>Select Option</option>
 
                                                     </select>
                                                 </div>
@@ -598,8 +600,7 @@
                     <button class="btn btn-primary mt-5 btn-lg" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
                 
                 @else
-                    <button class="btn btn-primary mt-5 btn-lg">Tap</button>
-                
+                    <a type = "button" href= "{{url('admin/data-entry')}}?id={{$user->id}}" class="btn btn-primary mt-5 btn-lg">Tap</a>
                 @endif
         </form>
     </div>
