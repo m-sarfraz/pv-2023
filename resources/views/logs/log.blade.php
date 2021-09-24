@@ -31,7 +31,7 @@
                 <p class="C-Heading pt-3">Log:</p>
                 <div class="table-responsive border">
                     <div class="">
-                <table id=" log_table" class="table">
+                <table class=" table" id="log_table">
                         <thead class="bg-light w-100">
                             <tr>
                                 <th>ACTION_BY<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
