@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-1">
+                            <div class="row mb-1 align-ite">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         @php
@@ -172,7 +172,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label">Endo Date:</label>
-                                        <input type="date" class="w-100" name="date" id="date"
+                                        <input type="date" class="w-100 form-control" name="date" id="date"
                                             oninput="filterUserData()">
                                         <span id="reset"> <i class="fa fa-refresh"></i> </span>
                                     </div>

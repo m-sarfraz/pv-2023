@@ -47,11 +47,11 @@
                             </div>
                         </div>
                         <p class="mb-0 pt-2">Filter by:</p>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center" >
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="Label">Client</label>
-                                    <select name="" id="" class="w-100" >
+                                    <label class="Label  labelFontSize">Client</label>
+                                    <select name="" id="" class="w-100 select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -61,11 +61,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                <div class="form-group mb-0 pt-1">
+                                    <label class="d-block font-size-3 Label labelFontSize mb-0">
                                         Domain
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -75,13 +75,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center">
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                    <label class="d-block font-size-3 Label labelFontSize mb-0">
                                         Segment
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -92,10 +92,10 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                    <label class="d-block font-size-3 Label labelFontSize mb-0">
                                         S-Segment
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -105,13 +105,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center">
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                    <label class="d-block font-size-3 Label labelFontSize mb-0">
                                         Position Title:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -122,10 +122,10 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                    <label class="d-block font-size-3 mb-0 Label labelFontSize" >
                                         Career Level:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -135,13 +135,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center">
                             <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
+                                <div class="form-group mb-0 pt-1">
+                                    <label class="d-block font-size-3 mb-0 Label labelFontSize">
                                         Status
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -152,8 +152,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    <label class="Label">Location</label>
-                                    <select name="" id="" class="w-100">
+                                    <label class="Label labelFontSize">Location</label>
+                                    <select name="" id="" class="select2_dropdown w-100 form-control"  multiple>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -461,7 +461,9 @@
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-
+<script>
+        select2Dropdown("select2_dropdown");
+</script>
     <!-- <script>
         $(function() {
             $("#example1").DataTable({

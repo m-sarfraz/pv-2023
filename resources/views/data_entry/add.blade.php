@@ -17,7 +17,7 @@
                         <div class="card-body p-0">
                             <div class="form-group">
 
-                                <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0">
+                                <label class="d-block text-black-2 font-size-3 font-weight-semibold mb-0 pl-3 pt-2">
                                     User&#x27;s Name
                                 </label>
                                 <input type="email" disabled="" class="form-control users-input m-3 mt-0 w-75"
@@ -91,7 +91,7 @@
                                                 <div class="row mb-2">
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">*Last Name:</label>
+                                                            <label class="Label labelFontSize">Last Name:<sup class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
                                                                 name="LAST_NAME" required=""
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->last_name : '' }}" />
@@ -100,7 +100,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 Middle Initial
                                                             </label>
                                                             <input type="text" class="form-control users-input-S-C"
@@ -110,7 +110,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">*First Name:</label>
+                                                            <label class="Label labelFontSize">First Name:<sup class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->first_name : '' }}"
                                                                 name="FIRST_NAME" required="" />
@@ -124,7 +124,7 @@
                                                             @php
                                                                 $gender = Helper::get_dropdown('gender');
                                                             @endphp
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Gender
                                                             </label>
                                                             <select name="GENDER"
@@ -139,7 +139,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 DOB
                                                             </label>
                                                             <input type="date" name="DATE_OF_BIRTH"
@@ -151,8 +151,8 @@
                                                 <div class="row mb-2">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label for="validationDefaultUsername"
-                                                                class="mb-0 d-block font-size-3 mb-0">
+                                                            <label for="validationDefaultUsername "
+                                                                class="mb-0 d-block font-size-3 mb-0 labelFontSize">
                                                                 Email
                                                             </label>
                                                             <div class="input-group">
@@ -172,7 +172,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
                                                             <label for="validationDefaultUsername"
-                                                                class="mb-0 d-block font-size-3 mb-0">
+                                                                class="mb-0 d-block font-size-3 mb-0 labelFontSize">
                                                                 Contact
                                                             </label>
                                                             <div class="input-group">
@@ -193,7 +193,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="form-group mb-0">
-                                                            <label class="mb-0 d-block font-size-3 mb-0">
+                                                            <label class="mb-0 d-block font-size-3 mb-0 labelFontSize">
                                                                 Residence
                                                             </label>
                                                             {{-- <select name="RESIDENCE" class="form-control p-0 EmailInput-F">
@@ -210,10 +210,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row align-items-center">
                                                     <div class="col-lg-7">
-                                                        <div class="form-group mb-0">
-                                                            <label class="mb-0 d-block font-size-3 mb-0">
+                                                        <div class="form-group pt-1 mb-0">
+                                                            <label class="mb-0 d-block font-size-3 mb-0 labelFontSize">
                                                                 Educational Attainment:
                                                             </label>
                                                             <?php
@@ -239,7 +239,7 @@
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">Course</label>
+                                                            <label class="Label labelFontSize">Course</label>
                                                             <?php
                                                             $course = Helper::get_dropdown('course');
                                                             ?>
@@ -264,7 +264,7 @@
                                                             <?php
                                                             $certificate = Helper::get_dropdown('certifications');
                                                             ?>
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 CERTIFICATIONS
                                                             </label>
                                                             <select name="CERTIFICATIONS"
@@ -283,7 +283,7 @@
                                                 <hr class="mb-9" />
                                                 <div class="row mb-6">
                                                     <div class="col-lg-5">
-                                                        <label class="` Label">
+                                                        <label class="` Label labelFontSize">
                                                             Interview Notes
                                                         </label>
                                                         <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
@@ -294,8 +294,8 @@
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="row mb-xl-1 mb-9">
-                                                            <div class="col-lg-6">
-                                                                <label class="Label">
+                                                            <div class="col-lg-6 pl-0">
+                                                                <label class="Label labelFontSize">
                                                                     Date Sifted:
                                                                 </label>
                                                                 <input type="date" name="DATE_SIFTED" required=""
@@ -306,7 +306,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
-                                                                <label class="Label">Domains</label>
+                                                                <label class="Label labelFontSize">Domains</label>
                                                                 <select name="DOMAIN" id="domain" required=""
                                                                     onchange="DomainChange(this)"
                                                                     class="form-control p-0 users-input-S-C">
@@ -324,11 +324,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mb-xl-1 mb-9">
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-6 pl-0">
                                                                 <?php
                                                                 $segment = Helper::get_dropdown('segments');
                                                                 ?>
-                                                                <label class="Label">segment</label>
+                                                                <label class="Label labelFontSize">segment</label>
                                                                 <select name="SEGMENT" id="Domainsegment"
                                                                     onchange="SegmentChange('Domainsegment')"
                                                                     class="form-control p-0 users-input-S-C">
@@ -343,11 +343,11 @@
                                                                     <small class="text-danger"></small>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            <div class="col-lg-6 pl-0">
                                                                 <?php
                                                                 $sub_segment = Helper::get_dropdown('sub_segment');
                                                                 ?>
-                                                                <label class="Label">sub-segment</label>
+                                                                <label class="Label labelFontSize">sub-segment</label>
                                                                 <select name="SUB_SEGMENT" id="Domainsub"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option selected disabled>Select Option</option>
@@ -363,9 +363,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mb-xl-1 mb-9">
-                                                            <div class="col-lg-12">
+                                                            <div class="col-lg-12 pl-0">
                                                                 <label
-                                                                    class="text-black-2 font-size-3 font-weight-semibold mb-0">
+                                                                    class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
                                                                     Employement History</label>
                                                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                                     class="form-control border E_HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
@@ -379,7 +379,7 @@
                                                         $profile = Helper::get_dropdown('candidates_profile');
                                                         ?>
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 candidate profile
                                                             </label>
                                                             <select name="CANDIDATES_PROFILE"
@@ -400,7 +400,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 position applied
                                                             </label>
                                                             <input type="text" name="POSITION_TITLE_APPLIED"
@@ -413,7 +413,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class=" p-0 users-input-S-C mb-0"> Date Invited</label>
+                                                            <label class=" p-0  mb-0 labelFontSize"> Date Invited</label>
                                                             <input type="date" name="DATE_INVITED" disabled=""
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
                                                                 id="date_invited"
@@ -427,7 +427,7 @@
                                                             <?php
                                                             $manner_of_invite = Helper::get_dropdown('manner_of_invite');
                                                             ?>
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 Manner of invite
                                                             </label>
                                                             <select name="MANNER_OF_INVITE" onchange="mannerChange(this)"
@@ -449,7 +449,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 Current Salary:
                                                             </label>
                                                             <input type="number" class="form-control users-input-S-C"
@@ -462,7 +462,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label" name="CURRENT_ALLOWANCE">
+                                                            <label class="Label labelFontSize" name="CURRENT_ALLOWANCE">
                                                                 Current Allowance:
                                                             </label>
                                                             <input type="number" class="form-control users-input-S-C"
@@ -474,7 +474,7 @@
                                                 <div class="row mb-2">
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 Expected Salary:
                                                             </label>
                                                             <input type="number" name="EXPECTED_SALARY" id="expec_salary" disabled=""
@@ -487,7 +487,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label" name="OFFERED_SALARY">
+                                                            <label class="Label labelFontSize" name="OFFERED_SALARY">
                                                                 Offered Salary:
                                                             </label>
                                                             <input type="number" name="OFFERED_SALARY" id="off_salary"
@@ -498,7 +498,7 @@
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
-                                                            <label class="Label">
+                                                            <label class="Label labelFontSize">
                                                                 Offered Allowance:
                                                             </label>
                                                             <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
@@ -543,7 +543,7 @@
                             <!-- ================== -->
                             <!-- ENDORSMENT section start -->
                             {{-- <fieldset disabled="false"> --}}
-                            <p class="C-Heading">Endorsement Details</p>
+                            <p class="C-Heading labelFontSize">Endorsement Details</p>
                             <div class="card mb-10">
                                 <div class="card-body pt-4">
                                     <div class="row mb-1">
@@ -551,7 +551,7 @@
                                             <?php
                                             $status = Helper::get_dropdown('application_status');
                                             ?>
-                                            <label class="d-block font-size-3 mb-0">
+                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                 Application Status
                                             </label>
                                             <select name="APPLICATION_STATUS" id="ap_status"
@@ -570,7 +570,7 @@
                                                 @php
                                                     $remarks = Helper::get_dropdown('remarks_from_finance');
                                                 @endphp
-                                                <label class="Label">
+                                                <label class="Label labelFontSize">
                                                     Remarks (From Recruiter):
                                                 </label>
                                                 <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
@@ -591,8 +591,8 @@
                                                 @php
                                                     $client = Helper::get_dropdown('clients');
                                                 @endphp
-                                                <div class="form-group mb-0">
-                                                    <label class="Label">Client</label>
+                                                <div class="form-group mb-0 selectTwoTopMinus">
+                                                    <label class="Label labelFontSize">Client</label>
                                                     <select name="CLIENT" disabled="" id="client"
                                                         onchange="clientChanged(this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
@@ -610,7 +610,7 @@
                                                     @php
                                                         $status = Helper::get_dropdown('status');
                                                     @endphp
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Status
                                                     </label>
                                                     <select name="STATUS" id="status" disabled=""
@@ -633,7 +633,7 @@
                                                     @php
                                                         $endoType = Helper::get_dropdown('endorsement_type');
                                                     @endphp
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Endorsement Type:
                                                     </label>
                                                     <select name="ENDORSEMENT_TYPE" id=""
@@ -652,7 +652,7 @@
                                                     @php
                                                         $site = Helper::get_dropdown('site');
                                                     @endphp
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Site:
                                                     </label>
                                                     <select name="SITE" disabled="" id="site"
@@ -673,7 +673,7 @@
                                                     @php
                                                         $position_title = Helper::get_dropdown('position_title');
                                                     @endphp
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Position Title:
                                                     </label>
                                                     <select name="POSITION_TITLE" disabled="" id="position"
@@ -689,11 +689,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="form-group mb-0">
+                                                <div class="form-group mb-0 selectTwoTopMinus">
                                                     @php
                                                         $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
                                                     @endphp
-                                                    <label class="Label">
+                                                    <label class="Label labelFontSize">
                                                         Reason for not progressing:
                                                     </label>
                                                     <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
@@ -714,7 +714,7 @@
                                                     @php
                                                         $domain = Helper::get_dropdown('domains');
                                                     @endphp
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Domain
                                                     </label>
                                                     <select id="domain_endo" readonly name="DOMAIN_ENDORSEMENT"
@@ -730,8 +730,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="form-group mb-0">
-                                                    <label class="Label">Interview :</label>
+                                                <div class="form-group mb-0 selectTwoTopMinus">
+                                                    <label class="Label labelFontSize">Interview :</label>
                                                     <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
                                                         id="interview_schedule" class="form-control users-input-S-C" />
                                                 </div>
@@ -742,8 +742,8 @@
                                                 @php
                                                     $segments = Helper::get_dropdown('segments');
                                                 @endphp
-                                                <div class="form-group mb-0">
-                                                    <label class="Label">Segment</label>
+                                                <div class="form-group mb-0 selectTwoTopMinus">
+                                                    <label class="Label labelFontSize">Segment</label>
                                                     <select disabled="" id="segment" name="SEGMENT"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
@@ -760,7 +760,7 @@
                                                     $CareerLevel = Helper::get_dropdown('career_level');
                                                 @endphp
                                                 <div class="form-group mb-0">
-                                                    <label class="d-block font-size-3 mb-0">
+                                                    <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" disabled="" id="career"
@@ -780,8 +780,8 @@
                                                 @php
                                                     $sub_segment = Helper::get_dropdown('sub_segment');
                                                 @endphp
-                                                <div class="form-group mb-0">
-                                                    <label class="Label">sub-segment</label>
+                                                <div class="form-group mb-0 selectTwoTopMinus">
+                                                    <label class="Label labelFontSize">sub-segment</label>
                                                     <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
@@ -796,7 +796,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <div class="form-group mb-0">
-                                                        <label class="d-block font-size-3 mb-0">
+                                                        <label class="d-block font-size-3 mb-0 labelFontSize">
                                                             Endo Date:
                                                         </label>
                                                         <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
@@ -812,7 +812,7 @@
                                                     @php
                                                         $endoType = Helper::get_dropdown('endorsement_type');
                                                     @endphp
-                                                    <label class="Label">
+                                                    <label class="Label labelFontSize">
                                                         Remarks (For Finance):
                                                     </label>
                                                     <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
@@ -853,7 +853,7 @@
                                                             @php
                                                                 $remarks = Helper::get_dropdown('remarks_from_finance');
                                                             @endphp
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Remarks For Recruiter
                                                             </label>
                                                             <select name="REMARKS" id="remarks_finance"
@@ -869,7 +869,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Onboarding Date
                                                             </label>
                                                             <input type="date" name="ONBOARDING_DATE" id="onboard_date"
@@ -880,7 +880,7 @@
                                                 <div class="row mb-6">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Standard Project Reveneu
                                                             </label>
                                                             <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
@@ -889,7 +889,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Invoice Number
                                                             </label>
                                                             <input type="number" name="INVOICE_NUMBER" id="invoice_number"
@@ -903,7 +903,7 @@
                                                             @php
                                                                 $client = Helper::get_dropdown('clients');
                                                             @endphp
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 client
                                                             </label>
                                                             <select name="CLIENT_FINANCE"
@@ -920,7 +920,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Total Bilable Ammount
                                                             </label>
                                                             <input type="number" name="TOTAL_BILLABLE_AMOUNT"
@@ -935,7 +935,7 @@
                                                             @php
                                                                 $careerLevel = Helper::get_dropdown('career_level');
                                                             @endphp
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Career level
                                                             </label>
                                                             <select name="CAREER_LEVEL_FINANCE" required="" disabled=""
@@ -953,7 +953,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Rate
                                                             </label>
                                                             <select name="RATE" class="form-control border h-px-20_custom"
@@ -974,7 +974,7 @@
                                                 <div class="row mb-6">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Offered Salary
                                                             </label>
                                                             <input type="number" name="OFFERED_SALARY"
@@ -984,7 +984,7 @@
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Placement Fee
                                                             </label>
                                                             <input type="number" name="PLACEMENT_FEE" id="placement_fee"
@@ -995,7 +995,7 @@
                                                 <div class="row mb-9">
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
-                                                            <label class="d-block font-size-3 mb-0">
+                                                            <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Allowance
                                                             </label>
                                                             <input type="number" name="ALLOWANCE" id="off_allowance_finance"
@@ -1082,7 +1082,7 @@
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
                                 $("input[name='" + i + "']").css('border',
-                                    '2px solid red');
+                                    '1px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
@@ -1090,7 +1090,7 @@
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
                                     $("select[name='" + i + "']").css('border',
-                                    '2px solid red');
+                                    '1px solid red');
                                 $("select[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("select[name='" + i + "']").parent().parent()
