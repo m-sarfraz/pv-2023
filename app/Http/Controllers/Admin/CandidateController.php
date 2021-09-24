@@ -39,7 +39,7 @@ class CandidateController extends Controller
                 ->first();
         } # code...
 
-        $user = CandidateInformation::all();
+        $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
@@ -216,6 +216,7 @@ class CandidateController extends Controller
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        return $request->id;
         $user = CandidateInformation::
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -225,7 +226,7 @@ class CandidateController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
-        // return $user;
+        return $user;
         $data = [
             'domainDrop' => $domainDrop,
             'user' => $user,

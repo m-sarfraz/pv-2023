@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CandidateDomain;
+use App\CandidateEducation;
+use App\CandidateInformation;
+use App\CandidatePosition;
+use App\Endorsement;
+use App\Finance;
 use App\Http\Controllers\Controller;
 use App\User;
+use Auth;
 use Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use App\CandidateInformation;
-use App\CandidateEducation;
-use App\Endorsement;
-use App\CandidateDomain;
-use App\CandidatePosition;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Support\Facades\DB;
+
 
 class ProfileController extends Controller
 {
@@ -83,7 +85,7 @@ class ProfileController extends Controller
     }
     public function readsheet(\App\Services\GoogleSheet $googleSheet)
     {
-
+        
         $data = $googleSheet->readGoogleSheet();
 
         foreach ($data as $render_skipped_rows) {
@@ -92,12 +94,9 @@ class ProfileController extends Controller
             unset($data[0][1]);
             foreach ($render_skipped_rows as $render) {
 
-
-
                 //Explode candidate index into first,middle,last
                 $candidate_name = explode(' ', $render[13]);
                 $candidate_phone = $render[19];
-
 
                 $con = 0;
                 $con1 = 1;
@@ -111,13 +110,11 @@ class ProfileController extends Controller
                 if (isset($query->id)) {
                     // update record
 
-
                     $store_by_google_sheet = CandidateInformation::find($query->id);
                 } else {
                     // insert record
                     $store_by_google_sheet = new CandidateInformation();
                 }
-
 
                 if (!empty($candidate_name[2])) {
 
@@ -131,7 +128,7 @@ class ProfileController extends Controller
                 }
 
                 $store_by_google_sheet->gender = $render[17];
-                $store_by_google_sheet->dob =  $render[18];
+                $store_by_google_sheet->dob = $render[18];
                 if (strstr($candidate_phone, ';', false)) {
 
                     $store_by_google_sheet->phone = strstr($candidate_phone, ';', true);
@@ -144,7 +141,7 @@ class ProfileController extends Controller
                 // $store_by_google_sheet->status = $render[21];
                 $store_by_google_sheet->saved_by = Auth::user()->id;
                 $store_by_google_sheet->save();
-                // start store data in candidate_educations 
+                // start store data in candidate_educations
                 $query = DB::table("candidate_educations")
                     ->where("candidate_id", $store_by_google_sheet->id)
                     ->first();
@@ -153,7 +150,7 @@ class ProfileController extends Controller
                     $candidateEducation = CandidateEducation::find($query->id);
                 } else {
                     // insert record
-                    $candidateEducation  = new CandidateEducation();
+                    $candidateEducation = new CandidateEducation();
                 }
                 $candidateEducation->course = $render[22];
                 $candidateEducation->educational_attain = $render[23];
@@ -161,8 +158,8 @@ class ProfileController extends Controller
                 $candidateEducation->candidate_id = $store_by_google_sheet->id;
                 $candidateEducation->save();
 
-                // end  store data in candidate_educations 
-                // start  store data in candidate_domains 
+                // end  store data in candidate_educations
+                // start  store data in candidate_domains
                 $query = DB::table("candidate_domains")
                     ->where("candidate_id", $store_by_google_sheet->id)
                     ->first();
@@ -172,7 +169,7 @@ class ProfileController extends Controller
                     $candidateDomain = CandidateDomain::find($query->id);
                 } else {
                     // insert record
-                    $candidateDomain  = new CandidateDomain();
+                    $candidateDomain = new CandidateDomain();
                 }
                 $candidateDomain->candidate_id = $store_by_google_sheet->id;
                 $candidateDomain->date_shifted = $render[4];
@@ -182,7 +179,7 @@ class ProfileController extends Controller
                 $candidateDomain->segment = $render[9];
                 $candidateDomain->sub_segment = $render[10];
                 $candidateDomain->save();
-                // end  store data in candidate_domains 
+                // end  store data in candidate_domains
                 // start store data in candidate_position
                 $query = DB::table("candidate_positions")
                     ->where("candidate_id", $store_by_google_sheet->id)
@@ -193,7 +190,7 @@ class ProfileController extends Controller
                     $candidatePosition = CandidatePosition::find($query->id);
                 } else {
                     // insert record
-                    $candidatePosition  = new CandidatePosition();
+                    $candidatePosition = new CandidatePosition();
                 }
                 $candidatePosition->candidate_id = $store_by_google_sheet->id;
                 $candidatePosition->candidate_profile = $render[7];
@@ -238,6 +235,32 @@ class ProfileController extends Controller
                 $endorsement->save();
 
 //close 
+//finance start
+$query = DB::table("finance")
+->where("candidate_id", $store_by_google_sheet->id)
+->first();
+if (isset($query->id)) {
+// update record
+$finance = Finance::find($query->id);
+} else {
+// insert record
+$finance  = new Finance();
+}
+$finance->candidate_id = $store_by_google_sheet->id;
+// $finance->onboardnig_date = $render[59];
+// $finance->invoice_number =  $render[61];
+// $finance->client_finance = $render[48];
+// $finance->career_finance =$render[63];
+// $finance->rate =  $render[67];
+
+// $finance->srp = $render[47];
+// $finance->offered_salary = $render[49];
+// $finance->placement_fee =  $render[54];
+// $finance->allowance = intval($render[51]);
+
+$finance->save();
+
+//finance close 
                 $con++;
                 $con1++;
                 $con2++;
