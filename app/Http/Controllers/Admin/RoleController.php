@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use DB;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
@@ -26,8 +26,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('id','DESC')->get();
-        return view('role.index',compact('roles'));
+        $roles = Role::orderBy('id', 'DESC')->get();
+        // return $roles;
+        return view('role.index', compact('roles'));
     }
 
     /**
@@ -38,7 +39,7 @@ class RoleController extends Controller
     public function create()
     {
         $permission = Permission::get();
-        return view('role.create',compact('permission'));
+        return view('role.create', compact('permission'));
     }
 
     /**
@@ -56,10 +57,10 @@ class RoleController extends Controller
 
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
-        if($role){
-            return response()->json(['success' => true, 'message' =>'Role Created successfully']);
-        }else{
-            return response()->json(['success' => false, 'message' =>'Error while creating Role']);
+        if ($role) {
+            return response()->json(['success' => true, 'message' => 'Role Created successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Error while creating Role']);
         }
     }
 
@@ -84,11 +85,11 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
 
-        return view('role.edit',compact('role','permission','rolePermissions'));
+        return view('role.edit', compact('role', 'permission', 'rolePermissions'));
     }
 
     /**
@@ -110,10 +111,10 @@ class RoleController extends Controller
         $role->save();
 
         $role->syncPermissions($request->input('permission'));
-        if($role){
-            return response()->json(['success' => true, 'message' =>'Role updated successfully']);
-        }else{
-            return response()->json(['success' => false, 'message' =>'Error while updating Role']);
+        if ($role) {
+            return response()->json(['success' => true, 'message' => 'Role updated successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Error while updating Role']);
         }
     }
 

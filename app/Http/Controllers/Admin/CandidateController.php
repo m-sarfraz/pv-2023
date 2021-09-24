@@ -57,6 +57,7 @@ class CandidateController extends Controller
     public function save_data_entry(Request $request)
     {
         $arrayCheck = [
+            "DOMAIN" => 'required ',
             'LAST_NAME' => 'required',
             "FIRST_NAME" => "required",
             "EMAIL_ADDRESS" => "required|email",
@@ -68,16 +69,15 @@ class CandidateController extends Controller
             "CANDIDATES_PROFILE" => 'required ',
             "INTERVIEW_NOTES" => 'required ',
             "DATE_SIFTED" => 'required ',
-            "DOMAIN" => 'required ',
-            "SEGMENT" => 'required ',
-            "SUB_SEGMENT" => 'required ',
+            // "SEGMENT" => 'required ',
+            // "SUB_SEGMENT" => 'required ',
             "EMPLOYMENT_HISTORY" => 'required ',
             "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
             "MANNER_OF_INVITE" => 'required ',
             "CURRENT_SALARY" => 'required ',
             "file" => 'required ',
-            "CURRENT_ALLOWANCE" => 'required ',
+            // "CURRENT_ALLOWANCE" => 'required ',
             // "EXPECTED_SALARY" => 'required ',
             // "OFFERED_SALARY" => 'required ',
             // "OFFERED_ALLOWANCE" => 'required ',

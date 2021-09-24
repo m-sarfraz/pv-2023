@@ -306,10 +306,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
-
-
                                                                 <label class="Label">Domains</label>
-                                                                <select name="DOMAIN" id="domain"
+                                                                <select name="DOMAIN" id="domain" required=""
                                                                     onchange="DomainChange(this)"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option selected disabled>Select Option</option>
@@ -479,7 +477,7 @@
                                                             <label class="Label">
                                                                 Expected Salary:
                                                             </label>
-                                                            <input type="text" name="EXPECTED_SALARY" id="expec_salary"
+                                                            <input type="number" name="EXPECTED_SALARY" id="expec_salary" disabled=""
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->exp_salary : '' }}"
                                                                 class="form-control p-0 users-input-S-C" />
                                                         </div>
@@ -1088,6 +1086,14 @@
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                                    $("select[name='" + i + "']").css('border',
+                                    '2px solid red');
+                                $("select[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("select[name='" + i + "']").parent().parent()
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
