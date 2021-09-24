@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Company;
 use App\Gl;
 use App\Http\Controllers\Controller;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -239,6 +240,9 @@ class CompanyController extends Controller
                 $company->save();
                 $gl->save();
 
+                //save COMAPNY addeed log to table starts
+                Helper::save_log('NEW_COMPANY_CREATED');
+                // save COMAPNY added to log table ends
                 return redirect()->route('companies')->with('message', 'Congratulations! Company has been added sucessfully');
             }
 
@@ -382,6 +386,9 @@ class CompanyController extends Controller
                 "junior_level", "assoc_analyst", "sen_analyst", "analyst", 'advisor_2', 'advisor_1'
             );
             Gl::where('company_id', $id)->update($dataGl);
+            //save COMPANY addeed log to table starts
+            Helper::save_log('COMPANY_UPDATED');
+            // save COMPANY added to log table ends
             return response()->json(['success' => true, 'message' => 'Updated successfully']);
         }
     }

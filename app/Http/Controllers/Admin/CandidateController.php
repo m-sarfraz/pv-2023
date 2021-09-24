@@ -14,6 +14,7 @@ use App\Segment;
 use App\SubSegment;
 use Auth;
 use File;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +26,19 @@ class CandidateController extends Controller
     //index function for data entry page showing starts
     public function data_entry()
     {
+        $candidateDetail = null;
+        if (isset($_GET['id'])) {
+            $candidateDetail = CandidateInformation::
+                join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+                ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+                ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+                ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+                ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+                ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+                ->where('candidate_informations.id', $_GET['id'])
+                ->first();
+        } # code...
+
         $user = CandidateInformation::all();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
@@ -34,6 +48,7 @@ class CandidateController extends Controller
             'user' => $user,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
+            'candidateDetail' => $candidateDetail,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
         ];
 
@@ -44,25 +59,26 @@ class CandidateController extends Controller
     public function save_data_entry(Request $request)
     {
         $arrayCheck = [
+            "DOMAIN" => 'required ',
             'LAST_NAME' => 'required',
             "FIRST_NAME" => "required",
             "EMAIL_ADDRESS" => "required|email",
-            // "CONTACT_NUMBER" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
-            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // // "COURSE" => 'required ',
-            // "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
-            // // "DATE_SIFTED" => 'required ',
-            // // "DOMAIN" => 'required ',
-            // // "SEGMENT" => 'required ',
-            // // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            // "POSITION_TITLE_APPLIED" => 'required ',
+            "CONTACT_NUMBER" => "required",
+            "GENDER" => "required",
+            "RESIDENCE" => 'required ',
+            "EDUCATIONAL_ATTAINTMENT" => 'required ',
+            "COURSE" => 'required ',
+            "CANDIDATES_PROFILE" => 'required ',
+            "INTERVIEW_NOTES" => 'required ',
+            "DATE_SIFTED" => 'required ',
+            // "SEGMENT" => 'required ',
+            // "SUB_SEGMENT" => 'required ',
+            "EMPLOYMENT_HISTORY" => 'required ',
+            "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
-            // "MANNER_OF_INVITE" => 'required ',
-            // "CURRENT_SALARY" => 'required ',
+            "MANNER_OF_INVITE" => 'required ',
+            "CURRENT_SALARY" => 'required ',
+            "file" => 'required ',
             // "CURRENT_ALLOWANCE" => 'required ',
             // "EXPECTED_SALARY" => 'required ',
             // "OFFERED_SALARY" => 'required ',
@@ -185,6 +201,10 @@ class CandidateController extends Controller
 
             // return response success if data is entered
 
+            // save record for logs starts
+            Helper::save_log('CANDIDATE_CREATED');
+            //save record for logs ends
+
             return response()->json(['success' => true, 'message' => 'Data added successfully']);
 
         }
@@ -271,13 +291,17 @@ class CandidateController extends Controller
             ]);
 
             // update candidae domain data
+            $domain_name = Domain::where('id', $request->DOMAIN)->first();
+            $name = Segment::where('id', $request->SEGMENT)->first();
+            $Sub_name = SubSegment::where('id', $request->SUB_SEGMENT)->first();
+
             CandidateDomain::where('candidate_id', $id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
-                'domain' => $request->DOMAIN,
+                'domain' => $domain_name->name,
                 'emp_history' => $request->EMPLOYMENT_HISTORY,
                 'interview_note' => $request->INTERVIEW_NOTES,
-                'segment' => $request->SEGMENT,
-                'sub_segment' => $request->SUB_SEGMENT,
+                'segment' => $name->segment_name,
+                'sub_segment' => $Sub_name->sub_segment_name,
             ]);
 
             // Upload CV of user
@@ -336,6 +360,10 @@ class CandidateController extends Controller
                 'allowance' => $request->ALLOWANCE,
             ]);
             //update data of finance table acooridngly starts
+
+            //save domain addeed log to table starts
+            Helper::save_log('CANDIDATE_UPDATED');
+            // save domain added to log table ends
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);

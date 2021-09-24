@@ -783,7 +783,7 @@
             client = $('#client').val();
             date = $('#date').val();
 
-            // call Ajx for returning the data as view
+            // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/filter_records') }}',
@@ -816,13 +816,7 @@
         // function for selected candidate of table to show detail data on right starts
         function UserDetail(id) {
 
-            // get values of curretn data selected
-            user_id = $('#recruiter').val();
-            profile = $('#profile').val();
-            sub_segment = $('#sub_segment').val();
-            app_status = $('#app_status').val();
-            cl = $('#cl').val();
-            date = $('#date').val();
+            // show loader for waiting
             $("#loader").show();
 
             // call Ajax whihc will return view of detail data of user
@@ -831,13 +825,7 @@
                 url: '{{ url('admin/filter_records_detail') }}',
                 data: {
                     _token: token,
-                    user_id: user_id,
                     id: id,
-                    profile: profile,
-                    sub_segment: sub_segment,
-                    app_status: app_status,
-                    cl: cl,
-                    date: date,
                 },
 
                 // Ajax Success funciton
@@ -845,7 +833,6 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-
                     $("#loader").hide();
 
                 },
@@ -854,24 +841,24 @@
         // function for selected candidate of table to show detail data on right starts
 
         // On recruiter change append the candidates of selected recruiter
-        $('#recruiter').change(function() {
-            $('#candidate').empty();
-            var candidate = {!! $candidates !!};
-            var count = 0;
+        // $('#recruiter').change(function() {
+        //     $('#candidate').empty();
+        //     var candidate = {!! $candidates !!};
+        //     var count = 0;
 
-            // append data for each recruiter to candidate field
-            $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < candidate.length; i++) {
-                    if (v == candidate[i].saved_by) {
-                        count++;
-                        // append resulting options to select field 
-                        $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
-                            .first_name +
-                            '</option>');
-                    }
-                }
-            })
-        });
+        //     // append data for each recruiter to candidate field
+        //     $.each($(this).val(), function(i, v) {
+        //         for (let i = 0; i < candidate.length; i++) {
+        //             if (v == candidate[i].saved_by) {
+        //                 count++;
+        //                 // append resulting options to select field 
+        //                 $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
+        //                     .first_name +
+        //                     '</option>');
+        //             }
+        //         }
+        //     })
+        // });
         $('#candidate').change(function() {
             $('#profile').empty();
             $('#sub_segment').empty();
@@ -923,6 +910,143 @@
             filterUserData();
         })
 
+        function UpdateRecord(id) {
+            // show loader for waiting
+            $("#loader").show();
+            // making a variable containg all for data and append token
+            var data = new FormData(document.getElementById('user_detail_form'));
+            data.append("id", id);
+
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "POST",
+                url: '{{ url('admin/update_records_detail') }}',
+                data: data,
+                contentType: false,
+                processData: false,
+                _token: token,
+                id: id,
+
+
+                // Ajax Success funciton
+                success: function(res) {
+                    if (res.success == true) {
+
+                        // show success sweet alert and enable entering new record button
+                        // $('#new').prop("disabled", false);
+                        swal("success", res.message, "success").then((value) => {});
+                    } else if (res.success == false) {
+
+                        // show validation error on scree with border color changed and text
+                        if (res.hasOwnProperty("message")) {
+                            var err = "";
+                            $("input").parent().siblings('span').remove();
+                            $("input").css('border-color', '#ced4da');
+
+                            //function for appending span and changing css color for input
+                            $.each(res.message, function(i, e) {
+                                $("input[name='" + i + "']").css('border',
+                                    '2px solid red');
+                                $("input[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("input[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                            });
+
+                            // show warning message to user if firld is required
+                            swal({
+                                icon: "error",
+                                text: "{{ __('Please fill all required fields!') }}",
+                                icon: "error",
+                            });
+                        }
+
+                        //if duplicate values are detected in database for use data
+                    } else if (res.success == 'duplicate') {
+                        $("#loader").hide();
+
+                        //show warning message to change the data
+                        swal({
+                            icon: "error",
+                            text: "{{ __('Duplicate data detected') }}",
+                            icon: "error",
+                        });
+                    }
+
+                    //hide loader
+                    $("#loader").hide();
+
+                },
+                //if there is error in ajax call
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+        }
+
+        // function for (if domain is changed append segments acoordingly) starts
+        function DomainChange(elem) {
+            $('#segment').empty()
+            $('#Domainsegment').empty()
+            var segmentsDropDown = {!! $segmentsDropDown !!};
+            var count = 0;
+            for (let i = 0; i < segmentsDropDown.length; i++) {
+                if ($(elem).val() == segmentsDropDown[i].domain_id) {
+                    count++;
+                    $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                        .segment_name +
+                        '</option>');
+                    $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                        .segment_name +
+                        '</option>');
+                }
+
+            }
+            SegmentChange("segment");
+
+        }
+        // function for (if domain is changed append segments acoordingly) starts
+
+        // function for (if segment is changed append segments acoordingly) starts
+        function SegmentChange(elem) {
+            $('#Domain_sub_segment').empty()
+            $('#endo_sub_segment').empty()
+            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+            var count = 0;
+            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                if ($('#segment').val() == sub_segmentsDropDown[i].segment_id) {
+                    count++;
+                    $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                }
+            }
+        }
+        // function for (if segment is changed append segments acoordingly) ends
+
+        // apppending endorsements segments starts
+        function changeSegment(elem) {
+            $('#endo_sub_segment').empty()
+            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+            var count = 0;
+            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                if ($('#Domainsegment').val() == sub_segmentsDropDown[i].segment_id) {
+                    count++;
+                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                }
+            }
+        }
+        // apppending endorsements segments ends
     </script>
 
 @endsection

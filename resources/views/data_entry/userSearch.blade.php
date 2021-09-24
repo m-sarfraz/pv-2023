@@ -416,7 +416,8 @@
                             <div class="col-lg-6"></div>
                             <div class="col-lg-6">
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                    <div class="w-100" style="text-align: end; margin-bottom: 6px;">
+                                    <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
+                                        id="fileDiv">
                                         <input type="file" id="sheetFile" name="file" required=""
                                             accept="application/pdf" class="uploadcv  w-100">
                                     </div>
@@ -630,8 +631,7 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     {{-- @foreach ($domain->options as $domainOptions)
-                                    <option value="{{ $domainOptions->id }}"
-                                        {{ $user->domain_endo == $domainOptions->id ? 'selected' : '' }}>
+                                    <option value="{{ $domainOptions->id }}">
                                         {{ $domainOptions->option_name }}
                                     </option>
                                 @endforeach --}}
@@ -648,20 +648,17 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col-lg-6">
-                            @php
-                                $segments = Helper::get_dropdown('segments');
-                            @endphp
                             <div class="form-group mb-0">
                                 <label class="Label">Segment</label>
                                 <select disabled="" id="segment" name="SEGMENT"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100"
+                                    onchange="changeSegment('segment')">
                                     <option value="" disabled selected>Select Option</option>
                                     {{-- @foreach ($segments->options as $segmentsOptions)
-                                    <option value="{{ $segmentsOptions->id }}"
-                                        {{ $user->segment_endo == $siteOptions->id ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->option_name }}
-                                    </option>
-                                @endforeach --}}
+                                                            <option value="{{ $segmentsOptions->id }}">
+                                                                {{ $segmentsOptions->option_name }}
+                                                            </option>
+                                                        @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -697,11 +694,10 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     {{-- @foreach ($sub_segment->options as $sub_segmentOptions)
-                                    <option value="{{ $sub_segmentOptions->id }}"
-                                        {{ $user->sub_segment_endo == $sub_segmentOptions->id ? 'selected' : '' }}>
-                                        {{ $sub_segmentOptions->option_name }}
-                                    </option>
-                                @endforeach --}}
+                                                            <option value="{{ $sub_segmentOptions->id }}">
+                                                                {{ $sub_segmentOptions->option_name }}
+                                                            </option>
+                                                        @endforeach --}}
                                 </select>
                             </div>
                         </div>

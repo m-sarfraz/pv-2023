@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\User;
+use Helper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -17,8 +18,8 @@ class UserController extends Controller
     {
 
         $this->middleware('permission:user-list', ['only' => ['index']]);
-        $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
 
     }
     /**
@@ -28,8 +29,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::where('type',3)->get();
-        return view('user.index',compact('data'));
+        $data = User::where('type', 3)->get();
+        return view('user.index', compact('data'));
     }
 
     /**
@@ -39,9 +40,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
 
-        return view('user.create',compact('roles'));
+        return view('user.create', compact('roles'));
     }
 
     /**
@@ -53,12 +54,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $arrayCheck =  [
+        $arrayCheck = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
             'phone' => 'required',
-            'roles' => 'required'
+            'roles' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $arrayCheck);
@@ -67,17 +68,21 @@ class UserController extends Controller
         } else {
             $input = $request->all();
             $input['password'] = Hash::make($input['password']);
-            $input['type']     = 3;
+            $input['type'] = 3;
 
             $user = User::create($input);
             $user->assignRole($request->input('roles'));
-            if($user){
-                return response()->json(['success' => true, 'message' =>'User Created successfully']);
-            }else{
-                return response()->json(['success' => false, 'message' =>'Error while creating User']);
+            if ($user) {
+
+                //save USER addeed log to table starts
+                Helper::save_log('USER_CREATED');
+                // save USER added to log table ends
+
+                return response()->json(['success' => true, 'message' => 'User Created successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Error while creating User']);
             }
         }
-
 
     }
 
@@ -89,7 +94,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-       //
+        //
     }
 
     /**
@@ -101,12 +106,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
+        $userRole = $user->roles->pluck('name', 'name')->all();
 
-
-
-        return view('user.edit',compact('user','roles','userRole'));
+        return view('user.edit', compact('user', 'roles', 'userRole'));
     }
 
     /**
@@ -118,34 +121,34 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $arrayCheck =  [
+        $arrayCheck = [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required',
-            'roles' => 'required'
+            'roles' => 'required',
         ];
-        if($request->password && !empty($request->password)){
-            $arrayCheck['password']  = ['required', 'string', 'min:8','confirmed'];
+        if ($request->password && !empty($request->password)) {
+            $arrayCheck['password'] = ['required', 'string', 'min:8', 'confirmed'];
         }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
             $input = $request->all();
-            if(!empty($input['password'])){
+            if (!empty($input['password'])) {
                 $input['password'] = Hash::make($input['password']);
-            }else{
-                $input  =    $request->except(['password']);
+            } else {
+                $input = $request->except(['password']);
             }
             $user = User::find($id);
             $user->update($input);
 
-            DB::table('model_has_roles')->where('model_id',$id)->delete();
+            DB::table('model_has_roles')->where('model_id', $id)->delete();
             $user->assignRole($request->input('roles'));
-            if($user){
-                return response()->json(['success' => true, 'message' =>'User Updated successfully']);
-            }else{
-                return response()->json(['success' => false, 'message' =>'Error while updating User']);
+            if ($user) {
+                return response()->json(['success' => true, 'message' => 'User Updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Error while updating User']);
             }
         }
 
