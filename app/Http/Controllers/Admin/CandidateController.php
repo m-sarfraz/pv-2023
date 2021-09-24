@@ -39,7 +39,7 @@ class CandidateController extends Controller
                 ->first();
         } # code...
 
-        $user = CandidateInformation::all();
+        $user = CandidateInformation::where('id', Auth::user()->id)->get();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
