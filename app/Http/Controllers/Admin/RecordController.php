@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
@@ -487,6 +488,10 @@ class RecordController extends Controller
                 'endi_date' => $request->endo_date,
                 'remarks_for_finance' => $request->REMARKS_FROM_FINANCE,
             ]);
+
+            //save CANDIDATE addeed log to table starts
+            Helper::save_log('CANDIDATE_UPDATED');
+            // save CANDIDATE added to log table ends
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);

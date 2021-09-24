@@ -14,6 +14,7 @@ use App\Segment;
 use App\SubSegment;
 use Auth;
 use File;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,8 @@ class CandidateController extends Controller
 
     //index function for data entry page showing starts
     public function data_entry()
-    {$candidateDetail = null;
+    {
+        $candidateDetail = null;
         if (isset($_GET['id'])) {
             $candidateDetail = CandidateInformation::
                 join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
@@ -199,6 +201,10 @@ class CandidateController extends Controller
 
             // return response success if data is entered
 
+            // save record for logs starts
+            Helper::save_log('CANDIDATE_CREATED');
+            //save record for logs ends
+
             return response()->json(['success' => true, 'message' => 'Data added successfully']);
 
         }
@@ -354,6 +360,10 @@ class CandidateController extends Controller
                 'allowance' => $request->ALLOWANCE,
             ]);
             //update data of finance table acooridngly starts
+
+            //save domain addeed log to table starts
+            Helper::save_log('CANDIDATE_UPDATED');
+            // save domain added to log table ends
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);

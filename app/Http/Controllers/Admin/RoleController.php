@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use DB;
+use Helper;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -58,6 +59,11 @@ class RoleController extends Controller
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
         if ($role) {
+
+            //save ROLE addeed log to table starts
+            Helper::save_log('ROLE_CREATED');
+            // save ROLE added to log table ends
+
             return response()->json(['success' => true, 'message' => 'Role Created successfully']);
         } else {
             return response()->json(['success' => false, 'message' => 'Error while creating Role']);
@@ -112,6 +118,9 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->input('permission'));
         if ($role) {
+            //save domain addeed log to table starts
+            Helper::save_log('ROLE_UPDATED');
+            // save domain added to log table ends
             return response()->json(['success' => true, 'message' => 'Role updated successfully']);
         } else {
             return response()->json(['success' => false, 'message' => 'Error while updating Role']);

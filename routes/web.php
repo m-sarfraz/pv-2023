@@ -45,13 +45,12 @@ Route::view('jdl', 'JDL.index')->name('jdl');
 
 // Route::view('record', 'record.view_record')->name('record');
 Route::view('finance', 'finance.finance')->name('finance');
-Route::view('log', 'logs.log')->name('log');
+// Route::view('log', 'logs.log')->name('log');
 Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-    Route::match(['get', 'post'], 'enter', 'DomainController@enter')->name('enter');
 
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
@@ -77,6 +76,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
+
+    // log routes
+    Route::get('log', 'logController@index')->name('log');
 
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
