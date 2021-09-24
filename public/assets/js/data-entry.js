@@ -67,6 +67,7 @@ function ApplicationStatusChange(elem) {
         $('#sub_segment').prop("disabled", false);
         $('#endo_date').prop("disabled", false);
         $('#remarks_for_finance').prop("disabled", false);
+        $('#expec_salary').prop("disabled", false);
 
     } else {
 
@@ -81,6 +82,7 @@ function ApplicationStatusChange(elem) {
         $('#segment').prop("disabled", true);
         $('#sub_segment').prop("disabled", true);
         $('#endo_date').prop("disabled", true);
+        $('#expec_salary').prop("disabled", true);
         $('#remarks_for_finance').prop("disabled", true);
     }
 
@@ -101,9 +103,9 @@ function RemarksChange(elem) {
     }
 
     // enable and disable finance section on selected text of remarks for finance
-    if (value == 'Offer accepted' || value == 'Onboarded' || value.includes('Hire') || value.includes('Reneged')) {
+    if (value.includes('accepted') || value.includes('Onboarded')) {
         $('#finance_fieldset').prop("disabled", false);
-        $('#off_salary').prop("disabled", false);
+        $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
         $('#srp').prop("disabled", false);
         $('#remarks_finance').prop("disabled", false);
@@ -119,10 +121,17 @@ function RemarksChange(elem) {
 
         // else disable the finance section and disable salray fields
         $('#finance_fieldset').prop("disabled", true);
-        $('#off_salary').prop("disabled", true);
+
         // $('#off_allowance').prop("disabled", true);
     }
-
+    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Scheduled')  || value.includes('Offer accepted')) {
+        $('#off_allowance').prop("disabled", false);
+        $('#off_salary').prop("disabled", false);
+    }
+    else {
+        $('#off_allowance').prop("disabled", true);
+        $('#off_salary').prop("disabled", true);
+    }
     // enalbe the interview date if remark include schedule
     if (value.includes('Scheduled')) {
         $('#interview_schedule').prop("disabled", false);

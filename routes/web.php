@@ -45,13 +45,12 @@ Route::view('jdl', 'JDL.index')->name('jdl');
 
 // Route::view('record', 'record.view_record')->name('record');
 Route::view('finance', 'finance.finance')->name('finance');
-Route::view('log', 'logs.log')->name('log');
+// Route::view('log', 'logs.log')->name('log');
 Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-    Route::match(['get', 'post'], 'enter', 'DomainController@enter')->name('enter');
 
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
@@ -78,8 +77,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
 
+    // log routes
+    Route::get('log', 'logController@index')->name('log');
+
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
+    Route::get('connect-to-sheet', 'ProfileController@readsheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
+    Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
@@ -98,3 +102,4 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/testsheet', 'HomeController@testsheet');

@@ -14,14 +14,13 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}" />
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href= "{{ asset('assets/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet"  href= "{{ asset('assets/css/sweetalert.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}"  />
+    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
     <!-- ================= -->
     <!-- Datatable css start-->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" />
-
+    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
     <!-- Datatable css end-->
     <!-- ================= -->
     @yield('style')
@@ -39,12 +38,12 @@
         var url = "{{ url('/') }}";
         var token = "{{ csrf_token() }}";
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <script src= "{{ asset('assets/js/jquery.min.js') }}" ></script>
+    <script src= "{{ asset('assets/js/jquery.dataTables.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <!-- sweet alert cdn-->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src= "{{ asset('assets/js/sweetalert.min.js') }}" ></script>
     <script src="{{ asset('assets/js/global.js') }}"></script>
     @yield('script')
 

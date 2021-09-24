@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domain;
-use App\DropDownOption;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
@@ -50,6 +50,7 @@ class DomainController extends Controller
     }
     public function add_domains(Request $request)
     {
+
         $arrayCheck = [
             "domain_name" => "required|array|min:1",
             "domain_name.*" => "required|string|min:1|unique:domains,domain_name",
@@ -68,6 +69,9 @@ class DomainController extends Controller
             }
             $addOption = Domain::insert($addDomains);
             if ($addOption) {
+                //save domain addeed log to table starts
+                Helper::save_log('DOMAIN_CREATED');
+                // save domain added to log table ends
                 return response()->json(['success' => true, 'message' => 'Domains added successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Domains']);
@@ -98,6 +102,9 @@ class DomainController extends Controller
             }
             $addOption = Segment::insert($addSegments);
             if ($addOption) {
+                //save domain addeed log to table starts
+                Helper::save_log('SEGMENT_CREATED');
+                // save domain added to log table ends
                 return response()->json(['success' => true, 'message' => 'Segment added successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Segment']);
@@ -128,6 +135,9 @@ class DomainController extends Controller
             }
             $addSubSegment = SubSegment::insert($addSubSegments);
             if ($addSubSegment) {
+                //save domain addeed log to table starts
+                Helper::save_log('SUBSEGMENT_CREATED');
+                // save domain added to log table ends
                 return response()->json(['success' => true, 'message' => 'Sub Segment added successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Sub Segment']);
@@ -141,23 +151,14 @@ class DomainController extends Controller
     {
         $deleteOption = SubSegment::where('id', $request->id)->delete();
         if ($deleteOption) {
+            //save domain addeed log to table starts
+            Helper::save_log('SUBSEGMENT_DELETED');
+            // save domain added to log table ends
             return response()->json(['success' => true, 'message' => 'Sub Segment deleted successfully']);
         } else {
+
             return response()->json(['success' => false, 'message' => 'Error while deleting Sub Segment']);
         }
     }
 
-    public function enter(Request $request)
-    {
-        if ($request->isMethod('get')) {
-            return view('enter');
-        }
-        if ($request->isMethod('post')) {
-            $enter = new DropDownOption();
-            $enter->option_name = $request->option;
-            $enter->drop_down_id = '11';
-            $enter->save();
-            return redirect()->back()->with('message', 'added');
-        }
-    }
 }

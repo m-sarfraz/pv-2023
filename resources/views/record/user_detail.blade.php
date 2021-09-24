@@ -1,7 +1,7 @@
 <p class="C-Heading pt-3">Requirement Details:</p>
 <div class="card mb-13">
     <div class="card-body">
-        <form action="">
+        <form action="" id = "user_detail_form">
             <fieldset disabled="" id="recordFieldset">
                 <div class="row mb-1">
                     <div class="col-lg-6">
@@ -9,7 +9,7 @@
                             <label class="Label">
                                 * Canidate Name:
                             </label>
-                            <input type="text" class="form-control" placeholder="enter first name"
+                            <input type="text" class="form-control" placeholder="enter first name" name = "first_name"
                                 value="{{ $user->first_name }}">
                         </div>
                     </div>
@@ -19,7 +19,7 @@
                                 $gender = Helper::get_dropdown('gender');
                             @endphp
                             <label class="Label">Gender:</label>
-                            <select class="w-100">
+                            <select class="w-100" name  ="gender">
                                 <option value="" selected disabled>select option</option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
@@ -32,7 +32,7 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">DOB:</label>
-                            <input type="text" class="form-control users-input-S-C" value="{{ $user->dob }}">
+                            <input type="text" class="form-control users-input-S-C" name="dob" value="{{ $user->dob }}">
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Email:</label>
-                            <input type="text" class="form-control users-input-S-C" placeholder="enter email"
+                            <input type="text" class="form-control users-input-S-C" placeholder="enter email" name ="email"
                                 value="{{ $user->email }}" />
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Contact:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell"
+                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell" name= "phone"
                                 value="{{ $user->phone }}" />
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Residendce
                             </label>
-                            <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}" name="address" />
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -68,7 +68,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Shifted Date:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name="date_shifted"
                                 value="{{ $user->date_shifted }}" />
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <input type="text" class="form-control users-input-S-C" />
+                            <input type="text" class="form-control users-input-S-C" name = "source" />
                         </div>
                     </div>
                 </div>
@@ -85,13 +85,13 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Educational Attachment</label>
-                            <input type="text" class="form-control users-input-S-C" />
+                            <input type="text" class="form-control users-input-S-C" name= "educational_attain" />
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">Date Invited:</label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name = "date_invited"
                                 value="{{ $user->date_invited }}" />
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                             <label class="Label">
                                 Manner of Invite:
                             </label>
-                            <select name="" id="" class="form-control p-0 users-input-S-C">
+                            <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
                                 <option selected disabled></option>
                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                     <option value="{{ $manner_of_inviteOption->option_name }}"
@@ -141,7 +141,7 @@
                             <label class="Label">
                                 Current Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name = "curr_salary"
                                 value="{{ $user->curr_salary }}" />
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                             <label class="Label">
                                 Current Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name = "curr_allowance"
                                 value="{{ $user->curr_allowance }}" />
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Domains</label>
-                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C">
+                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C" onchange = "DomainChange(this)">
                                 <option selected disabled>Select Option</option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
@@ -174,7 +174,7 @@
                             <label class="Label">
                                 Expected Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name ="expec_salary"
                                 value="{{ $user->exp_salary }}" />
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                             <label class="Label">
                                 Offered Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name = "offered_salary"
                                 value="{{ $user->off_salary }}" />
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Segment:</label>
-                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C">
+                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C" onchange="SegmentChange(this)">
                                 <option selected disabled>Select Option</option>
 
                             </select>
@@ -203,7 +203,7 @@
                             <label class="Label">
                                 Sub Segment:
                             </label>
-                            <select name="sub_segment" id="sub_segment" class="form-control p-0 users-input-S-C">
+                            <select name="sub_segment" id="Domain_sub_segment" class="form-control p-0 users-input-S-C">
                                 <option selected disabled>Select Option</option>
 
                             </select>
@@ -214,7 +214,7 @@
                             <label class="Label">
                                 Offered Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name= "offered_allowance"
                                 value="{{ $user->off_allowance }}" />
                         </div>
                     </div>
@@ -243,7 +243,7 @@
                             <label class="Label">
                                 Date Processed:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" />
+                            <input type="text" class="form-control users-input-S-C" nmae = "date_processed" />
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -271,7 +271,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Position Applied:</label>
-                            <input type="text" class="form-control users-input-S-C"
+                            <input type="text" class="form-control users-input-S-C" name ="position_applied"
                                 value="{{ $user->position_applied }}" />
                         </div>
                     </div>
@@ -280,7 +280,7 @@
                             <label class="Label">
                                 Shifted By:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" />
+                            <input type="text" class="form-control users-input-S-C" name = "shifted_by"/>
                         </div>
                     </div>
                 </div>
@@ -504,7 +504,7 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
-                                                    <select name="DOMAIN" id="domain"
+                                                    <select name="DOMAIN_endo" id="domain" onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option selected disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
@@ -529,7 +529,8 @@
                                                     <label class="Label-00">
                                                         Segment:
                                                     </label>
-                                                    <select name="" id="" class="w-100">
+                                                    <select name="endo_segment" id="Domainsegment" class="w-100" onchange="changeSegment(this)">
+                                                        <option value="" disabled selected>Select Option</option>
 
                                                     </select>
                                                 </div>
@@ -560,7 +561,8 @@
                                                     <label class="Label-00">
                                                         sub-segment:
                                                     </label>
-                                                    <select name="" id="" class="w-100">
+                                                    <select name="endo_sub_segment" id="endo_sub_segment" class="w-100">
+                                                        <option value="" disabled selected>Select Option</option>
 
                                                     </select>
                                                 </div>
@@ -594,8 +596,12 @@
             </fieldset>
             <button class="btn btn-success mt-5 btn-lg"
                 onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download CV</button>
-            <button class="btn btn-primary mt-5 btn-lg" onclick="UpdateRecord('{{$user->cid}}')">Tap</button>
-
+                @if(Auth::user()->id  == $user->saved_by)
+                    <button class="btn btn-primary mt-5 btn-lg" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
+                
+                @else
+                    <a type = "button" href= "{{url('admin/data-entry')}}?id={{$user->id}}" class="btn btn-primary mt-5 btn-lg">Tap</a>
+                @endif
         </form>
     </div>
 </div>
