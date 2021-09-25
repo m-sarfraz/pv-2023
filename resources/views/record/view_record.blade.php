@@ -3,9 +3,9 @@
 @section('style')
 
     <style>
-        .row {
+        /* .row {
             margin: 0px !important;
-        }
+        } */
 
         #example1_filter label {
             display: flex;

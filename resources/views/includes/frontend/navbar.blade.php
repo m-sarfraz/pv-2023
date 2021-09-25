@@ -4,7 +4,7 @@
     $routeName  =   Route::currentRouteName();
     ?>
             <div class="w-100 px-3 d-none">
-                <i class="fa fa-bars menu-block" aria-hidden="true"></i>
+                <i class="bi bi-list menu-block" aria-hidden="true"></i>
             </div>
             <nav id="asad" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
@@ -37,7 +37,7 @@
                     @can('list-dropdown')
                         <div class="dropdown pt-2 pl-2 text-white">
                             Dropdowns
-                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
                                 <a href="{{ route('dropdown') }}">
                                     Add Dropdowns
@@ -54,7 +54,7 @@
                     <div class="">
                         <div class="dropdown pt-2 pl-2 text-white">
                             Clients Profile
-                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: -76px;">
                                 <a href="{{route('companies')}}">
                                     Companies
@@ -65,7 +65,7 @@
                     @can('user-list')
                         <div class="dropdown pt-2 pl-2 text-white">
                             Users Management
-                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
                                 <a href="{{ route('user.index')  }}">
                                     Users
@@ -89,7 +89,7 @@
                         </h4>
                         <div class="dropdown px-3">
                             <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
-                            <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down mt-2" style="color: white;"></i>
                             <div class="dropdown-content">
                                 @can('view-profile')
                                 <a href="{{ route('profile')  }}">
