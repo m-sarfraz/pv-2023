@@ -176,6 +176,7 @@ class CandidateController extends Controller
             $endorsement->domain_endo = $request->DOMAIN;
             $endorsement->position_title = $request->POSITION_TITLE;
             // $endorsement->interview_date = $request->;
+            $endorsement->rfp = $request->REASONS_FOR_NOT_PROGRESSING;
             $endorsement->career_endo = $request->CAREER_LEVEL;
             $endorsement->segment_endo = $request->SEGMENT;
             $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
@@ -318,6 +319,7 @@ class CandidateController extends Controller
                 'candidate_profile' => $request->CANDIDATES_PROFILE,
                 'position_applied' => $request->POSITION_TITLE_APPLIED,
                 'date_invited' => $request->DATE_INVITED,
+                'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
                 'manner_of_invite' => $request->MANNER_OF_INVITE,
                 'curr_salary' => $request->CURRENT_SALARY,
                 'exp_salary' => $request->EXPECTED_SALARY,
