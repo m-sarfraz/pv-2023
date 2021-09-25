@@ -38,7 +38,7 @@
                         <td>
                             @can('user-edit')
                             <a href="{{ route('user.edit',$user->id) }}" >
-                                <i style="cursor: pointer;" class="fa fa-edit"></i>
+                                <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                             </a>
                             @endcan
                         </td>
