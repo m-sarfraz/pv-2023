@@ -3,8 +3,8 @@
     <?php
     $routeName  =   Route::currentRouteName();
     ?>
-            <div class="w-100 px-3 d-none">
-                <i class="bi bi-list menu-block" aria-hidden="true"></i>
+            <div class="w-100 px-3 menu-blockDiv">
+                <i class="bi bi-list menu-block" onclick="myFunction()"aria-hidden="true"></i>
             </div>
             <nav id="navBarSmall" class="navBarSmallClass" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
@@ -123,7 +123,24 @@
                 <div class="tab-pane"><div>Team</div></div>
             </div>
         </div>
+        <script src= "{{ asset('assets/js/jquery.min.js') }}" ></script>
 
-
+<script>
+    
+    $(window).resize(function() {
+  var $theWindowSize = $(this).width();
+  if ($theWindowSize < 700) {
+$('#navBarSmall').css({"margin-left": "-1000px"});
+  }
+});
+function myFunction() {
+    if(document.getElementById("navBarSmall").style.marginLeft=='-1000px'){
+    document.getElementById("navBarSmall").style.marginLeft='0px';
+}
+else{
+    document.getElementById("navBarSmall").style.marginLeft='-1000px'
+}
+}
+</script>
 
 
