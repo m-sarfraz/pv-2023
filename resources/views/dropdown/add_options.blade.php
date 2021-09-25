@@ -22,9 +22,9 @@
                                                     <label for="select3" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                         Dropdowns
                                                     </label>
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between align-items-center">
                                                         <div class="col-md-6" >
-                                                            <select  onchange="get_dropdown_value();" name="drop_down_id" class="select2_dropdown">
+                                                            <select  onchange="get_dropdown_value();" name="drop_down_id" class="select2_dropdown h-100">
                                                                 <option value=""  disabled="disabled">Choose options</option>
                                                                 @foreach($dropdowns as $dropdown)
                                                                     <option data-type="{{ $dropdown->type  }}" value="{{ $dropdown->id  }}">{{ $dropdown->name  }}</option>

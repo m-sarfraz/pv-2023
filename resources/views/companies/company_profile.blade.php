@@ -14,6 +14,7 @@
         #example1_filter label {
             display: flex;
             width: fit-content;
+   align-items:center;
             margin-left: auto;
         }
 
@@ -32,12 +33,12 @@
                 @if (Session::has('message'))
                     <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
                 @endif
-                <div style="width: fit-content; float: right; border-radius: 7px; margin-top: 1.1rem; font-size: 13px;">
+                <div style="width: fit-content; float: right; border-radius: 7px; margin-top: 1.1rem;margin-bottom: 1.1rem; font-size: 13px;">
                     <input href="{{ route('add_company') }}" type="button"
                         class="btn btn-green text-white rounded-5 text-uppercase" value="Add Data" id="add"
                         style="background-color: rgb(220, 134, 39);" />
                 </div>
-                <div class="table-responsive border">
+                <div class="table-responsive border py-2 px-2 ">
                     <div class="___class_+?6___">
                         <table id="example1" class="table">
                             <thead class="bg-light w-100" style="white-space:nowrap">
