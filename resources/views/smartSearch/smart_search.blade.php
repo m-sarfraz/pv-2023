@@ -68,13 +68,13 @@
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="col-lg-2">
                                 <div class="form-group mb-0">
                                     <label class="Label">Portal</label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">All</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -106,13 +106,13 @@
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                         </div>
@@ -138,13 +138,13 @@
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group mb-0">
                                    <label class="Label">Date Delvrd:</label>
-                                   <input type="date" class="w-100 users-input-S-C"/>
+                                   <input type="date" class="w-100 users-input-S-C form-control"/>
                                 </div>
                             </div>
                         </div>
