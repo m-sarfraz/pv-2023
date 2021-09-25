@@ -6,6 +6,8 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Endorsement;
+use App\Finance;
 use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
@@ -14,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
 
 class ProfileController extends Controller
 {
@@ -82,7 +85,7 @@ class ProfileController extends Controller
     }
     public function readsheet(\App\Services\GoogleSheet $googleSheet)
     {
-        // dd('giii');
+        
         $data = $googleSheet->readGoogleSheet();
 
         foreach ($data as $render_skipped_rows) {
@@ -203,7 +206,61 @@ class ProfileController extends Controller
                 $candidatePosition->save();
 
                 // end store data in candidate_position
+// endoresment startgit 
+                    $query = DB::table("endorsements")
+                    ->where("candidate_id", $store_by_google_sheet->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $endorsement = Endorsement::find($query->id);
+                } else {
+                    // insert record
+                    $endorsement  = new Endorsement();
+                }
+                $endorsement->app_status = $render[32];
+                $endorsement->client =  $render[35];
+                $endorsement->status = $render[42];
+                $endorsement->type =$render[33];
+                $endorsement->site =  $render[36];
+                $endorsement->position_title =  $render[37];
+                $endorsement->domain_endo = intval($render[39]);
+                $endorsement->interview_date = $render[45];
+                $endorsement->career_endo =  $render[38];
+                $endorsement->segment_endo = intval($render[40]);
+                $endorsement->sub_segment_endo = intval($render[41]);
+                $endorsement->endi_date = $render[34];
+                $endorsement->remarks_for_finance = $render[43];
+                $endorsement->candidate_id = $store_by_google_sheet->id;
+               
+                $endorsement->save();
 
+//close 
+//finance start
+$query = DB::table("finance")
+->where("candidate_id", $store_by_google_sheet->id)
+->first();
+if (isset($query->id)) {
+// update record
+$finance = Finance::find($query->id);
+} else {
+// insert record
+$finance  = new Finance();
+}
+$finance->candidate_id = $store_by_google_sheet->id;
+// $finance->onboardnig_date = $render[59];
+// $finance->invoice_number =  $render[61];
+// $finance->client_finance = $render[48];
+// $finance->career_finance =$render[63];
+// $finance->rate =  $render[67];
+
+// $finance->srp = $render[47];
+// $finance->offered_salary = $render[49];
+// $finance->placement_fee =  $render[54];
+// $finance->allowance = intval($render[51]);
+
+$finance->save();
+
+//finance close 
                 $con++;
                 $con1++;
                 $con2++;
