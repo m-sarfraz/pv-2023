@@ -42,9 +42,9 @@
     <script src= "{{ asset('assets/js/jquery.min.js') }}" ></script>
     <script src= "{{ asset('assets/js/jquery.dataTables.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/script/bootstrap.bundle.min.js') }}"></script>
-    <script rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/script/jquery-3.5.1.slim.min.js') }}" ></script>
-    <script rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/script/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('assets/plugins/bootstrap/script/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/script/jquery-3.5.1.slim.min.js') }}" ></script>
+    <script src="{{ asset('assets/plugins/bootstrap/script/bootstrap.min.js') }}" ></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <!-- sweet alert cdn-->
     <script src= "{{ asset('assets/js/sweetalert.min.js') }}" ></script>

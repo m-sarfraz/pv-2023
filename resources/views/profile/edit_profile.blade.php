@@ -14,8 +14,8 @@
                                     
                                     $user = Auth::user();
                                     /*if($user->image != ""){
-                                                                                                                $image  =   $user->image;
-                                                                                                            }else{*/
+                                                                                                                                                    $image  =   $user->image;
+                                                                                                                                                }else{*/
                                     $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
@@ -87,35 +87,34 @@
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
-                                    <img style="width: 68.75px; cursor: pointer" data-toggle="modal" data-whatever="@getbootstrap"
-                                        data-target="#exampleModal"
+                                    <img style="width: 68.75px; cursor: pointer" data-toggle="modal"
+                                        data-whatever="@getbootstrap" data-target="#exampleModal"
                                         src="{{ asset('assets/image/profile/sheetImage.png') }}" />
                                 </div>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
 
                                 {{-- </a> --}}
                                 <!-- <fieldset class="ml-10 mr-10 fieldSheet d-none">
-                                                <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                    <div class="col-lg-8">
-                                                        <div class="form-group">
-                                                            <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                Sheet Id
-                                                            </label>
-                                                            <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId" placeholder="Enter Sheet ID" required />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                    <div class="col-lg-8">
-                                                        <div class="mt-2">
+                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                        <div class="col-lg-8">
                                                             <div class="form-group">
-                                                                <input type="button" value="Connect" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" type="submit" />
+                                                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                    Sheet Id
+                                                                </label>
+                                                                <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId" placeholder="Enter Sheet ID" required />
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </fieldset> -->
+
+                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                        <div class="col-lg-8">
+                                                            <div class="mt-2">
+                                                                <div class="form-group">
+                                                                    <input type="button" value="Connect" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" type="submit" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset> -->
                                 <!-- </form> -->
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
@@ -254,26 +253,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-file-earmark-spreadsheet-fill"></i>Google Sheet Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Recipient:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">GoogleSheet ID:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadSheet()">Import</button>
                 </div>
             </div>
         </div>
@@ -321,7 +314,11 @@
                 success: function(res) {
                     if (res.success == true) {
 
-                        swal("{{ __('Success') }}", res.message, 'success');
+                        swal({
+                            icon: "success",
+                            text: "{{ __('imported Successfully') }}",
+                            icon: "success",
+                        });
                         setTimeout(function() {
                             location.reload();
                         }, 1000);
