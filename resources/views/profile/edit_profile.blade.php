@@ -78,11 +78,11 @@
                                 Click here to Connect Google Sheet
                             </label>
                             <!-- <form class="C_To_GS"> -->
-                            <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}">
+                            {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
-                                    <img style="width: 68.75px; cursor: pointer" src="{{ asset('assets/image/profile/sheetImage.png')  }}" onclick="showFieldSheet(this)" />
+                                    <img style="width: 68.75px; cursor: pointer" src="{{ asset('assets/image/profile/sheetImage.png')  }}" onclick="uploadSheet(this)" />
                                 </div>
-                            </a>
+                            {{-- </a> --}}
                             <!-- <fieldset class="ml-10 mr-10 fieldSheet d-none">
                                         <div class="row mb-xl-1 mb-9 justify-content-center">
                                             <div class="col-lg-8">
@@ -109,14 +109,14 @@
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                             <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                Click here to Upload Excel File
+                                Click here to Upload Excel Files
                             </label>
                             <form action="{{route('save-excel')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div style="padding: 93px;" class="pb-3 Coud_icon">
-                                    <img style="width: 105px; cursor: pointer" src="{{ asset('assets/image/profile/cloud.png')  }}" onclick="showFieldSheet(this)" />
+                                    <img style="width: 105px; cursor: pointer" src="{{ asset('assets/image/profile/cloud.png')  }}"  />
                                 </div>
-
+{{-- 
                                 <fieldset class="ml-20 showExcelfield fieldSheet ">
                                     <div class="row mb-xl-1 mb-9 justify-content-center">
                                         <div class="col-lg-8">
@@ -137,7 +137,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </fieldset>
+                                </fieldset> --}}
                             </form>
                         </div>
                     </div>
@@ -261,5 +261,29 @@
             return false;
         })
     });
+   function uploadSheet(elem){
+    $("#loader").show();
+            $.ajax({
+                url: "{{Route('connect-to-sheet')}}",
+                type: 'GET',
+                success: function(res) {
+                    if (res.success == true) {
+
+                        swal("{{ __('Success') }}", res.message, 'success');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else if (res.success == false) {
+                        swal("{{ __('Warning') }}", res.message, 'error');
+                    }
+
+                    $("#loader").hide();
+                },
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+            return false;
+   }
 </script>
 @endsection

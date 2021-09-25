@@ -33,7 +33,7 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->paginate(3);
+            ->paginate(20);
 
         // get required data to use for select purpose
         $count = $Userdata->count();

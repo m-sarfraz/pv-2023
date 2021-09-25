@@ -216,7 +216,6 @@ class CandidateController extends Controller
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
-        return $request->id;
         $user = CandidateInformation::
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -226,7 +225,6 @@ class CandidateController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
-        return $user;
         $data = [
             'domainDrop' => $domainDrop,
             'user' => $user,
@@ -362,9 +360,9 @@ class CandidateController extends Controller
             ]);
             //update data of finance table acooridngly starts
 
-            //save domain addeed log to table starts
+            //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
-            // save domain added to log table ends
+            // save candidate added to log table ends
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);
