@@ -41,7 +41,7 @@
                         <td>
                             @can('role-edit')
                                 <a href="{{ route('role.edit',$role->id) }}" >
-                                    <i style="cursor: pointer;" class="fa fa-edit"></i>
+                                    <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                                 </a>
                             @endcan
                         <td>{{ $role->name }}</td>
