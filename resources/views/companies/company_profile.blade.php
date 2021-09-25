@@ -149,7 +149,7 @@
                                     <tr class="bg-transparent">
                                         <!-- Table data 1 -->
                                         <td><a href="{{ url('admin/company-detail/' . $value->company_id) }}"><i
-                                                    class="fa fa-address-card-o" aria-hidden="true"></i></a></td>
+                                                    class="bi bi-card-text" aria-hidden="true"></i></a></td>
                                         <td> {{ $value->company_name }}</td>
                                         <td>{{ $value->start_date }}</td>
                                         <td>{{ $value->end_date }}</td>

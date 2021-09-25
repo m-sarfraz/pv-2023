@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-
 class ProfileController extends Controller
 {
     public function __construct()
@@ -215,26 +214,25 @@ class ProfileController extends Controller
                     $endorsement = Endorsement::find($query->id);
                 } else {
                     // insert record
-                    $endorsement  = new Endorsement();
+                    $endorsement = new Endorsement();
                 }
                 $endorsement->app_status = $render[32];
-                $endorsement->client =  $render[35];
+                $endorsement->client = $render[35];
                 $endorsement->status = $render[42];
                 $endorsement->type = $render[33];
                 $endorsement->site =  $render[36];
                 $endorsement->position_title =  $render[37];
                 $endorsement->domain_endo = intval($render[39]);
                 $endorsement->interview_date = $render[45];
-                $endorsement->career_endo =  $render[38];
+                $endorsement->career_endo = $render[38];
                 $endorsement->segment_endo = intval($render[40]);
                 $endorsement->sub_segment_endo = intval($render[41]);
                 $endorsement->endi_date = $render[34];
                 $endorsement->remarks_for_finance = $render[43];
                 $endorsement->candidate_id = $store_by_google_sheet->id;
-
                 $endorsement->save();
+                //close
 
-                //close 
                 //finance start
                 $query = DB::table("finance")
                     ->where("candidate_id", $store_by_google_sheet->id)
@@ -266,5 +264,8 @@ class ProfileController extends Controller
                 $con2++;
             }
         }
+        //save Google sheet addeed log to table starts
+        Helper::save_log('GOOGLE_SHEET_IMPORTED');
+        // save Google sheet added to log table ends
     }
 }

@@ -8,9 +8,7 @@
 <!-- Datatable css end-->
 <!-- ================= -->
 <style>
-    .row{
-        margin: 0px !important;
-    }
+ 
     #example1_filter label{
         display: flex;
         width: fit-content;
@@ -54,11 +52,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center">
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
                                     <label class="Label">Recruiter</label>
-                                    <select name="" id="" class="w-100" >
+                                    <select name="" id="" class="w-100 form-control" >
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -68,11 +66,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-group mb-0">
+                                <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
                                     <label class="d-block font-size-3 mb-0">
                                         Canidate
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -88,7 +86,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Remarks
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -102,7 +100,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Team
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -116,7 +114,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         From (OB Date:)
                                     </label>
-                                    <input type="date" class="w-100">
+                                    <input type="date" class="w-100 form-control">
                                 </div>
                             </div>
                         </div>
@@ -126,7 +124,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Reprocess:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -140,7 +138,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Client:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -150,13 +148,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
+                        <div class="row mb-1 align-items-center">
                             <div class="col-lg-8">
-                                <div class="form-group mb-0">
+                                <div class="form-group mb-0 pt-lg-1 pt-m-0 pt-0">
                                     <label class="d-block font-size-3 mb-0">
                                         Process Status:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -168,7 +166,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group mb-0">
                                     <label class="Label">To (OB Date:)</label>
-                                    <input type="date" class="w-100">
+                                    <input type="date" class="w-100 form-control">
                                 </div>
                             </div>
                         </div>
@@ -407,7 +405,7 @@
                 <div class="card-body">
                     <form action="">
                         <fieldset disabled="">
-                        <div class="row mb-1">
+                        <div class="row mb-1 ">
                             <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="Label">
@@ -492,7 +490,7 @@
                                     <label class="Label-00">
                                         Remarks:
                                     </label>
-                                    <select name="" id="" class="w-100">
+                                    <select name="" id="" class="w-100 form-control">
                                         <option value="1">Billed</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -506,7 +504,7 @@
                                         <label class="Label-00">
                                             Onbrd dat:
                                         </label>
-                                        <input type="date" class="w-100 users-input-S-C" />
+                                        <input type="date" class="w-100 form-control users-input-S-C" />
                                     </div>
                                 </div>
                                 <div class="col-lg-2 p-1">
@@ -514,7 +512,7 @@
                                         <label class="Label-00">
                                            Trmi date:
                                         </label>
-                                        <input type="date" class="w-100 users-input-S-C" />
+                                        <input type="date" class="w-100 form-control users-input-S-C" />
                                     </div>
                                 </div>
                                 <div class="col-lg-2 p-1">
@@ -556,7 +554,7 @@
                                         <label class="Label-00">
                                            Date Delvrd:
                                         </label>
-                                        <input type="date" class="w-100 users-input-S-C" placeholder="Rev.." />
+                                        <input type="date" class="w-100 users-input-S-C form-control" placeholder="Rev.." />
                                     </div>
                                 </div>
                                 <div class="col-lg-3 p-1">
@@ -606,7 +604,7 @@
                                         <label class="Label-00">
                                             Invc date:
                                         </label>
-                                        <input type="date" class="w-100 users-input-S-C" placeholder="hires.." />
+                                        <input type="date" class="w-100 form-control users-input-S-C" placeholder="hires.." />
                                     </div>
                                 </div>
                             </div>
@@ -648,7 +646,7 @@
                                         <label class="Label-00">
                                             Date Colctd.
                                         </label>
-                                        <input type="date" class="w-100 users-input-S-C"/>
+                                        <input type="date" class="w-100 form-control users-input-S-C"/>
                                     </div>
                                 </div>
                             </div>
@@ -690,7 +688,7 @@
                                         <label class="Label-00">
                                             VSA:
                                         </label>
-                                        <input type="text" class="w-100 users-input-S-C"/>
+                                        <input type="text" class="w-100 form-control users-input-S-C"/>
                                     </div>
                                 </div>
                             </div>

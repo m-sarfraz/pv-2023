@@ -40,7 +40,7 @@
                     <div class="">
                         <div class="dropdown pt-2 pl-2 text-white">
                             Clients Profile
-                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: -76px;">
                                 <a href="{{route('companies')}}">
                                     Companies
@@ -51,7 +51,7 @@
                     @can('user-list')
                         <div class="dropdown pt-2 pl-2 text-white">
                             Users Management
-                            <i class="fa fa-chevron-down ml-2 mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                             <div class="dropdown-content" style="left: 14px;">
                                 <a href="{{ route('user.index')  }}">
                                     Users
@@ -75,7 +75,7 @@
                         </h4>
                         <div class="dropdown px-3">
                             <img class="mb-1 dropbtn" src="{{asset('assets/image/global/header-profile.png')}}" alt="" />
-                            <i class="fa fa-chevron-down mt-2" style="color: white;"></i>
+                            <i class="bi bi-chevron-down mt-2" style="color: white;"></i>
                             <div class="dropdown-content">
                                 @can('view-profile')
                                 <a href="{{ route('profile')  }}">

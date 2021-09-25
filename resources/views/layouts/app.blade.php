@@ -18,6 +18,7 @@
     <link rel="stylesheet"  href= "{{ asset('assets/css/sweetalert.min.css') }}" /> 
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}"  />
     <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- ================= -->
     <!-- Datatable css start-->
     <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 

@@ -81,7 +81,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('log', 'logController@index')->name('log');
 
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
-    Route::get('connect-to-sheet', 'ProfileController@readsheet');
+    Route::get('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
