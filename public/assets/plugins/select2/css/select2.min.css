@@ -38,7 +38,7 @@
     box-sizing: border-box;
     cursor: pointer;
     display: block;
-    min-height: 32px;
+    height: 26px;
     user-select: none;
     -webkit-user-select: none
 }
@@ -92,6 +92,8 @@
 .select2-results__option {
     padding: 6px;
     user-select: none;
+
+    font-size: 11px;
     -webkit-user-select: none
 }
 
@@ -272,7 +274,7 @@
     cursor: default;
     float: left;
     margin-right: 5px;
-    margin-top: 5px;
+    margin-top: 2.5px;
     padding: 0 5px
 }
 

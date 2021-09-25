@@ -1,5 +1,5 @@
 * {
-    font-family: Trebuchet !important;
+    font-family: Trebuchet;
 }
 
 @font-face {
@@ -359,6 +359,7 @@
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem;
     font-size: 0.8rem !important;
+    height: 26px;
 }
 
 .select2-container .select2-selection--single {
@@ -373,7 +374,7 @@
 .h-px-20_custom {
     height: 26px !important;
     font-size: 11px !important;
-    padding: 0 !important;
+    padding: 3px !important;
     border-radius: 3px !important;
 }
 

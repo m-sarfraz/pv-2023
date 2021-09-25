@@ -159,7 +159,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text EmailIcon"
                                                                         id="inputGroupPrepend2">
-                                                                        <i class="fa fa-envelope-square"></i>
+                                                                        <i class="bi bi-envelope"></i>
                                                                     </span>
                                                                 </div>
                                                                 <input type="text" class="form-control EmailInput-F"
@@ -179,7 +179,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text EmailIcon"
                                                                         id="inputGroupPrepend2">
-                                                                        <i class="fa fa-phone"></i>
+                                                                        <i class="bi bi-telephone"></i>
                                                                     </span>
                                                                 </div>
                                                                 <input type="number" class="form-control EmailInput-F"
