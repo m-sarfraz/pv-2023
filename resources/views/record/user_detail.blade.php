@@ -594,13 +594,13 @@
                 </div>
 
             </fieldset>
-            <button class="btn btn-success mt-5 btn-lg"
+            <button class="btn btn-success mt-5 btn-md"
                 onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download CV</button>
                 @if(Auth::user()->id  == $user->saved_by)
-                    <button class="btn btn-primary mt-5 btn-lg" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
+                    <button class="btn btn-primary mt-5 btn-md" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
                 
                 @else
-                    <a type = "button" href= "{{url('admin/data-entry')}}?id={{$user->id}}" class="btn btn-primary mt-5 btn-lg">Tap</a>
+                    <a type = "button" href= "{{url('admin/data-entry')}}?id={{$user->id}}" class="btn btn-primary mt-5 btn-md">Tap</a>
                 @endif
         </form>
     </div>

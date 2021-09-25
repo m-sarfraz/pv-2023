@@ -24,7 +24,7 @@
                                     style="padding-left: 12px !important;" aria-describedby="emailHelp"
                                     value="{{ Auth::user()->name }}" placeholder="enter candidate name" />
                             </div>
-                            <div class="d-grid gap-2 form-group col-md-12">
+                            <div class="d-grid gap-2 form-group col-md-12 ">
                                 <button class="btn btn_Group mb-4 btn-sm" type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
@@ -43,7 +43,7 @@
                                 {{-- <label class="Label">Candidate:</label> --}}
                             </div>
                             <div class="form-group mb-8"></div>
-                            <div class="d-grid gap-2 form-group col-md-12">
+                            <div class="d-grid gap-2 form-group col-md-12 px-0">
                                 <Select name="USERS" class="mb-4 select2_dropdown w-100" id="user"
                                     onchange="enableSearch('#searchRecord')">
                                     <option value="" disabled selected></option>
@@ -518,12 +518,12 @@
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
                                                             <input type="file" id="sheetFile" name="file" required=""
-                                                                accept="application/pdf" class="uploadcv  w-100">
+                                                                accept="application/pdf" class="uploadcv    w-100">
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
                                                             <button type="button" btn_Group href=""
-                                                                style=" pointer-events: none; cursor: default;">
+                                                             class="costumButton"   style="pointer-events: none; cursor: default;">
                                                                 Download Cv
                                                             </button>
                                                         </div>

@@ -6,7 +6,13 @@
     font-family: Trebuchet;
     src: url('../fonts/trebuc.ttf');
 }
-
+.costumButton{
+    pointer-events: none;
+    cursor: default;
+    background: #dc8627;
+    color: #fff;
+    border: 1px solid #dc8627;
+}
 #loader {
     position: fixed;
     width: 100%;
@@ -357,7 +363,7 @@
     display: block;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
+    padding: 4.1px;
     font-size: 0.8rem !important;
     height: 26px;
 }
@@ -852,6 +858,15 @@ input {
     .dashboard-main-container {
         padding-left: 0px;
         margin-left: 0px !important;
+    }
+    .navBarSmallClass{
+    transition: 1.8s;
+    position: fixed;
+    z-index: +11111;
+    /* left: -50rem; */
+    margin-left: -1000px;
+    width: 100%;
+    margin-right: -12rem !IMPORTANT;
     }
 }
 
