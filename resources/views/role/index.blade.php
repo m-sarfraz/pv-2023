@@ -24,7 +24,7 @@
 @section('content')
 <div class="px-2 container mt-5">
         @can('role-create')
-            <a href="{{ route('role.create') }}" ><button class="mt-3 mb-3">Create New</button></a>
+            <a href="{{ route('role.create') }}" ><button class="mt-3 mb-3 costumButton">Create New</button></a>
         @endcan
             <table id="role_table" class="table border-0  ">
                 <thead>

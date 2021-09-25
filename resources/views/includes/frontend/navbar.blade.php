@@ -6,7 +6,7 @@
             <div class="w-100 px-3 d-none">
                 <i class="bi bi-list menu-block" aria-hidden="true"></i>
             </div>
-            <nav id="asad" style="background: #dc8627;">
+            <nav id="navBarSmall" class="navBarSmallClass" style="background: #dc8627;">
                 <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
                     <a class="nav-link {{ $routeName == 'home' ? 'nav-active' : 'text-white'  }}" href="{{ route('home')  }}" style="cursor: pointer;">
                         Dashboard
