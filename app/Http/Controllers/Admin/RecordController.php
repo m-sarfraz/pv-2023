@@ -38,7 +38,6 @@ class RecordController extends Controller
         // get required data to use for select purpose
         $count = $Userdata->count();
         $candidates = CandidateInformation::all();
-        $candidatess = CandidateInformation::paginate(1);
         $links = str_replace('/?', '?', $Userdata->render());
         $candidateprofile = CandidatePosition::all();
         $candidateDomain = CandidateDomain::all();
@@ -53,7 +52,6 @@ class RecordController extends Controller
             'Userdata' => $Userdata,
             'candidateprofile' => $candidateprofile,
             'candidateDomain' => $candidateDomain,
-            'candidatess' => $candidatess,
             'segmentsDropDown' => $segmentsDropDown,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'endorsement' => $endorsement,
