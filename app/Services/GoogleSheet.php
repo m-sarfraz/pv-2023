@@ -23,18 +23,23 @@ class GoogleSheet
     }
     public function readGoogleSheet($config2)
     {
-        $config = Config::get("datastudio.google_sheet_id");
-        // dd($config);
-        Config::set('datastudio.google_sheet_id', $config2);
-        $config2 = Config::get("datastudio.google_sheet_id");
-        // dd($config2);
-        $dimensions = $this->getDimensions($config2);
+        try {
+            $config = Config::get("datastudio.google_sheet_id");
+            // dd($config);
+            Config::set('datastudio.google_sheet_id', $config2);
+            // $config2 = Config::get("datastudio.google_sheet_id");
+            // dd($config2);
+            $dimensions = $this->getDimensions($config2);
 
-        $range = 'Sheet1!A1:' . $dimensions['colCount'];
-        $data = $this->googleSheetService
-            ->spreadsheets_values
-            ->batchGet($config2, ['ranges' => $range]);
-        return $data->valueRanges;
+            $range = 'Sheet1!A1:' . $dimensions['colCount'];
+            $data = $this->googleSheetService
+                ->spreadsheets_values
+                ->batchGet($config2, ['ranges' => $range]);
+            return $data->valueRanges;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
     }
     private function getDimensions($spreadSheetId)
     {

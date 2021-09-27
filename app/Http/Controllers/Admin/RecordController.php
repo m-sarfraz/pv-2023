@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
 use App\Domain;
 use App\Endorsement;
-use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
@@ -25,20 +25,19 @@ class RecordController extends Controller
         // get recruiter data
         $user = User::where('type', 3)->get();
 
-        // join the tables to get ccandidate data
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->paginate(20);
+        // // join the tables to get ccandidate data
+        // $Userdata = CandidateInformation::
+        //     join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        //     ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+        //     ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+        //     ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+        //     ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+        //     ->paginate(20);
 
         // get required data to use for select purpose
-        $count = $Userdata->count();
+        // $count = $Userdata->count();
         $candidates = CandidateInformation::all();
-        $links = str_replace('/?', '?', $Userdata->render());
         $candidateprofile = CandidatePosition::all();
         $candidateDomain = CandidateDomain::all();
         $endorsement = Endorsement::all();
@@ -48,8 +47,8 @@ class RecordController extends Controller
         $data = [
             'user' => $user,
             'candidates' => $candidates,
-            'count' => $count,
-            'Userdata' => $Userdata,
+            // 'count' => $count,
+            // 'Userdata' => $Userdata,
             'candidateprofile' => $candidateprofile,
             'candidateDomain' => $candidateDomain,
             'segmentsDropDown' => $segmentsDropDown,

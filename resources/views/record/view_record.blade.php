@@ -43,7 +43,7 @@
                                             # of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
-                                            class="form-control h-px-20_custom border" value="{{ $count }}" />
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +205,9 @@
                                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                             </tr>
                         </thead>
+                        @php
+                            $Userdata = Helper::user_data();
+                        @endphp
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
                                 <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">

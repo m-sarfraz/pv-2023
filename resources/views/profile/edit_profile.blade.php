@@ -344,13 +344,18 @@
                                 location.reload();
                             }, 1000);
                         } else if (res.success == false) {
-                            swal("{{ __('Warning') }}", res.message, 'error');
+                            swal("{{ __('error') }}", res.message, 'error');
                         }
 
                         $("#loader").hide();
                     },
                     error: function() {
                         $("#loader").hide();
+                        swal({
+                                icon: "error",
+                                text: "{{ __('Some Error occured, Try again') }}",
+                                icon: "error",
+                            });
                     }
                 });
                 return false;
