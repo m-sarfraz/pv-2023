@@ -1,37 +1,51 @@
 .loginForm {
-  padding: 100px;
+    padding: 100px;
 }
+
 .loginLogo {
-  background: url(../image/login/loginformbg.png) !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  height: 700px !important;
+    background: url(../image/login/loginformbg.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    height: 700px !important;
 }
-.width-78{
-  width: 78%;
+
+.width-78 {
+    width: 78%;
 }
+
 .BoxTop {
-  width: 600px;
-  height: 600px;
-  background-color: #dc8627;
-  border-radius: 300px;
-  border: 17px solid red;
-  position: fixed;
-  top: -206px;
-  left: -235px;
-  z-index: -1;
+    width: 600px;
+    height: 600px;
+    background-color: #dc8627;
+    border-radius: 300px;
+    border: 17px solid red;
+    position: fixed;
+    top: -206px;
+    left: -235px;
+    z-index: -1;
 }
+
 .BoxBottom {
-  width: 600px;
-  height: 600px;
-  background-color: #dc8627;
-  border-radius: 300px;
-  border: 14px solid red;
-  position: fixed;
-  bottom: -393px;
-  right: -339px;
-  z-index: -1;
+    width: 600px;
+    height: 600px;
+    background-color: #dc8627;
+    border-radius: 300px;
+    border: 14px solid red;
+    position: fixed;
+    bottom: -393px;
+    right: -339px;
+    z-index: -1;
 }
+
 .loginpageS {
-  box-shadow: rgb(112 112 112) -4px 3px 5px -1px;
+    box-shadow: rgb(112 112 112) -4px 3px 5px -1px;
+}
+
+@media screen and (max-width: 600px) {
+    .loginForm {
+        padding: 27px 0 27px 0px !important;
+    }
+    .loginpageS {
+        margin-top: 19rem;
+    }
 }

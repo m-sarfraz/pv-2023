@@ -127,12 +127,15 @@
 
 <script>
     
-    $(window).resize(function() {
-  var $theWindowSize = $(this).width();
-  if ($theWindowSize < 700) {
+    // $(window).resize(function() {
+//   var $theWindowSize = $(this).width();
+  if (window.innerWidth < 700) {
 $('#navBarSmall').css({"margin-left": "-1000px"});
   }
-});
+  else{
+    $('#navBarSmall').css({"margin-left": "0px"});
+  }
+// });
 function myFunction() {
     if(document.getElementById("navBarSmall").style.marginLeft=='-1000px'){
     document.getElementById("navBarSmall").style.marginLeft='0px';
