@@ -14,8 +14,8 @@
                                     
                                     $user = Auth::user();
                                     /*if($user->image != ""){
-                                                                                                                                                    $image  =   $user->image;
-                                                                                                                                                }else{*/
+                                                                                                                                                                                                                                                                                                                                        $image  =   $user->image;
+                                                                                                                                                                                                                                                                                                                                    }else{*/
                                     $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
@@ -94,27 +94,27 @@
 
                                 {{-- </a> --}}
                                 <!-- <fieldset class="ml-10 mr-10 fieldSheet d-none">
-                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                        <div class="col-lg-8">
-                                                            <div class="form-group">
-                                                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                    Sheet Id
-                                                                </label>
-                                                                <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId" placeholder="Enter Sheet ID" required />
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                            <div class="col-lg-8">
+                                                                                <div class="form-group">
+                                                                                    <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                                        Sheet Id
+                                                                                    </label>
+                                                                                    <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId" placeholder="Enter Sheet ID" required />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
-                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                        <div class="col-lg-8">
-                                                            <div class="mt-2">
-                                                                <div class="form-group">
-                                                                    <input type="button" value="Connect" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" type="submit" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </fieldset> -->
+                                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                            <div class="col-lg-8">
+                                                                                <div class="mt-2">
+                                                                                    <div class="form-group">
+                                                                                        <input type="button" value="Connect" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" type="submit" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </fieldset> -->
                                 <!-- </form> -->
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
@@ -253,7 +253,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-file-earmark-spreadsheet-fill"></i>Google Sheet Information</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i
+                            class="bi bi-file-earmark-spreadsheet-fill"></i>Google Sheet Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -261,7 +262,8 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">GoogleSheet ID:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <input type="text" class="form-control" id="sheetID" name="sheetID">
+                        <div class="small d-none" id="error" style="color:red"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -308,31 +310,51 @@
 
         function uploadSheet(elem) {
             $("#loader").show();
-            $.ajax({
-                url: "{{ Route('connect-to-sheet') }}",
-                type: 'GET',
-                success: function(res) {
-                    if (res.success == true) {
+            if (!$('#sheetID').val()) {
+                $('#error').html('');
+                $('#error').append('Please provide Sheet ID');
+                $('#error').removeClass('d-none');
+                $('#error').addClass('d-block');
+                $("#loader").hide();
 
-                        swal({
-                            icon: "success",
-                            text: "{{ __('imported Successfully') }}",
-                            icon: "success",
-                        });
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1000);
-                    } else if (res.success == false) {
-                        swal("{{ __('Warning') }}", res.message, 'error');
+            } else {
+                $('#error').html('');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
+                });
 
-                    $("#loader").hide();
-                },
-                error: function() {
-                    $("#loader").hide();
-                }
-            });
-            return false;
+                sheetID = $('#sheetID').val();
+                $.ajax({
+                    url: "{{ Route('connect-to-sheet') }}",
+                    type: 'POST',
+                    data: {
+                        sheetID: sheetID
+                    },
+                    success: function(res) {
+                        if (res.success == true) {
+
+                            swal({
+                                icon: "success",
+                                text: "{{ __('imported Successfully') }}",
+                                icon: "success",
+                            });
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else if (res.success == false) {
+                            swal("{{ __('Warning') }}", res.message, 'error');
+                        }
+
+                        $("#loader").hide();
+                    },
+                    error: function() {
+                        $("#loader").hide();
+                    }
+                });
+                return false;
+            }
         }
     </script>
 @endsection

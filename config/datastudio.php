@@ -1,5 +1,5 @@
 <?php
 
-return[
-    'google_sheet_id'=>env('GOOGLE_SHEET_ID')
+return [
+    'google_sheet_id' => env('GOOGLE_SHEET_ID'),
 ];

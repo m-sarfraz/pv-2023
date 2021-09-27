@@ -80,10 +80,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // log routes
     Route::get('log', 'logController@index')->name('log');
 
+    // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
-    Route::get('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
+    Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
+    // Route::post('verify-sheet', 'ProfileController@verifySheet')->name('verify-sheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
+
+    // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
@@ -92,6 +96,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
+
+    // domain/segmnet routes
     Route::get('domain', 'DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
