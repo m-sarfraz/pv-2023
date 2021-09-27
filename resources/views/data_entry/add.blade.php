@@ -76,7 +76,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-10 col-md-9 col-sm-9 col-9">
+                <div class="col-lg-10 col-md-9 col-sm-12 col-12">
                     <div class="row m-0" id="UserData_div">
                         <div class="col-lg-6">
                             <!-- ================== -->
@@ -539,7 +539,7 @@
                             <!-- Candidate section end -->
                             <!-- ================== -->
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 paddingZero">
                             <!-- ================== -->
                             <!-- ENDORSMENT section start -->
                             {{-- <fieldset disabled="false"> --}}
@@ -547,7 +547,7 @@
                             <div class="card mb-10">
                                 <div class="card-body pt-4">
                                     <div class="row mb-1">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 ">
                                             <?php
                                             $status = Helper::get_dropdown('application_status');
                                             ?>
