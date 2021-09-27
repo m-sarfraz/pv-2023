@@ -6,13 +6,15 @@
     font-family: Trebuchet;
     src: url('../fonts/trebuc.ttf');
 }
-.costumButton{
+
+.costumButton {
     pointer-events: none;
     cursor: default;
     background: #dc8627;
     color: #fff;
     border: 1px solid #dc8627;
 }
+
 #loader {
     position: fixed;
     width: 100%;
@@ -383,19 +385,21 @@
     padding: 3px !important;
     border-radius: 3px !important;
 }
+
 body::-webkit-scrollbar {
     width: 0.5em;
-  }
-   
-  body::-webkit-scrollbar-track {
+}
+
+body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
-   
-  body::-webkit-scrollbar-thumb {
+}
+
+body::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 0px solid slategrey;
     border-radius: 20px;
-  }
+}
+
 .nav_Link {
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
@@ -859,14 +863,12 @@ input {
         padding-left: 0px;
         margin-left: 0px !important;
     }
-    .navBarSmallClass{
-    transition: 1.8s;
-    position: fixed;
-    z-index: +11111;
-    /* left: -50rem; */
-    margin-left: -1000px;
-    width: 100%;
-    margin-right: -12rem !IMPORTANT;
+    .navBarSmallClass {
+        transition: 1s;
+        position: fixed;
+        z-index: +11111;
+        /* left: -50rem; */
+        width: 100%;
     }
 }
 
@@ -878,12 +880,24 @@ input {
     .ant-table table {
         width: max-content !important;
     }
+    .menu-blockDiv {
+        display: block !important;
+        background: #dc8627;
+    }
+    .card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+        padding: 12px 0 12px 0;
+    }
     .nav_MOBILE {
         margin-left: 0px !important;
         transition: 0.7s;
     }
     .menu-block {
         display: block !important;
+        color: #fff;
     }
     .nav_MobileView {
         background: #dc8627;
@@ -981,15 +995,19 @@ input {
     position: relative;
     display: inline-block;
 }
+
 .page-item.active .page-link {
     z-index: 3;
     color: #fff !important;
     background-color: #dc8627 !important;
     border-color: #dc8627 !important;
 }
-.pagination .page-item,.page-link{
+
+.pagination .page-item,
+.page-link {
     height: 34px !important;
 }
+
 .dropdown-content {
     display: none;
     position: absolute;
