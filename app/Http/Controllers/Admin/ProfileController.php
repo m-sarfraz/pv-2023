@@ -92,12 +92,15 @@ class ProfileController extends Controller
         $config = Config::get("datastudio.google_sheet_id");
         Config::set('datastudio.google_sheet_id', $request->sheetID);
         $config2 = Config::get("datastudio.google_sheet_id");
-        // Artisan::call('config:cache');
         $data = $googleSheet->readGoogleSheet($request->sheetID);
+
         // if sheet exist on google sheet with given id
         if (is_array($data)) {
             // dd($data);
             foreach ($data as $render_skipped_rows) {
+                if (count($render_skipped_rows) > 1002) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 1000']);
+                }
                 //unset first two rows
                 unset($data[0][0]);
                 unset($data[0][1]);

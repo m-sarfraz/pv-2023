@@ -84,6 +84,7 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
+                                <span style="color:red">Select a file with maximum of 1000 data rows <span style="color:red">*</span> </span>
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
