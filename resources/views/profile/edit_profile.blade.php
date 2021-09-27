@@ -84,7 +84,7 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
-                                <span style="color:red">Select a file with maximum of 1000 data rows <span style="color:red">*</span> </span>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
@@ -122,6 +122,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Upload Excel Files
                                 </label>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+
                                 <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div style="padding: 93px;" class="pb-3 Coud_icon">
@@ -171,6 +173,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+
                                 <form class="C_To_GS">
                                     <div style="padding: 93px;" class="pb-3">
                                         <img style="width: 68.75px; cursor: pointer"
@@ -209,6 +213,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Upload Excel File
                                 </label>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+
                                 <form>
                                     <div style="padding: 93px;" class="pb-3 Coud_icon">
                                         <img style="width: 105px; cursor: pointer"
