@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CandidateInformation;
-use App\Finance;
 use App\Http\Controllers\Controller;
+use DB;
 use Illuminate\Http\Request;
 
 class FinanceController extends Controller
 {
+    // index view of finance page starts
     public function index()
     {
         $Userdata = CandidateInformation::
@@ -27,14 +28,21 @@ class FinanceController extends Controller
         ];
         return view('finance.finance', $data);
     }
+    // close
+
+    // function for detail of team start
     public function recordDetail(Request $request)
     {
-        $Userdata = Finance::
+        $detail = DB::table('finance')->
             join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-            ->select('endorsements.*', 'finance.* ')
-            ->where('remarks_for_finance', 'Onboarded')
-            ->orWhere('remarks_for_finance', 'Offer accepted')
-            ->paginate(10);
-        return $Userdata;
+            ->select('endorsements.*', 'finance.*')
+            ->where('finance.candidate_id', $request->id)
+            ->first();
+        $data = [
+            'detail' => $detail,
+        ];
+        return view('finance.detail', $data);
+
     }
+    // close
 }

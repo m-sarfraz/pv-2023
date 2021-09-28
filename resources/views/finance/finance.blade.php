@@ -265,7 +265,7 @@
 
 
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" id="detail_div">
                 <p class="C-Heading pt-3">Summary:</p>
                 <div class="card mb-13">
                     <div class="card-body">
@@ -811,7 +811,7 @@
 
 @endsection
 
-
+{{-- script section starts here --}}
 @section('script')
 
     <script>
@@ -823,8 +823,8 @@
             });
         });
 
+        // funciton for getting detail of user starts 
         function teamDetail(id) {
-            alert(id);
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -837,12 +837,15 @@
                 // Ajax Success funciton
                 success: function(data) {
                     // append retured view view to div 
-                    // $('#record_detail').html('');
-                    // $('#record_detail').html(data);
-                    // $("#loader").hide();
+                    $('#detail_div').html('');
+                    $('#detail_div').html(data);
 
+                    // hide loader 
+                    $("#loader").hide();
                 },
             });
         }
+        // function closed 
     </script>
 @endsection
+{{-- script seciton ends here --}}
