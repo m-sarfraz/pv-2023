@@ -72,7 +72,7 @@
                                 <label class="Label">
                                     Site:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="hires.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="hires.." value="{{ $detail->site }}"/>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -80,7 +80,7 @@
                                 <label class="Label">
                                     Position Title:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." value="{{ $detail->position_title }}"/>
                             </div>
                         </div>
                     </div>
