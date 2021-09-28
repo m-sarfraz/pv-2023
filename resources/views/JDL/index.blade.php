@@ -54,27 +54,38 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <label class="Label  labelFontSize">Client</label>
-                                        <select name="" id="" class="w-100 select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        @php
+                                            $client = Helper::get_dropdown('clients');
+                                        @endphp
+                                        <label class="d-block font-size-3 mb-0">
+                                            Client:
+                                        </label>
+                                        <select multiple name="client" id="client" class="select2_dropdown  w-100"
+                                            onchange="Filter_user()">
+                                            @foreach ($client->options as $clientOptions)
+                                                <option value="{{ $clientOptions->option_name }}">
+                                                    {{ $clientOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-1">
+                                        <?php
+                                        $candidateDomain = Helper::get_dropdown('domains');
+                                        ?>
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
                                             Domain
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select name="candidateDomain" id="candidateDomain"
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
+                                            @foreach ($candidateDomain->options as $render_domain)
+
+                                                <option value="{{ $render_domain->option_name }}">
+                                                    {{ $render_domain->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -82,29 +93,38 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
+                                        @php
+                                            $segments = Helper::get_dropdown('segments');
+                                        @endphp
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
                                             Segment
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select name="segment" id="segment" class="select2_dropdown w-100 form-control"
+                                            multiple onchange="Filter_user()">
+                                            @foreach ($segments->options as $segmentsrender)
+
+                                                <option value="{{ $segmentsrender->option_name }}">
+                                                    {{ $segmentsrender->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <label class="d-block font-size-3 Label labelFontSize mb-0">
+                                        <?php
+                                        $sub_segment = Helper::get_dropdown('sub_segment');
+                                        ?>
+                                        <label class="d-block font-size-3 mb-0">
                                             S-Segment
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
+                                            onchange="Filter_user()">
+                                            @foreach ($sub_segment->options as $sub_segmentOption)
+                                                <option value="{{ $sub_segmentOption->option_name }}">
+                                                    {{ $sub_segmentOption->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -112,29 +132,37 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <label class="d-block font-size-3 Label labelFontSize mb-0">
-                                            Position Title:
+                                        <?php
+                                        $position_title = Helper::get_dropdown('position_title');
+                                        ?>
+                                        <label class="d-block font-size-3 mb-0">
+                                            Position
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select multiple name="position_title" id="position_title"
+                                            class="select2_dropdown  w-100" onchange="Filter_user()">
+                                            @foreach ($position_title->options as $position_titleOption)
+                                                <option value="{{ $position_titleOption->option_name }}">
+                                                    {{ $position_titleOption->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <label class="d-block font-size-3 mb-0 Label labelFontSize">
-                                            Career Level:
+                                        @php
+                                            $CareerLevel = Helper::get_dropdown('career_level');
+                                        @endphp
+                                        <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
+                                            Career 1 level:
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select multiple name="career_level" id="career_level"
+                                            class="select2_dropdown  w-100" onchange="Filter_user()">
+                                            @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                                <option value="{{ $CareerLevelOptions->option_name }}">
+                                                    {{ $CareerLevelOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -142,27 +170,29 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-1">
+                                        @php
+                                            $status = Helper::get_dropdown('status');
+                                        @endphp
                                         <label class="d-block font-size-3 mb-0 Label labelFontSize">
                                             Status
                                         </label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select name="status" id="status" class="select2_dropdown w-100 form-control"
+                                            multiple onchange="Filter_user()">
+                                            @foreach ($status->options as $render_status)
+                                                <option value="{{ $render_status->option_name }}">
+                                                    {{ $render_status->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label labelFontSize">Location</label>
-                                        <select name="" id="" class="select2_dropdown w-100 form-control" multiple>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select name="location" id="location" class="select2_dropdown w-100 form-control"
+                                            multiple onchange="Filter_user()">
+                                            <option value="Lahore"> Lahore</option>
+                                            <option value="faisalabad"> faisalabad</option>
                                         </select>
                                     </div>
                                 </div>
@@ -174,7 +204,7 @@
 
                 <!-- ================= -->
                 <!-- Datatable code start-->
-                <div class="table-responsive border-right pt-3">
+                <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
                 <table id=" example1" class="table">
                         <thead class="bg-light w-100">
@@ -448,6 +478,50 @@
                     $('#record_detail').html(data);
                     $("#loader").hide();
 
+                },
+            });
+        }
+
+        function Filter_user() {
+           
+            $("#loader").show();
+
+            // get values of selected inputs of users
+            // client = $('#search').val();
+            // user_id = $('#recruiter').val();
+            client = $('#client').val();
+            candidateDomain = $('#candidateDomain').val();
+            segment = $('#segment').val();
+            sub_segment = $('#sub_segment').val();
+            position_title = $('#position_title').val();
+            career_level = $('#career_level').val();
+            status = $('#status').val();
+            address = $('#location').val();
+
+            // call Ajax for returning the data as view
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/filter_records_jdl') }}",
+                data: {
+                    _token: token,
+                    client: client,
+                    candidateDomain: candidateDomain,
+                    segment: segment,
+                    sub_segment: sub_segment,
+                    position_title: position_title,
+                    status: status,
+                    address: address,
+                },
+
+                // Success fucniton of Ajax
+                success: function(data) {
+                    console.log(data)
+                    // $('#filter_table_div').html(data);
+                    // $('#count').val(data.count);
+                    $("#loader").hide();
+                    // appennd count value coming from hidden input of appended view to count
+                    // recordCount = $('#abc').val()
+                    // $('#recordNumber').val(recordCount)
                 },
             });
         }

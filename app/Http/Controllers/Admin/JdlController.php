@@ -4,8 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\CandidateDomain;
+use App\CandidateEducation;
 use App\CandidateInformation;
+use App\CandidatePosition;
 use App\Domain;
+use App\Endorsement;
+use App\Segment;
+use App\SubSegment;
+use App\User;
+use Helper;
 
 class JdlController extends Controller
 {
@@ -25,7 +33,10 @@ class JdlController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->paginate(10);
 
-        return view('JDL.index', compact("Userdata"));
+        $data = [
+            "Userdata" => $Userdata,
+        ];
+        return view('JDL.index', $data);
     }
     function Filter(Request $request)
     {
@@ -44,9 +55,23 @@ class JdlController extends Controller
 
         $data = [
             'user' => $user,
-           
+
         ];
         return view('JDL.Filter', $data);
+    }
+    function Filter_user_table(Request $request)
+    {
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id');
+            foreach ($request->client as $filter_client) {
+            $Userdata->whereIn("endorsements.client", [$filter_client]);
+            }
+        $Userdata->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->paginate(10);
+        return response()->json($Userdata, 200);
     }
 
     /**
