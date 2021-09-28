@@ -44,7 +44,7 @@ Route::view('jdl', 'JDL.index')->name('jdl');
 //Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
 
 // Route::view('record', 'record.view_record')->name('record');
-Route::view('finance', 'finance.finance')->name('finance');
+// Route::view('finance', 'finance.finance')->name('finance');
 // Route::view('log', 'logs.log')->name('log');
 Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
@@ -83,9 +83,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
-    // Route::post('verify-sheet', 'ProfileController@verifySheet')->name('verify-sheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
+
+    // finance route
+    Route::get('finance', 'financeController@index')->name('finance');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
