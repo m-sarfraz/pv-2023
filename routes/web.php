@@ -40,7 +40,8 @@ return view('JDL.index');
 });*/
 
 //Route::view('dataEntry','data_entry.main')->name('dataEntry');
-Route::view('jdl', 'JDL.index')->name('jdl');
+// Route::view('jdl', 'JDL.index')->name('jdl');
+
 //Route::view('dropdown','dropdown.add_dropdown')->name('dropdown');
 
 // Route::view('record', 'record.view_record')->name('record');
@@ -57,7 +58,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
     Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
-
+    //JDL Routes
+    Route::get('jdl', 'JdlController@index')->name("jdl");
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
 
@@ -107,7 +109,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
     Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
-
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
