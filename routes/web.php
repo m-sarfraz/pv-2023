@@ -60,6 +60,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
     //JDL Routes
     Route::get('jdl', 'JdlController@index')->name("jdl");
+    Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
+
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
 

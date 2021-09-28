@@ -178,7 +178,7 @@
                     <div class="">
                 <table id=" example1" class="table">
                         <thead class="bg-light w-100">
-                            <tr>
+                            <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                                 <th class="ant-table-cell">Client</th>
                                 <th class="ant-table-cell">Segment</th>
                                 <th class="ant-table-cell">S segment</th>
@@ -195,15 +195,15 @@
                         <tbody>
                             @foreach ($Userdata as $renderIndex)
 
-                                <tr class="bg-transparent">
+                                <tr onclick="Filter('{{ $renderIndex->cid }}')">
                                     <!-- Table data 1 -->
                                     <td>{{ $renderIndex->client }}</td>
                                     <td>{{ $renderIndex->segment }}</td>
                                     <td>{{ $renderIndex->sub_segment }}</td>
                                     <td>{{ $renderIndex->career_finance }}</td>
                                     <td>{{ $renderIndex->position_title }}</td>
-                                    <td>{{ $renderIndex->position_title }}</td>
                                     <td>no data</td>
+                                    <td>{{ $renderIndex->address }}</td>
                                     <td>no data</td>
                                     <td>no data</td>
                                     <td>no data</td>
@@ -216,11 +216,11 @@
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
-                {{ $Userdata->links() }}git 
+                {{ $Userdata->links() }}
 
 
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" id="record_detail">
                 <p class="C-Heading">Requirement Details:</p>
                 <div class="card mb-13">
                     <div class="card-body">
@@ -424,7 +424,32 @@
                 "autoWidth": false,
             });
         });
-    </script> -->
+    </script>
     <!-- Datatable js end-->
     <!-- ================= -->
+    <script>
+        function Filter(id) {
+
+            // show loader for waiting
+            $("#loader").show();
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/jdl_filter_records_detail') }}",
+                data: {
+                    _token: token,
+                    id: id,
+                },
+
+                // Ajax Success funciton
+                success: function(data) {
+                    // append retured view view to div 
+                    $('#record_detail').html('');
+                    $('#record_detail').html(data);
+                    $("#loader").hide();
+
+                },
+            });
+        }
+    </script>
 @endsection
