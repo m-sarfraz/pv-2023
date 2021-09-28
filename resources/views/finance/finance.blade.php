@@ -417,6 +417,7 @@
                         </form>
                     </div>
                 </div>
+               <div id="detailView">
                 <p class="C-Heading pt-3">Endorsement Details:</p>
                 <div class="card mb-13">
                     <div class="card-body">
@@ -804,6 +805,7 @@
                         </form>
                     </div>
                 </div>
+               </div>
             </div>
         </div>
     </div>
@@ -837,8 +839,8 @@
                 // Ajax Success funciton
                 success: function(data) {
                     // append retured view view to div 
-                    $('#detail_div').html('');
-                    $('#detail_div').html(data);
+                    $('#detailView').html('');
+                    $('#detailView').html(data);
 
                     // hide loader 
                     $("#loader").hide();
