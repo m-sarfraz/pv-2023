@@ -88,6 +88,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     // finance route
     Route::get('finance', 'financeController@index')->name('finance');
+    Route::get('finance_records_detail', 'financeController@recordDetail')->name('financeRecordDetail');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');

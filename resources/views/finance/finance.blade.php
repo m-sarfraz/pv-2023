@@ -199,61 +199,61 @@
                         </thead>
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
-                            <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
-                                <!-- Table data 1 -->
-                                @php
-                                    $user = \App\User::where('id', $value->saved_by)->first();
-                                    $role = $user->roles->pluck('name');
-                                @endphp
-                                <td> {{$role[0]}}</td>
-                                @php
-                                    $name = \App\User::with('candidate_information')
-                                        ->where('id', $value->saved_by)
-                                        ->first();
-                                @endphp
-                                <td>{{ $name->name }}</td>
-                                <td></td>
+                                <tr class="bg-transparent" onclick="teamDetail('{{ $value->C_id }}')">
+                                    <!-- Table data 1 -->
+                                    @php
+                                        $user = \App\User::where('id', $value->saved_by)->first();
+                                        $role = $user->roles->pluck('name');
+                                    @endphp
+                                    <td> {{ $role[0] }}</td>
+                                    @php
+                                        $name = \App\User::with('candidate_information')
+                                            ->where('id', $value->saved_by)
+                                            ->first();
+                                    @endphp
+                                    <td>{{ $name->name }}</td>
+                                    <td></td>
                                     <td>
-                                    @if (isset($value->first_name))
-                                        {{ $value->first_name }} {{ $value->last_name }}
+                                        @if (isset($value->first_name))
+                                            {{ $value->first_name }} {{ $value->last_name }}
 
-                                    @endif
-                                </td>
-                                <td> {{$role[0]}}</td>
-                                <td>{{ $value->career_endo }}</td>
-                                <td>{{ $value->client }}</td>
-                                <td>
-                                    @if (isset($value->endi_date))
-                                        {{ $value->endi_date }}
+                                        @endif
+                                    </td>
+                                    <td> {{ $role[0] }}</td>
+                                    <td>{{ $value->career_endo }}</td>
+                                    <td>{{ $value->client }}</td>
+                                    <td>
+                                        @if (isset($value->endi_date))
+                                            {{ $value->endi_date }}
 
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (isset($value->placement_fee))
-                                        {{ $value->placement_fee }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value->placement_fee))
+                                            {{ $value->placement_fee }}
 
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (isset($value->remarks))
-                                        {{ $value->remarks }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value->remarks))
+                                            {{ $value->remarks }}
 
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (isset($value->app_status))
-                                        {{ $value->app_status }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value->app_status))
+                                            {{ $value->app_status }}
 
-                                    @endif
-                                </td>
-                            </tr>
+                                        @endif
+                                    </td>
+                                </tr>
 
-                        @empty
-                            <tr>
+                            @empty
+                                <tr>
 
-                                <td> no data found</td>
-                            </tr>
-                        @endforelse
+                                    <td> no data found</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                         </table>
                     </div>
@@ -301,8 +301,7 @@
                                             <label class="Label">
                                                 Total Recievables:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
-                                                placeholder="total.." />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="total.." />
                                         </div>
                                     </div>
                                 </div>
@@ -814,15 +813,6 @@
 
 
 @section('script')
-    <!-- ================= -->
-    <!-- Datatable js start-->
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
-    </script>
 
     <script>
         $(function() {
@@ -832,7 +822,27 @@
                 "autoWidth": false,
             });
         });
-    </script> -->
-    <!-- Datatable js end-->
-    <!-- ================= -->
+
+        function teamDetail(id) {
+            alert(id);
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/finance_records_detail') }}',
+                data: {
+                    _token: token,
+                    id: id,
+                },
+
+                // Ajax Success funciton
+                success: function(data) {
+                    // append retured view view to div 
+                    // $('#record_detail').html('');
+                    // $('#record_detail').html(data);
+                    // $("#loader").hide();
+
+                },
+            });
+        }
+    </script>
 @endsection
