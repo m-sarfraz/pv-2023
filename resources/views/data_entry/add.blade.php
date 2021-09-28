@@ -298,7 +298,7 @@
                                                             Interview Notes
                                                         </label>
                                                         <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
-                                                            class="form-control border t-HC1 h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
+                                                            class="form-control border t-HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
