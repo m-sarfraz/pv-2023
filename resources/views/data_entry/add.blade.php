@@ -1084,7 +1084,9 @@
                 // Ajax success function
                 success: function(res) {
                     if (res.success == true) {
-
+                    // disable save data button after data entry success
+                    $('#save').prop("disabled", true);
+                    
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
                         swal("success", res.message, "success").then((value) => {});
