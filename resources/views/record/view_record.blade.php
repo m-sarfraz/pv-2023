@@ -774,7 +774,7 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
-            $("#loader").show();
+            // $("#loader").show();
 
             // get values of selected inputs of users
             search = $('#search').val();
@@ -808,7 +808,7 @@
                 success: function(data) {
                     $('#filter_table_div').html(data);
                     // $('#count').val(data.count);
-                    $("#loader").hide();
+                    // $("#loader").hide();
                     // appennd count value coming from hidden input of appended view to count
                     recordCount = $('#abc').val()
                     $('#recordNumber').val(recordCount)
@@ -821,7 +821,7 @@
         function UserDetail(id) {
 
             // show loader for waiting
-            $("#loader").show();
+            // $("#loader").show();
 
             // call Ajax whihc will return view of detail data of user
             $.ajax({
@@ -837,7 +837,7 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-                    $("#loader").hide();
+                    // $("#loader").hide();
 
                 },
             });
