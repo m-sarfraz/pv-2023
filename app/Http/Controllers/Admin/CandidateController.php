@@ -78,7 +78,7 @@ class CandidateController extends Controller
             // "DATE_INVITED" => 'required ',
             "MANNER_OF_INVITE" => 'required ',
             "CURRENT_SALARY" => 'required ',
-            "file" => 'required ',
+            // "file" => 'required ',
             // "CURRENT_ALLOWANCE" => 'required ',
             // "EXPECTED_SALARY" => 'required ',
             // "OFFERED_SALARY" => 'required ',
