@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CandidateInformation;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon;
 use DB;
 use Illuminate\Http\Request;
 
@@ -58,64 +59,6 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-        $where = [];
-        // dd($request->candidate);
-        // for ($i = 0; $i < count($request->all()); $i++) {
-        if (isset($request->candidate)) {
-            foreach ($request->candidate as $key => $value) {
-                $where['candidate_informations.id'] = $request->candidate;
-            }
-
-        }
-        if (isset($request->recruiter)) {
-            foreach ($request->recruiter as $key => $value) {
-
-                $where['saved_by'] = $request->recruiter;
-            }
-        }
-        if (isset($request->remarks)) {
-            foreach ($request->remarks as $key => $value) {
-
-                $where['endorsements.remarks_for_finance'] = $request->remarks;
-            }
-        }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // if (isset($request->recruiter)) {
-        //     foreach ($request->recruiter as $key => $value) {
-
-        //         $where['saved_by'] = $request->recruiter;
-        //     }
-        // }
-        // dd($where);
         $Userdata = CandidateInformation::
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -123,13 +66,35 @@ class FinanceController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where($where)
-        // ->where('remarks_for_finance', 'Onboarded')
-        // ->orWhere('remarks_for_finance', 'Offer accepted')
-            ->get();
-        // return $Userdata;
+            ->where('remarks_for_finance', 'Onboarded');
+        // ->orWhere('remarks_for_finance', 'Offer accepted');
+        if (isset($request->candidate)) {
+            $Userdata->whereIn('candidate_informations.id', $request->candidate);
+        }
+        if (isset($request->recruiter)) {
+            $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
+        }
+        if (isset($request->remarks)) {
+            $Userdata->whereIn('endorsements.remarks_for_finance', $request->remarks);
+        }
+        if (isset($request->ob_date)) {
+            $time = strtotime($request->ob_date);
+            $newformat = date('Y-m-d', $time);
+            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
+            $Userdata->whereDate('finance.onboardnig_date', '>', $newformat);
+        }
+        if (isset($request->toDate)) {
+            $time = strtotime($request->toDate);
+            $newformat = date('Y-m-d', $time);
+            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
+            $Userdata->whereDate('finance.onboardnig_date', '<', $newformat);
+        }
+        if (isset($request->client)) {
+            $Userdata->whereIn('endorsements.client', $request->client);
+        }
+        $user = $Userdata->get();
         $data = [
-            'Userdata' => $Userdata,
+            'Userdata' => $user,
         ];
         return view('finance.filter_data', $data);
     }

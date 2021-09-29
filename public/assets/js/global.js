@@ -95,7 +95,7 @@ function downloadCv(id, targetURL) {
                 //show warning message if file not found error occured
                 swal({
                     icon: "error",
-                    text: "Error occured while downloading file",
+                    text: "no attachment found",
                     icon: "error",
                 });
             }

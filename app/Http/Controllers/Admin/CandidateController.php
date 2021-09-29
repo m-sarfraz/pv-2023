@@ -67,18 +67,18 @@ class CandidateController extends Controller
             "GENDER" => "required",
             "RESIDENCE" => 'required ',
             "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            "COURSE" => 'required ',
+            // "COURSE" => 'required ',
             "CANDIDATES_PROFILE" => 'required ',
-            "INTERVIEW_NOTES" => 'required ',
+            // "INTERVIEW_NOTES" => 'required ',
             "DATE_SIFTED" => 'required ',
             // "SEGMENT" => 'required ',
             // "SUB_SEGMENT" => 'required ',
-            "EMPLOYMENT_HISTORY" => 'required ',
+            // "EMPLOYMENT_HISTORY" => 'required ',
             "POSITION_TITLE_APPLIED" => 'required ',
             // "DATE_INVITED" => 'required ',
             "MANNER_OF_INVITE" => 'required ',
             "CURRENT_SALARY" => 'required ',
-            "file" => 'required ',
+            // "file" => 'required ',
             // "CURRENT_ALLOWANCE" => 'required ',
             // "EXPECTED_SALARY" => 'required ',
             // "OFFERED_SALARY" => 'required ',
@@ -375,15 +375,21 @@ class CandidateController extends Controller
     public function downloadCv(Request $request)
     {
         $user = CandidatePosition::where('candidate_id', $request->id)->first();
-        if (File::exists('assets/cv/' . $user->cv)) {
-            $file = 'assets/cv/' . $user->cv;
-            $headers = array(
-                'Content-Type: application/pdf',
-            );
-            return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
-        } else {
-            return response()->json(['success' => false, 'message' => 'file not found']);
+        if (isset($user->cv)) {
+            if (File::exists('assets/cv/' . $user->cv)) {
+                $file = 'assets/cv/' . $user->cv;
+                $headers = array(
+                    'Content-Type: application/pdf',
+                );
+                return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
+                return response()->json(['success' => true, 'message' => 'file found']);
+
+            } else {
+                return response()->json(['success' => false, 'message' => 'file not found']);
+            }} else {
+            return response()->json(['success' => false, 'message' => 'No file attached found']);
         }
+
     }
     // download canidate cv functon ends
 }

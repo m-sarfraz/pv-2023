@@ -422,7 +422,7 @@
                                             accept="application/pdf" class="uploadcv  w-100">
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                        <button class="btn btn-success mt-5"
+                                        <button class="btn btn-success mt-5" type="button"
                                             onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download
                                             CV</button>
 

@@ -224,7 +224,7 @@
                                                                 onchange="EducationalAttainChange(this)"
                                                                 class=" form-control p-0 EmailInput-F"
                                                                 id="EDUCATIONAL_ATTAINTMENT">
-                                                                <option value="" disabled>select option</option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                                                     <option
                                                                         {{ ($candidateDetail != null ? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name : '') ? 'selected' : '' }}
@@ -246,6 +246,7 @@
                                                             <select name="COURSE" class="form-control p-0 users-input-S-C"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->course : '' }}"
                                                                 id="COURSE">
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($course->options as $courseOptions)
                                                                     <option value="{{ $courseOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}>
@@ -270,7 +271,7 @@
                                                             <select name="CERTIFICATIONS"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}"
                                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100">
-                                                                <option selected disabled></option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->certification == $certificateOption->option_name : '') ? 'selected' : '' }}>
@@ -394,7 +395,7 @@
                                                             <select name="CANDIDATES_PROFILE"
                                                                 class="select2_dropdown w-100"
                                                                 class="form-control p-0 users-input-S-C">
-                                                                <option selected disabled></option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($profile->options as $profileOption)
                                                                     <option value="{{ $profileOption->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
@@ -455,7 +456,7 @@
                                                             <select name="MANNER_OF_INVITE" onchange="mannerChange(this)"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->manner_of_invite : '' }}"
                                                                 id="manners" class="form-control p-0 users-input-S-C">
-                                                                <option selected disabled></option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                                     <option
                                                                         value="{{ $manner_of_inviteOption->option_name }}"
@@ -875,7 +876,7 @@
                                                             </label>
                                                             <select name="REMARKS" id="remarks_finance"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                                <option value="" disabled selected></option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($remarks->options as $remarksOptions)
                                                                     <option value="{{ $remarksOptions->option_name }}">
                                                                         {{ $remarksOptions->option_name }}
@@ -975,7 +976,9 @@
                                                             </label>
                                                             <select name="RATE" class="form-control border h-px-20_custom"
                                                                 id="rate" id="rate_finance" oninput="amountFinder(this)">
-                                                                <option value="10" selected>10%</option>
+                                                                <option value="" selected disabled>Select Option</option>
+
+                                                                <option value="10">10%</option>
                                                                 <option value="30">30 %</option>
                                                                 <option value="40">40 %</option>
                                                                 <option value="50">50 %</option>
@@ -1053,7 +1056,7 @@
         });
 
         //empty and disable required fields
-        $('#segment').empty();
+        // $('#segment').empty();
 
         // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
@@ -1096,7 +1099,9 @@
                         if (res.hasOwnProperty("message")) {
                             var err = "";
                             $("input").parent().siblings('span').remove();
+                            $("select").parent().siblings('span').remove();
                             $("input").css('border-color', '#ced4da');
+                            $("select").css('border-color', '#ced4da');
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
