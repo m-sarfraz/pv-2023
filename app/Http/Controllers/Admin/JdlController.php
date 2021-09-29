@@ -94,8 +94,11 @@ class JdlController extends Controller
         }
 
         $Userdata = $Userdata->get();
+        $count = count($Userdata);
+
         $data = [
             "Userdata" => $Userdata,
+            "count" => $count,
         ];
         return view("JDL.Filter_user", $data);
     }

@@ -17,6 +17,7 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach ($Userdata as $renderIndex)
 
                 <tr onclick="Filter('{{ $renderIndex->cid }}')">
@@ -38,3 +39,6 @@
         </table>
     </div>
 </div>
+<script>
+    $('#No_of_count').val({!! json_encode($count) !!});
+</script>
