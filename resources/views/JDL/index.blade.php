@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('style')
     <!-- ================= -->
     <!-- Datatable css start-->
@@ -483,12 +482,8 @@
         }
 
         function Filter_user() {
-           
-            $("#loader").show();
 
-            // get values of selected inputs of users
-            // client = $('#search').val();
-            // user_id = $('#recruiter').val();
+            $("#loader").show();
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();
@@ -509,19 +504,16 @@
                     segment: segment,
                     sub_segment: sub_segment,
                     position_title: position_title,
-                    status: status,
+                    career_level: career_level,
                     address: address,
+                    status: status,
                 },
 
                 // Success fucniton of Ajax
                 success: function(data) {
-                    console.log(data)
-                    // $('#filter_table_div').html(data);
-                    // $('#count').val(data.count);
+                    $('#filter_table_div').html(' ');
+                    $('#filter_table_div').html(data);
                     $("#loader").hide();
-                    // appennd count value coming from hidden input of appended view to count
-                    // recordCount = $('#abc').val()
-                    // $('#recordNumber').val(recordCount)
                 },
             });
         }
