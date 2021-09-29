@@ -1,5 +1,6 @@
 <div class="col-lg-12" id="record_detail" style="width:100%">
 
+ 
     <p class="C-Heading">Requirement Details:</p>
     <div class="card mb-13">
         <div class="card-body">
@@ -40,7 +41,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Client:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" value="{{$user->client}}" />
+                                <input type="text" class="form-control users-input-S-C" value="{{ $user->client }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -48,7 +49,8 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Segment
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" value="{{$user->segment}}" />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->segment }}" />
                             </div>
                         </div>
                     </div>
@@ -58,7 +60,8 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Sub-Segment
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" value="{{$user->sub_segment}}"  />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->sub_segment }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -74,7 +77,8 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Carrer Level
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->career_endo }}" />
                             </div>
                         </div>
                     </div>
@@ -88,7 +92,8 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">Location:</label>
-                                <input type="text" class="form-control users-input-S-C"  value="{{$user->address}}"  />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->address }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -146,7 +151,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Enter Interview Notes"></textarea>
+                                    placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -166,7 +171,8 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Updated Date:
                                 </label>
-                                <input type="date" name="UPDATED_DATE" class="form-control border h-px-20_custom" />
+                                <input type="date" name="UPDATED_DATE" class="form-control border h-px-20_custom"
+                                    value="{{ $user->updated_at }}" />
                             </div>
                         </div>
                     </div>
