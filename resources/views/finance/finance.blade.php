@@ -102,7 +102,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Team
                                         </label>
-                                        <select name="" id="team" class="w-100 form-control select2_dropdown">
+                                        <select name="" id="team" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -116,7 +116,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             From (OB Date:)
                                         </label>
-                                        <input type="date" class="w-100 form-control select2_dropdown" id="ob_date">
+                                        <input type="date" class="w-100 form-control" id="ob_date" onchange="filterUserData()">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Reprocess:
                                         </label>
-                                        <select name="" id="process" class="w-100 form-control select2_dropdown">
+                                        <select name="" id="process" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -137,15 +137,19 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
+                                        @php
+                                        $client = Helper::get_dropdown('clients');
+                                    @endphp
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select name="" id="client" class="w-100 form-control select2_dropdown">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                        <select multiple name="" id="client" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            <option value="" disabled selected>Select Option</option>
+                                            @foreach ($client->options as $clientOptions)
+                                                <option value="{{ $clientOptions->option_name }}">
+                                                    {{ $clientOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -156,7 +160,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Process Status:
                                         </label>
-                                        <select name="" id="status" class="w-100 form-control select2_dropdown">
+                                        <select name="" id="status" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -168,7 +172,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="Label">To (OB Date:)</label>
-                                        <input type="date" class="w-100 form-control" id="to_ob_date">
+                                        <input type="date" class="w-100 form-control" id="to_ob_date" onchange="filterUserData()">
                                     </div>
                                 </div>
                             </div>
@@ -901,7 +905,6 @@
                     team: team,
                     status: status,
                     client: client,
-                    ob_date: ob_date,
                     ob_date: ob_date,
                     process: process,
                 },
