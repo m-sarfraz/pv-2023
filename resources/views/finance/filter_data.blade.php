@@ -76,3 +76,8 @@
     </tbody>
     </table>
 </div>
+<script>
+    var numberofHires = "{{ $hires }}";
+    console.log(numberofHires)
+    $('#hires').val(numberofHires);
+</script>

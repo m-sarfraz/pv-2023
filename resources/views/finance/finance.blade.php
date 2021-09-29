@@ -281,7 +281,7 @@
                                             <label class="Label">
                                                 # of Hires:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="hires.." />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="hires.." id ="hires" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

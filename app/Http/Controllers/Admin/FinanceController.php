@@ -92,9 +92,15 @@ class FinanceController extends Controller
         if (isset($request->client)) {
             $Userdata->whereIn('endorsements.client', $request->client);
         }
-        $user = $Userdata->get();
+        $billed = $Userdata->where('endorsements.remarks', 'Collected')->
+            orWhere('endorsements.remarks', 'Billed')->
+            orWhere('endorsements.remarks', 'For Replacement')->
+            orWhere('endorsements.remarks', 'Replaced')->count();
+        return $billed;
+        $hires = count($user);
         $data = [
             'Userdata' => $user,
+            'hires' => $hires,
         ];
         return view('finance.filter_data', $data);
     }
