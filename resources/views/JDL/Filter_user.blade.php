@@ -22,16 +22,16 @@
 
                 <tr onclick="Filter('{{ $renderIndex->cid }}')">
                     <!-- Table data 1 -->
-                    <td>{{ $renderIndex->client }}</td>
-                    <td>{{ $renderIndex->segment }}</td>
-                    <td>{{ $renderIndex->sub_segment }}</td>
-                    <td>{{ $renderIndex->career_endo }}</td>
-                    <td>{{ $renderIndex->position_title }}</td>
+                    <td>{{ $renderIndex->endo_client }}</td>
+                    <td>{{ $renderIndex->candidate_segment }}</td>
+                    <td>{{ $renderIndex->candidate_sub_segment }}</td>
+                    <td>{{ $renderIndex->endo_career_endo }}</td>
+                    <td>{{ $renderIndex->endo_position_title }}</td>
                     <td>no data</td>
-                    <td>{{ $renderIndex->address }}</td>
+                    <td>{{ $renderIndex->candidate_address }}</td>
                     <td>no data</td>
                     <td>no data</td>
-                    <td>{{ $renderIndex->status }}</td>
+                    <td>{{ $renderIndex->endo_status }}</td>
                 </tr>
             @endforeach
 

@@ -44,7 +44,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             # of Records Found:
                                         </label>
-                                        <input type="text" name="No_of_count" id="No_of_count"  disabled="" required=""
+                                        <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
                                             class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
@@ -226,16 +226,16 @@
 
                                 <tr onclick="Filter('{{ $renderIndex->cid }}')">
                                     <!-- Table data 1 -->
-                                    <td>{{ $renderIndex->client }}</td>
-                                    <td>{{ $renderIndex->segment }}</td>
-                                    <td>{{ $renderIndex->sub_segment }}</td>
-                                    <td>{{ $renderIndex->career_endo }}</td>
-                                    <td>{{ $renderIndex->position_title }}</td>
+                                    <td>{{ $renderIndex->endo_client }}</td>
+                                    <td>{{ $renderIndex->candidate_segment }}</td>
+                                    <td>{{ $renderIndex->candidate_sub_segment }}</td>
+                                    <td>{{ $renderIndex->endo_career_endo }}</td>
+                                    <td>{{ $renderIndex->endo_position_title }}</td>
                                     <td>no data</td>
-                                    <td>{{ $renderIndex->address }}</td>
+                                    <td>{{ $renderIndex->candidate_address }}</td>
                                     <td>no data</td>
                                     <td>no data</td>
-                                    <td>{{ $renderIndex->status }}</td>
+                                    <td>{{ $renderIndex->endo_status }}</td>
                                 </tr>
                             @endforeach
 
@@ -246,7 +246,7 @@
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
-             
+
 
 
             </div>
@@ -461,7 +461,7 @@
         function Filter(id) {
 
             // show loader for waiting
-           
+
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -476,7 +476,7 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-                   
+
 
                 },
             });
@@ -512,10 +512,10 @@
 
                 // Success fucniton of Ajax
                 success: function(data) {
-                   
+
                     $('#filter_table_div').html(' ');
                     $('#filter_table_div').html(data);
-                 
+
                     $("#loader").hide();
                 },
             });
