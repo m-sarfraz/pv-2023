@@ -24,13 +24,13 @@
                     <td>{{ $renderIndex->client }}</td>
                     <td>{{ $renderIndex->segment }}</td>
                     <td>{{ $renderIndex->sub_segment }}</td>
-                    <td>{{ $renderIndex->career_finance }}</td>
+                    <td>{{ $renderIndex->career_endo }}</td>
                     <td>{{ $renderIndex->position_title }}</td>
                     <td>no data</td>
                     <td>{{ $renderIndex->address }}</td>
                     <td>no data</td>
                     <td>no data</td>
-                    <td>no data</td>
+                    <td>{{ $renderIndex->status }}</td>
                 </tr>
             @endforeach
 
