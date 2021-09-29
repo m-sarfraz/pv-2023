@@ -78,6 +78,12 @@
 </div>
 <script>
     var numberofHires = "{{ $hires }}";
-    console.log(numberofHires)
+    var numberofBilled = "{{ $billed }}";
+    var numberofUnBilled = "{{ $unbilled }}";
+    var fallout = "{{ $fallout }}";
     $('#hires').val(numberofHires);
+    $('#record').val(numberofHires);
+    $('#billed').val(numberofBilled);
+    $('#unbilled').val(numberofUnBilled);
+    $('#fallout').val(fallout);
 </script>

@@ -41,8 +41,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             # of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
-                                            class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" value="{{ $count }}" disabled=""
+                                            required="" id="record" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Team
                                         </label>
-                                        <select name="" id="team" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                        <select name="" id="team" class="w-100 form-control select2_dropdown"
+                                            onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -116,7 +117,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             From (OB Date:)
                                         </label>
-                                        <input type="date" class="w-100 form-control" id="ob_date" onchange="filterUserData()">
+                                        <input type="date" class="w-100 form-control" id="ob_date"
+                                            onchange="filterUserData()">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +128,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Reprocess:
                                         </label>
-                                        <select name="" id="process" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                        <select name="" id="process" class="w-100 form-control select2_dropdown"
+                                            onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -138,12 +141,13 @@
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         @php
-                                        $client = Helper::get_dropdown('clients');
-                                    @endphp
+                                            $client = Helper::get_dropdown('clients');
+                                        @endphp
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="" id="client" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                        <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
+                                            onchange="filterUserData()">
                                             <option value="" disabled selected>Select Option</option>
                                             @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
@@ -160,7 +164,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Process Status:
                                         </label>
-                                        <select name="" id="status" class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                        <select name="" id="status" class="w-100 form-control select2_dropdown"
+                                            onchange="filterUserData()">
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -172,7 +177,8 @@
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="Label">To (OB Date:)</label>
-                                        <input type="date" class="w-100 form-control" id="to_ob_date" onchange="filterUserData()">
+                                        <input type="date" class="w-100 form-control" id="to_ob_date"
+                                            onchange="filterUserData()">
                                     </div>
                                 </div>
                             </div>
@@ -281,7 +287,8 @@
                                             <label class="Label">
                                                 # of Hires:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="hires.." id ="hires" />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="hires.."
+                                                id="hires" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -289,7 +296,8 @@
                                             <label class="Label">
                                                 Comp. Revenue:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                                id="revenue" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -315,7 +323,7 @@
                                             <label class="Label">
                                                 # of Billed:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
+                                            <input type="text" class="form-control users-input-S-C" id="billed"
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
@@ -351,7 +359,7 @@
                                             <label class="Label">
                                                 # of Unbilled:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
+                                            <input type="text" class="form-control users-input-S-C" id="unbilled"
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
@@ -387,7 +395,7 @@
                                             <label class="Label">
                                                 # of Fallout:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
+                                            <input type="text" class="form-control users-input-S-C" id="fallout"
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
@@ -834,6 +842,15 @@
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
+            var numberofHires = "{{ $hires }}";
+            var numberofBilled = "{{ $billed }}";
+            var numberofUnBilled = "{{ $unbilled }}";
+            var fallout = "{{ $fallout }}";
+            $('#hires').val(numberofHires);
+            $('#record').val(numberofHires);
+            $('#billed').val(numberofBilled);
+            $('#unbilled').val(numberofUnBilled);
+            $('#fallout').val(fallout);
             select2Dropdown("select2_dropdown");
             // $('#candidate').empty();
             // show and hide loader after time set starts
