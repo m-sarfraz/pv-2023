@@ -1166,9 +1166,9 @@
             $('#sub_segment').empty()
             $('#Domainsegment').empty()
             $('#segment').empty()
-            var selected = $('#domain').find(":selected").text().trim();
-            $('#domain_endo').html('<option>' + selected + '</option>');
-            var domains = {!! $domainDrop !!};
+                var selected = $('#domain').find(":selected").text().trim();
+                $('#domain_endo').html('<option>' + selected + '</option>');
+                var domains = {!! $domainDrop !!};
             var segmentsDropDown = {!! $segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < segmentsDropDown.length; i++) {
