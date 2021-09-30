@@ -87,8 +87,10 @@ class ProfileController extends Controller
             }
         }
     }
+    // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
+        // change configuration for google sheet ID
         $config = Config::get("datastudio.google_sheet_id");
         Config::set('datastudio.google_sheet_id', $request->sheetID);
         $config2 = Config::get("datastudio.google_sheet_id");
@@ -96,7 +98,6 @@ class ProfileController extends Controller
 
         // if sheet exist on google sheet with given id
         if (is_array($data)) {
-            // dd($data);
             foreach ($data as $render_skipped_rows) {
                 if (count($render_skipped_rows) > 1002) {
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 1000']);
@@ -105,7 +106,7 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
-                    // dd($render[19]);
+
                     //Explode candidate index into first,middle,last
                     $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -113,6 +114,8 @@ class ProfileController extends Controller
                     $con = 0;
                     $con1 = 1;
                     $con2 = 2;
+
+                    // query for checking the exisitng /duplicate record
                     $query = DB::table("candidate_informations")
                         ->where("first_name", $render[14])
                         ->orwhere("last_name", $render[16])
@@ -153,6 +156,7 @@ class ProfileController extends Controller
                     // $store_by_google_sheet->status = isset($render[20])?$render[20]:"";$render[21];
                     $store_by_google_sheet->saved_by = Auth::user()->id;
                     $store_by_google_sheet->save();
+
                     // start store data in candidate_educations
                     $query = DB::table("candidate_educations")
                         ->where("candidate_id", $store_by_google_sheet->id)
@@ -171,6 +175,7 @@ class ProfileController extends Controller
                     $candidateEducation->save();
 
                     // end  store data in candidate_educations
+
                     // start  store data in candidate_domains
                     $query = DB::table("candidate_domains")
                         ->where("candidate_id", $store_by_google_sheet->id)
@@ -192,6 +197,7 @@ class ProfileController extends Controller
                     $candidateDomain->sub_segment = isset($render[10]) ? $render[10] : "";
                     $candidateDomain->save();
                     // end  store data in candidate_domains
+
                     // start store data in candidate_position
                     $query = DB::table("candidate_positions")
                         ->where("candidate_id", $store_by_google_sheet->id)
@@ -217,6 +223,7 @@ class ProfileController extends Controller
                     $candidatePosition->save();
 
                     // end store data in candidate_position
+
                     // endoresment startgit
                     $query = DB::table("endorsements")
                         ->where("candidate_id", $store_by_google_sheet->id)

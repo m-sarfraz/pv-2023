@@ -59,8 +59,15 @@ class FinanceController extends Controller
             ->select('endorsements.*', 'finance.*')
             ->where('finance.candidate_id', $request->id)
             ->first();
+        $fee = $detail->placement_fee;
+        $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
+        $user = \App\User::where('id', $savedBy->saved_by)->first();
+        $role = $user->roles->pluck('name');
+        $team = $role;
         $data = [
             'detail' => $detail,
+            'team' => $team,
+            'fee' => $fee,
         ];
         return view('finance.detail', $data);
 
