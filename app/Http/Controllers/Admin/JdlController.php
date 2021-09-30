@@ -46,8 +46,14 @@ class JdlController extends Controller
         // ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
         // ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
         // ->paginate(10);
+        $Alldomains=Domain::all();
+        $Allsegments=Segment::all();
+        $SubSegment=SubSegment::all();
         $data = [
             "Userdata" => $Userdata,
+            "Alldomains"=>$Alldomains,
+            "Allsegments"=>$Allsegments,
+            "SubSegment"=>$SubSegment,
         ];
         return view('JDL.index', $data);
     }

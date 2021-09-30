@@ -520,5 +520,64 @@
                 },
             });
         }
+        $('#candidateDomain').change(function() {
+
+
+
+        })
+        // function for (if domain is changed append segments acoordingly) starts
+        $("#candidateDomain").change(function() {
+            let arr = $("#candidateDomain :selected").map(function(i, el) {
+                return $(el).val();
+            }).get();
+
+            $("#segment").empty();
+            let domain = {!! $Alldomains !!};
+            let segment = {!! $Allsegments !!};
+            domain.forEach(elementDomain => {
+                segment.forEach(elementsegment => {
+                    arr.forEach(element => {
+                        if (element == elementDomain.domain_name) {
+                            if (elementsegment.domain_id == elementDomain.id) {
+                                $("#segment").append('<option value="' + elementsegment
+                                    .segment_name +
+                                    '">' + elementsegment.segment_name +
+                                    '</option>');
+                            }
+                        }
+                    })
+
+                });
+            });
+
+        });
+
+
+        $("#segment").change(function() {
+            let arr = $("#segment :selected").map(function(i, el) {
+                return $(el).val();
+            }).get();
+            console.log(arr);
+            $("#sub_segment").empty();
+            let segment = {!! $Allsegments !!};
+            let SubSegment = {!! $SubSegment !!};
+            segment.forEach(elementsegment => {
+                SubSegment.forEach(elementsubsegment => {
+                    // console.log(elementsubsegment)
+                    arr.forEach(element => {
+                        if (element === elementsegment.segment_name) {
+                            if (elementsubsegment.segment_id == elementsegment.id) {
+                                $("#sub_segment").append('<option value="' +
+                                    elementsubsegment.sub_segment_name +
+                                    '">' + elementsubsegment.sub_segment_name +
+                                    '</option>');
+                            }
+                        }
+                    })
+
+                });
+            });
+
+        });
     </script>
 @endsection
