@@ -293,20 +293,7 @@
                                                                 <div>
                                                                     <small class="text-danger"></small>
                                                                 </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
-                                                        <label class="` Label labelFontSize">
-                                                            Interview Notes
-                                                        </label>
-                                                        <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
-                                                            class="form-control border t-HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
-                                                        <div>
-                                                            <small class="text-danger"></small>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                    <div class="row m-0">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 pl-0">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                                 <label class="Label labelFontSize">Domains</label>
                                                                 <select name="DOMAIN" id="domain" required=""
                                                                     onchange="DomainChange(this)"
@@ -322,35 +309,8 @@
                                                                 <div>
                                                                     <small class="text-danger"></small>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 pr-0">
-                                                                <?php
-                                                                $segment = Helper::get_dropdown('segments');
-                                                                ?>
-                                                                <label class="Label labelFontSize">segment</label>
-                                                                <select name="SEGMENT" id="Domainsegment"
-                                                                    onchange="SegmentChange('Domainsegment')"
-                                                                    class="form-control p-0 users-input-S-C">
-                                                                    <option selected disabled>Select Option</option>
-                                                                    {{-- @foreach ($segment->options as $segmentOption)
-                                                                        <option value="{{ $segmentOption->id }}">
-                                                                            {{ $segmentOption->option_name }}</option>
-                                                                    @endforeach --}}
-
-                                                                </select>
-                                                                <div>
-                                                                    <small class="text-danger"></small>
-                                                                </div>
-                                                            </div>
-                                                       
-                                                 
-                                                        <div>
-                                                            <small class="text-danger"></small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-0">
-
-                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12  pl-0">
+                                                            </div>    
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                                     <?php
                                                                     $sub_segment = Helper::get_dropdown('sub_segment');
                                                                     ?>
@@ -367,24 +327,8 @@
                                                                     <div>
                                                                         <small class="text-danger"></small>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 pr-0">
-                                                        <div class="form-group mb-0">
-                                                            <label class="Label labelFontSize">
-                                                                Current Salary:
-                                                            </label>
-                                                            <input type="number" class="form-control users-input-S-C"
-                                                                value="{{ $candidateDetail != null ? $candidateDetail->curr_salary : '' }}"
-                                                                id="current_salary" name="CURRENT_SALARY" />
-                                                        </div>
-                                                    </div>
-                                                            
-                                                        <div>
-                                                            <small class="text-danger"></small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-0">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pl-0">
+                                                                </div>   
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                         <?php
                                                         $profile = Helper::get_dropdown('candidates_profile');
                                                         ?>
@@ -407,20 +351,8 @@
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label labelFontSize">
-                                                                    Expected Salary:
-                                                                </label>
-                                                                <input type="number" name="EXPECTED_SALARY" id="expec_salary" disabled=""
-                                                                    value="{{ $candidateDetail != null ? $candidateDetail->exp_salary : '' }}"
-                                                                    class="form-control p-0 users-input-S-C" />
-                                                            </div>
-                                                    </div>
-                                                    </div>
-                                                    <div class="row m-0">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pl-0">
+                                                    </div> 
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                         <div class="form-group mb-0">
                                                             <label class="Label labelFontSize">
                                                                 position applied
@@ -432,20 +364,8 @@
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
-                                                    </div>      
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
-                                                        <div class="form-group mb-0">
-                                                            <label class="Label labelFontSize" name="CURRENT_ALLOWANCE">
-                                                                Current Allowance:
-                                                            </label>
-                                                            <input type="number" class="form-control users-input-S-C"
-                                                                value="{{ $candidateDetail != null ? $candidateDetail->curr_allowance : '' }}"
-                                                                name="CURRENT_ALLOWANCE" />
-                                                        </div>
-                                                    </div>                  
-                                                    </div>
-                                                    <div class="row m-0">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pl-0">
+                                                    </div> 
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                         <div class="form-group mb-0">
                                                             <?php
                                                             $manner_of_invite = Helper::get_dropdown('manner_of_invite');
@@ -469,8 +389,85 @@
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
-                                                    </div>   
+                                                    </div> 
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                        <div class="form-group mb-0">
+                                                            <label class=" p-0  mb-0 labelFontSize"> Date Invited</label>
+                                                            <input type="date" name="DATE_INVITED" disabled=""
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
+                                                                id="date_invited"
+                                                                class="form-control border h-px-20_custom" />
+                                                        </div>
+                                                    </div>  
+                                                    <div class="col-lg-12 p-0">
+                                                                <label
+                                                                    class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
+                                                                    Employement History</label>
+                                                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                                    class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
+                                                            </div>   
+                                                    </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
+                                                        <label class="` Label labelFontSize">
+                                                            Interview Notes
+                                                        </label>
+                                                        <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
+                                                            class="form-control border t-HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
+                                                        <div>
+                                                            <small class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                                                <?php
+                                                                $segment = Helper::get_dropdown('segments');
+                                                                ?>
+                                                                <label class="Label labelFontSize">segment</label>
+                                                                <select name="SEGMENT" id="Domainsegment"
+                                                                    onchange="SegmentChange('Domainsegment')"
+                                                                    class="form-control p-0 users-input-S-C">
+                                                                    <option selected disabled>Select Option</option>
+                                                                    {{-- @foreach ($segment->options as $segmentOption)
+                                                                        <option value="{{ $segmentOption->id }}">
+                                                                            {{ $segmentOption->option_name }}</option>
+                                                                    @endforeach --}}
+
+                                                                </select>
+                                                                <div>
+                                                                    <small class="text-danger"></small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                                        <div class="form-group mb-0">
+                                                            <label class="Label labelFontSize">
+                                                                Current Salary:
+                                                            </label>
+                                                            <input type="number" class="form-control users-input-S-C"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->curr_salary : '' }}"
+                                                                id="current_salary" name="CURRENT_SALARY" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                            <div class="form-group mb-0">
+                                                                <label class="Label labelFontSize">
+                                                                    Expected Salary:
+                                                                </label>
+                                                                <input type="number" name="EXPECTED_SALARY" id="expec_salary" disabled=""
+                                                                    value="{{ $candidateDetail != null ? $candidateDetail->exp_salary : '' }}"
+                                                                    class="form-control p-0 users-input-S-C" />
+                                                            </div>
+                                                    </div>
+                                                        
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                        <div class="form-group mb-0">
+                                                            <label class="Label labelFontSize" name="CURRENT_ALLOWANCE">
+                                                                Current Allowance:
+                                                            </label>
+                                                            <input type="number" class="form-control users-input-S-C"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->curr_allowance : '' }}"
+                                                                name="CURRENT_ALLOWANCE" />
+                                                        </div>
+                                                    </div> 
+                                                    
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                         <div class="form-group mb-0">
                                                             <label class="Label labelFontSize" name="OFFERED_SALARY">
                                                                 Offered Salary:
@@ -480,19 +477,8 @@
                                                                 disabled="" oninput="SalaryAppend('#remarks')"
                                                                 class="form-control users-input-S-C" />
                                                         </div>
-                                                    </div>                       
-                                                    </div>
-                                                    <div class="row m-0">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pl-0">
-                                                        <div class="form-group mb-0">
-                                                            <label class=" p-0  mb-0 labelFontSize"> Date Invited</label>
-                                                            <input type="date" name="DATE_INVITED" disabled=""
-                                                                value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
-                                                                id="date_invited"
-                                                                class="form-control border h-px-20_custom" />
-                                                        </div>
-                                                    </div>   
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
+                                                    </div> 
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                         <div class="form-group mb-0">
                                                             <label class="Label labelFontSize">
                                                                 Offered Allowance:
@@ -502,15 +488,38 @@
                                                                 oninput="SalaryAppend('#remarks')" disabled=""
                                                                 class="form-control users-input-S-C" />
                                                         </div>
-                                                    </div>                        
+                                                    </div> 
                                                     </div>
-                                                    <div class="col-lg-12 pl-0">
-                                                                <label
-                                                                    class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
-                                                                    Employement History</label>
-                                                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                                    class="form-control border E_HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
-                                                            </div>
+                                                  
+                                                    <!-- <div class="row m-0"> -->
+                                                
+                                                         
+                                                       
+                                                 
+                                                  
+                                                    <!-- </div> -->
+                                                    <!-- <div class="row m-0"> -->
+
+                                                       
+                                                         
+                                                 
+                                                    <!-- </div> -->
+                                                    <!-- <div class="row m-0"> -->
+                                                   
+                                                 
+                                                    <!-- </div> -->
+                                                    <!-- <div class="row m-0"> -->
+                                                                  
+                                                    <!-- </div> -->
+                                                    <!-- <div class="row m-0"> -->
+                                                                         
+                                                    <!-- </div> -->
+                                                    <!-- <div class="row m-0"> -->
+                                                   
+                                                                          
+                                                    <!-- </div> -->
+                                                    </div>
+                                                
                                                           
                                                  
                                                 

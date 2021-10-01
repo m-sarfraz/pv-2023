@@ -61,7 +61,7 @@
                                         class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
                                 @can('save-profile')
-                                    <button>Submit</button>
+                                    <button class="costumButton px-3 py-1">Submit</button>
                                 @endcan
                             </form>
                         </div>
@@ -130,14 +130,14 @@
                                         <img style="width: 105px; cursor: pointer"
                                             src="{{ asset('assets/image/profile/cloud.png') }}" />
                                     </div>
-                                    {{-- <fieldset class="ml-20 showExcelfield fieldSheet ">
+                                    <fieldset class="ml-20 showExcelfield fieldSheet ">
                                     <div class="row mb-xl-1 mb-9 justify-content-center">
                                         <div class="col-lg-8">
                                             <div class="form-group">
                                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                                     Upload File
                                                 </label>
-                                                <input type="file" id="sheetFile" accept=".xlsx, .xls, .csv" name="officialdata" required />
+                                                <input type="file" id="file" accept=".xlsx, .xls, .csv" name="file" required />
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </fieldset> --}}
+                                </fieldset>
                                 </form>
                             </div>
                         </div>
