@@ -61,7 +61,7 @@
                                         class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
                                 @can('save-profile')
-                                    <button>Submit</button>
+                                    <button class="costum-buttom">Submit</button>
                                 @endcan
                             </form>
                         </div>
