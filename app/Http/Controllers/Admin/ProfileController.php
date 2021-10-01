@@ -291,8 +291,184 @@ class ProfileController extends Controller
             // if Sheet doesnt exist
             return response()->json(['success' => false, 'message' => 'Given Sheet is not found!']);
         }
-
     }
+    public function readLocalAcceess()
+    {
+        $filename = $_FILES["file"]["tmp_name"];
+        if ($_FILES["file"]["size"] > 0) {
+            $file = fopen($filename, "r");
+
+
+
+            if (!$file) {
+                die('Cannot open file for reading');
+            }
+            $row = 1;
+            while (($render = fgetcsv($file, 1000, ",")) !== FALSE) {
+                $num = count($render);
+
+                $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
+                $candidate_phone = isset($render[19]) ? $render[19] : "";
+                // query for checking the exisitng /duplicate record
+                $query = DB::table("candidate_informations")
+                    ->where("first_name", isset($candidate_name[0]) ? $candidate_name[0] : "")
+                    ->orwhere("last_name", isset($candidate_name[2]) ? $candidate_name[2] : "")
+                    ->orwhere("phone", $candidate_phone)
+                    ->first();
+
+                if (isset($query->id)) {
+                    // update record
+                    $store_by_Ecxel = CandidateInformation::find($query->id);
+                } else {
+                    // insert record
+                    $store_by_Ecxel = new CandidateInformation();
+                }
+                $store_by_Ecxel->first_name =  isset($candidate_name[0]) ? $candidate_name[0] : "";
+                $store_by_Ecxel->middle_name = isset($candidate_name[1]) ? $candidate_name[1] : "";
+                $store_by_Ecxel->last_name =  isset($candidate_name[2]) ? $candidate_name[2] : "";
+
+
+                $store_by_Ecxel->gender = isset($render[17]) ? $render[17] : "";
+                $store_by_Ecxel->dob = isset($render[18]) ? $render[18] : "";
+                if (strstr($candidate_phone, ';', false)) {
+
+                    $store_by_Ecxel->phone = strstr($candidate_phone, ';', true);
+                } else {
+                    $store_by_Ecxel->phone = $candidate_phone;
+                }
+
+                $store_by_Ecxel->email = isset($render[20]) ? $render[20] : "";
+                $store_by_Ecxel->address = isset($render[21]) ? $render[21] : "";
+                // $store_by_Ecxel->status = isset($render[20])?$render[20]:"";$render[21];
+                $store_by_Ecxel->saved_by = Auth::user()->id;
+                $store_by_Ecxel->save();
+
+                // start store data in candidate_educations
+                $query = DB::table("candidate_educations")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $candidateEducation = CandidateEducation::find($query->id);
+                } else {
+                    // insert record
+                    $candidateEducation = new CandidateEducation();
+                }
+                $candidateEducation->course = isset($render[22]) ? $render[22] : "";
+                $candidateEducation->educational_attain = isset($render[23]) ? $render[23] : "";
+                $candidateEducation->certification = isset($render[24]) ? $render[24] : "";
+                $candidateEducation->candidate_id = $store_by_Ecxel->id;
+                $candidateEducation->save();
+
+                // end  store data in candidate_educations
+
+                // start  store data in candidate_domains
+                $query = DB::table("candidate_domains")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+
+                if (isset($query->id)) {
+                    // update record
+                    $candidateDomain = CandidateDomain::find($query->id);
+                } else {
+                    // insert record
+                    $candidateDomain = new CandidateDomain();
+                }
+                $candidateDomain->candidate_id = $store_by_Ecxel->id;
+                $candidateDomain->date_shifted = isset($render[4]) ? $render[4] : "";
+                $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
+                $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
+                $candidateDomain->interview_note = isset($render[26]) ? $render[26] : "";
+                $candidateDomain->segment = isset($render[9]) ? $render[9] : "";
+                $candidateDomain->sub_segment = isset($render[10]) ? $render[10] : "";
+                $candidateDomain->save();
+                // end  store data in candidate_domains
+
+              // start store data in candidate_position
+              $query = DB::table("candidate_positions")
+                  ->where("candidate_id", $store_by_Ecxel->id)
+                  ->first();
+
+              if (isset($query->id)) {
+                  // update record
+                  $candidatePosition = CandidatePosition::find($query->id);
+              } else {
+                  // insert record
+                  $candidatePosition = new CandidatePosition();
+              }
+              $candidatePosition->candidate_id = $store_by_Ecxel->id;
+              $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
+              $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
+              $candidatePosition->date_invited = isset($render[12]) ? $render[12] : "";
+              $candidatePosition->manner_of_invite = isset($render[11]) ? $render[11] : "";
+              $candidatePosition->curr_salary = intval(isset($render[27]) ? $render[27] : "");
+              $candidatePosition->exp_salary = intval(isset($render[29]) ? $render[29] : "");
+              $candidatePosition->off_salary = intval(isset($render[30]) ? $render[30] : "");
+              $candidatePosition->curr_allowance = intval(isset($render[28]) ? $render[28] : "");
+              $candidatePosition->off_allowance = intval(isset($render[31]) ? $render[31] : "");
+              $candidatePosition->save();
+
+              // end store data in candidate_position
+
+              // endoresment startgit
+              $query = DB::table("endorsements")
+                  ->where("candidate_id", $store_by_Ecxel->id)
+                  ->first();
+              if (isset($query->id)) {
+                  // update record
+                  $endorsement = Endorsement::find($query->id);
+              } else {
+                  // insert record
+                  $endorsement = new Endorsement();
+              }
+              $endorsement->app_status = isset($render[32]) ? $render[32] : "";
+              $endorsement->client = isset($render[35]) ? $render[35] : "";
+              $endorsement->status = isset($render[42]) ? $render[42] : "";
+              $endorsement->type = isset($render[33]) ? $render[33] : "";
+              $endorsement->site = isset($render[36]) ? $render[36] : "";
+              $endorsement->position_title = isset($render[37]) ? $render[37] : "";
+              $endorsement->domain_endo = intval(isset($render[39]) ? $render[39] : "");
+              $endorsement->interview_date = isset($render[45]) ? $render[45] : "";
+              $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
+              $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
+              $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
+              $endorsement->endi_date = isset($render[34]) ? $render[34] : "";
+              $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
+              $endorsement->candidate_id = $store_by_Ecxel->id;
+              $endorsement->save();
+              //close
+
+              //finance start
+              $query = DB::table("finance")
+                  ->where("candidate_id", $store_by_Ecxel->id)
+                  ->first();
+              if (isset($query->id)) {
+                  // update record
+                  $finance = Finance::find($query->id);
+              } else {
+                  // insert record
+                  $finance = new Finance();
+              }
+              $finance->candidate_id = $store_by_Ecxel->id;
+              $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+              $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+              $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
+              $finance->client_finance = isset($render[48]) ? $render[48] : "";
+              $finance->career_finance = isset($render[63]) ? $render[63] : "";
+              $finance->rate = intval(isset($render[67]) ? $render[67] : "");
+              $finance->srp = intval(isset($render[47]) ? $render[47] : "");
+              $finance->offered_salary = intval(isset($render[49]) ? $render[49] : "");
+              $finance->placement_fee = intval(isset($render[54]) ? $render[54] : "");
+              $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
+
+              $finance->save();
+                $row++;
+            }
+
+            // fclose($file);
+        }
+    }
+
     public function verifySheet(Request $request)
     {
         $config = Config::get("datastudio.google_sheet_id");
@@ -300,6 +476,5 @@ class ProfileController extends Controller
         $test = Config::set('datastudio.google_sheet_id', $request->sheetID);
         // dd($config, Config::get("datastudio.google_sheet_id"));
         return response()->json(['success' => true, 'message' => 'successfully']);
-
     }
 }
