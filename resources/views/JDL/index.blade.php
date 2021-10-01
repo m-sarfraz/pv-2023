@@ -44,7 +44,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             # of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
+                                        <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
                                             class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
@@ -226,16 +226,16 @@
 
                                 <tr onclick="Filter('{{ $renderIndex->cid }}')">
                                     <!-- Table data 1 -->
-                                    <td>{{ $renderIndex->client }}</td>
-                                    <td>{{ $renderIndex->segment }}</td>
-                                    <td>{{ $renderIndex->sub_segment }}</td>
-                                    <td>{{ $renderIndex->career_endo }}</td>
-                                    <td>{{ $renderIndex->position_title }}</td>
+                                    <td>{{ $renderIndex->endo_client }}</td>
+                                    <td>{{ $renderIndex->candidate_segment }}</td>
+                                    <td>{{ $renderIndex->candidate_sub_segment }}</td>
+                                    <td>{{ $renderIndex->endo_career_endo }}</td>
+                                    <td>{{ $renderIndex->endo_position_title }}</td>
                                     <td>no data</td>
-                                    <td>{{ $renderIndex->address }}</td>
+                                    <td>{{ $renderIndex->candidate_address }}</td>
                                     <td>no data</td>
                                     <td>no data</td>
-                                    <td>{{ $renderIndex->status }}</td>
+                                    <td>{{ $renderIndex->endo_status }}</td>
                                 </tr>
                             @endforeach
 
@@ -246,7 +246,7 @@
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
-             
+
 
 
             </div>
@@ -461,7 +461,7 @@
         function Filter(id) {
 
             // show loader for waiting
-            $("#loader").show();
+
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -476,7 +476,7 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-                    $("#loader").hide();
+
 
                 },
             });
@@ -512,11 +512,72 @@
 
                 // Success fucniton of Ajax
                 success: function(data) {
+
                     $('#filter_table_div').html(' ');
                     $('#filter_table_div').html(data);
+
                     $("#loader").hide();
                 },
             });
         }
+        $('#candidateDomain').change(function() {
+
+
+
+        })
+        // function for (if domain is changed append segments acoordingly) starts
+        $("#candidateDomain").change(function() {
+            let arr = $("#candidateDomain :selected").map(function(i, el) {
+                return $(el).val();
+            }).get();
+
+            $("#segment").empty();
+            let domain = {!! $Alldomains !!};
+            let segment = {!! $Allsegments !!};
+            domain.forEach(elementDomain => {
+                segment.forEach(elementsegment => {
+                    arr.forEach(element => {
+                        if (element == elementDomain.domain_name) {
+                            if (elementsegment.domain_id == elementDomain.id) {
+                                $("#segment").append('<option value="' + elementsegment
+                                    .segment_name +
+                                    '">' + elementsegment.segment_name +
+                                    '</option>');
+                            }
+                        }
+                    })
+
+                });
+            });
+
+        });
+
+
+        $("#segment").change(function() {
+            let arr = $("#segment :selected").map(function(i, el) {
+                return $(el).val();
+            }).get();
+            console.log(arr);
+            $("#sub_segment").empty();
+            let segment = {!! $Allsegments !!};
+            let SubSegment = {!! $SubSegment !!};
+            segment.forEach(elementsegment => {
+                SubSegment.forEach(elementsubsegment => {
+                    // console.log(elementsubsegment)
+                    arr.forEach(element => {
+                        if (element === elementsegment.segment_name) {
+                            if (elementsubsegment.segment_id == elementsegment.id) {
+                                $("#sub_segment").append('<option value="' +
+                                    elementsubsegment.sub_segment_name +
+                                    '">' + elementsubsegment.sub_segment_name +
+                                    '</option>');
+                            }
+                        }
+                    })
+
+                });
+            });
+
+        });
     </script>
 @endsection

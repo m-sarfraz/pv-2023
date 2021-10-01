@@ -31,10 +31,21 @@ class FinanceController extends Controller
             ->orWhere('remarks_for_finance', 'Offer accepted')
             ->paginate(10);
         // return $Userdata;
+        $billsArray = ['Billed', 'For Replacement', 'Replaced'];
+        $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
+        $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
+        $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
+        $count = count($Userdata);
+        $hires = count($Userdata);
         $data = [
             'candidates' => $candidates,
             'Userdata' => $Userdata,
             'user' => $user,
+            'count' => $count,
+            'hires' => $hires,
+            'billed' => $billed,
+            'unbilled' => $unbilled,
+            'fallout' => $fallout,
         ];
         return view('finance.finance', $data);
     }
@@ -48,8 +59,15 @@ class FinanceController extends Controller
             ->select('endorsements.*', 'finance.*')
             ->where('finance.candidate_id', $request->id)
             ->first();
+        $fee = $detail->placement_fee;
+        $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
+        $user = \App\User::where('id', $savedBy->saved_by)->first();
+        $role = $user->roles->pluck('name');
+        $team = $role;
         $data = [
             'detail' => $detail,
+            'team' => $team,
+            'fee' => $fee,
         ];
         return view('finance.detail', $data);
 
@@ -59,6 +77,8 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
+        // dd($request->candidate);
+        $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         $Userdata = CandidateInformation::
             join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -66,7 +86,7 @@ class FinanceController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where('remarks_for_finance', 'Onboarded');
+            ->whereIn('endorsements.remarks_for_finance', $arr);
         // ->orWhere('remarks_for_finance', 'Offer accepted');
         if (isset($request->candidate)) {
             $Userdata->whereIn('candidate_informations.id', $request->candidate);
@@ -93,8 +113,21 @@ class FinanceController extends Controller
             $Userdata->whereIn('endorsements.client', $request->client);
         }
         $user = $Userdata->get();
+        $billsArray = ['Billed', 'For Replacement', 'Replaced'];
+        $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
+        $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
+        $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
+        $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
+        // dd($billamout);
+        // $compnayRevenue = $Userdata->whereIn('');
+        // return $user;
+        $hires = count($user);
         $data = [
             'Userdata' => $user,
+            'hires' => $hires,
+            'billed' => $billed,
+            'unbilled' => $unbilled,
+            'fallout' => $fallout,
         ];
         return view('finance.filter_data', $data);
     }
