@@ -404,7 +404,7 @@
                                                                     class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
                                                                     Employement History</label>
                                                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                                    class="form-control border E_HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
+                                                                    class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
                                                             </div>   
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
