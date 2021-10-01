@@ -1,18 +1,34 @@
 * {
     font-family: Trebuchet;
 }
-
 @font-face {
     font-family: Trebuchet;
     src: url('../fonts/trebuc.ttf');
 }
-
+button{
+    cursor: pointer;
+}
 .costumButton {
     pointer-events: none;
     cursor: default;
     background: #dc8627;
     color: #fff;
-    border: 1px solid #dc8627;
+    border: 1px solid #dc8627 !important;
+    border-radius: .25rem !important;
+}
+.btn-warning {
+    color: #212529;
+    background-color: #dc8627;
+    border-color: #dc8627;
+    border-radius: .25rem !important;
+}
+.btn-warning:hover {
+    color: #212529;
+    background-color: #dc8627;
+    border-color: #dc8627;
+}
+input{
+    outline: none !important;
 }
 .E_HCDataEntry{
     height: 219px !important;
