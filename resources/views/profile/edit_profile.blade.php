@@ -94,7 +94,7 @@
                                 </div>
 
                                 {{-- </a> --}}
-                                <!-- <fieldset class="ml-10 mr-10 fieldSheet d-none">
+                                <fieldset class="ml-10 mr-10 fieldSheet d-none">
                                                                         <div class="row mb-xl-1 mb-9 justify-content-center">
                                                                             <div class="col-lg-8">
                                                                                 <div class="form-group">
@@ -115,7 +115,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </fieldset> -->
+                                                                    </fieldset> 
                                 <!-- </form> -->
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
