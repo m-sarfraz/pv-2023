@@ -156,6 +156,8 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('endorsements.endi_date', '>', $newformat);
             $Userdata->whereDate('endorsements.endi_date', '<', $newformat1);
         }
+        $user = $Userdata->get();
+        // return $Userdata;
         // selected option if close
         // $user = $Userdata;
         // // qurries for summary section start
@@ -178,16 +180,16 @@ class SmartSearchController extends Controller
 
         // append data array withj view
         $data = [
-            'Userdata' => $Userdata->get(),
-            // 'endo' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'To Be Endorsed'),
-            // 'active' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'Active File'),
-            // 'onBoarded' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            // 'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            // 'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
-            // 'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            // 'withdrawn' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            // 'rejected' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'sifted' => count($Userdata->get()),
+            'Userdata' => $user,
+            'endo' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'To Be Endorsed'),
+            'active' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'Active File'),
+            'onBoarded' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
+            'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'withdrawn' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'rejected' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
         ];
         return view('smartSearch.filter_result', $data);
     }
