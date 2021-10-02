@@ -47,7 +47,7 @@ return view('JDL.index');
 // Route::view('record', 'record.view_record')->name('record');
 // Route::view('finance', 'finance.finance')->name('finance');
 // Route::view('log', 'logs.log')->name('log');
-Route::view('search', 'smartSearch.smart_search')->name('search');
+// Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
@@ -62,7 +62,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('jdl', 'JdlController@index')->name("jdl");
     Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
-    
+
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
 
@@ -95,6 +95,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('finance', 'financeController@index')->name('finance');
     Route::get('finance_records_detail', 'financeController@recordDetail')->name('financeRecordDetail');
     Route::match(['get', 'post'], 'filter_records_finance', 'financeController@recordFilter')->name('financeRecordFilter');
+    Route::match(['get', 'post'], 'save_finance-reference', 'financeController@SavefinanceReference')->name('SavefinanceReference');
+
+    // Smart search controllers
+    Route::get('search', 'SmartSearchController@index')->name('search');
+    Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
