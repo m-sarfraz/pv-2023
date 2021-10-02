@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CandidateInformation;
+use App\Finance_detail;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon;
-use Helper;
 use DB;
-use App\Finance_detail;
+use Helper;
 use Illuminate\Http\Request;
-use PHPUnit\TextUI\Help;
 
 class FinanceController extends Controller
 {
@@ -168,7 +167,7 @@ class FinanceController extends Controller
             "ind_revenue" => $request->ind_revenue,
         ];
         Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
-        Helper::save_log('Finance_updated');
+        Helper::save_log('Finance_Reference_updated');
         return $request->candidate_id;
     }
 }

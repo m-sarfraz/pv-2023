@@ -83,7 +83,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
 
     // log routes
-    Route::get('log', 'logController@index')->name('log');
+    Route::get('log', 'LogController@index')->name('log');
 
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
@@ -92,10 +92,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
 
     // finance route
-    Route::get('finance', 'financeController@index')->name('finance');
-    Route::get('finance_records_detail', 'financeController@recordDetail')->name('financeRecordDetail');
-    Route::match(['get', 'post'], 'filter_records_finance', 'financeController@recordFilter')->name('financeRecordFilter');
-    Route::match(['get', 'post'], 'save_finance-reference', 'financeController@SavefinanceReference')->name('SavefinanceReference');
+    Route::get('finance', 'FinanceController@index')->name('finance');
+    Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
+    Route::match(['get', 'post'], 'filter_records_finance', 'FinanceController@recordFilter')->name('financeRecordFilter');
+    Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
 
     // Smart search controllers
     Route::get('search', 'SmartSearchController@index')->name('search');

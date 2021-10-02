@@ -3,7 +3,7 @@ namespace App\Http\Helpers;
 
 use App\CandidateInformation;
 use App\DropDown;
-use App\log;
+use App\Log;
 use App\User;
 use Auth;
 
