@@ -93,7 +93,7 @@
     <p class="C-Heading pt-3">Finance Reference:</p>
     <div class="card mb-13">
         <div class="card-body">
-            <form action="">
+            <form action="" id="financeReferenceForm">
                 <fieldset>
                     <div class="row mb-1">
                         <div class="col-lg-3 p-1">
@@ -158,7 +158,7 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $detail->offered_salary }}" disabled />
+                                    placeholder="hires.." value="{{ $detail->offered_salary }}" readonly />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -195,7 +195,7 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance" value="{{ $detail->allowance }}" disabled />
+                                    id="allowance" value="{{ $detail->allowance }}" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -257,7 +257,7 @@
                                 <label class="Label-00">
                                     Placmnt fee:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." disabled
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." readonly
                                     id="placementfee" />
                             </div>
                         </div>
@@ -285,7 +285,7 @@
                                     Reprocess:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    disabled />
+                                readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -303,7 +303,7 @@
                                     Reprcs Share Amt.
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="reprocessAmount" disabled />
+                                    id="reprocessAmount" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -331,7 +331,7 @@
                                     Final Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="finalFee" disabled />
+                                    id="finalFee" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -349,7 +349,7 @@
                                     Ownr Shr Amnt.
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="ownerAmount" disabled />
+                                    id="ownerAmount" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -365,7 +365,7 @@
                                 <label class="Label-00">
                                     C.Take Amnt.
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" disabled id="cTake" />
+                                <input type="text" class="form-control users-input-S-C" readonly id="cTake" />
                             </div>
                         </div>
                     </div>
@@ -393,7 +393,7 @@
                                 <label class="Label-00">
 
                                 </label>
-                                <button
+                                <button type="button" id="update"
                                     class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
                             </div>
                         </div>
@@ -404,7 +404,6 @@
     </div>
 </div>
 <script>
-
     // section loads on ready start
     $(document).ready(function() {
         // individualRevenue()
@@ -454,7 +453,7 @@
         placement = parseInt($('#placementfee').val() || 0);
         finalFee = adjustment + placement
         $('#finalFee').val(finalFee)
-        
+
         // call final fee dependent functions 
         vccShareCalcualte()
         ownerShareCalculate()
@@ -474,7 +473,7 @@
             $('#processStatus').val("");
             $('#processStatus').val("DONE");
         }
-        if (value.includes('Unbilled')) {
+        if (value.includes('Un')) {
             $('#processStatus').val("");
             $('#processStatus').val("FB");
         }
@@ -544,12 +543,65 @@
             revenue = (placementfee * (vccShare * 1 / 100));
             console.log('revenue is' + revenue)
             $('#individualRevenue').val(revenue)
-        }
-        else if(value == "Billed" || value == "Collected" && team[0] != "consultant"){
+        } else if (value == "Billed" || value == "Collected" && team[0] != "consultant") {
             revenue = placementfee;
             $('#individualRevenue').val(revenue)
         }
         return;
     }
     // close 
+
+    // form submit function starts 
+    $('#update').click(function() {
+        // making a variable containg all for data and append token
+        var data = new FormData(document.getElementById('financeReferenceForm'));
+        data.append("_token", "{{ csrf_token() }}");
+        console.log(data);
+        // call ajax for data entry ad validation
+        $.ajax({
+            url: '{{ url('admin/save_finance-reference') }}',
+            data: data,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+
+            // Ajax success function
+            success: function(res) {
+                if (res.success == true) {
+                    // show success sweet alert and enable entering new record button
+                    swal({
+                        icon: "error",
+                        text: "{{ __('Error Occured') }}",
+                        icon: "error",
+                    });
+                } else if (res.success == 'false') {
+                    $("#loader").hide();
+
+                    //show warning message to change the data
+                    swal({
+                        icon: "error",
+                        text: "{{ __('Error Occured') }}",
+                        icon: "error",
+                    });
+                }
+
+                //hide loader
+                $("#loader").hide();
+            },
+
+            //if there is error in ajax call
+            error: function() {
+                $("#loader").hide();
+            }
+        });
+        // return false;
+    });
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
+
+    // })
+    //close
 </script>

@@ -120,7 +120,6 @@ class FinanceController extends Controller
         $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
         // dd($billamout);
         // $compnayRevenue = $Userdata->whereIn('');
-        // return $user;
         $hires = count($user);
         $data = [
             'Userdata' => $user,
@@ -132,4 +131,9 @@ class FinanceController extends Controller
         return view('finance.filter_data', $data);
     }
     //close
+
+    public function SavefinanceReference(Request $request)
+    {
+        return $request->all();
+    }
 }
