@@ -130,7 +130,8 @@
                                 <label class="Label-00">
                                     Trmi date:
                                 </label>
-                                <input type="date" class="w-100 form-control users-input-S-C" />
+                                <input type="date" class="w-100 form-control users-input-S-C" 
+                                />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -138,7 +139,8 @@
                                 <label class="Label-00">
                                     Code:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.." 
+                                value="{{ $detail->code }}"/>
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -147,7 +149,7 @@
                                     Payment terms:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    id="paymentTerm" />
+                                    id="paymentTerm" value="{{ $detail->payment_term }}" />
                             </div>
                         </div>
                     </div>
@@ -164,18 +166,19 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Replmnt For:
+                                    Replacement For:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                value="{{ $detail->replacement_for }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Date Delvrd:
+                                    Date Delivered:
                                 </label>
                                 <input type="date" class="w-100 users-input-S-C form-control" placeholder="Rev.."
-                                    id="dateDlvrd" oninput="DPDCalculate()" />
+                                    id="dateDlvrd"value="{{ $detail->date_delvrd }}" oninput="DPDCalculate()" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -184,7 +187,7 @@
                                     Process Status:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    id="processStatus" />
+                                    id="processStatus" value="{{ $detail->process_status }}" />
                             </div>
                         </div>
                     </div>
@@ -204,7 +207,7 @@
                                     VAT (%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.." id="vat"
-                                    oninput="placementFeeCalculator()" />
+                                    oninput="placementFeeCalculator()" value="{{ $detail->vat_per }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -213,7 +216,7 @@
                                     Credit Memo:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="credit_memo" oninput="placementFeeCalculator()" />
+                                    id="credit_memo" oninput="placementFeeCalculator()"  value="{{ $detail->credit_memo }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -221,7 +224,7 @@
                                 <label class="Label-00">
                                     Invc No.
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.." value="{{ $detail->invoice_number }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -229,7 +232,7 @@
                                 <label class="Label-00">
                                     Invc date:
                                 </label>
-                                <input type="date" class="w-100 form-control users-input-S-C" placeholder="hires.." />
+                                <input type="date" class="w-100 form-control users-input-S-C" placeholder="hires.."  value="{{ $detail->invoice_date }}" />
                             </div>
                         </div>
                     </div>
@@ -249,7 +252,7 @@
                                     Rate (%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    oninput="placementFeeCalculator()" id="rate" />
+                                    oninput="placementFeeCalculator()" id="rate" value="{{ $detail->rate_per }}"/>
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -258,7 +261,7 @@
                                     Placmnt fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.." readonly
-                                    id="placementfee" />
+                                   value="{{$detail->placement_fee}}" id="placementfee" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -266,7 +269,7 @@
                                 <label class="Label-00">
                                     OR No.
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.." value="{{ $detail->or_number }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -274,7 +277,7 @@
                                 <label class="Label-00">
                                     Date Colctd.
                                 </label>
-                                <input type="date" class="w-100 form-control users-input-S-C" />
+                                <input type="date" class="w-100 form-control users-input-S-C"  value="{{ $detail->date_collected }}"/>
                             </div>
                         </div>
                     </div>
@@ -285,7 +288,7 @@
                                     Reprocess:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                readonly />
+                                readonly  value="{{ $detail->reprocess_share }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -294,7 +297,7 @@
                                     R.Share(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="reprocessShare" oninput="reprocessAmountCalculate()" />
+                                    id="reprocessShare" oninput="reprocessAmountCalculate()"  value="{{ $detail->reprocess_share_per }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -312,7 +315,7 @@
                                     VCC Share(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    id="vccShare" oninput="vccShareCalcualte()" />
+                                    id="vccShare" oninput="vccShareCalcualte()"  value="{{ $detail->vcc_share_per }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -331,7 +334,7 @@
                                     Final Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="finalFee" readonly />
+                                    id="finalFee" readonly  value="{{ $detail->finalFee }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -340,7 +343,7 @@
                                     O.Share(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="ownerSharePercentage" oninput="ownerShareCalculate()" />
+                                    id="ownerSharePercentage" oninput="ownerShareCalculate()"  value="{{ $detail->owner_share_per }}"  />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -349,7 +352,7 @@
                                     Ownr Shr Amnt.
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="ownerAmount" readonly />
+                                    id="ownerAmount" readonly  value="{{ $detail->owner_share }}"  />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -357,7 +360,7 @@
                                 <label class="Label-00">
                                     C.Take(%):
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.."  value="{{ $detail->c_take_per }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -365,7 +368,7 @@
                                 <label class="Label-00">
                                     C.Take Amnt.
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" readonly id="cTake" />
+                                <input type="text" class="form-control users-input-S-C" readonly id="cTake" value="{{ $detail->c_take }}"  />
                             </div>
                         </div>
                     </div>
@@ -376,7 +379,7 @@
                                     Adjustment:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="adjustment" oninput="adjustmentCalculator()" />
+                                    id="adjustment" oninput="adjustmentCalculator()"  value="{{ $detail->adjustment }}"  />
                             </div>
                         </div>
                         <div class="col-lg-4 p-1">
@@ -385,7 +388,7 @@
                                     Individual Revenue:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="individualRevenue" />
+                                    id="individualRevenue"  value="{{ $detail->ind_revenue }}"/>
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">

@@ -20,8 +20,7 @@ class FinanceController extends Controller
             ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.last_name')->get();
         // return $candidate;
         $user = User::where('type', 3)->get();
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -54,11 +53,13 @@ class FinanceController extends Controller
     // function for detail of team start
     public function recordDetail(Request $request)
     {
-        $detail = DB::table('finance')->
-            join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-            ->select('endorsements.*', 'finance.*')
+        $detail = DB::table('finance')->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+            ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+            ->select('endorsements.*', 'finance.*','finance_detail.*')
             ->where('finance.candidate_id', $request->id)
             ->first();
+
+        // dd($detail);
         $fee = $detail->placement_fee;
         $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $savedBy->saved_by)->first();
@@ -70,7 +71,6 @@ class FinanceController extends Controller
             'fee' => $fee,
         ];
         return view('finance.detail', $data);
-
     }
     // close
 
@@ -79,8 +79,7 @@ class FinanceController extends Controller
     {
         // dd($request->candidate);
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
