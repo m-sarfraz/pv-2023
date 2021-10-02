@@ -36,7 +36,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
+                                        <input type="text" name="REF_CODE" placeholder="search keyword" required="" id="search" oninput="FilterSearch()"
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -502,6 +502,9 @@
     </script>
 
     <script>
+        $(document).ready(function (){
+            load_datatable()
+        });
         $('#sifted').val({!! $sifted !!});
         $('#endo').val({!! $endo !!});
         $('#foundRecord').val({!! $onBoarded !!});
@@ -512,13 +515,6 @@
         $('#failed').val({!! $failed !!});
         $('#withdrawn').val({!! $withdrawn !!});
         $('#rejected').val({!! $rejected !!});
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-            });
-        });
         select2Dropdown("select2_dropdown");
 
         // funciton for filtering the data according to selected input starts
@@ -540,6 +536,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
+            search = $('#search').val();
 
             // call Ajax for returning the data as view
             $.ajax({
@@ -561,6 +558,7 @@
                     ob_start: ob_start,
                     sift_end: sift_end,
                     sift_start: sift_start,
+                    search: search,
                 },
 
                 // Success fucniton of Ajax

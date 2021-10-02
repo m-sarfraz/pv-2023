@@ -82,6 +82,10 @@ class SmartSearchController extends Controller
         if (isset($request->category)) {
             $Userdata->whereIn('endorsements.remarks_for_finance', $request->category);
         }
+        if (isset($request->search)) {
+            $arr = ['candidate_informations.gender', 'candidate_informations.first_name'];
+            $Userdata->where('candidate_informations.first_name', 'like', '%' . $request->search . '%');
+        }
         if (isset($request->status)) {
             $Userdata->whereIn('endorsements.app_status', $request->status);
         }
