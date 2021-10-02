@@ -6,8 +6,11 @@ use App\CandidateInformation;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon;
+use Helper;
 use DB;
+use App\Finance_detail;
 use Illuminate\Http\Request;
+use PHPUnit\TextUI\Help;
 
 class FinanceController extends Controller
 {
@@ -20,8 +23,7 @@ class FinanceController extends Controller
             ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.last_name')->get();
         // return $candidate;
         $user = User::where('type', 3)->get();
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -54,11 +56,13 @@ class FinanceController extends Controller
     // function for detail of team start
     public function recordDetail(Request $request)
     {
-        $detail = DB::table('finance')->
-            join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-            ->select('endorsements.*', 'finance.*')
+        $detail = DB::table('finance')->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+            ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+            ->select('endorsements.*', 'finance.*', 'finance_detail.*')
             ->where('finance.candidate_id', $request->id)
             ->first();
+
+        // dd($detail);
         $fee = $detail->placement_fee;
         $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $savedBy->saved_by)->first();
@@ -70,7 +74,6 @@ class FinanceController extends Controller
             'fee' => $fee,
         ];
         return view('finance.detail', $data);
-
     }
     // close
 
@@ -79,8 +82,7 @@ class FinanceController extends Controller
     {
         // dd($request->candidate);
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -134,6 +136,39 @@ class FinanceController extends Controller
 
     public function SavefinanceReference(Request $request)
     {
-        return $request->all();
+        $data = [
+            "ob_date" => $request->onboardnig_date,
+            "term_date" => $request->term_date,
+            "code" => $request->code,
+            "payment_term" => $request->payment_term,
+            "offered_salary" => $request->offered_salary,
+            "replacement_for" => $request->replacement_for,
+            "date_delvrd" => $request->date_delvrd,
+            "process_status" => $request->process_status,
+            "allowance" => $request->allowance,
+            "vat_per" => $request->vat_per,
+            "credit_memo" => $request->credit_memo,
+            "invoice_number" => $request->invoice_number,
+            "invoice_date" => $request->invoice_date,
+            "compensation" => $request->compensation,
+            "rate_per" => $request->rate_per,
+            "placementFee" => $request->placement_fee,
+            "or_number" => $request->or_number,
+            "date_collected" => $request->date_collected,
+            "reprocess_share" => $request->reprocess_share,
+            "reprocess_share_per" => $request->reprocess_share_per,
+            "vcc_share_per" => $request->vcc_share_per,
+            // "VSA" => $request->VSA,
+            "finalFee" => $request->finalFee,
+            "owner_share_per" => $request->owner_share_per,
+            "owner_share" => $request->owner_share,
+            "c_take_per" => $request->c_take_per,
+            "c_take" => $request->c_take,
+            "adjustment" => $request->adjustment,
+            "ind_revenue" => $request->ind_revenue,
+        ];
+        Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
+        Helper::save_log('Finance_updated');
+        return $request->candidate_id;
     }
 }
