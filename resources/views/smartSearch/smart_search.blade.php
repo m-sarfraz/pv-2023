@@ -343,6 +343,7 @@
                                                 Total Endsd:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
+                                            value="{{$Userdata->where('endorsements.app_status', 'To Be Endorsed')->count()}}"
                                                 placeholder="Rev.." id="endo" />
                                         </div>
                                     </div>
@@ -409,7 +410,8 @@
                                             <label class="Label-00">
                                                 #of Actv File:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="active"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="active" 
+                                            value="{{$Userdata->where('endorsements.app_status', 'Active File')->count()}}"
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
