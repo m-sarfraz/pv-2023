@@ -9,6 +9,7 @@ use App\CandidatePosition;
 use App\Domain;
 use App\Endorsement;
 use App\Finance;
+use App\Finance_detail;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
@@ -278,6 +279,47 @@ class ProfileController extends Controller
                     $finance->save();
 
                     //finance close
+                    //finance start
+                    $query = DB::table("finance_detail")
+                        ->where("candidate_id", $store_by_google_sheet->id)
+                        ->first();
+                    if (isset($query->id)) {
+                        // update record
+                        $finance_detail = Finance_detail::find($query->id);
+                    } else {
+                        // insert record
+                        $finance_detail = new Finance_detail();
+                    }
+                    $finance_detail->candidate_id = $store_by_google_sheet->id;
+                    $finance_detail->offered_salary = isset($render[50]) ? intval($render[50]) : intval(0);
+                    $finance_detail->allowance = isset($render[51]) ? intval($render[51]) : intval(0);
+                    $finance_detail->compensation = isset($render[52]) ? intval($render[52]) : intval(0);
+                    $finance_detail->rate = isset($render[53]) ? intval($render[53]) : intval(0);
+                    $finance_detail->vat = isset($render[54]) ? intval($render[54]) : intval(0);
+                    $finance_detail->placementFee = isset($render[55]) ? intval($render[55]) : intval(0);
+                    $finance_detail->finalFee = isset($render[56]) ? intval($render[56]) : intval(0);
+                    $finance_detail->adjustment = isset($render[57]) ? intval($render[57]) : intval(0);
+                    $finance_detail->credit_memo = isset($render[58]) ? intval($render[58]) : intval(0);
+                    $finance_detail->ob_date = isset($render[59]) ? intval($render[59]) : intval(0);
+                    $finance_detail->invoice_date = isset($render[60]) ? $render[60] : " ";
+                    $finance_detail->invoice_number = isset($render[61]) ? intval($render[61]) : intval(0);
+                    $finance_detail->date_delvrd = isset($render[62]) ? $render[62] : " ";
+                    $finance_detail->dpd = isset($render[63]) ? $render[63] : " ";
+                    $finance_detail->payment_term = isset($render[64]) ? intval($render[64]) :intval(0);
+                    $finance_detail->date_collected = isset($render[65]) ? $render[65] : " ";
+                    $finance_detail->or_number = isset($render[66]) ? intval($render[66]) : intval(0);
+                    $finance_detail->code = isset($render[67]) ? intval($render[67]) : intval(0);
+                    $finance_detail->term_date = isset($render[68]) ? $render[68] : "";
+                    $finance_detail->replacement_for = isset($render[69]) ? $render[69] : "";
+                    $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
+                    $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
+                    $finance_detail->vcc_share = isset($render[72]) ? intval($render[72]) : intval(0);
+                    $finance_detail->vcc_amount = isset($render[73]) ? intval($render[73]) : intval(0);
+                    $finance_detail->c_take = isset($render[74]) ? intval($render[74]) : intval(0);
+                    $finance_detail->owner_share = isset($render[75]) ? intval($render[75]) : intval(0);
+                    $finance_detail->reprocess_share     = isset($render[76]) ? intval($render[76]) : intval(0);
+                    $finance_detail->ind_revenue = isset($render[77]) ? intval($render[77]) : intval(0);
+                    $finance_detail->save();
                     $con++;
                     $con1++;
                     $con2++;
@@ -384,84 +426,86 @@ class ProfileController extends Controller
                 $candidateDomain->save();
                 // end  store data in candidate_domains
 
-              // start store data in candidate_position
-              $query = DB::table("candidate_positions")
-                  ->where("candidate_id", $store_by_Ecxel->id)
-                  ->first();
+                // start store data in candidate_position
+                $query = DB::table("candidate_positions")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
 
-              if (isset($query->id)) {
-                  // update record
-                  $candidatePosition = CandidatePosition::find($query->id);
-              } else {
-                  // insert record
-                  $candidatePosition = new CandidatePosition();
-              }
-              $candidatePosition->candidate_id = $store_by_Ecxel->id;
-              $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
-              $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
-              $candidatePosition->date_invited = isset($render[12]) ? $render[12] : "";
-              $candidatePosition->manner_of_invite = isset($render[11]) ? $render[11] : "";
-              $candidatePosition->curr_salary = intval(isset($render[27]) ? $render[27] : "");
-              $candidatePosition->exp_salary = intval(isset($render[29]) ? $render[29] : "");
-              $candidatePosition->off_salary = intval(isset($render[30]) ? $render[30] : "");
-              $candidatePosition->curr_allowance = intval(isset($render[28]) ? $render[28] : "");
-              $candidatePosition->off_allowance = intval(isset($render[31]) ? $render[31] : "");
-              $candidatePosition->save();
+                if (isset($query->id)) {
+                    // update record
+                    $candidatePosition = CandidatePosition::find($query->id);
+                } else {
+                    // insert record
+                    $candidatePosition = new CandidatePosition();
+                }
+                $candidatePosition->candidate_id = $store_by_Ecxel->id;
+                $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
+                $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
+                $candidatePosition->date_invited = isset($render[12]) ? $render[12] : "";
+                $candidatePosition->manner_of_invite = isset($render[11]) ? $render[11] : "";
+                $candidatePosition->curr_salary = intval(isset($render[27]) ? $render[27] : "");
+                $candidatePosition->exp_salary = intval(isset($render[29]) ? $render[29] : "");
+                $candidatePosition->off_salary = intval(isset($render[30]) ? $render[30] : "");
+                $candidatePosition->curr_allowance = intval(isset($render[28]) ? $render[28] : "");
+                $candidatePosition->off_allowance = intval(isset($render[31]) ? $render[31] : "");
+                $candidatePosition->save();
 
-              // end store data in candidate_position
+                // end store data in candidate_position
 
-              // endoresment startgit
-              $query = DB::table("endorsements")
-                  ->where("candidate_id", $store_by_Ecxel->id)
-                  ->first();
-              if (isset($query->id)) {
-                  // update record
-                  $endorsement = Endorsement::find($query->id);
-              } else {
-                  // insert record
-                  $endorsement = new Endorsement();
-              }
-              $endorsement->app_status = isset($render[32]) ? $render[32] : "";
-              $endorsement->client = isset($render[35]) ? $render[35] : "";
-              $endorsement->status = isset($render[42]) ? $render[42] : "";
-              $endorsement->type = isset($render[33]) ? $render[33] : "";
-              $endorsement->site = isset($render[36]) ? $render[36] : "";
-              $endorsement->position_title = isset($render[37]) ? $render[37] : "";
-              $endorsement->domain_endo = intval(isset($render[39]) ? $render[39] : "");
-              $endorsement->interview_date = isset($render[45]) ? $render[45] : "";
-              $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
-              $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
-              $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-              $endorsement->endi_date = isset($render[34]) ? $render[34] : "";
-              $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
-              $endorsement->candidate_id = $store_by_Ecxel->id;
-              $endorsement->save();
-              //close
+                // endoresment startgit
+                $query = DB::table("endorsements")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $endorsement = Endorsement::find($query->id);
+                } else {
+                    // insert record
+                    $endorsement = new Endorsement();
+                }
+                $endorsement->app_status = isset($render[32]) ? $render[32] : "";
+                $endorsement->client = isset($render[35]) ? $render[35] : "";
+                $endorsement->status = isset($render[42]) ? $render[42] : "";
+                $endorsement->type = isset($render[33]) ? $render[33] : "";
+                $endorsement->site = isset($render[36]) ? $render[36] : "";
+                $endorsement->position_title = isset($render[37]) ? $render[37] : "";
+                $endorsement->domain_endo = intval(isset($render[39]) ? $render[39] : "");
+                $endorsement->interview_date = isset($render[45]) ? $render[45] : "";
+                $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
+                $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
+                $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
+                $endorsement->endi_date = isset($render[34]) ? $render[34] : "";
+                $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
+                $endorsement->candidate_id = $store_by_Ecxel->id;
+                $endorsement->save();
+                //close
 
-              //finance start
-              $query = DB::table("finance")
-                  ->where("candidate_id", $store_by_Ecxel->id)
-                  ->first();
-              if (isset($query->id)) {
-                  // update record
-                  $finance = Finance::find($query->id);
-              } else {
-                  // insert record
-                  $finance = new Finance();
-              }
-              $finance->candidate_id = $store_by_Ecxel->id;
-              $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-              $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-              $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
-              $finance->client_finance = isset($render[48]) ? $render[48] : "";
-              $finance->career_finance = isset($render[63]) ? $render[63] : "";
-              $finance->rate = intval(isset($render[67]) ? $render[67] : "");
-              $finance->srp = intval(isset($render[47]) ? $render[47] : "");
-              $finance->offered_salary = intval(isset($render[49]) ? $render[49] : "");
-              $finance->placement_fee = intval(isset($render[54]) ? $render[54] : "");
-              $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
+                //finance start
+                $query = DB::table("finance")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $finance = Finance::find($query->id);
+                } else {
+                    // insert record
+                    $finance = new Finance();
+                }
+                $finance->candidate_id = $store_by_Ecxel->id;
+                $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
+                $finance->client_finance = isset($render[48]) ? $render[48] : "";
+                $finance->career_finance = isset($render[63]) ? $render[63] : "";
+                $finance->rate = intval(isset($render[67]) ? $render[67] : "");
+                $finance->srp = intval(isset($render[47]) ? $render[47] : "");
+                $finance->offered_salary = intval(isset($render[49]) ? $render[49] : "");
+                $finance->placement_fee = intval(isset($render[54]) ? $render[54] : "");
+                $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
 
-              $finance->save();
+                $finance->save();
+                //finance detail start 
+
                 $row++;
             }
 
