@@ -127,6 +127,12 @@ class ProfileController extends Controller
                         // update record
 
                         $store_by_google_sheet = CandidateInformation::find($query->id);
+                        if ($render[33] == "Re-endorsed") {
+                            $store_by_google_sheet->reprocess = $query->reprocess + 1;
+                        } else {
+                            $store_by_google_sheet->reprocess = $query->reprocess;
+                        }
+                        // $store_by_google_sheet->reprocess=
                     } else {
                         // insert record
                         $store_by_google_sheet = new CandidateInformation();
@@ -364,6 +370,9 @@ class ProfileController extends Controller
                 if (isset($query->id)) {
                     // update record
                     $store_by_Ecxel = CandidateInformation::find($query->id);
+                    if (isset($render[33]) == "Re-Endorsed") {
+                        $store_by_Ecxel->reprocess = $query->reprocess + 1;
+                    }
                 } else {
                     // insert record
                     $store_by_Ecxel = new CandidateInformation();
@@ -509,11 +518,56 @@ class ProfileController extends Controller
                 $finance->save();
                 //finance detail start 
 
+                $query = DB::table("finance_detail")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $finance_detail = Finance_detail::find($query->id);
+                } else {
+                    // insert record
+                    $finance_detail = new Finance_detail();
+                }
+                $finance_detail->candidate_id = $store_by_Ecxel->id;
+                $finance_detail->offered_salary = isset($render[50]) ? intval($render[50]) : intval(0);
+                $finance_detail->allowance = isset($render[51]) ? intval($render[51]) : intval(0);
+                $finance_detail->compensation = isset($render[52]) ? intval($render[52]) : intval(0);
+                $finance_detail->rate_per = isset($render[53]) ? intval($render[53]) : intval(0);
+                $finance_detail->vat_per = isset($render[54]) ? intval($render[54]) : intval(0);
+                $finance_detail->placementFee = isset($render[55]) ? intval($render[55]) : intval(0);
+                $finance_detail->finalFee = isset($render[56]) ? intval($render[56]) : intval(0);
+                $finance_detail->adjustment = isset($render[57]) ? intval($render[57]) : intval(0);
+                $finance_detail->credit_memo = isset($render[58]) ? intval($render[58]) : intval(0);
+                $finance_detail->ob_date = isset($render[59]) ? intval($render[59]) : intval(0);
+                $finance_detail->invoice_date = isset($render[60]) ? $render[60] : " ";
+                $finance_detail->invoice_number = isset($render[61]) ? intval($render[61]) : intval(0);
+                $finance_detail->date_delvrd = isset($render[62]) ? $render[62] : " ";
+                $finance_detail->dpd = isset($render[63]) ? $render[63] : " ";
+                $finance_detail->payment_term = isset($render[64]) ? intval($render[64]) : intval(0);
+                $finance_detail->date_collected = isset($render[65]) ? $render[65] : " ";
+                $finance_detail->or_number = isset($render[66]) ? intval($render[66]) : intval(0);
+                $finance_detail->code = isset($render[67]) ? intval($render[67]) : intval(0);
+                $finance_detail->term_date = isset($render[68]) ? $render[68] : "";
+                $finance_detail->replacement_for = isset($render[69]) ? $render[69] : "";
+                $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
+                $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
+                $finance_detail->vcc_share_per = isset($render[72]) ? intval($render[72]) : intval(0);
+                $finance_detail->vcc_amount = isset($render[73]) ? intval($render[73]) : intval(0);
+                $finance_detail->c_take_per = isset($render[74]) ? intval($render[74]) : intval(0);
+                $finance_detail->c_take = isset($render[75]) ? intval($render[75]) : intval(0);
+                $finance_detail->owner_share_per = isset($render[76]) ? intval($render[76]) : intval(0);
+                $finance_detail->owner_share = isset($render[77]) ? intval($render[77]) : intval(0);
+                $finance_detail->reprocess_share_per     = isset($render[78]) ? intval($render[78]) : intval(0);
+                $finance_detail->reprocess_share     = isset($render[79]) ? intval($render[79]) : intval(0);
+                $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
+                $finance_detail->save();
+
                 $row++;
             }
 
             // fclose($file);
         }
+        return redirect()->back();
     }
 
     public function verifySheet(Request $request)
