@@ -127,6 +127,10 @@ class ProfileController extends Controller
                         // update record
 
                         $store_by_google_sheet = CandidateInformation::find($query->id);
+                        if ($render[33] == "Re-endorsed") {
+                            $store_by_google_sheet->reprocess = $query->reprocess + 1;
+                        }
+                        // $store_by_google_sheet->reprocess=
                     } else {
                         // insert record
                         $store_by_google_sheet = new CandidateInformation();

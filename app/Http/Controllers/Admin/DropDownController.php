@@ -47,7 +47,6 @@ class DropDownController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding DropDown']);
             }
-
         }
     }
     public function save_options(Request $request)
@@ -74,7 +73,6 @@ class DropDownController extends Controller
                 $addoptions[$i]['sec_dropdown_id'] = $secDropdownId;
                 $addoptions[$i]['option_name'] = $optionName;
                 $i++;
-
             }
             $addOption = DropDownOption::insert($addoptions);
             if ($addOption) {
@@ -82,7 +80,6 @@ class DropDownController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding options']);
             }
-
         }
     }
     public function view_dropdown()
