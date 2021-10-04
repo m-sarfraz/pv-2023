@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.5",
         "revolution/laravel-google-sheets": "^5.6",
         "spatie/laravel-permission": "^4.3",
-        "yajra/laravel-datatables-oracle": "^9.18"
+        "yajra/laravel-datatables-oracle": "^9.18",
+        "consoletvs/charts": "^6"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",
