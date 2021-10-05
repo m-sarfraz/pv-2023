@@ -204,10 +204,7 @@
                                 <th class="ant-table-cell">Endorsement Date</th>
                                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                             </tr>
-                        </thead>
-                        @php
-                            $Userdata = Helper::user_data();
-                        @endphp
+                        </thead> 
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
                                 <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">

@@ -15,8 +15,7 @@
         "laravel/tinker": "^2.5",
         "revolution/laravel-google-sheets": "^5.6",
         "spatie/laravel-permission": "^4.3",
-        "yajra/laravel-datatables-oracle": "^9.18",
-        "consoletvs/charts": "^6"
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",
@@ -44,7 +43,7 @@
             "App\\": "app/"
         },
         "files" : [
-            "app/http/helpers/helper.php"
+            "app/Http/Helpers/Helper.php"
         ],
         "classmap": [
             "database/seeds",

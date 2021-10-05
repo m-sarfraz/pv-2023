@@ -196,7 +196,6 @@ class SmartSearchController extends Controller
             'endo' => count(DB::select($sql_enors)),
             'active' => count(DB::select($sql_active)),
             'onBoarded' => count(DB::select($sql_onboarded)),
-            'onBoarded' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
             'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
