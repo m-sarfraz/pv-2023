@@ -82,12 +82,12 @@
    </table>
 </div>
 <script>
-    // $('#sifted').val({!! $sifted !!});
-    // $('#endo').val({!! $endo !!});
-    // $('#active').val({!! $active !!});
+    $('#sifted').val({!! $sifted !!});
+    $('#endo').val({!! $endo !!});
+    $('#active').val({!! $active !!});
     // $('#spr').val({!! $spr !!});
     // var a =  {{ $onBoarded }};
-    // $('#foundRecord').val({!! $onBoarded !!});
+    $('#foundRecord').val({!! $sifted !!});
     // $('#accepted').val({!! $accepted !!});
     // $('#failed').val({!! $failed !!});
     // $('#withdrawn').val({!! $withdrawn !!});

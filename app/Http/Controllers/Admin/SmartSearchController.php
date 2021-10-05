@@ -5,7 +5,9 @@ use App\CandidateInformation;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
+use DB;
 use Illuminate\Http\Request;
+use Str;
 
 class SmartSearchController extends Controller
 {
@@ -78,7 +80,14 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('candidate_informations.address', $request->residence);
         }
         if (isset($request->career_level)) {
+            $newarr = array();
+            foreach ($request->career_level as $career) {
+                //$strc =
+                array_push($newarr, "'$career'");
+            }
+
             $Userdata->whereIn('endorsements.career_endo', $request->career_level);
+
         }
         if (isset($request->category)) {
             $Userdata->whereIn('endorsements.remarks_for_finance', $request->category);
@@ -156,13 +165,56 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('endorsements.endi_date', '>', $newformat);
             $Userdata->whereDate('endorsements.endi_date', '<', $newformat1);
         }
+
+// binding replaced
+        //$sql = str_replace_array('?', $query->getBindings(), $query->toSql());
+
+        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        foreach ($request->career_level as $career) {
+            $sql = str_replace($career, "'$career'", $sql);
+        }
+        // foreach ($request->remarks as $career) {
+        //     $sql = str_replace($career, "'$career'", $sql);
+        // }
         $user = $Userdata->get();
+        if (strpos($sql, 'where') !== false) {
+            $sql_enors = $sql . " and endorsements.app_status='To Be Endorsed'";
+            $sql_active = $sql . " and endorsements.app_status='Active File'";
+            $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
+
+        } else {
+            $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
+            $sql_active = $sql . "where endorsements.app_status='Active File'";
+            $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
+        }
+        // dd($user);
+
+        // append data array with view
+        $data = [
+            'sifted' => count($Userdata->get()),
+            'Userdata' => $user,
+            'endo' => count(DB::select($sql_enors)),
+            'active' => count(DB::select($sql_active)),
+            'onBoarded' => count(DB::select($sql_onboarded)),
+            'onBoarded' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
+            'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'withdrawn' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+            'rejected' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
+        ];
+        return view('smartSearch.filter_result', $data);
+
+        // $user = $Userdata->get();
+        // print_r($user);
+        // die();
+
+        $onBoarded = $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count();
+        return $onBoarded;
+        $active = $Userdata->where('endorsements.app_status', 'Active File')->count();
         // return $Userdata;
         // selected option if close
         // $user = $Userdata;
-        // // qurries for summary section start
-        // $sifted = count($user);
-        // return $this->getRecordSummary($Userdata, 'endorsements.app_status', 'Active File');
         // return $this->test($Userdata, 'endorsements.remarks_for_finance', 'Onboarded')['data'];
         // return $this->test($Userdata, 'endorsements.remarks_for_finance', 'Onboarded');
         // return $this->test($Userdata, 'endorsements.remarks_for_finance', 'Onboarded')['count'];
@@ -178,20 +230,6 @@ class SmartSearchController extends Controller
         // $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
         // close
 
-        // append data array withj view
-        $data = [
-            'sifted' => count($Userdata->get()),
-            'Userdata' => $user,
-            'endo' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'To Be Endorsed'),
-            'active' => $this->getRecordSummary($Userdata, 'endorsements.app_status', 'Active File'),
-            'onBoarded' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
-            'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            'withdrawn' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-            'rejected' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
-        ];
-        return view('smartSearch.filter_result', $data);
     }
     // close
     private function getRecordSummary($mainObject, $target, $condition)
