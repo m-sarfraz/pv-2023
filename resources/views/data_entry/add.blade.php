@@ -407,7 +407,7 @@
                                                                     class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
                                                             </div>   
                                                     </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12  pr-0">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
                                                         <label class="` Label labelFontSize">
                                                             Interview Notes
                                                         </label>
@@ -560,7 +560,7 @@
                             <!-- Candidate section end -->
                             <!-- ================== -->
                         </div>
-                        <div class="col-lg-6 paddingZero">
+                        <div class="col-lg-6 paddingZero mtSM-4">
                             <!-- ================== -->
                             <!-- ENDORSMENT section start -->
                             {{-- <fieldset disabled="false"> --}}

@@ -930,6 +930,18 @@ input {
     #option_table_wrapper {
         padding: 0px !important;
     }
+    .pl-15{
+        padding-left: 15px !important;
+    }
+    .mtSM-4 {
+        margin-top: 1.5rem!important;
+    }
+    .plSM-0{
+        padding-left: 0 !important;
+    }
+    .pr-15{
+        padding-right: 15px !important;
+    }
     .paddingZero {
         padding: 0px;
     }

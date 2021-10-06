@@ -8,7 +8,7 @@
             <p class=" text-danger" style="font-weight: bold;">Dated:2-11-2021</p>
         </div>
         <div class="col-lg-9">
-            <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Target vs Actual Revenue(under Quarter
+            <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Actual Revenue(under Quarter
                 1)-2021</p>
         </div>
     </div>
