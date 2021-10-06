@@ -32,7 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-      
+
         $users = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
             ->groupBy(DB::raw("Month(created_at)"))
@@ -58,6 +58,7 @@ class HomeController extends Controller
             'borderColor' => 'yellow',
             'backgroundColor' => 'orange',
         ]);
-        return view('home', compact("chart", "count_user_pie"));
+        $Cip_getdata = Cipprogress::orderBy('id', 'ASC')->get();
+        return view('home', compact("Cip_getdata", "chart", "count_user_pie"));
     }
 }
