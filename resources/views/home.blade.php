@@ -206,24 +206,18 @@
 						</tr>
 					</thead>
 					<tbody>
+						@forelse ($Cip_getdata as $data_cip)
+							
 						<tr>
-							<td>Quarterly</td>
-							<td>400000</td>
-							<td>150000</td>
-							<td>0.375</td>
+							<td>{{$data_cip->team}}</td>
+							<td>N/A</td>
+							<td>{{$data_cip->cip}}</td>
+							<td>N/A</td>
 						</tr>
-						<tr>
-							<td>Monthly</td>
-							<td>1200000</td>
-							<td>50000</td>
-							<td>0.041666666666666664</td>
-						</tr>
-						<tr>
-							<td>Weekly (WK-7)</td>
-							<td>342857</td>
-							<td>128571</td>
-							<td>0.375</td>
-						</tr>
+						@empty
+							
+						@endforelse
+					
 					</tbody>
 				</table>
 			</div>
@@ -231,6 +225,7 @@
 	</div>
 	<div class="col-lg-4">
 		<div class="card ETHcardBorderColor mb-7 h-100">
+			<div class="text-center pt-3 pb-3">ETH-CIP Progress</div>
 			<div class="table-responsive tableFixHead1" style="height:237px">
 				<table id="tablePreview" class="table header-fixed table-striped">
 					<thead>
@@ -241,26 +236,25 @@
 						</tr>
 					</thead>
 					<tbody>
+						@forelse ($Cip_getdata as $data_cip)
+							
 						<tr>
-							<td>Mid</td>
-							<td>2,000,000</td>
-							<td>1,573,665.00</td>
+							@if(!empty($data_cip->mid_stage))
+							<td>
+								{{$data_cip->mid_stage}}
+							</td>
+							@endif
+							@if(!empty($data_cip->final_stage))
+							<td>
+								{{$data_cip->final_stage}}
+							</td>
+							@endif
+							<td>N/A</td>
+							<td>N/A</td>
 						</tr>
-						<tr>
-							<td>Final</td>
-							<td>2,000,000</td>
-							<td>1,573,665.00</td>
-						</tr>
-						<tr>
-							<td>Offer Stage</td>
-							<td>2,000,000</td>
-							<td>1,573,665.00</td>
-						</tr>
-						<tr>
-							<td>Onboarded</td>
-							<td>2,000,000</td>
-							<td>1,573,665.00</td>
-						</tr>
+						@empty
+							
+						@endforelse
 					</tbody>
 				</table>
 			</div>

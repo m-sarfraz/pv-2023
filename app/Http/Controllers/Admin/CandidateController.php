@@ -6,6 +6,7 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
 use App\Finance;
@@ -19,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use App\User;
+use Spatie\Permission\Models\Role;
 
 class CandidateController extends Controller
 {
@@ -28,8 +31,7 @@ class CandidateController extends Controller
     {
         $candidateDetail = null;
         if (isset($_GET['id'])) {
-            $candidateDetail = CandidateInformation::
-                join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            $candidateDetail = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
                 ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
                 ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
                 ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -58,6 +60,8 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
+
+        $recruiter = Auth::user()->id;
         $arrayCheck = [
             "DOMAIN" => 'required ',
             'LAST_NAME' => 'required',
@@ -110,7 +114,7 @@ class CandidateController extends Controller
             $CandidateInformation->address = $request->RESIDENCE;
             $CandidateInformation->dob = $request->DATE_OF_BIRTH;
             $CandidateInformation->status = '1';
-            $recruiter = Auth::user()->id;
+
             $CandidateInformation->saved_by = $recruiter;
             $CandidateInformation->save();
 
@@ -183,7 +187,76 @@ class CandidateController extends Controller
             $endorsement->endi_date = $request->DATE_ENDORSED;
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
             $endorsement->save();
+            //start logic for cip
 
+            $array = [
+                'Final Stage' => [
+                    0 => 'Scheduled for Country Head Interview',
+                    1 => 'Scheduled for Final Interview',
+                    2 => "Scheduled for Hiring Manager's Interview",
+                    3 => 'Done Behavioral Interview / Awaiting Feedback',
+                    4 => 'Done Final Interview / Awaiting Feedback',
+                    5 => "Done Hiring Manager's Interview / Awaiting Feedback",
+                    6 => 'Failed Country Head Interview',
+                    7 => 'Failed Final Interview',
+                    8 => "Failed Hiring Manager's Interview",
+                    9 => "Scheduled for Job Offer",
+                    10 => "Shortlisted/For Comparison",
+                    11 => "Onboarded",
+                    12 => "Offer accepted",
+                    13 => "Offer Rejected",
+                    14 => "Position Closed (Final Stage)",
+                    15 => "Done Country Head Interview / Awaiting Feedback",
+                    16 => "Pending Offer Approval",
+                    17 => "Pending Offer Schedule",
+                    18 => "Position On Hold (Final Stage)",
+                    19 => "Shortlisted",
+                    20 => "Fallout/Reneged",
+                ],
+                "Mid Stage" => [
+                    0 => 'Scheduled for Skills Interview',
+                    1 => 'Scheduled for Technical Interview',
+                    2 => "Scheduled for Technical exam",
+                    3 => 'Sheduled for Behavioral Interview',
+                    4 => 'Scheduled for account validation',
+                    5 => "Done Skills interview/ Awaiting Feedback",
+                    6 => 'Done Techincal Interview /Awaiting Feedback',
+                    7 => 'Done Technical exam /Awaiting Feedback',
+                    8 => "Done Behavioral /Awaiting Feedback",
+                    9 => "Failed Skills interview",
+                    10 => "Failed Techincal Interview",
+                    11 => "Failed Technical exam",
+                    12 => "Failed Behavioral Interview",
+                    13 => "Pending Country Head Interview",
+                    14 => "Pending Final Interview",
+                    15 => "Pending Hiring Manager's Interview",
+                    16 => "Position Closed (Mid Stage)",
+                    17 => "Done Skills/Technical Interview / Awaiting Feedback",
+                    18 => "Failed Skills/Technical Interview",
+                    19 => "Position On Hold (Mid Stage)",
+                    20 => "Scheduled for Behavioral Interview",
+                    21 => "Scheduled for Skills/Technical Interview",
+                ]
+            ];
+
+            $user = User::find($recruiter);
+            $userRole = $user->roles->pluck('name')->all();
+
+
+
+
+            $Cipprogress = new Cipprogress();
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
+
+                $Cipprogress->final_stage = "Final Stage";
+            }
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
+                $Cipprogress->mid_stage = "Mid Stage";
+            }
+            $Cipprogress->candidate_id = $CandidateInformation->id;
+            $Cipprogress->team = $userRole[0];
+            $Cipprogress->save();
+            //close cip
             // save data to finance tables
             $finance = new Finance();
             $finance->candidate_id = $CandidateInformation->id;
@@ -207,7 +280,6 @@ class CandidateController extends Controller
             //save record for logs ends
 
             return response()->json(['success' => true, 'message' => 'Data added successfully']);
-
         }
     }
 
@@ -217,8 +289,7 @@ class CandidateController extends Controller
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
-        $user = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -233,7 +304,6 @@ class CandidateController extends Controller
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
         ];
         return view('data_entry.userSearch', $data);
-
     }
     public function update_data_entry(Request $request, $id)
     {
@@ -383,13 +453,12 @@ class CandidateController extends Controller
                 );
                 return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
                 return response()->json(['success' => true, 'message' => 'file found']);
-
             } else {
                 return response()->json(['success' => false, 'message' => 'file not found']);
-            }} else {
+            }
+        } else {
             return response()->json(['success' => false, 'message' => 'No file attached found']);
         }
-
     }
     // download canidate cv functon ends
 }
