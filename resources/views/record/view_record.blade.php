@@ -40,7 +40,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            # of Records Found:
+                                        Number Of Records Found:                                          
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
                                             class="form-control h-px-20_custom border" value="" />
@@ -275,7 +275,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                * Canidate Name:
+                                                Canidate Name*:
                                             </label>
                                             <input type="text" class="form-control" placeholder="enter first name" />
                                         </div>
