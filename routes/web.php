@@ -74,6 +74,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
+    Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
+
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
