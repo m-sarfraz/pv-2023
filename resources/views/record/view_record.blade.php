@@ -487,7 +487,7 @@
                                                 placeholder="Enter Interview Notes"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
                                                 Certification:
