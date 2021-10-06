@@ -705,7 +705,7 @@
                             <div class="form-group mb-0">
                                 <div class="form-group mb-0">
                                     <label class="d-block font-size-3 mb-0">
-                                        Endo Date:
+                                        Date Processed:
                                     </label>
                                     <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
                                         onchange="setDate()" class="form-control border h-px-20_custom" />
@@ -791,7 +791,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            Standard Project Reveneu
+                                            Standard Projected Reveneu
                                         </label>
                                         <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
                                             value="{{ $user->srp }}" class="form-control h-px-20_custom"

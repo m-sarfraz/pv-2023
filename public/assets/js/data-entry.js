@@ -44,7 +44,7 @@ function ApplicationStatusChange(elem) {
     var value = $(elem).find(":selected").text().trim();
 
     // check for selected application status value
-    if (value.includes('To') || value.includes('File')) {
+    if (value.includes('To')) {
         // if ($('#current_salary').val() == "" || $('#expec_salary').val() == "") {
 
         //     // Show notification message if fields are empty in candidate position fields

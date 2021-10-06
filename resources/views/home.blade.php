@@ -47,7 +47,6 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                         aria-labelledby="pills-home-tab">
 						<div style="width: 80%;margin: 0 auto;" id="chart">
-							{!! $chart->container() !!}
 						</div>
 					
 					</div>
@@ -89,7 +88,6 @@
                     <div class="tab-pane fade show active" id="pills-home1" role="tabpanel"
                         aria-labelledby="pills-home-tab1">
 						<div style="width: 80%;margin: 0 auto;">
-							{!! $count_user_pie->container() !!}
 						</div>
 					</div>
                     <div class="tab-pane fade" id="pills-profile1" role="tabpanel" aria-labelledby="pills-profile-tab1">B
@@ -456,7 +454,6 @@
 <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
 <!-- Chartisan -->
 <script src="https://unpkg.com/@chartisan/chartjs@^2.1.0/dist/chartisan_chartjs.umd.js"></script>
-{!! $chart->script() !!}
-{!! $count_user_pie->script() !!}
+
 
 @endsection

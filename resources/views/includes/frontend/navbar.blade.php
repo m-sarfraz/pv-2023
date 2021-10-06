@@ -28,7 +28,7 @@
                     </a>
                     @can('list-domain')
                     <a class="nav-link {{ $routeName == 'domain' ? 'nav-active' : 'text-white'  }}" href="{{ route('domain') }}" style="cursor: pointer;">
-                        domains
+                        Domains
                     </a>
                     @endcan
                     <a class="nav-link {{ $routeName == 'search' ? 'nav-active' : 'text-white'  }}" href="{{ route('search') }}" style="cursor: pointer;">
