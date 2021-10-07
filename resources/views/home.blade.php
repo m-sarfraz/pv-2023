@@ -219,19 +219,19 @@
                                     <td>Quarterly</td>
                                     <td>400000</td>
                                     <td><?php echo count($Admin_Quarterly_data); ?></td>
-                                    <td><?php echo (count($Admin_Quarterly_data)/400000)*10000; ?></td>
+                                    <td><?php echo (count($Admin_Quarterly_data) / 400000) * 10000; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Monthly</td>
                                     <td>1200000</td>
                                     <td><?php echo count($Admin_Mounthly_data); ?></td>
-                                    <td><?php echo (count($Admin_Mounthly_data)/1200000)*100; ?></td>
+                                    <td><?php echo (count($Admin_Mounthly_data) / 1200000) * 100; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Weekly (WK-7)</td>
                                     <td>342857</td>
                                     <td><?php echo count($Admin_weekly_data); ?></td>
-                                    <td><?php echo (count($Admin_weekly_data)/342857)*100; ?></td>
+                                    <td><?php echo (count($Admin_weekly_data) / 342857) * 100; ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -252,12 +252,12 @@
                             <tbody>
                                 <tr>
                                     <td>Mid</td>
-                                    <td>{{count($Admin_count_mid_stage)}}</td>
+                                    <td>{{ count($Admin_count_mid_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
                                     <td>Final</td>
-                                    <td>{{count($Admin_count_final_stage)}}</td>
+                                    <td>{{ count($Admin_count_final_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
@@ -286,38 +286,38 @@
                 <div class="card TATcardBorderColor mb-7">
                     <div class="text-center pt-3 pb-3">Consultant-CIP Progress</div>
                     <div class="table-responsive tableFixHead1">
-                   
-                            <table id="tablePreview" class="table header-fixed table-striped">
-								<thead>
-									<tr>
-										<th>Team</th>
-										<th>CIP Target At</th>
-										<th>Actual CIP</th>
-										<th>% Achieved </th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Quarterly</td>
-										<td>400000</td>
-										<td><?php echo count($consultant_Quarterly_data); ?></td>
-										<td><?php echo (count($consultant_Quarterly_data)/400000)*10000; ?></td>
-									</tr>
-									<tr>
-										<td>Monthly</td>
-										<td>1200000</td>
-										<td><?php echo count($consultant_Mounthly_data); ?></td>
-										<td><?php echo (count($consultant_Mounthly_data)/1200000)*100; ?></td>
-									</tr>
-									<tr>
-										<td>Weekly (WK-7)</td>
-										<td>342857</td>
-										<td><?php echo count($consultant_weekly_data); ?></td>
-										<td><?php echo (count($consultant_weekly_data)/342857)*100; ?></td>
-									</tr>
-								</tbody>
-							</table>
-                       
+
+                        <table id="tablePreview" class="table header-fixed table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>CIP Target At</th>
+                                    <th>Actual CIP</th>
+                                    <th>% Achieved </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quarterly</td>
+                                    <td>400000</td>
+                                    <td><?php echo count($consultant_Quarterly_data); ?></td>
+                                    <td><?php echo (count($consultant_Quarterly_data) / 400000) * 10000; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Monthly</td>
+                                    <td>1200000</td>
+                                    <td><?php echo count($consultant_Mounthly_data); ?></td>
+                                    <td><?php echo (count($consultant_Mounthly_data) / 1200000) * 100; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Weekly (WK-7)</td>
+                                    <td>342857</td>
+                                    <td><?php echo count($consultant_weekly_data); ?></td>
+                                    <td><?php echo (count($consultant_weekly_data) / 342857) * 100; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
@@ -335,12 +335,12 @@
                             <tbody>
                                 <tr>
                                     <td>Mid</td>
-                                    <td>{{count($consultant_count_mid_stage)}}</td>
+                                    <td>{{ count($consultant_count_mid_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
                                     <td>Final</td>
-                                    <td>{{count($consultant_count_final_stage)}}</td>
+                                    <td>{{ count($consultant_count_final_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
@@ -368,36 +368,36 @@
                 <div class="card AGENTcardBorderColor mb-7">
                     <div class="text-center pt-3 pb-3">AGENT-CIP Progress</div>
                     <div class="table-responsive tableFixHead1">
-						<table id="tablePreview" class="table header-fixed table-striped">
-							<thead>
-								<tr>
-									<th>Team</th>
-									<th>CIP Target At</th>
-									<th>Actual CIP</th>
-									<th>% Achieved </th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Quarterly</td>
-									<td>400000</td>
-									<td><?php echo count($Agend_Quarterly_data); ?></td>
-									<td><?php echo (count($Agend_Quarterly_data)/400000)*10000; ?></td>
-								</tr>
-								<tr>
-									<td>Monthly</td>
-									<td>1200000</td>
-									<td><?php echo count($Agend_Mounthly_data); ?></td>
-									<td><?php echo (count($Agend_Mounthly_data)/1200000)*100; ?></td>
-								</tr>
-								<tr>
-									<td>Weekly (WK-7)</td>
-									<td>342857</td>
-									<td><?php echo count($Agend_weekly_data); ?></td>
-									<td><?php echo (count($Agend_weekly_data)/342857)*100; ?></td>
-								</tr>
-							</tbody>
-						</table>
+                        <table id="tablePreview" class="table header-fixed table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>CIP Target At</th>
+                                    <th>Actual CIP</th>
+                                    <th>% Achieved </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quarterly</td>
+                                    <td>400000</td>
+                                    <td><?php echo count($Agend_Quarterly_data); ?></td>
+                                    <td><?php echo (count($Agend_Quarterly_data) / 400000) * 10000; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Monthly</td>
+                                    <td>1200000</td>
+                                    <td><?php echo count($Agend_Mounthly_data); ?></td>
+                                    <td><?php echo (count($Agend_Mounthly_data) / 1200000) * 100; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Weekly (WK-7)</td>
+                                    <td>342857</td>
+                                    <td><?php echo count($Agend_weekly_data); ?></td>
+                                    <td><?php echo (count($Agend_weekly_data) / 342857) * 100; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -415,12 +415,12 @@
                             <tbody>
                                 <tr>
                                     <td>Mid</td>
-                                    <td>{{count($Agend_count_mid_stage)}}</td>
+                                    <td>{{ count($Agend_count_mid_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
                                     <td>Final</td>
-                                    <td>{{count($Agend_count_final_stage)}}</td>
+                                    <td>{{ count($Agend_count_final_stage) }}</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
@@ -449,24 +449,24 @@
 
 
     <!-- <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">Dashboard</div>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+                                <div class="card-body">
+                                    @if (session('status'))
+                                        <div class="alert alert-success" role="alert">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+
+                                    You are logged in!
+                                </div>
                             </div>
-                        @endif
-
-                        You are logged in!
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+                </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->
