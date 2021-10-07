@@ -43,7 +43,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            # of Records Found:
+                                        Number Of Records Found:                                           
                                         </label>
                                         <input type="text" name="REF_CODE" value="" disabled="" required="" id="foundRecord"
                                             class="form-control h-px-20_custom border" />
@@ -95,14 +95,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">startDate(Sifted)</label>
+                                        <label class="Label">Start Date (Shifted):</label>
                                         <input type="date" id="sift_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">EndDate(Sifted)</label>
+                                        <label class="Label">End date Shifted:</label>
                                         <input type="date" id="sift_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -157,14 +157,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">startDate(Endo)</label>
+                                        <label class="Label">Start Date (Shifted):</label>
                                         <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">EndDate(Endo)</label>
+                                        <label class="Label">End Date Shifted:</label>
                                         <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -216,14 +216,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">startDate(OB)</label>
+                                        <label class="Label">Start Date (Shifted):</label>
                                         <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">EndDate(OB)</label>
+                                        <label class="Label">End Date Shifted:</label>
                                         <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -331,7 +331,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Av. Salary:
+                                            Average Salary:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="hires.." />
@@ -340,7 +340,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Total Endsd:
+                                            Total Endorsement:                         
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                             value="{{$Userdata->where('endorsements.app_status', 'To Be Endorsed')->count()}}"
@@ -359,7 +359,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of Accptd:
+                                            Number of Accepted:                      
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="accepted"
                                                 placeholder="total.." />
@@ -370,7 +370,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of shiftd:
+                                            Number of Shifted:                             
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="sifted"
                                                 placeholder="hires.." />
@@ -379,7 +379,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Initial Stg.
+                                                Initial Stage.
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
@@ -397,7 +397,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of Faild:
+                                            Number of Failed: 
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="failed"
                                                 placeholder="total.." />
@@ -408,7 +408,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of Actv File:
+                                            Number of Active File:      
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="active" 
                                             value="{{$Userdata->where('endorsements.app_status', 'Active File')->count()}}"
@@ -418,7 +418,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Mid Stg:
+                                                Mid Stage:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
@@ -427,7 +427,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of hires:
+                                            Number of hires:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." id="onBoarded" />
@@ -436,7 +436,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of withdrwn:
+                                            Number of Withdrew:     
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="withdrawn"
                                                 placeholder="total.." />
@@ -455,7 +455,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Final Stg.
+                                                Final Stage:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
@@ -464,7 +464,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Total Rev.
+                                            Total of Revenue.    
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
@@ -473,7 +473,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                #of Rejctd:
+                                            Number of Rejected:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="rejected"
                                                 placeholder="total.." />
