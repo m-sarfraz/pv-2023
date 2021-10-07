@@ -200,20 +200,22 @@
                 </div>
             </div>
         </div>
-        <?php $data = DB::table('roles')->get();
-        ?>
-        @foreach ( $append as $render)
+        @php $data = DB::table('roles')->get(); @endphp
+
             
         @for ($i=0;$i<count($data);$i++)
-   
-        @dd($render['weekly_data_0'][$i]->team)
-        
-            
+        @php $index_weekly_data__check="weekly_data_".$i @endphp
+        @php $index_Mounthly_data__check="Mounthly_data_".$i @endphp
+        @php $index_Quarterly_data__check="Quarterly_data_".$i @endphp
+        @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
+        @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
+       
+     
         
         <div class="row m-0 pt-4">
             <div class="col-lg-5">
                 <div class="card ETHcardBorderColor mb-7">
-                    <div class="text-center pt-3 pb-3">{{ $render['weekly_data_0'][$i]->team}} Progress</div>
+                    <div class="text-center pt-3 pb-3"> @php echo  isset($data[$i]->name)?$data[$i]->name:""@endphp Progress</div>
                    
                     <div class="table-responsive tableFixHead1">
                         <table id="tablePreview" class="table header-fixed table-striped">
@@ -229,20 +231,20 @@
                                 <tr>
                                     <td>Quarterly</td>
                                     <td>400000</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                    <td> @php echo  isset($append[$i][$index_Quarterly_data__check])?count($append[$i][$index_Quarterly_data__check]):"";@endphp</td>
+                                    <td>@php echo  isset($append[$i][$index_Quarterly_data__check])?(count($append[$i][$index_Quarterly_data__check]))/400000:"";@endphp</td>
+                               </tr>
                                 <tr>
                                     <td>Monthly</td>
                                     <td>1200000</td>
-                                    <td> </td>
-                                    <td></td>
+                                    <td> @php echo  isset($append[$i][$index_Mounthly_data__check])?count($append[$i][$index_Mounthly_data__check]):"";@endphp</td>
+                                    <td>@php echo  isset($append[$i][$index_Mounthly_data__check])?(count($append[$i][$index_Mounthly_data__check]))/1200000:"";@endphp</td>
                                 </tr>
                                 <tr>
                                     <td>Weekly (WK-7)</td>
                                     <td>342857</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>@php echo  isset($append[$i][$index_weekly_data__check])?count($append[$i][$index_weekly_data__check]):"";@endphp</td>
+                                    <td>@php echo  isset($append[$i][$index_weekly_data__check])?(count($append[$i][$index_weekly_data__check]))/342857:"";@endphp</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -263,12 +265,12 @@
                             <tbody>
                                 <tr>
                                     <td>Mid</td>
-                                    <td></td>
+                                    <td>@php echo isset($append[$i][$index_count_mid_stage_0__check])?count($append[$i][$index_count_mid_stage_0__check]):""; @endphp</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
                                     <td>Final</td>
-                                    <td></td>
+                                    <td>@php echo isset($append[$i][$index_count_final_stage_0__check])?count($append[$i][$index_count_final_stage_0__check]):""; @endphp</td>
                                     <td>1,573,665.00</td>
                                 </tr>
                                 <tr>
@@ -293,7 +295,7 @@
             </div>
         </div>
         @endfor
-        @endforeach
+     
         <!-- SECTION ONE -->
     </section>
 
