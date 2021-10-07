@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Auth;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -127,9 +128,9 @@ class UserController extends Controller
             'phone' => 'required',
             'roles' => 'required',
         ];
-        if ($request->password && !empty($request->password)) {
-            $arrayCheck['password'] = ['required', 'string', 'min:8', 'confirmed'];
-        }
+        // if ($request->password && !empty($request->password)) {
+        //     $arrayCheck['password'] = ['required', 'string', 'min:8', 'confirmed'];
+        // }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
@@ -146,6 +147,9 @@ class UserController extends Controller
             DB::table('model_has_roles')->where('model_id', $id)->delete();
             $user->assignRole($request->input('roles'));
             if ($user) {
+                //save USER addeed log to table starts
+                Helper::save_log('USER_UPDATED');
+                // save USER added to log table ends
                 return response()->json(['success' => true, 'message' => 'User Updated successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while updating User']);
@@ -164,4 +168,31 @@ class UserController extends Controller
     {
         //
     }
+    public function updatePassword(Request $request)
+    {
+        // return $request->all();
+        $password = User::find(Auth::id());
+        // return $password;
+        $arrayCheck = [
+            'old_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed', 'different:old_password'],
+        ];
+        // return $arrayCheck;
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+
+        } else {
+            if (Hash::check($request->old_password, $password->password)) {
+
+                $password->password = Hash::make($request->new_password);
+                $password->save();
+                return response()->json(['success' => true, 'message' => 'Password Updated successfully']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Old password is wrong!']);
+            }
+
+        }
+    }
+
 }

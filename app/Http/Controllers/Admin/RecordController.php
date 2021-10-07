@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
 use App\Domain;
 use App\Endorsement;
+use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
@@ -22,33 +22,32 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index()
     {
+        // return 'hi';
         // get recruiter data
         $user = User::where('type', 3)->get();
 
-        // // join the tables to get ccandidate data
-        // $Userdata = CandidateInformation::
-        //     join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-        //     ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-        //     ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-        //     ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-        //     ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-        //     ->paginate(20);
+        // join the tables to get ccandidate data
+        $Userdata = CandidateInformation::
+            join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->select('candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'endorsements.*')
+            ->paginate(10);
 
         // get required data to use for select purpose
-        // $count = $Userdata->count();
-        $candidates = CandidateInformation::all();
-        $candidateprofile = CandidatePosition::all();
-        $candidateDomain = CandidateDomain::all();
-        $endorsement = Endorsement::all();
+        $count = $Userdata->count();
+        $candidates = CandidateInformation::select('id', 'first_name')->get();
+        $candidateprofile = CandidatePosition::select('candidate_profile')->get();
+        $candidateDomain = CandidateDomain::select('segment')->get();
+        $endorsement = Endorsement::select('app_status', 'career_endo', 'client')->get();
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
         // make array of data to pas to view
         $data = [
             'user' => $user,
             'candidates' => $candidates,
-            // 'count' => $count,
-            // 'Userdata' => $Userdata,
+            'count' => $count,
+            'Userdata' => $Userdata,
             'candidateprofile' => $candidateprofile,
             'candidateDomain' => $candidateDomain,
             'segmentsDropDown' => $segmentsDropDown,
@@ -388,7 +387,7 @@ class RecordController extends Controller
 
     public function updateDetails(Request $request)
     {
-        return $request->id;
+        // return $request->id;
 
         $arrayCheck = [
             // 'LAST_NAME' => 'required',

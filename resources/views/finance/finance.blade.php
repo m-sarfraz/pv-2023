@@ -39,7 +39,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            # of Records Found:
+                                        Number Of Records Found:                                           
                                         </label>
                                         <input type="text" name="REF_CODE" value="{{ $count }}" disabled=""
                                             required="" id="record" class="form-control h-px-20_custom border" />
@@ -70,7 +70,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
                                         <label class="d-block font-size-3 mb-0">
-                                            Canidate
+                                        Candidate List:
                                         </label>
                                         <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
@@ -285,7 +285,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                # of Hires:
+                                            Number of Hires:                                                                             
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                                 id="hires" />
@@ -294,7 +294,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Comp. Revenue:
+                                            Computed Revenue:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                 id="revenue" />
@@ -303,7 +303,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Rev. in Incentive:
+                                            Revenue In Incentive:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
@@ -321,7 +321,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                # of Billed:
+                                            Number Of Billed:                           
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" id="billed"
                                                 placeholder="hires.." />
@@ -346,7 +346,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Current Rcvbls:
+                                            Current Receivables:                    
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
                                                 placeholder="total.." />
@@ -357,7 +357,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                # of Unbilled:
+                                            Number Of Unbilled:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" id="unbilled"
                                                 placeholder="hires.." />
@@ -366,7 +366,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Unbilled Amnt:
+                                            Unbilled Amount:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
@@ -382,7 +382,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Overdue Rcvbles:
+                                            Overdue Receivables:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
                                                 placeholder="total.." />
@@ -393,7 +393,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                # of Fallout:
+                                            Number of Fallout:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" id="fallout"
                                                 placeholder="hires.." />
@@ -402,7 +402,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Fallout Amnt:
+                                            Fallout Amount:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
@@ -410,15 +410,15 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Cnslts Share:
+                                            Consultants Share:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
-                                            <label class="Label">
-                                                Cnstls Take:
+                                            <label class="Label"> 
+                                                Consultants Take:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
                                                 placeholder="total.." />
@@ -448,7 +448,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
-                                                    Crrnt Level:
+                                                Current Level:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -540,7 +540,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Onbrd dat:
+                                                Onboarding Date:
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -548,7 +548,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Trmi date:
+                                                Training date:
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -585,7 +585,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Replmnt For:
+                                                Replacement Date:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -594,7 +594,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Date Delvrd:
+                                                Date Delivered:
                                                 </label>
                                                 <input type="date" class="w-100 users-input-S-C form-control"
                                                     placeholder="Rev.." />
@@ -641,7 +641,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Invc No.
+                                                Invoice Number:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="total.." />
@@ -650,7 +650,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Invc date:
+                                                Invoice Date:
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C"
                                                     placeholder="hires.." />
@@ -661,7 +661,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Special Compstn:
+                                                Special consumption:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." />
@@ -679,7 +679,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Placmnt fee:
+                                                Placement Fee:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                     disabled />
@@ -697,7 +697,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Date Colctd.
+                                                Date Collected:                                   
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -725,7 +725,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Reprcs Share Amt.
+                                                Reprocess Share Amount:                                                                        
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                     disabled />
@@ -771,7 +771,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Ownr Shr Amnt.
+                                                Owner Share Amount:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                     disabled />
@@ -789,7 +789,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    C.Take Amnt.
+                                                C. Take Amount:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C" disabled />
                                             </div>

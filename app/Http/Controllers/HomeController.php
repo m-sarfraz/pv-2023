@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\CandidateInformation;
-use Illuminate\Http\Request;
 use App\Charts\SampleChart;
-use Illuminate\Support\Facades\DB;
-use App\User;
-use Google\Service\AndroidEnterprise\Resource\Users;
-use Auth;
 use App\Cipprogress;
-use App\Endorsement;
-use Spatie\Permission\Models\Role;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

@@ -40,7 +40,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            # of Records Found:
+                                        Number Of Records Found:                                          
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
                                             class="form-control h-px-20_custom border" value="" />
@@ -204,10 +204,7 @@
                                 <th class="ant-table-cell">Endorsement Date</th>
                                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                             </tr>
-                        </thead>
-                        @php
-                            $Userdata = Helper::user_data();
-                        @endphp
+                        </thead> 
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
                                 <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
@@ -278,7 +275,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                * Canidate Name:
+                                                Canidate Name*:
                                             </label>
                                             <input type="text" class="form-control" placeholder="enter first name" />
                                         </div>
@@ -490,7 +487,7 @@
                                                 placeholder="Enter Interview Notes"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
                                                 Certification:

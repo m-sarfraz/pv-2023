@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <a href="{{ route('password.request') }}" class="font-size-3 text-dodger line-height-reset">
-                        Forget Password
+                        Forgot Password
                     </a>
                 </div>
                 <div class="d-flex justify-content-center">
