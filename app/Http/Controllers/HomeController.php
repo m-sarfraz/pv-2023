@@ -47,12 +47,28 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
+        //text butt del
+        $del = new SampleChart();
+        $del->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+        $del->dataset('TAT ', 'bar', $users)->options([
+            // 'fill' => 'false',
+            'borderColor' => 'rgb(64, 135, 242)',
+            'backgroundColor' => 'rgb(64, 135, 242)',
+
+        ]);
+        $del->dataset('Profile', 'bar', [2])->options([
+            // 'fill' => 'false',
+            'borderColor' => 'rgb(253, 152, 0)',
+            'backgroundColor' => 'rgb(253, 152, 0)',
+
+        ]);
+        //close del
         $count_user_pie = new SampleChart();
         $count_user_pie->labels(['First', 'Second', 'Third']);
         $count_user_pie->dataset('my chart', 'pie', [3, 3, 3])->options([
             'fill' => 'true',
-            'borderColor' => 'yellow',
-            'backgroundColor' => 'orange',
+            'borderColor' => ['red','green','yellow'],
+            'backgroundColor' => ['red','green','yellow'],
         ]);
         $Admin_team = Cipprogress::where("team", "Admin")->orderBy('id', 'ASC')->get();
 
@@ -74,38 +90,34 @@ class HomeController extends Controller
             $Quarterly_data_[$i] = Cipprogress::where("team", $check[$i])->whereDate("created_at", ">", $Quarterly)->get();
             $count_final_stage_[$i] = Cipprogress::where("team", $check[$i])->where("final_stage", 1)->get();
             $count_mid_stage_[$i] = Cipprogress::where("team", $check[$i])->where("mid_stage", 1)->get();
-
+            $count_user_pie_[$i] = new SampleChart();
+            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
+            $count_user_pie_[$i]->dataset('my chart', 'pie', [count($weekly_data_[$i]) + count($Mounthly_data_[$i]) + count($Quarterly_data_[$i]), (400000 + 1200000 + 342857)])
+                ->options(
+                    [
+                        'fill' => 'true',
+                        'borderColor' => ['green','yellow'],
+                        'backgroundColor' => ['green',"orange"],
+                    ]
+                );
             $data_loop = [
-                "weekly_data_".$i=>$weekly_data_[$i],
-                "Mounthly_data_".$i=>$Mounthly_data_[$i],
-                "Quarterly_data_".$i=>$Quarterly_data_[$i],
-                "count_final_stage_".$i=>$count_final_stage_[$i],
-                "count_mid_stage_".$i=>$count_mid_stage_[$i],
+                "weekly_data_" . $i => $weekly_data_[$i],
+                "Mounthly_data_" . $i => $Mounthly_data_[$i],
+                "Quarterly_data_" . $i => $Quarterly_data_[$i],
+                "count_final_stage_" . $i => $count_final_stage_[$i],
+                "count_mid_stage_" . $i => $count_mid_stage_[$i],
+                "count_user_pie_" . $i => $count_user_pie_[$i],
             ];
-        
-            array_push($append,$data_loop);
+
+            array_push($append, $data_loop);
         }
-
-
-
-        // //consultant
-        // $consultant_weekly_data = Cipprogress::where("team", "consultant")->whereDate("created_at", ">", $weekly)->get();
-        // $consultant_Mounthly_data = Cipprogress::where("team", "consultant")->whereDate("created_at", ">", $Mounthly)->get();
-        // $consultant_Quarterly_data = Cipprogress::where("team", "consultant")->whereDate("created_at", ">", $Quarterly)->get();
-        // $consultant_count_final_stage = Cipprogress::where("team", "consultant")->where("final_stage", 1)->get();
-        // $consultant_count_mid_stage = Cipprogress::where("team", "consultant")->where("mid_stage", 1)->get();
-        // //Agend
-        // $Agend_weekly_data = Cipprogress::where("team", "Agend")->whereDate("created_at", ">", $weekly)->get();
-        // $Agend_Mounthly_data = Cipprogress::where("team", "Agend")->whereDate("created_at", ">", $Mounthly)->get();
-        // $Agend_Quarterly_data = Cipprogress::where("team", "Agend")->whereDate("created_at", ">", $Quarterly)->get();
-        // $Agend_count_final_stage = Cipprogress::where("team", "Agend")->where("final_stage", 1)->get();
-        // $Agend_count_mid_stage = Cipprogress::where("team", "Agend")->where("mid_stage", 1)->get();
         $data = [
 
             "Admin_team" => $Admin_team,
             "chart" => $chart,
             "count_user_pie" => $count_user_pie,
             "append" => $append,
+            "del"=>$del,
         ];
         return view('home', $data);
     }
