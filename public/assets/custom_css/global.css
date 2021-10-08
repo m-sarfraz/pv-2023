@@ -9,7 +9,7 @@ button {
     cursor: pointer;
 }
 .costumButton {
-    pointer-events: none;
+    /* pointer-events: none; */
     cursor: default;
     background: #dc8627;
     color: #fff;
