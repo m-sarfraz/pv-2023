@@ -323,7 +323,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Carrer Level
+                                                Carrier Level
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
