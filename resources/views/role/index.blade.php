@@ -75,7 +75,6 @@
             "autoWidth": false,
         });
             });
-
     </script>
     <!-- Datatable js end-->
     <!-- ================= -->
