@@ -141,12 +141,16 @@ class UserController extends Controller
             } else {
                 $input = $request->except(['password']);
             }
+            return $request->file;
             $user = User::find($id);
             $user->update($input);
 
             DB::table('model_has_roles')->where('model_id', $id)->delete();
             $user->assignRole($request->input('roles'));
             if ($user) {
+                //save USER addeed log to table starts
+                Helper::save_log('USER_UPDATED');
+                // save USER added to log table ends
                 return response()->json(['success' => true, 'message' => 'User Updated successfully']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while updating User']);

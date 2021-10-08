@@ -28,7 +28,7 @@ Route::get('/clear-all', function () {
 /* ===================*/
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect('login');
 });
 Auth::routes(['register' => false]);
 

@@ -7,7 +7,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">
-                                * Canidate Name:
+                                Canidate Name*:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name = "first_name"
                                 value="{{ $user->first_name }}">
@@ -334,7 +334,7 @@
                                                         $endoType = Helper::get_dropdown('endorsement_type');
                                                     @endphp
                                                     <label class="Label-00">
-                                                        Endrsment Type:
+                                                        Endorsement Type:
                                                     </label>
                                                     <select name="ENDORSEMENT_TYPE" id=""
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">

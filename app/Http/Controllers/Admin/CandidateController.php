@@ -244,14 +244,29 @@ class CandidateController extends Controller
 
 
 
-
+           
             $Cipprogress = new Cipprogress();
+            // find in array 
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
 
-                $Cipprogress->final_stage = "Final Stage";
+                $Cipprogress->final_stage = 1;
+                $Cipprogress->cip = 1;
+                
             }
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
-                $Cipprogress->mid_stage = "Mid Stage";
+                $Cipprogress->mid_stage = 1;
+                $Cipprogress->cip = 1;
+
+            }
+            //check 
+            $word_1 = "Offer";
+            $word_2 = "Onboarded";
+            $mystring=$request->REMARKS_FOR_FINANCE;
+            if(strpos($mystring, $word_1) !== false){
+                $Cipprogress->offered = 1;
+            }
+            if(strpos($mystring, $word_2) !== false){
+                $Cipprogress->onboarded = 1;
             }
             $Cipprogress->candidate_id = $CandidateInformation->id;
             $Cipprogress->team = $userRole[0];

@@ -68,7 +68,7 @@ class ProfileController extends Controller
                 $filepath = "public/" . $userId . "/" . $request->image_type;
                 $path = $request->file('profile')->storeAs($filepath, $file_name);
                 //Storage::put($filepath, $file_name);
-                $userdata['image'] = $filepath . "." . $file_name;
+                $userdata['image'] = $filepath . "/" . $file_name;
             }
             if ($request->password != '') {
                 $userdata['password'] = bcrypt($request->password);
@@ -325,8 +325,8 @@ class ProfileController extends Controller
                     $finance_detail->c_take = isset($render[75]) ? intval($render[75]) : intval(0);
                     $finance_detail->owner_share_per = isset($render[76]) ? intval($render[76]) : intval(0);
                     $finance_detail->owner_share = isset($render[77]) ? intval($render[77]) : intval(0);
-                    $finance_detail->reprocess_share_per     = isset($render[78]) ? intval($render[78]) : intval(0);
-                    $finance_detail->reprocess_share     = isset($render[79]) ? intval($render[79]) : intval(0);
+                    $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
+                    $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                     $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
                     $finance_detail->save();
                     $con++;
@@ -349,13 +349,11 @@ class ProfileController extends Controller
         if ($_FILES["file"]["size"] > 0) {
             $file = fopen($filename, "r");
 
-
-
             if (!$file) {
                 die('Cannot open file for reading');
             }
             $row = 1;
-            while (($render = fgetcsv($file, 1000, ",")) !== FALSE) {
+            while (($render = fgetcsv($file, 1000, ",")) !== false) {
                 $num = count($render);
 
                 $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
@@ -377,10 +375,9 @@ class ProfileController extends Controller
                     // insert record
                     $store_by_Ecxel = new CandidateInformation();
                 }
-                $store_by_Ecxel->first_name =  isset($candidate_name[0]) ? $candidate_name[0] : "";
+                $store_by_Ecxel->first_name = isset($candidate_name[0]) ? $candidate_name[0] : "";
                 $store_by_Ecxel->middle_name = isset($candidate_name[1]) ? $candidate_name[1] : "";
-                $store_by_Ecxel->last_name =  isset($candidate_name[2]) ? $candidate_name[2] : "";
-
+                $store_by_Ecxel->last_name = isset($candidate_name[2]) ? $candidate_name[2] : "";
 
                 $store_by_Ecxel->gender = isset($render[17]) ? $render[17] : "";
                 $store_by_Ecxel->dob = isset($render[18]) ? $render[18] : "";
@@ -516,7 +513,7 @@ class ProfileController extends Controller
                 $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
 
                 $finance->save();
-                //finance detail start 
+                //finance detail start
 
                 $query = DB::table("finance_detail")
                     ->where("candidate_id", $store_by_Ecxel->id)
@@ -557,8 +554,8 @@ class ProfileController extends Controller
                 $finance_detail->c_take = isset($render[75]) ? intval($render[75]) : intval(0);
                 $finance_detail->owner_share_per = isset($render[76]) ? intval($render[76]) : intval(0);
                 $finance_detail->owner_share = isset($render[77]) ? intval($render[77]) : intval(0);
-                $finance_detail->reprocess_share_per     = isset($render[78]) ? intval($render[78]) : intval(0);
-                $finance_detail->reprocess_share     = isset($render[79]) ? intval($render[79]) : intval(0);
+                $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
+                $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                 $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
                 $finance_detail->save();
 
