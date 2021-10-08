@@ -320,7 +320,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Residendce
+                                            Residence
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
