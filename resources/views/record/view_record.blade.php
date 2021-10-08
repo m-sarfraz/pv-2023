@@ -518,7 +518,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">
-                                                                    Endrsment Type:
+                                                                    Endorsement Type:
                                                                 </label>
                                                                 <input type="text" name="REF_CODE"
                                                                     placeholder="search keyword" required=""

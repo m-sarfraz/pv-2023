@@ -16,10 +16,10 @@
                                     /*if($user->image != ""){
                                                                                                                                                                                                                                                                                                                                         $image  =   $user->image;
                                                                                                                                                                                                                                                                                                                                     }else{*/
-                                    $image = 'assets/image/profile/profile.png';
+                                    // $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
-                                    <img style="width: 210px; height: 209px;" src="{{ asset('storage/' . $image) }}"
+                                    <img style="width: 210px; height: 209px;" src="{{ url('storage/'.$user->image) }}"
                                         alt="" />
                                 </li>
                             </ul>
@@ -49,7 +49,7 @@
                                     <label class="Label" style="font-size: 19px;">
                                         Profile Picture
                                     </label>
-                                    <input type="file" class="w-100 border-top-0 border-right-0 border-left-0"
+                                    <input type="file" class="w-100 border-top-0 border-right-0 border-left-0" 
                                         name="profile">
                                     <input type="hidden" name="image_type" value="profile">
                                 </div>
@@ -60,9 +60,9 @@
                                     <input type="password" name="password" placeholder="Enter password"
                                         class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
-                                @can('save-profile')
-                                    <button class="costumButton px-3 py-1">Submit</button>
-                                @endcan
+                                {{-- @can('save-profile') --}}
+                                    <button id="submit" type = "button" class="costumButton px-3 py-1">Submit</button>
+                                {{-- @endcan --}}
                             </form>
                         </div>
                     </div>
@@ -303,9 +303,9 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#profileForm').submit(function() {
+            $('#submit').click(function() {
                 $("#loader").show();
-                var data = new FormData(this);
+                var data = new FormData(document.getElementById('profileForm'));
                 $.ajax({
                     url: "{{ Route('save-profile') }}",
                     data: data,

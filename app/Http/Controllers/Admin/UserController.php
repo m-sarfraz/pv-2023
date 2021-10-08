@@ -141,6 +141,7 @@ class UserController extends Controller
             } else {
                 $input = $request->except(['password']);
             }
+            return $request->file;
             $user = User::find($id);
             $user->update($input);
 

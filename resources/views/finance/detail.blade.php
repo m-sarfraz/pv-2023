@@ -21,7 +21,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">
-                                    Crrnt Level:
+                                    Current Level:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     value="{{ $detail->career_endo }}" />
@@ -120,7 +120,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Onbrd dat:
+                                    Onboarding Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
                                     value="{{ $detail->onboardnig_date }}" name="onboardnig_date" />
@@ -129,7 +129,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Trmi date:
+                                    Training date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C" value="{{$detail->term_date}}" name="term_date" />
                             </div>
@@ -166,7 +166,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Replacement For:
+                                    Replacement Date:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     value="{{ $detail->replacement_for }}" name="replacement_for"/>
@@ -223,7 +223,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Invc No.
+                                    Invoice Number:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     value="{{ $detail->invoice_number }}" name="invoice_number" />
@@ -232,7 +232,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Invc date:
+                                    Invoice Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C" placeholder="hires.."
                                     value="{{ $detail->invoice_date }}" name="invoice_date"/>
@@ -243,7 +243,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Special Compstn:
+                                    Special consumption:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="compensation" oninput="placementFeeCalculator()" name="compensation	" value="{{ $detail->compensation }}" />
@@ -261,7 +261,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Placmnt fee:
+                                    Placement Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.." readonly
                                     value="{{ $detail->placement_fee }}" name="placement_fee" id="placementfee" />
@@ -279,7 +279,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Date Colctd.
+                                    Date Collected: 
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
                                     value="{{ $detail->date_collected }}" name="date_collected" />
@@ -309,7 +309,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Reprcs Share Amt.
+                                    Reprocess Share Amount: 
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="reprocessAmount" readonly />
@@ -357,7 +357,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Ownr Shr Amnt.
+                                    Owner Share Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="ownerAmount" readonly value="{{ $detail->owner_share }}" name="owner_share" />
@@ -375,7 +375,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    C.Take Amnt.
+                                    C. Take Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" readonly id="cTake"
                                     value="{{ $detail->c_take }}" name="c_take"/>
