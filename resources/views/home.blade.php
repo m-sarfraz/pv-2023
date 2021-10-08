@@ -95,7 +95,7 @@
                                     <th>PDM (Less Share) </th>
                                     <th>Company Revenue</th>
                                     <th>Targest vs Revenue %</th>
-                                    <th># of Ongoing (CIP)</th>
+                                    <th>No of Ongoing (CIP)</th>
                                     <th>Total Ongoing (CIP)</th>
                                 </tr>
                             </thead>

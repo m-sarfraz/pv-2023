@@ -212,11 +212,11 @@
                                 <th class="ant-table-cell">Client</th>
                                 <th class="ant-table-cell">Segment</th>
                                 <th class="ant-table-cell">S segment</th>
-                                <th class="ant-table-cell">carrer Level</th>
-                                <th class="ant-table-cell">Position title</th>
+                                <th class="ant-table-cell">Career Level</th>
+                                <th class="ant-table-cell">Position Title</th>
                                 <th class="ant-table-cell">Budget</th>
                                 <th class="ant-table-cell">Location</th>
-                                <th class="ant-table-cell">Work shed</th>
+                                <th class="ant-table-cell">Work Sched</th>
                                 <th class="ant-table-cell">Priorty</th>
                                 <th class="ant-table-cell">Status</th>
                                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
@@ -282,7 +282,7 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
-                                            <label class="Label"># of Endo:</label>
+                                            <label class="Label">No of Endo:</label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
                                     </div>
@@ -323,7 +323,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Carrier Level
+                                                Career Level
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
