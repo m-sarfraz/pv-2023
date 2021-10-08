@@ -5,12 +5,12 @@
     <section class="px-3">
         <div class="row m-0 pt-3">
             <div class="col-lg-3">
-                <p class=" text-danger" style="font-weight: bold;">Dated:{{$Quarterly}}</p>
+                <span class="text-danger"> Select Date :</span> <input type="date" name="filterdate" id="filterdate" onchange="filterdate()" />
+
             </div>
             <div class="col-lg-9">
                 <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Target vs Actual
-                    Revenue(under Quarter
-                    1)-2021</p>
+                    Revenue(under <Span id="Quartile"></Span>)<span id="year"></span></p>
             </div>
         </div>
 
@@ -100,24 +100,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                $index=4;
-                                @endphp
-                                @foreach ($data as $render_first_table)
-                                    <tr>
-                                        <td>{{ $render_first_table->name }}</td>
-                                        <td>2,000,000</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
+                            
+                                
+                               
+                                @for ($i=0 ; $i<count($data);$i++)
+                                    
+                                <tr>
+                                    <td><?php echo $data[$i]->name ?></td>
+                                    <td>2,000,000</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td><?php
+                                         if(isset($revenue[$i]->t_id)==$data[$i]->id)
+                                         {
+                                             echo $revenue[$i]->Sume;
+                                            }else{
+                                                echo "0";
+                                            }
+                                            ?></td>
                                         <td>0</td>
                                         <td>0 </td>
-                                        <td>{{$index}}</td>
                                     </tr>
-@php
-$index--;
-@endphp
-                                @endforeach
+                                    
+                                    @endfor
+                             
                             </tbody>
                         </table>
                     </div>
@@ -135,7 +142,7 @@ $index--;
                 </div>
             </div>
         </div>
-        
+
 
         @for ($i = 0; $i < count($data); $i++)
             @php $index_weekly_data__check="weekly_data_".$i @endphp
@@ -239,24 +246,24 @@ $index--;
 
 
     <!-- <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <div class="card">
-                                            <div class="card-header">Dashboard</div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8">
+                                                <div class="card">
+                                                    <div class="card-header">Dashboard</div>
 
-                                            <div class="card-body">
-                                                @if (session('status'))
-                                                    <div class="alert alert-success" role="alert">
-                                                        {{ session('status') }}
+                                                    <div class="card-body">
+                                                        @if (session('status'))
+                                                            <div class="alert alert-success" role="alert">
+                                                                {{ session('status') }}
+                                                            </div>
+                                                        @endif
+
+                                                        You are logged in!
                                                     </div>
-                                                @endif
-
-                                                You are logged in!
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                                    </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->
@@ -264,5 +271,26 @@ $index--;
     {!! $chart->script() !!}
     {!! $count_user_pie->script() !!}
     {!! $del->script() !!}
+    <script>
+        function filterdate() {
+            // call ajax with data to controller 
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('filter-dashboard-by-date') }}',
+                data: {
+                    _token: token,
+                    date: $("#filterdate").val()
+                },
+                // Ajax success function
+                success: function(res) {
+                    $("#Quartile").html(res.data.Quartile);
+                    $("#year").html(res.data.Year);
+                  
+                    
 
+                }
+
+            });
+        }
+    </script>
 @endsection

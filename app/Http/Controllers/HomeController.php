@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\CandidateInformation;
 use App\Charts\SampleChart;
 use App\Cipprogress;
+use App\Finance_detail;
 use App\User;
 use App\Role;
 use App\SpatieRole;
+use Auth;
 use Google\Service\Directory\Resource\Roles;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /**
+    /** 
      * Create a new controller instance.
      *
      * @return void
@@ -67,15 +71,15 @@ class HomeController extends Controller
         $count_user_pie->labels(['First', 'Second', 'Third']);
         $count_user_pie->dataset('my chart', 'pie', [3, 3, 3])->options([
             'fill' => 'true',
-            'borderColor' => ['red','green','yellow'],
-            'backgroundColor' => ['red','green','yellow'],
+            'borderColor' => ['red', 'green', 'yellow'],
+            'backgroundColor' => ['red', 'green', 'yellow'],
         ]);
         $Admin_team = Cipprogress::where("team", "Admin")->orderBy('id', 'ASC')->get();
 
         $Current_date = date('Y-m-d');
         $weekly = date('Y-m-d', strtotime($Current_date . ' - 7 days'));
-        $Quarterly = date('Y-m-d', strtotime($Current_date . ' - 3 months'));
         $Mounthly = date('Y-m-d', strtotime($Current_date . ' - 1 months'));
+        $Quarterly = date('Y-m-d', strtotime($Current_date . ' - 3 months'));
         $data = DB::table('roles')->get();
         $check = [];
         $append = [];
@@ -98,8 +102,8 @@ class HomeController extends Controller
                 ->options(
                     [
                         'fill' => 'true',
-                        'borderColor' => ['green','yellow'],
-                        'backgroundColor' => ['green',"orange"],
+                        'borderColor' => ['green', 'yellow'],
+                        'backgroundColor' => ['green', "orange"],
                     ]
                 );
             $data_loop = [
@@ -109,21 +113,60 @@ class HomeController extends Controller
                 "count_final_stage_" . $i => $count_final_stage_[$i],
                 "count_mid_stage_" . $i => $count_mid_stage_[$i],
                 "count_user_pie_" . $i => $count_user_pie_[$i],
-                "count_onboarded_".$i=> $count_onboarded_[$i],
-                "count_offere_".$i=> $count_offere_[$i],
+                "count_onboarded_" . $i => $count_onboarded_[$i],
+                "count_offere_" . $i => $count_offere_[$i],
             ];
 
             array_push($append, $data_loop);
         }
+        $revenue = DB::select('select `finance_detail`.`t_id` ,sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail` inner join `cip_progress` on `cip_progress`.`id` = `finance_detail`.`t_id` group by `finance_detail`.`t_id`');
+        
         $data = [
 
             "Admin_team" => $Admin_team,
             "chart" => $chart,
             "count_user_pie" => $count_user_pie,
             "append" => $append,
-            "del"=>$del,
-            "Quarterly"=>$Quarterly,
+            "del" => $del,
+            "Quarterly" => $Quarterly,
+            "revenue" => $revenue,
         ];
         return view('home', $data);
+    }
+    public function filterByDate(Request $request)
+    {
+        // make quarter 
+        $data = explode("-", $request->date);
+        if (($data[1] >= "01") && ($data[1] <= "03")) {
+            // Quartile 1
+            $Quartile = "Quartile 1";
+        }
+        if (($data[1] >= "04") && ($data[1] <= "06")) {
+            // Quartile 1
+            $Quartile = "Quartile 2";
+        }
+        if (($data[1] >= "07") && ($data[1] <= "09")) {
+            // Quartile 1
+            $Quartile = "Quartile 3";
+        }
+        if (($data[1] >= "10") && ($data[1] <= "12")) {
+            // Quartile 1
+            $Quartile = "Quartile 4";
+        }
+
+        $Current_date = $request->date;
+        // $weekly = date('Y-m-d', strtotime($Current_date . ' - 7 days'));
+        // $Mounthly = date('Y-m-d', strtotime($Current_date . ' - 1 months'));
+        // $Quarterly = date('Y-m-d', strtotime($Current_date . ' - 3 months'));
+        //start team revenue 
+
+
+
+        $data = [
+            "Quartile" => $Quartile,
+            "Year" => $data[0],
+
+        ];
+        return response()->json(["data" => $data]);
     }
 }

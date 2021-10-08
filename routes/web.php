@@ -13,6 +13,9 @@
 
 /* =================== */
 /* Route for clear cache */
+
+use App\Http\Controllers\HomeController;
+
 Route::get('/clear-all', function () {
     Artisan::call('view:clear');
     Artisan::call('route:clear');
@@ -124,3 +127,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/testsheet', 'HomeController@testsheet');
+//filter-dashboard-by-date
+Route::post("filter-dashboard-by-date", "HomeController@filterByDate");

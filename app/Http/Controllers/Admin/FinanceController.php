@@ -9,6 +9,7 @@ use App\User;
 use Carbon;
 use DB;
 use Helper;
+use Auth;
 use Illuminate\Http\Request;
 
 class FinanceController extends Controller
@@ -135,6 +136,10 @@ class FinanceController extends Controller
 
     public function SavefinanceReference(Request $request)
     {
+        $id=Auth::user()->id;
+        $user = User::find($id);
+        $userRole = $user->roles->pluck('id')->all();
+        $t_id=$userRole;
  
         $data = [
             "ob_date" => $request->onboardnig_date,
@@ -166,6 +171,7 @@ class FinanceController extends Controller
             "c_take" => $request->c_take,
             "adjustment" => $request->adjustment,
             "ind_revenue" => $request->ind_revenue,
+            "t_id" => $t_id,
         ];
         Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
         Helper::save_log('Finance_Reference_updated');
