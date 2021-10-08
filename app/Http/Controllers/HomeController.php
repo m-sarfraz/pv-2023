@@ -90,9 +90,11 @@ class HomeController extends Controller
             $Quarterly_data_[$i] = Cipprogress::where("team", $check[$i])->whereDate("created_at", ">", $Quarterly)->get();
             $count_final_stage_[$i] = Cipprogress::where("team", $check[$i])->where("final_stage", 1)->get();
             $count_mid_stage_[$i] = Cipprogress::where("team", $check[$i])->where("mid_stage", 1)->get();
+            $count_onboarded_[$i] = Cipprogress::where("team", $check[$i])->where("onboarded", 1)->get();
+            $count_offere_[$i] = Cipprogress::where("team", $check[$i])->where("offered", 1)->get();
             $count_user_pie_[$i] = new SampleChart();
             $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
-            $count_user_pie_[$i]->dataset('my chart', 'pie', [count($weekly_data_[$i]) + count($Mounthly_data_[$i]) + count($Quarterly_data_[$i]), (400000 + 1200000 + 342857)])
+            $count_user_pie_[$i]->dataset('my chart', 'pie', [count($Quarterly_data_[$i]), (400000)])
                 ->options(
                     [
                         'fill' => 'true',
@@ -107,6 +109,8 @@ class HomeController extends Controller
                 "count_final_stage_" . $i => $count_final_stage_[$i],
                 "count_mid_stage_" . $i => $count_mid_stage_[$i],
                 "count_user_pie_" . $i => $count_user_pie_[$i],
+                "count_onboarded_".$i=> $count_onboarded_[$i],
+                "count_offere_".$i=> $count_offere_[$i],
             ];
 
             array_push($append, $data_loop);
@@ -118,6 +122,7 @@ class HomeController extends Controller
             "count_user_pie" => $count_user_pie,
             "append" => $append,
             "del"=>$del,
+            "Quarterly"=>$Quarterly,
         ];
         return view('home', $data);
     }
