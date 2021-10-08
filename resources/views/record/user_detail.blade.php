@@ -19,7 +19,7 @@
                                 $gender = Helper::get_dropdown('gender');
                             @endphp
                             <label class="Label">Gender:</label>
-                            <select class="w-100" name  ="gender">
+                            <select class="w-100 form-control" name  ="gender">
                                 <option value="" selected disabled>select option</option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
@@ -327,7 +327,7 @@
                             <div class="card mb-13">
                                 <div class="card-body">
                                     <form action="">
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
@@ -390,13 +390,12 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
-                                                    <label class="Label-00">
+                                                    <label class="Label-00 ">
                                                         Remarks (for Finance)
                                                     </label>
                                                     <select name="REMARKS_FOR_FINANCE" disabled=""
                                                         id="remarks_for_finance" onchange="RemarksChange(this)"
-                                                        class="select2_dropdown  w-100"
-                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                        class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
                                                         @endphp
@@ -461,12 +460,11 @@
                                                     @php
                                                         $position_title = Helper::get_dropdown('position_title');
                                                     @endphp
-                                                    <label class="Label-00">
+                                                    <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
                                                     <select name="POSITION_TITLE" disabled="" id="position"
-                                                        class="select2_dropdown  w-100"
-                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                        class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
                                                             <option value="{{ $position_titleOptions->option_name }}"
@@ -529,7 +527,7 @@
                                                     <label class="Label-00">
                                                         Segment:
                                                     </label>
-                                                    <select name="endo_segment" id="Domainsegment" class="w-100" onchange="changeSegment(this)">
+                                                    <select name="endo_segment" id="Domainsegment" class="w-100 form-control" onchange="changeSegment(this)">
                                                         <option value="" disabled selected>Select Option</option>
 
                                                     </select>
@@ -539,7 +537,7 @@
                                                 @php
                                                     $remarks = Helper::get_dropdown('remarks_from_finance');
                                                 @endphp
-                                                <div class="form-group mb-0">
+                                                <div class=" mb-0">
                                                     <label class="Label">Remarks (From
                                                         Recruiter):</label>
                                                     <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
@@ -558,10 +556,10 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
-                                                    <label class="Label-00">
+                                                    <label class="Label-00 ">
                                                         sub-segment:
                                                     </label>
-                                                    <select name="endo_sub_segment" id="endo_sub_segment" class="w-100">
+                                                    <select name="endo_sub_segment " id="endo_sub_segment " class="w-100  form-control">
                                                         <option value="" disabled selected>Select Option</option>
 
                                                     </select>

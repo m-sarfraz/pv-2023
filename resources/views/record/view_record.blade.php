@@ -275,7 +275,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Canidate Name:*
+                                                Candidate Name:*
                                             </label>
                                             <input type="text" class="form-control" placeholder="enter first name" />
                                         </div>
@@ -320,7 +320,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Residendce
+                                            Residence
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
@@ -514,7 +514,7 @@
                                         <div class="card mb-13">
                                             <div class="card-body">
                                                 <form action="">
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <div class="col-lg-6">
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">

@@ -60,7 +60,6 @@
                                         <label class="Label">Recruiter</label>
                                         <select multiple name="" id="recruiter" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="" disabled selected>Select Option</option>
                                             @foreach ($user as $key => $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
@@ -74,7 +73,6 @@
                                         </label>
                                         <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="" disabled selected>Select Option</option>
                                             @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
                                                     {{ $candidate->first_name }}{{ $candidate->last_name }}</option>
@@ -311,7 +309,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Total Recievables:
+                                                Total Receivables:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="total.." />
                                         </div>

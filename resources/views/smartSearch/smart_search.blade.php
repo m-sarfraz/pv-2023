@@ -328,7 +328,7 @@
                         <form action="">
                             <fieldset>
                                 <div class="row mb-1">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Average Salary:
@@ -337,7 +337,7 @@
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Total Endorsement:                         
@@ -347,7 +347,7 @@
                                                 placeholder="Rev.." id="endo" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                                 Total SPR:
@@ -356,7 +356,7 @@
                                                 placeholder="Rev.." id="spr" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Accepted:                      
@@ -365,9 +365,9 @@
                                                 placeholder="total.." />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-3">
+                             
+                                <!-- <div class="row mb-1"> -->
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Shifted:                             
@@ -376,7 +376,7 @@
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                                 Initial Stage.
@@ -385,7 +385,7 @@
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                                 Active SPR:
@@ -394,7 +394,7 @@
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Failed: 
@@ -403,9 +403,9 @@
                                                 placeholder="total.." />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-3">
+                                <!-- </div> -->
+                                <!-- <div class="row mb-1"> -->
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Active File:      
@@ -415,7 +415,7 @@
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                                 Mid Stage:
@@ -424,7 +424,7 @@
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of hires:
@@ -433,7 +433,7 @@
                                                 placeholder="Rev.." id="onBoarded" />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Withdrew:     
@@ -442,17 +442,17 @@
                                                 placeholder="total.." />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-3">
+                                <!-- </div> -->
+                                <!-- <div class="row mb-1"> -->
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                <!-- # of Fallout: -->
+                                                No of Fallout:
                                             </label>
-                                            <!-- <input readonly type="text" class="form-control users-input-S-C" placeholder="hires.." /> -->
+                                            <input readonly type="text" class="form-control users-input-S-C" placeholder="hires.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                                 Final Stage:
@@ -461,7 +461,7 @@
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Total of Revenue.    
@@ -470,7 +470,7 @@
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
                                             Number of Rejected:
@@ -479,7 +479,8 @@
                                                 placeholder="total.." />
                                         </div>
                                     </div>
-                                </div>
+                                    </div>
+                                <!-- </div> -->
                             </fieldset>
                         </form>
                     </div>

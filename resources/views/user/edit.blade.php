@@ -25,7 +25,7 @@
                                         <div class="form-group">
                                             <label for="aboutTextarea"
                                                 class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                Name
+                                                Name:
                                             </label>
                                             <input type="text" value="{{ $user->name }}" name="name"
                                                 placeholder="Enter Name" class="form-control h-px-48" />
@@ -35,7 +35,7 @@
                                         <div class="form-group">
                                             <label for="aboutTextarea"
                                                 class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                E-mail
+                                                E-mail:
                                             </label>
                                             <input type="email" value="{{ $user->email }}" name="email"
                                                 placeholder="Enter email" class="form-control h-px-48" />
@@ -47,7 +47,7 @@
                                         <div class="form-group">
                                             <label for="aboutTextarea"
                                                 class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                Contact #
+                                                Contact #:
                                             </label>
                                             <input type="number" value="{{ $user->phone }}" name="phone"
                                                 placeholder="Enter number" class="form-control h-px-48" />
@@ -77,7 +77,7 @@
                                         <div class="form-group">
                                             <label for="aboutTextarea"
                                                 class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                Role
+                                                Select Team:
                                             </label>
                                             <select name="roles[]" required=""
                                                 class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">

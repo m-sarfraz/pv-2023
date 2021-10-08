@@ -75,7 +75,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
-                                                    <i class="fa fa-envelope-square"></i>
+                                                    <i class="bi bi-envelope"></i>
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control EmailInput-F" name="EMAIL_ADDRESS"
@@ -92,7 +92,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
-                                                    <i class="fa fa-phone"></i>
+                                                    <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
                                             <input type="number" class="form-control EmailInput-F"
@@ -833,7 +833,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            Total Bilable Ammount
+                                            Total Bilable Amount
                                         </label>
                                         <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
                                             value="{{ $user->Total_bilable_ammount }}" oninput="amountFinder(this)"
@@ -926,3 +926,11 @@
         <!-- ================== -->
     </fieldset>
 </div>
+<script>
+    $('#saveRecord').prop("disabled", true)
+    $('#save').prop("disabled", true)
+    // enable save record on input change button 
+    $("form :input").on('input', function() {
+    $('#saveRecord').prop("disabled", false)
+    });
+</script>
