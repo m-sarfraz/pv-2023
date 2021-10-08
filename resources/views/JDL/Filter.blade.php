@@ -75,7 +75,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                    Carrer Level
+                                Career Level
                                 </label>
                                 <input type="text" class="form-control users-input-S-C"
                                     value="{{ $user->career_endo }}" />

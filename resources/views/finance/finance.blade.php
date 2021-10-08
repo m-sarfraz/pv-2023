@@ -309,7 +309,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Total Recievables:
+                                                Total Receivables:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="total.." />
                                         </div>

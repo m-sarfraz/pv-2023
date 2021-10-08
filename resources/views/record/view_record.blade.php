@@ -275,7 +275,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Canidate Name:*
+                                                Candidate Name:*
                                             </label>
                                             <input type="text" class="form-control" placeholder="enter first name" />
                                         </div>
