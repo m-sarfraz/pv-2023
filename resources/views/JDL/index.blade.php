@@ -42,7 +42,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            # of Records Found:
+
+                                        Number Of Records Found:
                                         </label>
                                         <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
                                             class="form-control h-px-20_custom border" />
