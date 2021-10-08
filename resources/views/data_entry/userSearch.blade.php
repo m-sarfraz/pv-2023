@@ -75,7 +75,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
-                                                    <i class="fa fa-envelope-square"></i>
+                                                    <i class="bi bi-envelope"></i>
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control EmailInput-F" name="EMAIL_ADDRESS"
@@ -92,7 +92,7 @@
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
-                                                    <i class="fa fa-phone"></i>
+                                                    <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
                                             <input type="number" class="form-control EmailInput-F"
@@ -926,3 +926,11 @@
         <!-- ================== -->
     </fieldset>
 </div>
+<script>
+    $('#saveRecord').prop("disabled", true)
+    $('#save').prop("disabled", true)
+    // enable save record on input change button 
+    $("form :input").on('input', function() {
+    $('#saveRecord').prop("disabled", false)
+    });
+</script>

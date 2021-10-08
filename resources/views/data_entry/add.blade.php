@@ -1062,6 +1062,8 @@
     <script>
         // Seciton loads on document ready starts
         $(document).ready(function() {
+            // disable save button
+            $('#save').prop('disabled', true);
             // show and hide loader after time set starts
             $('#loader').show();
             setTimeout(function() {
@@ -1073,7 +1075,10 @@
 
         //empty and disable required fields
         // $('#segment').empty();
-
+        // enable save record on input change button 
+        $("form :input").on('input', function() {
+        $('#save').prop('disabled', false)
+        });
         // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
         // $('#new').prop("disabled", true);
@@ -1190,7 +1195,8 @@
             for (let i = 0; i < segmentsDropDown.length; i++) {
                 if ($(elem).val() == segmentsDropDown[i].domain_id) {
                     count++;
-                    $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                    $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[
+                            i]
                         .segment_name +
                         '</option>');
 
@@ -1214,10 +1220,12 @@
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
                 if ($('#Domainsegment').val() == sub_segmentsDropDown[i].segment_id) {
                     count++;
-                    $('#Domainsub').append('<option value="' + sub_segmentsDropDown[i].id + '">' + sub_segmentsDropDown[i]
+                    $('#Domainsub').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
                         .sub_segment_name +
                         '</option>');
-                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' + sub_segmentsDropDown[i]
+                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
                         .sub_segment_name +
                         '</option>');
                 }
