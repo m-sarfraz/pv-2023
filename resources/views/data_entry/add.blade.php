@@ -948,7 +948,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
-                                                                Total Bilable Ammount
+                                                                Total Bilable Amount
                                                             </label>
                                                             <input type="number" name="TOTAL_BILLABLE_AMOUNT"
                                                                 id="bilable_amount" oninput="amountFinder(this)"

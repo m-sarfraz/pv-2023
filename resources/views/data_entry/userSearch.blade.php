@@ -833,7 +833,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                            Total Bilable Ammount
+                                            Total Bilable Amount
                                         </label>
                                         <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
                                             value="{{ $user->Total_bilable_ammount }}" oninput="amountFinder(this)"
