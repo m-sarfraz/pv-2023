@@ -514,7 +514,7 @@
                                         <div class="card mb-13">
                                             <div class="card-body">
                                                 <form action="">
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <div class="col-lg-6">
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">
