@@ -609,6 +609,7 @@ body::-webkit-scrollbar-thumb {
 .btn-00 {
     color: white;
     background-color: #dc8627;
+    border-radius: 3px;
 }
 
 .BTN_GROUP {
