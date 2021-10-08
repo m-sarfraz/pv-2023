@@ -5,7 +5,7 @@
     <section class="px-3">
         <div class="row m-0 pt-3">
             <div class="col-lg-3">
-                <p class=" text-danger" style="font-weight: bold;">Dated:2-11-2021</p>
+                <p class=" text-danger" style="font-weight: bold;">Dated:{{$Quarterly}}</p>
             </div>
             <div class="col-lg-9">
                 <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Target vs Actual
@@ -144,6 +144,8 @@ $index--;
             @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
             @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
             @php $index_user_pie__check="count_user_pie_".$i @endphp
+            @php $index_count_onboarded__check="count_onboarded_".$i @endphp
+            @php $index_count_offere__check="count_offere_".$i @endphp
 
 
 
@@ -210,12 +212,12 @@ $index--;
                                     </tr>
                                     <tr>
                                         <td>Offer Stage</td>
-                                        <td>2,000,000</td>
+                                        <td>@php echo isset($append[$i][$index_count_offere__check])?count($append[$i][$index_count_offere__check]):""; @endphp</td>
                                         <td>1,573,665.00</td>
                                     </tr>
                                     <tr>
                                         <td>Onboarded</td>
-                                        <td>2,000,000</td>
+                                        <td>@php echo isset($append[$i][$index_count_onboarded__check])?count($append[$i][$index_count_onboarded__check]):""; @endphp</td>
                                         <td>1,573,665.00</td>
                                     </tr>
                                 </tbody>
