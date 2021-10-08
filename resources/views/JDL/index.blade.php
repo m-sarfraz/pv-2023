@@ -282,7 +282,7 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
-                                            <label class="Label"># of Endo:</label>
+                                            <label class="Label">No of Endo:</label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
                                     </div>
