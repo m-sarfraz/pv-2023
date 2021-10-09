@@ -13,6 +13,7 @@ use App\Finance;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
+use App\User;
 use Auth;
 use File;
 use Helper;
@@ -20,8 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Response;
-use App\User;
-use Spatie\Permission\Models\Role;
+use Str;
 
 class CandidateController extends Controller
 {
@@ -40,7 +40,8 @@ class CandidateController extends Controller
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
         } # code...
-
+        $role = Auth::user()->roles->first();
+        $role_id = $role->id;
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
@@ -48,6 +49,7 @@ class CandidateController extends Controller
         // return $sub_segmentsDropDown;
         $data = [
             'user' => $user,
+            'role_id' => $role_id,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,
@@ -61,33 +63,71 @@ class CandidateController extends Controller
     public function save_data_entry(Request $request)
     {
 
-        $recruiter = Auth::user()->id;
-        $arrayCheck = [
-            "DOMAIN" => 'required ',
-            'LAST_NAME' => 'required',
-            "FIRST_NAME" => "required",
-            "EMAIL_ADDRESS" => "required|email",
-            "CONTACT_NUMBER" => "required",
-            "GENDER" => "required",
-            "RESIDENCE" => 'required ',
-            "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // "COURSE" => 'required ',
-            "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
-            "DATE_SIFTED" => 'required ',
-            // "SEGMENT" => 'required ',
-            // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            "POSITION_TITLE_APPLIED" => 'required ',
-            // "DATE_INVITED" => 'required ',
-            "MANNER_OF_INVITE" => 'required ',
-            "CURRENT_SALARY" => 'required ',
-            // "file" => 'required ',
-            // "CURRENT_ALLOWANCE" => 'required ',
-            // "EXPECTED_SALARY" => 'required ',
-            // "OFFERED_SALARY" => 'required ',
-            // "OFFERED_ALLOWANCE" => 'required ',
-        ];
+        $recruiter = Auth::user()->roles->first();
+        // return $recruiter->id;
+        if ($recruiter->id == 1) {
+            // return 'hi';
+
+            $arrayCheck = [
+                "DOMAIN" => 'required ',
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                "CERTIFICATIONS" => "required",
+                "RESIDENCE" => 'required ',
+                // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                // // "COURSE" => 'required ',
+                "CANDIDATES_PROFILE" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
+                // "DATE_SIFTED" => 'required ',
+                "SEGMENT" => 'required ',
+                "SUB_SEGMENT" => 'required ',
+                "EMPLOYMENT_HISTORY" => 'required ',
+                // "POSITION_TITLE_APPLIED" => 'required ',
+                // // "DATE_INVITED" => 'required ',
+                // "MANNER_OF_INVITE" => 'required ',
+                "CURRENT_SALARY" => 'required ',
+                // "file" => 'required ',
+                // "CURRENT_ALLOWANCE" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
+                // "OFFERED_SALARY" => 'required ',
+                // "OFFERED_ALLOWANCE" => 'required ',
+            ];
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+            }
+        } else {
+            $arrayCheck = [
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                // "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                "RESIDENCE" => 'required ',
+                "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                "DOMAIN" => 'required ',
+                "SEGMENT" => 'required ',
+                "SUB_SEGMENT" => 'required ',
+                // // "COURSE" => 'required ',
+                "CANDIDATES_PROFILE" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
+                // "DATE_SIFTED" => 'required ',
+                "EMPLOYMENT_HISTORY" => 'required ',
+                "POSITION_TITLE_APPLIED" => 'required ',
+                // // "DATE_INVITED" => 'required ',
+                "MANNER_OF_INVITE" => 'required ',
+                "CURRENT_SALARY" => 'required ',
+                // "file" => 'required ',
+                // "CURRENT_ALLOWANCE" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
+                // "OFFERED_SALARY" => 'required ',
+                // "OFFERED_ALLOWANCE" => 'required ',
+            ];
+
+        }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
@@ -236,36 +276,33 @@ class CandidateController extends Controller
                     19 => "Position On Hold (Mid Stage)",
                     20 => "Scheduled for Behavioral Interview",
                     21 => "Scheduled for Skills/Technical Interview",
-                ]
+                ],
             ];
 
             $user = User::find($recruiter);
             $userRole = $user->roles->pluck('name')->all();
 
-
-
-           
             $Cipprogress = new Cipprogress();
-            // find in array 
+            // find in array
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
 
                 $Cipprogress->final_stage = 1;
                 $Cipprogress->cip = 1;
-                
+
             }
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
                 $Cipprogress->mid_stage = 1;
                 $Cipprogress->cip = 1;
 
             }
-            //check 
+            //check
             $word_1 = "Offer";
             $word_2 = "Onboarded";
-            $mystring=$request->REMARKS_FOR_FINANCE;
-            if(strpos($mystring, $word_1) !== false){
+            $mystring = $request->REMARKS_FOR_FINANCE;
+            if (strpos($mystring, $word_1) !== false) {
                 $Cipprogress->offered = 1;
             }
-            if(strpos($mystring, $word_2) !== false){
+            if (strpos($mystring, $word_2) !== false) {
                 $Cipprogress->onboarded = 1;
             }
             $Cipprogress->candidate_id = $CandidateInformation->id;

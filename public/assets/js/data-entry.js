@@ -21,72 +21,87 @@ function newRecord(elem) {
 
 
 
-// Change course according to the selected education attainment 
-function EducationalAttainChange() {
 
-    // enable and disable course fields on selected educational attainment
-    var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-    if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
-
-        // if selected text is gradute disable course field for user
-        $('#COURSE').prop("disabled", true);
-    } else {
-        //enable course field
-        $('#COURSE').prop("disabled", false);
-
-    }
-}
-
-//  On application status changed function starts 
 function ApplicationStatusChange(elem) {
 
     // if current and exepcted salary is empty notify user
     var value = $(elem).find(":selected").text().trim();
 
     // check for selected application status value
-    if (value.includes('To')) {
-        // if ($('#current_salary').val() == "" || $('#expec_salary').val() == "") {
+    if (value.includes('To') || value.includes('Active')) {
+        if ($('#domain').is(':disabled')) {
+            $('#domain').prop('disabled', false)
+            $('#Domainsegment').prop('disabled', false)
+            $('#Domainsub').prop('disabled', false)
+            $('#candidate_profile').prop('disabled', false)
+        } 
+        if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
-        //     // Show notification message if fields are empty in candidate position fields
-        //     swal({
-        //         icon: "warning",
-        //         text: " Dont forget to write Current Salary and Expected Salray ",
-        //         icon: "warning",
-        //     });
-        // }
+            // Show notification message if fields are empty in candidate position fields
+            swal({
+                icon: "warning",
+                text: " Rememer to provide Current Salary/Expected Salray and Interview Notes ",
+                icon: "warning",
+            });
+        }
+        if (value.includes('To')) {
+            // disable and enable input fields for user data in endorsement section
+            $('#remarks').prop("disabled", false);
+            $('#status').prop("disabled", false);
+            $('#site').prop("disabled", false);
+            $('#client').prop("disabled", false);
+            $('#position').prop("disabled", false);
+            $('#domain_endo').prop("disabled", false);
+            $('#career').prop("disabled", false);
+            $('#segment').prop("disabled", false);
+            $('#sub_segment').prop("disabled", false);
+            $('#endo_date').prop("disabled", false);
+            $('#remarks_for_finance').prop("disabled", false);
+            $('#expec_salary').prop("disabled", false);
 
-        // disable and enable input fields for user data in endorsement section
-        $('#remarks').prop("disabled", false);
-        $('#status').prop("disabled", false);
-        $('#site').prop("disabled", false);
-        $('#client').prop("disabled", false);
-        $('#position').prop("disabled", false);
-        $('#domain_endo').prop("disabled", false);
-        $('#career').prop("disabled", false);
-        $('#segment').prop("disabled", false);
-        $('#sub_segment').prop("disabled", false);
-        $('#endo_date').prop("disabled", false);
-        $('#remarks_for_finance').prop("disabled", false);
-        $('#expec_salary').prop("disabled", false);
+        } else {
 
-    } else {
+            //else disalbe the input fields of endorsement section 
+            $('#remarks').prop("disabled", true);
+            $('#status').prop("disabled", true);
+            $('#site').prop("disabled", true);
+            $('#client').prop("disabled", true);
+            $('#position').prop("disabled", true);
+            $('#domain_endo').prop("disabled", true);
+            $('#career').prop("disabled", true);
+            $('#segment').prop("disabled", true);
+            $('#sub_segment').prop("disabled", true);
+            $('#endo_date').prop("disabled", true);
+            $('#expec_salary').prop("disabled", true);
+            $('#remarks_for_finance').prop("disabled", true);
+        }
 
-        //else disalbe the input fields of endorsement section 
-        $('#remarks').prop("disabled", true);
-        $('#status').prop("disabled", true);
-        $('#site').prop("disabled", true);
-        $('#client').prop("disabled", true);
-        $('#position').prop("disabled", true);
-        $('#domain_endo').prop("disabled", true);
-        $('#career').prop("disabled", true);
-        $('#segment').prop("disabled", true);
-        $('#sub_segment').prop("disabled", true);
-        $('#endo_date').prop("disabled", true);
-        $('#expec_salary').prop("disabled", true);
-        $('#remarks_for_finance').prop("disabled", true);
+
+    }
+    else {
+        
+        //else disable domain segment and and candidate profile
+        $('#domain').prop('disabled', true)
+        $('#Domainsegment').prop('disabled', true)
+        $('#Domainsub').prop('disabled', true)
+        $('#candidate_profile').prop('disabled', true)
+         //else disalbe the input fields of endorsement section 
+         $('#remarks').prop("disabled", true);
+         $('#status').prop("disabled", true);
+         $('#site').prop("disabled", true);
+         $('#client').prop("disabled", true);
+         $('#position').prop("disabled", true);
+         $('#domain_endo').prop("disabled", true);
+         $('#career').prop("disabled", true);
+         $('#segment').prop("disabled", true);
+         $('#sub_segment').prop("disabled", true);
+         $('#endo_date').prop("disabled", true);
+        //  $('#expec_salary').prop("disabled", true);
+         $('#remarks_for_finance').prop("disabled", true);
     }
 
 }
+
 //  On application status changed function ends
 
 // on remarks for finance change shwo user input fields if choice is according starts
@@ -124,7 +139,7 @@ function RemarksChange(elem) {
 
         // $('#off_allowance').prop("disabled", true);
     }
-    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Scheduled')  || value.includes('Offer accepted')) {
+    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Scheduled') || value.includes('Offer accepted')) {
         $('#off_allowance').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
     }

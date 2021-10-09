@@ -338,7 +338,7 @@
                                                                 <label class="Label labelFontSize">
                                                                     candidate profile
                                                                 </label>
-                                                                <select name="CANDIDATES_PROFILE"
+                                                                <select name="CANDIDATES_PROFILE" id="candidate_profile"
                                                                     class="select2_dropdown w-100"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option value="" selected disabled>Select Option
@@ -457,7 +457,7 @@
                                                                     Expected Salary:
                                                                 </label>
                                                                 <input type="number" name="EXPECTED_SALARY"
-                                                                    id="expec_salary" disabled=""
+                                                                    id="expec_salary"  
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->exp_salary : '' }}"
                                                                     class="form-control p-0 users-input-S-C" />
                                                             </div>
@@ -1071,13 +1071,23 @@
                 $('#loader1').hide();
             }, 1200);
             // show and hide loader after time set ends
+
+            // check logged in user id and disable/enable fileds 
+            var team_id = {!! $role_id !!};
+            if(team_id== 1)  {
+                $('#domain').prop('disabled', true)
+                $('#Domainsegment').prop('disabled', true)
+                $('#Domainsub').prop('disabled', true)
+                $('#candidate_profile').prop('disabled', true)
+            }
+          // close
         });
 
         //empty and disable required fields
         // $('#segment').empty();
         // enable save record on input change button 
         $("form :input").on('input', function() {
-        $('#save').prop('disabled', false)
+            $('#save').prop('disabled', false)
         });
         // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
@@ -1264,5 +1274,36 @@
             }
         });
         // close 
+        // Change course according to the selected education attainment 
+        function EducationalAttainChange() {
+
+            // enable and disable course fields on selected educational attainment
+            var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+            var role_id = {!! $role_id !!}
+            if (role_id == 1) {
+                if (value == 'GRADUATE') {
+
+                    // if selected text is gradute disable course field for user
+                    $('#COURSE').prop("disabled", true);
+                } else {
+                    //enable course field
+                    $('#COURSE').prop("disabled", false);
+
+                }
+            } else {
+                if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+                    // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+                    $('#COURSE').prop("disabled", true);
+                } else {
+                    //enable course field
+                    $('#COURSE').prop("disabled", false);
+
+                }
+
+            }
+        }
+
+        //  On application status changed function starts 
     </script>
 @endsection
