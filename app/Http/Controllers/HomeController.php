@@ -158,14 +158,33 @@ class HomeController extends Controller
         // $weekly = date('Y-m-d', strtotime($Current_date . ' - 7 days'));
         // $Mounthly = date('Y-m-d', strtotime($Current_date . ' - 1 months'));
         // $Quarterly = date('Y-m-d', strtotime($Current_date . ' - 3 months'));
-        //start team revenue 
-
-
-
+        // start team revenue 
+        //     $revenue = DB::select('select `finance_detail`.`t_id` ,
+        //    sum(`finance_detail`.`vcc_amount`) as
+        //      Sume FROM `finance_detail` inner join `roles` on `roles`.`id` = `finance_detail`.`t_id`
+        //      group by `finance_detail`.`t_id`');
+             $revenue =  DB::table('finance_detail')
+            ->join('roles', 'roles.id', 'finance_detail.t_id')
+            ->select('finance_detail.t_id', 'finance_detail.created_at', 'roles.name', DB::raw('sum(finance_detail.vcc_amount) as Sume'))
+            ->groupBy('finance_detail.t_id')
+            ->having('finance_detail.created_at', '>=', $Current_date)
+            ->get();
+            // count_stage
+            // $stage =  DB::table('cip_progress')
+            // ->join('roles', 'roles.id', 'cip_progress.t_id')
+            // ->select('cip_progress.t_id', 'cip_progress.created_at', DB::raw('sum(cip_progress.mid_stage) as mid_stage_sum'),
+            // DB::raw('sum(cip_progress.final_stage) as final_stage'))
+            // ->groupBy('cip_progress.t_id')
+            // ->having('cip_progress.created_at', '>=', $Current_date)
+            // ->get();
+            
+            $roles = DB::table('roles')->get();
         $data = [
             "Quartile" => $Quartile,
             "Year" => $data[0],
-
+            "revenue" => $revenue,
+            // "stage"=>$stage,
+            "roles"=>$roles,
         ];
         return response()->json(["data" => $data]);
     }
