@@ -99,12 +99,13 @@
                                     <th>Total Ongoing (CIP)</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="render_body">
                             
                                 
                                
                                 @for ($i=0 ; $i<count($data);$i++)
-                                    
+                                @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
+                                @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
                                 <tr>
                                     <td><?php echo $data[$i]->name ?></td>
                                     <td>2,000,000</td>
@@ -285,8 +286,25 @@
                 success: function(res) {
                     $("#Quartile").html(res.data.Quartile);
                     $("#year").html(res.data.Year);
-                  
-                    
+                    data = {!! count($data) !!}
+                    let html = [];
+                    for (var i = 0; i < data; i++) {
+                     
+                        html += `  <tr>
+                                    <td>${res.data.roles[i].name}</td>
+                                    <td>2,000,000</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                    </tr>`;
+                        $("#render_body").html(html)
+                        console.log(html)
+
+                    }
+
 
                 }
 
