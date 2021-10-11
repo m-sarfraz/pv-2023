@@ -104,8 +104,11 @@
                                 
                                
                                 @for ($i=0 ; $i<count($data);$i++)
+
                                 @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
                                 @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
+                                @php $index_total_ogoing__check="total_ogoing_".$i @endphp
+                                
                                 <tr>
                                     <td><?php echo $data[$i]->name ?></td>
                                     <td>2,000,000</td>
@@ -120,8 +123,10 @@
                                                 echo "0";
                                             }
                                             ?></td>
+                                        <td>@php
+                                            echo isset($append[$i][$index_total_ogoing__check])?$append[$i][$index_total_ogoing__check]:"";
+                                         @endphp</td>
                                         <td>0</td>
-                                        <td>0 </td>
                                     </tr>
                                     
                                     @endfor

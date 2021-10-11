@@ -83,6 +83,7 @@ class HomeController extends Controller
         $data = DB::table('roles')->get();
         $check = [];
         $append = [];
+        $sum_ongoing_=[];
         foreach ($data as $render) {
             array_push($check, $render->name);
         }
@@ -106,6 +107,15 @@ class HomeController extends Controller
                         'backgroundColor' => ['green', "orange"],
                     ]
                 );
+            // $no_of_ongoing
+            $total_ogoing_final = DB::select('SELECT SUM(`final_stage`) as `sumfinal` FROM `cip_progress` WHERE `team`="'.$check[$i].'" AND (`mid_stage`=1 OR `final_stage`=1);');
+            $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `team`="'.$check[$i].'"  AND (`mid_stage`=1 OR `final_stage`=1);');
+           
+            
+            $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
+              // $no_of_ongoing
+              // total nio of ongoin
+            //   $total_ogoing_Last_column
             $data_loop = [
                 "weekly_data_" . $i => $weekly_data_[$i],
                 "Mounthly_data_" . $i => $Mounthly_data_[$i],
@@ -115,12 +125,12 @@ class HomeController extends Controller
                 "count_user_pie_" . $i => $count_user_pie_[$i],
                 "count_onboarded_" . $i => $count_onboarded_[$i],
                 "count_offere_" . $i => $count_offere_[$i],
+                "total_ogoing_" . $i => $sum_ongoing_[$i],
             ];
-
             array_push($append, $data_loop);
         }
         $revenue = DB::select('select `finance_detail`.`t_id` ,sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail` inner join `cip_progress` on `cip_progress`.`id` = `finance_detail`.`t_id` group by `finance_detail`.`t_id`');
-        
+
         $data = [
 
             "Admin_team" => $Admin_team,
@@ -163,28 +173,28 @@ class HomeController extends Controller
         //    sum(`finance_detail`.`vcc_amount`) as
         //      Sume FROM `finance_detail` inner join `roles` on `roles`.`id` = `finance_detail`.`t_id`
         //      group by `finance_detail`.`t_id`');
-             $revenue =  DB::table('finance_detail')
+        $revenue =  DB::table('finance_detail')
             ->join('roles', 'roles.id', 'finance_detail.t_id')
             ->select('finance_detail.t_id', 'finance_detail.created_at', 'roles.name', DB::raw('sum(finance_detail.vcc_amount) as Sume'))
             ->groupBy('finance_detail.t_id')
             ->having('finance_detail.created_at', '>=', $Current_date)
             ->get();
-            // count_stage
-            // $stage =  DB::table('cip_progress')
-            // ->join('roles', 'roles.id', 'cip_progress.t_id')
-            // ->select('cip_progress.t_id', 'cip_progress.created_at', DB::raw('sum(cip_progress.mid_stage) as mid_stage_sum'),
-            // DB::raw('sum(cip_progress.final_stage) as final_stage'))
-            // ->groupBy('cip_progress.t_id')
-            // ->having('cip_progress.created_at', '>=', $Current_date)
-            // ->get();
-            
-            $roles = DB::table('roles')->get();
+        // count_stage
+        // $stage =  DB::table('cip_progress')
+        // ->join('roles', 'roles.id', 'cip_progress.t_id')
+        // ->select('cip_progress.t_id', 'cip_progress.created_at', DB::raw('sum(cip_progress.mid_stage) as mid_stage_sum'),
+        // DB::raw('sum(cip_progress.final_stage) as final_stage'))
+        // ->groupBy('cip_progress.t_id')
+        // ->having('cip_progress.created_at', '>=', $Current_date)
+        // ->get();
+
+        $roles = DB::table('roles')->get();
         $data = [
             "Quartile" => $Quartile,
             "Year" => $data[0],
             "revenue" => $revenue,
             // "stage"=>$stage,
-            "roles"=>$roles,
+            "roles" => $roles,
         ];
         return response()->json(["data" => $data]);
     }

@@ -100,7 +100,7 @@ class ProfileController extends Controller
         // if sheet exist on google sheet with given id
         if (is_array($data)) {
             foreach ($data as $render_skipped_rows) {
-                if (count($render_skipped_rows) > 1002) {
+                if (count($render_skipped_rows) > 7002) {
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 1000']);
                 }
                 //unset first two rows
