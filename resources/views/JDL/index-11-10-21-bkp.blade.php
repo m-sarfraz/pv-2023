@@ -35,8 +35,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" id="searchKeyword" required=""
-                                            class="form-control h-px-20_custom border" value="" oninput="Filter_user()"/>
+                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -486,7 +486,6 @@
         function Filter_user() {
 
             $("#loader").show();
-            searchKeyword = $('#searchKeyword').val();
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();
@@ -502,7 +501,6 @@
                 url: "{{ url('admin/filter_records_jdl') }}",
                 data: {
                     _token: token,
-                    searchKeyword:searchKeyword,
                     client: client,
                     candidateDomain: candidateDomain,
                     segment: segment,

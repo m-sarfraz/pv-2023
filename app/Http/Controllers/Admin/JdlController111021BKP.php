@@ -8,10 +8,9 @@ use App\Domain;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
-use DB;
 use Illuminate\Http\Request;
 
-class JdlController extends Controller
+class JdlController111021BKP extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -76,8 +75,7 @@ class JdlController extends Controller
     }
     public function Filter_user_table(Request $request)
     {
-        // return $request->all();
-        DB::enableQueryLog();
+
         $Userdata = CandidateInformation::join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->select(
@@ -90,17 +88,6 @@ class JdlController extends Controller
                 'endorsements.position_title as endo_position_title',
                 'endorsements.career_endo as endo_career_endo'
             );
-
-        if (isset($request->searchKeyword)) {
-            // $Userdata->orWhere('endorsements.client', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.domain', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.segment', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.sub_segment', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('endorsements.career_endo', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('endorsements.position_title', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('endorsements.status', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_informations.address', 'LIKE', '%' . $request->searchKeyword . '%');
-        }
 
         if (isset($request->client)) {
             $Userdata->whereIn('endorsements.client', $request->client);
@@ -124,12 +111,11 @@ class JdlController extends Controller
         //     $Userdata->whereIn('candidate_domains.location', $request->address);
         // }
         if (isset($request->status)) {
-            $Userdata->where('endorsements.status', $request->status);
+            $Userdata->whereIn('endorsements.status', $request->status);
         }
 
         $Userdata = $Userdata->get();
         $count = count($Userdata);
-        // dd($Userdata);
 
         $data = [
             "Userdata" => $Userdata,
