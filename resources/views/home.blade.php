@@ -11,7 +11,7 @@
             </div>
             <div class="col-lg-9">
                 <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Target vs Actual
-                    Revenue(under <Span id="Quartile"><?php echo date("y-m-d"); ?></Span>)<span id="year"></span></p>
+                    Revenue(under <Span id="Quartile"><?php echo date('y-m-d'); ?></Span>)<span id="year"></span></p>
             </div>
         </div>
 
@@ -114,27 +114,26 @@
                                     <tr>
                                         <td><?php echo $data[$i]->name; ?></td>
                                         <td>2,000,000</td>
-                                        <td><?php
-                                            if (isset($revenue[$i]->t_id) == $data[$i]->id) {
-                                                echo $revenue[$i]->Sume;
-                                            } else {
+                                        <td>@php
+                                        if (isset($revenue[$i]->t_id) == $data[$i]->id) {
+                                            echo $revenue[$i]->Sume;
+                                        } else {
+                                            echo '0';
+                                        }
+                                        @endphp</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>@php
+                                            $one = isset($revenue[$i]->Sume) ? $revenue[$i]->Sume : 0;
+                                            $two = isset($total_ogoing_Last_column[$i]) ? $total_ogoing_Last_column[$i]->f_srp : 0;
+                                            if ($two < 1) {
                                                 echo '0';
+                                            } else {
+                                                echo $final = $one / $two;
                                             }
-                                            ?></td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>@php 
-                                            $one= isset($revenue[$i]->Sume)?$revenue[$i]->Sume:0;
-                                            $two= isset($total_ogoing_Last_column[$i]) ? $total_ogoing_Last_column[$i]->f_srp : 0 ;
-                                            if($two<1) {
-echo "0";
-                                            }else{
-
-                                                echo $final=($one/$two); 
-                                            }
-                                            @endphp
+                                        @endphp
                                             %
-                                            </td>
+                                        </td>
                                         <td>@php
                                             echo isset($append[$i][$index_total_ogoing__check]) ? $append[$i][$index_total_ogoing__check] : '';
                                         @endphp</td>
@@ -266,24 +265,24 @@ echo "0";
 
 
     <!-- <div class="container">
-                                                                                    <div class="row justify-content-center">
-                                                                                        <div class="col-md-8">
-                                                                                            <div class="card">
-                                                                                                <div class="card-header">Dashboard</div>
+                                                                                                            <div class="row justify-content-center">
+                                                                                                                <div class="col-md-8">
+                                                                                                                    <div class="card">
+                                                                                                                        <div class="card-header">Dashboard</div>
 
-                                                                                                <div class="card-body">
-                                                                                                    @if (session('status'))
-                                                                                                        <div class="alert alert-success" role="alert">
-                                                                                                            {{ session('status') }}
-                                                                                                        </div>
-                                                                                                    @endif
+                                                                                                                        <div class="card-body">
+                                                                                                                            @if (session('status'))
+                                                                                                                                <div class="alert alert-success" role="alert">
+                                                                                                                                    {{ session('status') }}
+                                                                                                                                </div>
+                                                                                                                            @endif
 
-                                                                                                    You are logged in!
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
+                                                                                                                            You are logged in!
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->
@@ -308,18 +307,28 @@ echo "0";
                     data = {!! count($data) !!}
                     let html = [];
                     for (var i = 0; i < data; i++) {
-                        var fillarray="total_ogoing_"+i;
-                        console.log(res.data.append[i][fillarray])
-                        html += "<tr>"
-                            +"<td>"+ res.data.roles[i].name + "</td>" 
-                            +"<td>2,000,000</td>"
-                            +"<td>0</td>" 
-                            +"<td>0</td>" 
-                            +"<td>0</td>" 
-                            +"<td>"+  res.data.revenue[i].Sume +"</td>" 
-                            +"<td>"+ res.data.append[i][fillarray] +"</td>" 
-                            +"<td>" + res.data.total_ogoing_Last_column[i].f_srp + "</td>" 
-                            +"</tr>";
+                        var fillarray = "total_ogoing_" + i;
+                      
+                        var sume = 0;
+                        var ongoing = 0;
+                        if (res.data.revenue[i] == undefined) {
+                            sum = 0;
+                        } else {
+                            sum = res.data.revenue[i].Sume;
+                        }
+                        // (res.data.append[i][fillarray] == undefined)?ongoing = "0":ongoing = res.data.append[i][fillarray];
+                        
+                        
+                        html += "<tr>" +
+                            "<td>" + res.data.roles[i].name + "</td>" +
+                            "<td>2,000,000</td>" +
+                            "<td>" + sum + "</td>" +
+                            "<td>0</td>" +
+                            "<td>0</td>" +
+                            "<td>" + (sum / res.data.total_ogoing_Last_column[i].f_srp) + "%</td>" +
+                            "<td>" + ongoing + "</td>" +
+                            "<td>" + res.data.total_ogoing_Last_column[i].f_srp + "</td>" +
+                            "</tr>";
                         $("#render_body").html(html)
                         console.log(html)
 

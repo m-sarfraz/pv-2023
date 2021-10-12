@@ -126,7 +126,6 @@ class CandidateController extends Controller
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
-
         }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
@@ -280,7 +279,7 @@ class CandidateController extends Controller
             ];
 
             $user = User::find($recruiter);
-            $userRole = $user->roles->pluck('name')->all();
+
 
             $Cipprogress = new Cipprogress();
             // find in array
@@ -288,12 +287,10 @@ class CandidateController extends Controller
 
                 $Cipprogress->final_stage = 1;
                 $Cipprogress->cip = 1;
-
             }
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
                 $Cipprogress->mid_stage = 1;
                 $Cipprogress->cip = 1;
-
             }
             //check
             $word_1 = "Offer";
@@ -306,7 +303,8 @@ class CandidateController extends Controller
                 $Cipprogress->onboarded = 1;
             }
             $Cipprogress->candidate_id = $CandidateInformation->id;
-            $Cipprogress->team = $userRole[0];
+            $Cipprogress->team = $recruiter->name;
+            $Cipprogress->t_id = $recruiter->id;
             $Cipprogress->save();
             //close cip
             // save data to finance tables

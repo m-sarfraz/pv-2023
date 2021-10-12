@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,6 @@ class UserController extends Controller
         $this->middleware('permission:user-list', ['only' => ['index']]);
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
-
     }
     /**
      * Display a listing of the resource.
@@ -84,7 +84,6 @@ class UserController extends Controller
                 return response()->json(['success' => false, 'message' => 'Error while creating User']);
             }
         }
-
     }
 
     /**
@@ -109,7 +108,8 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-
+        // $password = Crypt::decrypt($user->password);
+        // dd($password);
         return view('user.edit', compact('user', 'roles', 'userRole'));
     }
 
@@ -156,7 +156,6 @@ class UserController extends Controller
                 return response()->json(['success' => false, 'message' => 'Error while updating User']);
             }
         }
-
     }
 
     /**
@@ -182,7 +181,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
-
         } else {
             if (Hash::check($request->old_password, $password->password)) {
 
@@ -192,8 +190,6 @@ class UserController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Old password is wrong!']);
             }
-
         }
     }
-
 }

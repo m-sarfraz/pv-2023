@@ -58,6 +58,8 @@ function ApplicationStatusChange(elem) {
             $('#endo_date').prop("disabled", false);
             $('#remarks_for_finance').prop("disabled", false);
             $('#expec_salary').prop("disabled", false);
+            $('#endo_type').prop("disabled", false);
+            
 
         } else {
 
@@ -74,6 +76,7 @@ function ApplicationStatusChange(elem) {
             $('#endo_date').prop("disabled", true);
             $('#expec_salary').prop("disabled", true);
             $('#remarks_for_finance').prop("disabled", true);
+            $('#endo_type').prop("disabled", true);
         }
 
 

@@ -39,18 +39,19 @@ class HomeController extends Controller
             ->pluck('count');
         $chart = new SampleChart();
         $chart->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $chart->dataset('TAT ', 'bar', $users)->options([
+        $chart->dataset('TAT ', 'bar', [200000])->options([
             // 'fill' => 'false',
             'borderColor' => 'rgb(64, 135, 242)',
             'backgroundColor' => 'rgb(64, 135, 242)',
 
         ]);
-        $chart->dataset('Profile', 'bar', [2])->options([
+        $chart->dataset('Profile', 'bar', [500])->options([
             // 'fill' => 'false',
             'borderColor' => 'rgb(253, 152, 0)',
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
+        
 
         $count_user_pie = new SampleChart();
         $count_user_pie->labels(['First', 'Second', 'Third']);
@@ -115,6 +116,7 @@ class HomeController extends Controller
             ];
             array_push($append, $data_loop);
         }
+        // dd($append[0]['count_user_pie_0']);
         $revenue = DB::select('select `finance_detail`.`t_id` ,sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail` inner join `cip_progress` on `cip_progress`.`id` = `finance_detail`.`t_id` group by `finance_detail`.`t_id`');
         // total nio of ongoin
         $total_ogoing_Last_column = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
@@ -141,12 +143,13 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(64, 135, 242)',
 
         ]);
-        $del->dataset('Profile', 'bar', [500])->options([
+        $del->dataset('Incentive Base Revenue', 'bar', [500])->options([
             // 'fill' => 'false',
             'borderColor' => 'rgb(253, 152, 0)',
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
+        
         //close del
         //incentivebased revenue
         // $incentivebasedRevenue = Cipprogress::join("finance_detail", "finance_detail.candidate_id", "cip_progress.candidate_id")
@@ -191,20 +194,15 @@ class HomeController extends Controller
         }
 
         $Current_date = $request->date;
-        // $weekly = date('Y-m-d', strtotime($Current_date . ' - 7 days'));
-        // $Mounthly = date('Y-m-d', strtotime($Current_date . ' - 1 months'));
-        // $Quarterly = date('Y-m-d', strtotime($Current_date . ' - 3 months'));
-        // start team revenue 
-        //     $revenue = DB::select('select `finance_detail`.`t_id` ,
-        //    sum(`finance_detail`.`vcc_amount`) as
-        //      Sume FROM `finance_detail` inner join `roles` on `roles`.`id` = `finance_detail`.`t_id`
-        //      group by `finance_detail`.`t_id`');
+
         $revenue =  DB::table('finance_detail')
             ->join('roles', 'roles.id', 'finance_detail.t_id')
             ->select('finance_detail.t_id', 'finance_detail.created_at', 'roles.name', DB::raw('sum(finance_detail.vcc_amount) as Sume'))
             ->groupBy('finance_detail.t_id')
             ->having('finance_detail.created_at', '>=', $Current_date)
+           
             ->get();
+
         $roles = DB::table('roles')->get();
         $check = [];
         $append = [];

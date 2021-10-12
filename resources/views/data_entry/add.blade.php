@@ -457,7 +457,7 @@
                                                                     Expected Salary:
                                                                 </label>
                                                                 <input type="number" name="EXPECTED_SALARY"
-                                                                    id="expec_salary"  
+                                                                    id="expec_salary"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->exp_salary : '' }}"
                                                                     class="form-control p-0 users-input-S-C" />
                                                             </div>
@@ -547,7 +547,7 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" required=""
+                                                            <input type="file" id="sheetFile" name="file" required
                                                                 accept="application/pdf" class="uploadcv    w-100">
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
@@ -625,9 +625,9 @@
                                                     $endoType = Helper::get_dropdown('endorsement_type');
                                                 @endphp
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
-                                                    Endorsement Type:
+                                                    Endorsement Type :
                                                 </label>
-                                                <select name="ENDORSEMENT_TYPE" id=""
+                                                <select name="ENDORSEMENT_TYPE" id="endo_type"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     @foreach ($endoType->options as $endoTypeOptions)
@@ -1062,6 +1062,7 @@
     <script>
         // Seciton loads on document ready starts
         $(document).ready(function() {
+            $("#endo_type").prop('disabled', true)
             // disable save button
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
@@ -1074,13 +1075,13 @@
 
             // check logged in user id and disable/enable fileds 
             var team_id = {!! $role_id !!};
-            if(team_id== 1)  {
+            if (team_id == 1) {
                 $('#domain').prop('disabled', true)
                 $('#Domainsegment').prop('disabled', true)
                 $('#Domainsub').prop('disabled', true)
                 $('#candidate_profile').prop('disabled', true)
             }
-          // close
+            // close
         });
 
         //empty and disable required fields
@@ -1123,6 +1124,7 @@
 
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
+
                         swal("success", res.message, "success").then((value) => {});
                     } else if (res.success == false) {
 

@@ -14,12 +14,12 @@
                                     
                                     $user = Auth::user();
                                     /*if($user->image != ""){
-                                                                                                                                                                                                                                                                                                                                        $image  =   $user->image;
-                                                                                                                                                                                                                                                                                                                                    }else{*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $image  =   $user->image;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }else{*/
                                     // $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
-                                    <img style="width: 210px; height: 209px;" src="{{ url('storage/'.$user->image) }}"
+                                    <img style="width: 210px; height: 209px;" src="{{ url('storage/' . $user->image) }}"
                                         alt="" />
                                 </li>
                             </ul>
@@ -49,7 +49,7 @@
                                     <label class="Label" style="font-size: 19px;">
                                         Profile Picture
                                     </label>
-                                    <input type="file" class="w-100 border-top-0 border-right-0 border-left-0" 
+                                    <input type="file" class="w-100 border-top-0 border-right-0 border-left-0"
                                         name="profile">
                                     <input type="hidden" name="image_type" value="profile">
                                 </div>
@@ -61,7 +61,7 @@
                                         class="w-100 border-top-0 border-right-0 border-left-0" />
                                 </div>
                                 {{-- @can('save-profile') --}}
-                                    <button id="submit" type = "button" class="costumButton px-3 py-1">Submit</button>
+                                <button id="submit" type="button" class="costumButton px-3 py-1">Submit</button>
                                 {{-- @endcan --}}
                             </form>
                         </div>
@@ -84,7 +84,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
+                                        style="color:red">*</span> </span>
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
@@ -95,80 +96,90 @@
 
                                 {{-- </a> --}}
                                 <fieldset class="ml-10 mr-10 fieldSheet d-none">
-                                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                                            <div class="col-lg-8">
-                                                                                <div class="form-group">
-                                                                                    <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                                        Sheet Id
-                                                                                    </label>
-                                                                                    <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId" placeholder="Enter Sheet ID" required />
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                    Sheet Id
+                                                </label>
+                                                <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId"
+                                                    placeholder="Enter Sheet ID" required />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                                            <div class="col-lg-8">
-                                                                                <div class="mt-2">
-                                                                                    <div class="form-group">
-                                                                                        <input type="button" value="Connect" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" type="submit" />
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </fieldset> 
+                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                        <div class="col-lg-8">
+                                            <div class="mt-2">
+                                                <div class="form-group">
+                                                    <input type="button" value="Connect"
+                                                        class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase"
+                                                        type="submit" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
                                 <!-- </form> -->
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Upload Excel Files
                                 </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
+                                        style="color:red">*</span> </span>
 
                                 <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal" data-target="#exampleModal_2">
+                                    <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
+                                        data-target="#exampleModal_2">
                                         <img style="width: 105px; cursor: pointer"
                                             src="{{ asset('assets/image/profile/cloud.png') }}" />
                                     </div>
                                     <fieldset class="ml-20 showExcelfield fieldSheet ">
-                                  
-                                    <!-- Button trigger modal -->
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal_2" tabindex="-1" aria-labelledby="exampleModal_2" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-       
-        <div class="modal-body">
-            <div class="row mb-xl-1 mb-9 justify-content-center">
-                <div class="col-lg-12">
-                         <h5 class="modal-title" id="exampleModalLabel"><i
-                        class="bi bi-file-earmark-spreadsheet-fill"></i>Upload Csv File </h5>
-                        <hr>
-                    <div class="form-group">
-                        <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                            Upload File
-                        </label>
-                        <input type="file" id="file" class="form-control" accept=".csv" name="file" required />
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-xl-1 mb-9 justify-content-center">
-                <div class="col-lg-10 text-right p-0">
-                    <div class="mt-2">
-                        <div class="form-group">
-                            <input type="submit" value="Upload" class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-       
-      </div>
-    </div>
-  </div>
-                                </fieldset>
+                                        <!-- Button trigger modal -->
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal_2" tabindex="-1"
+                                            aria-labelledby="exampleModal_2" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-body">
+                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                            <div class="col-lg-12">
+                                                                <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                        class="bi bi-file-earmark-spreadsheet-fill"></i>Upload
+                                                                    Csv File </h5>
+                                                                <hr>
+                                                                <div class="form-group">
+                                                                    <label
+                                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                        Upload File
+                                                                    </label>
+                                                                    <input type="file" id="file" class="form-control"
+                                                                        accept=".csv" name="file" required />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                            <div class="col-lg-10 text-right p-0">
+                                                                <div class="mt-2">
+                                                                    <div class="form-group">
+                                                                        <input type="submit" value="Upload"
+                                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </form>
                             </div>
                         </div>
@@ -191,7 +202,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
+                                        style="color:red">*</span> </span>
 
                                 <form class="C_To_GS">
                                     <div style="padding: 93px;" class="pb-3">
@@ -231,7 +243,8 @@
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Upload Excel File
                                 </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 1000 records<span style="color:red">*</span> </span>
+                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
+                                        style="color:red">*</span> </span>
 
                                 <form>
                                     <div style="padding: 93px;" class="pb-3 Coud_icon">
@@ -377,10 +390,10 @@
                     error: function() {
                         $("#loader").hide();
                         swal({
-                                icon: "error",
-                                text: "{{ __('Some Error occured, Try again') }}",
-                                icon: "error",
-                            });
+                            icon: "error",
+                            text: "{{ __('Some Error occured, Try again') }}",
+                            icon: "error",
+                        });
                     }
                 });
                 return false;

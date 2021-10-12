@@ -101,7 +101,7 @@ class ProfileController extends Controller
         if (is_array($data)) {
             foreach ($data as $render_skipped_rows) {
                 if (count($render_skipped_rows) > 7002) {
-                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 1000']);
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 7000']);
                 }
                 //unset first two rows
                 unset($data[0][0]);
@@ -355,6 +355,9 @@ class ProfileController extends Controller
             $row = 1;
             while (($render = fgetcsv($file, 1000, ",")) !== false) {
                 $num = count($render);
+                if ($row > 7000) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 7000']);
+                }
 
                 $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                 $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -561,7 +564,7 @@ class ProfileController extends Controller
 
                 $row++;
             }
-
+            dd($row);
             // fclose($file);
         }
         return redirect()->back();
