@@ -190,20 +190,10 @@
                                 </div>
                             </div>
                             <hr class="mb-9" />
-                            <div class="row mb-6">
-                                <div class="col-lg-5">
-                                    <label class="` Label">
-                                        Interview Notes
-                                    </label>
-                                    <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes" value=""
-                                        class="form-control border t-HC h-px-20_custom"> {{ $user->interview_note }}</textarea>
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="row mb-xl-1 mb-9">
-                                        <div class="col-lg-6">
+                            <div class="row mb-6 px-3">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 pl-0">
+                                                    <!-- edr -->
+                                                    <div class="col-lg-12 p-0">
                                             <label class="Label">
                                                 Date Sifted:
                                             </label>
@@ -214,9 +204,7 @@
                                                 <small class="text-danger"></small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-
-
+                                        <div class="col-lg-12 p-0">
                                             <label class="Label">Domains</label>
                                             <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
                                                 class="form-control p-0 users-input-S-C">
@@ -231,28 +219,7 @@
                                                 <small class="text-danger"></small>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-xl-1 mb-9">
-                                        <div class="col-lg-6">
-                                            <?php
-                                            $segment = Helper::get_dropdown('segments');
-                                            ?>
-                                            <label class="Label">segment</label>
-                                            <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange(this)"
-                                                class="form-control p-0 users-input-S-C">
-                                                <option selected disabled>Select Option</option>
-                                                {{-- @foreach ($segment->options as $segmentOption)
-                                                <option value="{{ $segmentOption->id }}" 
-                                                    {{ $user->segment == $segmentOption->id ? 'selected' : '' }}>
-                                                    {{ $segmentOption->option_name }}</option>
-                                            @endforeach --}}
-
-                                            </select>
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12 p-0">
                                             <?php
                                             $sub_segment = Helper::get_dropdown('sub_segment');
                                             ?>
@@ -271,19 +238,7 @@
                                                 <small class="text-danger"></small>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-xl-1 mb-9">
-                                        <div class="col-lg-12">
-                                            <label class="text-black-2 font-size-3 font-weight-semibold mb-0">
-                                                Employement History</label>
-                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" value=""
-                                                class="form-control border E_HC h-px-20_custom">{{ $user->emp_history }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-lg-4">
+                                        <div class="col-lg-12 p-0">
                                     <?php
                                     $profile = Helper::get_dropdown('candidates_profile');
                                     ?>
@@ -306,7 +261,7 @@
                                         <small class="text-danger"></small>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <label class="Label">
                                             position applied
@@ -319,17 +274,7 @@
                                         <small class="text-danger"></small>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class=" p-0 users-input-S-C mb-0"> Date Invited</label>
-                                        <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
-                                            value="{{ $user->date_invited }}"
-                                            class="form-control border h-px-20_custom" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-lg-4">
+                                <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <?php
                                         $manner_of_invite = Helper::get_dropdown('manner_of_invite');
@@ -352,7 +297,52 @@
                                         <small class="text-danger"></small>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-12 p-0">
+                                    <div class="form-group mb-0">
+                                        <label class=" p-0 users-input-S-C mb-0"> Date Invited</label>
+                                        <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
+                                            value="{{ $user->date_invited }}"
+                                            class="form-control border h-px-20_custom" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 p-0">
+                                            <label class="text-black-2 font-size-3 font-weight-semibold mb-0">
+                                                Employement History</label>
+                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" value=""
+                                                class="form-control border   E_HCDataEntry">{{ $user->emp_history }}</textarea>
+                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 pr-0">
+                                <div class="col-lg-12 p-0">
+                                    <label class="` Label">
+                                        Interview Notes
+                                    </label>
+                                    <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes" value=""
+                                        class="form-control border t-HC h-px-20_custom"> {{ $user->interview_note }}</textarea>
+                                    <div>
+                                        <small class="text-danger"></small>
+                                    </div>
+                                </div>  
+                                <div class="col-lg-12 p-0">
+                                            <?php
+                                            $segment = Helper::get_dropdown('segments');
+                                            ?>
+                                            <label class="Label">segment</label>
+                                            <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange(this)"
+                                                class="form-control p-0 users-input-S-C">
+                                                <option selected disabled>Select Option</option>
+                                                {{-- @foreach ($segment->options as $segmentOption)
+                                                <option value="{{ $segmentOption->id }}" 
+                                                    {{ $user->segment == $segmentOption->id ? 'selected' : '' }}>
+                                                    {{ $segmentOption->option_name }}</option>
+                                            @endforeach --}}
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                                        </div>  
+                                        <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <label class="Label">
                                             Current Salary:
@@ -364,19 +354,8 @@
                                     <div>
                                         <small class="text-danger"></small>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="Label" name="CURRENT_ALLOWANCE">
-                                            Current Allowance:
-                                        </label>
-                                        <input type="number" class="form-control users-input-S-C"
-                                            value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-lg-4">
+                                </div>    
+                                <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <label class="Label">
                                             Expected Salary:
@@ -389,7 +368,16 @@
                                         <small class="text-danger"></small>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-12 p-0">
+                                    <div class="form-group mb-0">
+                                        <label class="Label" name="CURRENT_ALLOWANCE">
+                                            Current Allowance:
+                                        </label>
+                                        <input type="number" class="form-control users-input-S-C"
+                                            value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" />
+                                    </div>
+                                </div>    
+                                <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <label class="Label" name="OFFERED_SALARY">
                                             Offered Salary:
@@ -398,8 +386,8 @@
                                             value="{{ $user->off_salary }}" oninput="SalaryAppend('#remarks')"
                                             class="form-control users-input-S-C" />
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
+                                </div>  
+                                <div class="col-lg-12 p-0">
                                     <div class="form-group mb-0">
                                         <label class="Label">
                                             Offered Allowance:
@@ -408,6 +396,7 @@
                                             value="{{ $user->off_allowance }}" oninput="SalaryAppend('#remarks')"
                                             disabled="" class="form-control users-input-S-C" />
                                     </div>
+                                </div>   
                                 </div>
                             </div>
                         </fieldset>
