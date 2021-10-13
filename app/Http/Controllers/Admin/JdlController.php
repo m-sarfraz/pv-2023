@@ -22,19 +22,18 @@ class JdlController extends Controller
     {
         // join the tables to get ccandidate data
 
-        $Userdata = CandidateInformation::join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->select(
-                'candidate_informations.id as cid',
-                'candidate_informations.address as candidate_address',
-                'candidate_domains.sub_segment as candidate_sub_segment',
-                'candidate_domains.segment as candidate_segment',
-                'endorsements.client as endo_client',
-                'endorsements.status as endo_status',
-                'endorsements.position_title as endo_position_title',
-                'endorsements.career_endo as endo_career_endo'
-            )
-            ->paginate(10);
+        $Userdata =DB::table('six_table_view')
+        ->select(
+            'six_table_view.id as cid',
+            'six_table_view.address as candidate_address',
+            'six_table_view.sub_segment as candidate_sub_segment',
+            'six_table_view.segment as candidate_segment',
+            'six_table_view.client as endo_client',
+            'six_table_view.status as endo_status',
+            'six_table_view.position_title as endo_position_title',
+            'six_table_view.career_endo as endo_career_endo'
+        )
+        ->paginate(10);
         // $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
         // ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
         // ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
