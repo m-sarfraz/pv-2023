@@ -29,6 +29,7 @@ class CandidateController extends Controller
     //index function for data entry page showing starts
     public function data_entry()
     {
+
         $candidateDetail = null;
         if (isset($_GET['id'])) {
             $candidateDetail = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
@@ -539,13 +540,13 @@ class CandidateController extends Controller
                 $headers = array(
                     'Content-Type: application/pdf',
                 );
-                return Response::download($file, $user->FIRST_NAME . "'s Resume'", $headers);
-                return response()->json(['success' => true, 'message' => 'file found']);
+                return Response::download($file, $user->FIRST_NAME . 'Resume', $headers);
+                return response()->json(['success' => true, 'message' => 'Attachment downloaded']);
             } else {
-                return response()->json(['success' => false, 'message' => 'file not found']);
+                return response()->json(['success' => false, 'message' => 'Attachment not Exists']);
             }
         } else {
-            return response()->json(['success' => false, 'message' => 'No file attached found']);
+            return response()->json(['success' => false, 'message' => 'No Attachment found']);
         }
     }
     // download canidate cv functon ends

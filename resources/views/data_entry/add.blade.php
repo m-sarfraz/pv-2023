@@ -547,7 +547,7 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" required
+                                                            <input type="file" id="sheetFile" name="file" required oninput="uploadFile(this)"
                                                                 accept="application/pdf" class="uploadcv    w-100">
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
@@ -1264,18 +1264,18 @@
         // apppending endorsements segments ends
 
         //check file extension on selected file starts 
-        $("#sheetFile").change(function() {
+        function uploadFile(elem) {
             var fileExtension = ['pdf'];
-            if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            if ($.inArray($(elem).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
                 // show warning message to user if firld is required
                 swal({
                     icon: "error",
-                    text: "{{ __('Allowed formats is only PDF') }}",
+                    text: "{{ __('Allowed formats is pdf') }}",
                     icon: "error",
                 });
                 $('#sheetFile').val('');
             }
-        });
+        }
         // close 
         // Change course according to the selected education attainment 
         function EducationalAttainChange() {
@@ -1345,7 +1345,7 @@
                     $('#sub_segment').prop("disabled", false);
                     $('#endo_date').prop("disabled", false);
                     $('#remarks_for_finance').prop("disabled", false);
-                    $('#expec_salary').prop("disabled", false);
+                    // $('#expec_salary').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
 
 
@@ -1362,7 +1362,7 @@
                     $('#segment').prop("disabled", true);
                     $('#sub_segment').prop("disabled", true);
                     $('#endo_date').prop("disabled", true);
-                    $('#expec_salary').prop("disabled", true);
+                    // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
                     $('#endo_type').prop("disabled", true);
                 }
