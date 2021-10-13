@@ -386,8 +386,16 @@ class ProfileController extends Controller
 
                     $user = User::find($recruiter);
 
-
-                    $Cipprogress = new Cipprogress();
+                    $query = DB::table("cip_progress")
+                        ->where("candidate_id", $store_by_google_sheet->id)
+                        ->first();
+                    if (isset($query->id)) {
+                        // update record
+                        $Cipprogress = Cipprogress::find($query->id);
+                    } else {
+                        // insert record
+                        $Cipprogress = new Cipprogress();
+                    }
                     // find in array
                     if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
 
@@ -702,7 +710,16 @@ class ProfileController extends Controller
                 $user = User::find($recruiter);
 
 
-                $Cipprogress = new Cipprogress();
+                $query = DB::table("cip_progress")
+                    ->where("candidate_id", $store_by_Ecxel->id)
+                    ->first();
+                if (isset($query->id)) {
+                    // update record
+                    $Cipprogress = Cipprogress::find($query->id);
+                } else {
+                    // insert record
+                    $Cipprogress = new Cipprogress();
+                }
                 // find in array
                 if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
 
@@ -722,7 +739,7 @@ class ProfileController extends Controller
                 }
                 if (strpos($mystring, $word_2) !== false) {
                     $Cipprogress->onboarded = 1;
-                } 
+                }
                 $Cipprogress->candidate_id = $store_by_Ecxel->id;
                 $Cipprogress->team = $recruiter->name;
                 $Cipprogress->t_id = $recruiter->id;
