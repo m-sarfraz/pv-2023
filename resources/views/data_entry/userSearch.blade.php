@@ -407,7 +407,7 @@
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                     <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
-                                        <input type="file" id="sheetFile" name="file" required=""
+                                        <input type="file" id="sheetFile" name="file" required=""  oninput="uploadFile(this)"
                                             accept="application/pdf" class="uploadcv  w-100">
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
@@ -471,33 +471,14 @@
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($position_title->options as $position_titleOptions)
                                         <option value="{{ $position_titleOptions->option_name }}"
-                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                            {{ $user->site == $position_titleOptions->option_name ? 'selected' : '' }}>
                                             {{ $position_titleOptions->option_name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                    <!-- <div class="col-lg-6">
-                        <div class="form-group mb-0">
-                            @php
-                                $remarks = Helper::get_dropdown('remarks_from_finance');
-                            @endphp
-                            <label class="Label">
-                                Remarks (From Recruiter):
-                            </label>
-                            <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
-                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" disabled selected>Select Option</option>
-                                @foreach ($remarks->options as $remarksOptions)
-                                    <option value="{{ $remarksOptions->option_name }}"
-                                        {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
-                                        {{ $remarksOptions->option_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> -->
+        
                 </div>
                 <div class="row mb-1">
                 <div class="col-lg-6">
@@ -620,14 +601,14 @@
                         </div> 
 
                 </div>
-                <fieldset>
-                    <div class="row mb-1">
-                     
-                     
+                <div class="row mb-1">
+                    <div class="col-lg-6">
+
                     </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-6">
+                    <div class="form-group mb-0">
                                 @php
                                     $site = Helper::get_dropdown('site');
                                 @endphp
@@ -645,32 +626,31 @@
                                     @endforeach
                                 </select>
                             </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
+                            @php
+                                $remarks = Helper::get_dropdown('remarks_from_finance');
+                            @endphp
+                            <label class="Label">
+                                Remarks (From Recruiter):
+                            </label>
+                            <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($remarks->options as $remarksOptions)
+                                    <option value="{{ $remarksOptions->option_name }}"
+                                        {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
+                                        {{ $remarksOptions->option_name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+                </div>
+                <fieldset>
                     <div class="row mb-1">
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
-                                @endphp
-                                <label class="Label">
-                                    Reason for not progressing:
-                                </label>
-                                <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                        {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
-                                        <option value="{{ $ReasonForNotPOptions->option_name }}">
-                                            {{ $ReasonForNotPOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6">
+                    <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 @php
                                     $domain = Helper::get_dropdown('domains');
@@ -692,14 +672,28 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
-                                <label class="Label">Interview :</label>
-                                <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                                    class="form-control users-input-S-C" />
+                                @php
+                                    $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                                @endphp
+                                <label class="Label">
+                                    Reason for not progressing:
+                                </label>
+                                <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                    <option value="" disabled selected>Select Option</option>
+                                    @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
+                                        {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
+                                        <option value="{{ $ReasonForNotPOptions->option_name }}">
+                                            {{ $ReasonForNotPOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+                     
                     </div>
                     <div class="row mb-1">
-                        <div class="col-lg-6">
+                    <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="Label">Segment</label>
                                 <select disabled="" id="segment" name="SEGMENT"
@@ -714,10 +708,16 @@
                                 </select>
                             </div>
                         </div>
-                     
-                    </div>
-                    <div class="row">
                         <div class="col-lg-6">
+                            <div class="form-group mb-0">
+                                <label class="Label">Interview :</label>
+                                <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
+                                    class="form-control users-input-S-C" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                    <div class="col-lg-6">
                             @php
                                 $sub_segment = Helper::get_dropdown('sub_segment');
                             @endphp
@@ -735,10 +735,6 @@
                             </div>
                         </div>
                      
-                    </div>
-                    <div class="row mb-1">
-                     
-                        <div class="col-lg-6"></div>
                     </div>
                 </fieldset>
             </div>
