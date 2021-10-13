@@ -1122,6 +1122,10 @@
                         // disable save data button after data entry success
                         $('#save').prop("disabled", true);
                         $('#saveRecord').prop("disabled", true);
+                        $("input").parent().siblings('span').remove();
+                            $("select").parent().siblings('span').remove();
+                            $("input").css('border-color', '#ced4da');
+                            $("select").css('border-color', '#ced4da');
 
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
