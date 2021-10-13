@@ -437,8 +437,8 @@ class ProfileController extends Controller
         }
     }
     public function readLocalAcceess()
-    {
-        $recruiter = Auth::user()->roles->first();
+    {    
+         $recruiter = Auth::user()->roles->first() ;
         $filename = $_FILES["file"]["tmp_name"];
         if ($_FILES["file"]["size"] > 0) {
             $file = fopen($filename, "r");
