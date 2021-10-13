@@ -459,6 +459,26 @@
                         </select>
                     </div>
                     <div class="col-lg-6">
+                            <div class="form-group mb-0">
+                                @php
+                                    $position_title = Helper::get_dropdown('position_title');
+                                @endphp
+                                <label class="d-block font-size-3 mb-0">
+                                    Position Title:
+                                </label>
+                                <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" disabled selected>Select Option</option>
+                                    @foreach ($position_title->options as $position_titleOptions)
+                                        <option value="{{ $position_titleOptions->option_name }}"
+                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                            {{ $position_titleOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    <!-- <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
                                 $remarks = Helper::get_dropdown('remarks_from_finance');
@@ -477,26 +497,60 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                <fieldset>
-                    <div class="row mb-1">
-                        <div class="col-lg-6">
-                            @php
-                                $client = Helper::get_dropdown('clients');
-                            @endphp
+                <div class="row mb-1">
+                <div class="col-lg-6">
                             <div class="form-group mb-0">
-                                <label class="Label">Client</label>
-                                <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                @php
+                                    $endoType = Helper::get_dropdown('endorsement_type');
+                                @endphp
+                                <label class="d-block font-size-3 mb-0">
+                                    Endorsement Type:
+                                </label>
+                                <select name="ENDORSEMENT_TYPE" id=""
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" disabled selected>Select Option</option>
-                                    @foreach ($client->options as $clientOptions)
-                                        <option value="{{ $clientOptions->option_name }}"
-                                            {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
-                                            {{ $clientOptions->option_name }}
+                                    @foreach ($endoType->options as $endoTypeOptions)
+                                        <option value="{{ $endoTypeOptions->option_name }}"
+                                            {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
+                                            {{ $endoTypeOptions->option_name }}
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            @php
+                                $CareerLevel = Helper::get_dropdown('career_level');
+                            @endphp
+                            <div class="form-group mb-0">
+                                <label class="d-block font-size-3 mb-0">
+                                    Career Level:
+                                </label>
+                                <select name="CAREER_LEVEL" disabled="" id="career"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" disabled selected>Select Option</option>
+                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                        <option value="{{ $CareerLevelOptions->option_name }}"
+                                            {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
+                                            {{ $CareerLevelOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                </div>
+                <div class="row mb-1">
+                <div class="col-lg-6">
+                            <div class="form-group mb-0">
+                                <div class="form-group mb-0">
+                                    <label class="d-block font-size-3 mb-0">
+                                        Date Processed:
+                                    </label>
+                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                        onchange="setDate()" class="form-control border h-px-20_custom" />
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -521,28 +575,57 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6">
+                </div>
+                <div class="row mb-1">
+                <div class="col-lg-6">
+                            @php
+                                $client = Helper::get_dropdown('clients');
+                            @endphp
                             <div class="form-group mb-0">
-                                @php
-                                    $endoType = Helper::get_dropdown('endorsement_type');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Endorsement Type:
-                                </label>
-                                <select name="ENDORSEMENT_TYPE" id=""
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <label class="Label">Client</label>
+                                <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                     <option value="" disabled selected>Select Option</option>
-                                    @foreach ($endoType->options as $endoTypeOptions)
-                                        <option value="{{ $endoTypeOptions->option_name }}"
-                                            {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
-                                            {{ $endoTypeOptions->option_name }}
+                                    @foreach ($client->options as $clientOptions)
+                                        <option value="{{ $clientOptions->option_name }}"
+                                            {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
+                                            {{ $clientOptions->option_name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>  
+                           <div class="col-lg-6">
+                            <div class="form-group mb-0">
+                                @php
+                                    $endoType = Helper::get_dropdown('endorsement_type');
+                                @endphp
+                                <label class="Label">
+                                    Remarks (For Finance):
+                                </label>
+                                <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
+                                    onchange="RemarksChange(this)" class="select2_dropdown  w-100"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    @php
+                                        $remarks = Helper::get_dropdown('remarks_for_finance');
+                                    @endphp
+                                    <option value="" disabled selected>Select Option</option>
+                                    @foreach ($remarks->options as $remarksOptions)
+                                        <option value="{{ $remarksOptions->option_name }}"
+                                            {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
+                                            {{ $remarksOptions->option_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> 
+
+                </div>
+                <fieldset>
+                    <div class="row mb-1">
+                     
+                     
+                    </div>
+                    <div class="row mb-1">
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 @php
@@ -565,26 +648,6 @@
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $position_title = Helper::get_dropdown('position_title');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Position Title:
-                                </label>
-                                <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($position_title->options as $position_titleOptions)
-                                        <option value="{{ $position_titleOptions->option_name }}"
-                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
-                                            {{ $position_titleOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 @php
@@ -651,26 +714,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            @php
-                                $CareerLevel = Helper::get_dropdown('career_level');
-                            @endphp
-                            <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    Career Level:
-                                </label>
-                                <select name="CAREER_LEVEL" disabled="" id="career"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                        <option value="{{ $CareerLevelOptions->option_name }}"
-                                            {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
-                                            {{ $CareerLevelOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                     
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
@@ -690,42 +734,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
-                                        Date Processed:
-                                    </label>
-                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                                        onchange="setDate()" class="form-control border h-px-20_custom" />
-                                </div>
-                            </div>
-                        </div>
+                     
                     </div>
                     <div class="row mb-1">
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $endoType = Helper::get_dropdown('endorsement_type');
-                                @endphp
-                                <label class="Label">
-                                    Remarks (For Finance):
-                                </label>
-                                <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
-                                    onchange="RemarksChange(this)" class="select2_dropdown  w-100"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    @php
-                                        $remarks = Helper::get_dropdown('remarks_for_finance');
-                                    @endphp
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($remarks->options as $remarksOptions)
-                                        <option value="{{ $remarksOptions->option_name }}"
-                                            {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
-                                            {{ $remarksOptions->option_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+                     
                         <div class="col-lg-6"></div>
                     </div>
                 </fieldset>
