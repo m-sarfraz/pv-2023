@@ -280,7 +280,6 @@ class CandidateController extends Controller
 
             $user = User::find($recruiter);
 
-
             $Cipprogress = new Cipprogress();
             // find in array
             if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
@@ -357,32 +356,71 @@ class CandidateController extends Controller
     }
     public function update_data_entry(Request $request, $id)
     {
-        // return $request->all();
-        $arrayCheck = [
-            // 'LAST_NAME' => 'required',
-            // "FIRST_NAME" => "required",
-            // "EMAIL_ADDRESS" => "required|email",
-            // "CONTACT_NUMBER" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
-            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // // "COURSE" => 'required ',
-            // "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
-            // // "DATE_SIFTED" => 'required ',
-            // // "DOMAIN" => 'required ',
-            // // "SEGMENT" => 'required ',
-            // // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            // "POSITION_TITLE_APPLIED" => 'required ',
-            // // "DATE_INVITED" => 'required ',
-            // "MANNER_OF_INVITE" => 'required ',
-            // "CURRENT_SALARY" => 'required ',
-            // "CURRENT_ALLOWANCE" => 'required ',
-            // "EXPECTED_SALARY" => 'required ',
-            // "OFFERED_SALARY" => 'required ',
-            // "OFFERED_ALLOWANCE" => 'required ',
-        ];
+
+        $recruiter = Auth::user()->roles->first();
+        // return $recruiter->id;
+        if ($recruiter->id == 1) {
+            // return 'hi';
+
+            $arrayCheck = [
+                "DOMAIN" => 'required ',
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                "CERTIFICATIONS" => "required",
+                "RESIDENCE" => 'required ',
+                // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                // // "COURSE" => 'required ',
+                "CANDIDATES_PROFILE" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
+                // "DATE_SIFTED" => 'required ',
+                "SEGMENT" => 'required ',
+                "SUB_SEGMENT" => 'required ',
+                "EMPLOYMENT_HISTORY" => 'required ',
+                // "POSITION_TITLE_APPLIED" => 'required ',
+                // // "DATE_INVITED" => 'required ',
+                // "MANNER_OF_INVITE" => 'required ',
+                "CURRENT_SALARY" => 'required ',
+                // "file" => 'required ',
+                // "CURRENT_ALLOWANCE" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
+                // "OFFERED_SALARY" => 'required ',
+                // "OFFERED_ALLOWANCE" => 'required ',
+            ];
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+            }
+        } else {
+            $arrayCheck = [
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                // "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                "RESIDENCE" => 'required',
+                "EDUCATIONAL_ATTAINTMENT" => 'required',
+                "DOMAIN" => 'required',
+                "SEGMENT" => 'required',
+                "SUB_SEGMENT" => 'required',
+                // // "COURSE" => 'required',
+                "CANDIDATES_PROFILE" => 'required',
+                "INTERVIEW_NOTES" => 'required',
+                // "DATE_SIFTED" => 'required',
+                "EMPLOYMENT_HISTORY" => 'required',
+                "POSITION_TITLE_APPLIED" => 'required',
+                // // "DATE_INVITED" => 'required',
+                "MANNER_OF_INVITE" => 'required',
+                "CURRENT_SALARY" => 'required',
+                // "file" => 'required',
+                // "CURRENT_ALLOWANCE" => 'required',
+                "EXPECTED_SALARY" => 'required',
+                // "OFFERED_SALARY" => 'required',
+                // "OFFERED_ALLOWANCE" => 'required',
+            ];
+        }
         $validator = Validator::make($request->all(), $arrayCheck);
 
         // send response mesage if validations are not according to requierd
@@ -439,7 +477,6 @@ class CandidateController extends Controller
                 'candidate_profile' => $request->CANDIDATES_PROFILE,
                 'position_applied' => $request->POSITION_TITLE_APPLIED,
                 'date_invited' => $request->DATE_INVITED,
-                'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
                 'manner_of_invite' => $request->MANNER_OF_INVITE,
                 'curr_salary' => $request->CURRENT_SALARY,
                 'exp_salary' => $request->EXPECTED_SALARY,
@@ -460,6 +497,7 @@ class CandidateController extends Controller
                 'domain_endo' => $request->DOMAIN,
                 'interview_date' => $request->cv,
                 'career_endo' => $request->CAREER_LEVEL,
+                'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
                 'segment_endo' => $request->SEGMENT,
                 'sub_segment_endo' => $request->SUB_SEGMENT,
                 'endi_date' => $request->DATE_ENDORSED,
