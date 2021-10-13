@@ -6,6 +6,7 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
 use App\Finance;
@@ -91,6 +92,7 @@ class ProfileController extends Controller
     // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
+        $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
         $config = Config::get("datastudio.google_sheet_id");
         Config::set('datastudio.google_sheet_id', $request->sheetID);
@@ -328,7 +330,90 @@ class ProfileController extends Controller
                     $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
                     $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                     $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
+                    $finance_detail->t_id = $recruiter->id;
                     $finance_detail->save();
+                    //start logic for cip
+
+                    $array = [
+                        'Final Stage' => [
+                            0 => 'Scheduled for Country Head Interview',
+                            1 => 'Scheduled for Final Interview',
+                            2 => "Scheduled for Hiring Manager's Interview",
+                            3 => 'Done Behavioral Interview / Awaiting Feedback',
+                            4 => 'Done Final Interview / Awaiting Feedback',
+                            5 => "Done Hiring Manager's Interview / Awaiting Feedback",
+                            6 => 'Failed Country Head Interview',
+                            7 => 'Failed Final Interview',
+                            8 => "Failed Hiring Manager's Interview",
+                            9 => "Scheduled for Job Offer",
+                            10 => "Shortlisted/For Comparison",
+                            11 => "Onboarded",
+                            12 => "Offer accepted",
+                            13 => "Offer Rejected",
+                            14 => "Position Closed (Final Stage)",
+                            15 => "Done Country Head Interview / Awaiting Feedback",
+                            16 => "Pending Offer Approval",
+                            17 => "Pending Offer Schedule",
+                            18 => "Position On Hold (Final Stage)",
+                            19 => "Shortlisted",
+                            20 => "Fallout/Reneged",
+                        ],
+                        "Mid Stage" => [
+                            0 => 'Scheduled for Skills Interview',
+                            1 => 'Scheduled for Technical Interview',
+                            2 => "Scheduled for Technical exam",
+                            3 => 'Sheduled for Behavioral Interview',
+                            4 => 'Scheduled for account validation',
+                            5 => "Done Skills interview/ Awaiting Feedback",
+                            6 => 'Done Techincal Interview /Awaiting Feedback',
+                            7 => 'Done Technical exam /Awaiting Feedback',
+                            8 => "Done Behavioral /Awaiting Feedback",
+                            9 => "Failed Skills interview",
+                            10 => "Failed Techincal Interview",
+                            11 => "Failed Technical exam",
+                            12 => "Failed Behavioral Interview",
+                            13 => "Pending Country Head Interview",
+                            14 => "Pending Final Interview",
+                            15 => "Pending Hiring Manager's Interview",
+                            16 => "Position Closed (Mid Stage)",
+                            17 => "Done Skills/Technical Interview / Awaiting Feedback",
+                            18 => "Failed Skills/Technical Interview",
+                            19 => "Position On Hold (Mid Stage)",
+                            20 => "Scheduled for Behavioral Interview",
+                            21 => "Scheduled for Skills/Technical Interview",
+                        ],
+                    ];
+
+                    $user = User::find($recruiter);
+
+
+                    $Cipprogress = new Cipprogress();
+                    // find in array
+                    if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
+
+                        $Cipprogress->final_stage = 1;
+                        $Cipprogress->cip = 1;
+                    }
+                    if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
+                        $Cipprogress->mid_stage = 1;
+                        $Cipprogress->cip = 1;
+                    }
+                    //check
+                    $word_1 = "Offer";
+                    $word_2 = "Onboarded";
+                    $mystring = isset($render[43]) ? $render[43] : "";
+                    if (strpos($mystring, $word_1) !== false) {
+                        $Cipprogress->offered = 1;
+                    }
+                    if (strpos($mystring, $word_2) !== false) {
+                        $Cipprogress->onboarded = 1;
+                    }
+                    $Cipprogress->candidate_id = $store_by_google_sheet->id;
+                    $Cipprogress->team = $recruiter->name;
+                    $Cipprogress->t_id = $recruiter->id;
+                    $Cipprogress->save();
+                    //close cip
+
                     $con++;
                     $con1++;
                     $con2++;
@@ -345,6 +430,7 @@ class ProfileController extends Controller
     }
     public function readLocalAcceess()
     {
+        $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["file"]["tmp_name"];
         if ($_FILES["file"]["size"] > 0) {
             $file = fopen($filename, "r");
@@ -561,10 +647,91 @@ class ProfileController extends Controller
                 $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                 $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
                 $finance_detail->save();
+                //start logic for cip
+
+                $array = [
+                    'Final Stage' => [
+                        0 => 'Scheduled for Country Head Interview',
+                        1 => 'Scheduled for Final Interview',
+                        2 => "Scheduled for Hiring Manager's Interview",
+                        3 => 'Done Behavioral Interview / Awaiting Feedback',
+                        4 => 'Done Final Interview / Awaiting Feedback',
+                        5 => "Done Hiring Manager's Interview / Awaiting Feedback",
+                        6 => 'Failed Country Head Interview',
+                        7 => 'Failed Final Interview',
+                        8 => "Failed Hiring Manager's Interview",
+                        9 => "Scheduled for Job Offer",
+                        10 => "Shortlisted/For Comparison",
+                        11 => "Onboarded",
+                        12 => "Offer accepted",
+                        13 => "Offer Rejected",
+                        14 => "Position Closed (Final Stage)",
+                        15 => "Done Country Head Interview / Awaiting Feedback",
+                        16 => "Pending Offer Approval",
+                        17 => "Pending Offer Schedule",
+                        18 => "Position On Hold (Final Stage)",
+                        19 => "Shortlisted",
+                        20 => "Fallout/Reneged",
+                    ],
+                    "Mid Stage" => [
+                        0 => 'Scheduled for Skills Interview',
+                        1 => 'Scheduled for Technical Interview',
+                        2 => "Scheduled for Technical exam",
+                        3 => 'Sheduled for Behavioral Interview',
+                        4 => 'Scheduled for account validation',
+                        5 => "Done Skills interview/ Awaiting Feedback",
+                        6 => 'Done Techincal Interview /Awaiting Feedback',
+                        7 => 'Done Technical exam /Awaiting Feedback',
+                        8 => "Done Behavioral /Awaiting Feedback",
+                        9 => "Failed Skills interview",
+                        10 => "Failed Techincal Interview",
+                        11 => "Failed Technical exam",
+                        12 => "Failed Behavioral Interview",
+                        13 => "Pending Country Head Interview",
+                        14 => "Pending Final Interview",
+                        15 => "Pending Hiring Manager's Interview",
+                        16 => "Position Closed (Mid Stage)",
+                        17 => "Done Skills/Technical Interview / Awaiting Feedback",
+                        18 => "Failed Skills/Technical Interview",
+                        19 => "Position On Hold (Mid Stage)",
+                        20 => "Scheduled for Behavioral Interview",
+                        21 => "Scheduled for Skills/Technical Interview",
+                    ],
+                ];
+
+                $user = User::find($recruiter);
+
+
+                $Cipprogress = new Cipprogress();
+                // find in array
+                if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
+
+                    $Cipprogress->final_stage = 1;
+                    $Cipprogress->cip = 1;
+                }
+                if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
+                    $Cipprogress->mid_stage = 1;
+                    $Cipprogress->cip = 1;
+                }
+                //check
+                $word_1 = "Offer";
+                $word_2 = "Onboarded";
+                $mystring = isset($render[43]) ? $render[43] : "";
+                if (strpos($mystring, $word_1) !== false) {
+                    $Cipprogress->offered = 1;
+                }
+                if (strpos($mystring, $word_2) !== false) {
+                    $Cipprogress->onboarded = 1;
+                } 
+                $Cipprogress->candidate_id = $store_by_Ecxel->id;
+                $Cipprogress->team = $recruiter->name;
+                $Cipprogress->t_id = $recruiter->id;
+                $Cipprogress->save();
+                //close cip
 
                 $row++;
             }
-            dd($row);
+
             // fclose($file);
         }
         return redirect()->back();
