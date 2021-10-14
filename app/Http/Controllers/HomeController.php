@@ -51,7 +51,7 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
-        
+
 
         $count_user_pie = new SampleChart();
         $count_user_pie->labels(['First', 'Second', 'Third']);
@@ -76,9 +76,29 @@ class HomeController extends Controller
 
         for ($i = 0; $i < count($data); $i++) {
 
-            $weekly_data_[$i] = Cipprogress::where("team", $check[$i])->whereDate("created_at", ">", $weekly)->get();
-            $Mounthly_data_[$i] = Cipprogress::where("team", $check[$i])->whereDate("created_at", ">", $Mounthly)->get();
-            $Quarterly_data_[$i] = Cipprogress::where("team", $check[$i])->whereDate("created_at", ">", $Quarterly)->get();
+
+            $weekly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+                ->where("cip_progress.team", $check[$i])
+                ->whereDate("cip_progress.created_at", ">", $weekly)
+                ->where("cip_progress.final_stage", 1)
+                ->orwhere("cip_progress.mid_stage", 1)
+                ->groupBy("cip_progress.team")
+                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+
+            $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+                ->where("cip_progress.team", $check[$i])
+                ->whereDate("cip_progress.created_at", ">", $Mounthly)
+                ->where("cip_progress.final_stage", 1)
+                ->orwhere("cip_progress.mid_stage", 1)
+                ->groupBy("cip_progress.team")
+                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+            $Quarterly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+                ->where("cip_progress.team", $check[$i])
+                ->whereDate("cip_progress.created_at", ">", $Quarterly)
+                ->where("cip_progress.final_stage", 1)
+                ->orwhere("cip_progress.mid_stage", 1)
+                ->groupBy("cip_progress.team")
+                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
             $count_final_stage_[$i] = Cipprogress::where("team", $check[$i])->where("final_stage", 1)->get();
             $count_mid_stage_[$i] = Cipprogress::where("team", $check[$i])->where("mid_stage", 1)->get();
             $count_onboarded_[$i] = Cipprogress::where("team", $check[$i])->where("onboarded", 1)->get();
@@ -149,7 +169,7 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
-        
+
         //close del
         //incentivebased revenue
         // $incentivebasedRevenue = Cipprogress::join("finance_detail", "finance_detail.candidate_id", "cip_progress.candidate_id")
@@ -200,7 +220,7 @@ class HomeController extends Controller
             ->select('finance_detail.t_id', 'finance_detail.created_at', 'roles.name', DB::raw('sum(finance_detail.vcc_amount) as Sume'))
             ->groupBy('finance_detail.t_id')
             ->having('finance_detail.created_at', '>=', $Current_date)
-           
+
             ->get();
 
         $roles = DB::table('roles')->get();

@@ -194,20 +194,20 @@
                                     <tr>
                                         <td>Quarterly</td>
                                         <td>400000</td>
-                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check])?count($append[$i][$index_Quarterly_data__check]):"";@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check])?(count($append[$i][$index_Quarterly_data__check])/400000)*100:"";@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][$i]->f_srp)?$append[$i][$index_Quarterly_data__check][$i]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][$i]->f_srp)?($append[$i][$index_Quarterly_data__check][$i]->f_srp/400000)*100:"";@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Monthly</td>
                                         <td>1200000</td>
-                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check])?count($append[$i][$index_Mounthly_data__check]):"";@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check])?(count($append[$i][$index_Mounthly_data__check])/1200000)*100:"";@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check][$i]->f_srp)?$append[$i][$index_Mounthly_data__check][$i]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][$i]->f_srp)?($append[$i][$index_Mounthly_data__check][$i]->f_srp/1200000)*100:"";@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Weekly (WK-7)</td>
                                         <td>342857</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check])?count($append[$i][$index_weekly_data__check]):"";@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check])?(count($append[$i][$index_weekly_data__check])/342857)*100:"";@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][$i]->f_srp)?$append[$i][$index_weekly_data__check][$i]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][$i]->f_srp)?($append[$i][$index_weekly_data__check][$i]->f_srp/342857)*100:"";@endphp</td>
                                     </tr>
                                 </tbody>
                             </table>
