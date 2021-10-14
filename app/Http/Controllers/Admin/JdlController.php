@@ -44,6 +44,7 @@ class JdlController extends Controller
         $Alldomains = Domain::all();
         $Allsegments = Segment::all();
         $SubSegment = SubSegment::all();
+        
         $data = [
             "Userdata" => $Userdata,
             "Alldomains" => $Alldomains,

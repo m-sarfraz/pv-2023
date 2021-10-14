@@ -35,15 +35,16 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" id="searchKeyword" required=""
-                                            class="form-control h-px-20_custom border" value="" oninput="Filter_user()"/>
+                                        <input type="text" name="REF_CODE" placeholder="search keyword" id="searchKeyword"
+                                            required="" class="form-control h-px-20_custom border" value=""
+                                            oninput="Filter_user()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
 
-                                        Number Of Records Found:
+                                            Number Of Records Found:
                                         </label>
                                         <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
                                             class="form-control h-px-20_custom border" />
@@ -100,7 +101,7 @@
                                             Segment
                                         </label>
                                         <select name="segment" id="segment" class="select2_dropdown w-100 form-control"
-                                            multiple onchange="Filter_user()">
+                                            multiple onchange="changeValues()">
                                             @foreach ($segments->options as $segmentsrender)
 
                                                 <option value="{{ $segmentsrender->option_name }}">
@@ -206,41 +207,41 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
-                <table id=" example1" class="table">
-                        <thead class="bg-light w-100">
-                            <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                <th class="ant-table-cell">Client</th>
-                                <th class="ant-table-cell">Segment</th>
-                                <th class="ant-table-cell">S segment</th>
-                                <th class="ant-table-cell">Career Level</th>
-                                <th class="ant-table-cell">Position Title</th>
-                                <th class="ant-table-cell">Budget</th>
-                                <th class="ant-table-cell">Location</th>
-                                <th class="ant-table-cell">Work Sched</th>
-                                <th class="ant-table-cell">Priorty</th>
-                                <th class="ant-table-cell">Status</th>
-                                <th class="ant-table-cell ant-table-cell-scrollbar"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($Userdata as $renderIndex)
-
-                                <tr onclick="Filter('{{ $renderIndex->cid }}')">
-                                    <!-- Table data 1 -->
-                                    <td>{{ $renderIndex->endo_client }}</td>
-                                    <td>{{ $renderIndex->candidate_segment }}</td>
-                                    <td>{{ $renderIndex->candidate_sub_segment }}</td>
-                                    <td>{{ $renderIndex->endo_career_endo }}</td>
-                                    <td>{{ $renderIndex->endo_position_title }}</td>
-                                    <td>no data</td>
-                                    <td>{{ $renderIndex->candidate_address }}</td>
-                                    <td>no data</td>
-                                    <td>no data</td>
-                                    <td>{{ $renderIndex->endo_status }}</td>
+                        <table id=" example1" class="table">
+                            <thead class="bg-light w-100">
+                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Segment</th>
+                                    <th class="ant-table-cell">S segment</th>
+                                    <th class="ant-table-cell">Career Level</th>
+                                    <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell">Budget</th>
+                                    <th class="ant-table-cell">Location</th>
+                                    <th class="ant-table-cell">Work Sched</th>
+                                    <th class="ant-table-cell">Priorty</th>
+                                    <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @foreach ($Userdata as $renderIndex)
 
-                        </tbody>
+                                    <tr onclick="Filter('{{ $renderIndex->cid }}')">
+                                        <!-- Table data 1 -->
+                                        <td>{{ $renderIndex->endo_client }}</td>
+                                        <td>{{ $renderIndex->candidate_segment }}</td>
+                                        <td>{{ $renderIndex->candidate_sub_segment }}</td>
+                                        <td>{{ $renderIndex->endo_career_endo }}</td>
+                                        <td>{{ $renderIndex->endo_position_title }}</td>
+                                        <td>no data</td>
+                                        <td>{{ $renderIndex->candidate_address }}</td>
+                                        <td>no data</td>
+                                        <td>no data</td>
+                                        <td>{{ $renderIndex->endo_status }}</td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
                         </table>
                     </div>
                     {{ $Userdata->links() }}
@@ -502,7 +503,7 @@
                 url: "{{ url('admin/filter_records_jdl') }}",
                 data: {
                     _token: token,
-                    searchKeyword:searchKeyword,
+                    searchKeyword: searchKeyword,
                     client: client,
                     candidateDomain: candidateDomain,
                     segment: segment,
@@ -528,6 +529,9 @@
 
 
         })
+        // $("#candidateDomain").change(function() {
+
+        // });
         // function for (if domain is changed append segments acoordingly) starts
         $("#candidateDomain").change(function() {
             let arr = $("#candidateDomain :selected").map(function(i, el) {
@@ -542,7 +546,8 @@
                     arr.forEach(element => {
                         if (element == elementDomain.domain_name) {
                             if (elementsegment.domain_id == elementDomain.id) {
-                                $("#segment").append('<option value="' + elementsegment
+                                $("#segment").append('<option selected value="' +
+                                    elementsegment
                                     .segment_name +
                                     '">' + elementsegment.segment_name +
                                     '</option>');
@@ -552,35 +557,36 @@
 
                 });
             });
-
+            changeValues();
         });
 
+function changeValues(){
 
-        $("#segment").change(function() {
-            let arr = $("#segment :selected").map(function(i, el) {
-                return $(el).val();
-            }).get();
-            console.log(arr);
-            $("#sub_segment").empty();
-            let segment = {!! $Allsegments !!};
-            let SubSegment = {!! $SubSegment !!};
-            segment.forEach(elementsegment => {
-                SubSegment.forEach(elementsubsegment => {
-                    // console.log(elementsubsegment)
-                    arr.forEach(element => {
-                        if (element === elementsegment.segment_name) {
-                            if (elementsubsegment.segment_id == elementsegment.id) {
-                                $("#sub_segment").append('<option value="' +
-                                    elementsubsegment.sub_segment_name +
-                                    '">' + elementsubsegment.sub_segment_name +
-                                    '</option>');
-                            }
+        let arr = $("#segment :selected").map(function(i, el) {
+            return $(el).val();
+        }).get();
+        console.log(arr);
+        $("#sub_segment").empty();
+        let segment = {!! $Allsegments !!};
+        let SubSegment = {!! $SubSegment !!};
+        segment.forEach(elementsegment => {
+            SubSegment.forEach(elementsubsegment => {
+                // console.log(elementsubsegment)
+                arr.forEach(element => {
+                    if (element === elementsegment.segment_name) {
+                        if (elementsubsegment.segment_id == elementsegment.id) {
+                            $("#sub_segment").append('<option selected value="' +
+                            elementsubsegment.sub_segment_name +
+                            '">' + elementsubsegment.sub_segment_name +
+                            '</option>');
                         }
-                    })
+                    }
+                })
 
-                });
             });
-
         });
+        Filter_user();   
+
+}
     </script>
-@endsection
+    @endsection
