@@ -92,6 +92,7 @@ class ProfileController extends Controller
     // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
         $config = Config::get("datastudio.google_sheet_id");
@@ -102,8 +103,8 @@ class ProfileController extends Controller
         // if sheet exist on google sheet with given id
         if (is_array($data)) {
             foreach ($data as $render_skipped_rows) {
-                if (count($render_skipped_rows) > 7002) {
-                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 7000']);
+                if (count($render_skipped_rows) > 6002) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
                 //unset first two rows
                 unset($data[0][0]);
@@ -437,8 +438,9 @@ class ProfileController extends Controller
         }
     }
     public function readLocalAcceess()
-    {    
-         $recruiter = Auth::user()->roles->first() ;
+    {
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+        $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["file"]["tmp_name"];
         if ($_FILES["file"]["size"] > 0) {
             $file = fopen($filename, "r");
@@ -449,8 +451,8 @@ class ProfileController extends Controller
             $row = 1;
             while (($render = fgetcsv($file, 1000, ",")) !== false) {
                 $num = count($render);
-                if ($row > 7000) {
-                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 7000']);
+                if ($row > 6002) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
 
                 $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
@@ -708,7 +710,6 @@ class ProfileController extends Controller
                 ];
 
                 $user = User::find($recruiter);
-
 
                 $query = DB::table("cip_progress")
                     ->where("candidate_id", $store_by_Ecxel->id)
