@@ -58,7 +58,7 @@ function RemarksChange(elem) {
 
         // $('#off_allowance').prop("disabled", true);
     }
-    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Scheduled') || value.includes('Offer accepted')) {
+    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard')|| value.includes('Scheduled') || value.includes('Offer accepted')) {
         $('#off_allowance').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
     }
