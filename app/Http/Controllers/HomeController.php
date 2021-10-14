@@ -14,7 +14,7 @@ use Google\Service\Directory\Resource\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller
+class HomeController extends Controller 
 {
     /** 
      * Create a new controller instance.
@@ -33,6 +33,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // return Auth::user()->roles()->pluck("name");
+
+
+
         $users = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
             ->groupBy(DB::raw("Month(created_at)"))
@@ -146,15 +150,7 @@ class HomeController extends Controller
             ->groupby("cip_progress.team")
             ->orderby("cip_progress.id")
             ->select(DB::raw("SUM(finance.srp) as f_srp"), "finance.srp", "cip_progress.team", "cip_progress.candidate_id as c_c_id", "finance.candidate_id")->get();
-        // $sum_of_loop = 0;
-        // dd()
-        // for ($i; $i < count($data); $i++) {
 
-        //     $sum_of_loop = $total_ogoing_final[0]->f_srp;
-        // }
-        // dd($sum_of_loop);
-        // total nio of ongoin
-        //text butt del
         $del = new SampleChart();
         $del->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
         $del->dataset('TAT ', 'bar', [80000000])->options([
@@ -171,16 +167,7 @@ class HomeController extends Controller
         ]);
 
         //close del
-        //incentivebased revenue
-        // $incentivebasedRevenue = Cipprogress::join("finance_detail", "finance_detail.candidate_id", "cip_progress.candidate_id")
-        //     ->join("endorsements", "endorsements.candidate_id", "cip_progress.candidate_id")
-        //     ->where("endorsements.remarks_for_finance","=", "Onboarded")
-        //     ->orwhere("endorsements.remarks_for_finance","=", "Offer Accepted")
-        //     ->groupby("cip_progress.team")
-        //     ->orderby("cip_progress.id")
-        //     ->select(DB::raw("SUM(finance_detail.vcc_amount) as vcc_amount"), "finance.srp", "cip_progress.team", "cip_progress.candidate_id as c_c_id", "finance.candidate_id")->get();
 
-        //incentivebased revenue
         $data = [
             "Admin_team" => $Admin_team,
             "chart" => $chart,
