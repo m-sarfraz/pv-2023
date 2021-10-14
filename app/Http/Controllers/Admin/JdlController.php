@@ -44,7 +44,7 @@ class JdlController extends Controller
         $Alldomains = Domain::all();
         $Allsegments = Segment::all();
         $SubSegment = SubSegment::all();
-        
+
         $data = [
             "Userdata" => $Userdata,
             "Alldomains" => $Alldomains,
@@ -92,14 +92,14 @@ class JdlController extends Controller
             );
 
         if (isset($request->searchKeyword)) {
-            // $Userdata->orWhere('endorsements.client', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.domain', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.segment', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_domains.sub_segment', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('endorsements.career_endo', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('endorsements.client', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('candidate_domains.domain', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('candidate_domains.segment', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('candidate_domains.sub_segment', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('endorsements.career_endo', 'LIKE', '%' . $request->searchKeyword . '%');
             $Userdata->orWhere('endorsements.position_title', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('endorsements.status', 'LIKE', '%' . $request->searchKeyword . '%');
-            // $Userdata->orWhere('candidate_informations.address', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('endorsements.status', 'LIKE', '%' . $request->searchKeyword . '%');
+            $Userdata->orWhere('candidate_informations.address', 'LIKE', '%' . $request->searchKeyword . '%');
         }
 
         if (isset($request->client)) {
