@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\CandidateInformation;
 use App\Charts\SampleChart;
 use App\Cipprogress;
-use App\Finance_detail;
 use App\User;
-use App\Role;
-use App\SpatieRole;
-use Auth;
-use Google\Service\Directory\Resource\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    /** 
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -33,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        echo sys_get_temp_dir() . "\n";
         $users = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
             ->groupBy(DB::raw("Month(created_at)"))
@@ -51,7 +46,6 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
-
 
         $count_user_pie = new SampleChart();
         $count_user_pie->labels(['First', 'Second', 'Third']);
@@ -75,7 +69,6 @@ class HomeController extends Controller
         }
 
         for ($i = 0; $i < count($data); $i++) {
-
 
             $weekly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
                 ->where("cip_progress.team", $check[$i])
@@ -117,10 +110,8 @@ class HomeController extends Controller
             $total_ogoing_final = DB::select('SELECT SUM(`final_stage`) as `sumfinal` FROM `cip_progress` WHERE `team`="' . $check[$i] . '" AND (`mid_stage`=1 OR `final_stage`=1);');
             $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `team`="' . $check[$i] . '"  AND (`mid_stage`=1 OR `final_stage`=1);');
 
-
             $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
             // $no_of_ongoing
-
 
             $data_loop = [
                 "weekly_data_" . $i => $weekly_data_[$i],
@@ -194,7 +185,7 @@ class HomeController extends Controller
     }
     public function filterByDate(Request $request)
     {
-        // make quarter 
+        // make quarter
         $data = explode("-", $request->date);
         if (($data[1] >= "01") && ($data[1] <= "03")) {
             // Quartile 1
@@ -215,7 +206,7 @@ class HomeController extends Controller
 
         $Current_date = $request->date;
 
-        $revenue =  DB::table('finance_detail')
+        $revenue = DB::table('finance_detail')
             ->join('roles', 'roles.id', 'finance_detail.t_id')
             ->select('finance_detail.t_id', 'finance_detail.created_at', 'roles.name', DB::raw('sum(finance_detail.vcc_amount) as Sume'))
             ->groupBy('finance_detail.t_id')
@@ -233,15 +224,12 @@ class HomeController extends Controller
 
         for ($i = 0; $i < count($data); $i++) {
 
-
             // $no_of_ongoing
             $total_ogoing_final = DB::select('SELECT SUM(`final_stage`) as `sumfinal` FROM `cip_progress` WHERE `team`="' . $check[$i] . '" and `created_at` >="' . $Current_date . '" AND (`mid_stage`=1 OR `final_stage`=1);');
             $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `team`="' . $check[$i] . '"and `created_at` >="' . $Current_date . '"  AND (`mid_stage`=1 OR `final_stage`=1);');
 
-
             $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
             // $no_of_ongoing
-
 
             $data_loop = [
 
@@ -260,7 +248,6 @@ class HomeController extends Controller
             ->select(DB::raw("SUM(finance.srp) as f_srp"), "finance.srp", "cip_progress.team", "cip_progress.candidate_id as c_c_id", "finance.candidate_id")->get();
 
         // total nio of ongoin
-
 
         $data = [
             "Quartile" => $Quartile,
