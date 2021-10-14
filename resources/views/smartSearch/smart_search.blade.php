@@ -56,7 +56,7 @@
                                         <label class="Label-00">Domain:</label>
                                         <select multiple name="DOMAIN" id="domain" required="" onchange="FilterSearch()"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
-                                            <option selected disabled>Select Option</option>
+                                             
                                             @foreach ($domain as $domainOption)
                                                 <option value="{{ $domainOption->domain_name }}">
                                                     {{ $domainOption->domain_name }}</option>
@@ -69,7 +69,7 @@
                                         <label class="Label-00">Recruiter:</label>
                                         <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
                                             onchange="FilterSearch()" onchange="filterUserData()">
-                                            <option selected disabled>Select Option</option>
+                                             
                                             @foreach ($user as $key => $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
@@ -84,7 +84,7 @@
                                         <label class="Label-00">Client:</label>
                                         <select multiple name="CLIENT" id="client" onchange="FilterSearch()"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                            <option value="" disabled selected>Select Option</option>
+                                             
                                             @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
@@ -128,7 +128,7 @@
                                         <select multiple name="residence" required="" id="residence"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-                                            <option value="" disabled selected>Select Option</option>
+                                             
                                             @foreach ($residence->options as $residenceOptions)
                                                 <option value="{{ $residenceOptions->option_name }}">
                                                     {{ $residenceOptions->option_name }}
@@ -146,7 +146,7 @@
                                         <select multiple name="CAREER_LEVEL_FINANCE" required="" id="career_level"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-                                            <option value="" disabled selected>Select Option</option>
+                                             
                                             @foreach ($careerLevel->options as $careerLevelOptions)
                                                 <option value="{{ $careerLevelOptions->option_name }}">
                                                     {{ $careerLevelOptions->option_name }}
@@ -179,7 +179,7 @@
                                             @php
                                                 $remarks = Helper::get_dropdown('remarks_for_finance');
                                             @endphp
-                                            <option value="" disabled selected>Select Option</option>
+                                             
                                             @foreach ($remarks->options as $remarksOptions)
                                                 <option value="{{ $remarksOptions->option_name }}">
                                                     {{ $remarksOptions->option_name }}</option>
@@ -192,7 +192,7 @@
                                         <label class="Label-00">Status:</label>
                                         <Select multiple id="status" onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-                                            <Option selected disabled>Select option</Option>
+                                             
                                             <Option>To Be Endorsed</Option>
                                         </Select>
                                     </div>
@@ -205,7 +205,7 @@
                                         <label class="Label-00">Remarks:</label>
                                         <select multiple name="" id="remarks" onchange="FilterSearch()"
                                             class="w-100 form-control select2_dropdown w-100">
-                                            <option value="" selected disabled>Select Option</option>
+                                             
                                             @foreach ($remarks->options as $remarksOptions)
                                                 <option value="{{ $remarksOptions->option_name }}">
                                                     {{ $remarksOptions->option_name }}
