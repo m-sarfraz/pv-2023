@@ -12,25 +12,26 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
+use DB;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
-use DB;
 
 class RecordController extends Controller
 {
     // index function for showing the record of users with filters starts
     public function index()
     {
-        // return 'hi';
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+
         // get recruiter data
         $user = User::where('type', 3)->get();
 
         // join the tables to get ccandidate data
         $Userdata = DB::table('six_table_view')
-        ->select('six_table_view.id as cid', 'six_table_view.*')
-        ->paginate(10);
+            ->select('six_table_view.id as cid', 'six_table_view.*')
+            ->paginate(10);
 
         // get required data to use for select purpose
         $count = $Userdata->count();
@@ -61,9 +62,8 @@ class RecordController extends Controller
     {
 
         // dd($request->search);
-        $Userdata =DB::table('six_table_view')
-        ->select('six_table_view.id as CID', 'six_table_view.*');
-    
+        $Userdata = DB::table('six_table_view')
+            ->select('six_table_view.id as CID', 'six_table_view.*');
 
         // condition for checking first to end not null starts here
         if ($request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->career_level == null && $request->date == null) {
@@ -220,7 +220,7 @@ class RecordController extends Controller
         // custom condition for checking the null values if profile is not null select starts here
         if (
             $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment != null &&
-            $request->app_status ==    null && $request->client == null && $request->career_level == null && $request->date == null
+            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
         ) {
             $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
                 ->whereIn('six_table_view.sub_segment', $request->sub_segment);
@@ -405,13 +405,13 @@ class RecordController extends Controller
 
         // condiiton for one null with all other ends
         $Alldata = $Userdata->where('six_table_view.first_name', 'like', '%' . $request->search . '%')
-            //     ->where('candidate_positions.candidate_profile', 'like', '%' . $request->search . '%')
-            //     ->where('endorsements.career_endo', 'like', '%' . $request->search . '%')
-            // // ->where('candidate_domains.sub_segment', 'like', '%' . $request->search . '%')
-            //     ->where('endorsements.app_status', 'like', '%' . $request->search . '%')
-            // ->orWhere('endorsements.client', 'like', '%' . $request->search . '%')
-            // ->orWhere('candidate_positions.curr_salary', 'like', '%' . $request->search . '%')
-            // ->orWhere('candidate_positions.exp_salary', 'like', '%' . $request->search . '%')
+        //     ->where('candidate_positions.candidate_profile', 'like', '%' . $request->search . '%')
+        //     ->where('endorsements.career_endo', 'like', '%' . $request->search . '%')
+        // // ->where('candidate_domains.sub_segment', 'like', '%' . $request->search . '%')
+        //     ->where('endorsements.app_status', 'like', '%' . $request->search . '%')
+        // ->orWhere('endorsements.client', 'like', '%' . $request->search . '%')
+        // ->orWhere('candidate_positions.curr_salary', 'like', '%' . $request->search . '%')
+        // ->orWhere('candidate_positions.exp_salary', 'like', '%' . $request->search . '%')
             ->get();
         // return $Alldata;
         $candidates = CandidateInformation::all();
