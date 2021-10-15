@@ -117,7 +117,7 @@
                                         $sub_segment = Helper::get_dropdown('sub_segment');
                                         ?>
                                         <label class="d-block font-size-3 mb-0">
-                                            S-Segment
+                                            Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="Filter_user()">
@@ -155,7 +155,7 @@
                                             $CareerLevel = Helper::get_dropdown('career_level');
                                         @endphp
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
-                                            Career 1 level:
+                                            Career Level:
                                         </label>
                                         <select multiple name="career_level" id="career_level"
                                             class="select2_dropdown  w-100" onchange="Filter_user()">
