@@ -4,14 +4,14 @@
 
     <style>
         /* .row {
-            margin: 0px !important;
-        } */
+                margin: 0px !important;
+            } */
 
         #example1_filter label {
             display: flex;
             width: fit-content;
             margin-left: auto;
-            align:items-center;
+            align: items-center;
         }
 
     </style>
@@ -40,7 +40,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
-                                        Number Of Records Found:                                          
+                                            Number Of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
                                             class="form-control h-px-20_custom border" value="" />
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group mb-1 pt-1" >
+                                    <div class="form-group mb-1 pt-1">
                                         <label class="d-block font-size-3 mb-0">
                                             Canidate
                                         </label>
@@ -173,9 +173,11 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
                                         <label class="Label">Endo Date:</label>
-                                       <div class="d-flex align-items-center"> <input type="date" class="w-100 form-control" name="date" id="date"
-                                            oninput="filterUserData()">  <span class="pl-2" id="reset"> <i class="bi bi-arrow-repeat"></i> </span></div>
-                                      
+                                        <div class="d-flex align-items-center"> <input type="date"
+                                                class="w-100 form-control" name="date" id="date" oninput="filterUserData()">
+                                            <span class="pl-2" id="reset"> <i class="bi bi-arrow-repeat"></i>
+                                            </span></div>
+
                                     </div>
 
                                 </div>
@@ -189,77 +191,77 @@
                 <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
                         <table id=" record" class="table">
-                        <thead class="bg-light w-100">
-                            <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                <th class="ant-table-cell">Sr#</th>
-                                <th class="ant-table-cell">Recruiter</th>
-                                <th class="ant-table-cell">Candidate</th>
-                                <th class="ant-table-cell">Profile</th>
-                                <th class="ant-table-cell">S segment</th>
-                                <th class="ant-table-cell">CSalary</th>
-                                <th class="ant-table-cell">E.Salary</th>
-                                <th class="ant-table-cell">App.Status</th>
-                                <th class="ant-table-cell">Client</th>
-                                <th class="ant-table-cell">CL</th>
-                                <th class="ant-table-cell">Endorsement Date</th>
-                                <th class="ant-table-cell ant-table-cell-scrollbar"></th>
-                            </tr>
-                        </thead> 
-                        <tbody>
-                            @forelse ( $Userdata as $key=>$value )
-                                <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
-                                    <!-- Table data 1 -->
-                                    <td>{{ $key + 1 }}</td>
-                                    @php
-                                        $name = \App\User::with('candidate_information')
-                                            ->where('id', $value->saved_by)
-                                            ->first();
-                                    @endphp
-                                    <td>{{ $name->name }}</td>
-                                    <td>
-                                        @if (isset($value->first_name))
-                                            {{ $value->first_name }} {{ $value->last_name }}
-
-                                        @endif
-                                    </td>
-                                    <td>{{ $value->candidate_profile }}
-                                    </td>
-                                    <td>{{ $value->sub_segment }}</td>
-                                    <td>
-                                        @if (isset($value->curr_salary))
-                                            {{ $value->curr_salary }}
-
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if (isset($value->exp_salary))
-                                            {{ $value->exp_salary }}
-
-                                        @endif
-                                    </td>
-                                    <td>{{ $value->app_status }}</td>
-                                    <td>{{ $value->client }}</td>
-                                    <td>{{ $value->career_endo }}</td>
-                                    <td>
-                                        @if (isset($value->endi_date))
-                                            {{ $value->endi_date }}
-
-                                        @endif
-                                    </td>
-                                    <td></td>
+                            <thead class="bg-light w-100">
+                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell">Sr#</th>
+                                    <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Profile</th>
+                                    <th class="ant-table-cell">S segment</th>
+                                    <th class="ant-table-cell">CSalary</th>
+                                    <th class="ant-table-cell">E.Salary</th>
+                                    <th class="ant-table-cell">App.Status</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">CL</th>
+                                    <th class="ant-table-cell">Endorsement Date</th>
+                                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ( $Userdata as $key=>$value )
+                                    <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
+                                        <!-- Table data 1 -->
+                                        <td>{{ $key + 1 }}</td>
+                                        @php
+                                            $name = \App\User::with('candidate_information')
+                                                ->where('id', $value->saved_by)
+                                                ->first();
+                                        @endphp
+                                        <td>{{ $name->name }}</td>
+                                        <td>
+                                            @if (isset($value->first_name))
+                                                {{ $value->first_name }} {{ $value->last_name }}
 
-                            @empty
-                                <tr>
+                                            @endif
+                                        </td>
+                                        <td>{{ $value->candidate_profile }}
+                                        </td>
+                                        <td>{{ $value->sub_segment }}</td>
+                                        <td>
+                                            @if (isset($value->curr_salary))
+                                                {{ $value->curr_salary }}
 
-                                    <td> no data found</td>
-                                </tr>
-                            @endforelse
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if (isset($value->exp_salary))
+                                                {{ $value->exp_salary }}
 
-                        </tbody>
+                                            @endif
+                                        </td>
+                                        <td>{{ $value->app_status }}</td>
+                                        <td>{{ $value->client }}</td>
+                                        <td>{{ $value->career_endo }}</td>
+                                        <td>
+                                            @if (isset($value->endi_date))
+                                                {{ $value->endi_date }}
+
+                                            @endif
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                @empty
+                                    <tr>
+
+                                        <td> no data found</td>
+                                    </tr>
+                                @endforelse
+
+                            </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+                    {{-- {{ $Userdata->links() }} --}}
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
@@ -320,7 +322,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                            Residence
+                                                Residence
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
@@ -877,22 +879,34 @@
                 for (let i = 0; i < profile.length; i++) {
                     if (v == profile[i].candidate_id) {
                         count++;
-                        $('#profile').append('<option  selected  value="' + profile[i].candidate_profile +
-                            '">' +
-                            profile[i].candidate_profile +
-                            '</option>');
-                        $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
-                            '">' +
-                            segment[i].sub_segment +
-                            '</option>');
+                        if (profile[i].candidate_profile != "") {
+
+                            $('#profile').append('<option  selected  value="' + profile[i]
+                                .candidate_profile +
+                                '">' +
+                                profile[i].candidate_profile +
+                                '</option>');
+                        }
+                        if (segment[i].sub_segment != "") {
+
+                            $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
+                                '">' +
+                                segment[i].sub_segment +
+                                '</option>');
+                        }
+                    }
+                    if (v == status[i].candidate_id) {
+                        count++;
                         $('#app_status').append('<option selected  value="' + status[i].app_status + '">' +
                             status[i]
                             .app_status +
                             '</option>');
+                        if (client[i].client != "") {
                         $('#client').append('<option  selected value="' + client[i].client + '">' + client[
                                 i]
                             .client +
                             '</option>');
+                        }
                         $('#career_level').append('<option selected  value="' + career[i].career_endo +
                             '">' + status[
                                 i]
