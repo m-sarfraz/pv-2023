@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller 
+class HomeController extends Controller
 {
     /**
      * Create a new controller instance.

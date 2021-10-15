@@ -7,7 +7,6 @@ use App\User;
 use Auth;
 use Helper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -141,7 +140,6 @@ class UserController extends Controller
             } else {
                 $input = $request->except(['password']);
             }
-            return $request->file;
             $user = User::find($id);
             $user->update($input);
 

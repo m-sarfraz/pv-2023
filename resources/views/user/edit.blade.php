@@ -79,7 +79,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                 Select Team:
                                             </label>
-                                            <select name="roles[]" required=""
+                                            <select name="roles" required=""
                                                 class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
                                                 @if (count($roles) > 0)
                                                     <option value="" disabled>Select Option</option>
