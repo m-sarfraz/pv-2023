@@ -65,6 +65,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('jdl', 'JdlController@index')->name("jdl");
     Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
+    Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
 
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');

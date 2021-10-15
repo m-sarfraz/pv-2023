@@ -174,6 +174,7 @@
             @php $index_count_offere__check="count_offere_".$i @endphp
 
 
+            
 
             <div class="row m-0 pt-4">
                 <div class="col-lg-5">
@@ -194,20 +195,20 @@
                                     <tr>
                                         <td>Quarterly</td>
                                         <td>400000</td>
-                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][$i]->f_srp)?$append[$i][$index_Quarterly_data__check][$i]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][$i]->f_srp)?($append[$i][$index_Quarterly_data__check][$i]->f_srp/400000)*100:"";@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?$append[$i][$index_Quarterly_data__check][0]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100:0;@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Monthly</td>
                                         <td>1200000</td>
-                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check][$i]->f_srp)?$append[$i][$index_Mounthly_data__check][$i]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][$i]->f_srp)?($append[$i][$index_Mounthly_data__check][$i]->f_srp/1200000)*100:"";@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?$append[$i][$index_Mounthly_data__check][0]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?($append[$i][$index_Mounthly_data__check][0]->f_srp/1200000)*100:0;@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Weekly (WK-7)</td>
                                         <td>342857</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][$i]->f_srp)?$append[$i][$index_weekly_data__check][$i]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][$i]->f_srp)?($append[$i][$index_weekly_data__check][$i]->f_srp/342857)*100:"";@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?$append[$i][$index_weekly_data__check][0]->f_srp:0;@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?($append[$i][$index_weekly_data__check][0]->f_srp/342857)*100:0;@endphp</td>
                                     </tr>
                                 </tbody>
                             </table>

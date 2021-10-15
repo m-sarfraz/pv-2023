@@ -80,7 +80,7 @@
                                             Domain
                                         </label>
                                         <select name="candidateDomain" id="candidateDomain"
-                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
+                                            class="select2_dropdown w-100 form-control" multiple onchange="changeDomain()">
                                             @foreach ($candidateDomain->options as $render_domain)
 
                                                 <option value="{{ $render_domain->option_name }}">
@@ -524,26 +524,23 @@
                 },
             });
         }
-        $('#candidateDomain').change(function() {
 
 
-
-        })
-        // $("#candidateDomain").change(function() {
-
-        // });
         // function for (if domain is changed append segments acoordingly) starts
-        $("#candidateDomain").change(function() {
+        function changeDomain() {
+
             let arr = $("#candidateDomain :selected").map(function(i, el) {
                 return $(el).val();
             }).get();
 
+            let uppercased = arr.map(arr => arr.toUpperCase());
+            // console.log($("#candidateDomain").val())
             $("#segment").empty();
             let domain = {!! $Alldomains !!};
             let segment = {!! $Allsegments !!};
             domain.forEach(elementDomain => {
                 segment.forEach(elementsegment => {
-                    arr.forEach(element => {
+                    uppercased.forEach(element => {
                         if (element == elementDomain.domain_name) {
                             if (elementsegment.domain_id == elementDomain.id) {
                                 $("#segment").append('<option selected value="' +
@@ -557,36 +554,72 @@
 
                 });
             });
+            Filter_user();
             changeValues();
-        });
+        }
+        $('#client').change(function() {
+            // call Ajax for returning the data as view
 
-function changeValues(){
+            $.ajax({
+                type: "post",
+                url: "{{ url('admin/filter_records_jdl_getclient') }}",
+                data: {
+                    _token: token,
+                    client: $('#client').val(),
 
-        let arr = $("#segment :selected").map(function(i, el) {
-            return $(el).val();
-        }).get();
-        console.log(arr);
-        $("#sub_segment").empty();
-        let segment = {!! $Allsegments !!};
-        let SubSegment = {!! $SubSegment !!};
-        segment.forEach(elementsegment => {
-            SubSegment.forEach(elementsubsegment => {
-                // console.log(elementsubsegment)
-                arr.forEach(element => {
-                    if (element === elementsegment.segment_name) {
-                        if (elementsubsegment.segment_id == elementsegment.id) {
-                            $("#sub_segment").append('<option selected value="' +
-                            elementsubsegment.sub_segment_name +
-                            '">' + elementsubsegment.sub_segment_name +
-                            '</option>');
+                },
+
+                // Success fucniton of Ajax
+                success: function(res) {
+                    $("#candidateDomain").empty();
+                    var i;
+                    let domains = {!! $candidateDomain->options !!}
+                    domains.forEach(element => {
+                        console.log(element);
+                        for (var i = 0; i < res.length; i++) {
+
+                            if (element.option_name == res[i].domain.toUpperCase()) {
+
+                                $("#candidateDomain").append(
+                                    `<option selected   value="${element.option_name}">${element.option_name}</option>`
+                                );
+                            }
+
+
                         }
-                    }
-                })
+                    });
 
+                    changeDomain();
+                }
             });
-        });
-        Filter_user();   
+        })
 
-}
+        function changeValues() {
+
+            let arr = $("#segment :selected").map(function(i, el) {
+                return $(el).val();
+            }).get();
+            $("#sub_segment").empty();
+            let segment = {!! $Allsegments !!};
+            let SubSegment = {!! $SubSegment !!};
+            segment.forEach(elementsegment => {
+                SubSegment.forEach(elementsubsegment => {
+                    // console.log(elementsubsegment)
+                    arr.forEach(element => {
+                        if (element === elementsegment.segment_name) {
+                            if (elementsubsegment.segment_id == elementsegment.id) {
+                                $("#sub_segment").append('<option selected value="' +
+                                    elementsubsegment.sub_segment_name +
+                                    '">' + elementsubsegment.sub_segment_name +
+                                    '</option>');
+                            }
+                        }
+                    })
+
+                });
+            });
+            Filter_user();
+
+        }
     </script>
-    @endsection
+@endsection
