@@ -534,7 +534,7 @@
             }).get();
 
             let uppercased = arr.map(arr => arr.toUpperCase());
-            // console.log($("#candidateDomain").val())
+
             $("#segment").empty();
             let domain = {!! $Alldomains !!};
             let segment = {!! $Allsegments !!};
@@ -575,7 +575,7 @@
                     var i;
                     let domains = {!! $candidateDomain->options !!}
                     domains.forEach(element => {
-                        console.log(element);
+
                         for (var i = 0; i < res.length; i++) {
 
                             if (element.option_name == res[i].domain.toUpperCase()) {
@@ -583,12 +583,14 @@
                                 $("#candidateDomain").append(
                                     `<option selected   value="${element.option_name}">${element.option_name}</option>`
                                 );
+
                             }
 
 
                         }
                     });
-
+                    changecareer_level(res);
+                    changeposition_title(res)
                     changeDomain();
                 }
             });
@@ -604,7 +606,7 @@
             let SubSegment = {!! $SubSegment !!};
             segment.forEach(elementsegment => {
                 SubSegment.forEach(elementsubsegment => {
-                    // console.log(elementsubsegment)
+
                     arr.forEach(element => {
                         if (element === elementsegment.segment_name) {
                             if (elementsubsegment.segment_id == elementsegment.id) {
@@ -619,6 +621,29 @@
                 });
             });
             Filter_user();
+
+        }
+
+        function changecareer_level(res) {
+            $('#career_level').empty()
+            for(var i=0; i<res.length;i++){
+            $('#career_level').append('<option selected value="' +
+                res[i].career_endo +
+                '">' + res[i].career_endo +
+                '</option>');
+            }
+
+        }
+
+        function changeposition_title(res) {
+            $('#position_title').empty()
+            for(var i=0; i<res.length;i++){
+
+            $('#position_title').append('<option selected value="' +
+                res[i].position_title +
+                '">' + res[i].position_title +
+                '</option>');
+            }
 
         }
     </script>
