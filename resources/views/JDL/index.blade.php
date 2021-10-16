@@ -571,6 +571,9 @@
 
                 // Success fucniton of Ajax
                 success: function(res) {
+                    if (res[0] == null) {
+                        location.reload();
+                    }
                     $("#candidateDomain").empty();
                     var i;
                     let domains = {!! $candidateDomain->options !!}
@@ -591,7 +594,9 @@
                     });
                     changecareer_level(res);
                     changeposition_title(res)
-                    changeDomain();
+                    changesegmentbyClient(res)
+                    changesubsegmentbyClient(res)
+
                 }
             });
         })
@@ -626,24 +631,48 @@
 
         function changecareer_level(res) {
             $('#career_level').empty()
-            for(var i=0; i<res.length;i++){
+
             $('#career_level').append('<option selected value="' +
-                res[i].career_endo +
-                '">' + res[i].career_endo +
+                res[0].career_endo +
+                '">' + res[0].career_endo +
                 '</option>');
-            }
+
 
         }
 
         function changeposition_title(res) {
             $('#position_title').empty()
-            for(var i=0; i<res.length;i++){
+
 
             $('#position_title').append('<option selected value="' +
-                res[i].position_title +
-                '">' + res[i].position_title +
+                res[0].position_title +
+                '">' + res[0].position_title +
                 '</option>');
-            }
+
+
+        }
+
+        function changesegmentbyClient(res) {
+            $('#segment').empty()
+
+
+            $('#segment').append('<option selected value="' +
+                res[0].segment +
+                '">' + res[0].segment +
+                '</option>');
+
+
+        }
+
+        function changesubsegmentbyClient(res) {
+            $('#sub_segment').empty()
+
+
+            $('#sub_segment').append('<option selected value="' +
+                res[0].sub_segment +
+                '">' + res[0].sub_segment +
+                '</option>');
+
 
         }
     </script>

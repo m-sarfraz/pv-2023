@@ -143,13 +143,19 @@ class JdlController extends Controller
         // dd($request->all());
         //endorsement .client name
         // candisate domain client domain
-        $filter_Client_domain = Endorsement::join("candidate_domains", "endorsements.candidate_id", "candidate_domains.candidate_id")
-            ->join("domains", "candidate_domains.domain", "domains.domain_name")
-            ->whereIn("endorsements.client", $request->client)
-            ->select("candidate_domains.domain", "domains.id as D_id","endorsements.career_endo","endorsements.position_title")
-            ->groupby("domains.id", 'candidate_domains.domain')
-            ->get();
- 
+        $filter_Client_domain =[];
+        if ($request->client) {
+
+            $filter_Client_domain = Endorsement::join("candidate_domains", "endorsements.candidate_id", "candidate_domains.candidate_id")
+                ->join("domains", "candidate_domains.domain", "domains.domain_name")
+                ->whereIn("endorsements.client", $request->client)
+                ->select("candidate_domains.domain", "domains.id as D_id", "endorsements.career_endo", "endorsements.position_title", "candidate_domains.segment", "candidate_domains.sub_segment")
+                ->groupby("domains.id", 'candidate_domains.domain')
+                ->get();
+        } else {
+            $filter_Client_domain == null;
+        }
+
         return response()->json($filter_Client_domain);
     }
     /**
