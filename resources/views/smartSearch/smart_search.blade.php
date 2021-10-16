@@ -315,7 +315,7 @@
                         </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+                    {{-- {{ $Userdata->links() }} --}}
 
                 </div>
                 <!-- Datatable code end-->

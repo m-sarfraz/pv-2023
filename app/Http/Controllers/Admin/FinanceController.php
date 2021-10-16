@@ -6,10 +6,10 @@ use App\CandidateInformation;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
 use App\User;
+use Auth;
 use Carbon;
 use DB;
 use Helper;
-use Auth;
 use Illuminate\Http\Request;
 
 class FinanceController extends Controller
@@ -136,11 +136,11 @@ class FinanceController extends Controller
 
     public function SavefinanceReference(Request $request)
     {
-        $id=Auth::user()->id;
+        $id = Auth::user()->id;
         $user = User::find($id);
         $userRole = $user->roles->pluck('id')->all();
-        $t_id=$userRole;
- 
+        $t_id = $userRole;
+
         $data = [
             "ob_date" => $request->onboardnig_date,
             "term_date" => $request->term_date,

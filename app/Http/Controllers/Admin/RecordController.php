@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
+use Cache;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -29,16 +30,34 @@ class RecordController extends Controller
         $user = User::where('type', 3)->get();
 
         // join the tables to get ccandidate data
-        $Userdata = DB::table('six_table_view')
-            ->select('six_table_view.id as cid', 'six_table_view.*')
-            ->paginate(10);
-
+        $Userdata = Cache()->remember('allUserData', 10, function () {
+            return DB::table('six_table_view')
+                ->select('six_table_view.id as cid', 'six_table_view.*')
+                ->get()->toJson();
+        });
         // get required data to use for select purpose
         $count = $Userdata->count();
-        $candidates = CandidateInformation::select('id', 'first_name')->get();
-        $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
-        $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
-        $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
+
+        $candidates = Cache()->remember('candidates', 10, function () {
+            return CandidateInformation::select('id', 'first_name')->get()->toJson();
+        });
+        $candidateprofile = Cache()->remember('candidateprofile', 10, function () {
+            return CandidatePosition::select('candidate_profile', 'candidate_id')->get()->toJson();
+
+        });
+        $candidateDomain = Cache()->remember('candidateDomain', 10, function () {
+            return CandidateDomain::select('segment', 'sub_segment')->get()->toJson();
+
+        });
+        $endorsement = Cache()->remember('endorsement', 10, function () {
+            return Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get()->toJson();
+
+        });
+
+        // $candidates = CandidateInformation::select('id', 'first_name')->get();
+        // $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
+        // $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
+        // $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
         // make array of data to pas to view

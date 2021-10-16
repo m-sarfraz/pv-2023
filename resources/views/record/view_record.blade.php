@@ -212,12 +212,12 @@
                                     <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
                                         <!-- Table data 1 -->
                                         <td>{{ $key + 1 }}</td>
-                                        @php
+                                        {{-- @php
                                             $name = \App\User::with('candidate_information')
                                                 ->where('id', $value->saved_by)
                                                 ->first();
-                                        @endphp
-                                        <td>{{ $name->name }}</td>
+                                        @endphp --}}
+                                        <td>{{ 1}}</td>
                                         <td>
                                             @if (isset($value->first_name))
                                                 {{ $value->first_name }} {{ $value->last_name }}
