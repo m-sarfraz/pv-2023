@@ -631,11 +631,13 @@
 
         function changecareer_level(res) {
             $('#career_level').empty()
+for(var i=0;i<res.length;i++){
 
-            $('#career_level').append('<option selected value="' +
-                res[0].career_endo +
-                '">' + res[0].career_endo +
-                '</option>');
+    $('#career_level').append('<option selected value="' +
+    res[i].career_endo +
+    '">' + res[i].career_endo +
+    '</option>');
+}
 
 
         }
@@ -643,37 +645,37 @@
         function changeposition_title(res) {
             $('#position_title').empty()
 
-
+            for(var i=0;i<res.length;i++){
             $('#position_title').append('<option selected value="' +
-                res[0].position_title +
-                '">' + res[0].position_title +
+                res[i].position_title +
+                '">' + res[i].position_title +
                 '</option>');
-
+            }
 
         }
 
         function changesegmentbyClient(res) {
             $('#segment').empty()
 
-
+            for(var i=0;i<res.length;i++){
             $('#segment').append('<option selected value="' +
-                res[0].segment +
-                '">' + res[0].segment +
+                res[i].segment +
+                '">' + res[i].segment +
                 '</option>');
-
+            }
 
         }
 
         function changesubsegmentbyClient(res) {
             $('#sub_segment').empty()
 
-
+            for(var i=0;i<res.length;i++){
             $('#sub_segment').append('<option selected value="' +
-                res[0].sub_segment +
-                '">' + res[0].sub_segment +
+                res[i].sub_segment +
+                '">' + res[i].sub_segment +
                 '</option>');
 
-
+            }
         }
     </script>
 @endsection
