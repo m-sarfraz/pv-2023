@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
+use Cache;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -29,16 +30,34 @@ class RecordController extends Controller
         $user = User::where('type', 3)->get();
 
         // join the tables to get ccandidate data
-        $Userdata = DB::table('six_table_view')
-            ->select('six_table_view.id as cid', 'six_table_view.*')
-            ->paginate(10);
-
+        $Userdata = Cache()->remember('allUserData', 10, function () {
+            return DB::table('six_table_view')
+                ->select('six_table_view.id as cid', 'six_table_view.*')
+                ->get()->toJson();
+        });
         // get required data to use for select purpose
         $count = $Userdata->count();
-        $candidates = CandidateInformation::select('id', 'first_name')->get();
-        $candidateprofile = CandidatePosition::select('candidate_profile')->get();
-        $candidateDomain = CandidateDomain::select('segment')->get();
-        $endorsement = Endorsement::select('app_status', 'career_endo', 'client')->get();
+
+        $candidates = Cache()->remember('candidates', 10, function () {
+            return CandidateInformation::select('id', 'first_name')->get()->toJson();
+        });
+        $candidateprofile = Cache()->remember('candidateprofile', 10, function () {
+            return CandidatePosition::select('candidate_profile', 'candidate_id')->get()->toJson();
+
+        });
+        $candidateDomain = Cache()->remember('candidateDomain', 10, function () {
+            return CandidateDomain::select('segment', 'sub_segment')->get()->toJson();
+
+        });
+        $endorsement = Cache()->remember('endorsement', 10, function () {
+            return Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get()->toJson();
+
+        });
+
+        // $candidates = CandidateInformation::select('id', 'first_name')->get();
+        // $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
+        // $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
+        // $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
         // make array of data to pas to view
@@ -61,358 +80,52 @@ class RecordController extends Controller
     public function filter(Request $request)
     {
 
-        // dd($request->search);
         $Userdata = DB::table('six_table_view')
             ->select('six_table_view.id as CID', 'six_table_view.*');
 
         // condition for checking first to end not null starts here
-        if ($request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->career_level == null && $request->date == null) {
+        if (isset($request->user_id)) {
             $Userdata->whereIn('six_table_view.saved_by', $request->user_id);
         }
-
-        if ($request->candidate != null && $request->user_id != null && $request->profile == null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->career_level == null && $request->date == null) {
-            // dd('ji');
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.saved_by', $request->user_id);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment == null && $request->client == null && $request->app_status == null && $request->career_level == null && $request->date == null) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.saved_by', $request->user_id);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->client == null && $request->app_status == null && $request->career_level == null && $request->date == null) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client == null && $request->career_level == null && $request->date == null) {
-            $Userdata->whereIn('candidate_informations.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client != null && $request->career_level == null && $request->date == null) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.career_endo', $request->career_level)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client);
-        }
-        if ($request->candidate != null && $request->user_id != null && $request->profile != null && $request->sub_segment != null && $request->app_status != null && $request->client != null && $request->career_level != null && $request->date != null) {
-            // dd($request->career_level);
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            // dd($newformat);
-            $Userdata->whereIn('six_table_view.id', $request->candidate)->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-
-        // condition for all null ends here
-
-        //condition for checking null in selecte field starts here
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile != null && $request->sub_segment != null &&
-            $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment != null &&
-            $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereIn('six_table_view.app_status', $request->app_status)->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status)
-                ->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata;
-        }
-        //condition for checking null in selecte field ends here
-
-        // condition for checking null one by one starts here
-        if (
-            $request->candidate != null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
+        if (isset($request->candidate)) {
             $Userdata->whereIn('six_table_view.id', $request->candidate);
         }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
+        if (isset($request->profile)) {
             $Userdata->whereIn('six_table_view.candidate_profile', $request->profile);
         }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
+        if (isset($request->sub_segment)) {
             $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment);
         }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
+        if (isset($request->app_status)) {
             $Userdata->whereIn('six_table_view.app_status', $request->app_status);
         }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
+        if (isset($request->client)) {
             $Userdata->whereIn('six_table_view.client', $request->client);
         }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
+        if (isset($request->career_level)) {
+            // return $request->career_level;
             $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate != null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date != null
-        ) {
 
+        }
+        if (isset($request->date)) {
             $time = strtotime($request->date);
             $newformat = date('Y-m-d', $time);
-            $Userdata-- > whereDate('six_table_view.endi_date', '<', $newformat);
+            $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
         }
-        // condition for checking null one by one ends here
-
-        // custom condition for checking the null values if profile is not null select starts here
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.app_status', $request->app_status);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.client', $request->client);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // custom condition for checking the null values if profile is not null select starts here
-
-        // custom condition for checking all not null if sub segment is not null starts
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status != null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereIn('six_table_view.app_status', $request->app_status);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereIn('six_table_view.client', $request->client);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // custom condition for checking all not null if sub segment is not null ends
-
-        // custom condition for checking not null app_status with other not null starts
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status)
-                ->whereIn('six_table_view.client', $request->client);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status)
-                ->whereIn('six_table_view.client', $request->client);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client == null && $request->career_level == null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // custom condition for checking not null app_status with other not null ends
-
-        // custom condition for checking not null client with other not null starts
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.client', $request->client)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level == null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.client', $request->client)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // custom condition for checking not null client with other not null ends
-
-        // custom condition for checking not null carer level with other not null starts
-        if (
-            $request->candidate == null && $request->user_id == null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // custom condition for checking not null carer level with other not null ends
-
-        // Custom condition if user id not null with all other select starts
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile != null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.candidate_profile', $request->profile);
-        }
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment != null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.sub_segment', $request->sub_segment);
-        }
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status != null && $request->client == null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.app_status', $request->app_status);
-        }
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client != null && $request->career_level == null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.client', $request->client);
-        }
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level != null && $request->date == null
-        ) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (
-            $request->candidate == null && $request->user_id != null && $request->profile == null && $request->sub_segment == null &&
-            $request->app_status == null && $request->client == null && $request->career_level == null && $request->date != null
-        ) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id)
-                ->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
-        // Custom condition if user id not null with all other select ends
 
         // condiiton for one null with all other starts
 
         // condiiton for one null with all other ends
-        $Alldata = $Userdata->where('six_table_view.first_name', 'like', '%' . $request->search . '%')
-        //     ->where('candidate_positions.candidate_profile', 'like', '%' . $request->search . '%')
-        //     ->where('endorsements.career_endo', 'like', '%' . $request->search . '%')
-        // // ->where('candidate_domains.sub_segment', 'like', '%' . $request->search . '%')
-        //     ->where('endorsements.app_status', 'like', '%' . $request->search . '%')
-        // ->orWhere('endorsements.client', 'like', '%' . $request->search . '%')
-        // ->orWhere('candidate_positions.curr_salary', 'like', '%' . $request->search . '%')
-        // ->orWhere('candidate_positions.exp_salary', 'like', '%' . $request->search . '%')
-            ->get();
+        // $Alldata = $Userdata->orWhere('six_table_view.first_name', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.candidate_profile', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.career_endo', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.sub_segment', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.app_status', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.client', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.curr_salary', 'like', '%' . $request->search . '%')
+        //     ->orWhere('six_table_view.exp_salary', 'like', '%' . $request->search . '%')
+        //     ->get();
+        $Alldata = $Userdata->get();
         // return $Alldata;
         $candidates = CandidateInformation::all();
         $count = $Alldata->count();
