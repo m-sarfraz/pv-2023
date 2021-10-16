@@ -146,10 +146,10 @@ class JdlController extends Controller
         $filter_Client_domain = Endorsement::join("candidate_domains", "endorsements.candidate_id", "candidate_domains.candidate_id")
             ->join("domains", "candidate_domains.domain", "domains.domain_name")
             ->whereIn("endorsements.client", $request->client)
-            ->select("candidate_domains.domain", "domains.id as D_id")
+            ->select("candidate_domains.domain", "domains.id as D_id","endorsements.career_endo","endorsements.position_title")
             ->groupby("domains.id", 'candidate_domains.domain')
             ->get();
-
+ 
         return response()->json($filter_Client_domain);
     }
     /**
