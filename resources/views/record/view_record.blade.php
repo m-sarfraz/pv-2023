@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                margin: 0px !important;
-            } */
+                        margin: 0px !important;
+                    } */
 
         #example1_filter label {
             display: flex;
@@ -176,7 +176,8 @@
                                         <div class="d-flex align-items-center"> <input type="date"
                                                 class="w-100 form-control" name="date" id="date" oninput="filterUserData()">
                                             <span class="pl-2" id="reset"> <i class="bi bi-arrow-repeat"></i>
-                                            </span></div>
+                                            </span>
+                                        </div>
 
                                     </div>
 
@@ -217,7 +218,12 @@
                                                 ->where('id', $value->saved_by)
                                                 ->first();
                                         @endphp --}}
-                                        <td>{{ 1}}</td>
+                                        <td>
+                                            @if (isset($value->recruiter ))
+                                                {{ $value->recruiter }}
+                                            @endif
+                                        </td>
+
                                         <td>
                                             @if (isset($value->first_name))
                                                 {{ $value->first_name }} {{ $value->last_name }}
@@ -902,10 +908,11 @@
                             .app_status +
                             '</option>');
                         if (client[i].client != "") {
-                        $('#client').append('<option  selected value="' + client[i].client + '">' + client[
-                                i]
-                            .client +
-                            '</option>');
+                            $('#client').append('<option  selected value="' + client[i].client + '">' +
+                                client[
+                                    i]
+                                .client +
+                                '</option>');
                         }
                         $('#career_level').append('<option selected  value="' + career[i].career_endo +
                             '">' + status[

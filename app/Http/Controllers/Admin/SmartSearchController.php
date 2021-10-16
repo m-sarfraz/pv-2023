@@ -24,7 +24,7 @@ class SmartSearchController extends Controller
         ;
         $domain = Domain::all();
         $user = User::where('type', 3)->get();
-        $user = $Userdata->get();
+        $user = $Userdata->paginate(10);
         // qurries for summary section start
         $sifted = count($user);
         $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
