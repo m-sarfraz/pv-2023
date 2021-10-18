@@ -1139,6 +1139,9 @@
                             $("input").css('border-color', '#ced4da');
                             $("select").css('border-color', '#ced4da');
 
+                            $("#user").append(`<option value='${res.last_data_save.id}' >
+                            ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
+                                        </option>`);
                             // show success sweet alert and enable entering new record button
                             // $('#new').prop("disabled", false);
 

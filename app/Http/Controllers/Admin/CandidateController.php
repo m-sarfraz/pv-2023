@@ -327,12 +327,14 @@ class CandidateController extends Controller
             $finance->save();
 
             // return response success if data is entered
-
+            //get last record  save data
+            $last_data_save = CandidateInformation::where("id", $CandidateInformation->id)->first();
+         
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
 
-            return response()->json(['success' => true, 'message' => 'Data added successfully']);
+            return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
         }
     }
 
