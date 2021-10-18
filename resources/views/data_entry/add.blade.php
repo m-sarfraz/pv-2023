@@ -131,6 +131,7 @@
                                                             </label>
                                                             <select name="GENDER"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($gender->options as $genderOptions)
                                                                     <option value="{{ $genderOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->gender == $genderOptions->option_name : '') ? 'selected' : '' }}>
@@ -410,7 +411,7 @@
                                                                 class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
                                                                 Employment History</label>
                                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                                class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}"</textarea>
+                                                                class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
@@ -1099,15 +1100,15 @@
 
         function CreateUpdateData(targetURL) {
 
-            if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
+            // if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
-                // Show notification message if fields are empty in candidate position fields
-                swal({
-                    icon: "warning",
-                    text: " Please provide Current Salary/Expected Salray and Interview Notes ",
-                    icon: "warning",
-                });
-            } else {
+            //     // Show notification message if fields are empty in candidate position fields
+            //     swal({
+            //         icon: "warning",
+            //         text: " Please provide Current Salary/Expected Salray and Interview Notes ",
+            //         icon: "warning",
+            //     });
+            // } else {
 
                 if (targetURL == '{{ url('admin/update-data-entry') }}') {
                     id = $('#user').val();
@@ -1147,14 +1148,24 @@
 
                             swal("success", res.message, "success").then((value) => {});
                         } else if (res.success == false) {
+                            console.log(res.status)
+                            if (res.status == 1) {
+                                swal({
+                                icon: "warning",
+                                text: "{{ __('Fill Expected Salary, Current Salary & Interview Notes') }}",
+                                icon: "warning",
+                            });
+                            }
 
                             // show validation error on scree with border color changed and text
                             if (res.hasOwnProperty("message")) {
                                 var err = "";
                                 $("input").parent().siblings('span').remove();
                                 $("select").parent().siblings('span').remove();
+                                $("textarea").parent().siblings('span').remove();
                                 $("input").css('border-color', '#ced4da');
                                 $("select").css('border-color', '#ced4da');
+                                $("textarea").css('border-color', '#ced4da');
 
                                 //function for appending span and changing css color for input
                                 $.each(res.message, function(i, e) {
@@ -1171,6 +1182,14 @@
                                     $("select[name='" + i + "']").parent().siblings(
                                         'span').remove();
                                     $("select[name='" + i + "']").parent().parent()
+                                        .append(
+                                            '<span style="color:red;" >' + 'Required' + '</span>'
+                                        );
+                                        $("textarea[name='" + i + "']").attr('style',
+                                        'border:1px solid red !important');
+                                    $("textarea[name='" + i + "']").parent().siblings(
+                                        'span').remove();
+                                    $("textarea[name='" + i + "']").parent().parent()
                                         .append(
                                             '<span style="color:red;" >' + 'Required' + '</span>'
                                         );
@@ -1194,6 +1213,15 @@
                                 text: "{{ __('Duplicate data detected') }}",
                                 icon: "error",
                             });
+                        }else if (res.success == 'required') {
+                            $("#loader").hide();
+
+                            //show warning message to change the data
+                            swal({
+                                icon: "error",
+                                text: "{{ __('Please fill expected salary/c') }}",
+                                icon: "error",
+                            });
                         }
 
                         //hide loader
@@ -1211,7 +1239,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
-            }
+            // }
         }
 
         // function for (if domain is changed append segments acoordingly) starts
