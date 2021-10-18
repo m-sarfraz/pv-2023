@@ -15,8 +15,11 @@ use Illuminate\Http\Request;
 class FinanceController extends Controller
 {
     // index view of finance page starts
-    public function index()
+    public function index(Request $request)
     {
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+
         $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->where('endorsements.remarks_for_finance', 'Onboarded')
             ->orWhere('endorsements.remarks_for_finance', 'Offer accepted')
@@ -31,7 +34,9 @@ class FinanceController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('remarks_for_finance', 'Onboarded')
             ->orWhere('remarks_for_finance', 'Offer accepted')
-            ->paginate(10);
+            ->offset($page)
+            ->limit($limit)
+            ->paginate();
         // return $Userdata;
         $billsArray = ['Billed', 'For Replacement', 'Replaced'];
         $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();

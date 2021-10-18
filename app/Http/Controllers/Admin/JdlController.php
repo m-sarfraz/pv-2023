@@ -19,10 +19,12 @@ class JdlController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // join the tables to get ccandidate data
-
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+        // dd($page, $limit);
         $Userdata = DB::table('six_table_view')
             ->select(
                 'six_table_view.id as cid',
@@ -34,7 +36,8 @@ class JdlController extends Controller
                 'six_table_view.position_title as endo_position_title',
                 'six_table_view.career_endo as endo_career_endo'
             )
-            ->paginate(10);
+            ->offset($page)->limit($limit)
+            ->paginate();
         // $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
         // ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
         // ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
@@ -143,7 +146,7 @@ class JdlController extends Controller
         // dd($request->all());
         //endorsement .client name
         // candisate domain client domain
-        $filter_Client_domain =[];
+        $filter_Client_domain = [];
         if ($request->client) {
 
             $filter_Client_domain = Endorsement::join("candidate_domains", "endorsements.candidate_id", "candidate_domains.candidate_id")
