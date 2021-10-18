@@ -69,12 +69,12 @@
                                             <div class="form-group">
                                                 <label for="aboutTextarea"
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                    Agent
+                                                    Agent?
                                                 </label>
-                                                <input type="radio" name="agent" value="1" class=" h-px-48" />
+                                                <input type="radio" name="agent" value="1" class=" h-px-48" required/>
                                                 Yes
-                                                /<input type="radio" name="agent" value="0" class=" h-px-48" />
-                                                Not
+                                                <input type="radio" name="agent" value="0" class=" h-px-48" required/>
+                                                No
                                             </div>
                                         </div>
 
