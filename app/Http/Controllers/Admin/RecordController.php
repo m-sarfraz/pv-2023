@@ -21,19 +21,19 @@ use Response;
 class RecordController extends Controller
 {
     // index function for showing the record of users with filters starts
-    public function index()
+    public function index(Request $request)
     {
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // get recruiter data
         $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
-        $result_per_page = 70;
-        $this_page_f_result = ($page - 1) * $result_per_page;
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
         $Userdata = DB::table('six_table_view')->join('users', 'users.id', 'six_table_view.saved_by')
             ->select('six_table_view.id as cid', 'six_table_view.*', 'users.name as recruiter')
-            ->offset(0)
-            ->limit(10)
-            ->get();
+            ->offset($page)
+            ->limit($limit)
+            ->paginate();
         // dd($Userdata);
         // $number_of_page = ceil($count / $result_per_page);
         // Debugbar::info($number_of_page);
@@ -98,7 +98,6 @@ class RecordController extends Controller
         if (isset($request->career_level)) {
             // return $request->career_level;
             $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-
         }
         if (isset($request->date)) {
             $time = strtotime($request->date);

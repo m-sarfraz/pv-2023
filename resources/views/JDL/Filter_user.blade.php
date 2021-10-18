@@ -38,6 +38,7 @@
         </tbody>
         </table>
     </div>
+    
 </div>
 <script>
     $('#No_of_count').val({!! json_encode($count) !!});

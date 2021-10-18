@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\CandidateInformation;
@@ -12,19 +13,21 @@ use Str;
 class SmartSearchController extends Controller
 {
     // index view of finance page starts
-    public function index()
+    public function index(Request $request)
     {
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-        ;
+            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
         $domain = Domain::all();
         $user = User::where('type', 3)->get();
-        $user = $Userdata->paginate(10);
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+        $user = $Userdata->offset($page)
+            ->limit($limit)
+            ->paginate();;
         // qurries for summary section start
         $sifted = count($user);
         $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
@@ -59,8 +62,7 @@ class SmartSearchController extends Controller
     {
         $data = [];
         // return $request->all();
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -87,7 +89,6 @@ class SmartSearchController extends Controller
             }
 
             $Userdata->whereIn('endorsements.career_endo', $request->career_level);
-
         }
         if (isset($request->category)) {
             $Userdata->whereIn('endorsements.remarks_for_finance', $request->category);
@@ -166,7 +167,7 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('endorsements.endi_date', '<', $newformat1);
         }
 
-// binding replaced
+        // binding replaced
         //$sql = str_replace_array('?', $query->getBindings(), $query->toSql());
 
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
@@ -181,7 +182,6 @@ class SmartSearchController extends Controller
             $sql_enors = $sql . " and endorsements.app_status='To Be Endorsed'";
             $sql_active = $sql . " and endorsements.app_status='Active File'";
             $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
-
         } else {
             $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
             $sql_active = $sql . "where endorsements.app_status='Active File'";
