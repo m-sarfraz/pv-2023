@@ -520,8 +520,9 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" required oninput="uploadFile(this)"
-                                                                accept="application/pdf" class="uploadcv    w-100">
+                                                            <input type="file" id="sheetFile" name="file" required
+                                                                oninput="uploadFile(this)" accept="application/pdf"
+                                                                class="uploadcv    w-100">
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
@@ -1070,106 +1071,121 @@
         // On form submit call ajax for data saving
 
         function CreateUpdateData(targetURL) {
-            if (targetURL == '{{ url('admin/update-data-entry') }}') {
-                id = $('#user').val();
-                // targetURL = '{{ url('update-data-entry') }}'
-                targetURL = targetURL + '/' + id
-            }
-            $("#loader").show();
 
-            // making a variable containg all for data and append token
-            var data = new FormData(document.getElementById('data_entry'));
-            data.append("_token", "{{ csrf_token() }}");
+            if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
-            // call ajax for data entry ad validation
-            $.ajax({
-                url: targetURL,
-                data: data,
-                contentType: false,
-                processData: false,
-                type: 'POST',
+                // Show notification message if fields are empty in candidate position fields
+                swal({
+                    icon: "warning",
+                    text: " Please provide Current Salary/Expected Salray and Interview Notes ",
+                    icon: "warning",
+                });
+            } else {
 
-                // Ajax success function
-                success: function(res) {
-                    if (res.success == true) {
-                        // disable save data button after data entry success
-                        $('#save').prop("disabled", true);
-                        $('#saveRecord').prop("disabled", true);
-                        $("input").parent().siblings('span').remove();
-                            $("select").parent().siblings('span').remove();
-                            $("input").css('border-color', '#ced4da');
-                            $("select").css('border-color', '#ced4da');
+                if (targetURL == '{{ url('admin/update-data-entry') }}') {
+                    id = $('#user').val();
+                    // targetURL = '{{ url('update-data-entry') }}'
+                    targetURL = targetURL + '/' + id
+                }
+                $("#loader").show();
 
-                        // show success sweet alert and enable entering new record button
-                        // $('#new').prop("disabled", false);
+                // making a variable containg all for data and append token
+                var data = new FormData(document.getElementById('data_entry'));
+                data.append("_token", "{{ csrf_token() }}");
 
-                        swal("success", res.message, "success").then((value) => {});
-                    } else if (res.success == false) {
+                // call ajax for data entry ad validation
+                $.ajax({
+                    url: targetURL,
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
 
-                        // show validation error on scree with border color changed and text
-                        if (res.hasOwnProperty("message")) {
-                            var err = "";
+                    // Ajax success function
+                    success: function(res) {
+                        if (res.success == true) {
+                            // disable save data button after data entry success
+                            $('#save').prop("disabled", true);
+                            $('#saveRecord').prop("disabled", true);
                             $("input").parent().siblings('span').remove();
                             $("select").parent().siblings('span').remove();
                             $("input").css('border-color', '#ced4da');
                             $("select").css('border-color', '#ced4da');
 
-                            //function for appending span and changing css color for input
-                            $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").css('border',
-                                    '1px solid red');
-                                $("input[name='" + i + "']").parent().siblings(
-                                    'span').remove();
-                                $("input[name='" + i + "']").parent().parent()
-                                    .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
-                                $("select[name='" + i + "']").css('border',
-                                    '1px solid red');
-                                $("select[name='" + i + "']").parent().siblings(
-                                    'span').remove();
-                                $("select[name='" + i + "']").parent().parent()
-                                    .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
-                            });
+                            $("#user").append(`<option value='${res.last_data_save.id}' >
+                            ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
+                                        </option>`);
+                            // show success sweet alert and enable entering new record button
+                            // $('#new').prop("disabled", false);
 
-                            // show warning message to user if firld is required
+                            swal("success", res.message, "success").then((value) => {});
+                        } else if (res.success == false) {
+
+                            // show validation error on scree with border color changed and text
+                            if (res.hasOwnProperty("message")) {
+                                var err = "";
+                                $("input").parent().siblings('span').remove();
+                                $("select").parent().siblings('span').remove();
+                                $("input").css('border-color', '#ced4da');
+                                $("select").css('border-color', '#ced4da');
+
+                                //function for appending span and changing css color for input
+                                $.each(res.message, function(i, e) {
+                                    $("input[name='" + i + "']").css('border',
+                                        '1px solid red');
+                                    $("input[name='" + i + "']").parent().siblings(
+                                        'span').remove();
+                                    $("input[name='" + i + "']").parent().parent()
+                                        .append(
+                                            '<span style="color:red;" >' + 'Required' + '</span>'
+                                        );
+                                    $("select[name='" + i + "']").css('border',
+                                        '1px solid red');
+                                    $("select[name='" + i + "']").parent().siblings(
+                                        'span').remove();
+                                    $("select[name='" + i + "']").parent().parent()
+                                        .append(
+                                            '<span style="color:red;" >' + 'Required' + '</span>'
+                                        );
+                                });
+
+                                // // show warning message to user if firld is required
+                                // swal({
+                                //     icon: "error",
+                                //     text: "{{ __('Please fill all required fields!') }}",
+                                //     icon: "error",
+                                // });
+                            }
+
+                            //if duplicate values are detected in database for use data
+                        } else if (res.success == 'duplicate') {
+                            $("#loader").hide();
+
+                            //show warning message to change the data
                             swal({
                                 icon: "error",
-                                text: "{{ __('Please fill all required fields!') }}",
+                                text: "{{ __('Duplicate data detected') }}",
                                 icon: "error",
                             });
                         }
 
-                        //if duplicate values are detected in database for use data
-                    } else if (res.success == 'duplicate') {
+                        //hide loader
                         $("#loader").hide();
+                    },
 
-                        //show warning message to change the data
-                        swal({
-                            icon: "error",
-                            text: "{{ __('Duplicate data detected') }}",
-                            icon: "error",
-                        });
+                    //if there is error in ajax call
+                    error: function() {
+                        $("#loader").hide();
                     }
-
-                    //hide loader
-                    $("#loader").hide();
-                },
-
-                //if there is error in ajax call
-                error: function() {
-                    $("#loader").hide();
-                }
-            });
-            return false;
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                });
+                return false;
+                $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
             }
-        });
+        }
 
         // function for (if domain is changed append segments acoordingly) starts
         function DomainChange(elem) {
@@ -1300,15 +1316,7 @@
                     $('#Domainsub').prop('disabled', false)
                     $('#candidate_profile').prop('disabled', false)
                 }
-                if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
-                    // Show notification message if fields are empty in candidate position fields
-                    swal({
-                        icon: "warning",
-                        text: " Rememer to provide Current Salary/Expected Salray and Interview Notes ",
-                        icon: "warning",
-                    });
-                }
                 if (value.includes('To')) {
                     // disable and enable input fields for user data in endorsement section
                     $('#remarks').prop("disabled", false);
