@@ -312,6 +312,25 @@
                                                                 <small class="text-danger"></small>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                                            <?php
+                                                            $segment = Helper::get_dropdown('segments');
+                                                            ?>
+                                                            <label class="Label labelFontSize">segment</label>
+                                                            <select name="SEGMENT" id="Domainsegment"
+                                                                onchange="SegmentChange('Domainsegment')"
+                                                                class="form-control p-0 users-input-S-C">
+                                                                <option selected disabled>Select Option</option>
+                                                                {{-- @foreach ($segment->options as $segmentOption)
+                                                                        <option value="{{ $segmentOption->id }}">
+                                                                            {{ $segmentOption->option_name }}</option>
+                                                                    @endforeach --}}
+
+                                                            </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <?php
                                                             $sub_segment = Helper::get_dropdown('sub_segment');
@@ -395,16 +414,7 @@
                                                                 <small class="text-danger"></small>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
-                                                            <div class="form-group mb-0">
-                                                                <label class=" p-0  mb-0 labelFontSize"> Date
-                                                                    Invited</label>
-                                                                <input type="date" name="DATE_INVITED" disabled=""
-                                                                    value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
-                                                                    id="date_invited"
-                                                                    class="form-control border h-px-20_custom" />
-                                                            </div>
-                                                        </div>
+                                                   
                                                         <div class="col-lg-12 p-0">
                                                             <label
                                                                 class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
@@ -422,23 +432,14 @@
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                                            <?php
-                                                            $segment = Helper::get_dropdown('segments');
-                                                            ?>
-                                                            <label class="Label labelFontSize">segment</label>
-                                                            <select name="SEGMENT" id="Domainsegment"
-                                                                onchange="SegmentChange('Domainsegment')"
-                                                                class="form-control p-0 users-input-S-C">
-                                                                <option selected disabled>Select Option</option>
-                                                                {{-- @foreach ($segment->options as $segmentOption)
-                                                                        <option value="{{ $segmentOption->id }}">
-                                                                            {{ $segmentOption->option_name }}</option>
-                                                                    @endforeach --}}
-
-                                                            </select>
-                                                            <div>
-                                                                <small class="text-danger"></small>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                            <div class="form-group mb-0">
+                                                                <label class=" p-0  mb-0 labelFontSize"> Date
+                                                                    Invited</label>
+                                                                <input type="date" name="DATE_INVITED" disabled=""
+                                                                    value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
+                                                                    id="date_invited"
+                                                                    class="form-control border h-px-20_custom" />
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
@@ -499,34 +500,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <!-- <div class="row m-0"> -->
-
-
-
-
-
-                                                    <!-- </div> -->
-                                                    <!-- <div class="row m-0"> -->
-
-
-
-
-                                                    <!-- </div> -->
-                                                    <!-- <div class="row m-0"> -->
-
-
-                                                    <!-- </div> -->
-                                                    <!-- <div class="row m-0"> -->
-
-                                                    <!-- </div> -->
-                                                    <!-- <div class="row m-0"> -->
-
-                                                    <!-- </div> -->
-                                                    <!-- <div class="row m-0"> -->
-
-
-                                                    <!-- </div> -->
                                                 </div>
 
 
