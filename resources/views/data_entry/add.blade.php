@@ -547,8 +547,9 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" required oninput="uploadFile(this)"
-                                                                accept="application/pdf" class="uploadcv    w-100">
+                                                            <input type="file" id="sheetFile" name="file" required
+                                                                oninput="uploadFile(this)" accept="application/pdf"
+                                                                class="uploadcv    w-100">
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
@@ -1118,14 +1119,19 @@
 
                 // Ajax success function
                 success: function(res) {
+                  
                     if (res.success == true) {
                         // disable save data button after data entry success
                         $('#save').prop("disabled", true);
                         $('#saveRecord').prop("disabled", true);
                         $("input").parent().siblings('span').remove();
-                            $("select").parent().siblings('span').remove();
-                            $("input").css('border-color', '#ced4da');
-                            $("select").css('border-color', '#ced4da');
+                        $("select").parent().siblings('span').remove();
+                        $("input").css('border-color', '#ced4da');
+                        $("select").css('border-color', '#ced4da');
+
+                        $("#user").append(`<option value='${res.last_data_save.id}' >
+                            ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
+                                        </option>`);
 
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);

@@ -130,8 +130,10 @@ class JdlController extends Controller
         if (isset($request->status)) {
             $Userdata->where('endorsements.status', $request->status);
         }
-
-        $Userdata = $Userdata->get();
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
+        $Userdata = $Userdata->offset($page)->limit($limit)
+            ->paginate();
         $count = count($Userdata);
         // dd($Userdata);
 
