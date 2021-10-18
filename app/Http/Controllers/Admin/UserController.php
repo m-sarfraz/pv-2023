@@ -53,20 +53,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         $arrayCheck = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
             'phone' => 'required',
             'roles' => 'required',
+            'agent' => "required",
         ];
+
 
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
             $input = $request->all();
+            $input['agent'] = $request->agent;
             $input['password'] = Hash::make($input['password']);
             $input['type'] = 3;
 
