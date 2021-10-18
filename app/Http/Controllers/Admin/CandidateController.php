@@ -158,7 +158,7 @@ class CandidateController extends Controller
             $CandidateInformation->dob = $request->DATE_OF_BIRTH;
             $CandidateInformation->status = '1';
 
-            $CandidateInformation->saved_by = $recruiter;
+            $CandidateInformation->saved_by = Auth::user()->id;
             $CandidateInformation->save();
 
             //  save data to candidate education table

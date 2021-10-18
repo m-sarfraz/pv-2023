@@ -825,7 +825,7 @@
                                             @endphp
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Segment</label>
-                                                <select disabled="" id="segment" name="SEGMENT"
+                                                <select disabled="" id="segment" name="endo_SEGMENT"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     {{-- @foreach ($segments->options as $segmentsOptions)
@@ -852,7 +852,7 @@
                                             @endphp
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">sub-segment</label>
-                                                <select disabled="" id="sub_segment" name="SUB_SEGMENT"
+                                                <select disabled="" id="sub_segment" name="Endo_SUB_SEGMENT"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     {{-- @foreach ($sub_segment->options as $sub_segmentOptions)
