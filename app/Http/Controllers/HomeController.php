@@ -67,65 +67,66 @@ class HomeController extends Controller
         foreach ($data as $render) {
             array_push($check, $render->id);
         }
-
+  
         for ($i = 0; $i < count($data); $i++) {
 
-            $weekly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
-                ->where("cip_progress.t_id", $check[$i])
-                ->whereDate("cip_progress.created_at", ">", $weekly)
-                ->where("cip_progress.final_stage", 1)
-                ->orwhere("cip_progress.mid_stage", 1)
-                ->groupBy("cip_progress.team")
-                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+            // $weekly_data_[$i]=DB::table('six_table_view')->where
+            // $weekly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+            //     ->where("cip_progress.t_id", $check[$i])
+            //     ->whereDate("cip_progress.created_at", ">", $weekly)
+            //     ->where("cip_progress.final_stage", 1)
+            //     ->orwhere("cip_progress.mid_stage", 1)
+            //     ->groupBy("cip_progress.team")
+            //     ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
 
-            $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
-                ->where("cip_progress.t_id", $check[$i])
-                ->whereDate("cip_progress.created_at", ">", $Mounthly)
-                ->where("cip_progress.final_stage", 1)
-                ->orwhere("cip_progress.mid_stage", 1)
-                ->groupBy("cip_progress.team")
-                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
-            $Quarterly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
-                ->where("cip_progress.t_id", $check[$i])
-                ->whereDate("cip_progress.created_at", ">", $Quarterly)
-                ->where("cip_progress.final_stage", 1)
-                ->orwhere("cip_progress.mid_stage", 1)
-                ->groupBy("cip_progress.team")
-                ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
-            $count_final_stage_[$i] = Cipprogress::where("t_id", $check[$i])->where("final_stage", 1)->get();
-            $count_mid_stage_[$i] = Cipprogress::where("t_id", $check[$i])->where("mid_stage", 1)->get();
-            $count_onboarded_[$i] = Cipprogress::where("t_id", $check[$i])->where("onboarded", 1)->get();
-            $count_offere_[$i] = Cipprogress::where("t_id", $check[$i])->where("offered", 1)->get();
-            $count_user_pie_[$i] = new SampleChart();
-            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
-            $count_user_pie_[$i]->dataset('my chart', 'pie', [count($Quarterly_data_[$i]), (400000)])
-                ->options(
-                    [
-                        'fill' => 'true',
-                        'borderColor' => ['green', 'yellow'],
-                        'backgroundColor' => ['green', "orange"],
-                    ]
-                );
-            // $no_of_ongoing
-            $total_ogoing_final = DB::select('SELECT SUM(`final_stage`) as `sumfinal` FROM `cip_progress` WHERE `t_id`="' . $check[$i] . '" AND (`mid_stage`=1 OR `final_stage`=1);');
-            $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `t_id`="' . $check[$i] . '"  AND (`mid_stage`=1 OR `final_stage`=1);');
+            // $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+            //     ->where("cip_progress.t_id", $check[$i])
+            //     ->whereDate("cip_progress.created_at", ">", $Mounthly)
+            //     ->where("cip_progress.final_stage", 1)
+            //     ->orwhere("cip_progress.mid_stage", 1)
+            //     ->groupBy("cip_progress.team")
+            //     ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+            // $Quarterly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
+            //     ->where("cip_progress.t_id", $check[$i])
+            //     ->whereDate("cip_progress.created_at", ">", $Quarterly)
+            //     ->where("cip_progress.final_stage", 1)
+            //     ->orwhere("cip_progress.mid_stage", 1)
+            //     ->groupBy("cip_progress.team")
+            //     ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+            // $count_final_stage_[$i] = Cipprogress::where("t_id", $check[$i])->where("final_stage", 1)->get();
+            // $count_mid_stage_[$i] = Cipprogress::where("t_id", $check[$i])->where("mid_stage", 1)->get();
+            // $count_onboarded_[$i] = Cipprogress::where("t_id", $check[$i])->where("onboarded", 1)->get();
+            // $count_offere_[$i] = Cipprogress::where("t_id", $check[$i])->where("offered", 1)->get();
+            // $count_user_pie_[$i] = new SampleChart();
+            // $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
+            // $count_user_pie_[$i]->dataset('my chart', 'pie', [count($Quarterly_data_[$i]), (400000)])
+            //     ->options(
+            //         [
+            //             'fill' => 'true',
+            //             'borderColor' => ['green', 'yellow'],
+            //             'backgroundColor' => ['green', "orange"],
+            //         ]
+            //     );
+            // // $no_of_ongoing
+            // $total_ogoing_final = DB::select('SELECT SUM(`final_stage`) as `sumfinal` FROM `cip_progress` WHERE `t_id`="' . $check[$i] . '" AND (`mid_stage`=1 OR `final_stage`=1);');
+            // $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `t_id`="' . $check[$i] . '"  AND (`mid_stage`=1 OR `final_stage`=1);');
 
-            $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
-            // $no_of_ongoing
+            // $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
+            // // $no_of_ongoing
 
-            $data_loop = [
-                "weekly_data_" . $i => $weekly_data_[$i],
-                "Mounthly_data_" . $i => $Mounthly_data_[$i],
-                "Quarterly_data_" . $i => $Quarterly_data_[$i],
-                "count_final_stage_" . $i => $count_final_stage_[$i],
-                "count_mid_stage_" . $i => $count_mid_stage_[$i],
-                "count_user_pie_" . $i => $count_user_pie_[$i],
-                "count_onboarded_" . $i => $count_onboarded_[$i],
-                "count_offere_" . $i => $count_offere_[$i],
-                "total_ogoing_" . $i => $sum_ongoing_[$i],
+            // $data_loop = [
+            //     "weekly_data_" . $i => $weekly_data_[$i],
+            //     "Mounthly_data_" . $i => $Mounthly_data_[$i],
+            //     "Quarterly_data_" . $i => $Quarterly_data_[$i],
+            //     "count_final_stage_" . $i => $count_final_stage_[$i],
+            //     "count_mid_stage_" . $i => $count_mid_stage_[$i],
+            //     "count_user_pie_" . $i => $count_user_pie_[$i],
+            //     "count_onboarded_" . $i => $count_onboarded_[$i],
+            //     "count_offere_" . $i => $count_offere_[$i],
+            //     "total_ogoing_" . $i => $sum_ongoing_[$i],
 
-            ];
-            array_push($append, $data_loop);
+            // ];
+            // array_push($append, $data_loop);
         }
         // dd($append[0]['count_user_pie_0']);
         $revenue = DB::select('select `finance_detail`.`t_id` ,sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail` inner join `cip_progress` on `cip_progress`.`id` = `finance_detail`.`t_id` group by `finance_detail`.`t_id`');

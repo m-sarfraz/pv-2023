@@ -27,7 +27,7 @@ class SmartSearchController extends Controller
         $limit = $request->has('limit') ? $request->get('limit') : 10;
         $user = $Userdata->offset($page)
             ->limit($limit)
-            ->paginate();;
+            ->paginate();
         // qurries for summary section start
         $sifted = count($user);
         $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
