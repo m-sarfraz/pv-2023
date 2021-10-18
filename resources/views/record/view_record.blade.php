@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                        margin: 0px !important;
-                    } */
+                            margin: 0px !important;
+                        } */
 
         #example1_filter label {
             display: flex;
@@ -219,7 +219,7 @@
                                                 ->first();
                                         @endphp --}}
                                         <td>
-                                            @if (isset($value->recruiter ))
+                                            @if (isset($value->recruiter))
                                                 {{ $value->recruiter }}
                                             @endif
                                         </td>
@@ -267,7 +267,43 @@
                             </tbody>
                         </table>
                     </div>
-                    {{-- {{ $Userdata->links() }} --}}
+                    {{ $Userdata->links() }}
+                    @php
+                    $result_per_page = 70;
+                        $number_of_page = ceil($count/$result_per_page);
+                        // Debugbar::info($number_of_page);
+                        $page = 1;
+                    @endphp
+                    <div class="set_pagination my-5">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+
+                                <li class="page-item">
+                                    <a class="page-link" href="{{url('admin/record')}}?page=<?php echo $page; ?>"
+                                        aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <?php
+                for ($page = 1; $page <= $number_of_page; $page++) {
+                ?>
+                                <li class="page-item"><a class="page-link"
+                                        href="{{url('admin/record')}}?page=<?php echo $page; ?>"><?php echo $page; ?></a></li>
+                                <?php
+                }
+                ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="{{url('admin/record')}}?page=<?php echo $page - 1; ?>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->

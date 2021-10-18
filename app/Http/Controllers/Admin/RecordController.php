@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
-use Cache;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -25,33 +24,29 @@ class RecordController extends Controller
     public function index()
     {
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
-
         // get recruiter data
         $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
-        $Userdata = Cache()->rememberForever('allUserData', function () {
-            return DB::table('six_table_view')->join('users', 'users.id', 'six_table_view.saved_by')
-                ->select('six_table_view.id as cid', 'six_table_view.*', 'users.name as recruiter')
-                ->get();
-        });
+        $result_per_page = 70;
+        $this_page_f_result = ($page - 1) * $result_per_page;
+        $Userdata = DB::table('six_table_view')->join('users', 'users.id', 'six_table_view.saved_by')
+            ->select('six_table_view.id as cid', 'six_table_view.*', 'users.name as recruiter')
+            ->offset(0)
+            ->limit(10)
+            ->get();
+        // dd($Userdata);
+        // $number_of_page = ceil($count / $result_per_page);
+        // Debugbar::info($number_of_page);
+        // $page = 1;
+        // "SELECT * FROM  products where status=1  LIMIT " . $this_page_f_result . ',' . $result_per_page;
         // get required data to use for select purpose
         $count = $Userdata->count();
 
-        $candidates = Cache()->remember('candidates', 10, function () {
-            return CandidateInformation::select('id', 'first_name')->get();
-        });
-        $candidateprofile = Cache()->remember('candidateprofile', 10, function () {
-            return CandidatePosition::select('candidate_profile', 'candidate_id')->get();
+        $candidates = CandidateInformation::select('id', 'first_name')->get();
+        $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
 
-        });
-        $candidateDomain = Cache()->remember('candidateDomain', 10, function () {
-            return CandidateDomain::select('segment', 'sub_segment')->get();
-
-        });
-        $endorsement = Cache()->remember('endorsement', 10, function () {
-            return Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
-
-        });
+        $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
+        $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
 
         // $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
         // $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
