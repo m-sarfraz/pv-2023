@@ -59,9 +59,8 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-        if (isset($request->CERTIFICATIONS)) {
-            $certification = implode(", ", $request->CERTIFICATIONS);
-        }
+        return $request->endorsement_field;
+
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -107,6 +106,9 @@ class CandidateController extends Controller
             if ($request->salary_field == 1) {
                 $arrayCheck["OFFERED_SALARY"] = "required";
                 $arrayCheck["OFFERED_ALLOWANCE"] = "required";
+            }
+            if ($request->endorsement == 'active') {
+                return 'endorsement section enabled and required';
             }
         } else {
             $arrayCheck = [
@@ -188,6 +190,9 @@ class CandidateController extends Controller
                     $CandidateEducation->course = 'N/A';
                 } else {
                     $CandidateEducation->course = $request->COURSE;
+                }
+                if (isset($request->CERTIFICATIONS)) {
+                    $certification = implode(", ", $request->CERTIFICATIONS);
                 }
                 $CandidateEducation->certification = $certification;
                 $CandidateEducation->save();
@@ -380,9 +385,7 @@ class CandidateController extends Controller
     }
     public function update_data_entry(Request $request, $id)
     {
-        if (isset($request->CERTIFICATIONS)) {
-            $certification = implode(", ", $request->CERTIFICATIONS);
-        }
+
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "DOMAIN" => 'required ',
@@ -462,7 +465,9 @@ class CandidateController extends Controller
                 // 'status' => $request->STATUS,
 
             ]);
-
+            if (isset($request->CERTIFICATIONS)) {
+                $certification = implode(", ", $request->CERTIFICATIONS);
+            }
             // update candidate education data
             CandidateEducation::where('candidate_id', $id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,

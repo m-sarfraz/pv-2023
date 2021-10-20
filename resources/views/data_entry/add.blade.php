@@ -1082,15 +1082,29 @@
             }
             $("#loader").show();
             if ($('#off_salary').is(':disabled')) {
-                $salary_field =0;
+                $salary_field = 0;
+            } else {
+                $salary_field = 1;
             }
-            else{
-                $salary_field =1;
+            if ($('#ap_status').val()== null) {
+                $endorsement = 'inactive'
+               
+            } else {
+                alert('fi')
+                $application_status = $('#ap_status').val().toLowerCase();
+                if ($application_status == 'to be endorsed') {
+                    alert('yes')
+                    $endorsement = 'active';
+                }
+                else{
+                $endorsement = 'inactive'
+                }
             }
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('data_entry'));
             // data.append("_token", "{{ csrf_token() }}");
-            data.append("salary_field",  $salary_field);
+            data.append("salary_field", $salary_field);
+            data.append("endorsement_field", $endorsement);
 
             // call ajax for data entry ad validation
             $.ajax({
