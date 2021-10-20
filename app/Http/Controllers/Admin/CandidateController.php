@@ -63,11 +63,7 @@ class CandidateController extends Controller
     public function save_data_entry(Request $request)
     {
 
-        $recruiter = Auth::user()->roles->first();
-        // return $recruiter->id;
-        if ($recruiter->id == 1) {
-            // return 'hi';
-
+        if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "DOMAIN" => 'required ',
@@ -100,6 +96,12 @@ class CandidateController extends Controller
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+            }
+            $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
+            if (str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+                || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
+                || str_contains($manner_of_invite, 'sms')) {
+                $arrayCheck["DATE_INVITED"] = "required";
             }
         } else {
             $arrayCheck = [
