@@ -1434,9 +1434,9 @@
                             `<option value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#Domainsub').append(
                             `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
-                        $('#domain').prop('readonly', true);
-                        $('#Domainsegment').prop('readonly', true);
-                        $('#Domainsub').prop('readonly', true);
+                        $('#domain').attr('readonly', true);
+                        $('#Domainsegment').attr('readonly', true);
+                        $('#Domainsub').attr('readonly', true);
 
                     } else {
                         $('#domain').append(`<option >no data found</option>`);
@@ -1479,6 +1479,12 @@
                             `<option value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#sub_segment').append(
                             `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+
+                        $('#client').attr('readonly', true);
+                        $('#domain_endo').attr('readonly', true);
+                        $('#segment').attr('readonly', true);
+                        $('#sub_segment').attr('readonly', true);
+
                     } else {
                         $('#client').append(`<option >no data found</option>`);
                         $('#domain_endo').append(
