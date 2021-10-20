@@ -579,12 +579,21 @@ class CandidateController extends Controller
     // traveseDataByClientProfile
     public function traveseDataByClientProfile(Request $request)
     {
-        $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
-        if ($response) {
+        if ($request->c_profile) {
+            $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
+            if ($response) {
 
-            return response()->json(['data' => $response]);
+                return response()->json(['data' => $response]);
+            }
         }
-        return response()->json(['data' => "no data found"]);
+        if ($request->position) {
+            $response = DB::table('taverse2')->where("position", $request->position)->first();
+            if ($response) {
 
+                return response()->json(['data' => $response]);
+            }
+        }
+
+        return response()->json(['data' => "no data found"]);
     }
 }

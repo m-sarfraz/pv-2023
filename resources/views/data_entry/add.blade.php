@@ -570,7 +570,7 @@
                                                     Position Title:
                                                 </label>
                                                 <select name="POSITION_TITLE" disabled="" id="position"
-                                                    class="select2_dropdown  w-100"
+                                                    onchange="traverse2()" class="select2_dropdown  w-100"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     @foreach ($position_title->options as $position_titleOptions)
@@ -1443,17 +1443,63 @@
                             `<option value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#Domainsub').append(
                             `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                        $('#domain').prop('readonly', true);
+                        $('#Domainsegment').prop('readonly', true);
+                        $('#Domainsub').prop('readonly', true);
+
                     } else {
                         $('#domain').append(`<option >no data found</option>`);
                         $('#Domainsegment').append(
                             `<option >no data found</option>`);
                         $('#Domainsub').append(
                             `<option >no data found</option>`);
+
                     }
                 }
             })
 
 
+        }
+
+        function traverse2() {
+            $('#domain_endo').empty();
+            $('#segment').empty();
+            $('#sub_segment').empty();
+            $('#client').empty();
+
+            $.ajax({
+                url: '{{ url('admin/traveseDataByClientProfile') }}',
+                type: 'POST',
+                data: {
+                    position: $('#position').val(),
+                    _token: token
+                },
+
+                // Ajax success function
+                success: function(res) {
+                    console.log(res)
+                    if (res.data.id) {
+
+                        $('#client').append(
+                            `<option value="${res.data.client}">${res.data.client}</option>`);
+                        $('#domain_endo').append(
+                            `<option value="${res.data.domain}">${res.data.domain}</option>`);
+                        $('#segment').append(
+                            `<option value="${res.data.segment}">${res.data.segment}</option>`);
+                        $('#sub_segment').append(
+                            `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                    } else {
+                        $('#client').append(`<option >no data found</option>`);
+                        $('#domain_endo').append(
+                            `<option >no data found</option>`);
+                        $('#segment').append(
+                            `<option >no data found</option>`);
+                        $('#sub_segment').append(
+                            `<option >no data found</option>`);
+
+                    }
+                }
+            })
         }
     </script>
 @endsection
