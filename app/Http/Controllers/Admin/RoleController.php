@@ -27,7 +27,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('id', 'DESC')->get();
+        $roles = Role::orderBy('id', 'asc')->get();
         // return $roles;
         return view('role.index', compact('roles'));
     }
@@ -39,7 +39,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
+        $permission = Permission::orderBy('id', 'DESC')->get();
         return view('role.create', compact('permission'));
     }
 
@@ -90,7 +90,7 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::find($id);
-        $permission = Permission::get();
+        $permission = Permission::orderBy('id', 'DESC')->get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();

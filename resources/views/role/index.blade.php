@@ -32,7 +32,8 @@
             <thead>
                 <tr>
                     <th>Action</th>
-                    <th>Revenue</th>
+                    <th>unique id</th>
+                    <th>Team Revenue</th>
                     <th>Name</th>
                     <th>Created At</th>
                 </tr>
@@ -47,14 +48,17 @@
                                     <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                                 </a>
                             @endcan
+                            <td class="justify-content-between">
+                                {{$role->id}}
+                            </td>
                         <td>
                             <?php
                             
-                                  if($role->hasPermissionTo('check-revenue'))
+                                  if($role->hasPermissionTo('team-revenue'))
                                   {
-                                      echo "yes";
+                                      echo "<span class='badge badge-success'> yes</span>";
                                   }else{
-                                    echo "no";
+                                    echo "";
                                   }
                                   
                                   
