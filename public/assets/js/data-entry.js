@@ -180,9 +180,11 @@ function enableSearch(id) {
 // search user data and append in data entry fields ends
 
 // calculate standard proejct revenue value on career level change starts
-function SPRCalculator(elem) {
+function SPRCalculator() {
     var domain = $('#domain').find(":selected").text().trim();
-    var CL = $(elem).find(":selected").text().trim();
+    var CL = $('#career').find(":selected").text().trim();
+    console.log(domain)
+    console.log(CL)
 
     // create object of data for technology/CPI and price
     let data = [
@@ -240,6 +242,7 @@ function SPRCalculator(elem) {
 function clientChanged(elem) {
     var selected = $(elem).find(":selected").text().trim();
     $('#client_finance').html('<option>' + selected + '</option>');
+    // SPRCalculator()
 }
 //function for appending endorsement client to finance portion ends
 
@@ -247,6 +250,7 @@ function clientChanged(elem) {
 function careerChanged(elem) {
     var selected = $(elem).find(":selected").text().trim();
     $('#career_finance').html('<option>' + selected + '</option>');
+    SPRCalculator()
 }
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
