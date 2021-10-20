@@ -128,6 +128,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required',
             'roles' => 'required',
+            'agent' => 'required',
         ];
         // if ($request->password && !empty($request->password)) {
         //     $arrayCheck['password'] = ['required', 'string', 'min:8', 'confirmed'];
@@ -137,6 +138,7 @@ class UserController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
             $input = $request->all();
+            $input['agent'] = $request->agent;
             if (!empty($input['password'])) {
                 $input['password'] = Hash::make($input['password']);
             } else {

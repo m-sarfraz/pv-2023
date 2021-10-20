@@ -20,30 +20,30 @@
                 <form action="{{ route('addtest_store') }}" method="post">
                     @csrf
                     @method("post")
-                   <div class="form-group">
-       
-       
-                       <label for=""> Candidate profile</label>
-                       <input type="text" name="c_profile" >
-                      </div>
-                      <div class="form-group">
-       
-                       <label for=""> Domain</label>
-                       <input type="text" name="domain" >
-                      </div>
-                      <div class="form-group">
-       
-                       <label for=""> segement</label>
-                       <input type="text" name="segment" >
-                      </div>
-                      <div class="form-group">
-       
-                       <label for=""> sub-segement</label>
-                       <input type="text" name="s_segment" >
-                      </div>
-                      <div class="form-group">
-                          <button type="submit"> save </button>
-                      </div>
+                    <div class="form-group">
+
+                        <label for=""> Domain</label>
+                        <input type="text" name="domain">
+                    </div>
+                    <div class="form-group">
+
+
+                        <label for=""> Candidate profile</label>
+                        <input type="text" name="c_profile">
+                    </div>
+                    <div class="form-group">
+
+                        <label for=""> segement</label>
+                        <input type="text" name="segment">
+                    </div>
+                    <div class="form-group">
+
+                        <label for=""> sub-segement</label>
+                        <input type="text" name="s_segment">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit"> save </button>
+                    </div>
                 </form>
             </div>
         </div>

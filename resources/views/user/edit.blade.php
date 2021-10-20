@@ -73,22 +73,35 @@
 
 
 
-                                    <div class="col-lg-6">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="aboutTextarea"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
+                                                        Select Team:
+                                                    </label>
+                                                    <select name="roles" required=""
+                                                        class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
+                                                        @if (count($roles) > 0)
+                                                            <option value="" disabled>Select Option</option>
+                                                            @foreach ($roles as $role)
+                                                                <option {{ in_array($role, $userRole) ? 'selected' : '' }}
+                                                                    value="{{ $role }}">{{ $role }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                              <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                Select Team:
-                                            </label>
-                                            <select name="roles" required=""
-                                                class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
-                                                @if (count($roles) > 0)
-                                                    <option value="" disabled>Select Option</option>
-                                                    @foreach ($roles as $role)
-                                                        <option {{ in_array($role, $userRole) ? 'selected' : '' }}
-                                                            value="{{ $role }}">{{ $role }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                                    class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
+                                                    Agent
+                                                </label>
+                                               
+                                                <input type="radio" name="agent" value="1" class=" h-px-48" />
+                                                Yes
+                                                /<input type="radio" name="agent" value="0" class=" h-px-48"   />
+                                                Not
                                         </div>
                                     </div>
                                 </div>
