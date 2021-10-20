@@ -22,15 +22,15 @@
                     @method("post")
                    <div class="form-group">
        
+                    <div class="form-group">
        
+                        <label for=""> Domain</label>
+                        <input type="text" name="domain" >
+                       </div>
                        <label for=""> Candidate profile</label>
                        <input type="text" name="c_profile" >
                       </div>
-                      <div class="form-group">
-       
-                       <label for=""> Domain</label>
-                       <input type="text" name="domain" >
-                      </div>
+                    
                       <div class="form-group">
        
                        <label for=""> segement</label>
