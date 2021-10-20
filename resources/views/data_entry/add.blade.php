@@ -415,7 +415,7 @@
                                                                 <small class="text-danger"></small>
                                                             </div>
                                                         </div>
-                                                   
+
                                                         <div class="col-lg-12 p-0">
                                                             <label
                                                                 class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
@@ -622,6 +622,7 @@
                                                     Career Level:
                                                 </label>
                                                 <select name="CAREER_LEVEL" disabled="" id="career"
+                                                    onchange="careerChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -882,7 +883,7 @@
                                                                 Onboarding Date
                                                             </label>
                                                             <input type="date" name="ONBOARDING_DATE" id="onboard_date"
-                                                                readonly class="form-control border h-px-20_custom" />
+                                                                class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -902,7 +903,7 @@
                                                                 Invoice Number
                                                             </label>
                                                             <input type="number" name="INVOICE_NUMBER" id="invoice_number"
-                                                                class="form-control border h-px-20_custom" />
+                                                                readonly class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -948,7 +949,7 @@
                                                                 Career level
                                                             </label>
                                                             <select name="CAREER_LEVEL_FINANCE" required="" disabled=""
-                                                                id="career_finance" onchange="SPRCalculator(this)"
+                                                                readonly id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($careerLevel->options as $careerLevelOptions)
@@ -999,7 +1000,7 @@
                                                                 Placement Fee
                                                             </label>
                                                             <input type="number" name="PLACEMENT_FEE" id="placement_fee"
-                                                                readonly class="form-control border h-px-20_custom" />
+                                                                class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1049,7 +1050,7 @@
             // show and hide loader after time set ends
 
             // check logged in user id and disable/enable fileds 
-            var team_id = {!! $role_id !!};
+            var team_id = {!! Auth::user()->agent !!};
             if (team_id == 1) {
                 $('#domain').prop('disabled', true)
                 $('#Domainsegment').prop('disabled', true)
@@ -1083,135 +1084,135 @@
             //     });
             // } else {
 
-                if (targetURL == '{{ url('admin/update-data-entry') }}') {
-                    id = $('#user').val();
-                    // targetURL = '{{ url('update-data-entry') }}'
-                    targetURL = targetURL + '/' + id
-                }
-                $("#loader").show();
+            if (targetURL == '{{ url('admin/update-data-entry') }}') {
+                id = $('#user').val();
+                // targetURL = '{{ url('update-data-entry') }}'
+                targetURL = targetURL + '/' + id
+            }
+            $("#loader").show();
 
-                // making a variable containg all for data and append token
-                var data = new FormData(document.getElementById('data_entry'));
-                data.append("_token", "{{ csrf_token() }}");
+            // making a variable containg all for data and append token
+            var data = new FormData(document.getElementById('data_entry'));
+            data.append("_token", "{{ csrf_token() }}");
 
-                // call ajax for data entry ad validation
-                $.ajax({
-                    url: targetURL,
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                    type: 'POST',
+            // call ajax for data entry ad validation
+            $.ajax({
+                url: targetURL,
+                data: data,
+                contentType: false,
+                processData: false,
+                type: 'POST',
 
-                    // Ajax success function
-                    success: function(res) {
-                        if (res.success == true) {
-                            // disable save data button after data entry success
-                            $('#save').prop("disabled", true);
-                            $('#saveRecord').prop("disabled", true);
-                            $("input").parent().siblings('span').remove();
-                            $("select").parent().siblings('span').remove();
-                            $("input").css('border-color', '#ced4da');
-                            $("select").css('border-color', '#ced4da');
+                // Ajax success function
+                success: function(res) {
+                    if (res.success == true) {
+                        // disable save data button after data entry success
+                        $('#save').prop("disabled", true);
+                        $('#saveRecord').prop("disabled", true);
+                        $("input").parent().siblings('span').remove();
+                        $("select").parent().siblings('span').remove();
+                        $("input").css('border-color', '#ced4da');
+                        $("select").css('border-color', '#ced4da');
 
-                            $("#user").append(`<option value='${res.last_data_save.id}' >
+                        $("#user").append(`<option value='${res.last_data_save.id}' >
                             ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
                                         </option>`);
-                            // show success sweet alert and enable entering new record button
-                            // $('#new').prop("disabled", false);
+                        // show success sweet alert and enable entering new record button
+                        // $('#new').prop("disabled", false);
 
-                            swal("success", res.message, "success").then((value) => {});
-                        } else if (res.success == false) {
-                            console.log(res.status)
-                            if (res.status == 1) {
-                                swal({
+                        swal("success", res.message, "success").then((value) => {});
+                    } else if (res.success == false) {
+                        console.log(res.status)
+                        if (res.status == 1) {
+                            swal({
                                 icon: "warning",
                                 text: "{{ __('Fill Expected Salary, Current Salary & Interview Notes') }}",
                                 icon: "warning",
                             });
-                            }
-
-                            // show validation error on scree with border color changed and text
-                            if (res.hasOwnProperty("message")) {
-                                var err = "";
-                                $("input").parent().siblings('span').remove();
-                                $("select").parent().siblings('span').remove();
-                                $("textarea").parent().siblings('span').remove();
-                                $("input").css('border-color', '#ced4da');
-                                $("select").css('border-color', '#ced4da');
-                                $("textarea").css('border-color', '#ced4da');
-
-                                //function for appending span and changing css color for input
-                                $.each(res.message, function(i, e) {
-                                    $("input[name='" + i + "']").css('border',
-                                        '1px solid red');
-                                    $("input[name='" + i + "']").parent().siblings(
-                                        'span').remove();
-                                    $("input[name='" + i + "']").parent().parent()
-                                        .append(
-                                            '<span style="color:red;" >' + 'Required' + '</span>'
-                                        );
-                                    $("select[name='" + i + "']").css('border',
-                                        '1px solid red');
-                                    $("select[name='" + i + "']").parent().siblings(
-                                        'span').remove();
-                                    $("select[name='" + i + "']").parent().parent()
-                                        .append(
-                                            '<span style="color:red;" >' + 'Required' + '</span>'
-                                        );
-                                        $("textarea[name='" + i + "']").attr('style',
-                                        'border:1px solid red !important');
-                                    $("textarea[name='" + i + "']").parent().siblings(
-                                        'span').remove();
-                                    $("textarea[name='" + i + "']").parent().parent()
-                                        .append(
-                                            '<span style="color:red;" >' + 'Required' + '</span>'
-                                        );
-                                });
-
-                                // // show warning message to user if firld is required
-                                // swal({
-                                //     icon: "error",
-                                //     text: "{{ __('Please fill all required fields!') }}",
-                                //     icon: "error",
-                                // });
-                            }
-
-                            //if duplicate values are detected in database for use data
-                        } else if (res.success == 'duplicate') {
-                            $("#loader").hide();
-
-                            //show warning message to change the data
-                            swal({
-                                icon: "error",
-                                text: "{{ __('Duplicate data detected') }}",
-                                icon: "error",
-                            });
-                        }else if (res.success == 'required') {
-                            $("#loader").hide();
-
-                            //show warning message to change the data
-                            swal({
-                                icon: "error",
-                                text: "{{ __('Please fill expected salary/c') }}",
-                                icon: "error",
-                            });
                         }
 
-                        //hide loader
-                        $("#loader").hide();
-                    },
+                        // show validation error on scree with border color changed and text
+                        if (res.hasOwnProperty("message")) {
+                            var err = "";
+                            $("input").parent().siblings('span').remove();
+                            $("select").parent().siblings('span').remove();
+                            $("textarea").parent().siblings('span').remove();
+                            $("input").css('border-color', '#ced4da');
+                            $("select").css('border-color', '#ced4da');
+                            $("textarea").css('border-color', '#ced4da');
 
-                    //if there is error in ajax call
-                    error: function() {
+                            //function for appending span and changing css color for input
+                            $.each(res.message, function(i, e) {
+                                $("input[name='" + i + "']").css('border',
+                                    '1px solid red');
+                                $("input[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("input[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                                $("select[name='" + i + "']").css('border',
+                                    '1px solid red');
+                                $("select[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("select[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                                $("textarea[name='" + i + "']").attr('style',
+                                    'border:1px solid red !important');
+                                $("textarea[name='" + i + "']").parent().siblings(
+                                    'span').remove();
+                                $("textarea[name='" + i + "']").parent().parent()
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                            });
+
+                            // // show warning message to user if firld is required
+                            // swal({
+                            //     icon: "error",
+                            //     text: "{{ __('Please fill all required fields!') }}",
+                            //     icon: "error",
+                            // });
+                        }
+
+                        //if duplicate values are detected in database for use data
+                    } else if (res.success == 'duplicate') {
                         $("#loader").hide();
+
+                        //show warning message to change the data
+                        swal({
+                            icon: "error",
+                            text: "{{ __('Duplicate data detected') }}",
+                            icon: "error",
+                        });
+                    } else if (res.success == 'required') {
+                        $("#loader").hide();
+
+                        //show warning message to change the data
+                        swal({
+                            icon: "error",
+                            text: "{{ __('Please fill expected salary/c') }}",
+                            icon: "error",
+                        });
                     }
-                });
-                return false;
-                $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+
+                    //hide loader
+                    $("#loader").hide();
+                },
+
+                //if there is error in ajax call
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+            return false;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             // }
         }
 
@@ -1241,6 +1242,8 @@
 
             }
             SegmentChange("Domainsegment");
+            SPRCalculator()
+
 
         }
         // function for (if domain is changed append segments acoordingly) starts
@@ -1303,7 +1306,7 @@
 
             // enable and disable course fields on selected educational attainment
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-            var role_id = {!! $role_id !!}
+            var role_id = {!! Auth::user()->agent !!}
             if (role_id == 1) {
                 if (value == 'GRADUATE') {
 
@@ -1337,7 +1340,7 @@
 
             // check for selected application status value
             if (value.includes('To') || value.includes('Active')) {
-                var role_id = {!! $role_id !!}
+                var role_id = {!! Auth::user()->agent !!}
                 if (role_id == 1) {
                     $('#domain').prop('disabled', false)
                     $('#Domainsegment').prop('disabled', false)
