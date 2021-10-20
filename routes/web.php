@@ -127,6 +127,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'HomeController@addtest')->name('addtest');
 Route::get('/testsheet', 'HomeController@testsheet');
+Route::post('/testsheet', 'HomeController@addtest_store')->name("addtest_store");
 //filter-dashboard-by-date
 Route::post("filter-dashboard-by-date", "HomeController@filterByDate");

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Charts\SampleChart;
 use App\Cipprogress;
+use App\test;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -241,5 +242,20 @@ class HomeController extends Controller
             "roles" => $roles,
         ];
         return response()->json(["data" => $data]);
+    }
+    public function addtest()
+    {
+        return view("test");
+    }
+    public function addtest_store(Request $request)
+    {
+
+        $test_save = new test();
+        $test_save->c_profile = $request->c_profile;
+        $test_save->domain = $request->domain;
+        $test_save->segment = $request->segment;
+        $test_save->s_segment = $request->s_segment;
+        $test_save->save();
+        return redirect()->back()->with('success', 'your data is save'); 
     }
 }
