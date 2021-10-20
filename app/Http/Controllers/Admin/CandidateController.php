@@ -59,7 +59,7 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-
+        $certification = implode(", ", $request->CERTIFICATIONS);
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -69,7 +69,7 @@ class CandidateController extends Controller
                 "EMAIL_ADDRESS" => "required|email",
                 "CONTACT_NUMBER" => "required",
                 "GENDER" => "required",
-                "CERTIFICATIONS" => "required",
+                // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
@@ -183,7 +183,7 @@ class CandidateController extends Controller
                 } else {
                     $CandidateEducation->course = $request->COURSE;
                 }
-                $CandidateEducation->certification = $request->CERTIFICATIONS;
+                $CandidateEducation->certification = $certification;
                 $CandidateEducation->save();
 
                 //  save data to candidate position table
@@ -374,12 +374,8 @@ class CandidateController extends Controller
     }
     public function update_data_entry(Request $request, $id)
     {
-
-        $recruiter = Auth::user()->roles->first();
-        // return $recruiter->id;
-        if ($recruiter->id == 1) {
-            // return 'hi';
-
+        $certification = implode(", ", $request->CERTIFICATIONS);
+        if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "DOMAIN" => 'required ',
                 'LAST_NAME' => 'required',
@@ -387,7 +383,7 @@ class CandidateController extends Controller
                 "EMAIL_ADDRESS" => "required|email",
                 "CONTACT_NUMBER" => "required",
                 "GENDER" => "required",
-                "CERTIFICATIONS" => "required",
+                // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
@@ -463,7 +459,7 @@ class CandidateController extends Controller
             CandidateEducation::where('candidate_id', $id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
-                'certification' => $request->CERTIFICATIONS,
+                'certification' => $certification,
             ]);
 
             // update candidae domain data
