@@ -269,12 +269,12 @@
                                                             $certificate = Helper::get_dropdown('certifications');
                                                             ?>
                                                             <label class="Label labelFontSize">
-                                                                CERTIFICATIONS
+                                                                Certifications
                                                             </label>
-                                                            <select name="CERTIFICATIONS"
+                                                            <select multiple name="CERTIFICATIONS[]" 
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}"
                                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100">
-                                                                <option value="" selected disabled>Select Option</option>
+                                                                {{-- <option value="" selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->certification == $certificateOption->option_name : '') ? 'selected' : '' }}>
