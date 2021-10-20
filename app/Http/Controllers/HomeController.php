@@ -256,6 +256,6 @@ class HomeController extends Controller
         $test_save->segment = $request->segment;
         $test_save->s_segment = $request->s_segment;
         $test_save->save();
-        return redirect()->back()->with('success', 'your data is save'); 
+        return redirect()->back()->with('success', 'your data is save');
     }
 }
