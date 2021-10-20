@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Charts\SampleChart;
 use App\Cipprogress;
 use App\test;
+use App\traverse2;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -250,12 +251,32 @@ class HomeController extends Controller
     public function addtest_store(Request $request)
     {
 
-        $test_save = new test();
-        $test_save->c_profile = $request->c_profile;
-        $test_save->domain = $request->domain;
-        $test_save->segment = $request->segment;
-        $test_save->s_segment = $request->s_segment;
-        $test_save->save();
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+
+        $filename = $_FILES["file"]["tmp_name"];
+        if ($_FILES["file"]["size"] > 0) {
+            $file = fopen($filename, "r");
+
+            if (!$file) {
+                die('Cannot open file for reading');
+            }
+            $row = 1;
+            while (($render = fgetcsv($file, 1000, ",")) !== false) {
+                $num = count($render);
+                if ($row > 6002) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
+                }
+
+                $store = new traverse2();
+                $store->client = isset($render[0]) ? $render[0] : "N/A";
+                $store->position = isset($render[1]) ? $render[1] : "N/A";
+                $store->domain = isset($render[2]) ? $render[2] : "N/A";;
+                $store->segment = isset($render[3]) ? $render[3] : "N/A";
+                $store->s_segment = isset($render[4]) ? $render[4] : "N/A";
+                $store->save();
+                $row++;
+            }
+        }
         return redirect()->back()->with('success', 'your data is save');
     }
 }
