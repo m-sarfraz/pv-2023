@@ -32,9 +32,9 @@
             <thead>
                 <tr>
                     <th>Action</th>
-                    <th>unique id</th>
-                    <th>Team Revenue</th>
+                    <th>Team ID</th>
                     <th>Name</th>
+                    <th>Type</th>
                     <th>Created At</th>
                 </tr>
             </thead>
@@ -51,12 +51,13 @@
                             <td class="justify-content-between">
                                 {{$role->id}}
                             </td>
+                            <td>{{ $role->name }}</td>
                         <td>
                             <?php
                             
                                   if($role->hasPermissionTo('team-revenue'))
                                   {
-                                      echo "<span class='badge badge-success'> yes</span>";
+                                      echo "<span class='badge badge-success'> Team Revenue</span>";
                                   }else{
                                     echo "";
                                   }
@@ -64,7 +65,6 @@
                                   
                                   ?>
                         </td>
-                        <td>{{ $role->name }}</td>
                         <td>{{ date('Y-m-d', strtotime($role->created_at)) }}</td>
                         </td>
                     </tr>

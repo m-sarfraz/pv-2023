@@ -59,7 +59,9 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-        $certification = implode(", ", $request->CERTIFICATIONS);
+        if (isset($request->CERTIFICATIONS)) {
+            $certification = implode(", ", $request->CERTIFICATIONS);
+        }
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -77,7 +79,7 @@ class CandidateController extends Controller
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                // "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required ',
                 "SEGMENT" => 'required ',
                 "SUB_SEGMENT" => 'required ',
                 // "POSITION_TITLE_APPLIED" => 'required ',
@@ -116,7 +118,7 @@ class CandidateController extends Controller
                 "CANDIDATES_PROFILE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                // "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
@@ -370,7 +372,9 @@ class CandidateController extends Controller
     }
     public function update_data_entry(Request $request, $id)
     {
-        $certification = implode(", ", $request->CERTIFICATIONS);
+        if (isset($request->CERTIFICATIONS)) {
+            $certification = implode(", ", $request->CERTIFICATIONS);
+        }
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "DOMAIN" => 'required ',
@@ -385,7 +389,7 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 "INTERVIEW_NOTES" => 'required ',
-                // "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required ',
                 "SEGMENT" => 'required ',
                 "SUB_SEGMENT" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -418,7 +422,7 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required',
                 "CANDIDATES_PROFILE" => 'required',
                 "INTERVIEW_NOTES" => 'required',
-                // "DATE_SIFTED" => 'required',
+                "DATE_SIFTED" => 'required',
                 "EMPLOYMENT_HISTORY" => 'required',
                 "POSITION_TITLE_APPLIED" => 'required',
                 // // "DATE_INVITED" => 'required',

@@ -271,7 +271,7 @@
                                                             <label class="Label labelFontSize">
                                                                 Certifications
                                                             </label>
-                                                            <select multiple name="CERTIFICATIONS[]" 
+                                                            <select multiple name="CERTIFICATIONS[]"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}"
                                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                                                 {{-- <option value="" selected disabled>Select Option</option> --}}
@@ -422,7 +422,8 @@
                                                                 Employment History</label>
                                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                                 class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
-                                                        </div>
+                                                      <div></div>
+                                                            </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
                                                         <label class="` Label labelFontSize">
@@ -430,8 +431,8 @@
                                                         </label>
                                                         <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
                                                             class="form-control border t-HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
-                                                        <div>
-                                                            <small class="text-danger"></small>
+                                                   <div></div>
+                                                            <div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <div class="form-group mb-0">
@@ -502,18 +503,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
-
-
-
-
-
-
-
                                             </fieldset>
-
                                             <div class="row pt-3">
                                                 <div class="col-lg-6"></div>
                                                 <div class="col-lg-6">
@@ -1143,6 +1133,7 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
+                                console.log( $("select[name='" + i + "']").next());
                                 $("input[name='" + i + "']").css('border',
                                     '1px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
@@ -1153,18 +1144,16 @@
                                     );
                                 $("select[name='" + i + "']").css('border',
                                     '1px solid red');
-                                $("select[name='" + i + "']").parent().siblings(
+                                $("select[name='" + i + "']").siblings(
                                     'span').remove();
-                                $("select[name='" + i + "']").parent().parent()
+                                $("select[name='" + i + "']").siblings()
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
                                 $("textarea[name='" + i + "']").attr('style',
                                     'border:1px solid red !important');
-                                $("textarea[name='" + i + "']").parent().siblings(
-                                    'span').remove();
-                                $("textarea[name='" + i + "']").parent().parent()
-                                    .append(
+                                $("textarea[name='" + i + "']").next('div').remove();
+                                $("textarea[name='" + i + "']").next('div').append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
                             });
