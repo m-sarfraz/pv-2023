@@ -95,9 +95,11 @@ class CandidateController extends Controller
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
             }
             $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
-            if (str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+            if (
+                str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
-                || str_contains($manner_of_invite, 'sms')) {
+                || str_contains($manner_of_invite, 'sms')
+            ) {
                 $arrayCheck["DATE_INVITED"] = "required";
             }
         } else {
@@ -133,9 +135,11 @@ class CandidateController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
-            if (!isset($request->INTERVIEW_NOTES) ||
+            if (
+                !isset($request->INTERVIEW_NOTES) ||
                 !isset($request->CURRENT_SALARY) ||
-                !isset($request->EXPECTED_SALARY)) {
+                !isset($request->EXPECTED_SALARY)
+            ) {
                 $arrayCheck["EXPECTED_SALARY"] = "required";
                 $arrayCheck["CURRENT_SALARY"] = "required";
                 $arrayCheck["INTERVIEW_NOTES"] = "required";
@@ -563,4 +567,15 @@ class CandidateController extends Controller
         }
     }
     // download canidate cv functon ends
+    // traveseDataByClientProfile
+    public function traveseDataByClientProfile(Request $request)
+    {
+        $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
+        if($response){
+
+            return response()->json(['data' => $response]);
+        }
+        return response()->json(['data' => "no data found"]);
+
+    }
 }
