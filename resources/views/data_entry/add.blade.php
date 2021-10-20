@@ -322,10 +322,10 @@
                                                                 onchange="SegmentChange('Domainsegment')"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
-                                                                {{-- @foreach ($segment->options as $segmentOption)
-                                                                        <option value="{{ $segmentOption->id }}">
-                                                                            {{ $segmentOption->option_name }}</option>
-                                                                    @endforeach --}}
+                                                                @foreach ($segment->options as $segmentOption)
+                                                                    <option value="{{ $segmentOption->id }}">
+                                                                        {{ $segmentOption->option_name }}</option>
+                                                                @endforeach
 
                                                             </select>
                                                             <div>
@@ -340,11 +340,11 @@
                                                             <select name="SUB_SEGMENT" id="Domainsub"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
-                                                                {{-- @foreach ($sub_segment->options as $sub_segmentOption)
-                                                                            <option value="{{ $sub_segmentOption->id }}">
-                                                                                {{ $sub_segmentOption->option_name }}
-                                                                            </option>
-                                                                        @endforeach --}}
+                                                                @foreach ($sub_segment->options as $sub_segmentOption)
+                                                                    <option value="{{ $sub_segmentOption->id }}">
+                                                                        {{ $sub_segmentOption->option_name }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                             <div>
                                                                 <small class="text-danger"></small>
@@ -359,6 +359,7 @@
                                                                     candidate profile
                                                                 </label>
                                                                 <select name="CANDIDATES_PROFILE" id="candidate_profile"
+                                                                    onchange="traverseData(this)"
                                                                     class="select2_dropdown w-100"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option value="" selected disabled>Select Option
@@ -1398,5 +1399,41 @@
         }
 
         //  On application status changed function ends
+        // client change and get domain segment and subsegment
+        function traverseData(request) {
+
+            $('#domain').empty();
+            $('#Domainsub').empty();
+            $('#Domainsegment').empty();
+
+            $.ajax({
+                url: '{{ url('admin/traveseDataByClientProfile') }}',
+                type: 'POST',
+                data: {
+                    c_profile: $('#candidate_profile').val(),
+                    _token: token
+                },
+
+                // Ajax success function
+                success: function(res) {
+                    if (res.data.id) {
+
+                        $('#domain').append(`<option value="${res.data.domain}">${res.data.domain}</option>`);
+                        $('#Domainsegment').append(
+                            `<option value="${res.data.segment}">${res.data.segment}</option>`);
+                        $('#Domainsub').append(
+                            `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                    } else {
+                        $('#domain').append(`<option >no data found</option>`);
+                        $('#Domainsegment').append(
+                            `<option >no data found</option>`);
+                        $('#Domainsub').append(
+                            `<option >no data found</option>`);
+                    }
+                }
+            })
+
+
+        }
     </script>
 @endsection
