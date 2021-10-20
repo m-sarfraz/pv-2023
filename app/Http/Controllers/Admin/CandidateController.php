@@ -40,8 +40,6 @@ class CandidateController extends Controller
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
         } # code...
-        $role = Auth::user()->roles->first();
-        $role_id = $role->id;
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
@@ -49,7 +47,6 @@ class CandidateController extends Controller
         // return $sub_segmentsDropDown;
         $data = [
             'user' => $user,
-            'role_id' => $role_id,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,

@@ -621,7 +621,7 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Career Level:
                                                 </label>
-                                                <select name="CAREER_LEVEL" disabled="" id="career"
+                                                <select name="CAREER_LEVEL" disabled="" id="career" onchange="careerChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" disabled selected>Select Option</option>
                                                     @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -882,7 +882,7 @@
                                                                 Onboarding Date
                                                             </label>
                                                             <input type="date" name="ONBOARDING_DATE" id="onboard_date"
-                                                                readonly class="form-control border h-px-20_custom" />
+                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -901,7 +901,7 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Invoice Number
                                                             </label>
-                                                            <input type="number" name="INVOICE_NUMBER" id="invoice_number"
+                                                            <input type="number" name="INVOICE_NUMBER" id="invoice_number" readonly
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -947,7 +947,7 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Career level
                                                             </label>
-                                                            <select name="CAREER_LEVEL_FINANCE" required="" disabled=""
+                                                            <select name="CAREER_LEVEL_FINANCE" required="" disabled="" readonly
                                                                 id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
@@ -999,7 +999,7 @@
                                                                 Placement Fee
                                                             </label>
                                                             <input type="number" name="PLACEMENT_FEE" id="placement_fee"
-                                                                readonly class="form-control border h-px-20_custom" />
+                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1049,7 +1049,7 @@
             // show and hide loader after time set ends
 
             // check logged in user id and disable/enable fileds 
-            var team_id = {!! $role_id !!};
+            var team_id = {!! Auth::user()->agent !!};
             if (team_id == 1) {
                 $('#domain').prop('disabled', true)
                 $('#Domainsegment').prop('disabled', true)
@@ -1303,7 +1303,7 @@
 
             // enable and disable course fields on selected educational attainment
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-            var role_id = {!! $role_id !!}
+            var role_id = {!! Auth::user()->agent !!}
             if (role_id == 1) {
                 if (value == 'GRADUATE') {
 
@@ -1337,7 +1337,7 @@
 
             // check for selected application status value
             if (value.includes('To') || value.includes('Active')) {
-                var role_id = {!! $role_id !!}
+                var role_id = {!! Auth::user()->agent !!}
                 if (role_id == 1) {
                     $('#domain').prop('disabled', false)
                     $('#Domainsegment').prop('disabled', false)

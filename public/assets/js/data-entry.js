@@ -243,6 +243,12 @@ function clientChanged(elem) {
 }
 //function for appending endorsement client to finance portion ends
 
+//function for appending endorsement career to finance portion starts
+function careerChanged(elem) {
+    var selected = $(elem).find(":selected").text().trim();
+    $('#career_finance').html('<option>' + selected + '</option>');
+}
+//function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
 
