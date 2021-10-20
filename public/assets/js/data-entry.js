@@ -100,10 +100,10 @@ function RemarksChange(elem) {
 // append selected salary and alloeance to finance portion starts
 function SalaryAppend(id) {
     var value = $('#remarks_finance').find(":selected").text().trim();
-    if (value == 'Billed') {
-        $('#off_allowance').prop("disabled", false);
-        var allowance = $('#off_allowance').val();
-    }
+    // if (value == 'Billed') {
+    //     $('#off_allowance').prop("disabled", false);
+    // }
+    var allowance = $('#off_allowance').val();
     // get vlaues of input field of candidate position
     var salary = $('#off_salary').val();
 

@@ -423,8 +423,8 @@
                                                                 Employment History</label>
                                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                                 class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
-                                                      <div></div>
-                                                            </div>
+                                                            <div></div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
                                                         <label class="` Label labelFontSize">
@@ -432,8 +432,8 @@
                                                         </label>
                                                         <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes"
                                                             class="form-control border t-HC h-px-20_custom">{{ $candidateDetail != null ? $candidateDetail->interview_note : '' }}</textarea>
-                                                   <div></div>
-                                                            <div>
+                                                        <div></div>
+                                                        <div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <div class="form-group mb-0">
@@ -1081,10 +1081,16 @@
                 targetURL = targetURL + '/' + id
             }
             $("#loader").show();
-
+            if ($('#off_salary').is(':disabled')) {
+                $salary_field =0;
+            }
+            else{
+                $salary_field =1;
+            }
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('data_entry'));
-            data.append("_token", "{{ csrf_token() }}");
+            // data.append("_token", "{{ csrf_token() }}");
+            data.append("salary_field",  $salary_field);
 
             // call ajax for data entry ad validation
             $.ajax({
@@ -1134,7 +1140,7 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                console.log( $("select[name='" + i + "']").next());
+                                console.log($("select[name='" + i + "']").next());
                                 $("input[name='" + i + "']").css('border',
                                     '1px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
@@ -1145,18 +1151,18 @@
                                     );
                                 $("select[name='" + i + "']").css('border',
                                     '1px solid red');
-                                $("select[name='" + i + "']").siblings(
-                                    'span').remove();
-                                $("select[name='" + i + "']").siblings()
-                                    .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
+                                // $("select[name='" + i + "']").siblings(
+                                //     'span').remove();
+                                // $("select[name='" + i + "']").siblings()
+                                //     .append(
+                                //         '<span style="color:red;" >' + 'Required' + '</span>'
+                                //     );
                                 $("textarea[name='" + i + "']").attr('style',
                                     'border:1px solid red !important');
                                 $("textarea[name='" + i + "']").next('div').remove();
                                 $("textarea[name='" + i + "']").next('div').append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
+                                    '<span style="color:red;" >' + 'Required' + '</span>'
+                                );
                             });
 
                             // // show warning message to user if firld is required

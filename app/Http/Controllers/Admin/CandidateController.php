@@ -104,6 +104,10 @@ class CandidateController extends Controller
             ) {
                 $arrayCheck["DATE_INVITED"] = "required";
             }
+            if ($request->salary_field == 1) {
+                $arrayCheck["OFFERED_SALARY"] = "required";
+                $arrayCheck["OFFERED_ALLOWANCE"] = "required";
+            }
         } else {
             $arrayCheck = [
                 'LAST_NAME' => 'required',
@@ -571,7 +575,7 @@ class CandidateController extends Controller
     public function traveseDataByClientProfile(Request $request)
     {
         $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
-        if($response){
+        if ($response) {
 
             return response()->json(['data' => $response]);
         }
