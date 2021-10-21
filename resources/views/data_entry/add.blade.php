@@ -138,6 +138,9 @@
                                                                         {{ $genderOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -287,15 +290,19 @@
                                                 <hr class="mb-9" />
                                                 <div class="row m-0">
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 pl-0">
-                                                        <label class="Label labelFontSize">
-                                                            Date Sifted:
-                                                        </label>
-                                                        <input type="date" name="DATE_SIFTED" required=""
-                                                            value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
-                                                            class="form-control users-input-S-C" />
-                                                        <div>
-                                                            <small class="text-danger"></small>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                                            <div>
+                                                                <label class="Label labelFontSize">
+                                                                    Date Sifted:
+                                                                </label>
+                                                                <input type="date" name="DATE_SIFTED" required=""
+                                                                    value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
+                                                                    class="form-control users-input-S-C" />
+                                                            </div>
                                                         </div>
+                                                        {{-- <div>
+                                                            <small class="text-danger"></small>
+                                                        </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">Domains</label>
                                                             <select name="DOMAIN" id="domain" required=""
@@ -371,9 +378,9 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                            </div>
-                                                            <div>
-                                                                <small class="text-danger"></small>
+                                                                <div>
+                                                                    <small class="text-danger"></small>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
@@ -411,9 +418,9 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                            </div>
-                                                            <div>
-                                                                <small class="text-danger"></small>
+                                                                <div>
+                                                                    <small class="text-danger"></small>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -423,7 +430,7 @@
                                                                 Employment History</label>
                                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                                 class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
-                                                            <div></div>
+                                                            <div style="color:red"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
@@ -922,7 +929,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group mb-0">
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
-                                                                Total Bilable Amount
+                                                                Total Billable Amount
                                                             </label>
                                                             <input type="number" name="TOTAL_BILLABLE_AMOUNT"
                                                                 id="bilable_amount" oninput="amountFinder(this)"
@@ -980,7 +987,7 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Offered Salary
                                                             </label>
-                                                            <input type="number" name="OFFERED_SALARY"
+                                                            <input type="number" name="OFFERED_SALARY_finance"
                                                                 id="off_salary_fianance" readonly
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
@@ -1046,7 +1053,7 @@
                 $('#domain').prop('disabled', true)
                 $('#Domainsegment').prop('disabled', true)
                 $('#Domainsub').prop('disabled', true)
-                $('#candidate_profile').prop('disabled', true)
+                // $('#candidate_profile').prop('disabled', true)
             }
             // close
         });
@@ -1086,18 +1093,15 @@
             } else {
                 $salary_field = 1;
             }
-            if ($('#ap_status').val()== null) {
+            if ($('#ap_status').val() == null) {
                 $endorsement = 'inactive'
-               
+
             } else {
-                alert('fi')
                 $application_status = $('#ap_status').val().toLowerCase();
                 if ($application_status == 'to be endorsed') {
-                    alert('yes')
                     $endorsement = 'active';
-                }
-                else{
-                $endorsement = 'inactive'
+                } else {
+                    $endorsement = 'inactive'
                 }
             }
             // making a variable containg all for data and append token
@@ -1163,17 +1167,17 @@
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
-                                $("select[name='" + i + "']").css('border',
-                                    '1px solid red');
-                                // $("select[name='" + i + "']").siblings(
-                                //     'span').remove();
-                                // $("select[name='" + i + "']").siblings()
-                                //     .append(
-                                //         '<span style="color:red;" >' + 'Required' + '</span>'
-                                //     );
+                                $("select[name='" + i + "']").attr('style',
+                                    'border:1px solid red !important');
+                                $("select[name='" + i + "']").siblings(
+                                    'div').children().remove();
+                                $("select[name='" + i + "']").siblings('div')
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
                                 $("textarea[name='" + i + "']").attr('style',
                                     'border:1px solid red !important');
-                                $("textarea[name='" + i + "']").next('div').remove();
+                                $("textarea[name='" + i + "']").next('div').children().remove();
                                 $("textarea[name='" + i + "']").next('div').append(
                                     '<span style="color:red;" >' + 'Required' + '</span>'
                                 );
@@ -1355,7 +1359,7 @@
                     $('#domain').prop('disabled', false)
                     $('#Domainsegment').prop('disabled', false)
                     $('#Domainsub').prop('disabled', false)
-                    $('#candidate_profile').prop('disabled', false)
+                    // $('#candidate_profile').prop('disabled', false)
                 }
 
                 if (value.includes('To')) {
@@ -1400,7 +1404,7 @@
                 $('#domain').prop('disabled', true)
                 $('#Domainsegment').prop('disabled', true)
                 $('#Domainsub').prop('disabled', true)
-                $('#candidate_profile').prop('disabled', true)
+                // $('#candidate_profile').prop('disabled', true)
                 //else disalbe the input fields of endorsement section 
                 $('#remarks').prop("disabled", true);
                 $('#status').prop("disabled", true);
@@ -1502,10 +1506,10 @@
                             `<option >no data found</option>`);
                         $('#sub_segment').append(
                             `<option >no data found</option>`);
-
                     }
                 }
             })
+            
         }
     </script>
 @endsection

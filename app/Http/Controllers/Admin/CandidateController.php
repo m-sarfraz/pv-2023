@@ -6,6 +6,7 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
 use App\Finance;
@@ -59,7 +60,6 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-        return $request->endorsement_field;
 
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
@@ -107,8 +107,16 @@ class CandidateController extends Controller
                 $arrayCheck["OFFERED_SALARY"] = "required";
                 $arrayCheck["OFFERED_ALLOWANCE"] = "required";
             }
-            if ($request->endorsement == 'active') {
-                return 'endorsement section enabled and required';
+            if ($request->endorsement_field == 'active') {
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["CAREER_LEVEL"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["STATUS"] = "required";
+                $arrayCheck["CLIENT"] = "required";
+                $arrayCheck["SITE"] = "required";
+                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
             }
         } else {
             $arrayCheck = [
@@ -193,8 +201,8 @@ class CandidateController extends Controller
                 }
                 if (isset($request->CERTIFICATIONS)) {
                     $certification = implode(", ", $request->CERTIFICATIONS);
+                    $CandidateEducation->certification = $certification;
                 }
-                $CandidateEducation->certification = $certification;
                 $CandidateEducation->save();
 
                 //  save data to candidate position table
@@ -223,13 +231,13 @@ class CandidateController extends Controller
                 $CandidiateDomain = new CandidateDomain();
                 $CandidiateDomain->candidate_id = $CandidateInformation->id;
                 $CandidiateDomain->date_shifted = $request->DATE_SIFTED;
-                $domain_name = Domain::where('id', $request->DOMAIN)->first();
+                $domain_name = Domain::where('domain_name', $request->DOMAIN)->first();
                 $CandidiateDomain->domain = $domain_name->domain_name;
                 $CandidiateDomain->emp_history = $request->EMPLOYMENT_HISTORY;
                 $CandidiateDomain->interview_note = $request->INTERVIEW_NOTES;
-                $name = Segment::where('id', $request->SEGMENT)->first();
+                $name = Segment::where('segment_name', $request->SEGMENT)->first();
                 $CandidiateDomain->segment = $name->segment_name;
-                $Sub_name = SubSegment::where('id', $request->SUB_SEGMENT)->first();
+                $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
                 $CandidiateDomain->sub_segment = $Sub_name->sub_segment_name;
                 $CandidiateDomain->save();
 
@@ -304,7 +312,7 @@ class CandidateController extends Controller
                     ],
                 ];
 
-                $user = User::find($recruiter);
+                // $user = User::find($recruiter);
 
                 $Cipprogress = new Cipprogress();
                 // find in array
@@ -327,6 +335,8 @@ class CandidateController extends Controller
                 if (strpos($mystring, $word_2) !== false) {
                     $Cipprogress->onboarded = 1;
                 }
+                $recruiter = Auth::user()->roles->first();
+                // return $recruiter;
                 $Cipprogress->candidate_id = $CandidateInformation->id;
                 $Cipprogress->team = $recruiter->name;
                 $Cipprogress->t_id = $recruiter->id;
