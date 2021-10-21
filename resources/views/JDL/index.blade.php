@@ -226,18 +226,18 @@
                             <tbody>
                                 @foreach ($Userdata as $renderIndex)
 
-                                    <tr onclick="Filter('{{ $renderIndex->cid }}')">
+                                    <tr onclick="Filter('{{ $renderIndex->id }}')">
                                         <!-- Table data 1 -->
-                                        <td>{{ $renderIndex->endo_client }}</td>
-                                        <td>{{ $renderIndex->candidate_segment }}</td>
-                                        <td>{{ $renderIndex->candidate_sub_segment }}</td>
-                                        <td>{{ $renderIndex->endo_career_endo }}</td>
-                                        <td>{{ $renderIndex->endo_position_title }}</td>
-                                        <td>no data</td>
-                                        <td>{{ $renderIndex->candidate_address }}</td>
-                                        <td>no data</td>
-                                        <td>no data</td>
-                                        <td>{{ $renderIndex->endo_status }}</td>
+                                        <td>{{ $renderIndex->client }}</td>
+                                        <td>{{ $renderIndex->segment }}</td>
+                                        <td>{{ $renderIndex->subsegment }}</td>
+                                        <td>{{ $renderIndex->c_level }}</td>
+                                        <td>{{ $renderIndex->p_title }}</td>
+                                        <td>{{$renderIndex->budget}}</td>
+                                        <td>{{ $renderIndex->location }}</td>
+                                        <td>{{$renderIndex->priority}}</td>
+                                        <td>{{$renderIndex->w_schedule}}</td>
+                                        <td>{{ $renderIndex->status }}</td>
                                     </tr>
                                 @endforeach
 
@@ -571,9 +571,9 @@
 
                 // Success fucniton of Ajax
                 success: function(res) {
-                    if (res[0] == null) {
-                        location.reload();
-                    }
+                    // if (res[0] == null) {
+                    //     location.reload();
+                    // }
                     $("#candidateDomain").empty();
                     var i;
                     let domains = {!! $candidateDomain->options !!}
@@ -584,7 +584,7 @@
                             if (element.option_name == res[i].domain.toUpperCase()) {
 
                                 $("#candidateDomain").append(
-                                    `<option selected   value="${element.option_name}">${element.option_name}</option>`
+                                    `<option    value="${element.option_name}">${element.option_name}</option>`
                                 );
 
                             }
@@ -596,6 +596,8 @@
                     changeposition_title(res)
                     changesegmentbyClient(res)
                     changesubsegmentbyClient(res)
+                    changelocation(res)
+                    changestatus(res)
 
                 }
             });
@@ -615,7 +617,7 @@
                     arr.forEach(element => {
                         if (element === elementsegment.segment_name) {
                             if (elementsubsegment.segment_id == elementsegment.id) {
-                                $("#sub_segment").append('<option selected value="' +
+                                $("#sub_segment").append('<option  value="' +
                                     elementsubsegment.sub_segment_name +
                                     '">' + elementsubsegment.sub_segment_name +
                                     '</option>');
@@ -633,9 +635,9 @@
             $('#career_level').empty()
             for (var i = 0; i < res.length; i++) {
 
-                $('#career_level').append('<option selected value="' +
-                    res[i].career_endo +
-                    '">' + res[i].career_endo +
+                $('#career_level').append('<option  value="' +
+                    res[i].c_level +
+                    '">' + res[i].c_level +
                     '</option>');
             }
 
@@ -646,9 +648,9 @@
             $('#position_title').empty()
 
             for (var i = 0; i < res.length; i++) {
-                $('#position_title').append('<option selected value="' +
-                    res[i].position_title +
-                    '">' + res[i].position_title +
+                $('#position_title').append('<option  value="' +
+                    res[i].p_title +
+                    '">' + res[i].p_title +
                     '</option>');
             }
 
@@ -658,7 +660,7 @@
             $('#segment').empty()
 
             for (var i = 0; i < res.length; i++) {
-                $('#segment').append('<option selected value="' +
+                $('#segment').append('<option  value="' +
                     res[i].segment +
                     '">' + res[i].segment +
                     '</option>');
@@ -670,12 +672,37 @@
             $('#sub_segment').empty()
 
             for (var i = 0; i < res.length; i++) {
-                $('#sub_segment').append('<option selected value="' +
-                    res[i].sub_segment +
-                    '">' + res[i].sub_segment +
+                $('#sub_segment').append('<option  value="' +
+                    res[i].subsegment +
+                    '">' + res[i].subsegment +
                     '</option>');
 
             }
         }
+        function changelocation(res) {
+            $('#location').empty()
+
+            for (var i = 0; i < res.length; i++) {
+                $('#location').append('<option  value="' +
+                    res[i].location +
+                    '">' + res[i].location +
+                    '</option>');
+
+            }
+        }
+        function changestatus(res) {
+            $('#status').empty()
+
+            for (var i = 0; i < res.length; i++) {
+                $('#status').append('<option  value="' +
+                    res[i].status +
+                    '">' + res[i].status +
+                    '</option>');
+
+            }
+        }
+        
+        
+
     </script>
 @endsection

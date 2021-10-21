@@ -198,46 +198,61 @@
                         <!-- load sheetJDL start-->
                         <div
                             class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12 col-md-6" >
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
 
-                                <form class="C_To_GS">
+                             
                                     <div style="padding: 93px;" class="pb-3">
                                         <img style="width: 68.75px; cursor: pointer"
                                             src="{{ asset('assets/image/profile/sheetImage.png') }}"
-                                            onclick="showFieldJDL(this)" />
+                                            onclick="showFieldJDL(this)"  data-toggle="modal"
+                                            data-whatever="@getbootstrap" data-target="#jdlModal"/>
                                     </div>
-                                    <fieldset class="ml-10 mr-10 fieldJDL d-none">
-                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                            <div class="col-lg-8">
-                                                <div class="form-group">
-                                                    <label
-                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                        Sheet Id
-                                                    </label>
-                                                    <input type="text" class="form-control h-px-48" id="sheetIdJDL"
-                                                        name="sheetId" placeholder="Enter Sheet ID" required />
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="modal fade" id="jdlModal" tabindex="-1"
+                                            aria-labelledby="jdlModal" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
 
-                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                            <div class="col-lg-8">
-                                                <div class="mt-2">
-                                                    <div class="form-group">
-                                                        <input type="button" value="Connect"
-                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase"
-                                                            type="submit" />
+                                                    <div class="modal-body">
+                                                        <form action="{{Route('connect_to_jdl_sheet')}}" method="post">
+                                                            @csrf
+                                                            @method("post")
+                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                            <div class="col-lg-12">
+                                                                <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                        class="bi bi-file-earmark-spreadsheet-fill"></i>connect To JDL Sheet </h5>
+                                                                <hr>
+                                                                <div class="form-group">
+                                                                    <label
+                                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                        Sheet ID
+                                                                    </label>
+                                                                    <input type="text" id="jdl_sheet_id" class="form-control"
+                                                                        name="jdl_sheet_id" required />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                            <div class="col-lg-10 text-right p-0">
+                                                                <div class="mt-2">
+                                                                    <div class="form-group">
+                                                                        <input type="submit" value="Upload"
+                                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </form>
+                                
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">

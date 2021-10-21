@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Helpers;
 
 use App\CandidateInformation;
@@ -25,8 +26,7 @@ class Helper
     public static function user_data()
     {
         // join the tables to get ccandidate data
-        $Userdata = CandidateInformation::
-            join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
@@ -35,5 +35,4 @@ class Helper
             ->paginate(20);
         return $Userdata;
     }
-
 }

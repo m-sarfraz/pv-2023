@@ -27,7 +27,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('id', 'asc')->get();
+        $roles = Role::orderBy('id', 'DESC')->get();
         // return $roles;
         return view('role.index', compact('roles'));
     }
