@@ -64,7 +64,7 @@ class CandidateController extends Controller
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
-                "DOMAIN" => 'required ',
+                // "DOMAIN" => 'required ',
                 'LAST_NAME' => 'required',
                 "FIRST_NAME" => "required",
                 "EMAIL_ADDRESS" => "required|email",
@@ -79,8 +79,8 @@ class CandidateController extends Controller
                 "CANDIDATES_PROFILE" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
-                "SEGMENT" => 'required ',
-                "SUB_SEGMENT" => 'required ',
+                // "SEGMENT" => 'required ',
+                // "SUB_SEGMENT" => 'required ',
                 // "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
@@ -107,6 +107,9 @@ class CandidateController extends Controller
                 $arrayCheck["OFFERED_SALARY"] = "required";
                 $arrayCheck["OFFERED_ALLOWANCE"] = "required";
             }
+            if ($request->EDUCATIONAL_ATTAINTMENT != 'GRADUATE') {
+                $arrayCheck["COURSE"] = "required";
+            }
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
@@ -127,9 +130,9 @@ class CandidateController extends Controller
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
                 "EDUCATIONAL_ATTAINTMENT" => 'required ',
-                "DOMAIN" => 'required ',
-                "SEGMENT" => 'required ',
-                "SUB_SEGMENT" => 'required ',
+                // "DOMAIN" => 'required ',
+                // "SEGMENT" => 'required ',
+                // "SUB_SEGMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
@@ -146,6 +149,9 @@ class CandidateController extends Controller
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
+            if ($request->EDUCATIONAL_ATTAINTMENT != 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT != 'SENIOR HIGH SCHOOL GRADUATE') {
+                $arrayCheck["COURSE"] = "required";
+            }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {

@@ -430,7 +430,7 @@
                                                                 Employment History</label>
                                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                                 class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
-                                                            <div style="color:red"></div>
+                                                            <div></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-12 plSM-0 pr-15  pr-0">
@@ -1150,15 +1150,14 @@
                         if (res.hasOwnProperty("message")) {
                             var err = "";
                             $("input").parent().siblings('span').remove();
-                            $("select").parent().siblings('span').remove();
-                            $("textarea").parent().siblings('span').remove();
+                            $("select").siblings('div').children().remove();
+                            $("textarea").next('div').children().remove();
                             $("input").css('border-color', '#ced4da');
                             $("select").css('border-color', '#ced4da');
                             $("textarea").css('border-color', '#ced4da');
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                console.log($("select[name='" + i + "']").next());
                                 $("input[name='" + i + "']").css('border',
                                     '1px solid red');
                                 $("input[name='" + i + "']").parent().siblings(
