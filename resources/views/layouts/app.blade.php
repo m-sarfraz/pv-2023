@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}" />
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <link rel="stylesheet" href= "{{ asset('assets/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href= "{{ asset('assets/css/font-awesome.min.css') }}" /> 
     <link rel="stylesheet"  href= "{{ asset('assets/css/sweetalert.min.css') }}" /> 
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}"  />
     <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 

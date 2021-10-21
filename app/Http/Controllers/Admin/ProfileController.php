@@ -12,6 +12,7 @@ use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
+use App\jdlSheet;
 use App\Segment;
 use App\User;
 use Auth;
@@ -762,5 +763,71 @@ class ProfileController extends Controller
         $test = Config::set('datastudio.google_sheet_id', $request->sheetID);
         // dd($config, Config::get("datastudio.google_sheet_id"));
         return response()->json(['success' => true, 'message' => 'successfully']);
+    }
+    public function connect_to_jdl_sheet(\App\Services\GoogleSheet $googleSheet,Request $request)
+    {
+        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+        // change configuration for google sheet ID
+        $config = Config::get("datastudio.google_sheet_id");
+        Config::set('datastudio.google_sheet_id', $request->jdl_sheet_id);
+        $config2 = Config::get("datastudio.google_sheet_id");
+        $data = $googleSheet->readGoogleSheet($request->jdl_sheet_id);
+
+        // if sheet exist on google sheet with given id
+        if (is_array($data)) {
+            foreach ($data as $render_skipped_rows) {
+                if (count($render_skipped_rows) > 6002) {
+                    return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
+                }
+                //unset first  row
+                unset($data[0][0]);
+
+                foreach ($render_skipped_rows as $render) {
+                  
+
+
+                    
+                    $store_by_google_sheet = new jdlSheet();
+                    $store_by_google_sheet->priority = isset($render[0]) ? $render[0] : "";
+                    $store_by_google_sheet->ref_code = isset($render[1]) ? $render[1] : "";
+                    $store_by_google_sheet->status = isset($render[2]) ? $render[2] : "";
+                    $store_by_google_sheet->req_date = isset($render[3]) ? $render[3] : "";
+                    $store_by_google_sheet->maturity = isset($render[4]) ? $render[4] : "";
+                    $store_by_google_sheet->updated_date = isset($render[5]) ? $render[5] : "";
+                    $store_by_google_sheet->closed_date = isset($render[6]) ? $render[6] : "";
+                    $store_by_google_sheet->os_date = isset($render[7]) ? $render[7] : "";
+                    $store_by_google_sheet->client = isset($render[8]) ? $render[8] : "";
+                    $store_by_google_sheet->domain = isset($render[9]) ? $render[9] : "";
+                    $store_by_google_sheet->segment = isset($render[10]) ? $render[10] : "";
+                    $store_by_google_sheet->subsegment = isset($render[11]) ? $render[11] : "";
+                    $store_by_google_sheet->p_title = isset($render[12]) ? $render[12] : "";
+                    $store_by_google_sheet->c_level = isset($render[13]) ? $render[13] : "";
+                    $store_by_google_sheet->sll_no = isset($render[14]) ? $render[14] : "";
+                    $store_by_google_sheet->t_fte = isset($render[15]) ? $render[15] : "";
+                    $store_by_google_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
+                    $store_by_google_sheet->edu_attainment = isset($render[17]) ? $render[17] : "";
+                    $store_by_google_sheet->jd = isset($render[18]) ? $render[18] : "";
+                    $store_by_google_sheet->location = isset($render[19]) ? $render[19] : "";
+                    $store_by_google_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
+                    $store_by_google_sheet->budget = isset($render[21]) ? $render[21] : "";
+                    $store_by_google_sheet->poc = isset($render[22]) ? $render[22] : "";
+                    $store_by_google_sheet->note = isset($render[23]) ? $render[23] : "";
+                    $store_by_google_sheet->start_date = isset($render[24]) ? $render[24] : "";
+                    $store_by_google_sheet->keyword = isset($render[25]) ? $render[21] : "";
+                    $store_by_google_sheet->recruiter = isset($render[26]) ? $render[26] : "";
+                    
+                    $store_by_google_sheet->save();
+
+                   
+                }
+            }
+            //save Google sheet addeed log to table starts
+            Helper::save_log('JDL_SHEET_IMPORTED');
+            // save Google sheet added to log table ends
+            return response()->json(['success' => true, 'message' => 'Data Import successfully']);
+        } else {
+            // if Sheet doesnt exist
+            return response()->json(['success' => false, 'message' => 'Given Sheet is not found!']);
+        }
     }
 }

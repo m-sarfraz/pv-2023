@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::where('type', 3)->get();
+        $data = User::where('type', 3)->orderby("id","DESC")->get();
         return view('user.index', compact('data'));
     }
 

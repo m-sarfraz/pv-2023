@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
-
+  
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
 
@@ -97,7 +97,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
-
+    Route::post('connect_to_jdl_sheet','ProfileController@connect_to_jdl_sheet')->name('connect_to_jdl_sheet');
     // finance route
     Route::get('finance', 'FinanceController@index')->name('finance');
     Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
