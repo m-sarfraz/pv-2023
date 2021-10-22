@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <div class="col-lg-8">
+                                <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
                                             Reprocess:
@@ -155,6 +155,13 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">To (OB Date:)</label>
+                                        <input type="date" class="w-100 form-control" id="to_ob_date"
+                                            onchange="filterUserData()">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-8">
@@ -172,13 +179,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">To (OB Date:)</label>
-                                        <input type="date" class="w-100 form-control" id="to_ob_date"
-                                            onchange="filterUserData()">
-                                    </div>
-                                </div>
+                              
                             </div>
                         </form>
                     </div>
