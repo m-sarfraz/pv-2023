@@ -220,7 +220,7 @@
                                             ->first();
                                     @endphp
                                     <td>{{ $name->name }}</td>
-                                    <td></td>
+                                    <td>{{$value->reprocess}}</td>
                                     <td>
                                         @if (isset($value->first_name))
                                             {{ $value->first_name }} {{ $value->last_name }}
