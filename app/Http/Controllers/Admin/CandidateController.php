@@ -609,6 +609,13 @@ class CandidateController extends Controller
                 return response()->json(['data' => $response]);
             }
         }
+        if ($request->client_dropdown) {
+            $response = DB::table('taverse2')->where("client", $request->client_dropdown)->first();
+            if ($response) {
+
+                return response()->json(['data' => $response]);
+            }
+        }
 
         return response()->json(['data' => "no data found"]);
     }

@@ -34,7 +34,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 Auth::routes(['register' => false]);
-Route::get('pageNotFound', 'ErrorController@pageNotFound')->name('pageNotFound');
+// Route::get('pageNotFound', 'ErrorController@pageNotFound')->name('pageNotFound');
 
 /*Route::get('dataEntry', function () {
 return view('dataEntry.main');

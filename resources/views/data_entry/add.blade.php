@@ -1446,6 +1446,17 @@
                             `<option value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#Domainsub').append(
                             `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+
+
+                        $('#domain_endo').append(
+                            `<option selected  value="${res.data.domain}">${res.data.domain}</option>`);
+                        $('#segment').append(
+                            `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
+                        $('#sub_segment').append(
+                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+
+
+
                         $('#domain').attr('readonly', true);
                         $('#Domainsegment').attr('readonly', true);
                         $('#Domainsub').attr('readonly', true);
@@ -1465,16 +1476,12 @@
         }
 
         function traverse2() {
-            $('#domain_endo').empty();
-            $('#segment').empty();
-            $('#sub_segment').empty();
-            $('#client').empty();
-
             $.ajax({
                 url: '{{ url('admin/traveseDataByClientProfile') }}',
                 type: 'POST',
                 data: {
                     position: $('#position').val(),
+                    client_dropdown: $('#client').val(),
                     _token: token
                 },
 
@@ -1482,15 +1489,20 @@
                 success: function(res) {
                     console.log(res)
                     if (res.data.id) {
-
+                        // $('#domain_endo').empty();
+                        // $('#segment').empty();
+                        // $('#sub_segment').empty();
+                        // $('#client').empty();
                         $('#client').append(
-                            `<option value="${res.data.client}">${res.data.client}</option>`);
+                            `<option selected value="${res.data.client}">${res.data.client}</option>`);
                         $('#domain_endo').append(
-                            `<option value="${res.data.domain}">${res.data.domain}</option>`);
+                            `<option selected value="${res.data.domain}">${res.data.domain}</option>`);
                         $('#segment').append(
-                            `<option value="${res.data.segment}">${res.data.segment}</option>`);
+                            `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#sub_segment').append(
-                            `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                            $('#position').append(
+                            `<option selected value="${res.data.position}">${res.data.position}</option>`);
 
                         $('#client').attr('readonly', true);
                         $('#domain_endo').attr('readonly', true);
@@ -1508,7 +1520,7 @@
                     }
                 }
             })
-            
+
         }
     </script>
 @endsection
