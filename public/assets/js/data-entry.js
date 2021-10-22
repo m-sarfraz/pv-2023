@@ -243,6 +243,7 @@ function clientChanged(elem) {
     var selected = $(elem).find(":selected").text().trim();
     $('#client_finance').html('<option>' + selected + '</option>');
     // SPRCalculator()
+    traverse2(); 
 }
 //function for appending endorsement client to finance portion ends
 

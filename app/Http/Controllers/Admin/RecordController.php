@@ -104,24 +104,23 @@ class RecordController extends Controller
             $newformat = date('Y-m-d', $time);
             $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
         }
+        // for searching the record
 
-        // condiiton for one null with all other starts
+        // if (isset($request->search)) {
+        //     $Userdata->orWhere('six_table_view.first_name', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.candidate_profile', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.career_endo', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.sub_segment', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.app_status', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.client', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.curr_salary', 'like', '%' . $request->search . '%')
+        //         ->orWhere('six_table_view.exp_salary', 'like', '%' . $request->search . '%');
+        // }
 
-        // condiiton for one null with all other ends
-        // $Alldata = $Userdata->orWhere('six_table_view.first_name', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.candidate_profile', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.career_endo', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.sub_segment', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.app_status', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.client', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.curr_salary', 'like', '%' . $request->search . '%')
-        //     ->orWhere('six_table_view.exp_salary', 'like', '%' . $request->search . '%')
-        //     ->get();
         $Alldata = $Userdata->get();
         // return $Alldata;
         $candidates = CandidateInformation::all();
         $count = $Alldata->count();
-        // return $count;
         $data = [
             'count' => $count,
             'Userdata' => $Alldata,

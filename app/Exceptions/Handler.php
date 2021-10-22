@@ -53,6 +53,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
             return response()->json(['User have not permission for this page access.']);
         }
+        if ($this->isHttpException($exception)) {
+            if ($exception->getStatusCode() == 404) {
+                return response()->view('404.404', [], 404);
+            }
+        }
         return parent::render($request, $exception);
     }
 }
