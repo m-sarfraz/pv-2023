@@ -11,6 +11,7 @@ use App\Segment;
 use App\SubSegment;
 use DB;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Null_;
 
 class JdlController extends Controller
 {
@@ -21,21 +22,28 @@ class JdlController extends Controller
      */
     public function index(Request $request)
     {
-        // join the tables to get ccandidate data
+        // join the tables to get candidate data
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
         $Userdata = DB::table('jdl')
-        ->offset($page)->limit($limit)
-        ->paginate();
-        $Alldomains = Domain::all();
-        $Allsegments = Segment::all();
-        $SubSegment = SubSegment::all();
+            ->offset($page)->limit($limit)
+            ->paginate();
+        $Alldomains = DB::table('jdl')->select("domain")->groupby("domain")->get();
+
+        $Allsegments = DB::table('jdl')->select("segment")->groupby("segment")->get();
+        $SubSegment = DB::table('jdl')->select("subsegment")->groupby("subsegment")->get();
+        $positions = DB::table('jdl')->select("p_title")->groupby("p_title")->get();
+        $c_levels = DB::table('jdl')->select("c_level")->groupby("c_level")->get();
+        $Location = DB::table('jdl')->select("location")->groupby("location")->get();
 
         $data = [
             "Userdata" => $Userdata,
             "Alldomains" => $Alldomains,
             "Allsegments" => $Allsegments,
             "SubSegment" => $SubSegment,
+            "positions" => $positions,
+            "c_levels" => $c_levels,
+            "Location" => $Location,
         ];
         return view('JDL.index', $data);
     }
@@ -56,20 +64,11 @@ class JdlController extends Controller
     }
     public function Filter_user_table(Request $request)
     {
-       
+
         DB::enableQueryLog();
         $Userdata = DB::table('jdl');
 
-        if (isset($request->searchKeyword)) {
-            $Userdata->orWhere('jdl.client', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.domain', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.segment', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.subsegment', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.c_level', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.p_title', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.status', 'LIKE', '%' . $request->searchKeyword . '%');
-            $Userdata->orWhere('jdl.location', 'LIKE', '%' . $request->searchKeyword . '%');
-        }
+
 
         if (isset($request->client)) {
             $Userdata->whereIn('jdl.client', $request->client);
@@ -89,15 +88,69 @@ class JdlController extends Controller
         if (isset($request->career_level)) {
             $Userdata->whereIn('jdl.c_level', $request->career_level);
         }
-        // if (isset($request->address)) {
-        //     $Userdata->whereIn('candidate_domains.location', $request->address);
-        // }
+        if (isset($request->address)) {
+            $Userdata->whereIn('candidate_domains.location', $request->address);
+        }
         if (isset($request->status)) {
             $Userdata->where('jdl.status', $request->status);
         }
+        if (isset($request->searchKeyword)) {
+            $perfect_match = DB::table("jdl")->get();
+            foreach ($perfect_match as $match) {
+                if ($request->searchKeyword == $match->client) {
+                    $Userdata->Where('jdl.client', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.client', $request->client );
+
+                }
+
+                if ($request->searchKeyword == $match->domain) {
+                    $Userdata->orWhere('jdl.domain', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.domain', $request->candidateDomain );
+
+                }
+
+                if ($request->searchKeyword == $match->segment) {
+                    $Userdata->orWhere('jdl.segment', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.segment', $request->segment );
+
+                }
+
+                if ($request->searchKeyword == $match->subsegment) {
+                    $Userdata->orWhere('jdl.subsegment', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.subsegment', $request->sub_segment );
+
+                }
+
+                if ($request->searchKeyword == $match->c_level) {
+                    $Userdata->orWhere('jdl.c_level', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.c_level', $request->career_level );
+
+                }
+
+                if ($request->searchKeyword == $match->p_title) {
+                    $Userdata->orWhere('jdl.p_title', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.p_title', $request->position_title );
+
+                }
+
+                if ($request->searchKeyword == $match->status) {
+                    $Userdata->orWhere('jdl.status', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.status', $request->status );
+
+                }
+
+                if ($request->searchKeyword == $match->location) {
+                    $Userdata->orWhere('jdl.location', 'LIKE', '%' . $request->searchKeyword . '%');
+                    $Userdata->orWhere('jdl.location', $request->address );
+
+                }
+            }
+
+       
+        }
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $Userdata = $Userdata->offset($page)->limit($limit)
+        $Userdata = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
             ->paginate();
         $count = count($Userdata);
         // dd($Userdata);
@@ -116,7 +169,7 @@ class JdlController extends Controller
         $filter_Client_domain = [];
         if ($request->client) {
 
-            $filter_Client_domain = DB::table('jdl')->where("client",$request->client)->groupby("domain")->get();
+            $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("domain")->get();
         } else {
             $filter_Client_domain == null;
         }

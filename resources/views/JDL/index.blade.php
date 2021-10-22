@@ -81,10 +81,10 @@
                                         </label>
                                         <select name="candidateDomain" id="candidateDomain"
                                             class="select2_dropdown w-100 form-control" multiple onchange="changeDomain()">
-                                            @foreach ($candidateDomain->options as $render_domain)
+                                            @foreach ($Alldomains as $render_domain)
 
-                                                <option value="{{ $render_domain->option_name }}">
-                                                    {{ $render_domain->option_name }}
+                                                <option value="{{ $render_domain->domain }}">
+                                                    {{ $render_domain->domain }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -102,10 +102,10 @@
                                         </label>
                                         <select name="segment" id="segment" class="select2_dropdown w-100 form-control"
                                             multiple onchange="changeValues()">
-                                            @foreach ($segments->options as $segmentsrender)
+                                            @foreach ($Allsegments as $segmentsrender)
 
-                                                <option value="{{ $segmentsrender->option_name }}">
-                                                    {{ $segmentsrender->option_name }}
+                                                <option value="{{ $segmentsrender->segment }}">
+                                                    {{ $segmentsrender->segment }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -121,9 +121,9 @@
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="Filter_user()">
-                                            @foreach ($sub_segment->options as $sub_segmentOption)
-                                                <option value="{{ $sub_segmentOption->option_name }}">
-                                                    {{ $sub_segmentOption->option_name }}
+                                            @foreach ($SubSegment as $sub_segmentOption)
+                                                <option value="{{ $sub_segmentOption->subsegment }}">
+                                                    {{ $sub_segmentOption->subsegment }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -141,9 +141,9 @@
                                         </label>
                                         <select multiple name="position_title" id="position_title"
                                             class="select2_dropdown  w-100" onchange="Filter_user()">
-                                            @foreach ($position_title->options as $position_titleOption)
-                                                <option value="{{ $position_titleOption->option_name }}">
-                                                    {{ $position_titleOption->option_name }}
+                                            @foreach ($positions as $position_titleOption)
+                                                <option value="{{ $position_titleOption->p_title }}">
+                                                    {{ $position_titleOption->p_title }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -159,9 +159,9 @@
                                         </label>
                                         <select multiple name="career_level" id="career_level"
                                             class="select2_dropdown  w-100" onchange="Filter_user()">
-                                            @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                                <option value="{{ $CareerLevelOptions->option_name }}">
-                                                    {{ $CareerLevelOptions->option_name }}
+                                            @foreach ($c_levels as $CareerLevelOptions)
+                                                <option value="{{ $CareerLevelOptions->c_level }}">
+                                                    {{ $CareerLevelOptions->c_level }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -192,8 +192,11 @@
                                         <label class="Label labelFontSize">Location</label>
                                         <select name="location" id="location" class="select2_dropdown w-100 form-control"
                                             multiple onchange="Filter_user()">
-                                            <option value="Lahore"> Lahore</option>
-                                            <option value="faisalabad"> faisalabad</option>
+                                            @foreach ($Location as $render_Location)
+                                                <option value="{{ $render_Location->location }}">
+                                                    {{ $render_Location->location }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -219,6 +222,7 @@
                                     <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Sched</th>
                                     <th class="ant-table-cell">Priorty</th>
+                                    <th class="ant-table-cell">Maturity of requirement</th>
                                     <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
@@ -233,10 +237,20 @@
                                         <td>{{ $renderIndex->subsegment }}</td>
                                         <td>{{ $renderIndex->c_level }}</td>
                                         <td>{{ $renderIndex->p_title }}</td>
-                                        <td>{{$renderIndex->budget}}</td>
+                                        <td>{{ $renderIndex->budget }}</td>
                                         <td>{{ $renderIndex->location }}</td>
-                                        <td>{{$renderIndex->priority}}</td>
-                                        <td>{{$renderIndex->w_schedule}}</td>
+                                        <td>{{ $renderIndex->w_schedule }}</td>
+                                        <td>{{ $renderIndex->priority }}</td>
+                                        <td>
+                                            @php
+                                                $date = Carbon\Carbon::parse($renderIndex->req_date);
+                                                // echo  $date;
+                                                
+                                                $now = Carbon\Carbon::now();
+                                                echo $diff = $date->diffInDays($now);
+                                            @endphp
+                                        </td>
+
                                         <td>{{ $renderIndex->status }}</td>
                                     </tr>
                                 @endforeach
@@ -679,6 +693,7 @@
 
             }
         }
+
         function changelocation(res) {
             $('#location').empty()
 
@@ -690,6 +705,7 @@
 
             }
         }
+
         function changestatus(res) {
             $('#status').empty()
 
@@ -701,8 +717,5 @@
 
             }
         }
-        
-        
-
     </script>
 @endsection
