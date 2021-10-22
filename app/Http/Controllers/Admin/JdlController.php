@@ -84,7 +84,7 @@ class JdlController extends Controller
             $Userdata->whereIn('jdl.c_level', $request->career_level);
         }
         if (isset($request->address)) {
-            $Userdata->whereIn('candidate_domains.location', $request->address);
+            $Userdata->whereIn('jdl.location', $request->address);
         }
         if (isset($request->status)) {
             $Userdata->where('jdl.status', $request->status);
@@ -118,6 +118,13 @@ class JdlController extends Controller
                 if ($request->searchKeyword == $match->location) {
                     $Userdata->where('jdl.location', $request->searchKeyword);
                 }
+                if ($request->searchKeyword == $match->budget) {
+                    $Userdata->where('jdl.budget', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->w_schedule) {
+                    $Userdata->where('jdl.w_schedule', $request->searchKeyword);
+                }
+             
             }
 
         }

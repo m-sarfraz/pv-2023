@@ -588,7 +588,7 @@
                     // if (res[0] == null) {
                     //     location.reload();
                     // }
-                    $("#candidateDomain").empty();
+               
                     var i;
                     let domains = {!! $candidateDomain->options !!}
                     domains.forEach(element => {
@@ -646,7 +646,7 @@
         }
 
         function changecareer_level(res) {
-            $('#career_level').empty()
+          
             for (var i = 0; i < res.length; i++) {
 
                 $('#career_level').append('<option  value="' +
@@ -659,8 +659,7 @@
         }
 
         function changeposition_title(res) {
-            $('#position_title').empty()
-
+           
             for (var i = 0; i < res.length; i++) {
                 $('#position_title').append('<option  value="' +
                     res[i].p_title +
@@ -671,7 +670,7 @@
         }
 
         function changesegmentbyClient(res) {
-            $('#segment').empty()
+            
 
             for (var i = 0; i < res.length; i++) {
                 $('#segment').append('<option  value="' +
@@ -683,7 +682,7 @@
         }
 
         function changesubsegmentbyClient(res) {
-            $('#sub_segment').empty()
+            
 
             for (var i = 0; i < res.length; i++) {
                 $('#sub_segment').append('<option  value="' +
@@ -695,7 +694,7 @@
         }
 
         function changelocation(res) {
-            $('#location').empty()
+         
 
             for (var i = 0; i < res.length; i++) {
                 $('#location').append('<option  value="' +
@@ -707,8 +706,7 @@
         }
 
         function changestatus(res) {
-            $('#status').empty()
-
+           
             for (var i = 0; i < res.length; i++) {
                 $('#status').append('<option  value="' +
                     res[i].status +

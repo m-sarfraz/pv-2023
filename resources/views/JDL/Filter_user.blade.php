@@ -12,6 +12,7 @@
                     <th class="ant-table-cell">Location</th>
                     <th class="ant-table-cell">Work Sched</th>
                     <th class="ant-table-cell">Priorty</th>
+                    <th class="ant-table-cell">Maturity of requirement</th>
                     <th class="ant-table-cell">Status</th>
                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                 </tr>
@@ -29,8 +30,16 @@
                         <td>{{ $renderIndex->p_title }}</td>
                         <td>{{ $renderIndex->budget }}</td>
                         <td>{{ $renderIndex->location }}</td>
-                        <td>{{ $renderIndex->priority }}</td>
                         <td>{{ $renderIndex->w_schedule }}</td>
+                        <td>{{ $renderIndex->priority }}</td>   
+                      <td>  @php
+                        $date = Carbon\Carbon::parse($renderIndex->req_date);
+                        // echo  $date;
+                        
+                        $now = Carbon\Carbon::now();
+                        echo $diff = $date->diffInDays($now);
+                    @endphp
+                    </td>
                         <td>{{ $renderIndex->status }}</td>
                     </tr>
                 @endforeach
