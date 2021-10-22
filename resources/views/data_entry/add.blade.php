@@ -1321,7 +1321,7 @@
             var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
             var role_id = {!! Auth::user()->agent !!}
             if (role_id == 1) {
-                if (value == 'GRADUATE') {
+                if (value == 'HIGH SCHOOL GRADUATE') {
 
                     // if selected text is gradute disable course field for user
                     $('#COURSE').prop("disabled", true);

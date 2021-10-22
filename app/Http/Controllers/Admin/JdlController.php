@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CandidateDomain;
-use App\CandidateInformation;
 use App\Domain;
-use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use DB;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Null_;
 
 class JdlController extends Controller
 {
@@ -68,8 +65,6 @@ class JdlController extends Controller
         DB::enableQueryLog();
         $Userdata = DB::table('jdl');
 
-
-
         if (isset($request->client)) {
             $Userdata->whereIn('jdl.client', $request->client);
         }
@@ -98,65 +93,43 @@ class JdlController extends Controller
             $perfect_match = DB::table("jdl")->get();
             foreach ($perfect_match as $match) {
                 if ($request->searchKeyword == $match->client) {
-                    $Userdata->Where('jdl.client', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.client', $request->client );
-
+                    $Userdata->where('jdl.client', $request->searchKeyword);
                 }
-
                 if ($request->searchKeyword == $match->domain) {
-                    $Userdata->orWhere('jdl.domain', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.domain', $request->candidateDomain );
-
+                    $Userdata->where('jdl.domain', $request->searchKeyword);
                 }
-
                 if ($request->searchKeyword == $match->segment) {
-                    $Userdata->orWhere('jdl.segment', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.segment', $request->segment );
-
+                    $Userdata->where('jdl.segment', $request->searchKeyword);
                 }
-
                 if ($request->searchKeyword == $match->subsegment) {
-                    $Userdata->orWhere('jdl.subsegment', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.subsegment', $request->sub_segment );
-
+                    $Userdata->where('jdl.subsegment', $request->searchKeyword);
                 }
-
                 if ($request->searchKeyword == $match->c_level) {
-                    $Userdata->orWhere('jdl.c_level', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.c_level', $request->career_level );
-
+                    $Userdata->where('jdl.c_level', $request->searchKeyword);
                 }
-
                 if ($request->searchKeyword == $match->p_title) {
-                    $Userdata->orWhere('jdl.p_title', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.p_title', $request->position_title );
-
+                    $Userdata->where('jdl.p_title', $request->searchKeyword);
                 }
 
                 if ($request->searchKeyword == $match->status) {
-                    $Userdata->orWhere('jdl.status', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.status', $request->status );
-
+                    $Userdata->where('jdl.status', $request->searchKeyword);
                 }
 
                 if ($request->searchKeyword == $match->location) {
-                    $Userdata->orWhere('jdl.location', 'LIKE', '%' . $request->searchKeyword . '%');
-                    $Userdata->orWhere('jdl.location', $request->address );
-
+                    $Userdata->where('jdl.location', $request->searchKeyword);
                 }
             }
 
-       
         }
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $Userdata = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
+        $aa = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
             ->paginate();
-        $count = count($Userdata);
+        $count = count($aa);
         // dd($Userdata);
 
         $data = [
-            "Userdata" => $Userdata,
+            "Userdata" => $aa,
             "count" => $count,
         ];
         return view("JDL.Filter_user", $data);

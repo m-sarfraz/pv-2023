@@ -73,7 +73,7 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
-                // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
@@ -107,7 +107,8 @@ class CandidateController extends Controller
                 $arrayCheck["OFFERED_SALARY"] = "required";
                 $arrayCheck["OFFERED_ALLOWANCE"] = "required";
             }
-            if ($request->EDUCATIONAL_ATTAINTMENT != 'GRADUATE') {
+            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "") {
+            } else {
                 $arrayCheck["COURSE"] = "required";
             }
             if ($request->endorsement_field == 'active') {
