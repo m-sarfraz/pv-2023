@@ -28,8 +28,8 @@
                                 <button class="btn btn_Group mb-4 btn-sm" type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
-                                <button class="btn btn_Group mb-4 btn-sm" type="button"
-                                    onclick="CreateUpdateData('{{ route('save-data-entry') }}')" id="save">
+                                <button class="btn btn_Group mb-4 btn-sm" type="submit"
+                                  id="save">
                                     Save Record
                                 </button>
                             </div>
@@ -62,9 +62,7 @@
                                     onclick="EnableUserEdit(this)">
                                     Edit Record
                                 </button>
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord"
-                                    onclick="CreateUpdateData('{{ url('admin/update-data-entry') }}')">
-                                    Save Edit
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord" value="Save Edit"
                                 </button>
                             </div>
                         </div>
@@ -94,7 +92,7 @@
                                                             <label class="Label labelFontSize">Last Name:<sup
                                                                     class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
-                                                                name="LAST_NAME" required=""
+                                                                name="LAST_NAME" 
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->last_name : '' }}" />
                                                         </div>
                                                         <div><small class="___class_+?36___"></small></div>
@@ -115,7 +113,7 @@
                                                                     class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->first_name : '' }}"
-                                                                name="FIRST_NAME" required="" />
+                                                                name="FIRST_NAME" />
                                                         </div>
                                                         <div><small class="___class_+?45___"></small></div>
                                                     </div>
@@ -150,7 +148,7 @@
                                                             </label>
                                                             <input type="date" name="DATE_OF_BIRTH"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->dob : '' }}"
-                                                                class="form-control border h-px-20_custom" required />
+                                                                class="form-control border h-px-20_custom"   />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -170,7 +168,7 @@
                                                                 </div>
                                                                 <input type="text" class="form-control EmailInput-F"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->email : '' }}"
-                                                                    name="EMAIL_ADDRESS" id="email" required="" />
+                                                                    name="EMAIL_ADDRESS" id="email"  />
                                                             </div>
                                                         </div>
                                                         <div><small class="___class_+?64___"></small></div>
@@ -190,7 +188,7 @@
                                                                 </div>
                                                                 <input type="number" class="form-control EmailInput-F"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->phone : '' }}"
-                                                                    name="CONTACT_NUMBER" required="" />
+                                                                    name="CONTACT_NUMBER" />
                                                             </div>
                                                         </div>
                                                         <div><small class="___class_+?73___"></small></div>
@@ -209,7 +207,7 @@
                                                             </select> --}}
                                                             <input type="text" class="form-control EmailInput-F"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->address : '' }}"
-                                                                name="RESIDENCE" required="" />
+                                                                name="RESIDENCE"    />
                                                             <div>
                                                                 <small class="text-danger"></small>
                                                             </div>
@@ -295,7 +293,7 @@
                                                                 <label class="Label labelFontSize">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED" required=""
+                                                                <input type="date" name="DATE_SIFTED" 
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -305,7 +303,7 @@
                                                         </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">Domains</label>
-                                                            <select name="DOMAIN" id="domain" required=""
+                                                            <select name="DOMAIN" id="domain"
                                                                 onchange="DomainChange(this)"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
@@ -519,7 +517,7 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" required
+                                                            <input type="file" id="sheetFile" name="file"  
                                                                 oninput="uploadFile(this)" accept="application/pdf"
                                                                 class="uploadcv    w-100">
                                                         </div>
@@ -991,7 +989,7 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Career level
                                                             </label>
-                                                            <select name="CAREER_LEVEL_FINANCE" required="" disabled=""
+                                                            <select name="CAREER_LEVEL_FINANCE" disabled=""
                                                                 readonly id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
@@ -1132,9 +1130,15 @@
             $(this).next('div').children().remove();
         });
         // On form submit call ajax for data saving
-
+        $('#data_entry').submit(function() {
+            CreateUpdateData('{{ url('admin/save-data-entry') }}')
+        });
         function CreateUpdateData(targetURL) {
-
+            event.preventDefault()
+            // if ($('#data_entry')[0].checkValidity() === false){
+            //     alert('no')
+            // }
+          
             // if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
             //     // Show notification message if fields are empty in candidate position fields
@@ -1218,11 +1222,10 @@
 
                         swal("success", res.message, "success").then((value) => {});
                     } else if (res.success == false) {
-                        console.log(res.status)
                         if (res.status == 1) {
                             swal({
                                 icon: "warning",
-                                text: "{{ __('Fill Expected Salary, Current Salary & Interview Notes') }}",
+                                text: "{{ __('Fill Expected Salary, Current Salary, Interview Notes') }}",
                                 icon: "warning",
                             });
                         }
@@ -1239,24 +1242,22 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").attr('style',
-                                    'border:1px solid red !important');
+                                $("input[name='" + i + "']").prop('required',true)
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
-                                $("select[name='" + i + "']").attr('style',
-                                    'border:1px solid red !important');
+                                    console.log($("select[name='" + i + "']"));
+                                $("select[name='" + i + "']").prop('required',true)
                                 $("select[name='" + i + "']").siblings(
                                     'div').children().remove();
                                 $("select[name='" + i + "']").siblings('div')
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
-                                $("textarea[name='" + i + "']").attr('style',
-                                    'border:1px solid red !important');
+                                $("textarea[name='" + i + "']").prop('required',true)
                                 $("textarea[name='" + i + "']").next('div').children().remove();
                                 $("textarea[name='" + i + "']").next('div').append(
                                     '<span style="color:red;" >' + 'Required' + '</span>'
@@ -1568,7 +1569,6 @@
 
                 // Ajax success function
                 success: function(res) {
-                    console.log(res)
                     if (res.data.id) {
                         // $('#domain_endo').empty();
                         // $('#segment').empty();
