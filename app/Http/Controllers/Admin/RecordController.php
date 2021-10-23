@@ -127,6 +127,18 @@ class RecordController extends Controller
                 if ($request->searchKeyword == $match->career_endo) {
                     $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
                 }
+                if ($request->searchKeyword == $match->curr_salary) {
+                    $Userdata->where('six_table_view.curr_salary', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->exp_salary) {
+                    $Userdata->where('six_table_view.exp_salary', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->endi_date) {
+                    $Userdata->where('six_table_view.endi_date', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->career_endo) {
+                    $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
+                }
             }
         }
         $Alldata = $Userdata->get();
