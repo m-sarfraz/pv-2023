@@ -73,7 +73,7 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
-                "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
@@ -103,6 +103,14 @@ class CandidateController extends Controller
             ) {
                 $arrayCheck["DATE_INVITED"] = "required";
             }
+            if ($request->rfp == 1) {
+                $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
+
+            }
+            if ($request->interview_schedule == 1) {
+                $arrayCheck["INTERVIEW_SCHEDULE"] = "required";
+
+            }
             if ($request->salary_field == 1) {
                 $arrayCheck["OFFERED_SALARY"] = "required";
                 $arrayCheck["OFFERED_ALLOWANCE"] = "required";
@@ -121,6 +129,14 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
+                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+            }
+            if ($request->finance_field == 1) {
+                $arrayCheck["REMARKS"] = "required";
+                $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
+                $arrayCheck["RATE"] = "required";
+                $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
             $arrayCheck = [

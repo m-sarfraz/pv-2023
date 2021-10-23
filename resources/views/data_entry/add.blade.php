@@ -216,7 +216,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row align-items-center">
+                                                <div class="row">
                                                     <div class="col-lg-7">
                                                         <div class="form-group pt-1 mb-0">
                                                             <label class="mb-0 d-block font-size-3 mb-0 labelFontSize">
@@ -567,6 +567,9 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group mb-0">
@@ -586,6 +589,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -609,6 +615,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -629,6 +638,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -647,7 +659,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group mb-0">
                                                 @php
-                                                    $status = Helper::get_dropdown('status');
+                                                    $status = Helper::get_dropdown('data_entry_status');
                                                 @endphp
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Status
@@ -663,6 +675,9 @@
                                                     &quot;item&quot;
                                                     </option>
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -683,6 +698,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -705,6 +723,9 @@
                                                             {{ $remarksOptions->option_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -726,6 +747,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -745,6 +769,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -769,6 +796,9 @@
                                                             </option>
                                                         @endforeach --}}
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -788,6 +818,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -808,6 +841,9 @@
                                                             </option>
                                                         @endforeach --}}
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -835,6 +871,9 @@
                                                             </option>
                                                         @endforeach --}}
                                                 </select>
+                                                <div>
+                                                    <small class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -873,6 +912,9 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -924,6 +966,9 @@
                                                                     </option>
                                                                 @endforeach --}}
                                                             </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -957,6 +1002,9 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -978,6 +1026,9 @@
                                                                 <option value="90">90 %</option>
                                                                 <option value="100">100 %</option>
                                                             </select>
+                                                            <div>
+                                                                <small class="text-danger"></small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1093,6 +1144,21 @@
             } else {
                 $salary_field = 1;
             }
+            if ($('#rfp').is(':disabled')) {
+                $rfp = 0;
+            } else {
+                $rfp = 1;
+            }
+            if ($('#interview_schedule').is(':disabled')) {
+                $interview_schedule = 0;
+            } else {
+                $interview_schedule = 1;
+            }
+            if ($('#bilable_amount').is(':disabled')) {
+                $finance_field = 0;
+            } else {
+                $finance_field = 1;
+            }
             if ($('#ap_status').val() == null) {
                 $endorsement = 'inactive'
 
@@ -1109,6 +1175,9 @@
             // data.append("_token", "{{ csrf_token() }}");
             data.append("salary_field", $salary_field);
             data.append("endorsement_field", $endorsement);
+            data.append("finance_field", $finance_field);
+            data.append("rfp", $rfp);
+            data.append("interview_schedule", $interview_schedule);
 
             // call ajax for data entry ad validation
             $.ajax({
@@ -1158,8 +1227,8 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").css('border',
-                                    '1px solid red');
+                                $("input[name='" + i + "']").attr('style',
+                                    'border:1px solid red !important');
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()

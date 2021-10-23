@@ -70,6 +70,9 @@ function RemarksChange(elem) {
     if (value.includes('Scheduled')) {
         $('#interview_schedule').prop("disabled", false);
     }
+    else {
+        $('#interview_schedule').prop("disabled", true);
+    }
     if (value.includes('Scheduled') || value.includes('Pending') || value.includes('Withdraw')) {
 
         // disable fieldset of finance fieldset
