@@ -1119,6 +1119,18 @@
         select2Dropdown("select2_dropdown");
         // $('#new').prop("disabled", true);
         $('#COURSE').prop("disabled", true);
+        $("form :input").on('input', function() {
+            $(this).css('border-color', '#ced4da');
+            $(this).parent().siblings('span').remove();
+        });
+        $('select').on('change', function() {
+            $(this).css('border-color', '#ced4da');
+            $(this).siblings('div').children().remove();
+        });
+        $('textarea').on('input', function() {
+            $(this).css('border-color', '#ced4da');
+            $(this).next('div').children().remove();
+        });
         // On form submit call ajax for data saving
 
         function CreateUpdateData(targetURL) {
@@ -1570,7 +1582,7 @@
                             `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#sub_segment').append(
                             `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
-                            $('#position').append(
+                        $('#position').append(
                             `<option selected value="${res.data.position}">${res.data.position}</option>`);
 
                         $('#client').attr('readonly', true);
