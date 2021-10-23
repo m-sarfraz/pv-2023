@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                    margin: 0px !important;
-                                } */
+                                        margin: 0px !important;
+                                    } */
 
         #example1_filter label {
             display: flex;
@@ -32,8 +32,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
-                                            id="search" oninput="filterUserData()"
+                                        <input type="text" name="searchKeyword" id="searchKeyword"
+                                            placeholder="search keyword" required="" id="search" oninput="filterUserData()"
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -782,9 +782,10 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
-            // $("#loader").show();
+            $("#loader").show();
 
             // get values of selected inputs of users
+            searchKeyword = $('#searchKeyword').val();
             search = $('#search').val();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();
@@ -801,6 +802,7 @@
                 url: '{{ url('admin/filter_records') }}',
                 data: {
                     _token: token,
+                    searchKeyword: searchKeyword,
                     user_id: user_id,
                     candidate: candidate,
                     profile: profile,
@@ -816,7 +818,7 @@
                 success: function(data) {
                     $('#filter_table_div').html(data);
                     // $('#count').val(data.count);
-                    // $("#loader").hide();
+                    $("#loader").hide();
                     // appennd count value coming from hidden input of appended view to count
                     recordCount = $('#abc').val()
                     $('#recordNumber').val(recordCount)

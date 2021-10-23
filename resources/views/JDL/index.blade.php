@@ -35,7 +35,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" id="searchKeyword"
+                                        <input type="text" name="searchKeyword" placeholder="search keyword" id="searchKeyword"
                                             required="" class="form-control h-px-20_custom border" value=""
                                             oninput="Filter_user()" />
                                     </div>
@@ -222,7 +222,7 @@
                                     <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Sched</th>
                                     <th class="ant-table-cell">Priorty</th>
-                                    <th class="ant-table-cell">Maturity of requirement</th>
+                                    <th class="ant-table-cell">Maturity Of Requirement</th>
                                     <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>

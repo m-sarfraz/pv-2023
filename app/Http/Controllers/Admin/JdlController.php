@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CandidateDomain;
 use App\Domain;
 use App\Http\Controllers\Controller;
+use App\jdlSheet;
 use App\Segment;
 use App\SubSegment;
 use DB;
@@ -19,6 +20,9 @@ class JdlController extends Controller
      */
     public function index(Request $request)
     {
+        ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
+        // dd(phpinfo());
+
         // join the tables to get candidate data
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
@@ -62,7 +66,7 @@ class JdlController extends Controller
     public function Filter_user_table(Request $request)
     {
 
-        DB::enableQueryLog();
+        // DB::enableQueryLog();
         $Userdata = DB::table('jdl');
 
         if (isset($request->client)) {
@@ -90,7 +94,9 @@ class JdlController extends Controller
             $Userdata->where('jdl.status', $request->status);
         }
         if (isset($request->searchKeyword)) {
-            $perfect_match = DB::table("jdl")->get();
+            ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
+            $perfect_match = DB::select(DB::raw('select client,segment,domain,subsegment,c_level,p_title,status,location,budget,w_schedule from jdl'));
+          
             foreach ($perfect_match as $match) {
                 if ($request->searchKeyword == $match->client) {
                     $Userdata->where('jdl.client', $request->searchKeyword);
@@ -124,19 +130,19 @@ class JdlController extends Controller
                 if ($request->searchKeyword == $match->w_schedule) {
                     $Userdata->where('jdl.w_schedule', $request->searchKeyword);
                 }
-             
+
             }
 
         }
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $aa = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
+        $dataJdl = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
             ->paginate();
-        $count = count($aa);
+        $count = count($dataJdl);
         // dd($Userdata);
 
         $data = [
-            "Userdata" => $aa,
+            "Userdata" => $dataJdl,
             "count" => $count,
         ];
         return view("JDL.Filter_user", $data);
