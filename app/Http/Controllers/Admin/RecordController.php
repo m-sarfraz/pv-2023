@@ -72,7 +72,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-
+       
         $Userdata = DB::table('six_table_view')
             ->select('six_table_view.id as CID', 'six_table_view.*');
 
@@ -104,19 +104,31 @@ class RecordController extends Controller
             $newformat = date('Y-m-d', $time);
             $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
         }
-        // for searching the record
+        if (isset($request->searchKeyword)) {
+            ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
+            $perfect_match = DB::select(
+                DB::raw('select  candidate_profile,sub_segment,app_status,client,career_endo,endi_date from six_table_view')
+            );
+        
+            foreach ($perfect_match as $match) {
 
-        // if (isset($request->search)) {
-        //     $Userdata->orWhere('six_table_view.first_name', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.candidate_profile', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.career_endo', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.sub_segment', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.app_status', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.client', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.curr_salary', 'like', '%' . $request->search . '%')
-        //         ->orWhere('six_table_view.exp_salary', 'like', '%' . $request->search . '%');
-        // }
-
+                if ($request->searchKeyword == $match->candidate_profile) {
+                    $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->sub_segment) {
+                    $Userdata->where('six_table_view.sub_segment', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->app_status) {
+                    $Userdata->where('six_table_view.app_status', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->client) {
+                    $Userdata->where('six_table_view.client', $request->searchKeyword);
+                }
+                if ($request->searchKeyword == $match->career_endo) {
+                    $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
+                }
+            }
+        }
         $Alldata = $Userdata->get();
         // return $Alldata;
         $candidates = CandidateInformation::all();
