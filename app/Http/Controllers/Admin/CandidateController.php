@@ -286,14 +286,14 @@ class CandidateController extends Controller
             $CandidiateDomain = new CandidateDomain();
             $CandidiateDomain->candidate_id = $CandidateInformation->id;
             $CandidiateDomain->date_shifted = $request->DATE_SIFTED;
-            $domain_name = Domain::where('domain_name', $request->DOMAIN)->first();
-            $CandidiateDomain->domain = $domain_name->domain_name;
+            // $domain_name = Domain::where('domain_name', $request->DOMAIN)->first();
+            $CandidiateDomain->domain = $request->DOMAIN;
             $CandidiateDomain->emp_history = $request->EMPLOYMENT_HISTORY;
             $CandidiateDomain->interview_note = $request->INTERVIEW_NOTES;
-            $name = Segment::where('segment_name', $request->SEGMENT)->first();
-            $CandidiateDomain->segment = $name->segment_name;
-            $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
-            $CandidiateDomain->sub_segment = $Sub_name->sub_segment_name;
+            // $name = Segment::where('segment_name', $request->SEGMENT)->first();
+            $CandidiateDomain->segment = $request->SEGMENT;
+            // $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
+            $CandidiateDomain->sub_segment = $request->SUB_SEGMENT;
             $CandidiateDomain->save();
 
             //Save Endorsement Details

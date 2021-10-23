@@ -62,8 +62,7 @@
                                     onclick="EnableUserEdit(this)">
                                     Edit Record
                                 </button>
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord" value="Save Edit"
-                                </button>
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord">Save Edit</button>
                             </div>
                         </div>
                     </div>
@@ -1083,25 +1082,28 @@
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
     <script>
+    $(window).on('load', function() {
         // Seciton loads on document ready starts
-        $(document).ready(function() {
-            $("#endo_type").prop('disabled', true)
-            // disable save button
-            $('#save').prop('disabled', true);
-            // show and hide loader after time set starts
-            $('#loader').show();
+        $('#loader').show();
+    });
+
+    $(window).on('load', function() {
             setTimeout(function() {
                 $('#loader').hide();
                 $('#loader1').hide();
             }, 1200);
+            $("#endo_type").prop('disabled', true)
+            // disable save button
+            $('#save').prop('disabled', true);
+            // show and hide loader after time set starts
             // show and hide loader after time set ends
 
             // check logged in user id and disable/enable fileds 
             var team_id = {!! Auth::user()->agent !!};
             if (team_id == 1) {
-                $('#domain').prop('disabled', true)
-                $('#Domainsegment').prop('disabled', true)
-                $('#Domainsub').prop('disabled', true)
+                $('#domain').prop('readonly', true)
+                $('#Domainsegment').prop('readonly', true)
+                $('#Domainsub').prop('readonly', true)
                 // $('#candidate_profile').prop('disabled', true)
             }
             // close
@@ -1221,6 +1223,7 @@
                         // $('#new').prop("disabled", false);
 
                         swal("success", res.message, "success").then((value) => {});
+                        location.reload();
                     } else if (res.success == false) {
                         if (res.status == 1) {
                             swal({
