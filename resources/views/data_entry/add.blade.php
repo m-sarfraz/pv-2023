@@ -8,6 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div id="loader"></div>
+        <div id="transparentDiv" style="width:100vw;height:100vh;background: rgbargb(255 255 255 / 40%);"></div>
         <form id="data_entry" method="post">
             <div class="row d-E-Row mb-6">
                 @csrf
@@ -28,8 +29,7 @@
                                 <button class="btn btn_Group mb-4 btn-sm" type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
-                                <button class="btn btn_Group mb-4 btn-sm" type="submit"
-                                  id="save">
+                                <button class="btn btn_Group mb-4 btn-sm" type="submit" id="save">
                                     Save Record
                                 </button>
                             </div>
@@ -62,13 +62,16 @@
                                     onclick="EnableUserEdit(this)">
                                     Edit Record
                                 </button>
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord">Save Edit</button>
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord">Save
+                                    Edit</button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <p class="C-Heading mt-5">QR Code:</p>
-                        <a href="" download="">
+                        {{-- <div  style="width: 100%;" class="pl-sm-15">
+                        </div> --}}
+                        <a href="" download="" id=QrCode>
                             <img style="width: 100%;" class="pl-sm-15" src="" alt="" />
                         </a>
                     </div>
@@ -91,7 +94,7 @@
                                                             <label class="Label labelFontSize">Last Name:<sup
                                                                     class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
-                                                                name="LAST_NAME" 
+                                                                name="LAST_NAME"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->last_name : '' }}" />
                                                         </div>
                                                         <div><small class="___class_+?36___"></small></div>
@@ -147,7 +150,7 @@
                                                             </label>
                                                             <input type="date" name="DATE_OF_BIRTH"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->dob : '' }}"
-                                                                class="form-control border h-px-20_custom"   />
+                                                                class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -167,7 +170,7 @@
                                                                 </div>
                                                                 <input type="text" class="form-control EmailInput-F"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->email : '' }}"
-                                                                    name="EMAIL_ADDRESS" id="email"  />
+                                                                    name="EMAIL_ADDRESS" id="email" />
                                                             </div>
                                                         </div>
                                                         <div><small class="___class_+?64___"></small></div>
@@ -206,7 +209,7 @@
                                                             </select> --}}
                                                             <input type="text" class="form-control EmailInput-F"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->address : '' }}"
-                                                                name="RESIDENCE"    />
+                                                                name="RESIDENCE" />
                                                             <div>
                                                                 <small class="text-danger"></small>
                                                             </div>
@@ -292,7 +295,7 @@
                                                                 <label class="Label labelFontSize">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED" 
+                                                                <input type="date" name="DATE_SIFTED"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -302,8 +305,7 @@
                                                         </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">Domains</label>
-                                                            <select name="DOMAIN" id="domain"
-                                                                onchange="DomainChange(this)"
+                                                            <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
                                                                 @foreach ($domainDrop as $domainOption)
@@ -516,7 +518,7 @@
                                                         class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                         <div class="w-100"
                                                             style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file"  
+                                                            <input type="file" id="sheetFile" name="file"
                                                                 oninput="uploadFile(this)" accept="application/pdf"
                                                                 class="uploadcv    w-100">
                                                         </div>
@@ -543,7 +545,7 @@
                             <!-- ================== -->
                             <!-- ENDORSMENT section start -->
                             {{-- <fieldset disabled="false"> --}}
-                            <p class="C-Heading labelFontSize">Endorsement Details</p>
+                            <p class="C-Heading">Endorsement Details</p>
                             <div class="card mb-10">
                                 <div class="card-body pt-4">
                                     <div class="row mb-1">
@@ -988,8 +990,8 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Career level
                                                             </label>
-                                                            <select name="CAREER_LEVEL_FINANCE" disabled=""
-                                                                readonly id="career_finance" onchange="SPRCalculator(this)"
+                                                            <select name="CAREER_LEVEL_FINANCE" disabled="" readonly
+                                                                id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
                                                                 <option value="" disabled selected>Select Option</option>
                                                                 @foreach ($careerLevel->options as $careerLevelOptions)
@@ -1082,16 +1084,13 @@
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
     <script>
-    $(window).on('load', function() {
-        // Seciton loads on document ready starts
-        $('#loader').show();
-    });
-
-    $(window).on('load', function() {
+        $(window).on('load', function() {
+            $('#loader').show();
             setTimeout(function() {
                 $('#loader').hide();
+                $('#transparentDiv').hide();
                 $('#loader1').hide();
-            }, 1200);
+            }, 800);
             $("#endo_type").prop('disabled', true)
             // disable save button
             $('#save').prop('disabled', true);
@@ -1135,12 +1134,13 @@
         $('#data_entry').submit(function() {
             CreateUpdateData('{{ url('admin/save-data-entry') }}')
         });
+
         function CreateUpdateData(targetURL) {
             event.preventDefault()
             // if ($('#data_entry')[0].checkValidity() === false){
             //     alert('no')
             // }
-          
+
             // if ($('#current_salary').val() == "" || $('#expec_salary').val() == "" || $('#notes').val() == "") {
 
             //     // Show notification message if fields are empty in candidate position fields
@@ -1245,22 +1245,22 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").prop('required',true)
+                                $("input[name='" + i + "']").prop('required', true)
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
-                                    console.log($("select[name='" + i + "']"));
-                                $("select[name='" + i + "']").prop('required',true)
+                                console.log($("select[name='" + i + "']"));
+                                $("select[name='" + i + "']").prop('required', true)
                                 $("select[name='" + i + "']").siblings(
                                     'div').children().remove();
                                 $("select[name='" + i + "']").siblings('div')
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
-                                $("textarea[name='" + i + "']").prop('required',true)
+                                $("textarea[name='" + i + "']").prop('required', true)
                                 $("textarea[name='" + i + "']").next('div').children().remove();
                                 $("textarea[name='" + i + "']").next('div').append(
                                     '<span style="color:red;" >' + 'Required' + '</span>'

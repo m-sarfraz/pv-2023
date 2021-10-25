@@ -192,213 +192,212 @@
                             <hr class="mb-9" />
                             <div class="row mb-6 px-3">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 pl-0">
-                                                    <!-- edr -->
-                                                    <div class="col-lg-12 p-0">
-                                            <label class="Label">
-                                                Date Sifted:
-                                            </label>
-                                            <input type="date" name="DATE_SIFTED" required=""
-                                                value="{{ $user->date_shifted }}"
-                                                class="form-control users-input-S-C" />
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
+                                    <!-- edr -->
+                                    <div class="col-lg-12 p-0">
+                                        <label class="Label">
+                                            Date Sifted:
+                                        </label>
+                                        <input type="date" name="DATE_SIFTED" required=""
+                                            value="{{ $user->date_shifted }}" class="form-control users-input-S-C" />
+                                        <div>
+                                            <small class="text-danger"></small>
                                         </div>
-                                        <div class="col-lg-12 p-0">
-                                            <label class="Label">Domains</label>
-                                            <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
-                                                class="form-control p-0 users-input-S-C">
-                                                <option selected disabled>Select Option</option>
-                                                @foreach ($domainDrop as $domainOption)
-                                                    <option value="{{ $domainOption->id }}"
-                                                        {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
-                                                        {{ $domainOption->domain_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
+                                    </div>
+                                    <div class="col-lg-12 p-0">
+                                        <label class="Label">Domains</label>
+                                        <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
+                                            class="form-control p-0 users-input-S-C">
+                                            <option selected disabled>Select Option</option>
+                                            @foreach ($domainDrop as $domainOption)
+                                                <option value="{{ $domainOption->id }}"
+                                                    {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                                    {{ $domainOption->domain_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div>
+                                            <small class="text-danger"></small>
                                         </div>
-                                        <div class="col-lg-12 p-0">
-                                            <?php
-                                            $segment = Helper::get_dropdown('segments');
-                                            ?>
-                                            <label class="Label">segment</label>
-                                            <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange(this)"
-                                                class="form-control p-0 users-input-S-C">
-                                                <option selected disabled>Select Option</option>
-                                                {{-- @foreach ($segment->options as $segmentOption)
+                                    </div>
+                                    <div class="col-lg-12 p-0">
+                                        <?php
+                                        $segment = Helper::get_dropdown('segments');
+                                        ?>
+                                        <label class="Label">segment</label>
+                                        <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange(this)"
+                                            class="form-control p-0 users-input-S-C">
+                                            <option selected disabled>Select Option</option>
+                                            {{-- @foreach ($segment->options as $segmentOption)
                                                 <option value="{{ $segmentOption->id }}" 
                                                     {{ $user->segment == $segmentOption->id ? 'selected' : '' }}>
                                                     {{ $segmentOption->option_name }}</option>
                                             @endforeach --}}
 
-                                            </select>
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>  
-                                         
-                                        <div class="col-lg-12 p-0">
-                                            <?php
-                                            $sub_segment = Helper::get_dropdown('sub_segment');
-                                            ?>
-                                            <label class="Label">sub-segment</label>
-                                            <select name="SUB_SEGMENT" id="Domainsub"
-                                                class="form-control p-0 users-input-S-C">
-                                                <option selected disabled></option>
-                                                {{-- @foreach ($sub_segment->options as $sub_segmentOption)
+                                        </select>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 p-0">
+                                        <?php
+                                        $sub_segment = Helper::get_dropdown('sub_segment');
+                                        ?>
+                                        <label class="Label">sub-segment</label>
+                                        <select name="SUB_SEGMENT" id="Domainsub"
+                                            class="form-control p-0 users-input-S-C">
+                                            <option selected disabled></option>
+                                            {{-- @foreach ($sub_segment->options as $sub_segmentOption)
                                                 <option value="{{ $sub_segmentOption->id }}"
                                                     {{ $user->sub_segment == $sub_segmentOption->id ? 'selected' : '' }}>
                                                     {{ $sub_segmentOption->option_name }}
                                                 </option>
                                             @endforeach --}}
-                                            </select>
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 p-0">
-                                    <?php
-                                    $profile = Helper::get_dropdown('candidates_profile');
-                                    ?>
-                                    <div class="form-group mb-0">
-                                        <label class="Label">
-                                            candidate profile
-                                        </label>
-                                        <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
-                                            class="form-control p-0 users-input-S-C">
-                                            <option selected disabled></option>
-                                            @foreach ($profile->options as $profileOption)
-                                                <option value="{{ $profileOption->option_name }}"
-                                                    {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
-                                                    {{ $profileOption->option_name }}
-                                                </option>
-                                            @endforeach
                                         </select>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">
-                                            position applied
-                                        </label>
-                                        <input type="text" name="POSITION_TITLE_APPLIED"
-                                            value="{{ $user->position_applied }}"
-                                            class="form-control p-0 users-input-S-C" />
-                                    </div>
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
+                                    <div class="col-lg-12 p-0">
                                         <?php
-                                        $manner_of_invite = Helper::get_dropdown('manner_of_invite');
+                                        $profile = Helper::get_dropdown('candidates_profile');
                                         ?>
-                                        <label class="Label">
-                                            Manner of invite
-                                        </label>
-                                        <select name="MANNER_OF_INVITE" onchange="mannerChange(this)" id="manners"
-                                            class="form-control p-0 users-input-S-C">
-                                            <option selected disabled></option>
-                                            @foreach ($manner_of_invite->options as $manner_of_inviteOption)
-                                                <option value="{{ $manner_of_inviteOption->option_name }}"
-                                                    {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
-                                                    {{ $manner_of_inviteOption->option_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                             
-                                <div class="col-lg-12 p-0">
-                                            <label class="text-black-2 font-size-3 font-weight-semibold mb-0">
-                                                Employement History</label>
-                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" value=""
-                                                class="form-control border   E_HCDataEntry">{{ $user->emp_history }}</textarea>
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                candidate profile
+                                            </label>
+                                            <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
+                                                class="form-control p-0 users-input-S-C">
+                                                <option selected disabled></option>
+                                                @foreach ($profile->options as $profileOption)
+                                                    <option value="{{ $profileOption->option_name }}"
+                                                        {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
+                                                        {{ $profileOption->option_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                position applied
+                                            </label>
+                                            <input type="text" name="POSITION_TITLE_APPLIED"
+                                                value="{{ $user->position_applied }}"
+                                                class="form-control p-0 users-input-S-C" />
+                                        </div>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <?php
+                                            $manner_of_invite = Helper::get_dropdown('manner_of_invite');
+                                            ?>
+                                            <label class="Label">
+                                                Manner of invite
+                                            </label>
+                                            <select name="MANNER_OF_INVITE" onchange="mannerChange(this)" id="manners"
+                                                class="form-control p-0 users-input-S-C">
+                                                <option selected disabled></option>
+                                                @foreach ($manner_of_invite->options as $manner_of_inviteOption)
+                                                    <option value="{{ $manner_of_inviteOption->option_name }}"
+                                                        {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
+                                                        {{ $manner_of_inviteOption->option_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 p-0">
+                                        <label class="text-black-2 font-size-3 font-weight-semibold mb-0">
+                                            Employement History</label>
+                                        <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" value=""
+                                            class="form-control border   E_HCDataEntry">{{ $user->emp_history }}</textarea>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12 pr-0">
-                                <div class="col-lg-12 p-0">
-                                    <label class="` Label">
-                                        Interview Notes
-                                    </label>
-                                    <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes" value=""
-                                        class="form-control border t-HC h-px-20_custom"> {{ $user->interview_note }}</textarea>
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>  
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class=" p-0 users-input-S-C mb-0 font-size-3"> Date Invited</label>
-                                        <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
-                                            value="{{ $user->date_invited }}"
-                                            class="form-control border h-px-20_custom" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">
-                                            Current Salary:
+                                    <div class="col-lg-12 p-0">
+                                        <label class="` Label">
+                                            Interview Notes
                                         </label>
-                                        <input type="number" class="form-control p-0 users-input-S-C`"
-                                            value="{{ $user->curr_salary }}" id="current_salary"
-                                            name="CURRENT_SALARY" />
+                                        <textarea name="INTERVIEW_NOTES" rows="3" type="text" id="notes" value=""
+                                            class="form-control border t-HC h-px-20_custom"> {{ $user->interview_note }}</textarea>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <small class="text-danger"></small>
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class=" p-0 users-input-S-C mb-0 font-size-3"> Date Invited</label>
+                                            <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
+                                                value="{{ $user->date_invited }}"
+                                                class="form-control border h-px-20_custom" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">
-                                            Expected Salary:
-                                        </label>
-                                        <input type="text" name="EXPECTED_SALARY" id="expec_salary"
-                                            value="{{ $user->exp_salary }}"
-                                            class="form-control p-0 users-input-S-C" />
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Current Salary:
+                                            </label>
+                                            <input type="number" class="form-control p-0 users-input-S-C`"
+                                                value="{{ $user->curr_salary }}" id="current_salary"
+                                                name="CURRENT_SALARY" />
+                                        </div>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <small class="text-danger"></small>
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Expected Salary:
+                                            </label>
+                                            <input type="text" name="EXPECTED_SALARY" id="expec_salary"
+                                                value="{{ $user->exp_salary }}"
+                                                class="form-control p-0 users-input-S-C" />
+                                        </div>
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label" name="CURRENT_ALLOWANCE">
-                                            Current Allowance:
-                                        </label>
-                                        <input type="number" class="form-control users-input-S-C"
-                                            value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" />
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label" name="CURRENT_ALLOWANCE">
+                                                Current Allowance:
+                                            </label>
+                                            <input type="number" class="form-control users-input-S-C"
+                                                value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" />
+                                        </div>
                                     </div>
-                                </div>    
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label" name="OFFERED_SALARY">
-                                            Offered Salary:
-                                        </label>
-                                        <input type="number" name="OFFERED_SALARY" id="off_salary" disabled=""
-                                            value="{{ $user->off_salary }}" oninput="SalaryAppend('#remarks')"
-                                            class="form-control users-input-S-C" />
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label" name="OFFERED_SALARY">
+                                                Offered Salary:
+                                            </label>
+                                            <input type="number" name="OFFERED_SALARY" id="off_salary" disabled=""
+                                                value="{{ $user->off_salary }}" oninput="SalaryAppend('#remarks')"
+                                                class="form-control users-input-S-C" />
+                                        </div>
                                     </div>
-                                </div>  
-                                <div class="col-lg-12 p-0">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">
-                                            Offered Allowance:
-                                        </label>
-                                        <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
-                                            value="{{ $user->off_allowance }}" oninput="SalaryAppend('#remarks')"
-                                            disabled="" class="form-control users-input-S-C" />
+                                    <div class="col-lg-12 p-0">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Offered Allowance:
+                                            </label>
+                                            <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
+                                                value="{{ $user->off_allowance }}" oninput="SalaryAppend('#remarks')"
+                                                disabled="" class="form-control users-input-S-C" />
+                                        </div>
                                     </div>
-                                </div>   
                                 </div>
                             </div>
                         </fieldset>
@@ -409,8 +408,9 @@
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                     <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
-                                        <input type="file" id="sheetFile" name="file" required=""  oninput="uploadFile(this)"
-                                            accept="application/pdf" class="uploadcv  w-100">
+                                        <input type="file" id="sheetFile" name="file" required=""
+                                            oninput="uploadFile(this)" accept="application/pdf"
+                                            class="uploadcv  w-100">
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
                                         <button class="btn btn-success mt-5" type="button"
@@ -461,146 +461,146 @@
                         </select>
                     </div>
                     <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $position_title = Helper::get_dropdown('position_title');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Position Title:
-                                </label>
-                                <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($position_title->options as $position_titleOptions)
-                                        <option value="{{ $position_titleOptions->option_name }}"
-                                            {{ $user->site == $position_titleOptions->option_name ? 'selected' : '' }}>
-                                            {{ $position_titleOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-        
-                </div>
-                <div class="row mb-1">
-                <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $endoType = Helper::get_dropdown('endorsement_type');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Endorsement Type:
-                                </label>
-                                <select name="ENDORSEMENT_TYPE" id=""
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($endoType->options as $endoTypeOptions)
-                                        <option value="{{ $endoTypeOptions->option_name }}"
-                                            {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
-                                            {{ $endoTypeOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
+                        <div class="form-group mb-0">
                             @php
-                                $CareerLevel = Helper::get_dropdown('career_level');
+                                $position_title = Helper::get_dropdown('position_title');
                             @endphp
-                            <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    Career Level:
-                                </label>
-                                <select name="CAREER_LEVEL" disabled="" id="career"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                        <option value="{{ $CareerLevelOptions->option_name }}"
-                                            {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
-                                            {{ $CareerLevelOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                </div>
-                <div class="row mb-1">
-                <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
-                                        Date Processed:
-                                    </label>
-                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                                        onchange="setDate()" class="form-control border h-px-20_custom" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $status = Helper::get_dropdown('status');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Status
-                                </label>
-                                <select name="STATUS" id="status" disabled=""
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($status->options as $statusOptions)
-                                        <option value="{{ $statusOptions->option_name }}"
-                                            {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
-                                            {{ $statusOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                    &quot;item&quot;
+                            <label class="d-block font-size-3 mb-0">
+                                Position Title:
+                            </label>
+                            <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($position_title->options as $position_titleOptions)
+                                    <option value="{{ $position_titleOptions->option_name }}"
+                                        {{ $user->site == $position_titleOptions->option_name ? 'selected' : '' }}>
+                                        {{ $position_titleOptions->option_name }}
                                     </option>
-                                </select>
-                            </div>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
+
                 </div>
                 <div class="row mb-1">
-                <div class="col-lg-6">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
                             @php
-                                $client = Helper::get_dropdown('clients');
+                                $endoType = Helper::get_dropdown('endorsement_type');
                             @endphp
+                            <label class="d-block font-size-3 mb-0">
+                                Endorsement Type:
+                            </label>
+                            <select name="ENDORSEMENT_TYPE" id=""
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($endoType->options as $endoTypeOptions)
+                                    <option value="{{ $endoTypeOptions->option_name }}"
+                                        {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
+                                        {{ $endoTypeOptions->option_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        @php
+                            $CareerLevel = Helper::get_dropdown('career_level');
+                        @endphp
+                        <div class="form-group mb-0">
+                            <label class="d-block font-size-3 mb-0">
+                                Career Level:
+                            </label>
+                            <select name="CAREER_LEVEL" disabled="" id="career"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                    <option value="{{ $CareerLevelOptions->option_name }}"
+                                        {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
+                                        {{ $CareerLevelOptions->option_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
                             <div class="form-group mb-0">
-                                <label class="Label">Client</label>
-                                <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($client->options as $clientOptions)
-                                        <option value="{{ $clientOptions->option_name }}"
-                                            {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
-                                            {{ $clientOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>  
-                           <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                @php
-                                    $endoType = Helper::get_dropdown('endorsement_type');
-                                @endphp
-                                <label class="Label">
-                                    Remarks (For Finance):
+                                <label class="d-block font-size-3 mb-0">
+                                    Date Processed:
                                 </label>
-                                <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
-                                    onchange="RemarksChange(this)" class="select2_dropdown  w-100"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    @php
-                                        $remarks = Helper::get_dropdown('remarks_for_finance');
-                                    @endphp
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($remarks->options as $remarksOptions)
-                                        <option value="{{ $remarksOptions->option_name }}"
-                                            {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
-                                            {{ $remarksOptions->option_name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="setDate()"
+                                    class="form-control border h-px-20_custom" />
                             </div>
-                        </div> 
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
+                            @php
+                                $status = Helper::get_dropdown('status');
+                            @endphp
+                            <label class="d-block font-size-3 mb-0">
+                                Status
+                            </label>
+                            <select name="STATUS" id="status" disabled=""
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($status->options as $statusOptions)
+                                    <option value="{{ $statusOptions->option_name }}"
+                                        {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
+                                        {{ $statusOptions->option_name }}
+                                    </option>
+                                @endforeach
+                                &quot;item&quot;
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-lg-6">
+                        @php
+                            $client = Helper::get_dropdown('clients');
+                        @endphp
+                        <div class="form-group mb-0">
+                            <label class="Label">Client</label>
+                            <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($client->options as $clientOptions)
+                                    <option value="{{ $clientOptions->option_name }}"
+                                        {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
+                                        {{ $clientOptions->option_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
+                            @php
+                                $endoType = Helper::get_dropdown('endorsement_type');
+                            @endphp
+                            <label class="Label">
+                                Remarks (For Finance):
+                            </label>
+                            <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
+                                onchange="RemarksChange(this)" class="select2_dropdown  w-100"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                @php
+                                    $remarks = Helper::get_dropdown('remarks_for_finance');
+                                @endphp
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($remarks->options as $remarksOptions)
+                                    <option value="{{ $remarksOptions->option_name }}"
+                                        {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
+                                        {{ $remarksOptions->option_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="row mb-1">
@@ -610,24 +610,24 @@
                 </div>
                 <div class="row mb-1">
                     <div class="col-lg-6">
-                    <div class="form-group mb-0">
-                                @php
-                                    $site = Helper::get_dropdown('site');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Site:
-                                </label>
-                                <select name="SITE" disabled="" id="site"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" disabled selected>Select Option</option>
-                                    @foreach ($site->options as $siteOptions)
-                                        <option value="{{ $siteOptions->option_name }}"
-                                            {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
-                                            {{ $siteOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group mb-0">
+                            @php
+                                $site = Helper::get_dropdown('site');
+                            @endphp
+                            <label class="d-block font-size-3 mb-0">
+                                Site:
+                            </label>
+                            <select name="SITE" disabled="" id="site"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <option value="" disabled selected>Select Option</option>
+                                @foreach ($site->options as $siteOptions)
+                                    <option value="{{ $siteOptions->option_name }}"
+                                        {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                        {{ $siteOptions->option_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
@@ -652,7 +652,7 @@
                 </div>
                 <fieldset>
                     <div class="row mb-1">
-                    <div class="col-lg-6">
+                        <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 @php
                                     $domain = Helper::get_dropdown('domains');
@@ -692,10 +692,10 @@
                                 </select>
                             </div>
                         </div>
-                     
+
                     </div>
                     <div class="row mb-1">
-                    <div class="col-lg-6">
+                        <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="Label">Segment</label>
                                 <select disabled="" id="segment" name="SEGMENT"
@@ -719,7 +719,7 @@
                         </div>
                     </div>
                     <div class="row mb-1">
-                    <div class="col-lg-6">
+                        <div class="col-lg-6">
                             @php
                                 $sub_segment = Helper::get_dropdown('sub_segment');
                             @endphp
@@ -736,7 +736,7 @@
                                 </select>
                             </div>
                         </div>
-                     
+
                     </div>
                 </fieldset>
             </div>
@@ -930,6 +930,28 @@
     $('#save').prop("disabled", true)
     // enable save record on input change button 
     $("form :input").on('input', function() {
-    $('#saveRecord').prop("disabled", false)
+        $('#saveRecord').prop("disabled", false)
+    });
+    $(document).ready(function() {
+        var id = $('#user').val();
+        console.log('id is'+id);
+        // ajax call for user data fetching starts
+        $.ajax({
+            type: "GET",
+            url: url + "/admin/QRCode" + '/' + id,
+            data: {
+                _token: token,
+                id: id
+            },
+            // success function after ajax call starts
+            success: function(data) {
+                $('#QrCode').html(data);
+                // $("#loader").hide();
+                console.log('success message')
+            },
+            // success function after ajax call ends
+
+        });
+        // ajax call for user data fetching ends
     });
 </script>

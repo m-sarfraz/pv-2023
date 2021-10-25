@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Str;
 
 class CandidateController extends Controller
@@ -667,5 +668,13 @@ class CandidateController extends Controller
         }
 
         return response()->json(['data' => "no data found"]);
+    }
+    public function QRCodeGenerator(Request $request, $id)
+    {
+        // return $request->id;
+        // $dd = "{{url('admin/data-entry')}}?id={{$user->id}}";
+        return QrCode::size(250)
+            ->backgroundColor(255, 255, 255)
+            ->generate(url('admin/data-entry') . '?id=' . $request->id);
     }
 }

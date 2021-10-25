@@ -70,6 +70,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+    Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
 
     // Record routes
     Route::get('record', 'RecordController@index')->name('record');
