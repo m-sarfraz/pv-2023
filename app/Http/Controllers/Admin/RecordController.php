@@ -72,7 +72,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-       
+
         $Userdata = DB::table('six_table_view')
             ->select('six_table_view.id as CID', 'six_table_view.*');
 
@@ -107,9 +107,9 @@ class RecordController extends Controller
         if (isset($request->searchKeyword)) {
             ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
             $perfect_match = DB::select(
-                DB::raw('select  candidate_profile,sub_segment,app_status,client,career_endo,endi_date from six_table_view')
+                DB::raw('select  candidate_profile,sub_segment,app_status,client,career_endo,endi_date,curr_salary,exp_salary,endi_date,career_endo from six_table_view')
             );
-        
+
             foreach ($perfect_match as $match) {
 
                 if ($request->searchKeyword == $match->candidate_profile) {
