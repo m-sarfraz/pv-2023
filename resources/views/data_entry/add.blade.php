@@ -62,7 +62,7 @@
                                     onclick="EnableUserEdit(this)">
                                     Edit Record
                                 </button>
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="saveRecord">Save
+                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
                                     Edit</button>
                             </div>
                         </div>
@@ -295,7 +295,8 @@
                                                                 <label class="Label labelFontSize">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED" placeholder="mm-dd-yyyy"
+                                                                <input type="date" name="DATE_SIFTED"
+                                                                    placeholder="mm-dd-yyyy"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -445,7 +446,8 @@
                                                             <div class="form-group mb-0">
                                                                 <label class=" p-0  mb-0 labelFontSize"> Date
                                                                     Invited</label>
-                                                                <input type="date" name="DATE_INVITED" disabled="" placeholder="mm-dd-yyyy"
+                                                                <input type="date" name="DATE_INVITED" disabled=""
+                                                                    placeholder="mm-dd-yyyy"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
                                                                     id="date_invited"
                                                                     class="form-control border h-px-20_custom" />
@@ -650,8 +652,9 @@
                                                     <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Date Processed:
                                                     </label>
-                                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" placeholder="mm-dd-yyyy"
-                                                        onchange="setDate()" class="form-control border h-px-20_custom" />
+                                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                                        placeholder="mm-dd-yyyy" onchange="setDate()"
+                                                        class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
                                         </div>
@@ -849,8 +852,9 @@
                                         <div class="col-lg-6">
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Interview :</label>
-                                                <input type="date" name="INTERVIEW_SCHEDULE" disabled="" placeholder="mm-dd-yyyy"
-                                                    id="interview_schedule" class="form-control users-input-S-C" />
+                                                <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
+                                                    placeholder="mm-dd-yyyy" id="interview_schedule"
+                                                    class="form-control users-input-S-C" />
                                             </div>
                                         </div>
                                     </div>
@@ -921,7 +925,8 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Onboarding Date
                                                             </label>
-                                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date" placeholder="mm-dd-yyyy"
+                                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date"
+                                                                placeholder="mm-dd-yyyy"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -1132,11 +1137,21 @@
         });
         // On form submit call ajax for data saving
         $('#data_entry').submit(function() {
-            CreateUpdateData('{{ url('admin/save-data-entry') }}')
+            if ($("#save").is(":disabled")) {
+                targetURL = '{{ url('admin/update-data-entry') }}'
+                id = $('#user').val();
+                targetURL = targetURL + '/' + id
+                CreateUpdateData(targetURL)
+
+            } else {
+                targetURL = '{{ url('admin/save-data-entry') }}'
+                CreateUpdateData(targetURL)
+            }
         });
 
         function CreateUpdateData(targetURL) {
             event.preventDefault()
+            console.log(targetURL)
             // if ($('#data_entry')[0].checkValidity() === false){
             //     alert('no')
             // }
@@ -1151,11 +1166,11 @@
             //     });
             // } else {
 
-            if (targetURL == '{{ url('admin/update-data-entry') }}') {
-                id = $('#user').val();
-                // targetURL = '{{ url('update-data-entry') }}'
-                targetURL = targetURL + '/' + id
-            }
+            // if (targetURL == '{{ url('admin/update-data-entry') }}') {
+            //     id = $('#user').val();
+            //     // targetURL = '{{ url('update-data-entry') }}'
+            //     targetURL = targetURL + '/' + id
+            // }
             $("#loader").show();
             if ($('#off_salary').is(':disabled')) {
                 $salary_field = 0;
@@ -1208,6 +1223,7 @@
                 // Ajax success function
                 success: function(res) {
                     if (res.success == true) {
+                        $("#loader").hide();
                         // disable save data button after data entry success
                         $('#save').prop("disabled", true);
                         $('#saveRecord').prop("disabled", true);
@@ -1216,9 +1232,9 @@
                         $("input").css('border-color', '#ced4da');
                         $("select").css('border-color', '#ced4da');
 
-                        $("#user").append(`<option value='${res.last_data_save.id}' >
-                            ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
-                                        </option>`);
+                        // $("#user").append(`<option value='${res.last_data_save.id}' >
+                        //     ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
+                        //                 </option>`);
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
 
@@ -1387,18 +1403,20 @@
 
         //check file extension on selected file starts 
         function uploadFile(elem) {
-            var fileExtension = ['pdf'];
-            if ($.inArray($(elem).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-                // show warning message to user if firld is required
+            if ($(elem).val().split('.').pop() == 'pdf') {} else if ($(elem).val().split('.').pop() == '') {
+                // $('#sheetFile').val('');
+            } else {
                 swal({
                     icon: "error",
                     text: "{{ __('Allowed formats is pdf') }}",
                     icon: "error",
                 });
                 $('#sheetFile').val('');
+
             }
         }
         // close 
+
         // Change course according to the selected education attainment 
         function EducationalAttainChange() {
 

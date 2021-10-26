@@ -20,6 +20,14 @@
                                                     <input type="text" name="name" value="{{ $role->name  }}"  placeholder="Enter Name" class="form-control h-px-48" />
                                                 </div>
                                             </div>
+
+                                                <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0"">
+                                                    <div class="form-group">
+    
+                                                    <label class="col-md-12">  </label>
+                                                    <input type="checkbox" name="revenue" value="" > Team Revenue </input>
+                                                </div>
+                                        </div>
                                             <div class="col-lg-12`">
                                                 <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                     Permission

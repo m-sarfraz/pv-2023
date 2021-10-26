@@ -215,28 +215,28 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label">Start Date (Shifted):</label>
                                         <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label">End Date Shifted:</label>
                                         <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group mb-0">
-                                        <label class="Label-00">CIP</label>
-                                        <input type="checkbox" id="cip" name="cip" onclick="FilterSearch()">
-                                    </div>
+                              
+                            </div>
+                            <div class="col-lg-2 ml-auto pt-3">
+                                <div class="form-group mb-0 text-right">
+                                    <label class="Label-00" >CIP</label>
+                                    <input type="checkbox"  id="cip" name="cip" onclick="FilterSearch()">
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

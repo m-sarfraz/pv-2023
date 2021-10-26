@@ -14,7 +14,7 @@
                                     <div class="form-group mb-0">
                                         <label class="Label">*Last Name:</label>
                                         <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->last_name }}" name="LAST_NAME" required="" />
+                                            value="{{ $user->last_name }}" name="LAST_NAME"   />
                                     </div>
                                     <div><small class="___class_+?36___"></small></div>
                                 </div>
@@ -31,7 +31,7 @@
                                     <div class="form-group mb-0">
                                         <label class="Label">*First Name:</label>
                                         <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->first_name }}" name="FIRST_NAME" required="" />
+                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
                                     </div>
                                     <div><small class="___class_+?45___"></small></div>
                                 </div>
@@ -62,7 +62,7 @@
                                             DOB
                                         </label>
                                         <input type="date" name="DATE_OF_BIRTH" value="{{ $user->dob }}"
-                                            class="form-control border h-px-20_custom" required />
+                                            class="form-control border h-px-20_custom" />
                                     </div>
                                 </div>
                             </div>
@@ -77,9 +77,9 @@
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
                                                     <i class="bi bi-envelope"></i>
                                                 </span>
-                                            </div>
+                                            </div>   
                                             <input type="text" class="form-control EmailInput-F" name="EMAIL_ADDRESS"
-                                                value="{{ $user->email }}" id="email" required="" />
+                                                value="{{ $user->email }}" id="email"   />
                                         </div>
                                     </div>
                                     <div><small class="___class_+?64___"></small></div>
@@ -96,7 +96,7 @@
                                                 </span>
                                             </div>
                                             <input type="number" class="form-control EmailInput-F"
-                                                value="{{ $user->phone }}" name="CONTACT_NUMBER" required="" />
+                                                value="{{ $user->phone }}" name="CONTACT_NUMBER"   />
                                         </div>
                                     </div>
                                     <div><small class="___class_+?73___"></small></div>
@@ -114,7 +114,7 @@
                                         </option>
                                     </select> --}}
                                         <input type="text" class="form-control EmailInput-F"
-                                            value="{{ $user->address }}" name="RESIDENCE" required="" />
+                                            value="{{ $user->address }}" name="RESIDENCE"   />
                                         <div>
                                             <small class="text-danger"></small>
                                         </div>
@@ -177,7 +177,7 @@
                                         <label class="Label">
                                             CERTIFICATIONS
                                         </label>
-                                        <select name="CERTIFICATIONS"
+                                        <select multiple name="CERTIFICATIONS[]"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                             <option selected disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
@@ -197,7 +197,7 @@
                                         <label class="Label">
                                             Date Sifted:
                                         </label>
-                                        <input type="date" name="DATE_SIFTED" required=""
+                                        <input type="date" name="DATE_SIFTED"  
                                             value="{{ $user->date_shifted }}" class="form-control users-input-S-C" />
                                         <div>
                                             <small class="text-danger"></small>
@@ -338,7 +338,7 @@
                                     <div class="col-lg-12 p-0">
                                         <div class="form-group mb-0">
                                             <label class=" p-0 users-input-S-C mb-0 font-size-3"> Date Invited</label>
-                                            <input type="date" name="DATE_INVITED" disabled="" id="date_invited"
+                                            <input type="date" name="DATE_INVITED" id="date_invited"
                                                 value="{{ $user->date_invited }}"
                                                 class="form-control border h-px-20_custom" />
                                         </div>
@@ -408,14 +408,17 @@
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                     <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
-                                        <input type="file" id="sheetFile" name="file" required=""
+                                        <input type="file" id="sheetFile" name="file"  
                                             oninput="uploadFile(this)" accept="application/pdf"
                                             class="uploadcv  w-100">
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                        <button class="btn btn-success mt-5" type="button"
-                                            onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download
-                                            CV</button>
+                                        @if($user->cv)
+                                        <a class="btn btn-success mt-5" type="button" target="blank" href="{{asset('assets/cv/'.$user->cv)}}"
+                                            {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
+                                            )">Download
+                                            CV</a>
+                                            @endif
 
                                     </div>
                                 </div>
@@ -849,7 +852,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Career level
                                         </label>
-                                        <select name="CAREER_LEVEL_FINANCE" required="" id="career_finance"
+                                        <select name="CAREER_LEVEL_FINANCE"   id="career_finance"
                                             onchange="SPRCalculator(this)" class="form-control border h-px-20_custom">
                                             <option value="" disabled selected>Select Option</option>
                                             @foreach ($careerLevel->options as $careerLevelOptions)
@@ -926,6 +929,7 @@
     </fieldset>
 </div>
 <script>
+        // select2Dropdown("select2_dropdown");
     $('#saveRecord').prop("disabled", true)
     $('#save').prop("disabled", true)
     // enable save record on input change button 

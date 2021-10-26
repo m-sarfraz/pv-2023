@@ -55,9 +55,14 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+        if (isset($request->revenue)) {
+            $role = Role::create(['name' => $request->input('name'),
+                'team_revenue' => '1']);
+            $role->syncPermissions($request->input('permission'));
+        } else {
+            $role = Role::create(['name' => $request->input('name')]);
+            $role->syncPermissions($request->input('permission'));
+        }
         if ($role) {
 
             //save ROLE addeed log to table starts

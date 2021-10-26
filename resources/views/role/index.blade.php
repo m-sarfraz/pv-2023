@@ -55,7 +55,7 @@
                         <td>
                             <?php
                             
-                                  if($role->hasPermissionTo('team-revenue'))
+                                  if($role->team_revenue==1)
                                   {
                                       echo "<span class='badge badge-success'> Team Revenue</span>";
                                   }else{

@@ -21,11 +21,11 @@
                                             </div>
                                         <div class="row mb-xl-1 mb-9">
 
-                                            <div class="col-lg-12`">
+                                            <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0">
                                                 <div class="form-group">
 
-                                                <label class="col-md-12">  </label>
-                                                <input type="checkbox" name="revenue" value="" > Team Revenue </input>
+                                                <label class="col-md-12 ">  </label>
+                                                <input type="checkbox" name="revenue"> Team Revenue </input>
                                             </div>
                                         </div>
                                     </div>
