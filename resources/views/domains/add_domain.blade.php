@@ -169,6 +169,7 @@
             </div>
         </div>
     </div>
+
     <div style="height: 50px;"></div>
 @endsection
 @section('script')
@@ -205,35 +206,41 @@
         }
 
         function AddCandidate(candidate, candidate_subsegment, appendClass, appendSaveBtnClass) {
+            
             var AppendContent =
                 `<div class="row mt-3" >` +
                 `<div class="col-md-9 mt-1 mb-1" >` +
                 `<label>Candidate profile</label>`+
-                ` <select name='c_profile[]' class="form-control">`+
-                <?php
+                `<div id='showinput'></div> <select id='hideselect' name='c_profile[]' class="form-control">`+
+                @php
                 foreach ($profile as $key => $value){
-                ?>
-                `<option value='{{ $value->c_profile }}''>{{ $value->c_profile}}</option>`+
-                <?php  }  ?> 
+                @endphp
+                + `<option value='{{ $value->c_profile }}''>{{ $value->c_profile}}</option>`+
+                @php  }   @endphp
                 `</select>`+
                 // `<input type="text" name='${candidate}[]' required class="form-control">` +
                 `<label>Subsegment</label>`+
                 ` <select name='s_segment[]' class="form-control">`+
-                <?php
+                    @php
                     foreach ($subsegment as $key => $value){
-                ?>
+                        @endphp
                 `<option value='{{ $value->s_segment }}'>{{ $value->s_segment}}</option>`+
-                <?php  }  ?>
+                @php  }   @endphp
                 ` </select>`+
                 `</div>` +
                 `<div class="col-md-2 mt-5" >` +
-                `<button type="button" class="btn btn-danger" style="margin-top: 3px;" onclick="removeOptionField(this,'${appendClass}','${appendSaveBtnClass}')">{{ __('Remove') }}</button>` +
+                `<button class='btn btn-success btn-sm' type='button' onclick='ReplaceCandidateinput(id)'>New Candidate</button><button type="button" class="btn btn-danger" style="margin-top: 3px;" onclick="removeOptionField(this,'${appendClass}','${appendSaveBtnClass}')">{{ __('Remove') }}</button>` +
                 `</div>` +
                 `</div>`;
             $('.' + appendClass).append(AppendContent);
             $("." + appendSaveBtnClass).show();
+          
         }
-
+        function ReplaceCandidateinput(id){
+            
+            $('#hideselect').remove();
+            $('#showinput').append(`<input type='text' name='c_profile[]'class='form-control'>`)
+            }
         function domainChange(elem) {
             $('#segment').empty();
             var segment = {!! $segments !!};
