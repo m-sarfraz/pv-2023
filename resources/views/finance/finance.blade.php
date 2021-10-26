@@ -304,7 +304,7 @@
                                             <label class="Label">
                                             Revenue In Incentive:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" id="Revenue_In_Incentive" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -339,7 +339,7 @@
                                             <label class="Label">
                                                 BOD (less share):
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" id="vcc_share" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -411,7 +411,7 @@
                                             <label class="Label">
                                             Consultants Share:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" id="c_take" class="form-control users-input-S-C" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">

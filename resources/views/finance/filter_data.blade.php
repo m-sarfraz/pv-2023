@@ -1,3 +1,4 @@
+
 <div class="">
     <table id=" example1" class="table">
     <thead class="bg-light w-100">
@@ -81,9 +82,15 @@
     var numberofBilled = "{{ $billed }}";
     var numberofhires = "{{ $hires }}";
     var numberofUnBilled = "{{ $unbilled }}";
+    var c_t_sum = "{{ $c_t_sum }}";
+    var vcc_amount_sum = "{{ $vcc_amount_sum }}";
+    var revenue= parseInt(c_t_sum) + parseInt(vcc_amount_sum);
     $('#billed').val(numberofBilled);
     $('#unbilled').val(numberofUnBilled);
     $('#fallout').val(numberofFallout);
     $('#hires').val(numberofhires);
     $('#record').val(numberofhires);
+    $('#c_take').val(c_t_sum);
+    $('#vcc_share').val(vcc_amount_sum);
+    $('#Revenue_In_Incentive').val(revenue);
 </script>

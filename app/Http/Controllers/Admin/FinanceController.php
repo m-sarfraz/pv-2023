@@ -93,8 +93,18 @@ class FinanceController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*',
-                'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
+            ->join('finance_detail', 'finance.candidate_id', 'finance_detail.candidate_id')
+            ->select(
+                'candidate_educations.*',
+                'candidate_informations.id as C_id',
+                'candidate_informations.*',
+                'candidate_positions.*',
+                'candidate_domains.*',
+                'finance.*',
+                'endorsements.*',
+                'finance_detail.c_take',
+                'finance_detail.vcc_amount'
+            );
         // ->whereIn('endorsements.remarks_for_finance', $arr);
         // ->orWhere('remarks_for_finance', 'Offer accepted');
         if (isset($request->candidate)) {
@@ -143,6 +153,7 @@ class FinanceController extends Controller
         }
 
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+
         // foreach ($request->career_level as $career) {
         //     $sql = str_replace($career, "'$career'", $sql);
         // }
@@ -175,13 +186,16 @@ class FinanceController extends Controller
             $sql_billed = $sql . "and endorsements.remarks='Billed'";
             $sql_unbilled = $sql . "and endorsements.remarks='Unbilled'";
             $sql_fallout = $sql . "and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            // $sql_active = $sql . " and endorsements.app_status='Active File'";
+            $finance_c_t_sum = $sql . " and (select sum(finance_detail.c_take) from finance_detail where finance_detail.candidate_id=candidate_informations.id)";
+            $vcc_amount_sum = $sql . " and (select sum(finance_detail.vcc_amount) from finance_detail where finance_detail.candidate_id=candidate_informations.id)";
+
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         } else {
             $sql_billed = $sql . " where endorsements.remarks='Billed'";
             // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
             $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
             $sql_fallout = $sql . "where endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
+            $vcc_amount_sum = $sql . " where (select sum(finance_detail.vcc_amount) from finance_detail where finance_detail.candidate_id=candidate_informations.id)";
             // $sql_active = $sql . "where endorsements.app_status='Active File'";
             // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
         }
@@ -194,6 +208,8 @@ class FinanceController extends Controller
         // dd($billamout);
         // $compnayRevenue = $Userdata->whereIn('');
         // return count(DB::select($sql_billed));
+        //    dd($sql);
+        // $ct_final=array_sum(DB::select('finance_detail SUM(c_take)'));
         $hires = count($user);
         $data = [
             'Userdata' => $user,
@@ -201,8 +217,11 @@ class FinanceController extends Controller
             'unbilled' => count(DB::select($sql_unbilled)),
             'fallout' => count(DB::select($sql_fallout)),
             'hires' => $hires,
+            'c_t_sum' => array_sum(DB::select($finance_c_t_sum)),
+            'vcc_amount_sum' => array_sum(DB::select($vcc_amount_sum)),
             // 'fallout' => $fallout,
         ];
+
         return view('finance.filter_data', $data);
     }
     //close
