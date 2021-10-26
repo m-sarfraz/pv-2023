@@ -18,150 +18,156 @@
 
     <div class="container-fluid mt-8 mt-lg-11" id="dashboard-body">
         <div class="">
-        <div class=" mb-15 mb-lg-23">
-            <div class="row">
-                <div class="col-xl-12 px-lg-5">
-                    <p class="C-Heading pt-3">Add Segments</p>
-                    <div class="card">
-                        <div class="card-body">
-                            <fieldset>
-                                <div class="row mb-xl-1 mb-9">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 mb-xl-0 mb-7">
-                                        <form id="domain_form" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="select3"
-                                                    class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                    Domains
-                                                </label>
-                                                <select class="select2_dropdown w-100" onchange="domainChange(this)"
-                                                    id="domain">
-                                                    <option value="" selected disabled="disabled">Choose options</option>
-                                                    @if (count($domains) > 0)
-                                                        @foreach ($domains as $domain)
-                                                            <option value="{{ $domain->id }}">{{ $domain->domain_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                                <div class="row">
-                                                    <div class="col-sm">
-                                                        <button style="background: #dc8627;"
-                                                            onclick="AddOption('domain_name','domain_input_append','domain_save_btn')"
-                                                            class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
-                                                            Domain +</button>
-                                                    </div>
-                                                    <div class="col-sm">
-                                                        <button style="background: #dc8627;"
-                                                            onclick="AddCandidate('candidate','candidate_subsegment','domain_input_append','domain_save_btn')"
-                                                            class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
-                                                             Candidate + </button>
-                                                    </div>
-                                                    <div class="col-sm">
-                                                        <button style="background: #dc8627;display: none;"
-                                                            onclick="save_form('domain_form','{{ route('add-domains') }}');"
-                                                            type="button"
-                                                            class="domain_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
-                                                    </div>
-
-                                                </div>
-                                                <div class="domain_input_append mb-3"></div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <div class="col-lg-6 mb-xl-0 mb-7">
-                                        <form id="segment_form" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="select3"
-                                                    class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                    Segments
-                                                </label>
-                                                <div class="">
-                                                        <select class="
-                                                    select2_dropdown w-100" id="segment">
-                                                    <option value="" disabled="disabled">Choose options</option>
-                                                    @if (count($segments) > 0)
-                                                        @foreach ($segments as $segment)
-                                                            <option value="{{ $segment->id }}">
-                                                                {{ $segment->segment_name }}</option>
-                                                        @endforeach
-                                                    @endif
+            <div class=" mb-15 mb-lg-23">
+                <div class="row">
+                    <div class="col-xl-12 px-lg-5">
+                        <p class="C-Heading pt-3">Add Segments</p>
+                        <div class="card">
+                            <div class="card-body">
+                                <fieldset>
+                                    <div class="row mb-xl-1 mb-9">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 mb-xl-0 mb-7">
+                                            <form id="domain_form" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="select3"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Domains
+                                                    </label>
+                                                    <select class="select2_dropdown w-100" onchange="domainChange(this)"
+                                                        id="domain">
+                                                        <option value="" selected disabled="disabled">Choose options
+                                                        </option>
+                                                        @if (count($domains) > 0)
+                                                            @foreach ($domains as $domain)
+                                                                <option value="{{ $domain->id }}">
+                                                                    {{ $domain->domain_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
-
                                                     <div class="row">
                                                         <div class="col-sm">
                                                             <button style="background: #dc8627;"
-                                                                onclick="AddOption('segment_name','segment_input_append','segment_save_btn')"
+                                                                onclick="AddOption('domain_name','domain_input_append','domain_save_btn')"
                                                                 class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
-                                                                Segment +</button>
+                                                                Domain +</button>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <button style="background: #dc8627;"
+                                                                onclick="AddCandidate('candidate','candidate_subsegment','domain_input_append','domain_save_btn')"
+                                                                class="btn px-2 mt-2 text-white rounded-0" type="button">Add
+                                                                Candidate + </button>
                                                         </div>
                                                         <div class="col-sm">
                                                             <button style="background: #dc8627;display: none;"
-                                                                onclick="save_Segments('segment_form','{{ Route('add-segments') }}');"
+                                                                onclick="save_form('domain_form','{{ route('add-domains') }}');"
                                                                 type="button"
-                                                                class="segment_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
+                                                                class="domain_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
                                                         </div>
-                                                        <input type="hidden" name="domain" id="hiddenInputS">
-                                                    </div>
-                                                    <div class="segment_input_append mb-3"></div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </fieldset>
 
+                                                    </div>
+                                                    <div class="domain_input_append mb-3"></div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="col-lg-6 mb-xl-0 mb-7">
+                                            <form id="segment_form" method="POST">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="select3"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Segments
+                                                    </label>
+                                                    <div class="">
+                                                        <select
+                                                            class="
+                                                    select2_dropdown w-100"
+                                                            id="segment">
+                                                            <option value="" disabled="disabled">Choose options</option>
+                                                            @if (count($segments) > 0)
+                                                                @foreach ($segments as $segment)
+                                                                    <option value="{{ $segment->id }}">
+                                                                        {{ $segment->segment_name }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+
+                                                        <div class="row">
+                                                            <div class="col-sm">
+                                                                <button style="background: #dc8627;"
+                                                                    onclick="AddOption('segment_name','segment_input_append','segment_save_btn')"
+                                                                    class="btn px-2 mt-2 text-white rounded-0"
+                                                                    type="submit">Add
+                                                                    Segment +</button>
+                                                            </div>
+                                                            <div class="col-sm">
+                                                                <button style="background: #dc8627;display: none;"
+                                                                    onclick="save_Segments('segment_form','{{ Route('add-segments') }}');"
+                                                                    type="button"
+                                                                    class="segment_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
+                                                            </div>
+                                                            <input type="hidden" name="domain" id="hiddenInputS">
+                                                        </div>
+                                                        <div class="segment_input_append mb-3"></div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div class="container-fluid mt-8 mt-lg-11" id="dashboard-body">
         <div class="">
-        <div class=" mb-15 mb-lg-23">
-            <div class="row">
-                <div class="col-xl-12 px-lg-5">
-                    <p class="C-Heading pt-3">Add sub Segments</p>
-                    <div class="card d-flex justify-content-center">
-                        <div class="card-body">
-                            <form id="sub_segment_form" method="POST">
-                                @csrf
-                                <div class="row m-0">
-                                    <div class="col-md-3">
-                                        <button style="background: #dc8627;"
-                                            onclick="AddOption('sub_segment_name','sub_segment_input_append','sub_segment_save_btn')"
-                                            class="btn px-2 mt-2 text-white rounded-0" type="submit">Add SUBSEGMENT</button>
+            <div class=" mb-15 mb-lg-23">
+                <div class="row">
+                    <div class="col-xl-12 px-lg-5">
+                        <p class="C-Heading pt-3">Add sub Segments</p>
+                        <div class="card d-flex justify-content-center">
+                            <div class="card-body">
+                                <form id="sub_segment_form" method="POST">
+                                    @csrf
+                                    <div class="row m-0">
+                                        <div class="col-md-3">
+                                            <button style="background: #dc8627;"
+                                                onclick="AddOption('sub_segment_name','sub_segment_input_append','sub_segment_save_btn')"
+                                                class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
+                                                SUBSEGMENT</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button style="background: #dc8627;display: none;"
+                                                onclick="save_Segments('sub_segment_form','{{ Route('add-sub-segments') }}');"
+                                                type="button"
+                                                class="sub_segment_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
+                                        </div>
+                                        <div class="sub_segment_input_append mb-3 col-md-12"></div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <button style="background: #dc8627;display: none;"
-                                            onclick="save_Segments('sub_segment_form','{{ Route('add-sub-segments') }}');"
-                                            type="button"
-                                            class="sub_segment_save_btn  btn px-2 mt-2 text-white rounded-0">Save</button>
-                                    </div>
-                                    <div class="sub_segment_input_append mb-3 col-md-12"></div>
-                                </div>
-                                <input type="hidden" name="domain" id="hiddenInputSub">
-                            </form>
-                            <table id="sub_segment_table" class="display">
-                                <thead>
-                                    <tr>
-                                        <th>Option</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                                    <input type="hidden" name="domain" id="hiddenInputSub">
+                                </form>
+                                <table id="sub_segment_table" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>Option</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <div style="height: 50px;"></div>
 @endsection
@@ -197,12 +203,28 @@
             }
 
         }
-        function AddCandidate(candidate,candidate_subsegment, appendClass, appendSaveBtnClass) {
+
+        function AddCandidate(candidate, candidate_subsegment, appendClass, appendSaveBtnClass) {
             var AppendContent =
-                `<div class="row border mt-3" >` +
+                `<div class="row mt-3" >` +
                 `<div class="col-md-9 mt-1 mb-1" >` +
-                `<label>Candidate profile</label><input type="text" name='${candidate}[]' required class="form-control">` +
-                `<label>Subsegment</label><input type="text" name='${candidate_subsegment}[]' required class="form-control">` +
+                `<label>Candidate profile</label>`+
+                ` <select name='c_profile[]' class="form-control">`+
+                <?php
+                foreach ($profile as $key => $value){
+                ?>
+                `<option value='{{ $value->c_profile }}''>{{ $value->c_profile}}</option>`+
+                <?php  }  ?> 
+                `</select>`+
+                // `<input type="text" name='${candidate}[]' required class="form-control">` +
+                `<label>Subsegment</label>`+
+                ` <select name='s_segment[]' class="form-control">`+
+                <?php
+                    foreach ($subsegment as $key => $value){
+                ?>
+                `<option value='{{ $value->s_segment }}'>{{ $value->s_segment}}</option>`+
+                <?php  }  ?>
+                ` </select>`+
                 `</div>` +
                 `<div class="col-md-2 mt-5" >` +
                 `<button type="button" class="btn btn-danger" style="margin-top: 3px;" onclick="removeOptionField(this,'${appendClass}','${appendSaveBtnClass}')">{{ __('Remove') }}</button>` +

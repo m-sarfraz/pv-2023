@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CandidateTraversal;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
+use DB;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,19 +40,21 @@ class DomainController extends Controller
     {
         $getDomains = Domain::all();
         $getSegments = Segment::all();
-        //$subSegments    =   SubSegment::all();
+        $profile = DB::table('gettravesels')->select('c_profile')->get();
+        $subsegment = DB::table('gettravesels')->select('s_segment')->get();
         $data['domains'] = $getDomains;
         $data['segments'] = $getSegments;
         $data = [
             'domains' => $getDomains,
             'segments' => $getSegments,
+            'profile' => $profile,
+            'subsegment' => $subsegment,
         ];
         //$data['sub_segments']    =   $subSegments;
         return view('domains.add_domain', $data);
     }
     public function add_domains(Request $request)
     {
-
         // $arrayCheck = [
         //     "domain_name" => "required|array|min:1",
         //     "domain_name.*" => "required|string|min:1|unique:domains,domain_name",
@@ -77,8 +81,18 @@ class DomainController extends Controller
                 return response()->json(['success' => false, 'message' => 'Error while adding Domains']);
             }
         }
-        if (isset($request->candidate)) {
-            dd($request->candidate);
+        if (isset($request->c_profile)) {
+            // return $request->all();
+            foreach ($request->c_profile as $key => $profile) {
+                $traverse = new CandidateTraversal();
+                $traverse->c_profile = $request->c_profile[$key];
+                $segment = CandidateTraversal::where('s_segment', $request->s_segment[$key])->first();
+                $traverse->s_segment = $request->s_segment[$key];
+                $traverse->domain = $segment->domain;
+                $traverse->segment = $segment->segment;
+                $traverse->save();
+            }
+
         }
     }
     public function add_segments(Request $request)
