@@ -82,8 +82,8 @@
     var numberofBilled = "{{ $billed }}";
     var numberofhires = "{{ $hires }}";
     var numberofUnBilled = "{{ $unbilled }}";
-    var c_t_sum = "{{ $c_t_sum }}";
-    var vcc_amount_sum = "{{ $vcc_amount_sum }}";
+    var c_t_sum = "{{ $Userdata[0]->c_t_s }}";
+    var vcc_amount_sum = "{{$Userdata[0]->v_c_c_amount }}";
     var revenue= parseInt(c_t_sum) + parseInt(vcc_amount_sum);
     $('#billed').val(numberofBilled);
     $('#unbilled').val(numberofUnBilled);
