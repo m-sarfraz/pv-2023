@@ -51,21 +51,21 @@ class DomainController extends Controller
     public function add_domains(Request $request)
     {
 
-        $arrayCheck = [
-            "domain_name" => "required|array|min:1",
-            "domain_name.*" => "required|string|min:1|unique:domains,domain_name",
-        ];
-        $validator = Validator::make($request->all(), $arrayCheck);
-        if ($validator->fails()) {
-            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
-        } else {
+        // $arrayCheck = [
+        //     "domain_name" => "required|array|min:1",
+        //     "domain_name.*" => "required|string|min:1|unique:domains,domain_name",
+        // ];
+        // $validator = Validator::make($request->all(), $arrayCheck);
+        // if ($validator->fails()) {
+        //     return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        // }
+        if (isset($request->domain_name)) {
             $domainNames = $request->domain_name;
             $addDomains = [];
             $i = 0;
             foreach ($domainNames as $domainName) {
                 $addDomains[$i]['domain_name'] = $domainName;
                 $i++;
-
             }
             $addOption = Domain::insert($addDomains);
             if ($addOption) {
@@ -76,9 +76,10 @@ class DomainController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Domains']);
             }
-
         }
-
+        if (isset($request->candidate)) {
+            dd($request->candidate);
+        }
     }
     public function add_segments(Request $request)
     {
@@ -98,7 +99,6 @@ class DomainController extends Controller
                 $addSegments[$i]['segment_name'] = $segmentName;
                 $addSegments[$i]['domain_id'] = $domain;
                 $i++;
-
             }
             $addOption = Segment::insert($addSegments);
             if ($addOption) {
@@ -109,9 +109,7 @@ class DomainController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Segment']);
             }
-
         }
-
     }
     public function add_sub_segments(Request $request)
     {
@@ -131,7 +129,6 @@ class DomainController extends Controller
                 $addSubSegments[$i]['sub_segment_name'] = $SubsegmentName;
                 $addSubSegments[$i]['segment_id'] = $domain;
                 $i++;
-
             }
             $addSubSegment = SubSegment::insert($addSubSegments);
             if ($addSubSegment) {
@@ -142,9 +139,7 @@ class DomainController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Error while adding Sub Segment']);
             }
-
         }
-
     }
 
     public function delete_sub_segment(Request $request)
@@ -160,5 +155,4 @@ class DomainController extends Controller
             return response()->json(['success' => false, 'message' => 'Error while deleting Sub Segment']);
         }
     }
-
 }

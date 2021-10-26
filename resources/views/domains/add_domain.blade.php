@@ -52,6 +52,12 @@
                                                             Domain +</button>
                                                     </div>
                                                     <div class="col-sm">
+                                                        <button style="background: #dc8627;"
+                                                            onclick="AddCandidate('candidate','candidate_subsegment','domain_input_append','domain_save_btn')"
+                                                            class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
+                                                             Candidate + </button>
+                                                    </div>
+                                                    <div class="col-sm">
                                                         <button style="background: #dc8627;display: none;"
                                                             onclick="save_form('domain_form','{{ route('add-domains') }}');"
                                                             type="button"
@@ -182,6 +188,7 @@
             $("." + appendSaveBtnClass).show();
         }
 
+
         function removeOptionField(obj, appendClass, appendSaveBtnClass) {
             $(obj).parent().parent().remove();
             var eleLen = $("." + appendClass).children().length;
@@ -189,6 +196,20 @@
                 $("." + appendSaveBtnClass).hide();
             }
 
+        }
+        function AddCandidate(candidate,candidate_subsegment, appendClass, appendSaveBtnClass) {
+            var AppendContent =
+                `<div class="row border mt-3" >` +
+                `<div class="col-md-9 mt-1 mb-1" >` +
+                `<label>Candidate profile</label><input type="text" name='${candidate}[]' required class="form-control">` +
+                `<label>Subsegment</label><input type="text" name='${candidate_subsegment}[]' required class="form-control">` +
+                `</div>` +
+                `<div class="col-md-2 mt-5" >` +
+                `<button type="button" class="btn btn-danger" style="margin-top: 3px;" onclick="removeOptionField(this,'${appendClass}','${appendSaveBtnClass}')">{{ __('Remove') }}</button>` +
+                `</div>` +
+                `</div>`;
+            $('.' + appendClass).append(AppendContent);
+            $("." + appendSaveBtnClass).show();
         }
 
         function domainChange(elem) {
