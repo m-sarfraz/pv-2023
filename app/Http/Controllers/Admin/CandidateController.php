@@ -671,10 +671,10 @@ class CandidateController extends Controller
     }
     public function QRCodeGenerator(Request $request, $id)
     {
-        // return $request->id;
-        // $dd = "{{url('admin/data-entry')}}?id={{$user->id}}";
-        return QrCode::size(250)
+        $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
             ->generate(url('admin/data-entry') . '?id=' . $request->id);
+
+        return response($image)->header('Content-type', 'image/png');
     }
 }

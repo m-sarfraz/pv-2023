@@ -71,7 +71,7 @@
                         <p class="C-Heading mt-5">QR Code:</p>
                         {{-- <div  style="width: 100%;" class="pl-sm-15">
                         </div> --}}
-                        <a href="" download="" id=QrCode>
+                        <a href="" download="user" id=QrCode>
                             <img style="width: 100%;" class="pl-sm-15" src="" alt="" />
                         </a>
                     </div>
@@ -148,7 +148,7 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 DOB
                                                             </label>
-                                                            <input type="date" name="DATE_OF_BIRTH"
+                                                            <input type="date" name="DATE_OF_BIRTH" placeholder="mm-dd-yyyy"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->dob : '' }}"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
@@ -295,7 +295,7 @@
                                                                 <label class="Label labelFontSize">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED"
+                                                                <input type="date" name="DATE_SIFTED" placeholder="mm-dd-yyyy"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -445,7 +445,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class=" p-0  mb-0 labelFontSize"> Date
                                                                     Invited</label>
-                                                                <input type="date" name="DATE_INVITED" disabled=""
+                                                                <input type="date" name="DATE_INVITED" disabled="" placeholder="mm-dd-yyyy"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_invited : '' }}"
                                                                     id="date_invited"
                                                                     class="form-control border h-px-20_custom" />
@@ -650,7 +650,7 @@
                                                     <label class="d-block font-size-3 mb-0 labelFontSize">
                                                         Date Processed:
                                                     </label>
-                                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" placeholder="mm-dd-yyyy"
                                                         onchange="setDate()" class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -849,7 +849,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Interview :</label>
-                                                <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
+                                                <input type="date" name="INTERVIEW_SCHEDULE" disabled="" placeholder="mm-dd-yyyy"
                                                     id="interview_schedule" class="form-control users-input-S-C" />
                                             </div>
                                         </div>
@@ -921,7 +921,7 @@
                                                             <label class="d-block labelFontSize font-size-3 mb-0">
                                                                 Onboarding Date
                                                             </label>
-                                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date"
+                                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date" placeholder="mm-dd-yyyy"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>

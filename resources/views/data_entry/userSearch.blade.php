@@ -946,8 +946,6 @@
             // success function after ajax call starts
             success: function(data) {
                 $('#QrCode').html(data);
-                // $("#loader").hide();
-                console.log('success message')
             },
             // success function after ajax call ends
 

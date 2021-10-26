@@ -77,13 +77,13 @@
     </table>
 </div>
 <script>
-    var numberofHires = "{{ $hires }}";
+    var numberofFallout= "{{ $fallout }}";
     var numberofBilled = "{{ $billed }}";
+    var numberofhires = "{{ $hires }}";
     var numberofUnBilled = "{{ $unbilled }}";
-    var fallout = "{{ $fallout }}";
-    $('#hires').val(numberofHires);
-    $('#record').val(numberofHires);
     $('#billed').val(numberofBilled);
     $('#unbilled').val(numberofUnBilled);
-    $('#fallout').val(fallout);
+    $('#fallout').val(numberofFallout);
+    $('#hires').val(numberofhires);
+    $('#record').val(numberofhires);
 </script>

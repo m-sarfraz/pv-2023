@@ -78,6 +78,55 @@ class SmartSearchController extends Controller
         if (isset($request->client)) {
             $Userdata->whereIn('endorsements.client', $request->client);
         }
+        if ($request->cip == 1) {
+            $stageArray = ['Scheduled for Skills Interview',
+                'Scheduled for Technical Interview',
+                'Scheduled for Technical exam',
+                'Sheduled for Behavioral Interview',
+                'Scheduled for account validation',
+                'Done Skills interview/ Awaiting Feedback',
+                ' Done Techincal Interview /Awaiting Feedback',
+                'Done Technical exam /Awaiting Feedback',
+                ' Done Behavioral /Awaiting Feedback',
+                ' Failed Skills interview',
+                ' Failed Techincal Interview',
+                'Failed Technical exam',
+                'Failed Behavioral Interview',
+                'Pending Country Head Interview',
+                'Pending Final Interview',
+                ' Pending Hiring Managers Interview',
+                ' Withdraw / CNI - Mid',
+                '   Position Closed (Mid Stage)',
+                ' Done Skills/Technical Interview / Awaiting Feedback',
+                ' Failed Skills/Technical Interview',
+                '  Position On Hold (Mid Stage)',
+                ' Scheduled for Behavioral Interview',
+                '  Scheduled for Skills/Technical Interview',
+                '  Fallout/Reneged',
+                'Scheduled for Country Head Interview',
+                'Scheduled for Final Interview',
+                'Scheduled for Hiring Managers Interview',
+                'Done Behavioral Interview / Awaiting Feedback',
+                'Done Final Interview / Awaiting Feedback',
+                'Done Hiring Managers Interview / Awaiting Feedback',
+                'Failed Country Head Interview',
+                'Failed Final Interview',
+                'Failed Hiring Managers Interview',
+                'Scheduled for Job Offer',
+                'Shortlisted/For Comparison',
+                'Onboarded',
+                'Offer accepted',
+                'Offer Rejected',
+                'Position Closed (Final Stage)',
+                'Withdraw / CNI - Final',
+                'Done Country Head Interview / Awaiting Feedback',
+                'Pending Offer Approval',
+                'Pending Offer Schedule',
+                'Position On Hold (Final Stage)',
+                'Shortlisted',
+            ];
+            $Userdata->whereIn('endorsements.remarks_for_finance', $stageArray);
+        }
         if (isset($request->residence)) {
             $Userdata->whereIn('candidate_informations.address', $request->residence);
         }
@@ -171,37 +220,56 @@ class SmartSearchController extends Controller
         //$sql = str_replace_array('?', $query->getBindings(), $query->toSql());
 
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
-        foreach ($request->career_level as $career) {
-            $sql = str_replace($career, "'$career'", $sql);
+        if (isset($request->career_level)) {
+            # code...
+            foreach ($request->career_level as $career) {
+                $sql = str_replace($career, "'$career'", $sql);
+            }
         }
         // foreach ($request->remarks as $career) {
         //     $sql = str_replace($career, "'$career'", $sql);
         // }
         $user = $Userdata->get();
-        if (strpos($sql, 'where') !== false) {
-            $sql_enors = $sql . " and endorsements.app_status='To Be Endorsed'";
-            $sql_active = $sql . " and endorsements.app_status='Active File'";
-            $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
-        } else {
-            $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
-            $sql_active = $sql . "where endorsements.app_status='Active File'";
-            $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
-        }
-        // dd($user);
-
-        // append data array with view
+        // return $user;
         $data = [
             'sifted' => count($Userdata->get()),
             'Userdata' => $user,
-            'endo' => count(DB::select($sql_enors)),
-            'active' => count(DB::select($sql_active)),
-            'onBoarded' => count(DB::select($sql_onboarded)),
+            // 'endo' => count(DB::select($sql_enors)),
+            // 'active' => count(DB::select($sql_active)),
+            // 'onBoarded' => count(DB::select($sql_onboarded)),
             'spr' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'accepted' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Offer accepted'),
             'failed' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'withdrawn' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
             'rejected' => $this->getRecordSummary($Userdata, 'endorsements.remarks_for_finance', 'Onboarded'),
         ];
+        if ($request->cip == 1) {
+            $data['endo'] = 0;
+            $data['active'] = 0;
+            $data['onBoarded'] = 0;
+        } else {
+
+            if (strpos($sql, 'where') !== false) {
+                $sql_enors = $sql . "and endorsements.app_status='To Be Endorsed'";
+                $sql_active = $sql . "and endorsements.app_status='Active File'";
+                $sql_onboarded = $sql . "and endorsements.remarks_for_finance='Onboarded'";
+                $data['endo'] = count(DB::select($sql_enors));
+                $data['active'] = count(DB::select($sql_active));
+                $data['onBoarded'] = count(DB::select($sql_onboarded));
+            } else {
+                $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
+                $sql_active = $sql . "where endorsements.app_status='Active File'";
+                $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
+                $data['endo'] = count(DB::select($sql_enors));
+                $data['active'] = count(DB::select($sql_active));
+                $data['onBoarded'] = count(DB::select($sql_onboarded));
+            }
+        }
+        // dd($user);
+
+        // append data array with view
+
+        // return $data;
         return view('smartSearch.filter_result', $data);
 
         // $user = $Userdata->get();

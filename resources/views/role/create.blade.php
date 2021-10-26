@@ -19,6 +19,18 @@
                                                     <input type="text" name="name" placeholder="Enter Name" class="form-control h-px-48" />
                                                 </div>
                                             </div>
+                                        <div class="row mb-xl-1 mb-9">
+
+                                            <div class="col-lg-12`">
+                                                <div class="form-group">
+
+                                                <label class="col-md-12">  </label>
+                                                <input type="checkbox" name="revenue" value="" > Team Revenue </input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                             <div class="col-lg-12`">
                                                 <div>
                                                     <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">

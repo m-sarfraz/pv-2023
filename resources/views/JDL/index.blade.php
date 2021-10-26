@@ -16,7 +16,32 @@
             width: fit-content;
             margin-left: auto;
         }
+        .tooltiptext{
+  display:none;
+  position:absolute; 
+  z-index:100;
+  border:1px;
+  background-color:#eee;
+  border-style:solid;
+  border-width:1px;
+  /* border-color:blue; */
+  border-radius: 6px;
+  padding:3px;
+  color:rgb(0, 0, 0); 
+  top:20px; 
+  left:20px;
+}
+.tooltip1:hover span.tooltiptext{
+  display:block;
+}
 
+.tooltip:hover span.tooltiptext{
+  display:block;
+}
+th.tooltip1{
+  position:relative;
+  z-index: 37; 
+}
     </style>
 @endsection
 
@@ -218,11 +243,11 @@
                                     <th class="ant-table-cell">S segment</th>
                                     <th class="ant-table-cell">Career Level</th>
                                     <th class="ant-table-cell">Position Title</th>
+                                    <th  class="tooltip1">MOR   <span class="tooltiptext">Maturity Of Requirement</span></th>
                                     <th class="ant-table-cell">Budget</th>
                                     <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Sched</th>
                                     <th class="ant-table-cell">Priorty</th>
-                                    <th class="ant-table-cell">Maturity Of Requirement</th>
                                     <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
@@ -237,10 +262,6 @@
                                         <td>{{ $renderIndex->subsegment }}</td>
                                         <td>{{ $renderIndex->c_level }}</td>
                                         <td>{{ $renderIndex->p_title }}</td>
-                                        <td>{{ $renderIndex->budget }}</td>
-                                        <td>{{ $renderIndex->location }}</td>
-                                        <td>{{ $renderIndex->w_schedule }}</td>
-                                        <td>{{ $renderIndex->priority }}</td>
                                         <td>
                                             @php
                                                 $date = Carbon\Carbon::parse($renderIndex->req_date);
@@ -250,6 +271,10 @@
                                                 echo $diff = $date->diffInDays($now);
                                             @endphp
                                         </td>
+                                        <td>{{ $renderIndex->budget }}</td>
+                                        <td>{{ $renderIndex->location }}</td>
+                                        <td>{{ $renderIndex->w_schedule }}</td>
+                                        <td>{{ $renderIndex->priority }}</td>
 
                                         <td>{{ $renderIndex->status }}</td>
                                     </tr>

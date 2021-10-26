@@ -11,6 +11,7 @@ use Carbon;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
+use Str;
 
 class FinanceController extends Controller
 {
@@ -92,16 +93,32 @@ class FinanceController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->whereIn('endorsements.remarks_for_finance', $arr);
+            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*',
+                'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
+        // ->whereIn('endorsements.remarks_for_finance', $arr);
         // ->orWhere('remarks_for_finance', 'Offer accepted');
         if (isset($request->candidate)) {
+            $newarr = array();
+            foreach ($request->candidate as $candidate) {
+                //$strc =
+                array_push($newarr, "'$candidate'");
+            }
             $Userdata->whereIn('candidate_informations.id', $request->candidate);
         }
         if (isset($request->recruiter)) {
+            $newarr = array();
+            foreach ($request->recruiter as $recruiter) {
+                //$strc =
+                array_push($newarr, "'$recruiter'");
+            }
             $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
         }
         if (isset($request->remarks)) {
+            $newarr = array();
+            foreach ($request->remarks as $remarks) {
+                //$strc =
+                array_push($newarr, "'$remarks'");
+            }
             $Userdata->whereIn('endorsements.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_date)) {
@@ -117,23 +134,74 @@ class FinanceController extends Controller
             $Userdata->whereDate('finance.onboardnig_date', '<', $newformat);
         }
         if (isset($request->client)) {
+            $newarr = array();
+            foreach ($request->client as $client) {
+                //$strc =
+                array_push($newarr, "'$client'");
+            }
             $Userdata->whereIn('endorsements.client', $request->client);
         }
+
+        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        // foreach ($request->career_level as $career) {
+        //     $sql = str_replace($career, "'$career'", $sql);
+        // }
+        if (isset($request->remarks)) {
+            # code...
+            foreach ($request->remarks as $remarks) {
+                $sql = str_replace($remarks, "'$remarks'", $sql);
+            }
+        }
+        if (isset($request->client)) {
+            # code...
+            foreach ($request->client as $client) {
+                $sql = str_replace($client, "'$client'", $sql);
+            }
+        }
+        if (isset($request->recruiter)) {
+
+            foreach ($request->recruiter as $recruiter) {
+                $sql = str_replace($recruiter, "'$recruiter'", $sql);
+            }
+        }
+        if (isset($request->candidate)) {
+
+            foreach ($request->candidate as $candidate) {
+                $sql = str_replace($candidate, "'$candidate'", $sql);
+            }
+        }
         $user = $Userdata->get();
-        $billsArray = ['Billed', 'For Replacement', 'Replaced'];
-        $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
-        $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
-        $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
+        if (strpos($sql, 'where') !== false) {
+            $sql_billed = $sql . "and endorsements.remarks='Billed'";
+            $sql_unbilled = $sql . "and endorsements.remarks='Unbilled'";
+            $sql_fallout = $sql . "and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
+            // $sql_active = $sql . " and endorsements.app_status='Active File'";
+            // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
+        } else {
+            $sql_billed = $sql . " where endorsements.remarks='Billed'";
+            // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
+            $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
+            $sql_fallout = $sql . "where endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
+            // $sql_active = $sql . "where endorsements.app_status='Active File'";
+            // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
+        }
+        // return $sql_billed;
+        // $billsArray = ['Billed', 'For Replacement', 'Replaced'];
+        // $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
+        // $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
+        // $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
+        // $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
         // dd($billamout);
         // $compnayRevenue = $Userdata->whereIn('');
+        // return count(DB::select($sql_billed));
         $hires = count($user);
         $data = [
             'Userdata' => $user,
+            'billed' => count(DB::select($sql_billed)),
+            'unbilled' => count(DB::select($sql_unbilled)),
+            'fallout' => count(DB::select($sql_fallout)),
             'hires' => $hires,
-            'billed' => $billed,
-            'unbilled' => $unbilled,
-            'fallout' => $fallout,
+            // 'fallout' => $fallout,
         ];
         return view('finance.filter_data', $data);
     }
