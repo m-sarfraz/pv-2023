@@ -257,6 +257,7 @@
                             <select name="APPLICATION_STATUS" id="ap_status"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                 <option value="" selected disabled>Select Option</option>
+                                {{-- @dd($user->app_status) --}}
                                 @foreach ($status->options as $statusOptions)
                                     <option value="{{ $statusOptions->option_name }}"
                                         {{ $user->app_status == $statusOptions->option_name ? 'selected' : '' }}>
@@ -592,8 +593,12 @@
                 </div>
 
             </fieldset>
-            <button class="btn btn-success mt-5 btn-md"
-                onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')">Download CV</button>
+            @if ($user->cv)
+            <a class="btn btn-success mt-5 btn-md"  type="button" target="blank" href="{{asset('assets/cv/'.$user->cv)}}"
+                
+            {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}
+            >Download CV</a>
+            @endif
                 @if(Auth::user()->id  == $user->saved_by)
                     <button class="btn btn-primary mt-5 btn-md" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
                 

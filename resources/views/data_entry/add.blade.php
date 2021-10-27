@@ -252,10 +252,11 @@
                                                             <select name="COURSE" class="form-control p-0 users-input-S-C"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->course : '' }}"
                                                                 id="COURSE">
-                                                                <option value="" selected disabled>Select Option</option>
+                                                                <option value="" selected>Select Option</option>
                                                                 @foreach ($course->options as $courseOptions)
                                                                     <option value="{{ $courseOptions->option_name }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}>
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE' : '') ? 'disabled' : '' }}>
                                                                         {{ $courseOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -330,7 +331,8 @@
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
                                                                 @foreach ($segment->options as $segmentOption)
-                                                                    <option value="{{ $segmentOption->id }}">
+                                                                    <option value="{{ $segmentOption->id }}"
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->option_name : '') ? 'selected' : '' }}>
                                                                         {{ $segmentOption->option_name }}</option>
                                                                 @endforeach
 
@@ -348,8 +350,9 @@
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option selected disabled>Select Option</option>
                                                                 @foreach ($sub_segment->options as $sub_segmentOption)
-                                                                    <option value="{{ $sub_segmentOption->id }}">
-                                                                        {{ $sub_segmentOption->option_name }}
+                                                                    <option value="{{ $sub_segmentOption->id }}"
+                                                                            {{ ($candidateDetail != null ?  $candidateDetail->sub_segment == $sub_segmentOption->option_name : '') ? 'selected' : '' }}>
+                                                                            {{ $sub_segmentOption->option_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -527,13 +530,13 @@
                                                                 onclick="emptyFileinput()"
                                                                 style="position: absolute;left: -7px; top:1px;color:red"></i>
                                                         </div>
-                                                        <div class="d-flex justify-flex-end"
+                                                        {{-- <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
                                                             <button type="button" btn_Group href="" class="costumButton"
                                                                 style="pointer-events: none; cursor: default;">
                                                                 Download Cv
                                                             </button>
-                                                        </div>
+                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -566,7 +569,8 @@
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 <option value="" selected disabled>Select Option</option>
                                                 @foreach ($status->options as $statusOptions)
-                                                    <option value="{{ $statusOptions->option_name }}">
+                                                    <option value="{{ $statusOptions->option_name }}"
+                                                        {{ ($candidateDetail != null ? $candidateDetail->app_status == $statusOptions->option_name : '') ? 'selected' : '' }}>
                                                         {{ $statusOptions->option_name }}
                                                     </option>
                                                 @endforeach
@@ -1124,7 +1128,7 @@
         // show searcable select using select 2 dropdown
         select2Dropdown("select2_dropdown");
         // $('#new').prop("disabled", true);
-        $('#COURSE').prop("disabled", true);
+        // $('#COURSE').prop("disabled", true);
         $("form :input").on('input', function() {
             $(this).css('border-color', '#ced4da');
             $(this).parent().siblings('span').remove();
@@ -1445,6 +1449,7 @@
                 } else {
                     //enable course field
                     $('#COURSE').prop("disabled", false);
+                    $('#COURSE').children().removeAttr('disabled');
 
                 }
             } else {
@@ -1455,6 +1460,7 @@
                 } else {
                     //enable course field
                     $('#COURSE').prop("disabled", false);
+                    $('#COURSE').children().removeAttr('disabled');
 
                 }
 

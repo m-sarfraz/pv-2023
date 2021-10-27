@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\CandidateDomain;
 use App\Domain;
 use App\Http\Controllers\Controller;
-use App\jdlSheet;
 use App\Segment;
 use App\SubSegment;
 use DB;
@@ -96,7 +95,7 @@ class JdlController extends Controller
         if (isset($request->searchKeyword)) {
             ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
             $perfect_match = DB::select(DB::raw('select client,segment,domain,subsegment,c_level,p_title,status,location,budget,w_schedule from jdl'));
-          
+
             foreach ($perfect_match as $match) {
                 if ($request->searchKeyword == $match->client) {
                     $Userdata->where('jdl.client', $request->searchKeyword);
@@ -136,8 +135,7 @@ class JdlController extends Controller
         }
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $dataJdl = $Userdata->groupBy("jdl.id")->offset($page)->limit($limit)
-            ->paginate();
+        $dataJdl = $Userdata->get();
         $count = count($dataJdl);
         // dd($Userdata);
 

@@ -73,8 +73,8 @@ class RecordController extends Controller
     public function filter(Request $request)
     {
 
-        $Userdata = DB::table('six_table_view')
-            ->select('six_table_view.id as CID', 'six_table_view.*');
+        $Userdata = DB::table('six_table_view')->join('users', 'six_table_view.saved_by', 'users.id')
+            ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
 
         // condition for checking first to end not null starts here
         if (isset($request->user_id)) {
@@ -115,6 +115,9 @@ class RecordController extends Controller
                 if ($request->searchKeyword == $match->candidate_profile) {
                     $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
                 }
+                if ($request->searchKeyword == $match->candidate_profile) {
+                    $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
+                }
                 if ($request->searchKeyword == $match->sub_segment) {
                     $Userdata->where('six_table_view.sub_segment', $request->searchKeyword);
                 }
@@ -142,8 +145,6 @@ class RecordController extends Controller
             }
         }
         $Alldata = $Userdata->get();
-        // return $Alldata;
-        $candidates = CandidateInformation::all();
         $count = $Alldata->count();
         $data = [
             'count' => $count,
@@ -165,7 +166,7 @@ class RecordController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
-
+        // return $user->app_status;
         $domainDrop = Domain::all();
 
         $data = [

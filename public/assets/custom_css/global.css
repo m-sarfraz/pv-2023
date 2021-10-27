@@ -8,6 +8,12 @@
 button {
     cursor: pointer;
 }
+.hover-primary:hover{
+background-color: rgb(159, 165, 243) !important;
+}
+.hover-primary1{
+    background-color: rgb(159, 165, 243) !important;
+}
 .costumButton {
     /* pointer-events: none; */
     cursor: default;

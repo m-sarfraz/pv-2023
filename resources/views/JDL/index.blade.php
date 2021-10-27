@@ -524,7 +524,11 @@ th.tooltip1{
         }
 
         function Filter_user() {
-
+            if ($('#searchKeyword').val()  =='' && $('#client').val() =='' && $('#candidateDomain').val() =='' &&
+            $('#segment').val() =='' && $('#sub_segment').val() =='' && $('#position_title').val() ==''&& $('#position_title').val() ==''
+            && $('#career_level').val() ==''&& $('#status').val() ==''&& $('#location').val() =='') {
+               location.reload();
+            }
             $("#loader").show();
             searchKeyword = $('#searchKeyword').val();
             client = $('#client').val();
