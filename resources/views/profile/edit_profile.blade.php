@@ -254,46 +254,18 @@
                                         </div>
                                 
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
+                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal" data-target="#JDLExcel">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Upload Excel File
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
-
-                                <form>
-                                    <div style="padding: 93px;" class="pb-3 Coud_icon">
-                                        <img style="width: 105px; cursor: pointer"
-                                            src="{{ asset('assets/image/profile/cloud.png') }}"
-                                            onclick="showFieldJDL(this)" />
-                                    </div>
-
-                                    <fieldset class="ml-20 showExcelfield fieldJDL d-none">
-                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                            <div class="col-lg-8">
-                                                <div class="form-group">
-                                                    <label
-                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                        Upload File
-                                                    </label>
-                                                    <input type="file" id="sheetFileJDL" accept=".xlsx, .xls, .csv"
-                                                        name="sheetId" required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                            <div class="col-lg-7 p-0">
-                                                <div class="mt-2">
-                                                    <div class="form-group">
-                                                        <input type="button" value="Upload"
-                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div style="padding: 93px;" class="pb-3 Coud_icon">
+                                            <img style="width: 105px; cursor: pointer"
+                                                src="{{ asset('assets/image/profile/cloud.png') }}"
+                                                onclick="showFieldJDL(this)" />
                                         </div>
 
-                                    </fieldset>
-                                </form>
                             </div>
                         </div>
                         <!-- load sheetJDL end-->
@@ -323,6 +295,40 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="uploadSheet()">Import</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="JDLExcel" tabindex="-1" aria-labelledby="JDLExcel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="JDLExcel"><i
+                            class="bi bi-file-earmark-spreadsheet-fill"></i>JDL EXCEL SHEET</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form>
+                      
+
+                      
+                                    <div class="form-group">
+                                        <label
+                                            class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                            Upload File
+                                        </label>
+                                        <input type="file"class="form-control" id="sheetFileJDL" accept=".xlsx, .xls, .csv"
+                                            name="sheetId" required />
+                                    </div>
+                                </div>
+                          
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="UploadJDlSheet()">Import</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -413,6 +419,9 @@
                 });
                 return false;
             }
+        }
+        function UploadJDlSheet(){
+            alert("In progreess")
         }
     </script>
 @endsection

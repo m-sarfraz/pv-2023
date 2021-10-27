@@ -255,7 +255,7 @@ th.tooltip1{
                             <tbody>
                                 @foreach ($Userdata as $renderIndex)
 
-                                    <tr onclick="Filter('{{ $renderIndex->id }}')">
+                                    <tr onclick="Filter('{{ $renderIndex->id }}')" class="hover">
                                         <!-- Table data 1 -->
                                         <td>{{ $renderIndex->client }}</td>
                                         <td>{{ $renderIndex->segment }}</td>
@@ -514,6 +514,7 @@ th.tooltip1{
 
                 // Ajax Success funciton
                 success: function(data) {
+
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);

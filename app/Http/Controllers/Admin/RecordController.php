@@ -77,40 +77,46 @@ class RecordController extends Controller
             ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
 
         // condition for checking first to end not null starts here
-        if (isset($request->user_id)) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->user_id);
-        }
-        if (isset($request->candidate)) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate);
-        }
-        if (isset($request->profile)) {
-            $Userdata->whereIn('six_table_view.candidate_profile', $request->profile);
-        }
-        if (isset($request->sub_segment)) {
-            $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment);
-        }
-        if (isset($request->app_status)) {
-            $Userdata->whereIn('six_table_view.app_status', $request->app_status);
-        }
-        if (isset($request->client)) {
-            $Userdata->whereIn('six_table_view.client', $request->client);
-        }
-        if (isset($request->career_level)) {
-            // return $request->career_level;
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (isset($request->date)) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
-        }
+
+            if (isset($request->user_id)) {
+                $Userdata->whereIn('six_table_view.saved_by', $request->user_id);
+            }
+            if (isset($request->candidate)) {
+                $Userdata->whereIn('six_table_view.id', $request->candidate);
+            }
+            if (isset($request->profile)) {
+                $Userdata->whereIn('six_table_view.candidate_profile', $request->profile);
+            }
+            if (isset($request->sub_segment)) {
+                $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment);
+            }
+            if (isset($request->app_status)) {
+                $Userdata->whereIn('six_table_view.app_status', $request->app_status);
+            }
+            if (isset($request->client)) {
+                $Userdata->whereIn('six_table_view.client', $request->client);
+            }
+            if (isset($request->career_level)) {
+                // return $request->career_level;
+                $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
+            }
+            if (isset($request->date)) {
+                $time = strtotime($request->date);
+                $newformat = date('Y-m-d', $time);
+                $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
+            }
+        
         if (isset($request->searchKeyword)) {
+
             ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
-            $perfect_match = DB::select(
-                DB::raw('select  candidate_profile,sub_segment,app_status,client,career_endo,endi_date,curr_salary,exp_salary,endi_date,career_endo from six_table_view')
-            );
+            $perfect_match =  DB::table('six_table_view')->get();
+
 
             foreach ($perfect_match as $match) {
+                if ($request->searchKeyword == $match->first_name) {
+
+                    $Userdata->where('six_table_view.first_name', $request->searchKeyword);
+                }
 
                 if ($request->searchKeyword == $match->candidate_profile) {
                     $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
@@ -119,6 +125,7 @@ class RecordController extends Controller
                     $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
                 }
                 if ($request->searchKeyword == $match->sub_segment) {
+                    echo $match->sub_segment;
                     $Userdata->where('six_table_view.sub_segment', $request->searchKeyword);
                 }
                 if ($request->searchKeyword == $match->app_status) {
@@ -128,6 +135,7 @@ class RecordController extends Controller
                     $Userdata->where('six_table_view.client', $request->searchKeyword);
                 }
                 if ($request->searchKeyword == $match->career_endo) {
+                
                     $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
                 }
                 if ($request->searchKeyword == $match->curr_salary) {

@@ -80,8 +80,13 @@
                     </td>
                     <td>
                         @if (isset($value->first_name))
+<<<<<<< HEAD
+                            {{ $value->first_name }} 
+
+=======
                             {{ $value->first_name }} {{ $value->last_name }}
     
+>>>>>>> 7e4d2271a8937d7157a4dd44f923eb5b88d495ed
                         @endif
                     </td>
                     <td>{{ $value->candidate_profile }}
