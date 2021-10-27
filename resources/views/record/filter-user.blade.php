@@ -33,7 +33,7 @@
                     </td>
                     <td>
                         @if (isset($value->first_name))
-                            {{ $value->first_name }} {{ $value->last_name }}
+                            {{ $value->first_name }} 
 
                         @endif
                     </td>
