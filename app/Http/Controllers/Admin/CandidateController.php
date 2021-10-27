@@ -40,6 +40,7 @@ class CandidateController extends Controller
                 ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
+
         } # code...
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
@@ -77,17 +78,17 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                // "INTERVIEW_NOTES" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 // "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
-                // "CURRENT_SALARY" => 'required ',
+                "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                // "EXPECTED_SALARY" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
@@ -153,20 +154,20 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "APPLICATION_STATUS" => 'required ',
-                // "INTERVIEW_NOTES" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
-                // "CURRENT_SALARY" => 'required ',
+                "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                // "EXPECTED_SALARY" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
-            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == 'SENIOR HIGH SCHOOL GRADUATE') {
+            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "" || $request->EDUCATIONAL_ATTAINTMENT == 'SENIOR HIGH SCHOOL GRADUATE') {
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
@@ -193,20 +194,20 @@ class CandidateController extends Controller
         }
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
-            if (
-                !isset($request->INTERVIEW_NOTES) ||
-                !isset($request->CURRENT_SALARY) ||
-                !isset($request->EXPECTED_SALARY)
-            ) {
-                $arrayCheck["EXPECTED_SALARY"] = "required";
-                $arrayCheck["CURRENT_SALARY"] = "required";
-                $arrayCheck["INTERVIEW_NOTES"] = "required";
-                $validator = Validator::make($request->all(), $arrayCheck);
-                return response()->json(['success' => false, 'message' => $validator->errors(), 'status' => '1']);
-            } else {
+            //     if (
+            //         !isset($request->INTERVIEW_NOTES) ||
+            //         !isset($request->CURRENT_SALARY) ||
+            //         !isset($request->EXPECTED_SALARY)
+            //     ) {
+            //         $arrayCheck["EXPECTED_SALARY"] = "required";
+            //         $arrayCheck["CURRENT_SALARY"] = "required";
+            //         $arrayCheck["INTERVIEW_NOTES"] = "required";
+            //         $validator = Validator::make($request->all(), $arrayCheck);
+            //         return response()->json(['success' => false, 'message' => $validator->errors(), 'status' => '1']);
+            //     } else {
 
-                return response()->json(['success' => false, 'message' => $validator->errors()]);
-            }
+            return response()->json(['success' => false, 'message' => $validator->errors()]);
+            // }
         } else {
             // if (
             //     !isset($request->INTERVIEW_NOTES) ||
@@ -472,17 +473,17 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                // "INTERVIEW_NOTES" => 'required ',
+                "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 // "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
-                // "CURRENT_SALARY" => 'required ',
+                "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                // "EXPECTED_SALARY" => 'required ',
+                "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
@@ -561,9 +562,11 @@ class CandidateController extends Controller
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
-            if ($request->EDUCATIONAL_ATTAINTMENT != 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT != 'SENIOR HIGH SCHOOL GRADUATE') {
+            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "" || $request->EDUCATIONAL_ATTAINTMENT == 'SENIOR HIGH SCHOOL GRADUATE') {
+            } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
@@ -585,10 +588,20 @@ class CandidateController extends Controller
             }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
-
-        // send response mesage if validations are not according to requierd
         if ($validator->fails()) {
+            // if (
+            //     !isset($request->INTERVIEW_NOTES) ||
+            //     !isset($request->CURRENT_SALARY) ||
+            //     !isset($request->EXPECTED_SALARY)
+            // ) {
+            //     $arrayCheck["EXPECTED_SALARY"] = "required";
+            //     $arrayCheck["CURRENT_SALARY"] = "required";
+            //     $arrayCheck["INTERVIEW_NOTES"] = "required";
+            //     $validator = Validator::make($request->all(), $arrayCheck);
+            //     return response()->json(['success' => false, 'message' => $validator->errors(), 'status' => '1']);
+            // } else {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
+            // }
         } else {
             // Update data of eantry page
             CandidateInformation::where('id', $id)->update([
@@ -633,26 +646,39 @@ class CandidateController extends Controller
 
             // Upload CV of user
             if ($request->hasFile('file')) {
-                $fileName = $request->CONTACT_NUMBER . time() . '.' . $request->file->extension();
-                $path = 'assets/cv';
-                $request->file->move($path, $fileName);
+                $path = base_path();
+                $path = str_replace("laravel", "public_html", $path); // <= This one !
+                $destinationPath = $path . '/public/assets/cv'; // upload path
+                $fileName = $request->CONTACT_NUMBER . time() . '.pdf';
+                // $path = 'assets/cv';
+                $request->file->move($destinationPath, $fileName);
+                // update candidate position data according to requested data
                 CandidatePosition::where('candidate_id', $id)->update([
+                    'candidate_profile' => $request->CANDIDATES_PROFILE,
+                    'position_applied' => $request->POSITION_TITLE_APPLIED,
+                    'date_invited' => $request->DATE_INVITED,
+                    'manner_of_invite' => $request->MANNER_OF_INVITE,
+                    'curr_salary' => $request->CURRENT_SALARY,
+                    'exp_salary' => $request->EXPECTED_SALARY,
+                    'off_salary' => $request->OFFERED_SALARY,
+                    'curr_allowance' => $request->CURRENT_ALLOWANCE,
+                    'off_allowance' => $request->OFFERED_ALLOWANCE,
                     'cv' => $fileName,
                 ]);
+            } else {
+                // update candidate position data according to requested data
+                CandidatePosition::where('candidate_id', $id)->update([
+                    'candidate_profile' => $request->CANDIDATES_PROFILE,
+                    'position_applied' => $request->POSITION_TITLE_APPLIED,
+                    'date_invited' => $request->DATE_INVITED,
+                    'manner_of_invite' => $request->MANNER_OF_INVITE,
+                    'curr_salary' => $request->CURRENT_SALARY,
+                    'exp_salary' => $request->EXPECTED_SALARY,
+                    'off_salary' => $request->OFFERED_SALARY,
+                    'curr_allowance' => $request->CURRENT_ALLOWANCE,
+                    'off_allowance' => $request->OFFERED_ALLOWANCE,
+                ]);
             }
-
-            // update candidate position data according to requested data
-            CandidatePosition::where('candidate_id', $id)->update([
-                'candidate_profile' => $request->CANDIDATES_PROFILE,
-                'position_applied' => $request->POSITION_TITLE_APPLIED,
-                'date_invited' => $request->DATE_INVITED,
-                'manner_of_invite' => $request->MANNER_OF_INVITE,
-                'curr_salary' => $request->CURRENT_SALARY,
-                'exp_salary' => $request->EXPECTED_SALARY,
-                'off_salary' => $request->OFFERED_SALARY,
-                'curr_allowance' => $request->CURRENT_ALLOWANCE,
-                'off_allowance' => $request->OFFERED_ALLOWANCE,
-            ]);
 
             //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
@@ -703,12 +729,13 @@ class CandidateController extends Controller
     {
         $user = CandidatePosition::where('candidate_id', $request->id)->first();
         if (isset($user->cv)) {
-            if (File::exists('assets/cv/' . $user->cv)) {
-                $file = 'assets/cv/' . $user->cv;
+            if (File::exists('public/assets/cv/' . $user->cv)) {
+                $file = 'public/assets/cv/' . $user->cv;
                 $headers = array(
                     'Content-Type: application/pdf',
                 );
-                return Response::download($file, $user->FIRST_NAME . 'Resume', $headers);
+
+                return Response::download($file, 'filename.pdf', $headers);
                 return response()->json(['success' => true, 'message' => 'Attachment downloaded']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Attachment not Exists']);

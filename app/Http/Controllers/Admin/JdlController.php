@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\CandidateDomain;
 use App\Domain;
 use App\Http\Controllers\Controller;
-use App\jdlSheet;
 use App\Segment;
 use App\SubSegment;
 use DB;
@@ -139,7 +138,8 @@ class JdlController extends Controller
                 }
             }
         }
- 
+        $page = $request->has('page') ? $request->get('page') : 1;
+        $limit = $request->has('limit') ? $request->get('limit') : 10;
         $dataJdl = $Userdata->get();
         $count = count($dataJdl);
         // dd($Userdata);

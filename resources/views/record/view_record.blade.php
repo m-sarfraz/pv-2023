@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                        margin: 0px !important;
-                                    } */
+                                            margin: 0px !important;
+                                        } */
 
         #example1_filter label {
             display: flex;
@@ -210,52 +210,101 @@
                             </thead>
                             <tbody>
                                 @forelse ( $Userdata as $key=>$value )
-                                    <tr class="bg-transparent" onclick="UserDetail('{{ $value->cid }}')">
-                                        <!-- Table data 1 -->
-                                        <td>{{ $key + 1 }}</td>
-                                        {{-- @php
+                                    @if ($value->saved_by == Auth::user()->id)
+                                        <tr class="bg-transparent common-tr hover-primary"
+                                            onclick="UserDetail(this, '{{ $value->cid }}')">
+                                            <!-- Table data 1 -->
+                                            <td>{{ $key + 1 }}</td>
+                                            {{-- @php
+                                        $name = \App\User::with('candidate_information')
+                                            ->where('id', $value->saved_by)
+                                            ->first();
+                                    @endphp --}}
+                                            <td>
+                                                @if (isset($value->recruiter))
+                                                    {{ $value->recruiter }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (isset($value->first_name))
+                                                    {{ $value->first_name }} {{ $value->last_name }}
+
+                                                @endif
+                                            </td>
+                                            <td>{{ $value->candidate_profile }}
+                                            </td>
+                                            <td>{{ $value->sub_segment }}</td>
+                                            <td>
+                                                @if (isset($value->curr_salary))
+                                                    {{ $value->curr_salary }}
+
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (isset($value->exp_salary))
+                                                    {{ $value->exp_salary }}
+
+                                                @endif
+                                            </td>
+                                            <td>{{ $value->app_status }}</td>
+                                            <td>{{ $value->client }}</td>
+                                            <td>{{ $value->career_endo }}</td>
+                                            <td>
+                                                @if (isset($value->endi_date))
+                                                    {{ $value->endi_date }}
+
+                                                @endif
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    @else
+                                        <tr class="hover-primary common-tr" style="background-color: #e9ecef;"
+                                            onclick="UserDetail(this, '{{ $value->cid }}')">
+                                            <!-- Table data 1 -->
+                                            <td>{{ $key + 1 }}</td>
+                                            {{-- @php
                                             $name = \App\User::with('candidate_information')
                                                 ->where('id', $value->saved_by)
                                                 ->first();
                                         @endphp --}}
-                                        <td>
-                                            @if (isset($value->recruiter))
-                                                {{ $value->recruiter }}
-                                            @endif
-                                        </td>
+                                            <td>
+                                                @if (isset($value->recruiter))
+                                                    {{ $value->recruiter }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (isset($value->first_name))
+                                                    {{ $value->first_name }} {{ $value->last_name }}
 
-                                        <td>
-                                            @if (isset($value->first_name))
-                                                {{ $value->first_name }} 
+                                                @endif
+                                            </td>
+                                            <td>{{ $value->candidate_profile }}
+                                            </td>
+                                            <td>{{ $value->sub_segment }}</td>
+                                            <td>
+                                                @if (isset($value->curr_salary))
+                                                    {{ $value->curr_salary }}
 
-                                            @endif
-                                        </td>
-                                        <td>{{ $value->candidate_profile }}
-                                        </td>
-                                        <td>{{ $value->sub_segment }}</td>
-                                        <td>
-                                            @if (isset($value->curr_salary))
-                                                {{ $value->curr_salary }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if (isset($value->exp_salary))
+                                                    {{ $value->exp_salary }}
 
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->exp_salary))
-                                                {{ $value->exp_salary }}
+                                                @endif
+                                            </td>
+                                            <td>{{ $value->app_status }}</td>
+                                            <td>{{ $value->client }}</td>
+                                            <td>{{ $value->career_endo }}</td>
+                                            <td>
+                                                @if (isset($value->endi_date))
+                                                    {{ $value->endi_date }}
 
-                                            @endif
-                                        </td>
-                                        <td>{{ $value->app_status }}</td>
-                                        <td>{{ $value->client }}</td>
-                                        <td>{{ $value->career_endo }}</td>
-                                        <td>
-                                            @if (isset($value->endi_date))
-                                                {{ $value->endi_date }}
-
-                                            @endif
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                                @endif
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
 
                                 @empty
                                     <tr>
@@ -828,8 +877,10 @@
         // funciton for filtering the data according to selected input ends
 
         // function for selected candidate of table to show detail data on right starts
-        function UserDetail(id) {
-
+        function UserDetail(elem, id) {
+            $('.common-tr').removeClass('hover-primary1');
+            $(elem).addClass('hover-primary1');
+            // $(e).children().removeClass('fade');
             // show loader for waiting
             // $("#loader").show();
 
