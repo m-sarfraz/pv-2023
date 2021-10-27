@@ -54,10 +54,10 @@
                                                                 Domain +</button>
                                                         </div>
                                                         <div class="col-sm">
-                                                            <button style="background: #dc8627;"
+                                                            {{-- <button style="background: #dc8627;"
                                                                 onclick="AddCandidate('candidate','candidate_subsegment','domain_input_append','domain_save_btn')"
                                                                 class="btn px-2 mt-2 text-white rounded-0" type="button">Add
-                                                                Candidate + </button>
+                                                                Candidate + </button> --}}
                                                         </div>
                                                         <div class="col-sm">
                                                             <button style="background: #dc8627;display: none;"
