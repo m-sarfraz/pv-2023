@@ -9,7 +9,7 @@ use App\traverse2;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -29,6 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // return  Auth::user()->roles->pluck("name");
         // echo sys_get_temp_dir() . "\n";
         $users = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
@@ -79,7 +80,7 @@ class HomeController extends Controller
                 ->orwhere("cip_progress.mid_stage", 1)
                 ->groupBy("cip_progress.team")
                 ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
-
+              
             $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
                 ->where("cip_progress.t_id", $check[$i])
                 ->whereDate("cip_progress.created_at", ">", $Mounthly)

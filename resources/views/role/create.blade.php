@@ -44,7 +44,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <input type="submit" style="background: #dc8627;" value="Create" class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
+                                                <input type="submit" style="background: #dc8627;" value="Save" class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
                                             </div>
                                         </div>
                                     </fieldset>

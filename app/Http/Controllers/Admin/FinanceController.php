@@ -102,8 +102,8 @@ class FinanceController extends Controller
                 'candidate_domains.*',
                 'finance.*',
                 'endorsements.*',
-                DB::raw('sum(finance_detail.c_take) as c_t_s'),
-                DB::raw('sum(finance_detail.vcc_amount) as v_c_c_amount'),
+                'finance_detail.c_take',
+                'finance_detail.vcc_amount',
                 
             );
         // ->whereIn('endorsements.remarks_for_finance', $arr);
@@ -187,8 +187,8 @@ class FinanceController extends Controller
             $sql_billed = $sql . "and endorsements.remarks='Billed'";
             $sql_unbilled = $sql . "and endorsements.remarks='Unbilled'";
             $sql_fallout = $sql . "and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            // $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
-            // $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
+            $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
+            $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
 
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         } else {
@@ -196,8 +196,8 @@ class FinanceController extends Controller
             // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
             $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
             $sql_fallout = $sql . "where endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            // $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
-            // $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
+            $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
+            $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
             // $sql_active = $sql . "where endorsements.app_status='Active File'";
             // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
         }
@@ -220,8 +220,8 @@ class FinanceController extends Controller
             'unbilled' => count(DB::select($sql_unbilled)),
             'fallout' => count(DB::select($sql_fallout)),
             'hires' => $hires,
-            // 'c_t_sum' => array_sum(DB::select($finance_c_t_sum)),
-            // 'vcc_amount_sum' => array_sum(DB::select($vcc_amount_sum)),
+            // 'c_t_sum' => $finance_c_t_sum,
+            // 'vcc_amount_sum' => $vcc_amount_sum,
             // 'fallout' => $fallout,
         ];
 

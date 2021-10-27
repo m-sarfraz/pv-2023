@@ -72,7 +72,7 @@
                         {{-- <div  style="width: 100%;" class="pl-sm-15">
                         </div> --}}
                         <a href="" download="user" id=QrCode>
-                            <img style="width: 100%;" class="pl-sm-15" src="" alt="" />
+                            <img style="width: 100%;" class="pl-sm-15" alt="" />
                         </a>
                     </div>
                 </div>
