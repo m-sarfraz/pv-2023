@@ -326,7 +326,7 @@
                 <input type="hidden" name="candidate">
             </div>
             <div class="col-lg-7" id="record_detail">
-                <p class="C-Heading pt-3">Requirement Details:</p>
+                <p class="C-Heading pt-3">Record Details:</p>
                 <div class="card mb-13">
                     <div class="card-body">
                         <form action="">

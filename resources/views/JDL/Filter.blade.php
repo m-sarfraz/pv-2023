@@ -1,7 +1,7 @@
 <div class="col-lg-12" id="record_detail" style="width:100%">
 
  
-    <p class="C-Heading">Requirement Details:</p>
+    <p class="C-Heading">Record Details:</p>
     <div class="card mb-13">
         <div class="card-body">
             <form action="">

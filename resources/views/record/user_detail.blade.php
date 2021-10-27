@@ -1,4 +1,4 @@
-<p class="C-Heading pt-3">Requirement Details:</p>
+<p class="C-Heading pt-3">Record Details:</p>
 <div class="card mb-13">
     <div class="card-body">
         <form action="" id = "user_detail_form">
