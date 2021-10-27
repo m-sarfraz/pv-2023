@@ -523,6 +523,9 @@
                                                             <input type="file" id="sheetFile" name="file"
                                                                 oninput="uploadFile(this)" accept="application/pdf"
                                                                 class="uploadcv    w-100">
+                                                            <i class="bi bi-x-circle d-none" id="cross"
+                                                                onclick="emptyFileinput()"
+                                                                style="position: absolute;left: -7px; top:1px;color:red"></i>
                                                         </div>
                                                         <div class="d-flex justify-flex-end"
                                                             style="justify-content: flex-end;">
@@ -1113,9 +1116,8 @@
             // close
         });
 
-        //empty and disable required fields
-        // $('#segment').empty();
-        // enable save record on input change button 
+
+        // on form submit  
         $("form :input").on('input', function() {
             $('#save').prop('disabled', false)
         });
@@ -1233,8 +1235,8 @@
                         $("select").css('border-color', '#ced4da');
 
                         // $("#user").append(`<option value='${res.last_data_save.id}' >
-                        //     ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
-                        //                 </option>`);
+                    //     ${res.last_data_save.first_name}   ${res.last_data_save.last_name}
+                    //                 </option>`);
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
 
@@ -1401,10 +1403,22 @@
         }
         // apppending endorsements segments ends
 
+        //empty file input on cross click
+        function emptyFileinput() {
+            $('#sheetFile').val('');
+            $('#cross').removeClass('d-block')
+            $('#cross').addClass('d-none')
+        }
         //check file extension on selected file starts 
         function uploadFile(elem) {
-            if ($(elem).val().split('.').pop() == 'pdf') {} else if ($(elem).val().split('.').pop() == '') {
+            if ($(elem).val().split('.').pop() == 'pdf') {
+                $('#cross').removeClass('d-none')
+                $('#cross').addClass('d-block')
+
+            } else if ($(elem).val().split('.').pop() == '') {
                 // $('#sheetFile').val('');
+                $('#cross').removeClass('d-block')
+                $('#cross').addClass('d-none')
             } else {
                 swal({
                     icon: "error",

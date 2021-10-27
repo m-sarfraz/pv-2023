@@ -411,6 +411,9 @@
                                         <input type="file" id="sheetFile" name="file"  
                                             oninput="uploadFile(this)" accept="application/pdf"
                                             class="uploadcv  w-100">
+                                            <i class="bi bi-x-circle d-none" id="cross"
+                                            onclick="emptyFileinput()"
+                                            style="position: absolute;left: -7px; top:1px;color:red"></i>
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
                                         @if($user->cv)
