@@ -25,7 +25,7 @@
                                                     <div class="form-group">
     
                                                     <label class="col-md-12">  </label>
-                                                    <input type="checkbox" name="revenue" value="" > Team Revenue </input>
+                                                    <input type="checkbox" name="revenue" {{  ($role->team_revenue == 1 ? ' checked' : '') }} > Team Revenue </input>
                                                 </div>
                                         </div>
                                             <div class="col-lg-12`">
@@ -58,6 +58,7 @@
             $('#edit_role').submit(function () {
                 $("#loader").show();
                 var data = new FormData(this);
+                console.log(data)
                 $.ajax({
                     url: "{{Route('role.update', $role->id)}}",
                     data: data,

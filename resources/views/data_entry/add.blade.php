@@ -1245,7 +1245,7 @@
                         // $('#new').prop("disabled", false);
 
                         swal("success", res.message, "success").then((value) => {});
-                        location.reload();
+                        $('#new').click()
                     } else if (res.success == false) {
                         if (res.status == 1) {
                             swal({

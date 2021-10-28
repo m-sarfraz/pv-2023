@@ -61,8 +61,6 @@
                                   }else{
                                     echo "";
                                   }
-                                  
-                                  
                                   ?>
                         </td>
                         <td>{{ date('Y-m-d', strtotime($role->created_at)) }}</td>

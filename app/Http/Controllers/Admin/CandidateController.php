@@ -73,7 +73,7 @@ class CandidateController extends Controller
                 "GENDER" => "required",
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
-                // "APPLICATION_STATUS" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
@@ -153,7 +153,7 @@ class CandidateController extends Controller
                 // "SUB_SEGMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                // "APPLICATION_STATUS" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
                 "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -222,15 +222,15 @@ class CandidateController extends Controller
             // } else {
             //get users data for matching duplicates
 
-            $lname = explode(" ", $request->LAST_NAME);
-            $fname = explode(" ", $request->FIRST_NAME);
-            $phone = explode(" ", $request->CONTACT_NUMBER);
-            $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
-            for ($i = 0; $i < count($record); $i++) {
-                if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
-                    return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
-                }
-            }
+            // $lname = explode(" ", $request->LAST_NAME);
+            // $fname = explode(" ", $request->FIRST_NAME);
+            // $phone = explode(" ", $request->CONTACT_NUMBER);
+            // $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
+            // for ($i = 0; $i < count($record); $i++) {
+            //     if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
+            //         return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
+            //     }
+            // }
             //  save data to candidate information table
             $CandidateInformation = new CandidateInformation();
             $CandidateInformation->last_name = $request->LAST_NAME;
@@ -468,7 +468,7 @@ class CandidateController extends Controller
                 "GENDER" => "required",
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
-                // "APPLICATION_STATUS" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
@@ -548,7 +548,7 @@ class CandidateController extends Controller
                 // "SUB_SEGMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                // "APPLICATION_STATUS" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
