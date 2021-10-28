@@ -67,7 +67,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-       
+
         $Userdata = DB::table('six_table_view')->join('users', 'six_table_view.saved_by', 'users.id')
             ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
 
@@ -211,11 +211,11 @@ class RecordController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            $name = explode(" ", $request->first_name);
+            // $name = explode(" ", $request->first_name);
             CandidateInformation::where('id', $request->id)->update([
-                'first_name' => $name[0],
-                'middle_name' => $name[1],
-                'last_name' => $name[2],
+                'first_name' => $request->first_name,
+                // 'middle_name' => $name[1],
+                // 'last_name' => $name[2],
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,

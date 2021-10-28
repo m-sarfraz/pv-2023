@@ -97,10 +97,9 @@
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                     Role
                                                 </label>
-                                               
-                                                <input type="radio" name="agent" value="1" class=" h-px-48" />
+                                                <input type="radio" {{$user->agent ==1 ? 'checked' : ''}} name="agent" value="1" class=" h-px-48" />
                                                 Agent
-                                                <input type="radio" name="agent" value="0" class=" h-px-48"   />
+                                                <input type="radio" {{$user->agent ==0 ? 'checked' : ''}} name="agent" value="0" class=" h-px-48"   />
                                                 Non-Agent
                                         </div>
                                     </div>
