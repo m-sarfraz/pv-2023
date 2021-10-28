@@ -35,7 +35,7 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">DOB:</label>
-                            <input type="text" class="form-control users-input-S-C" name="dob"
+                            <input type="date" class="form-control users-input-S-C" name="dob"
                                 value="{{ $user->dob }}">
                         </div>
                     </div>
