@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                                                    margin: 0px !important;
-                                                                } */
+                                                                                        margin: 0px !important;
+                                                                                    } */
 
         #example1_filter label {
             display: flex;
@@ -880,7 +880,7 @@
         function UserDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-         
+
             // $(e).children().removeClass('fade');
             // show loader for waiting
             // $("#loader").show();
@@ -927,59 +927,58 @@
         //     })
         // });
         $('#candidate').change(function() {
-            $('#profile').empty();
-            $('#sub_segment').empty();
-            $('#date').empty();
-            $('#client').empty();
-            $('#career_level').empty();
-            $('#app_status').empty();
-            var profile = {!! $candidateprofile !!};
-            var segment = {!! $candidateDomain !!};
-            var status = {!! $endorsement !!};
-            var client = {!! $endorsement !!};
-            var career = {!! $endorsement !!};
-            var count = 0;
-            $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < profile.length; i++) {
-                    if (v == profile[i].candidate_id) {
-                        count++;
-                        if (profile[i].candidate_profile != "") {
 
-                            $('#profile').append('<option  selected  value="' + profile[i]
-                                .candidate_profile +
-                                '">' +
-                                profile[i].candidate_profile +
-                                '</option>');
-                        }
-                        if (segment[i].sub_segment != "") {
+            var match_profile = $('#candidate').val();
+    $('#profile').empty();
+    $('#sub_segment').empty();
+    $('#app_status').empty();
+    $('#client').empty();
+    $('#career_level').empty();
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/filter_records/onlyCandidate') }}",
+                data: {
+                    _token: token,
+                    match_profile: match_profile,
+                },
 
-                            $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
-                                '">' +
-                                segment[i].sub_segment +
-                                '</option>');
-                        }
-                    }
-                    if (v == status[i].candidate_id) {
-                        count++;
-                        $('#app_status').append('<option selected  value="' + status[i].app_status + '">' +
-                            status[i]
-                            .app_status +
+                // Ajax Success funciton
+                success: function(res) {
+
+                    // append retured view view to div 
+                    console.log(res.id)
+                    for(var i=0 ;i<res.length;i++){
+
+                        $('#profile').append('<option  selected  value="' + res[i].candidate_profile +
+                        '">' +
+                        res[i].candidate_profile +
+                        '</option>');
+                        
+                        
+                        $('#sub_segment').append('<option selected  value="' + res[i].sub_segment +
+                        '">' +
+                        res[i].sub_segment +
+                        '</option>');
+                        
+                        
+                        $('#app_status').append('<option selected  value="' + res[i].app_status + '">' +
+                        res[i].app_status +
+                        '</option>');
+                        
+                        $('#client').append('<option  selected value="' + res[i].client + '">' +
+                            res[i].client +
                             '</option>');
-                        if (client[i].client != "") {
-                            $('#client').append('<option  selected value="' + client[i].client + '">' +
-                                client[
-                                    i]
-                                .client +
-                                '</option>');
-                        }
-                        $('#career_level').append('<option selected  value="' + career[i].career_endo +
-                            '">' + status[
-                                i]
-                            .career_endo +
+                            
+                            $('#career_level').append('<option selected  value="' + res[i].career_endo +
+                            '">' + res[i].career_endo +
                             '</option>');
-                    }
-                }
-            })
+                            
+                        }
+                            
+                },
+            });
+
+
         });
 
         function AppendSelect(elem) {
@@ -1059,8 +1058,7 @@
                             //     icon: "error",
                             // });
                         }
-                        }
-                         else if (res.success == 'duplicate') {
+                    } else if (res.success == 'duplicate') {
                         $("#loader").hide();
 
                         //show warning message to change the data

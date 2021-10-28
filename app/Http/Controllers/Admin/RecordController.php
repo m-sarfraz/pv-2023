@@ -34,11 +34,6 @@ class RecordController extends Controller
             ->offset($page)
             ->limit($limit)
             ->paginate();
-        // dd($Userdata);
-        // $number_of_page = ceil($count / $result_per_page);
-        // Debugbar::info($number_of_page);
-        // $page = 1;
-        // "SELECT * FROM  products where status=1  LIMIT " . $this_page_f_result . ',' . $result_per_page;
         // get required data to use for select purpose
         $count = $Userdata->count();
 
@@ -48,9 +43,6 @@ class RecordController extends Controller
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
 
-        // $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
-        // $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
-        // $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
         $AllData = count(DB::table('six_table_view')->get());
@@ -74,7 +66,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-
+        // dd($request->all());
         $Userdata = DB::table('six_table_view')->join('users', 'six_table_view.saved_by', 'users.id')
             ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
 
@@ -147,7 +139,6 @@ class RecordController extends Controller
                 if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
                     $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
                 }
-
             }
         }
         $Alldata = $Userdata->get();
@@ -159,7 +150,12 @@ class RecordController extends Controller
         return view('record.filter-user', $data);
     }
     // function for appending the resulting view to filtered record ends
-
+    public function onlyCandidate(Request $request)
+    {
+       $Candidate_filter=DB::table('six_table_view')->whereIn("id",$request->match_profile)->get();
+     
+       return response()->json($Candidate_filter);
+    }
     // function for appending the data of selected row candidate starts
     public function UserDetails(Request $request)
     {

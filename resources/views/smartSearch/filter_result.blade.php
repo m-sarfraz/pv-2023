@@ -24,7 +24,7 @@
    <tbody>
 
        @forelse ( $Userdata as $key=>$value )
-           <tr class="bg-transparent" onclick="searchDetail('{{ $value->C_id }}')">
+           <tr class="bg-transparent" >
                <!-- Table data 1 -->
                @php
                    $user = \App\User::where('id', $value->saved_by)->first();
