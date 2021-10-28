@@ -337,14 +337,14 @@
                                             <label class="Label">
                                                 Candidate Name:*
                                             </label>
-                                            <input type="text" class="form-control" placeholder="enter first name" />
+                                            <input type="text" class="form-control" placeholder="Enter Full Name" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">Gender:</label>
                                             <select class="w-100 form-control">
-                                                <option value="1" disabled="disabled">Select Gender</option>
+                                                <option value="1" selected disabled="disabled">Select Gender</option>
                                                 <option value="2">Male</option>
                                                 <option value="3">Female</option>
                                                 <option value="4">Transgender</option>
@@ -372,7 +372,7 @@
                                                 Contact:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
-                                                placeholder="enter you cell" />
+                                                placeholder="Enter Phone Number" />
                                         </div>
                                     </div>
                                 </div>
@@ -550,11 +550,11 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Certification:
+                                                Employment History:
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control E_HI" style="height: 225px"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                                placeholder="Enter Employment History"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -566,7 +566,7 @@
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                                placeholder="Enter Recruitment Process"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 E_NEG">
@@ -580,9 +580,13 @@
                                                                 <label class="Label-00">
                                                                     Endorsement Type:
                                                                 </label>
-                                                                <input type="text" name="REF_CODE"
-                                                                    placeholder="search keyword" required=""
-                                                                    class="form-control h-px-20_custom border" value="" />
+                                                                <select name="" id="" class="w-100 form-control">
+                                                                    <option value="1">Select Option</option>
+                                                                    <option value="2">Two</option>
+                                                                    <option value="3">Three</option>
+                                                                    <option value="4">Four</option>
+                                                                    <option value="5">Five</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -601,7 +605,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">Site</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -615,7 +619,7 @@
                                                                     Remarks (for Finance)
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -631,7 +635,7 @@
                                                                     Client
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -645,7 +649,7 @@
                                                                     Status:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -661,7 +665,7 @@
                                                                     Position Title:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -675,7 +679,7 @@
                                                                     Reason for not progressing:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -691,7 +695,7 @@
                                                                     Domain:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -703,7 +707,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label">Interview Schedule:</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -719,7 +723,7 @@
                                                                     Segment:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -732,7 +736,7 @@
                                                                 <label class="Label">Remarks (From
                                                                     Recruiter):</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -748,7 +752,7 @@
                                                                     sub-segment:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -760,7 +764,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label">Endo Date:</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -776,7 +780,7 @@
                                                                     Date Undated:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">One</option>
+                                                                    <option value="1">Select Option</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
