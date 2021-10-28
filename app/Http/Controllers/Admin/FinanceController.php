@@ -86,7 +86,7 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-        // dd($request->candidate);
+        
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -181,6 +181,28 @@ class FinanceController extends Controller
             foreach ($request->candidate as $candidate) {
                 $sql = str_replace($candidate, "'$candidate'", $sql);
             }
+        }
+        if(isset($request->searchKeyword))
+        {
+             $perfect_match = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->join('finance_detail', 'candidate_informations.id', 'finance_detail.candidate_id')
+            ->select(
+                'candidate_educations.*',
+                'candidate_informations.id as C_id',
+                'candidate_informations.*',
+                'candidate_positions.*',
+                'candidate_domains.*',
+                'finance.*',
+                'endorsements.*',
+                'finance_detail.c_take',
+                'finance_detail.vcc_amount',
+                
+            )->get();
+                 dd($perfect_match[0]);       
         }
         $user = $Userdata->get();
         if (strpos($sql, 'where') !== false) {
