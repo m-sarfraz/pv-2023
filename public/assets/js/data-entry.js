@@ -267,5 +267,84 @@ function EnableUserEdit(elem) {
     $('#fileDiv').addClass('d-block')
     $('#candidateFieldset').prop('disabled', false)
     $('#endoFinanceFieldset').prop('disabled', false)
+            //  On application status changed function starts 
+            if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
+                // disable and enable input fields for user data in endorsement section
+                $('#remarks').prop("disabled", false);
+                $('#status').prop("disabled", false);
+                $('#site').prop("disabled", false);
+                $('#client').prop("disabled", false);
+                $('#position').prop("disabled", false);
+                $('#domain_endo').prop("disabled", false);
+                $('#career').prop("disabled", false);
+                $('#segment').prop("disabled", false);
+                $('#sub_segment').prop("disabled", false);
+                $('#endo_date').prop("disabled", false);
+                $('#remarks_for_finance').prop("disabled", false);
+                // $('#expec_salary').prop("disabled", false);
+                $('#endo_type').prop("disabled", false);
+            }
+            var value = $('#remarks_for_finance').find(":selected").text().trim();
+            // enable and disalbe reason for not processing input fields
+            if (value.includes('Failed') || value.includes('Withdraw')) {
+                $('#rfp').prop("disabled", false);
+            } else {
+                $('#rfp').prop("disabled", true);
+            }
+        
+            // enable and disable finance section on selected text of remarks for finance
+            if (value.includes('accepted') || value.includes('Onboarded')) {
+                $('#finance_fieldset').prop("disabled", false);
+                $('#off_allowance').prop("disabled", false);
+                $('#career_finance').prop("disabled", false);
+                $('#srp').prop("disabled", false);
+                $('#remarks_finance').prop("disabled", false);
+                $('#invoice_number').prop("disabled", false);
+                $('#bilable_amount').prop("disabled", false);
+                $('#rate').prop("disabled", false);
+                $('#off_allowance_finance').prop("disabled", false);
+                $('#placement_fee').prop("disabled", false);
+                $('#off_salary_fianance').prop("disabled", false);
+                $('#onboard_date').prop("disabled", false);
+                // $('#off_allowance').prop("disabled", false);
+            } else {
+        
+                // else disable the finance section and disable salray fields
+                $('#finance_fieldset').prop("disabled", true);
+        
+                // $('#off_allowance').prop("disabled", true);
+            }
+            if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard')|| value.includes('Scheduled') || value.includes('Offer accepted')) {
+                $('#off_allowance').prop("disabled", false);
+                $('#off_salary').prop("disabled", false);
+            }
+            else {
+                $('#off_allowance').prop("disabled", true);
+                $('#off_salary').prop("disabled", true);
+            }
+            // enalbe the interview date if remark include schedule
+            if (value.includes('Scheduled')) {
+                $('#interview_schedule').prop("disabled", false);
+            }
+            else {
+                $('#interview_schedule').prop("disabled", true);
+            }
+            if (value.includes('Scheduled') || value.includes('Pending') || value.includes('Withdraw')) {
+        
+                // disable fieldset of finance fieldset
+                $('#finance_fieldset').prop("disabled", false);
+        
+                //disable remaining fields of finance reference
+                $('#career_finance').prop("disabled", false);
+                $('#srp').prop("disabled", false);
+                $('#remarks_finance').prop("disabled", true);
+                $('#invoice_number').prop("disabled", true);
+                $('#bilable_amount').prop("disabled", true);
+                $('#rate').prop("disabled", true);
+                $('#off_allowance_finance').prop("disabled", true);
+                $('#placement_fee').prop("disabled", true);
+                $('#off_salary_fianance').prop("disabled", true);
+                $('#onboard_date').prop("disabled", true);
+            }
 }
         // function for enabling the edit of searched user ends

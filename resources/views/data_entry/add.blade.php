@@ -530,13 +530,16 @@
                                                                 onclick="emptyFileinput()"
                                                                 style="position: absolute;left: -7px; top:1px;color:red"></i>
                                                         </div>
-                                                        {{-- <div class="d-flex justify-flex-end"
-                                                            style="justify-content: flex-end;">
-                                                            <button type="button" btn_Group href="" class="costumButton"
-                                                                style="pointer-events: none; cursor: default;">
-                                                                Download Cv
-                                                            </button>
-                                                        </div> --}}
+                                                        @if ($candidateDetail != null && $candidateDetail->cv !=null)
+                                                            <div class="d-flex justify-flex-end"
+                                                                style="justify-content: flex-end;">
+                                                                <a class="btn btn-success mt-5" type="button"
+                                                                    target="blank"
+                                                                    href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
+                                                                    {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
+                                                                    CV</a>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

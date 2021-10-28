@@ -40,7 +40,6 @@ class CandidateController extends Controller
                 ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
-
         } # code...
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
