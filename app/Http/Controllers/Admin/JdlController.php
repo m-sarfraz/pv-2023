@@ -138,8 +138,7 @@ class JdlController extends Controller
                 }
             }
         }
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
+     
         $dataJdl = $Userdata->get();
         $count = count($dataJdl);
         // dd($Userdata);

@@ -21,7 +21,7 @@
 
                 @foreach ($Userdata as $renderIndex)
 
-                    <tr onclick="Filter('{{ $renderIndex->id }}')">
+                    <tr class="common-tr hover-primary" onclick="Filter(this,'{{ $renderIndex->id }}')">
                         <!-- Table data 1 -->
                         <td>{{ $renderIndex->client }}</td>
                         <td>{{ $renderIndex->segment }}</td>

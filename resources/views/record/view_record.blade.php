@@ -880,6 +880,7 @@
         function UserDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
+            $("#loader").show();
             // $(e).children().removeClass('fade');
             // show loader for waiting
             // $("#loader").show();
@@ -898,7 +899,8 @@
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-                    // $("#loader").hide();
+                    $("#loader").hide();
+                    
 
                 },
             });

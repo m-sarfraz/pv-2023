@@ -19,7 +19,7 @@
         <tbody>
             @forelse ( $Userdata as $key=>$value )
             @if ($value->saved_by == Auth::user()->id)
-            <tr class="bg-transparent hover-primary" onclick="UserDetail('{{ $value->CID }}')">
+            <tr class="bg-transparent hover-primary  hover-primary" onclick="UserDetail(this,'{{ $value->CID }}')">
                 <!-- Table data 1 -->
                 <td>{{ $key + 1 }}</td>
                 {{-- @php

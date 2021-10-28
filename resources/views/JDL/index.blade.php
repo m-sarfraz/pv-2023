@@ -16,32 +16,36 @@
             width: fit-content;
             margin-left: auto;
         }
-        .tooltiptext{
-  display:none;
-  position:absolute; 
-  z-index:100;
-  border:1px;
-  background-color:#eee;
-  border-style:solid;
-  border-width:1px;
-  /* border-color:blue; */
-  border-radius: 6px;
-  padding:3px;
-  color:rgb(0, 0, 0); 
-  top:20px; 
-  left:20px;
-}
-.tooltip1:hover span.tooltiptext{
-  display:block;
-}
 
-.tooltip:hover span.tooltiptext{
-  display:block;
-}
-th.tooltip1{
-  position:relative;
-  z-index: 37; 
-}
+        .tooltiptext {
+            display: none;
+            position: absolute;
+            z-index: 100;
+            border: 1px;
+            background-color: #eee;
+            border-style: solid;
+            border-width: 1px;
+            /* border-color:blue; */
+            border-radius: 6px;
+            padding: 3px;
+            color: rgb(0, 0, 0);
+            top: 20px;
+            left: 20px;
+        }
+
+        .tooltip1:hover span.tooltiptext {
+            display: block;
+        }
+
+        .tooltip:hover span.tooltiptext {
+            display: block;
+        }
+
+        th.tooltip1 {
+            position: relative;
+            z-index: 37;
+        }
+
     </style>
 @endsection
 
@@ -60,9 +64,9 @@ th.tooltip1{
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="searchKeyword" placeholder="search keyword" id="searchKeyword"
-                                            required="" class="form-control h-px-20_custom border" value=""
-                                            oninput="Filter_user()" />
+                                        <input type="text" name="searchKeyword" placeholder="search keyword"
+                                            id="searchKeyword" required="" class="form-control h-px-20_custom border"
+                                            value="" oninput="Filter_user()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -243,7 +247,8 @@ th.tooltip1{
                                     <th class="ant-table-cell">S segment</th>
                                     <th class="ant-table-cell">Career Level</th>
                                     <th class="ant-table-cell">Position Title</th>
-                                    <th  class="tooltip1">MOR   <span class="tooltiptext">Maturity Of Requirement</span></th>
+                                    <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
+                                            Requirement</span></th>
                                     <th class="ant-table-cell">Budget</th>
                                     <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Sched</th>
@@ -255,7 +260,8 @@ th.tooltip1{
                             <tbody>
                                 @foreach ($Userdata as $renderIndex)
 
-                                    <tr onclick="Filter('{{ $renderIndex->id }}')" class="hover">
+                                    <tr onclick="Filter(this,'{{ $renderIndex->id }}')"
+                                        class="hover common-tr hover-primary">
                                         <!-- Table data 1 -->
                                         <td>{{ $renderIndex->client }}</td>
                                         <td>{{ $renderIndex->segment }}</td>
@@ -499,8 +505,10 @@ th.tooltip1{
     <!-- Datatable js end-->
     <!-- ================= -->
     <script>
-        function Filter(id) {
-
+        function Filter(elem, id) {
+            $('.common-tr').removeClass('hover-primary1');
+            $(elem).addClass('hover-primary1');
+            $("#loader").show();
             // show loader for waiting
 
             // call Ajax whihc will return view of detail data of user
@@ -518,17 +526,19 @@ th.tooltip1{
                     // append retured view view to div 
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
-
+                    $("#loader").hide();
 
                 },
             });
         }
 
         function Filter_user() {
-            if ($('#searchKeyword').val()  =='' && $('#client').val() =='' && $('#candidateDomain').val() =='' &&
-            $('#segment').val() =='' && $('#sub_segment').val() =='' && $('#position_title').val() ==''&& $('#position_title').val() ==''
-            && $('#career_level').val() ==''&& $('#status').val() ==''&& $('#location').val() =='') {
-               location.reload();
+
+            if ($('#searchKeyword').val() == '' && $('#client').val() == '' && $('#candidateDomain').val() == '' &&
+                $('#segment').val() == '' && $('#sub_segment').val() == '' && $('#position_title').val() == '' && $(
+                    '#position_title').val() == '' &&
+                $('#career_level').val() == '' && $('#status').val() == '' && $('#location').val() == '') {
+                location.reload();
             }
             $("#loader").show();
             searchKeyword = $('#searchKeyword').val();
@@ -618,7 +628,7 @@ th.tooltip1{
                     // if (res[0] == null) {
                     //     location.reload();
                     // }
-               
+
                     var i;
                     let domains = {!! $candidateDomain->options !!}
                     domains.forEach(element => {
@@ -676,7 +686,7 @@ th.tooltip1{
         }
 
         function changecareer_level(res) {
-          
+
             for (var i = 0; i < res.length; i++) {
 
                 $('#career_level').append('<option  value="' +
@@ -689,7 +699,7 @@ th.tooltip1{
         }
 
         function changeposition_title(res) {
-           
+
             for (var i = 0; i < res.length; i++) {
                 $('#position_title').append('<option  value="' +
                     res[i].p_title +
@@ -700,7 +710,7 @@ th.tooltip1{
         }
 
         function changesegmentbyClient(res) {
-            
+
 
             for (var i = 0; i < res.length; i++) {
                 $('#segment').append('<option  value="' +
@@ -712,7 +722,7 @@ th.tooltip1{
         }
 
         function changesubsegmentbyClient(res) {
-            
+
 
             for (var i = 0; i < res.length; i++) {
                 $('#sub_segment').append('<option  value="' +
@@ -724,7 +734,7 @@ th.tooltip1{
         }
 
         function changelocation(res) {
-         
+
 
             for (var i = 0; i < res.length; i++) {
                 $('#location').append('<option  value="' +
@@ -736,7 +746,7 @@ th.tooltip1{
         }
 
         function changestatus(res) {
-           
+
             for (var i = 0; i < res.length; i++) {
                 $('#status').append('<option  value="' +
                     res[i].status +

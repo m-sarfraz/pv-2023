@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             @forelse ( $Userdata as $key=>$value )
-                <tr class="bg-transparent" onclick="teamDetail('{{ $value->C_id }}')">
+                <tr class="bg-transparent common-tr hover-primary" onclick="teamDetail(this,'{{ $value->C_id }}')">
                     <!-- Table data 1 -->
                     @php
                         $user = \App\User::where('id', $value->saved_by)->first();
