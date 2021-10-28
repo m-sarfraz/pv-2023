@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use App\User;
+use Auth;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -226,22 +227,22 @@ class RecordController extends Controller
 
             // update candidate education data
             CandidateEducation::where('candidate_id', $request->id)->update([
-                'educational_attain' => $request->educational_attain,
+                'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
                 'certification' => $request->CERTIFICATIONS,
             ]);
 
             // update candidae domain data
-            $domain_name = Domain::where('id', $request->DOMAIN)->first();
-            $name = Segment::where('id', $request->segment)->first();
-            $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
+            // $domain_name = Domain::where('id', $request->DOMAIN)->first();
+            // $name = Segment::where('id', $request->segment)->first();
+            // $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
 
             CandidateDomain::where('candidate_id', $request->id)->update([
                 'date_shifted' => $request->date_shifted,
-                'domain' => $domain_name->name,
+                'domain' => $request->DOMAIN,
                 'interview_note' => $request->notes,
-                'segment' => $name->segment_name,
-                'sub_segment' => $Sub_name->sub_segment_name,
+                'segment' => $request->segment,
+                'sub_segment' => $request->sub_segment,
             ]);
 
             // update candidate position data according to requested data
