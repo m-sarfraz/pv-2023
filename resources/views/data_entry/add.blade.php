@@ -351,8 +351,8 @@
                                                                 <option selected disabled>Select Option</option>
                                                                 @foreach ($sub_segment->options as $sub_segmentOption)
                                                                     <option value="{{ $sub_segmentOption->id }}"
-                                                                            {{ ($candidateDetail != null ?  $candidateDetail->sub_segment == $sub_segmentOption->option_name : '') ? 'selected' : '' }}>
-                                                                            {{ $sub_segmentOption->option_name }}
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->sub_segment == $sub_segmentOption->option_name : '') ? 'selected' : '' }}>
+                                                                        {{ $sub_segmentOption->option_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1468,6 +1468,22 @@
         }
 
         //  On application status changed function starts 
+        if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
+            // disable and enable input fields for user data in endorsement section
+            $('#remarks').prop("disabled", false);
+            $('#status').prop("disabled", false);
+            $('#site').prop("disabled", false);
+            $('#client').prop("disabled", false);
+            $('#position').prop("disabled", false);
+            $('#domain_endo').prop("disabled", false);
+            $('#career').prop("disabled", false);
+            $('#segment').prop("disabled", false);
+            $('#sub_segment').prop("disabled", false);
+            $('#endo_date').prop("disabled", false);
+            $('#remarks_for_finance').prop("disabled", false);
+            // $('#expec_salary').prop("disabled", false);
+            $('#endo_type').prop("disabled", false);
+        }
 
         function ApplicationStatusChange(elem) {
 
