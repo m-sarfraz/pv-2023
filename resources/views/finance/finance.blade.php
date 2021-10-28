@@ -32,8 +32,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
-                                            class="form-control h-px-20_custom border" value="" />
+                                        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="search keyword" required=""
+                                            class="form-control h-px-20_custom border" oninput="filterUserData()"  />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -901,6 +901,7 @@
             $("#loader").show();
 
             // get values of selected inputs of users
+            searchKeyword = $('#searchKeyword').val();
             recruiter = $('#recruiter').val();
             candidate = $('#candidate').val();
             remarks = $('#remarks').val();
@@ -917,6 +918,7 @@
                 url: '{{ url('admin/filter_records_finance') }}',
                 data: {
                     _token: token,
+                    searchKeyword:searchKeyword,
                     recruiter: recruiter,
                     candidate: candidate,
                     remarks: remarks,

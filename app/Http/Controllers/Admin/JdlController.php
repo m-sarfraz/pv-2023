@@ -65,7 +65,7 @@ class JdlController extends Controller
     }
     public function Filter_user_table(Request $request)
     {
-
+$check=$searchCheck=false;
         // DB::enableQueryLog();
      
         $Userdata = DB::table('jdl');
@@ -96,51 +96,69 @@ class JdlController extends Controller
         }
         if (isset($request->searchKeyword)) {
             ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
-
+            $searchCheck=true;
             $perfect_match = DB::select(DB::raw('select * from jdl'));
-
             foreach ($perfect_match as $match) {
 
 
                 if (strpos($match->client, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.client', 'like', '%' . $request->searchKeyword . '%');
                 }
 
                 if (strpos($match->domain, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.domain', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->segment, $request->searchKeyword) !== false) {
+                    $check=true;
+
                     $Userdata->where('jdl.segment', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->subsegment, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.subsegment', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->c_level, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.c_level', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->p_title, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.p_title', 'like', '%' . $request->searchKeyword . '%');
                 }
 
                 if (strpos($match->status, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.status', 'like', '%' . $request->searchKeyword . '%');
                 }
 
                 if (strpos($match->location, $request->searchKeyword) !== false) {
+                    $check=true;
                     $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->budget, $request->searchKeyword) !== false) 
                 {
+                    $check=true;
                     $Userdata->where('jdl.budget', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos($match->w_schedule, $request->searchKeyword) !== false) 
                 {
+                    $check=true;
                     $Userdata->where('jdl.w_schedule', 'like', '%' . $request->searchKeyword . '%');
                 }
             }
         }
-     
-        $dataJdl = $Userdata->get();
+        if($check){
+
+            $dataJdl = $Userdata->get();
+        }else{
+            if(!$check && !$searchCheck){
+                $dataJdl = $Userdata->get();
+            }else{
+                $dataJdl = [];
+        }
+        }
         $count = count($dataJdl);
         // dd($Userdata);
         
