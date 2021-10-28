@@ -16,7 +16,9 @@ function newRecord(elem) {
     // reset form and disable button
     // $(elem).prop("disabled", true);
     // $(elem).closest('form').find(':input').val("");
-    location.reload()
+    // window.location="{{URL::to('home')}}";
+    window.location.href = "https://eallaine.com/admin/data-entry";
+
 }
 
 

@@ -995,6 +995,7 @@
             $("#loader").show();
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
+            data.append("_token", "{{ csrf_token() }}");
             data.append("id", id);
 
             // call Ajax whihc will return view of detail data of user
@@ -1021,30 +1022,45 @@
                         if (res.hasOwnProperty("message")) {
                             var err = "";
                             $("input").parent().siblings('span').remove();
+                            $("select").siblings('div').children().remove();
+                            $("textarea").next('div').children().remove();
                             $("input").css('border-color', '#ced4da');
+                            $("select").css('border-color', '#ced4da');
+                            $("textarea").css('border-color', '#ced4da');
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").css('border',
-                                    '2px solid red');
+                                $("input[name='" + i + "']").prop('required', true)
                                 $("input[name='" + i + "']").parent().siblings(
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
                                     .append(
                                         '<span style="color:red;" >' + 'Required' + '</span>'
                                     );
+                                console.log($("select[name='" + i + "']"));
+                                $("select[name='" + i + "']").prop('required', true)
+                                $("select[name='" + i + "']").siblings(
+                                    'div').children().remove();
+                                $("select[name='" + i + "']").siblings('div')
+                                    .append(
+                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                    );
+                                $("textarea[name='" + i + "']").prop('required', true)
+                                $("textarea[name='" + i + "']").next('div').children().remove();
+                                $("textarea[name='" + i + "']").next('div').append(
+                                    '<span style="color:red;" >' + 'Required' + '</span>'
+                                );
                             });
 
-                            // show warning message to user if firld is required
-                            swal({
-                                icon: "error",
-                                text: "{{ __('Please fill all required fields!') }}",
-                                icon: "error",
-                            });
+                            // // show warning message to user if firld is required
+                            // swal({
+                            //     icon: "error",
+                            //     text: "{{ __('Please fill all required fields!') }}",
+                            //     icon: "error",
+                            // });
                         }
-
-                        //if duplicate values are detected in database for use data
-                    } else if (res.success == 'duplicate') {
+                        }
+                         else if (res.success == 'duplicate') {
                         $("#loader").hide();
 
                         //show warning message to change the data
@@ -1096,13 +1112,14 @@
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                console.log(sub_segmentsDropDown)
                 if ($('#segment').val() == sub_segmentsDropDown[i].segment_id) {
                     count++;
-                    $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                    $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
                         sub_segmentsDropDown[i]
                         .sub_segment_name +
                         '</option>');
-                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
                         sub_segmentsDropDown[i]
                         .sub_segment_name +
                         '</option>');
@@ -1112,20 +1129,20 @@
         // function for (if segment is changed append segments acoordingly) ends
 
         // apppending endorsements segments starts
-        function changeSegment(elem) {
-            $('#endo_sub_segment').empty()
-            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
-            var count = 0;
-            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
-                if ($('#Domainsegment').val() == sub_segmentsDropDown[i].segment_id) {
-                    count++;
-                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
-                        sub_segmentsDropDown[i]
-                        .sub_segment_name +
-                        '</option>');
-                }
-            }
-        }
+        // function changeSegment(elem) {
+        //     $('#endo_sub_segment').empty()
+        //     var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+        //     var count = 0;
+        //     for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+        //         if ($('#Domainsegment').val() == sub_segmentsDropDown[i].segment_id) {
+        //             count++;
+        //             $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+        //                 sub_segmentsDropDown[i]
+        //                 .sub_segment_name +
+        //                 '</option>');
+        //         }
+        //     }
+        // }
         // apppending endorsements segments ends
     </script>
 

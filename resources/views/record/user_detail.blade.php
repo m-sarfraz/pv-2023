@@ -1,7 +1,7 @@
 <p class="C-Heading pt-3">Record Details:</p>
 <div class="card mb-13">
     <div class="card-body">
-        <form action="" id = "user_detail_form">
+        <form action="" id="user_detail_form">
             <fieldset disabled="" id="recordFieldset">
                 <div class="row mb-1">
                     <div class="col-lg-6">
@@ -9,7 +9,7 @@
                             <label class="Label">
                                 Canidate Name*:
                             </label>
-                            <input type="text" class="form-control" placeholder="enter first name" name = "first_name"
+                            <input type="text" class="form-control" placeholder="enter first name" name="first_name"
                                 value="{{ $user->first_name }}">
                         </div>
                     </div>
@@ -19,7 +19,7 @@
                                 $gender = Helper::get_dropdown('gender');
                             @endphp
                             <label class="Label">Gender:</label>
-                            <select class="w-100 form-control" name  ="gender">
+                            <select class="w-100 form-control" name="gender">
                                 <option value="" selected disabled>select option</option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
@@ -27,12 +27,16 @@
                                         {{ $genderOptions->option_name }}</option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">DOB:</label>
-                            <input type="text" class="form-control users-input-S-C" name="dob" value="{{ $user->dob }}">
+                            <input type="text" class="form-control users-input-S-C" name="dob"
+                                value="{{ $user->dob }}">
                         </div>
                     </div>
                 </div>
@@ -40,8 +44,11 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Email:</label>
-                            <input type="text" class="form-control users-input-S-C" placeholder="enter email" name ="email"
-                                value="{{ $user->email }}" />
+                            <input type="text" class="form-control users-input-S-C" placeholder="enter email"
+                                name="email" value="{{ $user->email }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -49,8 +56,11 @@
                             <label class="d-block font-size-3 mb-0">
                                 Contact:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell" name= "phone"
-                                value="{{ $user->phone }}" />
+                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell"
+                                name="phone" value="{{ $user->phone }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +70,11 @@
                             <label class="d-block font-size-3 mb-0">
                                 Residendce
                             </label>
-                            <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}" name="address" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}"
+                                name="address" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -70,6 +84,9 @@
                             </label>
                             <input type="text" class="form-control users-input-S-C" name="date_shifted"
                                 value="{{ $user->date_shifted }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -77,7 +94,13 @@
                             <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name = "source" />
+                            <input type="text" class="form-control users-input-S-C" name="source" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,14 +108,31 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Educational Attachment</label>
-                            <input type="text" class="form-control users-input-S-C" name= "educational_attain" />
+                            <?php
+                            $eduAttainment = Helper::get_dropdown('educational_attainment');
+                            ?>
+
+                            <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
+                                class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
+                                <option value="" selected disabled>Select Option</option>
+                                @foreach ($eduAttainment->options as $eduAttainmentOptions)
+                                    <option value="{{ $eduAttainmentOptions->option_name }}">
+                                        {{ $eduAttainmentOptions->option_name }}</option>
+                                @endforeach
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">Date Invited:</label>
-                            <input type="text" class="form-control users-input-S-C" name = "date_invited"
+                            <input type="text" class="form-control users-input-S-C" name="date_invited"
                                 value="{{ $user->date_invited }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -112,6 +152,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -133,7 +176,10 @@
                                 </option>
                                 @endforeach
                             </select>
-                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -141,8 +187,11 @@
                             <label class="Label">
                                 Current Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name = "curr_salary"
+                            <input type="text" class="form-control users-input-S-C" name="curr_salary"
                                 value="{{ $user->curr_salary }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -150,8 +199,11 @@
                             <label class="Label">
                                 Current Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name = "curr_allowance"
+                            <input type="text" class="form-control users-input-S-C" name="curr_allowance"
                                 value="{{ $user->curr_allowance }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,7 +211,8 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Domains</label>
-                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C" onchange = "DomainChange(this)">
+                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
+                                onchange="DomainChange(this)">
                                 <option selected disabled>Select Option</option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
@@ -167,6 +220,9 @@
                                         {{ $domainOption->domain_name }}</option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -174,8 +230,11 @@
                             <label class="Label">
                                 Expected Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name ="expec_salary"
+                            <input type="text" class="form-control users-input-S-C" name="expec_salary"
                                 value="{{ $user->exp_salary }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -183,8 +242,11 @@
                             <label class="Label">
                                 Offered Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name = "offered_salary"
+                            <input type="text" class="form-control users-input-S-C" name="offered_salary"
                                 value="{{ $user->off_salary }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -192,10 +254,14 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Segment:</label>
-                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C" onchange="SegmentChange(this)">
+                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
+                                onchange="SegmentChange(this)">
                                 <option selected disabled>Select Option</option>
 
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -203,10 +269,14 @@
                             <label class="Label">
                                 Sub Segment:
                             </label>
-                            <select name="sub_segment" id="Domain_sub_segment" class="form-control p-0 users-input-S-C">
+                            <select name="sub_segment" id="Domain_sub_segment"
+                                class="form-control p-0 users-input-S-C">
                                 <option selected disabled>Select Option</option>
 
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -214,8 +284,11 @@
                             <label class="Label">
                                 Offered Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name= "offered_allowance"
+                            <input type="text" class="form-control users-input-S-C" name="offered_allowance"
                                 value="{{ $user->off_allowance }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -236,6 +309,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -243,7 +319,10 @@
                             <label class="Label">
                                 Date Processed:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" nmae = "date_processed" />
+                            <input type="text" class="form-control users-input-S-C" nmae="date_processed" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -265,6 +344,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -272,8 +354,11 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Position Applied:</label>
-                            <input type="text" class="form-control users-input-S-C" name ="position_applied"
+                            <input type="text" class="form-control users-input-S-C" name="position_applied"
                                 value="{{ $user->position_applied }}" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -281,7 +366,10 @@
                             <label class="Label">
                                 Shifted By:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name = "shifted_by"/>
+                            <input type="text" class="form-control users-input-S-C" name="shifted_by" />
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -292,7 +380,7 @@
                                 Interview Notes:
                             </label>
                             <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                value="{{ $user->interview_notes }}" placeholder="Enter Interview Notes"></textarea>
+                                value="" placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
                         </div>
                         <div class="pt-3">
                             <div class="form-group mb-0">
@@ -301,7 +389,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Enter Interview Notes"></textarea>
+                                    placeholder="Enter Interview Notes">{{ $user->emp_history }}</textarea>
 
                             </div>
                         </div>
@@ -322,6 +410,9 @@
                                         {{ $certificateOption->option_name }}</option>
                                 @endforeach
                             </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                         <div class="E_NEG">
                             <p class="C-Heading pt-5 mt-4">Endorsement Details:</p>
@@ -347,6 +438,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -357,7 +451,7 @@
                                                     <label class="Label-00">
                                                         Career Level:
                                                     </label>
-                                                    <select name="CAREER_LEVEL" disabled="" id="career"
+                                                    <select name="CAREER_LEVEL" id="career"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -367,6 +461,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -377,7 +474,7 @@
                                                 @endphp
                                                 <div class="form-group mb-0">
                                                     <label class="Label-00">Site</label>
-                                                    <select name="SITE" disabled="" id="site"
+                                                    <select name="SITE" id="site"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($site->options as $siteOptions)
@@ -387,6 +484,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -407,6 +507,9 @@
                                                                 {{ $remarksOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -430,6 +533,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -452,6 +558,9 @@
                                                         &quot;item&quot;
                                                         </option>
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -464,7 +573,7 @@
                                                     <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
-                                                    <select name="POSITION_TITLE" disabled="" id="position"
+                                                    <select name="POSITION_TITLE" id="position"
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
@@ -474,6 +583,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -484,7 +596,7 @@
                                                     <label class="Label-00">
                                                         Reason for not progressing:
                                                     </label>
-                                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
@@ -494,6 +606,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -512,6 +627,9 @@
                                                                 {{ $domainOption->domain_name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -519,6 +637,9 @@
                                                     <label class="Label">Interview Schedule:</label>
                                                     <input type="date" name="INTERVIEW_SCHEDULE" id="interview_schedule"
                                                         class="form-control users-input-S-C" />
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -528,10 +649,14 @@
                                                     <label class="Label-00">
                                                         Segment:
                                                     </label>
-                                                    <select name="endo_segment" id="Domainsegment" class="w-100 form-control" onchange="changeSegment(this)">
+                                                    <select name="endo_segment" id="Domainsegment"
+                                                        class="w-100 form-control" onchange="changeSegment(this)">
                                                         <option value="" disabled selected>Select Option</option>
 
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -541,7 +666,7 @@
                                                 <div class=" mb-0">
                                                     <label class="Label">Remarks (From
                                                         Recruiter):</label>
-                                                    <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
+                                                    <select name="REMARKS_FROM_FINANCE" id="remarks"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option value="" disabled selected>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
@@ -551,6 +676,9 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -560,17 +688,25 @@
                                                     <label class="Label-00 ">
                                                         sub-segment:
                                                     </label>
-                                                    <select name="endo_sub_segment " id="endo_sub_segment " class="w-100  form-control">
+                                                    <select name="endo_sub_segment " id="endo_sub_segment"
+                                                        class="w-100  form-control">
                                                         <option value="" disabled selected>Select Option</option>
 
                                                     </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Endo Date:</label>
                                                     <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                        value="{{ $user->endi_date }}"
                                                         class="form-control border h-px-20_custom" />
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -582,6 +718,9 @@
                                                     </label>
                                                     <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
                                                         class="form-control border h-px-20_custom" />
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -594,17 +733,17 @@
 
             </fieldset>
             @if ($user->cv)
-            <a class="btn btn-success mt-5 btn-md"  type="button" target="blank" href="{{asset('assets/cv/'.$user->cv)}}"
-                
-            {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}
-            >Download CV</a>
+                <a class="btn btn-success mt-5 btn-md" type="button" target="blank"
+                    href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
             @endif
-                @if(Auth::user()->id  == $user->saved_by)
-                    <button class="btn btn-primary mt-5 btn-md" onclick="UpdateRecord('{{$user->cid}}')">Update</button>
-                
-                @else
-                    <a type = "button" href= "{{url('admin/data-entry')}}?id={{$user->id}}" class="btn btn-primary mt-5 btn-md">Tap</a>
-                @endif
+            @if (Auth::user()->id == $user->saved_by)
+                <button class="btn btn-primary mt-5 btn-md"
+                    onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
+
+            @else
+                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
+                    class="btn btn-primary mt-5 btn-md">Tap</a>
+            @endif
         </form>
     </div>
 </div>
@@ -616,5 +755,36 @@
         $('#recordFieldset').prop("disabled", false)
     } else {
         $('#recordFieldset').prop("disabled", true)
+    }
+    // Change course according to the selected education attainment 
+    function EducationalAttainChange() {
+
+        // enable and disable course fields on selected educational attainment
+        var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+        var role_id = {!! Auth::user()->agent !!}
+        if (role_id == 1) {
+            if (value == 'HIGH SCHOOL GRADUATE') {
+
+                // if selected text is gradute disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+        } else {
+            if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+                // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+
+        }
     }
 </script>
