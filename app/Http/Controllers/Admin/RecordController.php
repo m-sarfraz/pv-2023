@@ -53,6 +53,7 @@ class RecordController extends Controller
         // $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
+        $AllData = count(DB::table('six_table_view')->get());
         // make array of data to pas to view
         $data = [
             'user' => $user,
@@ -64,6 +65,7 @@ class RecordController extends Controller
             'segmentsDropDown' => $segmentsDropDown,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'endorsement' => $endorsement,
+            "AllData" => $AllData,
         ];
         return view('record.view_record', $data);
     }
@@ -112,43 +114,40 @@ class RecordController extends Controller
             $perfect_match = DB::table('six_table_view')->get();
 
             foreach ($perfect_match as $match) {
-                if ($request->searchKeyword == $match->first_name) {
-
-                    $Userdata->where('six_table_view.first_name', $request->searchKeyword);
+                if (strpos($match->first_name, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->sub_segment, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.sub_segment', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->app_status, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->client, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->career_endo, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->curr_salary, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->exp_salary, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.exp_salary', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->endi_date, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->off_salary, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.off_salary', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
+                    $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
                 }
 
-                if ($request->searchKeyword == $match->candidate_profile) {
-                    $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->candidate_profile) {
-                    $Userdata->where('six_table_view.candidate_profile', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->sub_segment) {
-                    echo $match->sub_segment;
-                    $Userdata->where('six_table_view.sub_segment', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->app_status) {
-                    $Userdata->where('six_table_view.app_status', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->client) {
-                    $Userdata->where('six_table_view.client', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->career_endo) {
-
-                    $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->curr_salary) {
-                    $Userdata->where('six_table_view.curr_salary', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->exp_salary) {
-                    $Userdata->where('six_table_view.exp_salary', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->endi_date) {
-                    $Userdata->where('six_table_view.endi_date', $request->searchKeyword);
-                }
-                if ($request->searchKeyword == $match->career_endo) {
-                    $Userdata->where('six_table_view.career_endo', $request->searchKeyword);
-                }
             }
         }
         $Alldata = $Userdata->get();
