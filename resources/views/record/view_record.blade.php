@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                            margin: 0px !important;
-                                        } */
+                                                                    margin: 0px !important;
+                                                                } */
 
         #example1_filter label {
             display: flex;
@@ -43,7 +43,7 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
-                                            class="form-control h-px-20_custom border" value="" />
+                                            class="form-control h-px-20_custom border" value="{{ $AllData }}" />
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +227,7 @@
                                             </td>
                                             <td>
                                                 @if (isset($value->first_name))
-                                                    {{ $value->first_name }} {{ $value->last_name }}
+                                                    {{ $value->first_name }}
 
                                                 @endif
                                             </td>
@@ -880,7 +880,7 @@
         function UserDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-            $("#loader").show();
+         
             // $(e).children().removeClass('fade');
             // show loader for waiting
             // $("#loader").show();
@@ -900,7 +900,7 @@
                     $('#record_detail').html('');
                     $('#record_detail').html(data);
                     $("#loader").hide();
-                    
+
 
                 },
             });

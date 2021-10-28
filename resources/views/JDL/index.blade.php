@@ -76,7 +76,7 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
-                                            class="form-control h-px-20_custom border" />
+                                            class="form-control h-px-20_custom border" value="{{ $AllData }}" />
                                     </div>
                                 </div>
                             </div>
