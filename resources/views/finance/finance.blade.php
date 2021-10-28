@@ -873,7 +873,7 @@
         function teamDetail(elem,id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-            $("#loader").show();
+            // $("#loader").show();
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",

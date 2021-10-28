@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // Record routes
     Route::get('record', 'RecordController@index')->name('record');
     Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
+    Route::get('filter_records/onlyCandidate', 'RecordController@onlyCandidate')->name('onlyCandidate');
     Route::get('filter_records_detail', 'RecordController@UserDetails')->name('filterRecordDetail');
     Route::match(['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
 
