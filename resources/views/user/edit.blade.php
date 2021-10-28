@@ -77,7 +77,7 @@
                                                 <div class="form-group">
                                                     <label for="aboutTextarea"
                                                         class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                        Select Team:
+                                                         Team:
                                                     </label>
                                                     <select name="roles" required=""
                                                         class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
@@ -95,13 +95,13 @@
                                         <div class="form-group">
                                             <label for="aboutTextarea"
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                    Agent
+                                                    Role
                                                 </label>
                                                
                                                 <input type="radio" name="agent" value="1" class=" h-px-48" />
-                                                Yes
-                                                /<input type="radio" name="agent" value="0" class=" h-px-48"   />
-                                                Not
+                                                Agent
+                                                <input type="radio" name="agent" value="0" class=" h-px-48"   />
+                                                Non-Agent
                                         </div>
                                     </div>
                                 </div>

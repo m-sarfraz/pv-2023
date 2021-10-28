@@ -116,9 +116,13 @@ class RoleController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-
         $role = Role::find($id);
         $role->name = $request->input('name');
+        if (isset($request->revenue)) {
+            $role->team_revenue = '1';
+        } else {
+            $role->team_revenue = '0';
+        }
         $role->save();
 
         $role->syncPermissions($request->input('permission'));

@@ -65,19 +65,23 @@
                                                     placeholder="Enter confirm password" class="form-control h-px-48" />
                                             </div>
                                         </div>
+                                      
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="aboutTextarea"
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                    Agent?
+                                                    Team
                                                 </label>
-                                                <input type="radio" name="agent" value="1" class=" h-px-48" required/>
-                                                Yes
-                                                <input type="radio" name="agent" value="0" class=" h-px-48" required/>
-                                                No
+                                                <select name="roles[]=" required=""
+                                                    class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
+                                                    @if (count($roles) > 0)
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{ $role }}">{{ $role }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="row mb-xl-1 mb-9">
                                         <div class="col-lg-6">
@@ -86,14 +90,10 @@
                                                     class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                     Role
                                                 </label>
-                                                <select name="roles[]" required="" multiple
-                                                    class="form-control pl-0 arrow-3 w-100 font-size-4 d-flex align-items-center w-100">
-                                                    @if (count($roles) > 0)
-                                                        @foreach ($roles as $role)
-                                                            <option value="{{ $role }}">{{ $role }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
+                                                <input type="radio" name="agent" value="1" class="h-px-48" required/>
+                                                Agent
+                                                <input type="radio" name="agent" value="0" class="h-px-48" required/>
+                                                Non-agent
                                             </div>
                                         </div>
 
