@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                                                                        margin: 0px !important;
-                                                                                    } */
+                                                                    margin: 0px !important;
+                                                                } */
 
         #example1_filter label {
             display: flex;
@@ -337,14 +337,14 @@
                                             <label class="Label">
                                                 Candidate Name:*
                                             </label>
-                                            <input type="text" class="form-control" placeholder="Enter Full Name" />
+                                            <input type="text" class="form-control" placeholder="enter first name" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">Gender:</label>
                                             <select class="w-100 form-control">
-                                                <option value="1" selected disabled="disabled">Select Gender</option>
+                                                <option value="1" disabled="disabled">Select Gender</option>
                                                 <option value="2">Male</option>
                                                 <option value="3">Female</option>
                                                 <option value="4">Transgender</option>
@@ -372,7 +372,7 @@
                                                 Contact:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
-                                                placeholder="Enter Phone Number" />
+                                                placeholder="enter you cell" />
                                         </div>
                                     </div>
                                 </div>
@@ -550,11 +550,11 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Employment History:
+                                                Certification:
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control E_HI" style="height: 225px"
-                                                placeholder="Enter Employment History"></textarea>
+                                                placeholder="Enter Interview Notes"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -566,7 +566,7 @@
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Recruitment Process"></textarea>
+                                                placeholder="Enter Interview Notes"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 E_NEG">
@@ -580,13 +580,9 @@
                                                                 <label class="Label-00">
                                                                     Endorsement Type:
                                                                 </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                                <input type="text" name="REF_CODE"
+                                                                    placeholder="search keyword" required=""
+                                                                    class="form-control h-px-20_custom border" value="" />
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -605,7 +601,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">Site</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -619,7 +615,7 @@
                                                                     Remarks (for Finance)
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -635,7 +631,7 @@
                                                                     Client
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -649,7 +645,7 @@
                                                                     Status:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -665,7 +661,7 @@
                                                                     Position Title:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -679,7 +675,7 @@
                                                                     Reason for not progressing:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -695,7 +691,7 @@
                                                                     Domain:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -707,7 +703,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label">Interview Schedule:</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -723,7 +719,7 @@
                                                                     Segment:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -736,7 +732,7 @@
                                                                 <label class="Label">Remarks (From
                                                                     Recruiter):</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -752,7 +748,7 @@
                                                                     sub-segment:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -764,7 +760,7 @@
                                                             <div class="form-group mb-0">
                                                                 <label class="Label">Endo Date:</label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -780,7 +776,7 @@
                                                                     Date Undated:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
+                                                                    <option value="1">One</option>
                                                                     <option value="2">Two</option>
                                                                     <option value="3">Three</option>
                                                                     <option value="4">Four</option>
@@ -884,7 +880,7 @@
         function UserDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-
+         
             // $(e).children().removeClass('fade');
             // show loader for waiting
             // $("#loader").show();
@@ -931,58 +927,63 @@
         //     })
         // });
         $('#candidate').change(function() {
+            $('#profile').empty();
+            $('#sub_segment').empty();
+            $('#date').empty();
+            $('#client').empty();
+            $('#career_level').empty();
+            $('#app_status').empty();
+            var profile = {!! $candidateprofile !!};
+            var segment = {!! $candidateDomain !!};
+            var status = {!! $endorsement !!};
+            var client = {!! $endorsement !!};
+            var career = {!! $endorsement !!};
+            var count = 0;
+            $.each($(this).val(), function(i, v) {
+                for (let i = 0; i < profile.length; i++) {
+                    if (v == profile[i].candidate_id) {
+                        count++;
+                        if (profile[i].candidate_profile != "") {
 
-            var match_profile = $('#candidate').val();
-    $('#profile').empty();
-    $('#sub_segment').empty();
-    $('#app_status').empty();
-    $('#client').empty();
-    $('#career_level').empty();
-            $.ajax({
-                type: "GET",
-                url: "{{ url('admin/filter_records/onlyCandidate') }}",
-                data: {
-                    _token: token,
-                    match_profile: match_profile,
-                },
-
-                // Ajax Success funciton
-                success: function(res) {
-
-                    // append retured view view to div 
-                    console.log(res.id)
-                    for(var i=0 ;i<res.length;i++){
-
-                        $('#profile').append('<option  selected  value="' + res[i].candidate_profile +
-                        '">' +
-                        res[i].candidate_profile +
-                        '</option>');
-                        
-                        
-                        $('#sub_segment').append('<option selected  value="' + res[i].sub_segment +
-                        '">' +
-                        res[i].sub_segment +
-                        '</option>');
-                        
-                        
-                        $('#app_status').append('<option selected  value="' + res[i].app_status + '">' +
-                        res[i].app_status +
-                        '</option>');
-                        
-                        $('#client').append('<option  selected value="' + res[i].client + '">' +
-                            res[i].client +
-                            '</option>');
-                            
-                            $('#career_level').append('<option selected  value="' + res[i].career_endo +
-                            '">' + res[i].career_endo +
-                            '</option>');
-                            
+                            $('#profile').append('<option  selected  value="' + profile[i]
+                                .candidate_profile +
+                                '">' +
+                                profile[i].candidate_profile +
+                                '</option>');
                         }
-                            
-                },
-            });
+                        if (segment[i].sub_segment != "") {
 
-
+                            $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
+                                '">' +
+                                segment[i].sub_segment +
+                                '</option>');
+                        }
+                    }
+                    if (v == status[i].candidate_id) {
+                        count++;
+                        if (status[i].app_status != null) {
+                        $('#app_status').append('<option selected  value="' + status[i].app_status + '">' +
+                            status[i]
+                            .app_status +
+                            '</option>');
+                        }
+                        if (client[i].client != null) {
+                            $('#client').append('<option  selected value="' + client[i].client + '">' +
+                                client[
+                                    i]
+                                .client +
+                                '</option>');
+                        }
+                        if (career[i].career_endo != null) {
+                        $('#career_level').append('<option selected  value="' + career[i].career_endo +
+                            '">' + status[
+                                i]
+                            .career_endo +
+                            '</option>');
+                        }
+                    }
+                }
+            })
         });
 
         function AppendSelect(elem) {
@@ -1062,7 +1063,8 @@
                             //     icon: "error",
                             // });
                         }
-                    } else if (res.success == 'duplicate') {
+                        }
+                         else if (res.success == 'duplicate') {
                         $("#loader").hide();
 
                         //show warning message to change the data

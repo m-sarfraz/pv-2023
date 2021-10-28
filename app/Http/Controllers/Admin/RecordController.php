@@ -66,7 +66,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-        // dd($request->all());
+       
         $Userdata = DB::table('six_table_view')->join('users', 'six_table_view.saved_by', 'users.id')
             ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
 
@@ -150,12 +150,7 @@ class RecordController extends Controller
         return view('record.filter-user', $data);
     }
     // function for appending the resulting view to filtered record ends
-    public function onlyCandidate(Request $request)
-    {
-       $Candidate_filter=DB::table('six_table_view')->whereIn("id",$request->match_profile)->get();
-     
-       return response()->json($Candidate_filter);
-    }
+
     // function for appending the data of selected row candidate starts
     public function UserDetails(Request $request)
     {
