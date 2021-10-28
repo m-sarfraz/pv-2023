@@ -208,7 +208,7 @@
                         </thead>
                         <tbody>
                             @forelse ( $Userdata as $key=>$value )
-                                <tr class="bg-transparent" onclick="teamDetail('{{ $value->C_id }}')">
+                                <tr class="bg-transparent common-tr hover-primary" onclick="teamDetail(this,'{{ $value->C_id }}')">
                                     <!-- Table data 1 -->
                                     @php
                                         $user = \App\User::where('id', $value->saved_by)->first();
@@ -870,7 +870,10 @@
         });
 
         // funciton for getting detail of user starts 
-        function teamDetail(id) {
+        function teamDetail(elem,id) {
+            $('.common-tr').removeClass('hover-primary1');
+            $(elem).addClass('hover-primary1');
+            $("#loader").show();
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -895,7 +898,7 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
-            // $("#loader").show();
+            $("#loader").show();
 
             // get values of selected inputs of users
             recruiter = $('#recruiter').val();
@@ -929,7 +932,7 @@
                 success: function(data) {
                     $('#filterData_div').html(data);
                     // $('#count').val(data.count);
-                    // $("#loader").hide();
+                    $("#loader").hide();
                     // appennd count value coming from hidden input of appended view to count
                     // recordCount = $('#abc').val()
                     // $('#recordNumber').val(recordCount)
