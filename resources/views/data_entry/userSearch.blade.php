@@ -265,8 +265,8 @@
                                             <label class="Label">
                                                 candidate profile
                                             </label>
-                                            <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
-                                                class="form-control p-0 users-input-S-C">
+                                            <select name="CANDIDATES_PROFILE" id="candidate_profile" class="select2_dropdown w-100"
+                                                class="form-control p-0 users-input-S-C" onchange="traverseData(this)">
                                                 <option selected disabled></option>
                                                 @foreach ($profile->options as $profileOption)
                                                     <option value="{{ $profileOption->option_name }}"
@@ -474,7 +474,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Position Title:
                             </label>
-                            <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100"
+                            <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100" onchange="traverse2()"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                 <option value="" disabled selected>Select Option</option>
                                 @foreach ($position_title->options as $position_titleOptions)

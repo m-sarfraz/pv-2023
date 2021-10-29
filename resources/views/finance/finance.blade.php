@@ -100,13 +100,12 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Team
                                         </label>
-                                        <select name="" id="team" class="w-100 form-control select2_dropdown"
+                                        <select name="team_id" id="team_id" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                            <option > </option>
+                                            @foreach ($teams as $team )
+                                            <option value="{{$team->id}}">{{$team->name}}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -169,13 +168,12 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Process Status:
                                         </label>
-                                        <select name="" id="status" class="w-100 form-control select2_dropdown"
+                                        <select name="appstatus" id="appstatus" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                            @foreach ($appstatus as $appstatuss )
+                                            <option value="{{$appstatuss->app_status}}">{{$appstatuss->app_status}}</option>
+                                        @endforeach
+                                        
                                         </select>
                                     </div>
                                 </div>
@@ -903,6 +901,8 @@
             // get values of selected inputs of users
             searchKeyword = $('#searchKeyword').val();
             recruiter = $('#recruiter').val();
+            appstatus = $('#appstatus').val();
+            team_id = $('#team_id').val();
             candidate = $('#candidate').val();
             remarks = $('#remarks').val();
             team = $('#team').val();
@@ -927,6 +927,8 @@
                     status: status,
                     client: client,
                     ob_date: ob_date,
+                    appstatus:appstatus,
+                    team_id:team_id,
                     process: process,
                 },
 

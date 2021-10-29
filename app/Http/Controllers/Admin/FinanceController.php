@@ -45,6 +45,8 @@ class FinanceController extends Controller
         $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
         $count = count($Userdata);
         $hires = count($Userdata);
+        $teams = DB::select("select * from roles");
+        $appstatus = DB::select("select * from endorsements group by app_status");
         $data = [
             'candidates' => $candidates,
             'Userdata' => $Userdata,
@@ -54,6 +56,8 @@ class FinanceController extends Controller
             'billed' => $billed,
             'unbilled' => $unbilled,
             'fallout' => $fallout,
+            "teams" => $teams,
+            "appstatus"=>$appstatus,
         ];
         return view('finance.finance', $data);
     }
@@ -86,162 +90,79 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-        
-        $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->join('finance_detail', 'candidate_informations.id', 'finance_detail.candidate_id')
-            ->select(
-                'candidate_educations.*',
-                'candidate_informations.id as C_id',
-                'candidate_informations.*',
-                'candidate_positions.*',
-                'candidate_domains.*',
-                'finance.*',
-                'endorsements.*',
-                'finance_detail.c_take',
-                'finance_detail.vcc_amount',
-                
-            );
-        // ->whereIn('endorsements.remarks_for_finance', $arr);
-        // ->orWhere('remarks_for_finance', 'Offer accepted');
+        $user = User::where('id', $request->team_id)->first();
+        $role = $user->roles->pluck('name');
+        dd($role);
+        $Userdata = DB::table("six_table_view");
+       
         if (isset($request->candidate)) {
-            $newarr = array();
-            foreach ($request->candidate as $candidate) {
-                //$strc =
-                array_push($newarr, "'$candidate'");
-            }
-            $Userdata->whereIn('candidate_informations.id', $request->candidate);
+         
+            $Userdata->whereIn('six_table_view.id', $request->candidate);
         }
         if (isset($request->recruiter)) {
-            $newarr = array();
-            foreach ($request->recruiter as $recruiter) {
-                //$strc =
-                array_push($newarr, "'$recruiter'");
-            }
-            $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
+          
+            $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
         }
         if (isset($request->remarks)) {
-            $newarr = array();
-            foreach ($request->remarks as $remarks) {
-                //$strc =
-                array_push($newarr, "'$remarks'");
-            }
-            $Userdata->whereIn('endorsements.remarks_for_finance', $request->remarks);
+      
+            $Userdata->whereIn('six_table_view.remarks_for_finance', $request->remarks);
+        }
+        if (isset($request->appstatus)) {
+   
+           
+            $Userdata->whereIn('six_table_view.app_status', $request->appstatus);
         }
         if (isset($request->ob_date)) {
             $time = strtotime($request->ob_date);
             $newformat = date('Y-m-d', $time);
             $nowdate = Carbon\Carbon::now()->format('Y-m-d');
-            $Userdata->whereDate('finance.onboardnig_date', '>', $newformat);
+            $Userdata->whereDate('six_table_view.onboardnig_date', '>', $newformat);
         }
         if (isset($request->toDate)) {
             $time = strtotime($request->toDate);
             $newformat = date('Y-m-d', $time);
             $nowdate = Carbon\Carbon::now()->format('Y-m-d');
-            $Userdata->whereDate('finance.onboardnig_date', '<', $newformat);
+            $Userdata->whereDate('six_table_view.onboardnig_date', '<', $newformat);
         }
         if (isset($request->client)) {
-            $newarr = array();
-            foreach ($request->client as $client) {
-                //$strc =
-                array_push($newarr, "'$client'");
-            }
-            $Userdata->whereIn('endorsements.client', $request->client);
+          
+            $Userdata->whereIn('six_table_view.client', $request->client);
+        }
+        if (isset($request->team_id)) {
+
+            $Userdata->where('six_table_view.saved_by', $request->team_id);
         }
 
-        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+       
+        if (isset($request->searchKeyword)) {
+            
+            $perfect_match = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+                ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+                ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+                ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+                ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+                ->join('finance_detail', 'candidate_informations.id', 'finance_detail.candidate_id')
+                ->select(
+                    'candidate_educations.*',
+                    'candidate_informations.id as C_id',
+                    'candidate_informations.*',
+                    'candidate_positions.*',
+                    'candidate_domains.*',
+                    'finance.*',
+                    'endorsements.*',
+                    'finance_detail.c_take',
+                    'finance_detail.vcc_amount',
 
-        // foreach ($request->career_level as $career) {
-        //     $sql = str_replace($career, "'$career'", $sql);
-        // }
-        if (isset($request->remarks)) {
-            # code...
-            foreach ($request->remarks as $remarks) {
-                $sql = str_replace($remarks, "'$remarks'", $sql);
-            }
-        }
-        if (isset($request->client)) {
-            # code...
-            foreach ($request->client as $client) {
-                $sql = str_replace($client, "'$client'", $sql);
-            }
-        }
-        if (isset($request->recruiter)) {
-
-            foreach ($request->recruiter as $recruiter) {
-                $sql = str_replace($recruiter, "'$recruiter'", $sql);
-            }
-        }
-        if (isset($request->candidate)) {
-
-            foreach ($request->candidate as $candidate) {
-                $sql = str_replace($candidate, "'$candidate'", $sql);
-            }
-        }
-        if(isset($request->searchKeyword))
-        {
-             $perfect_match = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->join('finance_detail', 'candidate_informations.id', 'finance_detail.candidate_id')
-            ->select(
-                'candidate_educations.*',
-                'candidate_informations.id as C_id',
-                'candidate_informations.*',
-                'candidate_positions.*',
-                'candidate_domains.*',
-                'finance.*',
-                'endorsements.*',
-                'finance_detail.c_take',
-                'finance_detail.vcc_amount',
-                
-            )->get();
-                 dd($perfect_match[0]);       
+                )->get();
+            dd($perfect_match[0]);
         }
         $user = $Userdata->get();
-        if (strpos($sql, 'where') !== false) {
-            $sql_billed = $sql . "and endorsements.remarks='Billed'";
-            $sql_unbilled = $sql . "and endorsements.remarks='Unbilled'";
-            $sql_fallout = $sql . "and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
-            $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
-
-            // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
-        } else {
-            $sql_billed = $sql . " where endorsements.remarks='Billed'";
-            // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
-            $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
-            $sql_fallout = $sql . "where endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
-            $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
-            // $sql_active = $sql . "where endorsements.app_status='Active File'";
-            // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
-        }
-        // return $sql_billed;
-        // $billsArray = ['Billed', 'For Replacement', 'Replaced'];
-        // $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
-        // $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
-        // $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        // $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
-        // dd($billamout);
-        // $compnayRevenue = $Userdata->whereIn('');
-        // return count(DB::select($sql_billed));
-        //    dd($sql);
-        // $ct_final=array_sum(DB::select('finance_detail SUM(c_take)'));
-        // dd($sql);
+      
+   dd($user);
         $hires = count($user);
         $data = [
             'Userdata' => $user,
-            'billed' => count(DB::select($sql_billed)),
-            'unbilled' => count(DB::select($sql_unbilled)),
-            'fallout' => count(DB::select($sql_fallout)),
-            'hires' => $hires,
+            "hires"=>$hires,
             // 'c_t_sum' => $finance_c_t_sum,
             // 'vcc_amount_sum' => $vcc_amount_sum,
             // 'fallout' => $fallout,
