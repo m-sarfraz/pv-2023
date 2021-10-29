@@ -14,7 +14,8 @@
                                     <div class="form-group mb-0">
                                         <label class="Label">*Last Name:</label>
                                         <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->last_name }}" name="LAST_NAME"   /><div>
+                                            value="{{ $user->last_name }}" name="LAST_NAME" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -26,7 +27,8 @@
                                             Middle Initial
                                         </label>
                                         <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->middle_name }}" name="MIDDLE_NAME" /><div>
+                                            value="{{ $user->middle_name }}" name="MIDDLE_NAME" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -35,7 +37,8 @@
                                     <div class="form-group mb-0">
                                         <label class="Label">*First Name:</label>
                                         <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->first_name }}" name="FIRST_NAME" /><div>
+                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -71,7 +74,8 @@
                                             DOB
                                         </label>
                                         <input type="date" name="DATE_OF_BIRTH" value="{{ $user->dob }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -88,11 +92,12 @@
                                                 <span class="input-group-text EmailIcon" id="inputGroupPrepend2">
                                                     <i class="bi bi-envelope"></i>
                                                 </span>
-                                            </div>   
+                                            </div>
                                             <input type="text" class="form-control EmailInput-F" name="EMAIL_ADDRESS"
-                                                value="{{ $user->email }}" id="email"   /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                value="{{ $user->email }}" id="email" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div><small class="___class_+?64___"></small></div>
@@ -109,9 +114,10 @@
                                                 </span>
                                             </div>
                                             <input type="number" class="form-control EmailInput-F"
-                                                value="{{ $user->phone }}" name="CONTACT_NUMBER"   /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                value="{{ $user->phone }}" name="CONTACT_NUMBER" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div><small class="___class_+?73___"></small></div>
@@ -129,7 +135,7 @@
                                         </option>
                                     </select> --}}
                                         <input type="text" class="form-control EmailInput-F"
-                                            value="{{ $user->address }}" name="RESIDENCE"   />
+                                            value="{{ $user->address }}" name="RESIDENCE" />
                                         <div>
                                             <small class="text-danger"></small>
                                         </div>
@@ -200,7 +206,8 @@
                                                     {{ $user->certificate == $certificateOption->option_name ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
-                                          </select> <div>
+                                        </select>
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -214,8 +221,8 @@
                                         <label class="Label">
                                             Date Sifted:
                                         </label>
-                                        <input type="date" name="DATE_SIFTED"  
-                                            value="{{ $user->date_shifted }}" class="form-control users-input-S-C" />
+                                        <input type="date" name="DATE_SIFTED" value="{{ $user->date_shifted }}"
+                                            class="form-control users-input-S-C" />
                                         <div>
                                             <small class="text-danger"></small>
                                         </div>
@@ -291,9 +298,10 @@
                                                         {{ $profileOption->option_name }}
                                                     </option>
                                                 @endforeach
-                                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
@@ -306,9 +314,10 @@
                                             </label>
                                             <input type="text" name="POSITION_TITLE_APPLIED"
                                                 value="{{ $user->position_applied }}"
-                                                class="form-control p-0 users-input-S-C" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                class="form-control p-0 users-input-S-C" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
@@ -361,9 +370,10 @@
                                             <label class=" p-0 users-input-S-C mb-0 font-size-3"> Date Invited</label>
                                             <input type="date" name="DATE_INVITED" id="date_invited"
                                                 value="{{ $user->date_invited }}"
-                                                class="form-control border h-px-20_custom" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                class="form-control border h-px-20_custom" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-0">
@@ -373,9 +383,10 @@
                                             </label>
                                             <input type="number" class="form-control p-0 users-input-S-C`"
                                                 value="{{ $user->curr_salary }}" id="current_salary"
-                                                name="CURRENT_SALARY" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                name="CURRENT_SALARY" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
@@ -388,9 +399,10 @@
                                             </label>
                                             <input type="text" name="EXPECTED_SALARY" id="expec_salary"
                                                 value="{{ $user->exp_salary }}"
-                                                class="form-control p-0 users-input-S-C" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                class="form-control p-0 users-input-S-C" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
@@ -402,9 +414,10 @@
                                                 Current Allowance:
                                             </label>
                                             <input type="number" class="form-control users-input-S-C"
-                                                value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                value="{{ $user->curr_allowance }}" name="CURRENT_ALLOWANCE" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-0">
@@ -414,9 +427,10 @@
                                             </label>
                                             <input type="number" name="OFFERED_SALARY" id="off_salary" disabled=""
                                                 value="{{ $user->off_salary }}" oninput="SalaryAppend('#remarks')"
-                                                class="form-control users-input-S-C" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                class="form-control users-input-S-C" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-0">
@@ -426,9 +440,10 @@
                                             </label>
                                             <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
                                                 value="{{ $user->off_allowance }}" oninput="SalaryAppend('#remarks')"
-                                                disabled="" class="form-control users-input-S-C" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                                disabled="" class="form-control users-input-S-C" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -441,20 +456,18 @@
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                     <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
-                                        <input type="file" id="sheetFile" name="file"  
-                                            oninput="uploadFile(this)" accept="application/pdf"
-                                            class="uploadcv  w-100">
-                                            <i class="bi bi-x-circle d-none" id="cross"
-                                            onclick="emptyFileinput()"
+                                        <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
+                                            accept="application/pdf" class="uploadcv  w-100">
+                                        <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
                                     </div>
                                     <div class="d-flex justify-flex-end" style="justify-content: flex-end;">
-                                        @if($user->cv)
-                                        <a class="btn btn-success mt-5" type="button" target="blank" href="{{asset('assets/cv/'.$user->cv)}}"
-                                            {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
-                                            )">Download
-                                            CV</a>
-                                            @endif
+                                        @if ($user->cv)
+                                            <a class="btn btn-success mt-5" type="button" target="blank"
+                                                href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
+                                                )">Download
+                                                CV</a>
+                                        @endif
 
                                     </div>
                                 </div>
@@ -497,9 +510,10 @@
                                     {{ $statusOptions->option_name }}
                                 </option>
                             @endforeach
-                          </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                        </select>
+                        <div>
+                            <small class="text-danger"></small>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
@@ -518,9 +532,10 @@
                                         {{ $position_titleOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
 
@@ -543,9 +558,10 @@
                                         {{ $endoTypeOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -565,9 +581,10 @@
                                         {{ $CareerLevelOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -579,9 +596,10 @@
                                     Date Processed:
                                 </label>
                                 <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="setDate()"
-                                    class="form-control border h-px-20_custom" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                    class="form-control border h-px-20_custom" />
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -604,9 +622,10 @@
                                 @endforeach
                                 &quot;item&quot;
                                 </option>
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -626,9 +645,10 @@
                                         {{ $clientOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -651,9 +671,10 @@
                                         {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
                                         {{ $remarksOptions->option_name }}</option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
 
@@ -681,9 +702,10 @@
                                         {{ $siteOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -703,9 +725,10 @@
                                         {{ $remarksOptions->option_name }}
                                     </option>
                                 @endforeach
-                              </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                            </select>
+                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -728,9 +751,10 @@
                                         {{ $domainOptions->option_name }}
                                     </option>
                                 @endforeach --}}
-                                  </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                </select>
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -750,9 +774,10 @@
                                             {{ $ReasonForNotPOptions->option_name }}
                                         </option>
                                     @endforeach
-                                  </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                </select>
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
 
@@ -770,18 +795,20 @@
                                                                 {{ $segmentsOptions->option_name }}
                                                             </option>
                                                         @endforeach --}}
-                                  </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                </select>
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="Label">Interview :</label>
                                 <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                                    class="form-control users-input-S-C" /><div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                    class="form-control users-input-S-C" />
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -800,9 +827,10 @@
                                                                 {{ $sub_segmentOptions->option_name }}
                                                             </option>
                                                         @endforeach --}}
-                                  </select> <div>
-                                            <small class="text-danger"></small>
-                                        </div>
+                                </select>
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
                             </div>
                         </div>
 
@@ -841,7 +869,8 @@
                                                     {{ $remarksOptions->option_name }}
                                                 </option>
                                             @endforeach
-                                          </select> <div>
+                                        </select>
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -853,7 +882,8 @@
                                         </label>
                                         <input type="date" name="ONBOARDING_DATE" id="onboard_date" readonly
                                             value="{{ $user->endo_date }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -867,7 +897,8 @@
                                         </label>
                                         <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
                                             value="{{ $user->srp }}" class="form-control h-px-20_custom"
-                                            readonly /><div>
+                                            readonly />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -879,7 +910,8 @@
                                         </label>
                                         <input type="number" name="INVOICE_NUMBER" id="invoice_number"
                                             value="{{ $user->invoice_number }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -903,7 +935,8 @@
                                                 {{ $clientOptions->option_name }}
                                             </option>
                                         @endforeach --}}
-                                          </select> <div>
+                                        </select>
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -915,7 +948,8 @@
                                         </label>
                                         <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
                                             value="{{ $user->Total_bilable_ammount }}" oninput="amountFinder(this)"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -930,7 +964,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Career level
                                         </label>
-                                        <select name="CAREER_LEVEL_FINANCE"   id="career_finance"
+                                        <select name="CAREER_LEVEL_FINANCE" id="career_finance"
                                             onchange="SPRCalculator(this)" class="form-control border h-px-20_custom">
                                             <option value="" disabled selected>Select Option</option>
                                             @foreach ($careerLevel->options as $careerLevelOptions)
@@ -939,7 +973,8 @@
                                                     {{ $careerLevelOptions->option_name }}
                                                 </option>
                                             @endforeach
-                                          </select> <div>
+                                        </select>
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -960,7 +995,8 @@
                                             <option value="80">80 %</option>
                                             <option value="90">90 %</option>
                                             <option value="100">100 %</option>
-                                          </select> <div>
+                                        </select>
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -974,7 +1010,8 @@
                                         </label>
                                         <input type="number" name="OFFERED_SALARY" id="off_salary_fianance" readonly
                                             value="{{ $user->offered_salary }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -986,7 +1023,8 @@
                                         </label>
                                         <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
                                             value="{{ $user->placement_fee }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -1000,7 +1038,8 @@
                                         </label>
                                         <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
                                             value="{{ $user->allowance }}"
-                                            class="form-control border h-px-20_custom" /><div>
+                                            class="form-control border h-px-20_custom" />
+                                        <div>
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
@@ -1017,7 +1056,7 @@
     </fieldset>
 </div>
 <script>
-        // select2Dropdown("select2_dropdown");
+    // select2Dropdown("select2_dropdown");
     $('#saveRecord').prop("disabled", true)
     $('#save').prop("disabled", true)
     // enable save record on input change button 
@@ -1026,7 +1065,7 @@
     });
     $(document).ready(function() {
         var id = $('#user').val();
-        console.log('id is'+id);
+        console.log('id is' + id);
         // ajax call for user data fetching starts
         $.ajax({
             type: "GET",
@@ -1044,4 +1083,56 @@
         });
         // ajax call for user data fetching ends
     });
+    // enable and disable course fields on selected educational attainment
+    var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+    var role_id = {!! Auth::user()->agent !!}
+    if (role_id == 1) {
+        if (value == 'HIGH SCHOOL GRADUATE') {
+
+            // if selected text is gradute disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+    } else {
+        if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+            // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+
+    }
+    //  On application status changed function starts 
+    if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
+        // disable and enable input fields for user data in endorsement section
+        $('#remarks').prop("disabled", false);
+        $('#status').prop("disabled", false);
+        $('#site').prop("disabled", false);
+        $('#client').prop("disabled", false);
+        $('#position').prop("disabled", false);
+        $('#domain_endo').prop("disabled", false);
+        $('#career').prop("disabled", false);
+        $('#segment').prop("disabled", false);
+        $('#sub_segment').prop("disabled", false);
+        $('#endo_date').prop("disabled", false);
+        $('#remarks_for_finance').prop("disabled", false);
+        // $('#expec_salary').prop("disabled", false);
+        $('#endo_type').prop("disabled", false);
+    }
+    // get the value of selected text
+    var value = $(elem).find(":selected").text().trim();
+    if (value == 'Pending') {
+        $('#date_invited').prop("disabled", true);
+    } else {
+        // else enable the invitation data
+        $('#date_invited').prop("disabled", false);
+    }
 </script>

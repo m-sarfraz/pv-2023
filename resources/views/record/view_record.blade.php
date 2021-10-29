@@ -4,8 +4,8 @@
 
     <style>
         /* .row {
-                                                                    margin: 0px !important;
-                                                                } */
+                                                                        margin: 0px !important;
+                                                                    } */
 
         #example1_filter label {
             display: flex;
@@ -880,7 +880,7 @@
         function UserDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-         
+
             // $(e).children().removeClass('fade');
             // show loader for waiting
             $("#loader").show();
@@ -935,6 +935,7 @@
             $('#app_status').empty();
             var profile = {!! $candidateprofile !!};
             var segment = {!! $candidateDomain !!};
+            console.log(segment)
             var status = {!! $endorsement !!};
             var client = {!! $endorsement !!};
             var career = {!! $endorsement !!};
@@ -952,20 +953,23 @@
                                 '</option>');
                         }
                         if (segment[i].sub_segment != "") {
-
-                            $('#sub_segment').append('<option selected  value="' + segment[i].sub_segment +
-                                '">' +
-                                segment[i].sub_segment +
-                                '</option>');
+                            if (v == segment[i].candidate_id) {
+                                $('#sub_segment').append('<option selected  value="' + segment[i]
+                                    .sub_segment +
+                                    '">' +
+                                    segment[i].sub_segment +
+                                    '</option>');
+                            }
                         }
                     }
                     if (v == status[i].candidate_id) {
                         count++;
                         if (status[i].app_status != null) {
-                        $('#app_status').append('<option selected  value="' + status[i].app_status + '">' +
-                            status[i]
-                            .app_status +
-                            '</option>');
+                            $('#app_status').append('<option selected  value="' + status[i].app_status +
+                                '">' +
+                                status[i]
+                                .app_status +
+                                '</option>');
                         }
                         if (client[i].client != null) {
                             $('#client').append('<option  selected value="' + client[i].client + '">' +
@@ -975,11 +979,11 @@
                                 '</option>');
                         }
                         if (career[i].career_endo != null) {
-                        $('#career_level').append('<option selected  value="' + career[i].career_endo +
-                            '">' + status[
-                                i]
-                            .career_endo +
-                            '</option>');
+                            $('#career_level').append('<option selected  value="' + career[i].career_endo +
+                                '">' + status[
+                                    i]
+                                .career_endo +
+                                '</option>');
                         }
                     }
                 }
@@ -1063,8 +1067,7 @@
                             //     icon: "error",
                             // });
                         }
-                        }
-                         else if (res.success == 'duplicate') {
+                    } else if (res.success == 'duplicate') {
                         $("#loader").hide();
 
                         //show warning message to change the data

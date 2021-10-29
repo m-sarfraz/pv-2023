@@ -530,7 +530,7 @@
                                                                 onclick="emptyFileinput()"
                                                                 style="position: absolute;left: -7px; top:1px;color:red"></i>
                                                         </div>
-                                                        @if ($candidateDetail != null && $candidateDetail->cv !=null)
+                                                        @if ($candidateDetail != null && $candidateDetail->cv != null)
                                                             <div class="d-flex justify-flex-end"
                                                                 style="justify-content: flex-end;">
                                                                 <a class="btn btn-success mt-5" type="button"
@@ -1470,6 +1470,35 @@
             }
         }
 
+        //open script for coming update id page and tap data starts
+
+        // enable and disable course fields on selected educational attainment
+        var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+        var role_id = {!! Auth::user()->agent !!}
+        if (role_id == 1) {
+            if (value == 'HIGH SCHOOL GRADUATE') {
+
+                // if selected text is gradute disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+        } else {
+            if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+                // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+
+        }
         //  On application status changed function starts 
         if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
             // disable and enable input fields for user data in endorsement section
@@ -1487,6 +1516,15 @@
             // $('#expec_salary').prop("disabled", false);
             $('#endo_type').prop("disabled", false);
         }
+        // get the value of selected text
+        var value = $(elem).find(":selected").text().trim();
+        if (value == 'Pending') {
+            $('#date_invited').prop("disabled", true);
+        } else {
+            // else enable the invitation data
+            $('#date_invited').prop("disabled", false);
+        }
+        //open script for coming update id page and tap data ends
 
         function ApplicationStatusChange(elem) {
 
