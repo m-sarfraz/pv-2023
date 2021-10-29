@@ -36,7 +36,7 @@
                         <div class="form-group mb-0">
                             <label class="Label">DOB:</label>
                             <input type="date" class="form-control users-input-S-C" name="dob"
-                                value="{{ $user->dob }}">
+                                value="{{ Carbon\Carbon::parse($user->dob)->format('Y-m-d') }}">
                         </div>
                     </div>
                 </div>
@@ -82,8 +82,8 @@
                             <label class="d-block font-size-3 mb-0">
                                 Shifted Date:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="date_shifted"
-                                value="{{ $user->date_shifted }}" />
+                            <input type="date" class="form-control users-input-S-C" name="date_shifted"
+                                value="{{ Carbon\Carbon::parse($user->date_shifted)->format('Y-m-d') }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -114,9 +114,10 @@
 
                             <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                <option value="" selected disabled>Select Option</option>
+                                <option value="" disabled>Select Option</option>
                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
-                                    <option value="{{ $eduAttainmentOptions->option_name }}">
+                                    <option value="{{ $eduAttainmentOptions->option_name }}"
+                                        {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
                                         {{ $eduAttainmentOptions->option_name }}</option>
                                 @endforeach
                             </select>
@@ -128,8 +129,8 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="Label">Date Invited:</label>
-                            <input type="text" class="form-control users-input-S-C" name="date_invited"
-                                value="{{ $user->date_invited }}" />
+                            <input type="date" class="form-control users-input-S-C" name="date_invited"
+                                value="{{ Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -210,10 +211,10 @@
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
-                            <label class="Label">Domains</label>
+                            <label class="Label">Domain</label>
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
-                                <option selected disabled>Select Option</option>
+                                <option disabled>Select Option</option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
                                         {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
@@ -253,11 +254,19 @@
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
+                            @php
+                                $segments = Helper::get_dropdown('segments');
+                            @endphp
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
-                                <option selected disabled>Select Option</option>
-
+                                <option disabled>Select Option</option>
+                                @foreach ($segments->options as $segmentsOptions)
+                                    <option value="{{ $segmentsOptions->id }}"
+                                        {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
+                                        {{ $segmentsOptions->option_name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <div>
                                 <small class="text-danger"></small>
@@ -266,13 +275,20 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
+                            @php
+                                $sub_segment = Helper::get_dropdown('sub_segment');
+                            @endphp
                             <label class="Label">
                                 Sub Segment:
                             </label>
                             <select name="sub_segment" id="Domain_sub_segment"
                                 class="form-control p-0 users-input-S-C">
-                                <option selected disabled>Select Option</option>
-
+                                <option disabled>Select Option</option>
+                                @foreach ($sub_segment->options as $sub_segmentOptions)
+                                    <option value="{{ $sub_segmentOptions->id }}">
+                                        {{ $sub_segmentOptions->option_name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <div>
                                 <small class="text-danger"></small>
@@ -319,7 +335,8 @@
                             <label class="Label">
                                 Date Processed:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" nmae="date_processed" />
+                            <input type="date" class="form-control users-input-S-C" nmae="date_processed"
+                                value="{{ Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -406,7 +423,7 @@
                                 <option selected disabled></option>
                                 @foreach ($certificate->options as $certificateOption)
                                     <option value="{{ $certificateOption->option_name }}"
-                                        {{ $user->certificate == $certificateOption->option_name ? 'selected' : '' }}>
+                                        {{ $user->certification == $certificateOption->option_name ? 'selected' : '' }}>
                                         {{ $certificateOption->option_name }}</option>
                                 @endforeach
                             </select>
@@ -500,7 +517,7 @@
                                                         @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
                                                         @endphp
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
                                                                 {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -522,13 +539,14 @@
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
+                                                    {{-- @dd($user->client) --}}
                                                     <select name="CLIENT_FINANCE"
                                                         class="form-control border h-px-20_custom w-100"
                                                         id="client_finance" disabled="">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
-                                                            <option value="{{ $clientOptions->id }}"
-                                                                {{ $user->client_finance == $clientOptions->id ? 'selected' : '' }}>
+                                                            <option value="{{ $clientOptions->option_name }}"
+                                                                {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
                                                                 {{ $clientOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -548,7 +566,7 @@
                                                     </label>
                                                     <select name="STATUS" id="status" disabled=""
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($status->options as $statusOptions)
                                                             <option value="{{ $statusOptions->option_name }}"
                                                                 {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
@@ -575,7 +593,7 @@
                                                     </label>
                                                     <select name="POSITION_TITLE" id="position"
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
                                                             <option value="{{ $position_titleOptions->option_name }}"
                                                                 {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
@@ -598,7 +616,7 @@
                                                     </label>
                                                     <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                             {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
                                                             <option value="{{ $ReasonForNotPOptions->option_name }}">
@@ -620,7 +638,7 @@
                                                     </label>
                                                     <select name="DOMAIN_endo" id="domain" onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
-                                                        <option selected disabled>Select Option</option>
+                                                        <option disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
                                                             <option value="{{ $domainOption->id }}"
                                                                 {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
@@ -636,6 +654,7 @@
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Interview Schedule:</label>
                                                     <input type="date" name="INTERVIEW_SCHEDULE" id="interview_schedule"
+                                                        value="{{ Carbon\Carbon::parse($user->interview_date)->format('Y-m-d') }}"
                                                         class="form-control users-input-S-C" />
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -646,13 +665,21 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
+                                                    @php
+                                                        $segments = Helper::get_dropdown('segments');
+                                                    @endphp
                                                     <label class="Label-00">
                                                         Segment:
                                                     </label>
                                                     <select name="endo_segment" id="Domainsegment"
                                                         class="w-100 form-control" onchange="changeSegment(this)">
-                                                        <option value="" disabled selected>Select Option</option>
-
+                                                        <option value="" disabled>Select Option</option>
+                                                        @foreach ($segments->options as $segmentsOptions)
+                                                            <option value="{{ $segmentsOptions->id }}"
+                                                                {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
+                                                                {{ $segmentsOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -668,7 +695,7 @@
                                                         Recruiter):</label>
                                                     <select name="REMARKS_FROM_FINANCE" id="remarks"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option value="" disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
                                                                 {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -690,8 +717,12 @@
                                                     </label>
                                                     <select name="endo_sub_segment " id="endo_sub_segment"
                                                         class="w-100  form-control">
-                                                        <option value="" disabled selected>Select Option</option>
-
+                                                        <option disabled>Select Option</option>
+                                                        @foreach ($sub_segment->options as $sub_segmentOptions)
+                                                            <option value="{{ $sub_segmentOptions->id }}">
+                                                                {{ $sub_segmentOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -702,7 +733,7 @@
                                                 <div class="form-group mb-0">
                                                     <label class="Label">Endo Date:</label>
                                                     <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                        value="{{ $user->endi_date }}"
+                                                        value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
                                                         class="form-control border h-px-20_custom" />
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -717,6 +748,7 @@
                                                         Date Undated:
                                                     </label>
                                                     <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
+                                                        value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
                                                         class="form-control border h-px-20_custom" />
                                                     <div>
                                                         <small class="text-danger"></small>

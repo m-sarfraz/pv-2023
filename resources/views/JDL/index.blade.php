@@ -508,7 +508,7 @@
         function Filter(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-            // $("#loader").show();
+            $("#loader").show();
             // show loader for waiting
 
             // call Ajax whihc will return view of detail data of user

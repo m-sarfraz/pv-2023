@@ -883,7 +883,7 @@
          
             // $(e).children().removeClass('fade');
             // show loader for waiting
-            // $("#loader").show();
+            $("#loader").show();
 
             // call Ajax whihc will return view of detail data of user
             $.ajax({
