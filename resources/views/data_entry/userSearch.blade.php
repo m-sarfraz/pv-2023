@@ -2,8 +2,7 @@
     <!-- ================== -->
     <!-- Candidate section start -->
     <div class="row">
-        <fieldset disabled="" id="candidateFieldset">
-
+        <fieldset class="w-100" disabled="" id="candidateFieldset">
             <div class="col-lg-12 p-0">
                 <p class="C-Heading">Sourcing &amp; Demographics</p>
                 <div class="card">
@@ -194,16 +193,18 @@
                                     <div class="form-group mb-0">
                                         <?php
                                         $certificate = Helper::get_dropdown('certifications');
+                                        $arr = explode(",",  $user->certification);
                                         ?>
                                         <label class="Label">
                                             CERTIFICATIONS
                                         </label>
-                                        <select multiple name="CERTIFICATIONS[]"
-                                            class="form-control p-0 users-input-S-C select2_dropdown w-100">
-                                            <option selected disabled></option>
+                                       
+                                        <select  multiple name="CERTIFICATIONS[]"
+                                        class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                            <option disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
                                                 <option value="{{ $certificateOption->option_name }}"
-                                                    {{ $user->certificate == $certificateOption->option_name ? 'selected' : '' }}>
+                                                    {{in_array($certificateOption->option_name,$arr)  ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
                                         </select>
@@ -289,8 +290,9 @@
                                             <label class="Label">
                                                 candidate profile
                                             </label>
-                                            <select name="CANDIDATES_PROFILE" id="candidate_profile" class="select2_dropdown w-100"
-                                                class="form-control p-0 users-input-S-C" onchange="traverseData(this)">
+                                            <select name="CANDIDATES_PROFILE" id="candidate_profile"
+                                                class="form-control p-0 users-input-S-C select2_dropdown w-100"
+                                                onchange="traverseData(this)">
                                                 <option selected disabled></option>
                                                 @foreach ($profile->options as $profileOption)
                                                     <option value="{{ $profileOption->option_name }}"
@@ -465,8 +467,7 @@
                                         @if ($user->cv)
                                             <a class="btn btn-success mt-5" type="button" target="blank"
                                                 href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
-                                                {{-- )" --}}
-                                                >Download
+                                                {{-- )" --}}>Download
                                                 CV</a>
                                         @endif
 
@@ -524,8 +525,8 @@
                             <label class="d-block font-size-3 mb-0">
                                 Position Title:
                             </label>
-                            <select name="POSITION_TITLE" disabled="" id="position" class="select2_dropdown  w-100" onchange="traverse2()"
-                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <select name="POSITION_TITLE" disabled="" id="position" onchange="traverse2()"
+                                class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
                                 <option value="" disabled selected>Select Option</option>
                                 @foreach ($position_title->options as $position_titleOptions)
                                     <option value="{{ $position_titleOptions->option_name }}"
@@ -638,7 +639,7 @@
                         <div class="form-group mb-0">
                             <label class="Label">Client</label>
                             <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
-                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
                                 <option value="" disabled selected>Select Option</option>
                                 @foreach ($client->options as $clientOptions)
                                     <option value="{{ $clientOptions->option_name }}"
@@ -661,8 +662,8 @@
                                 Remarks (For Finance):
                             </label>
                             <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
-                                onchange="RemarksChange(this)" class="select2_dropdown  w-100"
-                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                onchange="RemarksChange(this)"
+                                class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                 @php
                                     $remarks = Helper::get_dropdown('remarks_for_finance');
                                 @endphp
@@ -767,7 +768,7 @@
                                     Reason for not progressing:
                                 </label>
                                 <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
                                     <option value="" disabled selected>Select Option</option>
                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                         {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
@@ -1056,7 +1057,10 @@
         <!-- ================== -->
     </fieldset>
 </div>
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script>
+
     // select2Dropdown("select2_dropdown");
     $('#saveRecord').prop("disabled", true)
     $('#save').prop("disabled", true)
@@ -1129,11 +1133,12 @@
         $('#endo_type').prop("disabled", false);
     }
     // get the value of selected text
-    var value = $(elem).find(":selected").text().trim();
+    var value = $('#manners').find(":selected").text().trim();
     if (value == 'Pending') {
         $('#date_invited').prop("disabled", true);
     } else {
         // else enable the invitation data
         $('#date_invited').prop("disabled", false);
     }
+    select2Dropdown("select2_dropdown");
 </script>

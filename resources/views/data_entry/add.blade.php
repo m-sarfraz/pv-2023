@@ -87,7 +87,7 @@
                                     <p class="C-Heading">Sourcing &amp; Demographics</p>
                                     <div class="card">
                                         <div class="card-body pt-4">
-                                            <fieldset>
+                                            <fieldset class="w-100">
                                                 <div class="row mb-2">
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
@@ -276,8 +276,8 @@
                                                                 Certifications
                                                             </label>
                                                             <select multiple name="CERTIFICATIONS[]"
-                                                                value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}"
-                                                                class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                                                class="form-control p-0 users-input-S-C select2_dropdown w-100"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}">
                                                                 {{-- <option value="" selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
@@ -1517,7 +1517,7 @@
             $('#endo_type').prop("disabled", false);
         }
         // get the value of selected text
-        var value = $(elem).find(":selected").text().trim();
+        var value = $('#manners').find(":selected").text().trim();
         if (value == 'Pending') {
             $('#date_invited').prop("disabled", true);
         } else {
