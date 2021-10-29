@@ -129,7 +129,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Enter Interview Notes">{{ $user->jd }}</textarea>
+                                    placeholder="Job Description &amp; Work Experience">{{ $user->jd }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Enter Interview Notes">{{$user->poc}}</textarea>
+                                    placeholder="Recruitment Process">{{$user->poc}}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -151,7 +151,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Enter Interview Notes">{{ $user->note }}</textarea>
+                                    placeholder=" Interview Notes">{{ $user->note }}</textarea>
                             </div>
                         </div>
                     </div>

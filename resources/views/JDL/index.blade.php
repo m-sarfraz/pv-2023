@@ -421,7 +421,7 @@
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                                placeholder="Job Description &amp; Work Experience"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -433,7 +433,7 @@
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                                placeholder="Enter  Recruitment Process"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -455,7 +455,7 @@
                                             </label>
                                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                 class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                                placeholder=" Assigned Recruiters"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

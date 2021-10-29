@@ -747,9 +747,9 @@ class CandidateController extends Controller
     // traveseDataByClientProfile
     public function traveseDataByClientProfile(Request $request)
     {
-      
+
         if ($request->c_profile) {
-         
+
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
             if ($response) {
 

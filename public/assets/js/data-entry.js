@@ -261,7 +261,7 @@ function careerChanged(elem) {
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
-
+    $('#certificate').prop('disabled',false)
     // enabling th fieldset value
     $('#fileDiv').removeClass('d-none')
     $('#fileDiv').addClass('d-block')
