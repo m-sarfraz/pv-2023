@@ -41,12 +41,12 @@ class RecordController extends Controller
         $candidates = CandidateInformation::select('id', 'first_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
 
-        $candidateDomain = CandidateDomain::select('segment', 'sub_segment')->get();
+        $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
 
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
-        $AllData = count(DB::table('six_table_view')->get());
+        $AllData = count($Userdata);
         // make array of data to pas to view
         $data = [
             'user' => $user,
