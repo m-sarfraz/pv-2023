@@ -465,7 +465,8 @@
                                         @if ($user->cv)
                                             <a class="btn btn-success mt-5" type="button" target="blank"
                                                 href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
-                                                )">Download
+                                                {{-- )" --}}
+                                                >Download
                                                 CV</a>
                                         @endif
 
