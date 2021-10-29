@@ -57,7 +57,7 @@ class FinanceController extends Controller
             'unbilled' => $unbilled,
             'fallout' => $fallout,
             "teams" => $teams,
-            "appstatus"=>$appstatus,
+            "appstatus" => $appstatus,
         ];
         return view('finance.finance', $data);
     }
@@ -90,42 +90,43 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-        $user = User::where('id', $request->team_id)->first();
-        $role = $user->roles->pluck('name');
-        dd($role);
         $Userdata = DB::table("six_table_view");
-       
+
         if (isset($request->candidate)) {
-         
+
             $Userdata->whereIn('six_table_view.id', $request->candidate);
         }
         if (isset($request->recruiter)) {
-          
+
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
         }
         if (isset($request->remarks)) {
-      
+
             $Userdata->whereIn('six_table_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->appstatus)) {
-   
-           
-            $Userdata->whereIn('six_table_view.app_status', $request->appstatus);
+
+
+            $Userdata->whereIn('six_table_view.app_status', [$request->appstatus]);
         }
         if (isset($request->ob_date)) {
-            $time = strtotime($request->ob_date);
-            $newformat = date('Y-m-d', $time);
-            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
+
+            $newformat = date("m/d/y",strtotime($request->ob_date));
+            // $nowdate = Carbon\Carbon::now()->format(date("m/d/Y "));
+            // 
+            dd($newformat);
             $Userdata->whereDate('six_table_view.onboardnig_date', '>', $newformat);
         }
         if (isset($request->toDate)) {
-            $time = strtotime($request->toDate);
-            $newformat = date('Y-m-d', $time);
-            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
+          
+            $newformat = date("m/d/y",strtotime($request->toDate));
+            // $nowdate = Carbon\Carbon::now()->format('m/d/y');
+            // dd($nowdate);
+
             $Userdata->whereDate('six_table_view.onboardnig_date', '<', $newformat);
         }
         if (isset($request->client)) {
-          
+
             $Userdata->whereIn('six_table_view.client', $request->client);
         }
         if (isset($request->team_id)) {
@@ -133,9 +134,9 @@ class FinanceController extends Controller
             $Userdata->where('six_table_view.saved_by', $request->team_id);
         }
 
-       
+
         if (isset($request->searchKeyword)) {
-            
+
             $perfect_match = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
                 ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
                 ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
@@ -157,12 +158,12 @@ class FinanceController extends Controller
             dd($perfect_match[0]);
         }
         $user = $Userdata->get();
-      
-   dd($user);
+dd($user);
+
         $hires = count($user);
         $data = [
             'Userdata' => $user,
-            "hires"=>$hires,
+            "hires" => $hires,
             // 'c_t_sum' => $finance_c_t_sum,
             // 'vcc_amount_sum' => $vcc_amount_sum,
             // 'fallout' => $fallout,

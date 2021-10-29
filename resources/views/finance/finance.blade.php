@@ -114,7 +114,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             From (OB Date:)
                                         </label>
-                                        <input type="date" class="w-100 form-control" id="ob_date"
+                                        <input type="date"  class="w-100 form-control" id="ob_date"
                                             onchange="filterUserData()">
                                     </div>
                                 </div>
@@ -911,6 +911,7 @@
             ob_date = $('#ob_date').val();
             client = $('#client').val();
             process = $('#process').val();
+            process = $('#ob_date').val();
 
             // call Ajax for returning the data as view
             $.ajax({

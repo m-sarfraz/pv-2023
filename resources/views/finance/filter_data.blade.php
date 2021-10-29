@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             @forelse ( $Userdata as $key=>$value )
-                <tr class="bg-transparent common-tr hover-primary" onclick="teamDetail(this,'{{ $value->C_id }}')">
+                <tr class="bg-transparent common-tr hover-primary" onclick="teamDetail(this,'{{ $value->id }}')">
                     <!-- Table data 1 -->
                     @php
                         $user = \App\User::where('id', $value->saved_by)->first();
@@ -77,10 +77,9 @@
     </table>
 </div>
 <script>
-    var numberofFallout = "{{ $fallout }}";
-    var numberofBilled = "{{ $billed }}";
+
     var numberofhires = "{{ $hires }}";
-    var numberofUnBilled = "{{ $unbilled }}";
+
 
     @php
     $c_take =[];
@@ -97,9 +96,7 @@
     @endphp
     
 
-    $('#billed').val(numberofBilled);
-    $('#unbilled').val(numberofUnBilled);
-    $('#fallout').val(numberofFallout);
+  
     $('#hires').val(numberofhires);
     $('#record').val(numberofhires);
     $('#c_take').val({!! array_sum($c_take) !!});
