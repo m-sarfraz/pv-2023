@@ -6,7 +6,7 @@
                 <th class="ant-table-cell">Recruiter</th>
                 <th class="ant-table-cell">Reprocess</th>
                 <th class="ant-table-cell">Candidate</th>
-                <th class="ant-table-cell">Role</th>
+              
                 <th class="ant-table-cell">CL</th>
                 <th class="ant-table-cell">Client</th>
                 <th class="ant-table-cell">OB Date</th>
@@ -31,21 +31,21 @@
                             ->first();
                     @endphp
                     <td>{{ $name->name }}</td>
-                    <td></td>
+                    <td>{{ $value->reprocess }}</td>
                     <td>
                         @if (isset($value->first_name))
-                            {{ $value->first_name }} {{ $value->last_name }}
+                            {{ $value->first_name }} 
 
                         @endif
                     </td>
-                    <td> {{ $role[0] }}</td>
+                   
                     <td>{{ $value->career_endo }}</td>
                     <td>{{ $value->client }}</td>
                     <td>
-                        @if (isset($value->endi_date))
-                            {{ $value->endi_date }}
+                        @if (isset($value->onboardnig_date))
+                        {{ $value->onboardnig_date }}
 
-                        @endif
+                    @endif
                     </td>
                     <td>
                         @if (isset($value->placement_fee))
@@ -54,10 +54,10 @@
                         @endif
                     </td>
                     <td>
-                        @if (isset($value->remarks))
-                            {{ $value->remarks }}
+                        @if (isset($value->remarks_for_finance))
+                        {{ $value->remarks_for_finance }}
 
-                        @endif
+                    @endif
                     </td>
                     <td>
                         @if (isset($value->app_status))

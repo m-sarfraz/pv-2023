@@ -20,7 +20,7 @@
                             @endphp
                             <label class="Label">Gender:</label>
                             <select class="w-100 form-control" name="gender">
-                                <option value="" selected disabled>select option</option>
+                                <option value=""  {{ $user->gender == null ? 'selected' : '' }} disabled>select option</option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
                                         {{ $user->gender == $genderOptions->option_name ? 'selected' : '' }}>
@@ -114,7 +114,7 @@
 
                             <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                <option value="" disabled>Select Option</option>
+                                <option value=""  {{ $user->educational_attain == null ? 'selected' : '' }}  disabled>Select Option</option>
                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                     <option value="{{ $eduAttainmentOptions->option_name }}"
                                         {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
@@ -145,7 +145,7 @@
                                 Manner of Invite:
                             </label>
                             <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
-                                <option selected disabled></option>
+                                <option {{ $user->manner_of_invite == null ? 'selected' : ''}} disabled></option>
                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                     <option value="{{ $manner_of_inviteOption->option_name }}"
                                         {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
@@ -167,6 +167,7 @@
                             ?>
                             <label class="Label">Course:</label>
                             <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+                                <option {{ $user->course == null ? 'selected' : ''}} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
                                     <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
                                         {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
@@ -214,7 +215,7 @@
                             <label class="Label">Domain</label>
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
-                                <option disabled>Select Option</option>
+                                <option {{ $user->domains == null ? 'selected' : ''}}  disabled>Select Option</option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
                                         {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
@@ -260,7 +261,7 @@
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
-                                <option disabled>Select Option</option>
+                                <option {{ $user->segment == null ? 'selected' : ''}}  disabled>Select Option</option>
                                 @foreach ($segments->options as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
                                         {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
@@ -317,7 +318,7 @@
                             <label class="Label">Profile:</label>
                             <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
                                 class="form-control p-0 users-input-S-C">
-                                <option selected disabled></option>
+                                <option {{ $user->candidate_profile == null ? 'selected' : ''}}  disabled></option>
                                 @foreach ($profile->options as $profileOption)
                                     <option value="{{ $profileOption->option_name }}"
                                         {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
@@ -352,7 +353,7 @@
                             </label>
                             <select name="APPLICATION_STATUS" id="ap_status"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" selected disabled>Select Option</option>
+                                <option {{ $user->app_status == null ? 'selected' : ''}}  disabled>Select Option</option>
                                 {{-- @dd($user->app_status) --}}
                                 @foreach ($status->options as $statusOptions)
                                     <option value="{{ $statusOptions->option_name }}"
@@ -420,7 +421,7 @@
                                 Certification:
                             </label>
                             <select name="CERTIFICATIONS" class="form-control users-input-S-C">
-                                <option selected disabled></option>
+                                <option {{ $user->certification == null ? 'selected' : ''}}  disabled></option>
                                 @foreach ($certificate->options as $certificateOption)
                                     <option value="{{ $certificateOption->option_name }}"
                                         {{ $user->certification == $certificateOption->option_name ? 'selected' : '' }}>
@@ -447,7 +448,7 @@
                                                     </label>
                                                     <select name="ENDORSEMENT_TYPE" id=""
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option {{ $user->type == null ? 'selected' : ''}}   disabled>Select Option</option>
                                                         @foreach ($endoType->options as $endoTypeOptions)
                                                             <option value="{{ $endoTypeOptions->option_name }}"
                                                                 {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
@@ -470,7 +471,7 @@
                                                     </label>
                                                     <select name="CAREER_LEVEL" id="career"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option {{ $user->career_endo == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                             <option value="{{ $CareerLevelOptions->option_name }}"
                                                                 {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
@@ -493,7 +494,7 @@
                                                     <label class="Label-00">Site</label>
                                                     <select name="SITE" id="site"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled selected>Select Option</option>
+                                                        <option {{ $user->site == null ? 'selected' : ''}} disabled>Select Option</option>
                                                         @foreach ($site->options as $siteOptions)
                                                             <option value="{{ $siteOptions->option_name }}"
                                                                 {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
@@ -517,7 +518,7 @@
                                                         @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
                                                         @endphp
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option {{ $user->remarks_for_finance == null ? 'selected' : ''}} disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
                                                                 {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -543,7 +544,7 @@
                                                     <select name="CLIENT_FINANCE"
                                                         class="form-control border h-px-20_custom w-100"
                                                         id="client_finance" disabled="">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option  {{ $user->client == null ? 'selected' : ''}} disabled>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
                                                             <option value="{{ $clientOptions->option_name }}"
                                                                 {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
@@ -566,7 +567,7 @@
                                                     </label>
                                                     <select name="STATUS" id="status" disabled=""
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option  {{ $user->status == null ? 'selected' : ''}} disabled>Select Option</option>
                                                         @foreach ($status->options as $statusOptions)
                                                             <option value="{{ $statusOptions->option_name }}"
                                                                 {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
@@ -593,10 +594,10 @@
                                                     </label>
                                                     <select name="POSITION_TITLE" id="position"
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option {{ $user->position_title == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
                                                             <option value="{{ $position_titleOptions->option_name }}"
-                                                                {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                                                {{ $user->position_title == $siteOptions->option_name ? 'selected' : '' }}>
                                                                 {{ $position_titleOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -616,7 +617,7 @@
                                                     </label>
                                                     <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option {{ $user->rfp == null ? 'selected' : ''}} disabled>Select Option</option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                             {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
                                                             <option value="{{ $ReasonForNotPOptions->option_name }}">
@@ -638,7 +639,7 @@
                                                     </label>
                                                     <select name="DOMAIN_endo" id="domain" onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
-                                                        <option disabled>Select Option</option>
+                                                        <option {{ $user->domain == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
                                                             <option value="{{ $domainOption->id }}"
                                                                 {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
@@ -673,7 +674,7 @@
                                                     </label>
                                                     <select name="endo_segment" id="Domainsegment"
                                                         class="w-100 form-control" onchange="changeSegment(this)">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option {{ $user->segment == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($segments->options as $segmentsOptions)
                                                             <option value="{{ $segmentsOptions->id }}"
                                                                 {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
@@ -695,7 +696,7 @@
                                                         Recruiter):</label>
                                                     <select name="REMARKS_FROM_FINANCE" id="remarks"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" disabled>Select Option</option>
+                                                        <option {{ $user->remarks == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
                                                                 {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -717,9 +718,10 @@
                                                     </label>
                                                     <select name="endo_sub_segment " id="endo_sub_segment"
                                                         class="w-100  form-control">
-                                                        <option disabled>Select Option</option>
+                                                        <option {{ $user->sub_segment == null ? 'selected' : ''}}   disabled>Select Option</option>
                                                         @foreach ($sub_segment->options as $sub_segmentOptions)
-                                                            <option value="{{ $sub_segmentOptions->id }}">
+                                                            <option value="{{ $sub_segmentOptions->id }}"
+                                                                {{ $user->sub_segment == $sub_segmentOptions->option_name ? 'selected' : '' }}>
                                                                 {{ $sub_segmentOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -773,7 +775,7 @@
                     onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
 
             @else
-                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
+                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
                     class="btn btn-primary mt-5 btn-md">Tap</a>
             @endif
         </form>
