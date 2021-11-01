@@ -111,7 +111,7 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
-                    
+
                     //Explode candidate index into first,middle,last
                     $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -257,7 +257,7 @@ class ProfileController extends Controller
                     $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
                     $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
                     $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-                    $endorsement->endi_date = isset($render[34]) ? $render[34] : "";
+                    $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";  
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_google_sheet->id;
                     $endorsement->save();
@@ -277,7 +277,7 @@ class ProfileController extends Controller
                     $finance->candidate_id = $store_by_google_sheet->id;
                     // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
                     $finance->onboardnig_date = isset($render[59]) ? date('d-m-y', strtotime($render[59])) : "";
-                    
+
                     $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
                     $finance->client_finance = isset($render[48]) ? $render[48] : "";
                     $finance->career_finance = isset($render[63]) ? $render[63] : "";
@@ -584,7 +584,7 @@ class ProfileController extends Controller
                 $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
                 $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
                 $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-                $endorsement->endi_date = isset($render[34]) ? $render[34] : "";
+                $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";
                 $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                 $endorsement->candidate_id = $store_by_Ecxel->id;
                 $endorsement->save();
@@ -765,7 +765,7 @@ class ProfileController extends Controller
         // dd($config, Config::get("datastudio.google_sheet_id"));
         return response()->json(['success' => true, 'message' => 'successfully']);
     }
-    public function connect_to_jdl_sheet(\App\Services\GoogleSheet $googleSheet,Request $request)
+    public function connect_to_jdl_sheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // change configuration for google sheet ID
@@ -784,10 +784,10 @@ class ProfileController extends Controller
                 unset($data[0][0]);
 
                 foreach ($render_skipped_rows as $render) {
-                  
 
 
-                    
+
+
                     $store_by_google_sheet = new jdlSheet();
                     $store_by_google_sheet->priority = isset($render[0]) ? $render[0] : "";
                     $store_by_google_sheet->ref_code = isset($render[1]) ? $render[1] : "";
@@ -816,10 +816,8 @@ class ProfileController extends Controller
                     $store_by_google_sheet->start_date = isset($render[24]) ? $render[24] : "";
                     $store_by_google_sheet->keyword = isset($render[25]) ? $render[21] : "";
                     $store_by_google_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-                    
-                    $store_by_google_sheet->save();
 
-                   
+                    $store_by_google_sheet->save();
                 }
             }
             //save Google sheet addeed log to table starts

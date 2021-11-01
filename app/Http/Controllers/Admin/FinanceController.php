@@ -49,7 +49,7 @@ class FinanceController extends Controller
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
-        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !=''group by remarks_for_finance");
+        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
         // return $Userdata;
         $data = [
             'candidates' => $candidates,
