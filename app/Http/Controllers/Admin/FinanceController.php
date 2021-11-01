@@ -55,7 +55,8 @@ class FinanceController extends Controller
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
-        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !=''group by remarks_for_finance");
+        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
+        // return $Userdata;
         $data = [
             'candidates' => $candidates,
             'Userdata' => $Userdata,
@@ -145,17 +146,10 @@ class FinanceController extends Controller
             $Userdata->whereIn('endorsements.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_date)) {
-            return $request->ob_date;
-            $time = strtotime($request->ob_date);
-            $newformat = date('Y-m-d', $time);
-            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
-            $Userdata->whereDate('finance.onboardnig_date', '>', $newformat);
+            $Userdata->where('finance.onboardnig_date', '>', $request->ob_date);
         }
         if (isset($request->toDate)) {
-            $time = strtotime($request->toDate);
-            $newformat = date('Y-m-d', $time);
-            $nowdate = Carbon\Carbon::now()->format('Y-m-d');
-            $Userdata->whereDate('finance.onboardnig_date', '<', $newformat);
+            $Userdata->where('finance.onboardnig_date', '<',$request->toDate);
         }
         if (isset($request->client)) {
             $newarr = array();
@@ -217,7 +211,10 @@ class FinanceController extends Controller
         if (isset($request->searchKeyword)) {
             $searchCheck = true;
             $perfect_match = DB::table("six_table_view")->get();
+            // $roles = DB::table('roles')->pluck("name");
+
             foreach ($perfect_match as $match) {
+
 
                 if (strpos($match->career_endo, $request->searchKeyword) !== false) {
                     $check = true;
@@ -266,9 +263,9 @@ class FinanceController extends Controller
         }
 
         if (strpos($sql, 'where') !== false) {
-            $sql_billed = $sql . "and endorsements.remarks='Billed'";
-            $sql_unbilled = $sql . "and endorsements.remarks='Unbilled'";
-            $sql_fallout = $sql . "and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
+            $sql_billed = $sql . "   and endorsements.remarks='Billed'";
+            $sql_unbilled = $sql . "  and endorsements.remarks='Unbilled'";
+            $sql_fallout = $sql . "   and endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
             $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
             $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
 
@@ -278,23 +275,12 @@ class FinanceController extends Controller
             // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
             $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
             $sql_fallout = $sql . "where endorsements.remarks='Fallout' or endorsements.remarks='Replacement'";
-            $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
-            $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
+            $finance_c_t_sum = $sql . "  and (select sum(c_take) from finance_detail )";
+            $vcc_amount_sum = $sql . "  and (select sum(vcc_amount) from finance_detail )";
             // $sql_active = $sql . "where endorsements.app_status='Active File'";
             // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
         }
-        // return $sql_billed;
-        // $billsArray = ['Billed', 'For Replacement', 'Replaced'];
-        // $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
-        // $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
-        // $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        // $billamout = $Userdata->whereIn('endorsements.remarks', $billsArray)->get();
-        // dd($billamout);
-        // $compnayRevenue = $Userdata->whereIn('');
-        // return count(DB::select($sql_billed));
-        //    dd($sql);
-        // $ct_final=array_sum(DB::select('finance_detail SUM(c_take)'));
-        // dd($sql);
+
         $hires = count($user);
         $data = [
             'Userdata' => $user,

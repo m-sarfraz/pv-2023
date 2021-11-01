@@ -71,8 +71,8 @@
                                         <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
                                             onchange="FilterSearch()" onchange="filterUserData()">
 
-                                            @foreach ($user as $key => $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @foreach ($user_recruiter as $key => $user_recruiter)
+                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -96,15 +96,15 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (Shifted):</label>
-                                        <input type="date" id="sift_start" class="w-100 users-input-S-C form-control"
+                                        <label class="Label">Start Date (endorsement):</label>
+                                        <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End date Shifted:</label>
-                                        <input type="date" id="sift_end" class="w-100 users-input-S-C form-control"
+                                        <label class="Label">End date endorsement:</label>
+                                        <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
@@ -122,18 +122,18 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $residence = Helper::get_dropdown('residence');
-                                        @endphp
+                                      
                                         <label class="Label-00">Residence:</label>
                                         <select multiple name="residence" required="" id="residence"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
 
-                                            @foreach ($residence->options as $residenceOptions)
-                                                <option value="{{ $residenceOptions->option_name }}">
-                                                    {{ $residenceOptions->option_name }}
+                                            @foreach ($address as $Userdatas)
+                                            @if(isset($Userdatas->address))
+                                                <option value="{{ $Userdatas->address }}">
+                                                    {{  $Userdatas->address }}
                                                 </option>
+                                            @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -159,14 +159,14 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label">Start Date (Shifted):</label>
-                                        <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
+                                        <input type="date" id="Shifted_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label">End Date Shifted:</label>
-                                        <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
+                                        <input type="date" id="Shifted_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
@@ -204,7 +204,7 @@
                                             $remarks = Helper::get_dropdown('remarks_from_finance');
                                         @endphp
                                         <label class="Label-00">Remarks:</label>
-                                        <select multiple name="" id="remarks" onchange="FilterSearch()"
+                                        <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
                                             class="w-100 form-control select2_dropdown w-100">
 
                                             @foreach ($remarks->options as $remarksOptions)
@@ -217,14 +217,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (Shifted):</label>
+                                        <label class="Label">Start Date (onbording):</label>
                                         <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End Date Shifted:</label>
+                                        <label class="Label">End Date onbording:</label>
                                         <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -250,7 +250,10 @@
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Gender</th>
+                                    <th class="ant-table-cell">DOMAIN</th>
+
                                     <th class="ant-table-cell">Profile</th>
                                     <th class="ant-table-cell">Education Attainment</th>
                                     <th class="ant-table-cell">Salary</th>
@@ -264,6 +267,7 @@
                                     <th class="ant-table-cell">SPR</th>
                                     <th class="ant-table-cell">Date Onboarded</th>
                                     <th class="ant-table-cell">Placement fee</th>
+                                    <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
@@ -289,8 +293,11 @@
 
                                             @endif
                                         </td>
+                                        <td> {{ $value->client }}</td>
                                         <td> {{ $value->gender }}</td>
+                                        <td> {{ $value->domain }}</td>
                                         <td>{{ $value->candidate_profile }}</td>
+                                      
                                         <td>{{ $value->educational_attain }}</td>
                                         <td>{{ $value->curr_salary }}</td>
                                         <td></td>
@@ -312,6 +319,10 @@
                                                 {{ $value->placement_fee }}
 
                                             @endif
+                                        </td>
+                                        <td>
+                                                {{ $value->address }}
+
                                         </td>
                                     </tr>
                                 @empty
@@ -531,7 +542,7 @@
 
         // funciton for filtering the data according to selected input starts
         function FilterSearch() {
-            // $("#loader").show();
+            $("#loader").show();
 
             // get values of selected inputs of users
             domain = $('#domain').val();
@@ -542,8 +553,8 @@
             category = $('#category').val();
             status = $('#status').val();
             remarks = $('#remarks').val();
-            sift_start = $('#sift_start').val();
-            sift_end = $('#sift_end').val();
+            sift_start = $('#Shifted_start').val();
+            sift_end = $('#Shifted_end').val();
             ob_start = $('#ob_start').val();
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
@@ -569,18 +580,20 @@
                     category: category,
                     status: status,
                     remarks: remarks,
-                    endo_end: endo_end,
                     endo_start: endo_start,
-                    ob_end: ob_end,
+                    endo_end: endo_end,
                     ob_start: ob_start,
-                    sift_end: sift_end,
+                    ob_end: ob_end,
                     sift_start: sift_start,
+                    sift_end: sift_end,
                     search: search,
                 },
 
                 // Success fucniton of Ajax
                 success: function(data) {
+                    console.log(data)
                     $('#filterResult_div').html(data);
+                    $("#loader").hide();
                 },
             });
         }
