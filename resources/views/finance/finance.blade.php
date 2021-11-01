@@ -58,10 +58,11 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label">Recruiter</label>
-                                        <select multiple name="" id="recruiter" class="w-100 form-control select2_dropdown"
+                                        <select multiple name="recruiter" id="recruiter" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            @foreach ($user as $key => $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @foreach ($recruiter as $key => $user)
+                                                <option value="{{ $user->id
+                                                 }}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -87,11 +88,12 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Remarks
                                         </label>
-                                        <select multiple name="" id="remarks" class="w-100 form-control select2_dropdown"
+                                        <select multiple name="remarks" id="remarks" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="Offer accepted">Offer Accepted</option>
-                                            <option value="Onboarded">Onboarded</option>
-                                            <option value="Fallout">fallout</option>
+                                            <option disabled>Select Option</option>
+                                            @foreach ($remarks_finance as $remarks )
+                                            <option value="{{$remarks->remarks_for_finance}}">{{$remarks->remarks_for_finance}}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -100,11 +102,11 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Team
                                         </label>
-                                        <select name="team_id" id="team_id" class="w-100 form-control select2_dropdown"
+                                        <select  multiple    name="team_id" id="team_id" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option > </option>
+                                            <option disabaled> select option  </option>
                                             @foreach ($teams as $team )
-                                            <option value="{{$team->id}}">{{$team->name}}</option>
+                                            <option value="{{$team->name}}">{{$team->name}}</option>
                                         @endforeach
                                         </select>
                                     </div>
@@ -125,13 +127,12 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Reprocess:
                                         </label>
-                                        <select name="" id="process" class="w-100 form-control select2_dropdown"
+                                        <select multiple name="process" id="process" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                            <option value="5">Five</option>
+                                            <option disabaled> select option  </option>
+                                            @foreach ($Userdata as $reprocess )
+                                            <option value="{{$reprocess->reprocess}}">{{$reprocess->reprocess}}</option>
+                                        @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -145,7 +146,7 @@
                                         </label>
                                         <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="" disabled selected>Select Option</option>
+                                            <option value="" disabled >Select Option</option>
                                             @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
@@ -194,7 +195,7 @@
                                 <th class="ant-table-cell">Recruiter</th>
                                 <th class="ant-table-cell">Reprocess</th>
                                 <th class="ant-table-cell">Candidate</th>
-                                <th class="ant-table-cell">Role</th>
+                               
                                 <th class="ant-table-cell">CL</th>
                                 <th class="ant-table-cell">Client</th>
                                 <th class="ant-table-cell">OB Date</th>
@@ -222,16 +223,15 @@
                                     <td>{{$value->reprocess}}</td>
                                     <td>
                                         @if (isset($value->first_name))
-                                            {{ $value->first_name }} {{ $value->last_name }}
-
+                                            {{ $value->first_name }} 
                                         @endif
                                     </td>
-                                    <td> {{ $role[0] }}</td>
+                                  
                                     <td>{{ $value->career_endo }}</td>
                                     <td>{{ $value->client }}</td>
                                     <td>
-                                        @if (isset($value->endi_date))
-                                            {{ $value->endi_date }}
+                                        @if (isset($value->onboardnig_date))
+                                            {{ $value->onboardnig_date }}
 
                                         @endif
                                     </td>
@@ -242,8 +242,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if (isset($value->remarks))
-                                            {{ $value->remarks }}
+                                        @if (isset($value->remarks_for_finance))
+                                            {{ $value->remarks_for_finance }}
 
                                         @endif
                                     </td>
@@ -911,7 +911,7 @@
             ob_date = $('#ob_date').val();
             client = $('#client').val();
             process = $('#process').val();
-            process = $('#ob_date').val();
+            ob_date = $('#ob_date').val();
 
             // call Ajax for returning the data as view
             $.ajax({
