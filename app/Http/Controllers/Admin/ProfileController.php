@@ -111,7 +111,7 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
-
+                    
                     //Explode candidate index into first,middle,last
                     $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -200,7 +200,7 @@ class ProfileController extends Controller
                         $candidateDomain = new CandidateDomain();
                     }
                     $candidateDomain->candidate_id = $store_by_google_sheet->id;
-                    $candidateDomain->date_shifted = isset($render[4]) ? $render[4] : "";
+                    $candidateDomain->date_shifted = isset($render[4]) ? date('d-m-y', strtotime($render[4])) : "";
                     $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
                     $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
                     $candidateDomain->interview_note = isset($render[26]) ? $render[26] : "";
@@ -275,8 +275,9 @@ class ProfileController extends Controller
                         $finance = new Finance();
                     }
                     $finance->candidate_id = $store_by_google_sheet->id;
-                    $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-                    $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                    // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                    $finance->onboardnig_date = isset($render[59]) ? date('d-m-y', strtotime($render[59])) : "";
+                    
                     $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
                     $finance->client_finance = isset($render[48]) ? $render[48] : "";
                     $finance->career_finance = isset($render[63]) ? $render[63] : "";
@@ -526,7 +527,7 @@ class ProfileController extends Controller
                     $candidateDomain = new CandidateDomain();
                 }
                 $candidateDomain->candidate_id = $store_by_Ecxel->id;
-                $candidateDomain->date_shifted = isset($render[4]) ? $render[4] : "";
+                $candidateDomain->date_shifted = isset($render[4]) ? date('d-m-y', strtotime($render[4])) : "";
                 $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
                 $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
                 $candidateDomain->interview_note = isset($render[26]) ? $render[26] : "";
@@ -601,8 +602,8 @@ class ProfileController extends Controller
                     $finance = new Finance();
                 }
                 $finance->candidate_id = $store_by_Ecxel->id;
-                $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-                $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                $finance->onboardnig_date = isset($render[59]) ? date('d-m-y', strtotime($render[59])) : "";
                 $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
                 $finance->client_finance = isset($render[48]) ? $render[48] : "";
                 $finance->career_finance = isset($render[63]) ? $render[63] : "";

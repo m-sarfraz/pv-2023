@@ -40,7 +40,6 @@ class RecordController extends Controller
 
         $candidates = CandidateInformation::select('id', 'first_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
-
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
 
@@ -182,10 +181,9 @@ class RecordController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
-        // return $user->app_status;
         $domainDrop = Domain::all();
 
         $data = [

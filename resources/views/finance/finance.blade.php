@@ -171,6 +171,7 @@
                                         </label>
                                         <select name="appstatus" id="appstatus" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
+                                            <option disabaled> select option  </option>
                                             @foreach ($appstatus as $appstatuss )
                                             <option value="{{$appstatuss->app_status}}">{{$appstatuss->app_status}}</option>
                                         @endforeach

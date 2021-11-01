@@ -22,7 +22,8 @@ class SmartSearchController extends Controller
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
         $domain = Domain::all();
-        $user = User::where('type', 3)->get();
+        $user_recruiter = User::where('type', 3)->get();
+     
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
         $user = $Userdata->offset($page)
@@ -42,7 +43,7 @@ class SmartSearchController extends Controller
         $data = [
             'Userdata' => $user,
             'domain' => $domain,
-            'user' => $user,
+            'user_recruiter' => $user_recruiter,
             'sifted' => $sifted,
             'endo' => $endo,
             'active' => $active,
@@ -53,6 +54,7 @@ class SmartSearchController extends Controller
             'withdrawn' => $withdrawn,
             'rejected' => $rejected,
         ];
+        
         return view('smartSearch.smart_search', $data);
     }
     // close

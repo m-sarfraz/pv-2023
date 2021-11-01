@@ -75,7 +75,7 @@
                         </div>
                     @endcan
                     <div class="ml-auto E_S_icon pr-8">
-                        <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
+                        {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
                             <div class="pt-0">
                                 <input type="text" placeholder="search here" class="border-0 pl-3 rounded" name="" id="" />
                                 <button class="border-0 outline-0 rounded mt-1">
@@ -83,7 +83,7 @@
                                 </button>
                             </div>
                             <div></div>
-                        </div>
+                        </div> --}}
                         <h4 class="px-2 pt-1 text-white border-right" style="font-size: 22px;">
                             Eallaine System
                         </h4>

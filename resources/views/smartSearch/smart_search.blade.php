@@ -71,8 +71,8 @@
                                         <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
                                             onchange="FilterSearch()" onchange="filterUserData()">
 
-                                            @foreach ($user as $key => $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @foreach ($user_recruiter as $key => $user_recruiter)
+                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -40,6 +40,7 @@ class CandidateController extends Controller
                 ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
+
         } # code...
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
@@ -60,7 +61,6 @@ class CandidateController extends Controller
 
     public function save_data_entry(Request $request)
     {
-
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -208,6 +208,8 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
             // }
         } else {
+            // return $request->all();
+
             // if (
             //     !isset($request->INTERVIEW_NOTES) ||
             //     !isset($request->CURRENT_SALARY) ||
@@ -221,15 +223,15 @@ class CandidateController extends Controller
             // } else {
             //get users data for matching duplicates
 
-            // $lname = explode(" ", $request->LAST_NAME);
-            // $fname = explode(" ", $request->FIRST_NAME);
-            // $phone = explode(" ", $request->CONTACT_NUMBER);
-            // $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
-            // for ($i = 0; $i < count($record); $i++) {
-            //     if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
-            //         return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
-            //     }
-            // }
+            $lname = explode(" ", $request->LAST_NAME);
+            $fname = explode(" ", $request->FIRST_NAME);
+            $phone = explode(" ", $request->CONTACT_NUMBER);
+            $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
+            for ($i = 0; $i < count($record); $i++) {
+                if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
+                    return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
+                }
+            }
             //  save data to candidate information table
             $CandidateInformation = new CandidateInformation();
             $CandidateInformation->last_name = $request->LAST_NAME;
@@ -413,7 +415,7 @@ class CandidateController extends Controller
             $finance->career_finance = $request->CAREER_LEVEL;
             $finance->rate = $request->RATE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
-            // $finance->offered_salary = $request->
+            $finance->offered_salary = $request->OFFERED_SALARY_finance;
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
             $finance->save();
@@ -602,6 +604,15 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
             // }
         } else {
+            $lname = explode(" ", $request->LAST_NAME);
+            $fname = explode(" ", $request->FIRST_NAME);
+            $phone = explode(" ", $request->CONTACT_NUMBER);
+            $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
+            for ($i = 0; $i < count($record); $i++) {
+                if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
+                    return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
+                }
+            }
             // Update data of eantry page
             CandidateInformation::where('id', $id)->update([
                 'first_name' => $request->FIRST_NAME,
@@ -708,7 +719,7 @@ class CandidateController extends Controller
                 'rate' => $request->EXPECTED_SALARY,
                 'Total_bilable_ammount' => $request->TOTAL_BILLABLE_AMOUNT,
                 'srp' => $request->STANDARD_PROJECTED_REVENUE,
-                'offered_salary' => $request->OFFERED_SALARY,
+                'offered_salary' => $request->OFFERED_SALARY_finance,
                 'placement_fee' => $request->PLACEMENT_FEE,
                 'allowance' => $request->ALLOWANCE,
             ]);

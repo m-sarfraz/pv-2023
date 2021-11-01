@@ -935,24 +935,24 @@
             $('#app_status').empty();
             var profile = {!! $candidateprofile !!};
             var segment = {!! $candidateDomain !!};
-            console.log(segment)
             var status = {!! $endorsement !!};
             var client = {!! $endorsement !!};
             var career = {!! $endorsement !!};
             var count = 0;
             $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < profile.length; i++) {
+                for (let i = 0; i < segment.length; i++) {
                     if (v == profile[i].candidate_id) {
                         count++;
                         if (profile[i].candidate_profile != "") {
-
+                            
                             $('#profile').append('<option  selected  value="' + profile[i]
-                                .candidate_profile +
-                                '">' +
-                                profile[i].candidate_profile +
-                                '</option>');
+                            .candidate_profile +
+                            '">' +
+                            profile[i].candidate_profile +
+                            '</option>');
                         }
-                        if (segment[i].sub_segment != "") {
+                        console.log(segment[i], i);
+                        if (segment[i].sub_segment != '') {
                             if (v == segment[i].candidate_id) {
                                 $('#sub_segment').append('<option selected  value="' + segment[i]
                                     .sub_segment +
