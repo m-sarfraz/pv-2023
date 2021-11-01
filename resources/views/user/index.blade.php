@@ -20,8 +20,10 @@
 
 @section('content')
 <div class="px-2 container mt-5">
-    @can('user-create') <a href="{{ route('user.create') }}"><button class="mt-3 mb-3 costumButton px-3">Add
-            +</button></a>@endcan
+    @can('add-user') 
+    <a href="{{ route('user.create') }}"><button class="mt-3 mb-3 costumButton px-3">Add
+            +</button></a>
+            @endcan
     <table id="example1" class="table border-0  ">
         <thead>
             <tr>
@@ -37,7 +39,7 @@
             @foreach ($data as $key => $user)
             <tr class="bg-transparent">
                 <td>
-                    @can('user-edit')
+                    @can('edit-user')
                     <a href="{{ route('user.edit',$user->id) }}">
                         <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                     </a>

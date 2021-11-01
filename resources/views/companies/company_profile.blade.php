@@ -34,9 +34,12 @@
                     <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
                 @endif
                 <div style="width: fit-content; float: right; border-radius: 7px; margin-top: 1.1rem;margin-bottom: 1.1rem; font-size: 13px;">
-                    <input href="{{ route('add_company') }}" type="button"
+                   @can('add-company')
+                       
+                  <input href="{{ route('add_company') }}" type="button"
                         class="btn btn-green text-white rounded-5 text-uppercase" value="Add Data" id="add"
                         style="background-color: rgb(220, 134, 39);" />
+                        @endcan 
                 </div>
                 <div class="table-responsive border py-2 px-2 ">
                     <div class="___class_+?6___">

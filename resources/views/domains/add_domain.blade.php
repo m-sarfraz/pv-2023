@@ -48,10 +48,13 @@
                                                     </select>
                                                     <div class="row">
                                                         <div class="col-sm">
+                                                            @can('add_domains')
+                                                                
                                                             <button style="background: #dc8627;"
                                                                 onclick="AddOption('domain_name','domain_input_append','domain_save_btn')"
                                                                 class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
                                                                 Domain +</button>
+                                                            @endcan
                                                         </div>
                                                         <div class="col-sm">
                                                             {{-- <button style="background: #dc8627;"
@@ -96,11 +99,14 @@
 
                                                         <div class="row">
                                                             <div class="col-sm">
+                                                                @can('add_domains')
+                                                                    
                                                                 <button style="background: #dc8627;"
                                                                     onclick="AddOption('segment_name','segment_input_append','segment_save_btn')"
                                                                     class="btn px-2 mt-2 text-white rounded-0"
                                                                     type="submit">Add
                                                                     Segment +</button>
+                                                                @endcan
                                                             </div>
                                                             <div class="col-sm">
                                                                 <button style="background: #dc8627;display: none;"
@@ -138,10 +144,13 @@
                                     @csrf
                                     <div class="row m-0">
                                         <div class="col-md-3">
+                                            @can('add_domains')
+                                                
                                             <button style="background: #dc8627;"
                                                 onclick="AddOption('sub_segment_name','sub_segment_input_append','sub_segment_save_btn')"
                                                 class="btn px-2 mt-2 text-white rounded-0" type="submit">Add
                                                 SUBSEGMENT</button>
+                                            @endcan
                                         </div>
                                         <div class="col-md-2">
                                             <button style="background: #dc8627;display: none;"

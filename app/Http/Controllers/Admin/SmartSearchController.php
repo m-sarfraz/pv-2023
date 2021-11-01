@@ -12,6 +12,10 @@ use Str;
 
 class SmartSearchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-smart-search', ['only' => ['index']]);
+    }
     // index view of finance page starts
     public function index(Request $request)
     {

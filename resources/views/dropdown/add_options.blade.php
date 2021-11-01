@@ -31,7 +31,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        @can('add-option')
+                                                        @can('add-dropdown')
                                                             <div class="col-md-3" >
                                                                 <button onclick="AddOption();" type="button" id="add_option_btn" class="btn btn-warning px-5 text-white" >Add</button> &nbsp;
                                                             </div>

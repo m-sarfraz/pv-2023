@@ -7,6 +7,7 @@ use App\DropDown;
 use App\Log;
 use App\User;
 use Auth;
+use DB;
 
 class Helper
 {
@@ -34,5 +35,10 @@ class Helper
             ->select('candidate_educations.*', 'candidate_informations.id as cid', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->paginate(20);
         return $Userdata;
+    }
+    public static function get_permission($type)
+    {
+        return $permission = DB::table('permissions')->where('type', $type)->get();
+
     }
 }

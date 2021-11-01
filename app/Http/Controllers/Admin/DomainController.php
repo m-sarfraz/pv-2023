@@ -17,7 +17,9 @@ class DomainController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('permission:add-domains', ['only' => ['add_domains']]);
+        $this->middleware('permission:view-domain-list', ['only' => ['domain']]);
+        $this->middleware('permission:add-domain', ['only' => ['add_domains']]);
+        $this->middleware('permission:delete-domain', ['only' => ['delete_sub_segment']]);
     }
 
     public function view_sub_segments()

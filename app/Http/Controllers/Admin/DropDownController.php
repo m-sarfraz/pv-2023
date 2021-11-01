@@ -14,10 +14,10 @@ class DropDownController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:add-option', ['only' => ['add_options']]);
-        $this->middleware('permission:list-dropdown', ['only' => ['view_dropdown']]);
-        $this->middleware('permission:delete-option', ['only' => ['delete_option']]);
-        $this->middleware('permission:option-status', ['only' => ['change_status']]);
+        $this->middleware('permission:view-dropdowns', ['only' => ['view_dropdown']]);
+        $this->middleware('permission:add-dropdown', ['only' => ['save_dropdown']]);
+        $this->middleware('permission:delete-dropdowns', ['only' => ['delete_option']]);
+        // $this->middleware('permission:option-status', ['only' => ['change_status']]);
     }
     public function show_dropdown_form()
     {

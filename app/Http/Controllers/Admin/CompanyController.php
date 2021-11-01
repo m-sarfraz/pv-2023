@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-company', ['only' => ['show']]);
+        $this->middleware('permission:add-company', ['only' => ['add_company']]);
+        $this->middleware('permission:edit-company', ['only' => ['update_company']]);
+    }
     public function show()
     {
         $company = Company::

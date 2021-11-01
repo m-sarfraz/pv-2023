@@ -771,8 +771,11 @@
                     href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
             @endif
             @if (Auth::user()->id == $user->saved_by)
-                <button class="btn btn-primary mt-5 btn-md"
-                    onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
+            @can('edit-record')
+                
+            <button class="btn btn-primary mt-5 btn-md"
+            onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
+            @endcan
 
             @else
                 <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"

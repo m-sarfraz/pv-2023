@@ -11,6 +11,7 @@ use App\Domain;
 use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
+use App\Permission;
 use App\Segment;
 use App\User;
 use Auth;
@@ -791,5 +792,15 @@ class CandidateController extends Controller
             ->generate(url('admin/data-entry') . '?id=' . $request->id);
 
         return response($image)->header('Content-type', 'image/png');
+    }
+    public function abc(Request $request)
+    {
+        // return $request->all();
+        $p = new Permission();
+        $p->name = $request->name;
+        $p->type = $request->type;
+        // $p->guard_name = 'web';
+        $p->save();
+        return redirect()->back();
     }
 }
