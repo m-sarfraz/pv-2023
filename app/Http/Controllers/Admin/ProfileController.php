@@ -27,12 +27,12 @@ use Response;
 
 class ProfileController extends Controller
 {
-    public function __construct()
-    {
+    // public function __construct()
+    // {
 
-        $this->middleware('permission:view-profile', ['only' => ['view_profile']]);
-        $this->middleware('permission:save-profile', ['only' => ['save_profile']]);
-    }
+    //     $this->middleware('permission:view-profile', ['only' => ['view_profile']]);
+    //     $this->middleware('permission:save-profile', ['only' => ['save_profile']]);
+    // }
     public function view_profile()
     {
         return view('profile.edit_profile');

@@ -407,8 +407,10 @@
                                 <label class="Label-00">
 
                                 </label>
+                                @can('edit-finance-record')
                                 <button type="button" id="update"
-                                    class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
+                                class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
+                                @endcan
                             </div>
                         </div>
                     </div>

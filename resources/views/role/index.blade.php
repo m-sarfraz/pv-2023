@@ -25,7 +25,7 @@
 
 @section('content')
     <div class="px-2 container mt-5">
-        @can('role-create')
+        @can('add-team')
             <a href="{{ route('role.create') }}"><button class="mt-3 mb-3 costumButton">Create New</button></a>
         @endcan
         <table id="role_table" class="table border-0  ">
@@ -43,7 +43,7 @@
                 @foreach ($roles as $key => $role)
                     <tr class="bg-transparent">
                         <td>
-                            @can('role-edit')
+                            @can('edit-team')
                                 <a href="{{ route('role.edit', $role->id) }}">
                                     <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                                 </a>

@@ -21,6 +21,13 @@ use Response;
 
 class RecordController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('permission:view-record', ['only' => ['index']]);
+        $this->middleware('permission:edit-record', ['only' => ['updateDetails']]);
+        // $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+    }
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {

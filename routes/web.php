@@ -85,6 +85,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
+
+    Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::post('traveseDataByClientProfile', 'CandidateController@traveseDataByClientProfile')->name('traveseDataByClientProfile');
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');

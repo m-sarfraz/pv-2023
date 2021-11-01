@@ -18,9 +18,9 @@ class UserController extends Controller
     public function __construct()
     {
 
-        $this->middleware('permission:user-list', ['only' => ['index']]);
-        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:view-users', ['only' => ['index']]);
+        $this->middleware('permission:add-user', ['only' => ['create', 'store']]);
+        // $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
     }
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::where('type', 3)->orderby("id","DESC")->get();
+        $data = User::where('type', 3)->orderby("id", "DESC")->get();
         return view('user.index', compact('data'));
     }
 
@@ -61,7 +61,6 @@ class UserController extends Controller
             'roles' => 'required',
             'agent' => "required",
         ];
-
 
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {

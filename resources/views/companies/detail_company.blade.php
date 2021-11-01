@@ -1236,10 +1236,13 @@
                             </div>
                         </div>
                         <div class="row mb-xl-1 mb-9">
+                            @can('edit-company')
+                                
                             <div class="col-lg-6">
                                 <button type="button" class="btn btn-primary" name="button" id="edit">Edit Details</button>
                                 <button type="button" class="btn btn-success" id="save">Save</button>
                             </div>
+                            @endcan
                             <div class="col-lg-6">
                             </div>
                         </div>

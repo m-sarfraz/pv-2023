@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Charts\SampleChart;
 use App\Cipprogress;
-use App\test;
 use App\traverse2;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -29,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // return  Auth::user()->roles->pluck("name");
+        // return Auth::user()->roles->pluck("name");
         // echo sys_get_temp_dir() . "\n";
         $users = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
@@ -80,7 +79,7 @@ class HomeController extends Controller
                 ->orwhere("cip_progress.mid_stage", 1)
                 ->groupBy("cip_progress.team")
                 ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
-              
+
             $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
                 ->where("cip_progress.t_id", $check[$i])
                 ->whereDate("cip_progress.created_at", ">", $Mounthly)
@@ -271,7 +270,7 @@ class HomeController extends Controller
                 $store = new traverse2();
                 $store->client = isset($render[0]) ? $render[0] : "N/A";
                 $store->position = isset($render[1]) ? $render[1] : "N/A";
-                $store->domain = isset($render[2]) ? $render[2] : "N/A";;
+                $store->domain = isset($render[2]) ? $render[2] : "N/A";
                 $store->segment = isset($render[3]) ? $render[3] : "N/A";
                 $store->s_segment = isset($render[4]) ? $render[4] : "N/A";
                 $store->save();

@@ -16,6 +16,12 @@ use Symfony\Component\Process\Process;
 
 class FinanceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:view-finance', ['only' => ['index']]);
+        $this->middleware('permission:edit-finance-record', ['only' => ['SavefinanceReference']]);
+    }
     // index view of finance page starts
     public function index(Request $request)
     {

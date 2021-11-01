@@ -29,9 +29,11 @@
                                 <button class="btn btn_Group mb-4 btn-sm" type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
+                                @can('add-data')
                                 <button class="btn btn_Group mb-4 btn-sm" type="submit" id="save">
                                     Save Record
                                 </button>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -53,18 +55,23 @@
                                             {{ $value->first_name }} {{ $value->last_name }}
                                         </option>
                                     @endforeach
-                                </Select>
+                                </Select> 
+                                @can('search-data')
 
                                 <button class="btn btn_Group mb-4 mt-4 btn-sm" type="button" id="searchRecord"
                                     onclick="SearchUserData(this,'#UserData_div')" disabled="">
                                     Search Record
                                 </button>
+                                @endcan
+
+                                @can('edit-data')
                                 <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
                                     onclick="EnableUserEdit(this)">
                                     Edit Record
-                                </button>
+                                </button> 
                                 <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
                                     Edit</button>
+                                    @endcan
                             </div>
                         </div>
                     </div>

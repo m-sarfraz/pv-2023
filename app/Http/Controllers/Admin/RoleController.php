@@ -14,10 +14,10 @@ class RoleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:view-team', ['only' => ['index', 'store']]);
+        $this->middleware('permission:add-team', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-team', ['only' => ['edit', 'update']]);
+        // $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -53,15 +53,27 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            // 'permission' => 'required',
         ]);
+        $permissionArr = [];
+        if (isset($request->dataEntryPermission)) {
+            foreach ($request->dataEntryPermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
+        if (isset($request->jdlPermission)) {
+            foreach ($request->jdlPermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
+        // return $permissionArr;
         if (isset($request->revenue)) {
             $role = Role::create(['name' => $request->input('name'),
                 'team_revenue' => '1']);
-            $role->syncPermissions($request->input('permission'));
+            $role->syncPermissions($permissionArr);
         } else {
             $role = Role::create(['name' => $request->input('name')]);
-            $role->syncPermissions($request->input('permission'));
+            $role->syncPermissions($permissionArr);
         }
         if ($role) {
 
@@ -114,8 +126,29 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'permission' => 'required',
+            // 'permission' => 'required',
         ]);
+        $permissionArr = [];
+        if (isset($request->dataEntryPermission)) {
+            foreach ($request->dataEntryPermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
+        if (isset($request->jdlPermission)) {
+            foreach ($request->jdlPermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
+        if (isset($request->recordPermission)) {
+            foreach ($request->recordPermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
+        if (isset($request->financePermission)) {
+            foreach ($request->financePermission as $arr) {
+                array_push($permissionArr, $arr);
+            }
+        }
         $role = Role::find($id);
         $role->name = $request->input('name');
         if (isset($request->revenue)) {
@@ -125,7 +158,7 @@ class RoleController extends Controller
         }
         $role->save();
 
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($permissionArr);
         if ($role) {
             //save domain addeed log to table starts
             Helper::save_log('ROLE_UPDATED');

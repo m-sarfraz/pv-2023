@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class JdlController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('permission:view-jdl', ['only' => ['index']]);
+        // $this->middleware('permission:can-view-jdl-detail', ['only' => ['Filter']]);
+        // $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+    }
     /**
      * Display a listing of the resource.
      *
