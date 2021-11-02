@@ -36,7 +36,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="REF_CODE" placeholder="search keyword" required=""
+                                        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="search keyword" required=""
                                             id="search" oninput="FilterSearch()" class="form-control h-px-20_custom border"
                                             value="" />
                                     </div>
@@ -559,7 +559,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
-            search = $('#search').val();
+            searchKeyword = $('#searchKeyword').val();
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
@@ -586,7 +586,7 @@
                     ob_end: ob_end,
                     sift_start: sift_start,
                     sift_end: sift_end,
-                    search: search,
+                    searchKeyword: searchKeyword,
                 },
 
                 // Success fucniton of Ajax

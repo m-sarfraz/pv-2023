@@ -316,8 +316,8 @@
                         ?>
                         <div class="form-group mb-0">
                             <label class="Label">Profile:</label>
-                            <select name="CANDIDATES_PROFILE" class="select2_dropdown w-100"
-                                class="form-control p-0 users-input-S-C">
+                            <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
+                                class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
                                 <option {{ $user->candidate_profile == null ? 'selected' : ''}}  disabled></option>
                                 @foreach ($profile->options as $profileOption)
                                     <option value="{{ $profileOption->option_name }}"
@@ -592,7 +592,7 @@
                                                     <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
-                                                    <select name="POSITION_TITLE" id="position"
+                                                    <select name="POSITION_TITLE" id="position" onchange="Fetch_profile()"
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->position_title == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($position_title->options as $position_titleOptions)
@@ -637,7 +637,7 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
-                                                    <select name="DOMAIN_endo" id="domain" onchange="DomainChange(this)"
+                                                    <select name="DOMAIN_endo" id="domain_endo" onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option {{ $user->domain == null ? 'selected' : ''}}  disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
@@ -823,5 +823,39 @@
             }
 
         }
+    }
+    function Fetch_profile(){
+                 $('#Domain_sub_segment').empty()
+                $('#segment').empty()
+                $('#domain').empty()
+                $('#endo_sub_segment').empty()
+                $('#Domainsegment').empty()
+                $('#domain_endo').empty()
+                
+                
+                
+        var c_profile=$('#CANDIDATES_PROFILE').val();
+        var position= $('#position').val()
+        $.ajax({
+            type: 'POST',
+                url: '{{ url('admin/traveseDataByClientProfile') }}',
+                data: {
+                    _token: token,
+                    c_profile: c_profile,
+                    position:position,
+                   
+                },
+
+                // Success fucniton of Ajax
+                success: function(res) {
+                console.log(res)
+                $('#Domain_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
+                $('#segment').append(`<option>${res.data.segment}</option>`)
+                $('#domain').append(`<option>${res.data.domain}</option>`)
+                 $('#endo_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
+                $('#Domainsegment').append(`<option>${res.data.segment}</option>`)
+                $('#domain_endo').append(`<option>${res.data.domain}</option>`)
+                },
+            });
     }
 </script>

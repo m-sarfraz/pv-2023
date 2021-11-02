@@ -43,7 +43,7 @@ class SmartSearchController extends Controller
         $spr = count($Userdata->whereNotNull('finance.srp')->get());
         $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
         $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
-        $address=DB::Select("select address from candidate_informations where  address!='' group by address");
+        $address = DB::Select("select address from candidate_informations where  address!='' group by address");
         // close
         $data = [
             'Userdata' => $user,
@@ -58,7 +58,7 @@ class SmartSearchController extends Controller
             'failed' => $failed,
             'withdrawn' => $withdrawn,
             'rejected' => $rejected,
-            'address'=>$address,
+            'address' => $address,
         ];
 
         return view('smartSearch.smart_search', $data);
@@ -69,6 +69,7 @@ class SmartSearchController extends Controller
     public function filterSearch(Request $request)
     {
         $data = [];
+        $check = $searchCheck = false;
         // return $request->all();
         $Userdata = DB::table('six_table_view');
         //    check null values coming form selected options
@@ -84,7 +85,8 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('six_table_view.client', $request->client);
         }
         if ($request->cip == 1) {
-            $stageArray = ['Scheduled for Skills Interview',
+            $stageArray = [
+                'Scheduled for Skills Interview',
                 'Scheduled for Technical Interview',
                 'Scheduled for Technical exam',
                 'Sheduled for Behavioral Interview',
@@ -146,40 +148,93 @@ class SmartSearchController extends Controller
         if (isset($request->remarks)) {
             $Userdata->whereIn('six_table_view.remarks', $request->remarks);
         }
-        if(isset($request->ob_start)){
-            $Userdata->where('six_table_view.onboardnig_date','>=' ,$request->ob_start);
-            
+        if (isset($request->ob_start)) {
+            $Userdata->where('six_table_view.onboardnig_date', '>=', $request->ob_start);
         }
-        if(isset($request->ob_end)){
-            $Userdata->where('six_table_view.onboardnig_date','<=', $request->ob_end);
-            
+        if (isset($request->ob_end)) {
+            $Userdata->where('six_table_view.onboardnig_date', '<=', $request->ob_end);
         }
-        if(isset($request->sift_start)){
-            $Userdata->where('six_table_view.date_shifted','>=', $request->sift_start);
-            
+        if (isset($request->sift_start)) {
+            $Userdata->where('six_table_view.date_shifted', '>=', $request->sift_start);
         }
-        if(isset($request->sift_end)){
-            $Userdata->where('six_table_view.date_shifted','<=', $request->sift_end);
-            
+        if (isset($request->sift_end)) {
+            $Userdata->where('six_table_view.date_shifted', '<=', $request->sift_end);
         }
-        if(isset($request->endo_start)){
-            $Userdata->where('six_table_view.endi_date','>=', $request->endo_start);
-            
+        if (isset($request->endo_start)) {
+            $Userdata->where('six_table_view.endi_date', '>=', $request->endo_start);
         }
-        if(isset($request->endo_end)){
-            $Userdata->where('six_table_view.endi_date','<=', $request->endo_end);
-            
+        if (isset($request->endo_end)) {
+            $Userdata->where('six_table_view.endi_date', '<=', $request->endo_end);
         }
+        //start search
+        if (isset($request->searchKeyword)) {
+            $searchCheck = true;
+            $perfect_match = DB::table("six_table_view")->get();
 
-        $user = $Userdata->get();
+
+            foreach ($perfect_match as $match) {
+
+
+                if (strpos($match->domain, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->saved_by, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->client, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->remarks_for_finance, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->address, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.address', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->career_endo, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->remarks, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.remarks', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->onboardnig_date, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->date_shifted, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.date_shifted', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->endi_date, $request->searchKeyword) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
+                }
+            }
+        }
+        if ($check) {
+
+            $user = $Userdata->get();
+        } else {
+            if (!$check && !$searchCheck) {
+                $user = $Userdata->get();
+            } else {
+                $user = [];
+            }
+        }
         $onBoarded = count($Userdata->get());
-      
+
         $data = [
 
             'Userdata' => $user,
-            'onBoarded'=>$onBoarded,
+            'onBoarded' => $onBoarded,
         ];
-        return view('smartSearch.filter_result',$data);
+        return view('smartSearch.filter_result', $data);
 
         // close
 

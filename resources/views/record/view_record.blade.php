@@ -867,10 +867,10 @@
                 success: function(data) {
                     $('#filter_table_div').html(data);
                     // $('#count').val(data.count);
-                    $("#loader").hide();
                     // appennd count value coming from hidden input of appended view to count
                     recordCount = $('#abc').val()
                     $('#recordNumber').val(recordCount)
+                    $("#loader").hide();
                 },
             });
         }

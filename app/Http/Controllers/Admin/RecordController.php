@@ -102,9 +102,8 @@ class RecordController extends Controller
             $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
         }
         if (isset($request->date)) {
-            $time = strtotime($request->date);
-            $newformat = date('Y-m-d', $time);
-            $Userdata->whereDate('six_table_view.endi_date', '<', $newformat);
+           
+            $Userdata->where('six_table_view.endi_date', $request->date);
         }
 
         if (isset($request->searchKeyword)) {
