@@ -245,6 +245,21 @@ class SmartSearchController extends Controller
                     $check = true;
                     $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
                 }
+                if (strpos($match->curr_salary, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->placement_fee, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->srp, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
+                }
             }
         }
         if ($check) {
