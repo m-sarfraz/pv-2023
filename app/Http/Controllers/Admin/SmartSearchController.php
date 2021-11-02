@@ -215,6 +215,51 @@ class SmartSearchController extends Controller
                     $check = true;
                     $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
                 }
+                if (strpos($match->gender, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.gender', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->educational_attain, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->app_status, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->first_name, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->last_name, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->curr_salary, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->placement_fee, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos($match->srp, $request->searchKeyword) !== false) {
+                  
+                    $check = true;
+                    $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
+                }
             }
         }
         if ($check) {
@@ -227,6 +272,7 @@ class SmartSearchController extends Controller
                 $user = [];
             }
         }
+        
         $onBoarded = count($Userdata->get());
 
         $data = [

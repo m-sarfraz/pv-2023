@@ -35,7 +35,12 @@
                    $user = \App\User::where('id', $value->saved_by)->first();
                    $role = $user->roles->pluck('name');
                @endphp
-               <td> {{ $role[0] }}</td>
+               <td> <?php
+               if(isset($role[0])){
+                   echo $role[0];
+               }
+               
+               ?></td>
                {{-- @php
                    $name = \App\User::with('candidate_information')
                        ->where('id', $value->saved_by)

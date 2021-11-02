@@ -1038,7 +1038,7 @@
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
                                                                 @foreach ($client->options as $clientOptions)
-                                                                    <option value="{{ $clientOptions->option_name }}"
+                                                                    <option  value="{{ $clientOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->client == $clientOptions->option_name : '') ? 'selected' : '' }}>
                                                                         {{ $clientOptions->option_name }}
                                                                     </option>
@@ -1814,10 +1814,10 @@ if (value.includes('Mid')) {
                 // Ajax success function
                 success: function(res) {
                     if (res.data.id) {
-                        // $('#domain_endo').empty();
-                        // $('#segment').empty();
-                        // $('#sub_segment').empty();
-                        // $('#client').empty();
+                        $('#domain_endo').empty();
+                        $('#segment').empty();
+                        $('#sub_segment').empty();
+                        $('#client').empty();
                         $('#client').append(
                             `<option selected value="${res.data.client}">${res.data.client}</option>`);
                         $('#domain_endo').append(
