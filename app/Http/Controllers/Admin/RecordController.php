@@ -102,7 +102,7 @@ class RecordController extends Controller
             $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
         }
         if (isset($request->date)) {
-           
+
             $Userdata->where('six_table_view.endi_date', $request->date);
         }
 
@@ -112,47 +112,47 @@ class RecordController extends Controller
             $perfect_match = DB::table('six_table_view')->get();
 
             foreach ($perfect_match as $match) {
-                if (strpos($match->first_name, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->sub_segment, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->sub_segment), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.sub_segment', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->app_status, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->client, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->career_endo, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->curr_salary, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->exp_salary, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->exp_salary), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.exp_salary', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->endi_date, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->off_salary, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->off_salary), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.off_salary', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->candidate_profile, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
                 }

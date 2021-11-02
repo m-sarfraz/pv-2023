@@ -66,7 +66,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" placeholder="search keyword"
                                             id="searchKeyword" required="" class="form-control h-px-20_custom border"
-                                            value="" oninput="Filter_user()" />
+                                            value="" onkeyup="Filter_user()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

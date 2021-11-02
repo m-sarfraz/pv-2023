@@ -160,7 +160,7 @@
                                                                         Upload File
                                                                     </label>
                                                                     <input type="file" id="file" class="form-control"
-                                                                        accept=".csv" name="file" required />
+                                                                        accept=".csv" name="file" required  />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -310,7 +310,8 @@
                 </div>
                 <div class="modal-body">
                     
-                    <form>
+                    <form action="{{ route("uploadJdlSheet") }}" method="post">
+                        @csrf
                       
 
                       
@@ -320,13 +321,13 @@
                                             Upload File
                                         </label>
                                         <input type="file"class="form-control" id="sheetFileJDL" accept=".xlsx, .xls, .csv"
-                                            name="sheetId" required />
+                                            name="sheetFileJDL" required />
                                     </div>
                                 </div>
                           
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="UploadJDlSheet()">Import</button>
+                        <button type="submit" class="btn btn-primary" onclick="UploadJDlSheet()">Import</button>
                     </div>
                 </form>
             </div>
@@ -420,8 +421,19 @@
                 return false;
             }
         }
-        function UploadJDlSheet(){
-            alert("In progreess")
-        }
+        // function UploadJDlSheet(){
+          
+        //     var JDL_sheet=$('#sheetFileJDL').val();
+        //     $.ajax({
+        //         type:"post",
+        //         url:'{{URL('admin/uploadJdlSheet')}}',
+        //         data:{
+        //             File:JDL_sheet,
+        //         },
+        //         success:function(res){
+
+        //         }
+        //     })
+        // }
     </script>
 @endsection

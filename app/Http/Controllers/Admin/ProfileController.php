@@ -829,4 +829,7 @@ class ProfileController extends Controller
             return response()->json(['success' => false, 'message' => 'Given Sheet is not found!']);
         }
     }
+    public function uploadJdlSheet(Request $request){
+        dd($request->all());
+    }
 }
