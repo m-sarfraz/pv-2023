@@ -41,7 +41,7 @@
     <div class="error-main">
         <h1>Oops!</h1>
         <div class="error-heading">403</div>
-        <p>Permission cant be granted for this action.</p>
+        <p>Access not granted to your account, contact admin if needed</p>
     </div>
     <a type="button" href="{{url('/')}}" class="btn btn-success mt-5 btn-md">Go Home</a>
 </html>
