@@ -78,23 +78,26 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                "INTERVIEW_NOTES" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
-                // "POSITION_TITLE_APPLIED" => 'required ',
+                "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
-                "CURRENT_SALARY" => 'required ',
+                // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                "EXPECTED_SALARY" => 'required ',
+                // "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
             $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
             if (
@@ -154,7 +157,7 @@ class CandidateController extends Controller
                 // // "COURSE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
-                "INTERVIEW_NOTES" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
@@ -190,6 +193,13 @@ class CandidateController extends Controller
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 $arrayCheck["PLACEMENT_FEE"] = "required";
+            }
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
@@ -305,6 +315,7 @@ class CandidateController extends Controller
             $CandidiateDomain->save();
 
             //Save Endorsement Details
+            // return $request->REMARKS_FROM_FINANCE;
             $endorsement = new Endorsement();
             $endorsement->candidate_id = $CandidateInformation->id;
             $endorsement->app_status = $request->APPLICATION_STATUS;
@@ -448,6 +459,7 @@ class CandidateController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
+        // return $user;
         $data = [
             'domainDrop' => $domainDrop,
             'user' => $user,
@@ -479,19 +491,22 @@ class CandidateController extends Controller
                 "DATE_SIFTED" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
-                // "POSITION_TITLE_APPLIED" => 'required ',
+                "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
-                "CURRENT_SALARY" => 'required ',
+                // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                "EXPECTED_SALARY" => 'required ',
+                // "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
             $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
             if (
@@ -567,6 +582,13 @@ class CandidateController extends Controller
             if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "" || $request->EDUCATIONAL_ATTAINTMENT == 'SENIOR HIGH SCHOOL GRADUATE') {
             } else {
                 $arrayCheck["COURSE"] = "required";
+            }
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
 
             if ($request->endorsement_field == 'active') {

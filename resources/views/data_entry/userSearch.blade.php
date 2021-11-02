@@ -231,7 +231,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-0">
-                                        <label class="Label">Domains</label>
+                                        <label class="Label">Domain</label>
                                         <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
                                             class="form-control p-0 users-input-S-C">
                                             <option {{ $user == null ? 'selected' : '' }} disabled>Select Option
@@ -531,10 +531,10 @@
                             </label>
                             <select name="POSITION_TITLE" disabled="" id="position" onchange="traverse2()"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($position_title->options as $position_titleOptions)
                                     <option value="{{ $position_titleOptions->option_name }}"
-                                        {{ $user->site == $position_titleOptions->option_name ? 'selected' : '' }}>
+                                        {{ $user->position_title == $position_titleOptions->option_name ? 'selected' : '' }}>
                                         {{ $position_titleOptions->option_name }}
                                     </option>
                                 @endforeach
@@ -555,9 +555,9 @@
                             <label class="d-block font-size-3 mb-0">
                                 Endorsement Type:
                             </label>
-                            <select name="ENDORSEMENT_TYPE" id=""
+                            <select name="ENDORSEMENT_TYPE" id="" disabled=""
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->type == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($endoType->options as $endoTypeOptions)
                                     <option value="{{ $endoTypeOptions->option_name }}"
                                         {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
@@ -580,7 +580,7 @@
                             </label>
                             <select name="CAREER_LEVEL" disabled="" id="career"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->career_endo == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($CareerLevel->options as $CareerLevelOptions)
                                     <option value="{{ $CareerLevelOptions->option_name }}"
                                         {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
@@ -619,7 +619,7 @@
                             </label>
                             <select name="STATUS" id="status" disabled=""
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->status == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($status->options as $statusOptions)
                                     <option value="{{ $statusOptions->option_name }}"
                                         {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
@@ -644,7 +644,7 @@
                             <label class="Label">Client</label>
                             <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->client == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($client->options as $clientOptions)
                                     <option value="{{ $clientOptions->option_name }}"
                                         {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
@@ -671,7 +671,7 @@
                                 @php
                                     $remarks = Helper::get_dropdown('remarks_for_finance');
                                 @endphp
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{$user->remarks_for_finance == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($remarks->options as $remarksOptions)
                                     <option value="{{ $remarksOptions->option_name }}"
                                         {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -701,7 +701,7 @@
                             </label>
                             <select name="SITE" disabled="" id="site"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{ $user->site  == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($site->options as $siteOptions)
                                     <option value="{{ $siteOptions->option_name }}"
                                         {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
@@ -724,7 +724,7 @@
                             </label>
                             <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option value="" {{$user->remarks == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($remarks->options as $remarksOptions)
                                     <option value="{{ $remarksOptions->option_name }}"
                                         {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -748,9 +748,9 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Domain
                                 </label>
-                                <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="DomainChange(this)"
+                                <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="DomainChange(this)" disabled=""
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{$user->domain == null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($domain->options as $domainOptions)
                                         <option value="{{ $domainOptions->id }}"
@@ -775,7 +775,7 @@
                                 </label>
                                 <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                    <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{ $user->rfp == null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                         {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
@@ -801,7 +801,7 @@
                                 <select disabled="" id="segment" name="SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100"
                                     onchange="changeSegment('segment')">
-                                    <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{ $user->segment== null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($segments->options as $segmentsOptions)
                                         <option value="{{ $segmentsOptions->id }}"
@@ -836,7 +836,7 @@
                                 <label class="Label">sub-segment</label>
                                 <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{ $user->sub_segment== null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                         <option value="{{ $sub_segmentOptions->id }}"
@@ -880,7 +880,7 @@
                                         </label>
                                         <select name="REMARKS" id="remarks_finance"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                            <option value="" {{ $user == null ? 'selected' : '' }} disabled></option>
+                                            <option value="" {{ $user->remarks_recruiter  == null ? 'selected' : '' }} disabled></option>
                                             @foreach ($remarks->options as $remarksOptions)
                                                 <option value="{{ $remarksOptions->option_name }}"
                                                     {{ $user->remarks_recruiter == $remarksOptions->option_name ? 'selected' : '' }}>
@@ -946,7 +946,7 @@
                                         </label>
                                         <select name="CLIENT_FINANCE" class="form-control border h-px-20_custom w-100"
                                             id="client_finance" disabled="">
-                                            <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
+                                            <option value="" {{$user->client_finance== null ? 'selected' : '' }} disabled>Select
                                                 Option</option>
                                             @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}"
@@ -985,7 +985,7 @@
                                         </label>
                                         <select name="CAREER_LEVEL_FINANCE" id="career_finance"
                                             onchange="SPRCalculator(this)" class="form-control border h-px-20_custom">
-                                            <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
+                                            <option value="" {{$user->career_finance == null ? 'selected' : '' }} disabled>Select
                                                 Option</option>
                                             @foreach ($careerLevel->options as $careerLevelOptions)
                                                 <option value="{{ $careerLevelOptions->option_name }}"
@@ -1006,15 +1006,17 @@
                                         </label>
                                         <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                             id="rate_finance" oninput="amountFinder(this)">
-                                            <option value="10" selected>10%</option>
-                                            <option value="30">30 %</option>
-                                            <option value="40">40 %</option>
-                                            <option value="50">50 %</option>
-                                            <option value="60">60 %</option>
-                                            <option value="70">70 %</option>
-                                            <option value="80">80 %</option>
-                                            <option value="90">90 %</option>
-                                            <option value="100">100 %</option>
+                                            <option value="10"{{$user->rate == 10 ? 'selected' : '' }}> 10%</option>
+                                            <option value="10"{{$user->rate == 20 ? 'selected' : '' }}> 20%</option>
+                                            <option value="10"{{$user->rate == 30 ? 'selected' : '' }}> 30%</option>
+                                            <option value="10"{{$user->rate == 40 ? 'selected' : '' }}> 40%</option>
+                                            <option value="10"{{$user->rate == 50 ? 'selected' : '' }}> 50%</option>
+                                            <option value="10"{{$user->rate == 60 ? 'selected' : '' }}> 60%</option>
+                                            <option value="10"{{$user->rate == 70 ? 'selected' : '' }}> 70%</option>
+                                            <option value="10"{{$user->rate == 80 ? 'selected' : '' }}> 80%</option>
+                                            <option value="10"{{$user->rate == 90 ? 'selected' : '' }}> 90%</option>
+                                            <option value="10"{{$user->rate == 100 ? 'selected' : '' }}> 100%</option>
+                                      
                                         </select>
                                         <div>
                                             <small class="text-danger"></small>

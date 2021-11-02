@@ -173,23 +173,6 @@
                                         </div>
                                         <div class="col-lg-12 col-md-12">
                                             <?php
-                                            $jdl = Helper::get_permission('teams');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Teams Permissions
-                                            </label>
-                                            <div class="row">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 col-md-12">
-                                            <?php
                                             $jdl = Helper::get_permission('company');
                                             ?>
                                             <label for="aboutTextarea"
@@ -205,23 +188,44 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
-                                            <?php
-                                            $jdl = Helper::get_permission('user');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Users Permissions
-                                            </label>
-                                            <div class="row">
+                                        @if (Auth::user()->type == 1)
 
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
+                                            <div class="col-lg-12 col-md-12">
+                                                <?php
+                                                $jdl = Helper::get_permission('teams');
+                                                ?>
+                                                <label for="aboutTextarea"
+                                                    class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                    Teams Permissions
+                                                </label>
+                                                <div class="row">
+
+                                                    @foreach ($jdl as $value)
+                                                        <label class="col-md-2"><input type="checkbox"
+                                                                name="jdlPermission[]" value="{{ $value->name }}">
+                                                            {{ $value->name }}</label>
+                                                    @endforeach
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <?php
+                                                $jdl = Helper::get_permission('user');
+                                                ?>
+                                                <label for="aboutTextarea"
+                                                    class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                    Users Permissions
+                                                </label>
+                                                <div class="row">
+
+                                                    @foreach ($jdl as $value)
+                                                        <label class="col-md-2"><input type="checkbox"
+                                                                name="jdlPermission[]" value="{{ $value->name }}">
+                                                            {{ $value->name }}</label>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -241,6 +245,8 @@
 
 @section('script')
     <script>
+        // var name = '{{ env('SESSION_LIFETIME') }}';
+        // alert(name)
         $(document).ready(function() {
             $('#create_role').submit(function() {
                 $("#loader").show();

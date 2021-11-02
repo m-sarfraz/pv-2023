@@ -179,6 +179,7 @@ function SearchUserData(e, div) {
 // search user data and append in data entry fields starts
 function enableSearch(id) {
     $(id).prop("disabled", false)
+    $('#save').prop("disabled", true)
     $('#saveRecord').prop("disabled", true)
     $('#editRecord').prop("disabled", true)
 }

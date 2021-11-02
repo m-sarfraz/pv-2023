@@ -321,7 +321,7 @@
                                                             <small class="text-danger"></small>
                                                         </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                                            <label class="Label labelFontSize">Domains</label>
+                                                            <label class="Label labelFontSize">Domain</label>
                                                             <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
@@ -646,7 +646,7 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Endorsement Type :
                                                 </label>
-                                                <select name="ENDORSEMENT_TYPE" id="endo_type"
+                                                <select name="ENDORSEMENT_TYPE" id="endo_type" disabled=""
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
                                                         disabled selected>Select Option</option>
@@ -846,7 +846,7 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Domain
                                                 </label>
-                                                <select id="domain_endo" name="DOMAIN_ENDORSEMENT"
+                                                <select id="domain_endo" name="DOMAIN_ENDORSEMENT" disabled=""
                                                     onchange="DomainChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
@@ -1178,7 +1178,7 @@
                 $('#transparentDiv').hide();
                 $('#loader1').hide();
             }, 800);
-            // $("#endo_type").prop('disabled', true)
+            $("#endo_type").prop('disabled', true)
             // disable save button
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
@@ -1320,7 +1320,8 @@
                         // $('#new').prop("disabled", false);
 
                         swal("success", res.message, "success").then((value) => {});
-                        $('#new').click()
+                        // $('#new').click()
+                        location.reload();
                     } else if (res.success == false) {
                         if (res.status == 1) {
                             swal({
@@ -1713,12 +1714,12 @@ if (value.includes('Mid')) {
                     $('#position').prop("disabled", true);
                     $('#domain_endo').prop("disabled", true);
                     $('#career').prop("disabled", true);
+                    $('#endo_type').prop("disabled", true);
                     $('#segment').prop("disabled", true);
                     $('#sub_segment').prop("disabled", true);
                     $('#endo_date').prop("disabled", true);
                     // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
-                    $('#endo_type').prop("disabled", true);
                 }
 
 

@@ -32,7 +32,7 @@
                                                 <div class="form-group">
                                                     <label for="select3"
                                                         class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                        Domains
+                                                        Domain
                                                     </label>
                                                     <select class="select2_dropdown w-100" onchange="domainChange(this)"
                                                         id="domain">
