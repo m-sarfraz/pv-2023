@@ -761,7 +761,7 @@ class CandidateController extends Controller
     {
 
         if ($request->c_profile) {
-
+            $request->position ==null;
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
             if ($response) {
 
@@ -769,6 +769,7 @@ class CandidateController extends Controller
             }
         }
         if ($request->position) {
+            $request->c_profile==null;
             $response = DB::table('taverse2')->where("position", $request->position)->first();
             if ($response) {
 
