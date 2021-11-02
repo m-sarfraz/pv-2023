@@ -88,7 +88,7 @@
             </div>
             @endcan
            
-            {{-- @can('user-list') --}}
+            @can('view-users')
             <div class="dropdown pt-2 pl-2 text-white">
                 Users Management
                 <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
@@ -99,7 +99,7 @@
 
                 </div>
             </div>
-            {{-- @endcan --}}
+            @endcan
             <div class="ml-auto E_S_icon pr-8">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
                             <div class="pt-0">
