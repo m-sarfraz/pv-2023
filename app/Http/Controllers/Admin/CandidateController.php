@@ -41,7 +41,6 @@ class CandidateController extends Controller
                 ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
-
         } # code...
         $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
         $domainDrop = Domain::all();
@@ -109,11 +108,9 @@ class CandidateController extends Controller
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
-
             }
             if ($request->interview_schedule == 1) {
                 $arrayCheck["INTERVIEW_SCHEDULE"] = "required";
-
             }
             if ($request->salary_field == 1) {
                 $arrayCheck["OFFERED_SALARY"] = "required";
@@ -426,6 +423,7 @@ class CandidateController extends Controller
             $finance->client_finance = $request->CLIENT_FINANCE;
             $finance->career_finance = $request->CAREER_LEVEL;
             $finance->rate = $request->RATE;
+            $finance->srp = $request->STANDARD_PROJECTED_REVENUE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
             $finance->placement_fee = $request->PLACEMENT_FEE;
@@ -518,11 +516,9 @@ class CandidateController extends Controller
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
-
             }
             if ($request->interview_schedule == 1) {
                 $arrayCheck["INTERVIEW_SCHEDULE"] = "required";
-
             }
             if ($request->salary_field == 1) {
                 $arrayCheck["OFFERED_SALARY"] = "required";
@@ -654,7 +650,6 @@ class CandidateController extends Controller
                 CandidateEducation::where('candidate_id', $id)->update([
                     'certification' => $certification,
                 ]);
-
             }
             // update candidate education data
             CandidateEducation::where('candidate_id', $id)->update([
@@ -783,7 +778,7 @@ class CandidateController extends Controller
     {
 
         if ($request->c_profile) {
-            $request->position ==null;
+            $request->position == null;
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
             if ($response) {
 
@@ -791,7 +786,7 @@ class CandidateController extends Controller
             }
         }
         if ($request->position) {
-            $request->c_profile==null;
+            $request->c_profile == null;
             $response = DB::table('taverse2')->where("position", $request->position)->first();
             if ($response) {
 
