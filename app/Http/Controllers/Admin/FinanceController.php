@@ -216,35 +216,35 @@ class FinanceController extends Controller
             foreach ($perfect_match as $match) {
 
 
-                if (strpos($match->career_endo, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('endorsements.career_endo', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->first_name, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('candidate_informations.first_name', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->client, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('endorsements.client', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->onboardnig_date, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('finance.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->placement_fee, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('finance.placement_fee', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->remarks_for_finance, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('endorsements.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->app_status, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('endorsements.app_status', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos($match->reprocess, $request->searchKeyword) !== false) {
+                if (strpos(strtolower($match->reprocess), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
 
                     $Userdata->where('candidate_informations.reprocess', 'like', '%' . $request->searchKeyword . '%');

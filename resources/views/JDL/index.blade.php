@@ -66,7 +66,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" placeholder="search keyword"
                                             id="searchKeyword" required="" class="form-control h-px-20_custom border"
-                                            value="" oninput="Filter_user()" />
+                                            value="" onkeyup="Filter_user()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -638,20 +638,20 @@
                             if (element.option_name == res[i].domain.toUpperCase()) {
 
                                 $("#candidateDomain").append(
-                                    `<option    value="${element.option_name}">${element.option_name}</option>`
+                                    `<option selected   value="${element.option_name}">${element.option_name}</option>`
                                 );
+                                changecareer_level(res);
+                                changeposition_title(res)
+                                changesegmentbyClient(res)
+                                changesubsegmentbyClient(res)
+                                changelocation(res)
+                                changestatus(res)
 
                             }
 
 
                         }
                     });
-                    changecareer_level(res);
-                    changeposition_title(res)
-                    changesegmentbyClient(res)
-                    changesubsegmentbyClient(res)
-                    changelocation(res)
-                    changestatus(res)
 
                 }
             });
@@ -688,8 +688,8 @@
         function changecareer_level(res) {
 
             for (var i = 0; i < res.length; i++) {
-
-                $('#career_level').append('<option  value="' +
+                // $('#career_level').empty();
+                $('#career_level').append('<option selected  value="' +
                     res[i].c_level +
                     '">' + res[i].c_level +
                     '</option>');
@@ -701,7 +701,7 @@
         function changeposition_title(res) {
 
             for (var i = 0; i < res.length; i++) {
-                $('#position_title').append('<option  value="' +
+                $('#position_title').append('<option selected value="' +
                     res[i].p_title +
                     '">' + res[i].p_title +
                     '</option>');
@@ -713,7 +713,7 @@
 
 
             for (var i = 0; i < res.length; i++) {
-                $('#segment').append('<option  value="' +
+                $('#segment').append('<option selected value="' +
                     res[i].segment +
                     '">' + res[i].segment +
                     '</option>');
@@ -725,7 +725,7 @@
 
 
             for (var i = 0; i < res.length; i++) {
-                $('#sub_segment').append('<option  value="' +
+                $('#sub_segment').append('<option selected value="' +
                     res[i].subsegment +
                     '">' + res[i].subsegment +
                     '</option>');
@@ -737,7 +737,7 @@
 
 
             for (var i = 0; i < res.length; i++) {
-                $('#location').append('<option  value="' +
+                $('#location').append('<option selected value="' +
                     res[i].location +
                     '">' + res[i].location +
                     '</option>');
@@ -748,7 +748,7 @@
         function changestatus(res) {
 
             for (var i = 0; i < res.length; i++) {
-                $('#status').append('<option  value="' +
+                $('#status').append('<option selected value="' +
                     res[i].status +
                     '">' + res[i].status +
                     '</option>');

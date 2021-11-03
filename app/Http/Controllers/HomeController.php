@@ -81,6 +81,7 @@ class HomeController extends Controller
                 ->groupBy("cip_progress.team")
                 ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
 
+                // DB::enableQueryLog();
             $Mounthly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
                 ->where("cip_progress.t_id", $check[$i])
                 ->whereDate("cip_progress.created_at", ">", $Mounthly)
@@ -88,6 +89,8 @@ class HomeController extends Controller
                 ->orwhere("cip_progress.mid_stage", 1)
                 ->groupBy("cip_progress.team")
                 ->select(DB::raw("SUM(finance.srp) as f_srp"))->get();
+                // dd(DB::getQueryLog());
+                // die();
             $Quarterly_data_[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
                 ->where("cip_progress.t_id", $check[$i])
                 ->whereDate("cip_progress.created_at", ">", $Quarterly)
