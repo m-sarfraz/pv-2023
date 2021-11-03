@@ -56,9 +56,12 @@
                                         </option>
                                     @endforeach
                                 </Select> 
+                                {{-- <input type="email" disabled="" class="form-control users-input m-3 mt-0 mb-0 w-75" id="detail_candidate"
+                                style="padding-left: 5px !important;" aria-describedby="emailHelp"
+                                value="{{$candidateDetail != null ? $candidateDetail->first_name.''.$candidateDetail->last_name.''.$candidateDetail->candidate_profile.''.$candidateDetail->date_processed : ''}}" placeholder="enter candidate name" /> --}}
                                 @can('search-data')
 
-                                <button class="btn btn_Group mb-4 mt-4 btn-sm" type="button" id="searchRecord"
+                                <button class="btn btn_Group mb-2 mt-1 btn-sm" type="button" id="searchRecord"
                                     onclick="SearchUserData(this,'#UserData_div')" disabled="">
                                     Search Record
                                 </button>
@@ -1178,7 +1181,7 @@
                 $('#transparentDiv').hide();
                 $('#loader1').hide();
             }, 800);
-            $("#endo_type").prop('disabled', true)
+            $("#date_invited").prop('disabled', true)
             // disable save button
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
@@ -1700,8 +1703,8 @@ if (value.includes('Mid')) {
                     $('#sub_segment').prop("disabled", false);
                     $('#endo_date').prop("disabled", false);
                     $('#remarks_for_finance').prop("disabled", false);
-                    // $('#expec_salary').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
+                    // $('#expec_salary').prop("disabled", false);
 
 
                 } else {

@@ -234,11 +234,11 @@
                                         <label class="Label">Domain</label>
                                         <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
                                             class="form-control p-0 users-input-S-C">
-                                            <option {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                            <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
                                             </option>
                                             @foreach ($domainDrop as $domainOption)
                                                 <option value="{{ $domainOption->id }}"
-                                                    {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                                    {{ $user->domain == $domainOption->domain_name ? 'selected' : '' }}>
                                                     {{ $domainOption->domain_name }}</option>
                                             @endforeach
                                         </select>
@@ -253,7 +253,7 @@
                                         <label class="Label">Segment</label>
                                         <select name="SEGMENT" id="Domainsegment" onchange="SegmentChange(this)"
                                             class="form-control p-0 users-input-S-C">
-                                            <option {{ $user == null ? 'selected' : '' }} disabled>Select Option
+                                            <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                             </option>
                                             @foreach ($segment->options as $segmentOption)
                                                 <option value="{{ $segmentOption->id }}"
@@ -274,7 +274,7 @@
                                         <label class="Label">sub-segment</label>
                                         <select name="SUB_SEGMENT" id="Domainsub"
                                             class="form-control p-0 users-input-S-C">
-                                            <option {{ $user == null ? 'selected' : '' }} disabled></option>
+                                            <option {{  $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option</option>
                                             @foreach ($sub_segment->options as $sub_segmentOption)
                                                 <option value="{{ $sub_segmentOption->id }}"
                                                     {{ $user->sub_segment == $sub_segmentOption->id ? 'selected' : '' }}>
@@ -555,7 +555,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Endorsement Type:
                             </label>
-                            <select name="ENDORSEMENT_TYPE" id="" disabled=""
+                            <select name="ENDORSEMENT_TYPE" id="endo_type" disabled=""
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                 <option value="" {{ $user->type == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($endoType->options as $endoTypeOptions)
@@ -750,12 +750,11 @@
                                 </label>
                                 <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="DomainChange(this)" disabled=""
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{$user->domain == null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{$user->domain_endo == null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($domain->options as $domainOptions)
                                         <option value="{{ $domainOptions->id }}"
-                                            {{ $user->domain == $domainOptions->option_name ? 'selected' : '' }}>
-
+                                            {{ $user->domain_endo == $domainOptions->option_name ? 'selected' : '' }}>
                                             {{ $domainOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -801,12 +800,11 @@
                                 <select disabled="" id="segment" name="SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100"
                                     onchange="changeSegment('segment')">
-                                    <option value="" {{ $user->segment== null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{ $user->segment_endo== null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($segments->options as $segmentsOptions)
                                         <option value="{{ $segmentsOptions->id }}"
-                                            {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
-
+                                            {{ $user->segment_endo == $segmentsOptions->option_name ? 'selected' : '' }}>
                                             {{ $segmentsOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -836,12 +834,11 @@
                                 <label class="Label">sub-segment</label>
                                 <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user->sub_segment== null ? 'selected' : '' }} disabled>Select Option
+                                    <option value="" {{ $user->sub_segment_endo== null ? 'selected' : '' }} disabled>Select Option
                                     </option>
                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                         <option value="{{ $sub_segmentOptions->id }}"
-                                            {{ $user->sub_segment == $sub_segmentOptions->option_name ? 'selected' : '' }}>
-
+                                            {{ $user->sub_segment_endo == $sub_segmentOptions->option_name ? 'selected' : '' }}>
                                             {{ $sub_segmentOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -1134,23 +1131,23 @@
         }
 
     }
-    //  On application status changed function starts 
-    if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
-        // disable and enable input fields for user data in endorsement section
-        $('#remarks').prop("disabled", false);
-        $('#status').prop("disabled", false);
-        $('#site').prop("disabled", false);
-        $('#client').prop("disabled", false);
-        $('#position').prop("disabled", false);
-        $('#domain_endo').prop("disabled", false);
-        $('#career').prop("disabled", false);
-        $('#segment').prop("disabled", false);
-        $('#sub_segment').prop("disabled", false);
-        $('#endo_date').prop("disabled", false);
-        $('#remarks_for_finance').prop("disabled", false);
-        // $('#expec_salary').prop("disabled", false);
-        $('#endo_type').prop("disabled", false);
-    }
+    // //  On application status changed function starts 
+    // if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
+    //     // disable and enable input fields for user data in endorsement section
+    //     $('#remarks').prop("disabled", false);
+    //     $('#status').prop("disabled", false);
+    //     $('#site').prop("disabled", false);
+    //     $('#client').prop("disabled", false);
+    //     $('#position').prop("disabled", false);
+    //     $('#domain_endo').prop("disabled", false);
+    //     $('#career').prop("disabled", false);
+    //     $('#segment').prop("disabled", false);
+    //     $('#sub_segment').prop("disabled", false);
+    //     $('#endo_date').prop("disabled", false);
+    //     $('#remarks_for_finance').prop("disabled", false);
+    //     // $('#expec_salary').prop("disabled", false);
+    //     $('#endo_type').prop("disabled", false);
+    // }
     // get the value of selected text
     var value = $('#manners').find(":selected").text().trim();
     if (value == 'Pending') {
@@ -1161,4 +1158,5 @@
     }
     select2Dropdown("select2_dropdown");
     $('#certificate').prop('disabled', true)
+    $('#detail_candidate').val()
 </script>

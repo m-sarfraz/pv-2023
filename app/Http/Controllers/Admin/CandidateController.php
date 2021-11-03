@@ -163,10 +163,10 @@ class CandidateController extends Controller
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
-                "CURRENT_SALARY" => 'required ',
+                // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
-                "EXPECTED_SALARY" => 'required ',
+                // "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
             ];
@@ -200,6 +200,14 @@ class CandidateController extends Controller
                 $arrayCheck["EXPECTED_SALARY"] = "required";
                 $arrayCheck["CURRENT_SALARY"] = "required";
                 $arrayCheck["INTERVIEW_NOTES"] = "required";
+            }
+            $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
+            if (
+                str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+                || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
+                || str_contains($manner_of_invite, 'sms')
+            ) {
+                $arrayCheck["DATE_INVITED"] = "required";
             }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
@@ -603,6 +611,14 @@ class CandidateController extends Controller
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
                 $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
+            $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
+            if (
+                str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+                || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
+                || str_contains($manner_of_invite, 'sms')
+            ) {
+                $arrayCheck["DATE_INVITED"] = "required";
+            }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
                 $arrayCheck["ONBOARDING_DATE"] = "required";
@@ -783,7 +799,7 @@ class CandidateController extends Controller
     {
 
         if ($request->c_profile) {
-            $request->position ==null;
+            $request->position == null;
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
             if ($response) {
 
@@ -791,7 +807,7 @@ class CandidateController extends Controller
             }
         }
         if ($request->position) {
-            $request->c_profile==null;
+            $request->c_profile == null;
             $response = DB::table('taverse2')->where("position", $request->position)->first();
             if ($response) {
 
