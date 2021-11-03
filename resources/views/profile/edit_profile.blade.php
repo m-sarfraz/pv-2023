@@ -310,7 +310,7 @@
                 </div>
                 <div class="modal-body">
                     
-                    <form action="{{ route("uploadJdlSheet") }}" method="post">
+                    <form action="{{ route("uploadJdlSheet") }}" method="post" enctype="multipart/form-data">
                         @csrf
                       
 
@@ -326,8 +326,8 @@
                                 </div>
                           
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" onclick="UploadJDlSheet()">Import</button>
+                        
+                        <button type="submit" class="btn btn-success" onclick="UploadJDlSheet()">Upload</button>
                     </div>
                 </form>
             </div>
