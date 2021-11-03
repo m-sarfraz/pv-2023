@@ -183,7 +183,7 @@ class JdlController extends Controller
         $filter_Client_domain = [];
         if ($request->client) {
 
-            $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("domain")->get();
+            $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get();
         } else {
             $filter_Client_domain == null;
         }
