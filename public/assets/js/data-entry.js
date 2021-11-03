@@ -275,6 +275,7 @@ function EnableUserEdit(elem) {
                 $('#status').prop("disabled", false);
                 $('#site').prop("disabled", false);
                 $('#client').prop("disabled", false);
+                $('#endo_type').prop("disabled", false);
                 $('#position').prop("disabled", false);
                 $('#domain_endo').prop("disabled", false);
                 $('#career').prop("disabled", false);
@@ -283,7 +284,6 @@ function EnableUserEdit(elem) {
                 $('#endo_date').prop("disabled", false);
                 $('#remarks_for_finance').prop("disabled", false);
                 // $('#expec_salary').prop("disabled", false);
-                $('#endo_type').prop("disabled", false);
             }
             var value = $('#remarks_for_finance').find(":selected").text().trim();
             // enable and disalbe reason for not processing input fields

@@ -30,9 +30,9 @@
                                     New Record
                                 </button>
                                 @can('add-data')
-                                <button class="btn btn_Group mb-4 btn-sm" type="submit" id="save">
-                                    Save Record
-                                </button>
+                                    <button class="btn btn_Group mb-4 btn-sm" type="submit" id="save">
+                                        Save Record
+                                    </button>
                                 @endcan
                             </div>
                         </div>
@@ -55,23 +55,26 @@
                                             {{ $value->first_name }} {{ $value->last_name }}
                                         </option>
                                     @endforeach
-                                </Select> 
+                                </Select>
+                                {{-- <input type="email" disabled="" class="form-control users-input m-3 mt-0 mb-0 w-75" id="detail_candidate"
+                                style="padding-left: 5px !important;" aria-describedby="emailHelp"
+                                value="{{$candidateDetail != null ? $candidateDetail->first_name.''.$candidateDetail->last_name.''.$candidateDetail->candidate_profile.''.$candidateDetail->date_processed : ''}}" placeholder="enter candidate name" /> --}}
                                 @can('search-data')
 
-                                <button class="btn btn_Group mb-4 mt-4 btn-sm" type="button" id="searchRecord"
-                                    onclick="SearchUserData(this,'#UserData_div')" disabled="">
-                                    Search Record
-                                </button>
+                                    <button class="btn btn_Group mb-2 mt-1 btn-sm" type="button" id="searchRecord"
+                                        onclick="SearchUserData(this,'#UserData_div')" disabled="">
+                                        Search Record
+                                    </button>
                                 @endcan
 
                                 @can('edit-data')
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
-                                    onclick="EnableUserEdit(this)">
-                                    Edit Record
-                                </button> 
-                                <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
-                                    Edit</button>
-                                    @endcan
+                                    <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
+                                        onclick="EnableUserEdit(this)">
+                                        Edit Record
+                                    </button>
+                                    <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
+                                        Edit</button>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -262,7 +265,8 @@
                                                             <?php
                                                             $course = Helper::get_dropdown('course');
                                                             ?>
-                                                            <select name="COURSE" class="form-control p-0 users-input-S-C"
+                                                            <select name="COURSE"
+                                                                class="form-control p-0 users-input-S-C select2_dropdown w-100"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->course : '' }}"
                                                                 id="COURSE">
                                                                 <option value=""
@@ -329,7 +333,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($domainDrop as $domainOption)
                                                                     <option value="{{ $domainOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->domain == $domainOption->option_name : '') ? 'selected' : '' }}>
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->domain == $domainOption->domain_name : '') ? 'selected' : '' }}>
                                                                         {{ $domainOption->domain_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -338,9 +342,6 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                                            <?php
-                                                            $segment = Helper::get_dropdown('segments');
-                                                            ?>
                                                             <label class="Label labelFontSize">segment</label>
                                                             <select name="SEGMENT" id="Domainsegment"
                                                                 onchange="SegmentChange('Domainsegment')"
@@ -348,10 +349,10 @@
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($segment->options as $segmentOption)
+                                                                @foreach ($segmentsDropDown as $segmentOption)
                                                                     <option value="{{ $segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->option_name : '') ? 'selected' : '' }}>
-                                                                        {{ $segmentOption->option_name }}</option>
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->segment_name : '') ? 'selected' : '' }}>
+                                                                        {{ $segmentOption->segment_name }}</option>
                                                                 @endforeach
 
                                                             </select>
@@ -360,19 +361,17 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
-                                                            <?php
-                                                            $sub_segment = Helper::get_dropdown('sub_segment');
-                                                            ?>
+
                                                             <label class="Label labelFontSize">sub-segment</label>
                                                             <select name="SUB_SEGMENT" id="Domainsub"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($sub_segment->options as $sub_segmentOption)
+                                                                @foreach ($sub_segmentsDropDown as $sub_segmentOption)
                                                                     <option value="{{ $sub_segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->sub_segment == $sub_segmentOption->option_name : '') ? 'selected' : '' }}>
-                                                                        {{ $sub_segmentOption->option_name }}
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->sub_segment == $sub_segmentOption->sub_segment_name : '') ? 'selected' : '' }}>
+                                                                        {{ $sub_segmentOption->sub_segment_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -555,16 +554,19 @@
                                                                 style="position: absolute;left: -7px; top:1px;color:red"></i>
                                                         </div>
                                                         @if ($candidateDetail != null && $candidateDetail->cv != null)
-                                                        <div class="d-flex justify-flex-end"
-                                                        style="justify-content: flex-end;">
-                                                        <i class="bi bi-paperclip d-flex align-items-center"></i> <span class="d-flex align-items-center"> @if ($candidateDetail != null) {{$candidateDetail->first_name}}'s Resume @endif</span>
-                                                        <a class="mt-2 ml-2 btn btn-success" type="button" style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
-                                                        target="blank"
-                                                        href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
-                                                        {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
-                                                        CV</a>
-                                                        
-                                                    </div>
+                                                            <div class="d-flex justify-flex-end"
+                                                                style="justify-content: flex-end;">
+                                                                <i class="bi bi-paperclip d-flex align-items-center"></i>
+                                                                <span class="d-flex align-items-center">
+                                                                    @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
+                                                                <a class="mt-2 ml-2 btn btn-success" type="button"
+                                                                    style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
+                                                                    target="blank"
+                                                                    href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
+                                                                    {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
+                                                                    CV</a>
+
+                                                            </div>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -793,7 +795,7 @@
                                                     Site:
                                                 </label>
                                                 <select name="SITE" disabled="" id="site"
-                                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                    class="form-control border pl-0 arrow-3 h-px-20_custom   font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                     <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
                                                         disabled selected>Select Option</option>
                                                     @foreach ($site->options as $siteOptions)
@@ -847,15 +849,14 @@
                                                     Domain
                                                 </label>
                                                 <select id="domain_endo" name="DOMAIN_ENDORSEMENT" disabled=""
-                                                    onchange="DomainChange(this)"
+                                                    onchange="endoDomainChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
-                                                        disabled>Select Option</option>
-                                                    @foreach ($domain->options as $domainOptions)
-                                                        <option value="{{ $domainOptions->id }}"
-                                                            {{ ($candidateDetail != null ? $candidateDetail->domain_endo == $domainOptions->option_name : '') ? 'selected' : '' }}>
-                                                            {{ $domainOptions->option_name }}
-                                                        </option>
+                                                    <option {{ $candidateDetail == null ? 'selected' : '' }} disabled>
+                                                        Select Option</option>
+                                                    @foreach ($domainDrop as $domainOption)
+                                                        <option value="{{ $domainOption->id }}"
+                                                            {{ ($candidateDetail != null ? $candidateDetail->domain_endo == $domainOption->domain_name : '') ? 'selected' : '' }}>
+                                                            {{ $domainOption->domain_name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <div>
@@ -897,13 +898,14 @@
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Segment</label>
                                                 <select disabled="" id="segment" name="endo_SEGMENT"
+                                                    onchange="endoSegmentChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
-                                                        disabled selected>Select Option</option>
-                                                    @foreach ($segments->options as $segmentsOptions)
+                                                    <option {{ $candidateDetail == null ? 'selected' : '' }} disabled>
+                                                        Select Option</option>
+                                                    @foreach ($segmentsDropDown as $segmentsOptions)
                                                         <option value="{{ $segmentsOptions->id }}"
-                                                            {{ ($candidateDetail != null ? $candidateDetail->segment_endo == $segmentsOptions->option_name : '') ? 'selected' : '' }}>
-                                                            {{ $segmentsOptions->option_name }}
+                                                            {{ ($candidateDetail != null ? $candidateDetail->segment_endo == $segmentsOptions->segment_name : '') ? 'selected' : '' }}>
+                                                            {{ $segmentsOptions->segment_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -933,11 +935,11 @@
                                                 <select disabled="" id="sub_segment" name="Endo_SUB_SEGMENT"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" {{ $candidateDetail == null ? 'selected' : '' }}
-                                                        disabled selected>Select Option</option>
+                                                        disabled>Select Option</option>
                                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                                         <option value="{{ $sub_segmentOptions->id }}"
-                                                            {{ ($candidateDetail != null ? $candidateDetail->sub_segment_endo == $sub_segmentOptions->option_name : '') ? 'selected' : '' }}>
-                                                            {{ $sub_segmentOptions->option_name }}
+                                                            {{ ($candidateDetail != null ? $candidateDetail->sub_segment_endo == $sub_segmentOptions->sub_segment_name : '') ? 'selected' : '' }}>
+                                                            {{ $sub_segmentOptions->sub_segment_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -1038,7 +1040,7 @@
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
                                                                 @foreach ($client->options as $clientOptions)
-                                                                    <option  value="{{ $clientOptions->option_name }}"
+                                                                    <option value="{{ $clientOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->client == $clientOptions->option_name : '') ? 'selected' : '' }}>
                                                                         {{ $clientOptions->option_name }}
                                                                     </option>
@@ -1101,16 +1103,36 @@
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
 
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 10 : '') ? 'selected' : '' }} value="10">10%</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 20 : '') ? 'selected' : '' }}  value="20">20 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 30 : '') ? 'selected' : '' }}  value="30">30 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 40 : '') ? 'selected' : '' }}  value="40">40 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 50 : '') ? 'selected' : '' }}  value="50">50 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 60 : '') ? 'selected' : '' }}  value="60">60 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 70 : '') ? 'selected' : '' }}  value="70">70 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 80 : '') ? 'selected' : '' }}  value="80">80 %</option>
-                                                                <option {{ ($candidateDetail != null ? $candidateDetail->rate == 90 : '') ? 'selected' : '' }}  value="90">90 %</option>
-                                                                <option  {{ ($candidateDetail != null ? $candidateDetail->rate == 100 : '') ? 'selected' : '' }} value="100">100 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 10 : '') ? 'selected' : '' }}
+                                                                    value="10">10%</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 20 : '') ? 'selected' : '' }}
+                                                                    value="20">20 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 30 : '') ? 'selected' : '' }}
+                                                                    value="30">30 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 40 : '') ? 'selected' : '' }}
+                                                                    value="40">40 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 50 : '') ? 'selected' : '' }}
+                                                                    value="50">50 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 60 : '') ? 'selected' : '' }}
+                                                                    value="60">60 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 70 : '') ? 'selected' : '' }}
+                                                                    value="70">70 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 80 : '') ? 'selected' : '' }}
+                                                                    value="80">80 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 90 : '') ? 'selected' : '' }}
+                                                                    value="90">90 %</option>
+                                                                <option
+                                                                    {{ ($candidateDetail != null ? $candidateDetail->rate == 100 : '') ? 'selected' : '' }}
+                                                                    value="100">100 %</option>
                                                             </select>
                                                             <div>
                                                                 <small class="text-danger"></small>
@@ -1124,7 +1146,8 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Offered Salary
                                                             </label>
-                                                            <input type="number" name="OFFERED_SALARY_finance" value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
+                                                            <input type="number" name="OFFERED_SALARY_finance"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
                                                                 id="off_salary_fianance" readonly
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
@@ -1134,7 +1157,8 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Placement Fee
                                                             </label>
-                                                            <input type="text" name="PLACEMENT_FEE" id="placement_fee" value="{{ $candidateDetail != null ? $candidateDetail->placement_fee : '' }}"
+                                                            <input type="text" name="PLACEMENT_FEE" id="placement_fee"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->placement_fee : '' }}"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -1145,7 +1169,8 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 Allowance
                                                             </label>
-                                                            <input type="number" name="ALLOWANCE" id="off_allowance_finance"  value="{{ $candidateDetail != null ? $candidateDetail->off_allowance : '' }}"
+                                                            <input type="number" name="ALLOWANCE" id="off_allowance_finance"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->off_allowance : '' }}"
                                                                 readonly class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -1178,7 +1203,7 @@
                 $('#transparentDiv').hide();
                 $('#loader1').hide();
             }, 800);
-            $("#endo_type").prop('disabled', true)
+            $("#date_invited").prop('disabled', true)
             // disable save button
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
@@ -1413,13 +1438,29 @@
         }
 
         // function for (if domain is changed append segments acoordingly) starts
+        function endoDomainChange(elem) {
+            $('#segment').empty()
+            var segmentsDropDown = {!! $segmentsDropDown !!};
+            var count = 0;
+            for (let i = 0; i < segmentsDropDown.length; i++) {
+                if ($(elem).val() == segmentsDropDown[i].domain_id) {
+                    count++;
+                    $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                        .segment_name +
+                        '</option>');
+                }
+            }
+            endoSegmentChange('#segment')
+        }
+
+
         function DomainChange(elem) {
             $('#Domainsub').empty()
             $('#sub_segment').empty()
             $('#Domainsegment').empty()
             $('#segment').empty()
-            var selected = $('#domain').find(":selected").text().trim();
-            $('#domain_endo').html('<option>' + selected + '</option>');
+            // var selected = $('#domain').find(":selected").text().trim();
+            // $('#domain_endo').html('<option>' + selected + '</option>');
             var domains = {!! $domainDrop !!};
             var segmentsDropDown = {!! $segmentsDropDown !!};
             var count = 0;
@@ -1431,18 +1472,32 @@
                         .segment_name +
                         '</option>');
 
-                    $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
-                        .segment_name +
-                        '</option>');
+                    // $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+                    //     .segment_name +
+                    //     '</option>');
                 }
 
             }
             SegmentChange("Domainsegment");
-            SPRCalculator()
+            // SPRCalculator()
 
 
         }
         // function for (if domain is changed append segments acoordingly) starts
+
+        function endoSegmentChange(elem) {
+            $('#sub_segment').empty()
+            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+            var count = 0;
+            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+                if ($(elem).val() == sub_segmentsDropDown[i].segment_id) {
+                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                        sub_segmentsDropDown[i]
+                        .sub_segment_name +
+                        '</option>');
+                }
+            }
+        }
 
         // function for (if segment is changed append segments acoordingly) starts
         function SegmentChange(elem) {
@@ -1457,10 +1512,10 @@
                         sub_segmentsDropDown[i]
                         .sub_segment_name +
                         '</option>');
-                    $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
-                        sub_segmentsDropDown[i]
-                        .sub_segment_name +
-                        '</option>');
+                    // $('#sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
+                    //     sub_segmentsDropDown[i]
+                    //     .sub_segment_name +
+                    //     '</option>');
                 }
             }
         }
@@ -1509,78 +1564,77 @@
 
             }
         }
-        
-    // get value of seleted field 
-    var value = $('#remarks_for_finance').find(":selected").text().trim();
 
-// enable and disalbe reason for not processing input fields
-if (value.includes('Failed') || value.includes('Withdraw')) {
-    $('#rfp').prop("disabled", false);
-} else {
-    $('#rfp').prop("disabled", true);
-}
+        // get value of seleted field 
+        var value = $('#remarks_for_finance').find(":selected").text().trim();
 
-// enable and disable finance section on selected text of remarks for finance
-if (value.includes('accepted') || value.includes('Onboarded')) {
-    $('#finance_fieldset').prop("disabled", false);
-    $('#off_allowance').prop("disabled", false);
-    $('#career_finance').prop("disabled", false);
-    $('#srp').prop("disabled", false);
-    $('#remarks_finance').prop("disabled", false);
-    $('#invoice_number').prop("disabled", false);
-    $('#bilable_amount').prop("disabled", false);
-    $('#rate').prop("disabled", false);
-    $('#off_allowance_finance').prop("disabled", false);
-    $('#placement_fee').prop("disabled", false);
-    $('#off_salary_fianance').prop("disabled", false);
-    $('#onboard_date').prop("disabled", false);
-    // $('#off_allowance').prop("disabled", false);
-} else {
+        // enable and disalbe reason for not processing input fields
+        if (value.includes('Failed') || value.includes('Withdraw')) {
+            $('#rfp').prop("disabled", false);
+        } else {
+            $('#rfp').prop("disabled", true);
+        }
 
-    // else disable the finance section and disable salray fields
-    $('#finance_fieldset').prop("disabled", true);
+        // enable and disable finance section on selected text of remarks for finance
+        if (value.includes('accepted') || value.includes('Onboarded')) {
+            $('#finance_fieldset').prop("disabled", false);
+            $('#off_allowance').prop("disabled", false);
+            $('#career_finance').prop("disabled", false);
+            $('#srp').prop("disabled", false);
+            $('#remarks_finance').prop("disabled", false);
+            $('#invoice_number').prop("disabled", false);
+            $('#bilable_amount').prop("disabled", false);
+            $('#rate').prop("disabled", false);
+            $('#off_allowance_finance').prop("disabled", false);
+            $('#placement_fee').prop("disabled", false);
+            $('#off_salary_fianance').prop("disabled", false);
+            $('#onboard_date').prop("disabled", false);
+            // $('#off_allowance').prop("disabled", false);
+        } else {
 
-    // $('#off_allowance').prop("disabled", true);
-}
-if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard')|| value.includes('Scheduled') || value.includes('Offer accepted')) {
-    $('#off_allowance').prop("disabled", false);
-    $('#off_salary').prop("disabled", false);
-}
-else {
-    $('#off_allowance').prop("disabled", true);
-    $('#off_salary').prop("disabled", true);
-}
-// enalbe the interview date if remark include schedule
-if (value.includes('Scheduled')) {
-    $('#interview_schedule').prop("disabled", false);
-}
-else {
-    $('#interview_schedule').prop("disabled", true);
-}
-if (value.includes('Scheduled') || value.includes('Pending') || value.includes('Withdraw')) {
+            // else disable the finance section and disable salray fields
+            $('#finance_fieldset').prop("disabled", true);
 
-    // disable fieldset of finance fieldset
-    $('#finance_fieldset').prop("disabled", false);
+            // $('#off_allowance').prop("disabled", true);
+        }
+        if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard') || value.includes(
+                'Scheduled') || value.includes('Offer accepted')) {
+            $('#off_allowance').prop("disabled", false);
+            $('#off_salary').prop("disabled", false);
+        } else {
+            $('#off_allowance').prop("disabled", true);
+            $('#off_salary').prop("disabled", true);
+        }
+        // enalbe the interview date if remark include schedule
+        if (value.includes('Scheduled')) {
+            $('#interview_schedule').prop("disabled", false);
+        } else {
+            $('#interview_schedule').prop("disabled", true);
+        }
+        if (value.includes('Scheduled') || value.includes('Pending') || value.includes('Withdraw')) {
 
-    //disable remaining fields of finance reference
-    $('#career_finance').prop("disabled", false);
-    $('#srp').prop("disabled", false);
-    $('#remarks_finance').prop("disabled", true);
-    $('#invoice_number').prop("disabled", true);
-    $('#bilable_amount').prop("disabled", true);
-    $('#rate').prop("disabled", true);
-    $('#off_allowance_finance').prop("disabled", true);
-    $('#placement_fee').prop("disabled", true);
-    $('#off_salary_fianance').prop("disabled", true);
-    $('#onboard_date').prop("disabled", true);
-}
+            // disable fieldset of finance fieldset
+            $('#finance_fieldset').prop("disabled", false);
 
-// enable the standard project revenue if the remark incliudes mid / mid stage
-if (value.includes('Mid')) {
-    $('#client_finance').prop("disabled", false);
-}
+            //disable remaining fields of finance reference
+            $('#career_finance').prop("disabled", false);
+            $('#srp').prop("disabled", false);
+            $('#remarks_finance').prop("disabled", true);
+            $('#invoice_number').prop("disabled", true);
+            $('#bilable_amount').prop("disabled", true);
+            $('#rate').prop("disabled", true);
+            $('#off_allowance_finance').prop("disabled", true);
+            $('#placement_fee').prop("disabled", true);
+            $('#off_salary_fianance').prop("disabled", true);
+            $('#onboard_date').prop("disabled", true);
+        }
 
-// on remarks for finance change shwo user input fields ends
+        // enable the standard project revenue if the remark incliudes mid / mid stage
+        if (value.includes('Mid')) {
+            $('#client_finance').prop("disabled", false);
+        }
+
+        // on remarks for finance change shwo user input fields ends
 
         // close 
 
@@ -1700,8 +1754,8 @@ if (value.includes('Mid')) {
                     $('#sub_segment').prop("disabled", false);
                     $('#endo_date').prop("disabled", false);
                     $('#remarks_for_finance').prop("disabled", false);
-                    // $('#expec_salary').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
+                    // $('#expec_salary').prop("disabled", false);
 
 
                 } else {
@@ -1774,12 +1828,12 @@ if (value.includes('Mid')) {
                             `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
 
 
-                        $('#domain_endo').append(
-                            `<option selected  value="${res.data.domain}">${res.data.domain}</option>`);
-                        $('#segment').append(
-                            `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
-                        $('#sub_segment').append(
-                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                        // $('#domain_endo').append(
+                        //     `<option selected  value="${res.data.domain}">${res.data.domain}</option>`);
+                        // $('#segment').append(
+                        //     `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
+                        // $('#sub_segment').append(
+                        //     `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
 
 
 
