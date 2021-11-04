@@ -10,6 +10,7 @@ use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
 use App\Finance;
+use App\Finance_detail;
 use App\Http\Controllers\Controller;
 use App\Permission;
 use App\Segment;
@@ -437,6 +438,9 @@ class CandidateController extends Controller
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
             $finance->save();
+            $finance_detail = new Finance_detail();
+            $finance_detail->candidate_id = $CandidateInformation->id;
+            $finance_detail->save();
 
             // return response success if data is entered
             //get last record  save data
