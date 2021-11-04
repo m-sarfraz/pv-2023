@@ -464,7 +464,7 @@
                             <div class="col-lg-6"></div>
                             <div class="col-lg-6">
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                    <div class="w-100 d-none" style="text-align: end; margin-bottom: 6px; "
+                                    <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
                                         <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
                                             accept="application/pdf" class="uploadcv  w-100">
