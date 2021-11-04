@@ -34,7 +34,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
                                             placeholder="search keyword" required=""
-                                            class="form-control h-px-20_custom border" oninput="filterUserData()" />
+                                            class="form-control h-px-20_custom border" onchange="filterUserData()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
