@@ -570,11 +570,27 @@
 
                 // Success fucniton of Ajax
                 success: function(data) {
-
+               
+                    if(data){
+                        
                     $('#filter_table_div').html(' ');
                     $('#filter_table_div').html(data);
+                    if(data.count!=undefined){
 
+                    $('#No_of_count').val(data.count);
+                    }
                     $("#loader").hide();
+                    }
+                    if(data.sms)
+                    {
+                   
+                        // Show notification message if fields are empty in candidate position fields
+                        swal({
+                            icon: "warning",
+                            text: " No data found according to this search  ",
+                            icon: "warning",
+                        });
+                    }
                 },
             });
         }

@@ -141,7 +141,11 @@ class JdlController extends Controller
 
                 if (strpos(strtolower($match->location), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . '%');
+                   if(strtolower($request->searchKeyword)=='accenture'){
+                    break;
+                   }else{
+                       $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . ' %');
+                   }
                 }
                 if (strpos(strtolower($match->budget), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
@@ -155,24 +159,28 @@ class JdlController extends Controller
         }
         if ($check) {
 
-            $dataJdl = $Userdata->get();
+           $dataJdl = $Userdata->get();
+        
         } else {
             if (!$check && !$searchCheck) {
-                $dataJdl = $Userdata->get();
+                 $dataJdl = $Userdata->get();
+                
             } else {
+
                 $dataJdl = [];
+               
             }
         }
         $count = count($dataJdl);
-        // dd($Userdata);
-
+        
+        if($count<1){
+            return response()->json(['sms'=>'no record fond','count'=>$count]);
+        }
         $data = [
             "Userdata" => $dataJdl,
             "count" => $count,
         ];
-        if (!empty($dataJDL)) {
-            dd($data);
-        }
+        
         return view("JDL.Filter_user", $data);
     }
     public function filter_records_jdl_getclient(Request $request)
