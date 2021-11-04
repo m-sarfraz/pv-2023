@@ -110,6 +110,7 @@
                                     @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
                                     @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
                                     @php $index_total_ogoing__check="total_ogoing_".$i @endphp
+                                    @php $lastColumnsec_row__check="lastColumnsec_row_".$i @endphp
 
                                     <tr>
                                         <td><?php echo $data[$i]->name; ?></td>
@@ -137,9 +138,7 @@
                                         <td>@php
                                             echo isset($append[$i][$index_total_ogoing__check]) ? $append[$i][$index_total_ogoing__check] : '';
                                         @endphp</td>
-                                        <td>@php
-                                            echo isset($total_ogoing_Last_column[$i]) ? $total_ogoing_Last_column[$i]->f_srp : '';
-                                        @endphp</td>
+                                        <td>@php echo isset($append[$i][$lastColumnsec_row__check][0]->f_srp)?$append[$i][$lastColumnsec_row__check][0]->f_srp:0;@endphp</td>
                                     </tr>
 
                                 @endfor
