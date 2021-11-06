@@ -448,6 +448,32 @@
                                                                     <small class="text-danger"></small>
                                                                 </div>
                                                             </div>
+                                                            <div class="form-group mb-0">
+                                                                <?php
+                                                                $source = Helper::get_dropdown('source');
+                                                                ?>
+                                                                <label class="Label labelFontSize">
+                                                                    Source
+                                                                </label>
+                                                                <select name="SOURCE"
+                                                                    value="{{ $candidateDetail != null ? $candidateDetail->source : '' }}"
+                                                                    id="source" class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                                                    <option value=""
+                                                                        {{ $candidateDetail == null ? 'selected' : '' }}
+                                                                        disabled>Select Option
+                                                                    </option>
+                                                                    @foreach ($source->options as $sourceOption)
+                                                                        <option
+                                                                            value="{{ $sourceOption->option_name }}"
+                                                                            {{ ($candidateDetail != null ? $candidateDetail->source == $sourceOption->option_name : '') ? 'selected' : '' }}>
+                                                                            {{ $sourceOption->option_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div>
+                                                                    <small class="text-danger"></small>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         <div class="col-lg-12 p-0">
