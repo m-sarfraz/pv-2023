@@ -290,6 +290,9 @@
                                                         <div class="form-group mb-0">
                                                             <?php
                                                             $certificate = Helper::get_dropdown('certifications');
+                                                            if ($candidateDetail != null) {
+                                                                $arr = explode(',', $candidateDetail->certification);
+                                                            }
                                                             ?>
                                                             <label class="Label labelFontSize">
                                                                 Certifications
@@ -300,8 +303,10 @@
                                                                 {{-- <option value="" {{ $candidateDetail == null ? 'selected' : ''}} selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->certification == $certificateOption->option_name : '') ? 'selected' : '' }}>
-                                                                        {{ $certificateOption->option_name }}</option>
+                                                                        @if ($candidateDetail != null)
+                                                                        {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}
+                                                                @endif>
+                                                                {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -457,14 +462,14 @@
                                                                 </label>
                                                                 <select name="SOURCE"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->source : '' }}"
-                                                                    id="source" class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                                                    id="source"
+                                                                    class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                                                     <option value=""
                                                                         {{ $candidateDetail == null ? 'selected' : '' }}
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($source->options as $sourceOption)
-                                                                        <option
-                                                                            value="{{ $sourceOption->option_name }}"
+                                                                        <option value="{{ $sourceOption->option_name }}"
                                                                             {{ ($candidateDetail != null ? $candidateDetail->source == $sourceOption->option_name : '') ? 'selected' : '' }}>
                                                                             {{ $sourceOption->option_name }}
                                                                         </option>
@@ -562,41 +567,45 @@
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
+                                                        <div class="row pt-4">
+
+                                                            <div class="col-lg-12">
+                                                                <div
+                                                                    class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
+                                                                    <div class="w-100"
+                                                                        style="text-align: end; margin-bottom: 6px;">
+                                                                        <input type="file" id="sheetFile" name="file"
+                                                                            oninput="uploadFile(this)"
+                                                                            accept="application/pdf"
+                                                                            class="uploadcv    w-100">
+                                                                        <i class="bi bi-x-circle d-none" id="cross"
+                                                                            onclick="emptyFileinput()"
+                                                                            style="position: absolute;left: -7px; top:1px;color:red"></i>
+                                                                    </div>
+                                                                    @if ($candidateDetail != null && $candidateDetail->cv != null)
+                                                                        <div class="d-flex justify-flex-end"
+                                                                            style="justify-content: flex-end;">
+                                                                            <i
+                                                                                class="bi bi-paperclip d-flex align-items-center"></i>
+                                                                            <span class="d-flex align-items-center">
+                                                                                @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
+                                                                            <a class="mt-2 ml-2 btn btn-success"
+                                                                                type="button"
+                                                                                style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
+                                                                                target="blank"
+                                                                                href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
+                                                                                {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
+                                                                                CV</a>
+
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                            <div class="row pt-3">
-                                                <div class="col-lg-6"></div>
-                                                <div class="col-lg-6">
-                                                    <div
-                                                        class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                                        <div class="w-100"
-                                                            style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" 
-                                                                oninput="uploadFile(this)" accept="application/pdf"
-                                                                class="uploadcv    w-100">
-                                                            <i class="bi bi-x-circle d-none" id="cross"
-                                                                onclick="emptyFileinput()"
-                                                                style="position: absolute;left: -7px; top:1px;color:red"></i>
-                                                        </div>
-                                                        @if ($candidateDetail != null && $candidateDetail->cv != null)
-                                                            <div class="d-flex justify-flex-end"
-                                                                style="justify-content: flex-end;">
-                                                                <i class="bi bi-paperclip d-flex align-items-center"></i>
-                                                                <span class="d-flex align-items-center">
-                                                                    @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
-                                                                <a class="mt-2 ml-2 btn btn-success" type="button"
-                                                                    style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
-                                                                    target="blank"
-                                                                    href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
-                                                                    {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
-                                                                    CV</a>
 
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                         </div>
                                     </div>
@@ -624,8 +633,7 @@
                                             <select name="APPLICATION_STATUS" id="ap_status"
                                                 onchange="ApplicationStatusChange(this)"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value=""  selected
-                                                    disabled>Select Option</option>
+                                                <option value="" selected disabled>Select Option</option>
                                                 @foreach ($status->options as $statusOptions)
                                                     <option value="{{ $statusOptions->option_name }}">
                                                         {{ $statusOptions->option_name }}
@@ -647,8 +655,7 @@
                                                 <select name="POSITION_TITLE" disabled="" id="position"
                                                     onchange="traverse2()" class="select2_dropdown  w-100"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled>Select Option</option>
+                                                    <option value="" selected disabled>Select Option</option>
                                                     @foreach ($position_title->options as $position_titleOptions)
                                                         <option value="{{ $position_titleOptions->option_name }}">
                                                             {{ $position_titleOptions->option_name }}
@@ -674,11 +681,10 @@
                                                 </label>
                                                 <select name="ENDORSEMENT_TYPE" id="endo_type" disabled=""
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($endoType->options as $endoTypeOptions)
                                                         <option value="{{ $endoTypeOptions->option_name }}">
-                                                             {{ $endoTypeOptions->option_name }}
+                                                            {{ $endoTypeOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -698,11 +704,10 @@
                                                 <select name="CAREER_LEVEL" disabled="" id="career"
                                                     onchange="careerChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                         <option value="{{ $CareerLevelOptions->option_name }}">
- 
+
                                                             {{ $CareerLevelOptions->option_name }}
                                                         </option>
                                                     @endforeach
@@ -737,11 +742,10 @@
                                                 </label>
                                                 <select name="STATUS" id="status" disabled=""
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($status->options as $statusOptions)
                                                         <option value="{{ $statusOptions->option_name }}">
-                                                             {{ $statusOptions->option_name }}
+                                                            {{ $statusOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                     &quot;item&quot;
@@ -763,11 +767,10 @@
                                                 <label class="Label labelFontSize">Client</label>
                                                 <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($client->options as $clientOptions)
                                                         <option value="{{ $clientOptions->option_name }}">
-                                                             {{ $clientOptions->option_name }}
+                                                            {{ $clientOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -790,11 +793,10 @@
                                                     @php
                                                         $remarks = Helper::get_dropdown('remarks_for_finance');
                                                     @endphp
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($remarks->options as $remarksOptions)
                                                         <option value="{{ $remarksOptions->option_name }}">
- 
+
                                                             {{ $remarksOptions->option_name }}</option>
                                                     @endforeach
                                                 </select>
@@ -815,11 +817,10 @@
                                                 </label>
                                                 <select name="SITE" disabled="" id="site"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom   font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($site->options as $siteOptions)
                                                         <option value="{{ $siteOptions->option_name }}">
- 
+
                                                             {{ $siteOptions->option_name }}
                                                         </option>
                                                     @endforeach
@@ -839,11 +840,10 @@
                                                 </label>
                                                 <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($remarks->options as $remarksOptions)
                                                         <option value="{{ $remarksOptions->option_name }}">
- 
+
                                                             {{ $remarksOptions->option_name }}
                                                         </option>
                                                     @endforeach
@@ -868,11 +868,11 @@
                                                 <select id="domain_endo" name="DOMAIN_ENDORSEMENT" disabled=""
                                                     onchange="endoDomainChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option  selected disabled>
+                                                    <option selected disabled>
                                                         Select Option</option>
                                                     @foreach ($domainDrop as $domainOption)
                                                         <option value="{{ $domainOption->id }}">
-                                                             {{ $domainOption->domain_name }}</option>
+                                                            {{ $domainOption->domain_name }}</option>
                                                     @endforeach
                                                 </select>
                                                 <div>
@@ -890,11 +890,10 @@
                                                 </label>
                                                 <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value=""  selected
-                                                        disabled selected>Select Option</option>
+                                                    <option value="" selected disabled selected>Select Option</option>
                                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                         <option value="{{ $ReasonForNotPOptions->option_name }}">
-                                                             {{ $ReasonForNotPOptions->option_name }}
+                                                            {{ $ReasonForNotPOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -915,11 +914,11 @@
                                                 <select disabled="" id="segment" name="endo_SEGMENT"
                                                     onchange="endoSegmentChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option  selected disabled>
+                                                    <option selected disabled>
                                                         Select Option</option>
                                                     @foreach ($segmentsDropDown as $segmentsOptions)
                                                         <option value="{{ $segmentsOptions->id }}">
-                                                             {{ $segmentsOptions->segment_name }}
+                                                            {{ $segmentsOptions->segment_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -933,7 +932,6 @@
                                             <div class="form-group mb-0 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Interview :</label>
                                                 <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
-                                                     
                                                     placeholder="mm-dd-yyyy" id="interview_schedule"
                                                     class="form-control users-input-S-C" />
                                             </div>
@@ -948,11 +946,10 @@
                                                 <label class="Label labelFontSize">sub-segment</label>
                                                 <select disabled="" id="sub_segment" name="Endo_SUB_SEGMENT"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value=""  selected
-                                                        disabled>Select Option</option>
+                                                    <option value="" selected disabled>Select Option</option>
                                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                                         <option value="{{ $sub_segmentOptions->id }}">
-                                                             {{ $sub_segmentOptions->sub_segment_name }}
+                                                            {{ $sub_segmentOptions->sub_segment_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -990,9 +987,7 @@
                                                             </label>
                                                             <select name="REMARKS" id="remarks_finance"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                                <option value=""
-                                                                     selected
-                                                                    disabled>Select Option</option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($remarks->options as $remarksOptions)
                                                                     <option value="{{ $remarksOptions->option_name }}">
                                                                         {{ $remarksOptions->option_name }}
@@ -1010,7 +1005,7 @@
                                                                 Onboarding Date
                                                             </label>
                                                             <input type="date" name="ONBOARDING_DATE" id="onboard_date"
-                                                                 placeholder="mm-dd-yyyy"
+                                                                placeholder="mm-dd-yyyy"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -1022,7 +1017,7 @@
                                                                 Standard Projected Revenue
                                                             </label>
                                                             <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
-                                                                 class="form-control h-px-20_custom" readonly />
+                                                                class="form-control h-px-20_custom" readonly />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -1047,12 +1042,10 @@
                                                             <select name="CLIENT_FINANCE"
                                                                 class="form-control border h-px-20_custom w-100"
                                                                 id="client_finance" disabled="">
-                                                                <option value=""
-                                                                     selected
-                                                                    disabled>Select Option</option>
+                                                                <option value="" selected disabled>Select Option</option>
                                                                 @foreach ($client->options as $clientOptions)
                                                                     <option value="{{ $clientOptions->option_name }}">
-                                                                         {{ $clientOptions->option_name }}
+                                                                        {{ $clientOptions->option_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1068,7 +1061,7 @@
                                                             </label>
                                                             <input type="number" name="TOTAL_BILLABLE_AMOUNT"
                                                                 id="bilable_amount" oninput="amountFinder(this)"
-                                                                 class="form-control border h-px-20_custom" />
+                                                                class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1084,13 +1077,12 @@
                                                             <select name="CAREER_LEVEL_FINANCE" disabled="" readonly
                                                                 id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
-                                                                <option value=""
-                                                                     selected
-                                                                    disabled selected>Select Option</option>
+                                                                <option value="" selected disabled selected>Select Option
+                                                                </option>
                                                                 @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                                     <option
                                                                         value="{{ $CareerLevelOptions->option_name }}">
- 
+
                                                                         {{ $CareerLevelOptions->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -1107,30 +1099,18 @@
                                                             </label>
                                                             <select name="RATE" class="form-control border h-px-20_custom"
                                                                 id="rate" id="rate_finance" oninput="amountFinder(this)">
-                                                                <option value=""
-                                                                     selected
-                                                                    disabled>Select Option</option>
+                                                                <option value="" selected disabled>Select Option</option>
 
-                                                                <option
-                                                                     value="10">10%</option>
-                                                                <option
-                                                                    value="20">20 %</option>
-                                                                <option
-                                                                    value="30">30 %</option>
-                                                                <option
-                                                                    value="40">40 %</option>
-                                                                <option
-                                                                    value="50">50 %</option>
-                                                                <option
-                                                                    value="60">60 %</option>
-                                                                <option
-                                                                    value="70">70 %</option>
-                                                                <option
-                                                                    value="80">80 %</option>
-                                                                <option
-                                                                    value="90">90 %</option>
-                                                                <option
-                                                                    value="100">100 %</option>
+                                                                <option value="10">10%</option>
+                                                                <option value="20">20 %</option>
+                                                                <option value="30">30 %</option>
+                                                                <option value="40">40 %</option>
+                                                                <option value="50">50 %</option>
+                                                                <option value="60">60 %</option>
+                                                                <option value="70">70 %</option>
+                                                                <option value="80">80 %</option>
+                                                                <option value="90">90 %</option>
+                                                                <option value="100">100 %</option>
                                                             </select>
                                                             <div>
                                                                 <small class="text-danger"></small>
@@ -1145,7 +1125,7 @@
                                                                 Offered Salary
                                                             </label>
                                                             <input type="number" name="OFFERED_SALARY_finance"
-                                                                 id="off_salary_fianance" readonly
+                                                                id="off_salary_fianance" readonly
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
@@ -1155,7 +1135,7 @@
                                                                 Placement Fee
                                                             </label>
                                                             <input type="text" name="PLACEMENT_FEE" id="placement_fee"
-                                                                 class="form-control border h-px-20_custom" />
+                                                                class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1166,7 +1146,7 @@
                                                                 Allowance
                                                             </label>
                                                             <input type="number" name="ALLOWANCE" id="off_allowance_finance"
-                                                                 readonly class="form-control border h-px-20_custom" />
+                                                                readonly class="form-control border h-px-20_custom" />
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6"></div>
@@ -1791,6 +1771,7 @@
                 $('#endo_date').prop("disabled", true);
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
+
             }
 
         }

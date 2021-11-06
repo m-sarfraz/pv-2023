@@ -79,7 +79,7 @@ class CandidateController extends Controller
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
@@ -105,7 +105,7 @@ class CandidateController extends Controller
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required";
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
@@ -121,21 +121,24 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
                 $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
-            if ($request->finance_field == 1) {
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+
+            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 $arrayCheck["PLACEMENT_FEE"] = "required";
@@ -276,7 +279,7 @@ class CandidateController extends Controller
                 $CandidateEducation->course = $request->COURSE;
             }
             if (isset($request->CERTIFICATIONS)) {
-                $certification = implode(", ", $request->CERTIFICATIONS);
+                $certification = implode(",", $request->CERTIFICATIONS);
                 $CandidateEducation->certification = $certification;
             }
             $CandidateEducation->save();
@@ -499,7 +502,7 @@ class CandidateController extends Controller
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
@@ -525,7 +528,7 @@ class CandidateController extends Controller
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required";
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
@@ -546,7 +549,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -555,7 +558,7 @@ class CandidateController extends Controller
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 $arrayCheck["PLACEMENT_FEE"] = "required";
@@ -576,7 +579,7 @@ class CandidateController extends Controller
                 "CANDIDATES_PROFILE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required ',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
@@ -605,7 +608,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -618,11 +621,11 @@ class CandidateController extends Controller
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required";
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 $arrayCheck["PLACEMENT_FEE"] = "required";

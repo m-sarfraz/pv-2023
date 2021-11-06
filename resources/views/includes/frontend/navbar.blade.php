@@ -12,11 +12,13 @@
                 style="cursor: pointer;">
                 Dashboard
             </a>
-            <a href="{{ route('data-entry') }}"
-                class="nav-link {{ $routeName == 'data-entry' ? 'nav-active' : 'text-white' }}"
-                style="cursor: pointer;">
-                Data Entry
-            </a>
+            @can('view-data-entry')
+                <a href="{{ route('data-entry') }}"
+                    class="nav-link {{ $routeName == 'data-entry' ? 'nav-active' : 'text-white' }}"
+                    style="cursor: pointer;">
+                    Data Entry
+                </a>
+            @endcan
             @can('view-jdl')
                 <a href="{{ route('jdl') }}" class="nav-link  {{ $routeName == 'jdl' ? 'nav-active' : 'text-white' }}"
                     style="cursor: pointer;">
@@ -56,49 +58,49 @@
                 </a>
             @endcan
             @can('view-dropdowns')
-            <div class="dropdown pt-2 pl-2 text-white">
-                Dropdowns
-                <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
-                <div class="dropdown-content" style="left: 14px;">
-                    <a href="{{ route('dropdown') }}">
-                        Add Dropdowns
-                    </a>
-
-                </div>
-            </div>
-            @endcan
-            @can('view-team')
-            <a href="{{ route('role.index') }}"
-                class="nav-link {{ $routeName == 'role.index' ? 'nav-active' : 'text-white' }}"
-                style="cursor: pointer;">
-                Teams
-            </a>
-            @endcan
-            @can('view-company')
-            <div class="">
                 <div class="dropdown pt-2 pl-2 text-white">
-                    Clients Profile
+                    Dropdowns
                     <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
-                    <div class="dropdown-content" style="left: -76px;">
-                        <a href="{{ route('companies') }}">
-                            Companies
+                    <div class="dropdown-content" style="left: 14px;">
+                        <a href="{{ route('dropdown') }}">
+                            Add Dropdowns
                         </a>
+
                     </div>
                 </div>
-            </div>
             @endcan
-           
-            @can('view-users')
-            <div class="dropdown pt-2 pl-2 text-white">
-                Users Management
-                <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
-                <div class="dropdown-content" style="left: 14px;">
-                    <a href="{{ route('user.index') }}">
-                        Users
-                    </a>
-
+            @can('view-team')
+                <a href="{{ route('role.index') }}"
+                    class="nav-link {{ $routeName == 'role.index' ? 'nav-active' : 'text-white' }}"
+                    style="cursor: pointer;">
+                    Teams
+                </a>
+            @endcan
+            @can('view-company')
+                <div class="">
+                    <div class="dropdown pt-2 pl-2 text-white">
+                        Clients Profile
+                        <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
+                        <div class="dropdown-content" style="left: -76px;">
+                            <a href="{{ route('companies') }}">
+                                Companies
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @endcan
+
+            @can('view-users')
+                <div class="dropdown pt-2 pl-2 text-white">
+                    Users Management
+                    <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <div class="dropdown-content" style="left: 14px;">
+                        <a href="{{ route('user.index') }}">
+                            Users
+                        </a>
+
+                    </div>
+                </div>
             @endcan
             <div class="ml-auto E_S_icon pr-8">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
