@@ -104,7 +104,7 @@ class HomeController extends Controller
             $count_offere_[$i] = Cipprogress::where("t_id", $check[$i])->where("offered", 1)->get();
 
             $count_user_pie_[$i] = new SampleChart();
-            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
+            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);  
             $count_user_pie_[$i]->dataset('my chart', 'pie', [isset($Quarterly_data_[$i][0])? $Quarterly_data_[$i][0]->f_srp:0, 400000])
                 ->options(
                     [
