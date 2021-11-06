@@ -201,12 +201,12 @@
                                         <label class="Label">
                                             CERTIFICATIONS
                                         </label>
-
+                                        {{-- @dd( $arr ) --}}
                                         <select multiple name="CERTIFICATIONS[]" id="certificate"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                             <option disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
-                                                <option value="{{ $certificateOption->option_name }}"
+                                                <option value="{{ $certificateOption->option_name }}" 
                                                     {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
@@ -1024,6 +1024,8 @@
                                         </label>
                                         <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                             id="rate_finance" oninput="amountFinder(this)">
+                                            <option Disabled {{ $user->rate == 0 ? 'selected' : '' }}> Select Option
+                                            </option>
                                             <option value="10" {{ $user->rate == 10 ? 'selected' : '' }}> 10%
                                             </option>
                                             <option value="10" {{ $user->rate == 20 ? 'selected' : '' }}> 20%
