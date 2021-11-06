@@ -817,6 +817,8 @@
             // show and hide loader after time set ends
 
         });
+        var count = {!! $count !!}
+        $('#recordNumber').val(count)
         // Section for docement ready funciton starts
 
         // funciton for channging the data to Dat Table starts

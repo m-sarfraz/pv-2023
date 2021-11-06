@@ -43,8 +43,7 @@ class RecordController extends Controller
             ->limit($limit)
             ->paginate();
         // get required data to use for select purpose
-        $count = $Userdata->count();
-
+        $count = CandidateInformation::all()->last()->id;
         $candidates = CandidateInformation::select('id', 'first_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();

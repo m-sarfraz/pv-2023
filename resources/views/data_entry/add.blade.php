@@ -1748,6 +1748,19 @@
                     $('#endo_date').prop("disabled", true);
                     // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
+                    $('#off_allowance').prop("disabled", true);
+                    $('#career_finance').prop("disabled", true);
+                    $('#srp').prop("disabled", true);
+                    $('#remarks_finance').prop("disabled", true);
+                    $('#invoice_number').prop("disabled", true);
+                    $('#bilable_amount').prop("disabled", true);
+                    $('#rate').prop("disabled", true);
+                    $('#off_allowance_finance').prop("disabled", true);
+                    $('#placement_fee').prop("disabled", true);
+                    $('#off_salary_fianance').prop("disabled", true);
+                    $('#onboard_date').prop("disabled", true);
+                    $('#off_salary').prop("disabled", true);
+
                 }
 
 
@@ -1771,6 +1784,19 @@
                 $('#endo_date').prop("disabled", true);
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
+                $('#finance_fieldset').prop("disabled", false);
+                $('#off_allowance').prop("disabled", true);
+                $('#career_finance').prop("disabled", true);
+                $('#srp').prop("disabled", true);
+                $('#remarks_finance').prop("disabled", true);
+                $('#invoice_number').prop("disabled", true);
+                $('#bilable_amount').prop("disabled", true);
+                $('#rate').prop("disabled", true);
+                $('#off_allowance_finance').prop("disabled", true);
+                $('#placement_fee').prop("disabled", true);
+                $('#off_salary_fianance').prop("disabled", true);
+                $('#onboard_date').prop("disabled", true);
+                $('#off_salary').prop("disabled", true);
 
             }
 
