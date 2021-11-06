@@ -77,7 +77,7 @@
                                             onchange="filterUserData()">
                                             @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
-                                                    {{ $candidate->first_name }}{{ $candidate->last_name }}</option>
+                                                    {{ $candidate->last_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

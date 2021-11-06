@@ -10,7 +10,7 @@
                                 Canidate Name*:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->first_name }}">
+                                value="{{ $user->last_name }}">
                         </div>
                     </div>
                     <div class="col-lg-3">

@@ -274,8 +274,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($value->first_name))
-                                                    {{ $value->first_name }} {{ $value->last_name }}
+                                                @if (isset($value->last_name))
+                                                    {{ $value->last_name }}
 
                                                 @endif
                                             </td>
