@@ -121,6 +121,7 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
@@ -133,7 +134,9 @@ class CandidateController extends Controller
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
                 $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
-            if ($request->finance_field == 1) {
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+
+            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
                 $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";

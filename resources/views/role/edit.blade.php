@@ -40,9 +40,9 @@
                                                     <label class="col-md-4" ><input {{ (in_array($value->id, $rolePermissions) ? "checked" : "")  }} type="checkbox"  {{ (in_array($value->id, $rolePermissions) ? "checked" : "")  }} name="permission[]" value="{{ $value->name  }}" > {{ $value->name  }}</label>
                                                 @endforeach
                                             </div> --}}
-                                    <h5>Permssions</h5>
+                                    <h5>Permissions</h5>
                                     <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                      <div class="row m-0 align-items-center">
+                                      <div class="row m-0 align-items-end">
 
                                      
                                         <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
@@ -269,7 +269,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
                                         
-                                                <div class="col-md-12 text-center">
+                                                <div class="col-md-12 text-left">
                                                     <input type="submit" style="background: #dc8627;" value="Update"
                                                         class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
                                                 </div>

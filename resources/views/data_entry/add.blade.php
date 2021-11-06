@@ -290,7 +290,7 @@
                                                         <div class="form-group mb-0">
                                                             <?php
                                                             $certificate = Helper::get_dropdown('certifications');
-                                                            if ($candidateDetail !=null) {
+                                                            if ($candidateDetail != null) {
                                                                 $arr = explode(',', $candidateDetail->certification);
                                                             }
                                                             ?>
@@ -303,10 +303,10 @@
                                                                 {{-- <option value="" {{ $candidateDetail == null ? 'selected' : ''}} selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
-                                                                       @if ($candidateDetail !=null)
-                                                                       {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}
-                                                                       @endif>
-                                                                        {{ $certificateOption->option_name }}</option>
+                                                                        @if ($candidateDetail != null)
+                                                                        {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}
+                                                                @endif>
+                                                                {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -1771,6 +1771,7 @@
                 $('#endo_date').prop("disabled", true);
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
+
             }
 
         }
