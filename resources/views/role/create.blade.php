@@ -35,7 +35,8 @@
                                     </div>
                                     <h5>Permssions</h5>
                                     <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                        <div class="col-lg-12 col-md-12">
+                                       <div class="row m-0">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $data_entry = Helper::get_permission('data-entry');
                                             ?>
@@ -52,7 +53,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('jdl');
                                             ?>
@@ -69,7 +70,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('view-record');
                                             ?>
@@ -86,7 +87,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('finance');
                                             ?>
@@ -103,7 +104,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('logs');
                                             ?>
@@ -120,7 +121,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('domain');
                                             ?>
@@ -137,7 +138,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('smart-search');
                                             ?>
@@ -154,7 +155,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('dropdowns');
                                             ?>
@@ -171,7 +172,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12">
                                             <?php
                                             $jdl = Helper::get_permission('company');
                                             ?>
@@ -225,6 +226,7 @@
                                                 </div>
                                             </div>
                                         @endif
+                                       </div>
                                         
                                     </div>
                                     <div class="row">

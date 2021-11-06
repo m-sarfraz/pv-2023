@@ -562,41 +562,42 @@
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
+                                                        <div class="row pt-4">
+                                              
+                                                            <div class="col-lg-12">
+                                                                <div
+                                                                    class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
+                                                                    <div class="w-100"
+                                                                        style="text-align: end; margin-bottom: 6px;">
+                                                                        <input type="file" id="sheetFile" name="file" 
+                                                                            oninput="uploadFile(this)" accept="application/pdf"
+                                                                            class="uploadcv    w-100">
+                                                                        <i class="bi bi-x-circle d-none" id="cross"
+                                                                            onclick="emptyFileinput()"
+                                                                            style="position: absolute;left: -7px; top:1px;color:red"></i>
+                                                                    </div>
+                                                                    @if ($candidateDetail != null && $candidateDetail->cv != null)
+                                                                        <div class="d-flex justify-flex-end"
+                                                                            style="justify-content: flex-end;">
+                                                                            <i class="bi bi-paperclip d-flex align-items-center"></i>
+                                                                            <span class="d-flex align-items-center">
+                                                                                @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
+                                                                            <a class="mt-2 ml-2 btn btn-success" type="button"
+                                                                                style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
+                                                                                target="blank"
+                                                                                href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
+                                                                                {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
+                                                                                CV</a>
+            
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                            <div class="row pt-3">
-                                                <div class="col-lg-6"></div>
-                                                <div class="col-lg-6">
-                                                    <div
-                                                        class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                                        <div class="w-100"
-                                                            style="text-align: end; margin-bottom: 6px;">
-                                                            <input type="file" id="sheetFile" name="file" 
-                                                                oninput="uploadFile(this)" accept="application/pdf"
-                                                                class="uploadcv    w-100">
-                                                            <i class="bi bi-x-circle d-none" id="cross"
-                                                                onclick="emptyFileinput()"
-                                                                style="position: absolute;left: -7px; top:1px;color:red"></i>
-                                                        </div>
-                                                        @if ($candidateDetail != null && $candidateDetail->cv != null)
-                                                            <div class="d-flex justify-flex-end"
-                                                                style="justify-content: flex-end;">
-                                                                <i class="bi bi-paperclip d-flex align-items-center"></i>
-                                                                <span class="d-flex align-items-center">
-                                                                    @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
-                                                                <a class="mt-2 ml-2 btn btn-success" type="button"
-                                                                    style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
-                                                                    target="blank"
-                                                                    href="{{ asset('assets/cv/' . $candidateDetail->cv) }}"
-                                                                    {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}} )">Download
-                                                                    CV</a>
-
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
 
                                         </div>
                                     </div>
