@@ -288,6 +288,7 @@ class CandidateController extends Controller
             $CandidiatePosition->position_applied = $request->POSITION_TITLE_APPLIED;
             $CandidiatePosition->date_invited = $request->DATE_INVITED;
             $CandidiatePosition->manner_of_invite = $request->MANNER_OF_INVITE;
+            $CandidiatePosition->source = $request->SOURCE;
             $CandidiatePosition->curr_salary = $request->CURRENT_SALARY;
             $CandidiatePosition->exp_salary = $request->EXPECTED_SALARY;
             $CandidiatePosition->off_salary = $request->OFFERED_SALARY;
