@@ -33,8 +33,8 @@
                     <td>{{ $name->name }}</td>
                     <td>{{ $value->reprocess }}</td>
                     <td>
-                        @if (isset($value->first_name))
-                            {{ $value->first_name }} 
+                        @if (isset($value->last_name))
+                            {{ $value->last_name }} 
 
                         @endif
                     </td>

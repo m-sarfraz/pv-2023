@@ -55,6 +55,11 @@ class JdlController extends Controller
         ];
         return view('JDL.index', $data);
     }
+    public function append_filter_data(Request $request){
+        $user = DB::table('jdl')->where('jdl.client', $request->client)
+        ->get();
+     return response()->json($user);
+    }
     public function Filter(Request $request)
     {
 
@@ -109,12 +114,14 @@ class JdlController extends Controller
 
                 if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('jdl.client', 'like', '%' . $request->searchKeyword . '%');
+                //    return $match->client;
+                    $Userdata->where('jdl.client', 'like', '%' . strtolower($request->searchKeyword) . '%');
                 }
 
                 if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('jdl.domain', 'like', '%' . $request->searchKeyword . '%');
+                   
+                    $Userdata->where('jdl.domain', 'like', '%' . strtolower($request->searchKeyword) . '%');
                 }
                 if (strpos(strtolower($match->segment), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
@@ -141,9 +148,10 @@ class JdlController extends Controller
 
                 if (strpos(strtolower($match->location), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                   if(strtolower($request->searchKeyword)=='accenture'){
+                   if(strtolower($request->searchKeyword)==strtolower($match->client)){
                     break;
                    }else{
+                      
                        $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . ' %');
                    }
                 }
@@ -160,7 +168,6 @@ class JdlController extends Controller
         if ($check) {
 
            $dataJdl = $Userdata->get();
-        
         } else {
             if (!$check && !$searchCheck) {
                  $dataJdl = $Userdata->get();

@@ -177,6 +177,10 @@ class SmartSearchController extends Controller
                     $check = true;
                     $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
                 }
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
+                }
                 if (strpos(strtolower($match->saved_by),strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');

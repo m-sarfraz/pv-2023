@@ -45,7 +45,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Data Entry Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
                                                 @foreach ($data_entry as $value)
                                                     <label class="col-md-3"><input type="checkbox"
                                                             name="dataEntryPermission[]" value="{{ $value->name }}">
@@ -64,7 +64,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 JDL Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -83,7 +83,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 View Record Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -102,7 +102,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Finance Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -121,7 +121,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Logs Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -140,7 +140,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 domain Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -159,7 +159,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Smart Search Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -178,7 +178,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Dropdowns Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -197,7 +197,7 @@
                                                 class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                 Company Permissions
                                             </label>
-                                            <div class="row">
+                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                 @foreach ($jdl as $value)
                                                     <label class="col-md-4"><input type="checkbox"
@@ -218,7 +218,7 @@
                                                     class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                     Teams Permissions
                                                 </label>
-                                                <div class="row">
+                                                <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                     @foreach ($jdl as $value)
                                                         <label class="col-md-4"><input type="checkbox"
@@ -237,7 +237,7 @@
                                                     class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
                                                     Users Permissions
                                                 </label>
-                                                <div class="row">
+                                                <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
 
                                                     @foreach ($jdl as $value)
                                                         <label class="col-md-4"><input type="checkbox"

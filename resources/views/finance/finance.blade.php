@@ -233,8 +233,8 @@
                                         <td>{{ $name->name }}</td>
                                         <td>{{ $value->reprocess }}</td>
                                         <td>
-                                            @if (isset($value->first_name))
-                                                {{ $value->first_name }}
+                                            @if (isset($value->last_name))
+                                                {{ $value->last_name }}
                                             @endif
                                         </td>
 
@@ -858,12 +858,11 @@
             var numberofUnBilled = "{{ $unbilled }}";
             var fallout = "{{ $fallout }}";
             $('#hires').val(numberofHires);
-            $('#record').val(numberofHires);
+          
             $('#billed').val(numberofBilled);
             $('#unbilled').val(numberofUnBilled);
             $('#fallout').val(fallout);
             select2Dropdown("select2_dropdown");
-            // $('#candidate').empty();
             // show and hide loader after time set starts
             $('#loader').show();
             setTimeout(function() {
@@ -885,7 +884,6 @@
         function teamDetail(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-            // $("#loader").show();
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -950,11 +948,7 @@
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#filterData_div').html(data);
-                    // $('#count').val(data.count);
                     $("#loader").hide();
-                    // appennd count value coming from hidden input of appended view to count
-                    // recordCount = $('#abc').val()
-                    // $('#recordNumber').val(recordCount)
                 },
             });
         }

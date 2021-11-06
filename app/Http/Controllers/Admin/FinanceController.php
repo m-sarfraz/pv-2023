@@ -50,7 +50,7 @@ class FinanceController extends Controller
         $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
         $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
         $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        $count = count($Userdata);
+        $count = count(CandidateInformation::all());
         $hires = count($Userdata);
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
@@ -219,6 +219,10 @@ class FinanceController extends Controller
                 if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('endorsements.career_endo', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('candidate_informations.last_name', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;

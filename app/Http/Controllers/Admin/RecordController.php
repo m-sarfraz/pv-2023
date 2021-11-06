@@ -31,27 +31,29 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
+
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // get recruiter data
         $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $Userdata = DB::table('six_table_view')->join('users', 'users.id', 'six_table_view.saved_by')
-            ->select('six_table_view.id as cid', 'six_table_view.*', 'users.name as recruiter')
+        $Userdata = DB::table('six_table_view')
+            ->select('six_table_view.id as cid', 'six_table_view.*')
             ->offset($page)
             ->limit($limit)
             ->paginate();
         // get required data to use for select purpose
         $count = CandidateInformation::all()->last()->id;
-        $candidates = CandidateInformation::select('id', 'first_name')->get();
+        $candidates = CandidateInformation::select('id', 'last_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
 
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
-        $AllData = count($Userdata);
+        $AllData = count(CandidateInformation::all());
+
         // make array of data to pas to view
         $data = [
             'user' => $user,
@@ -73,8 +75,8 @@ class RecordController extends Controller
     public function filter(Request $request)
     {
         $check = $searchCheck = false;
-        $Userdata = DB::table('six_table_view')->join('users', 'six_table_view.saved_by', 'users.id')
-            ->select('six_table_view.id as CID', 'six_table_view.*', 'users.id as UserID', 'users.name as recruiter');
+        $Userdata = DB::table('six_table_view')
+            ->select('six_table_view.id as CID', 'six_table_view.*');
 
         // condition for checking first to end not null starts here
 
@@ -111,9 +113,9 @@ class RecordController extends Controller
             $perfect_match = DB::table('six_table_view')->get();
 
             foreach ($perfect_match as $match) {
-                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
+                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
                     $check = true;

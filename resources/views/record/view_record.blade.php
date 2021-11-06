@@ -68,7 +68,7 @@
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
                                             @foreach ($candidates as $key => $candidate)
-                                                <option value="{{ $candidate->id }}">{{ $candidate->first_name }}
+                                                <option value="{{ $candidate->id }}">
                                                     {{ $candidate->last_name }}</option>
                                             @endforeach
                                         </select>
@@ -97,16 +97,17 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
                                         <?php
-                                        $sub_segment = Helper::get_dropdown('sub_segment');
+                                        $sub_segment = DB::table('six_table_view')->distinct()->pluck("sub_segment");
                                         ?>
+                                      
                                         <label class="d-block font-size-3 mb-0">
                                             Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                            @foreach ($sub_segment->options as $sub_segmentOption)
-                                                <option value="{{ $sub_segmentOption->option_name }}">
-                                                    {{ $sub_segmentOption->option_name }}
+                                            @foreach ($sub_segment as $sub_segmentOption)
+                                                <option value="{{ $sub_segmentOption}}">
+                                                    {{ $sub_segmentOption }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -226,8 +227,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($value->first_name))
-                                                    {{ $value->first_name }}
+                                                @if (isset($value->last_name))
+                                                    {{ $value->last_name }}
 
                                                 @endif
                                             </td>
@@ -833,8 +834,8 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
+            alert("sdfas")
             $("#loader").show();
-
             // get values of selected inputs of users
             searchKeyword = $('#searchKeyword').val();
             search = $('#search').val();

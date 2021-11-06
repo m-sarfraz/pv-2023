@@ -123,6 +123,7 @@
                                         }
                                         @endphp</td>
                                         <td>0</td>
+                                        
                                         <td>0</td>
                                         <td>@php
                                             $one = isset($revenue[$i]->Sume) ? $revenue[$i]->Sume : 0;
@@ -325,12 +326,12 @@
                             "<td>" + sum + "</td>" +
                             "<td>0</td>" +
                             "<td>0</td>" +
-                            "<td>" + (sum / res.data.total_ogoing_Last_column[i].f_srp) + "%</td>" +
+                            "<td>" + (res.data.total_ogoing_Last_column[i].f_srp) + "%</td>" +
                             "<td>" + ongoing + "</td>" +
                             "<td>" + res.data.total_ogoing_Last_column[i].f_srp + "</td>" +
                             "</tr>";
                         $("#render_body").html(html)
-                        console.log(html)
+                      
 
                     }
 
