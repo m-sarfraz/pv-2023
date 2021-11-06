@@ -31,7 +31,7 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
-        
+
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // get recruiter data
         $user = User::where('type', 3)->get();
@@ -44,16 +44,16 @@ class RecordController extends Controller
             ->limit($limit)
             ->paginate();
         // get required data to use for select purpose
-        $count = $Userdata->count();
+        $count = CandidateInformation::all()->last()->id;
         $candidates = CandidateInformation::select('id', 'last_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
-        
+
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
         $AllData = count(CandidateInformation::all());
-      
+
         // make array of data to pas to view
         $data = [
             'user' => $user,

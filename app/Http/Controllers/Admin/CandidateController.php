@@ -243,15 +243,16 @@ class CandidateController extends Controller
             // } else {
             //get users data for matching duplicates
 
-            $lname = explode(" ", $request->LAST_NAME);
-            $fname = explode(" ", $request->FIRST_NAME);
-            $phone = explode(" ", $request->CONTACT_NUMBER);
-            $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
-            for ($i = 0; $i < count($record); $i++) {
-                if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
-                    return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
-                }
-            }
+            // $lname = explode(" ", $request->LAST_NAME);
+            // $fname = explode(" ", $request->FIRST_NAME);
+            // $phone = explode(" ", $request->CONTACT_NUMBER);
+            // $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
+            // for ($i = 0; $i < count($record); $i++) {
+            //     if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
+            //         return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
+            //     }
+            // }
+            // return $request->all();
             //  save data to candidate information table
             $CandidateInformation = new CandidateInformation();
             $CandidateInformation->last_name = $request->LAST_NAME;
