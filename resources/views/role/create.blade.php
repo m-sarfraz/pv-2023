@@ -35,9 +35,9 @@
                                     </div>
                                     <h5>Permssions</h5>
                                     <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                       <div class="row m-0">
-                                        <div class="col-lg-6 col-md-12 mb-4">
-                                         <div class="p-3 shadow">
+                                       <div class="row m-0 align-items-center">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12">
+                                         <div class="p-3 shadow rounded">
                                          <?php
                                             $data_entry = Helper::get_permission('data-entry');
                                             ?>
@@ -47,7 +47,7 @@
                                             </label>
                                             <div class="row">
                                                 @foreach ($data_entry as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
+                                                    <label class="col-md-3"><input type="checkbox"
                                                             name="dataEntryPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
 
@@ -55,8 +55,8 @@
                                             </div>
                                          </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                          <div class="p-3 shadow">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                          <div class="p-3 shadow rounded">
                                           <?php
                                             $jdl = Helper::get_permission('jdl');
                                             ?>
@@ -74,8 +74,8 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                          <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                          <div class="shadow p-3 rounded">
                                           <?php
                                             $jdl = Helper::get_permission('view-record');
                                             ?>
@@ -93,8 +93,8 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                          <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                          <div class="shadow p-3 rounded">
                                           <?php
                                             $jdl = Helper::get_permission('finance');
                                             ?>
@@ -112,8 +112,8 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                         <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                         <div class="shadow p-3 rounded">
                                          <?php
                                             $jdl = Helper::get_permission('logs');
                                             ?>
@@ -131,8 +131,8 @@
                                             </div>
                                          </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                           <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                           <div class="shadow p-3 rounded">
                                            <?php
                                             $jdl = Helper::get_permission('domain');
                                             ?>
@@ -150,8 +150,8 @@
                                             </div>
                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                         <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                         <div class="shadow p-3 rounded">
                                          <?php
                                             $jdl = Helper::get_permission('smart-search');
                                             ?>
@@ -169,8 +169,8 @@
                                             </div>
                                          </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                          <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                          <div class="shadow p-3 rounded">
                                           <?php
                                             $jdl = Helper::get_permission('dropdowns');
                                             ?>
@@ -188,8 +188,8 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12 mb-4 ">
-                                          <div class="shadow p-3">
+                                        <div class="col-lg-6 col-md-12 mb-4 col-12 col-12 ">
+                                          <div class="shadow p-3 rounded">
                                           <?php
                                             $jdl = Helper::get_permission('company');
                                             ?>
@@ -210,7 +210,7 @@
                                         @if (Auth::user()->type == 1)
 
                                             <div class="col-lg-6 col-md-12">
-                                           <div class="shadow p-3">
+                                           <div class="shadow p-3 rounded">
                                            <?php
                                                 $jdl = Helper::get_permission('teams');
                                                 ?>
@@ -229,7 +229,7 @@
                                            </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12">
-                                               <div class="shadow p-3">
+                                               <div class="shadow p-3 rounded">
                                                <?php
                                                 $jdl = Helper::get_permission('user');
                                                 ?>
@@ -247,15 +247,16 @@
                                                 </div>
                                                </div>
                                             </div>
+                                            <div class="col-lg-6 col-md-12">
+                                            <div class="col-md-12 text-center">
+                                            <input type="submit" style="background: #dc8627;" value="Save"
+                                                class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
+                                        </div>
+                                            </div>
                                         @endif
                                        </div>
                                         
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input type="submit" style="background: #dc8627;" value="Save"
-                                                class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
-                                        </div>
                                     </div>
                                 </fieldset>
                             </form>

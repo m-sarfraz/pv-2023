@@ -24,7 +24,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0"">
+                                        <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0">
                                                         <div class=" form-group">
 
                                             <label class="col-md-12"> </label>
@@ -42,8 +42,12 @@
                                             </div> --}}
                                     <h5>Permssions</h5>
                                     <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                        <div class="col-lg-12 col-md-12">
-                                            <?php
+                                      <div class="row m-0 align-items-center">
+
+                                     
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
+                                        <?php
                                             $data_entry = Helper::get_permission('data-entry');
                                             ?>
                                             <label for="aboutTextarea"
@@ -52,7 +56,7 @@
                                             </label>
                                             <div class="row">
                                                 @foreach ($data_entry as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-3"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="dataEntryPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
@@ -60,7 +64,9 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('jdl');
                                             ?>
@@ -71,14 +77,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('view-record');
                                             ?>
@@ -89,14 +97,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="recordPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('finance');
                                             ?>
@@ -107,14 +117,17 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="financePermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
+
                                             <?php
                                             $jdl = Helper::get_permission('logs');
                                             ?>
@@ -125,14 +138,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('domain');
                                             ?>
@@ -143,14 +158,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('smart-search');
                                             ?>
@@ -161,14 +178,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('dropdowns');
                                             ?>
@@ -179,14 +198,16 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        <div class="p-3 shadow rounded">
                                             <?php
                                             $jdl = Helper::get_permission('company');
                                             ?>
@@ -197,15 +218,17 @@
                                             <div class="row">
 
                                                 @foreach ($jdl as $value)
-                                                    <label class="col-md-2"><input type="checkbox"
+                                                    <label class="col-md-4"><input type="checkbox"
                                                             {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                             name="jdlPermission[]" value="{{ $value->name }}">
                                                         {{ $value->name }}</label>
                                                 @endforeach
                                             </div>
+                                            </div>
                                         </div>
                                         @if (Auth::user()->type == 1)
-                                            <div class="col-lg-12 col-md-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                            <div class="p-3 shadow rounded">
                                                 <?php
                                                 $jdl = Helper::get_permission('teams');
                                                 ?>
@@ -216,14 +239,16 @@
                                                 <div class="row">
 
                                                     @foreach ($jdl as $value)
-                                                        <label class="col-md-2"><input type="checkbox"
+                                                        <label class="col-md-4"><input type="checkbox"
                                                                 {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                                 name="jdlPermission[]" value="{{ $value->name }}">
                                                             {{ $value->name }}</label>
                                                     @endforeach
                                                 </div>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-12 col-md-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                            <div class="p-3 shadow rounded">
                                                 <?php
                                                 $jdl = Helper::get_permission('user');
                                                 ?>
@@ -234,20 +259,22 @@
                                                 <div class="row">
 
                                                     @foreach ($jdl as $value)
-                                                        <label class="col-md-2"><input type="checkbox"
+                                                        <label class="col-md-4"><input type="checkbox"
                                                                 {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
                                                                 name="jdlPermission[]" value="{{ $value->name }}">
                                                             {{ $value->name }}</label>
                                                     @endforeach
                                                 </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                        
+                                                <div class="col-md-12 text-center">
+                                                    <input type="submit" style="background: #dc8627;" value="Update"
+                                                        class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
+                                                </div>
                                             </div>
                                         @endif
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <input type="submit" style="background: #dc8627;" value="Update"
-                                                class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
                                         </div>
                                     </div>
                                 </fieldset>
