@@ -220,6 +220,10 @@ class FinanceController extends Controller
                     $check = true;
                     $Userdata->where('endorsements.career_endo', 'like', '%' . $request->searchKeyword . '%');
                 }
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('candidate_informations.last_name', 'like', '%' . $request->searchKeyword . '%');
+                }
                 if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
                     $Userdata->where('candidate_informations.first_name', 'like', '%' . $request->searchKeyword . '%');

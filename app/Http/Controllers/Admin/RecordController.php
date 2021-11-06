@@ -45,7 +45,7 @@ class RecordController extends Controller
             ->paginate();
         // get required data to use for select purpose
         $count = $Userdata->count();
-        $candidates = CandidateInformation::select('id', 'first_name')->get();
+        $candidates = CandidateInformation::select('id', 'last_name')->get();
         $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
         $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
         $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
@@ -113,9 +113,9 @@ class RecordController extends Controller
             $perfect_match = DB::table('six_table_view')->get();
 
             foreach ($perfect_match as $match) {
-                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
+                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
                     $check = true;

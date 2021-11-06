@@ -113,7 +113,8 @@ class ProfileController extends Controller
                 foreach ($render_skipped_rows as $render) {
 
                     //Explode candidate index into first,middle,last
-                    $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
+                    // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
+                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
 
                     $con = 0;
@@ -122,8 +123,8 @@ class ProfileController extends Controller
 
                     // query for checking the exisitng /duplicate record
                     $query = DB::table("candidate_informations")
-                        ->where("first_name", $render[14])
-                        ->orwhere("last_name", $render[16])
+                        // ->where("first_name", $render[14])
+                        ->where("last_name", $candidate_name)
                         ->orwhere("phone", $candidate_phone)
                         ->first();
 
@@ -142,17 +143,18 @@ class ProfileController extends Controller
                         $store_by_google_sheet = new CandidateInformation();
                     }
 
-                    if (!empty($candidate_name[2])) {
+                    // if (!empty($candidate_name[2])) {
 
-                        $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
-                        $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
-                        $store_by_google_sheet->last_name = isset($candidate_name[$con2]) ? $candidate_name[$con2] : "";
-                    } else {
+                    //     $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
+                    //     $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
+                    //     $store_by_google_sheet->last_name = isset($candidate_name[$con2]) ? $candidate_name[$con2] : "";
+                    // } else {
 
-                        $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
-                        $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
-                    }
+                    //     $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
+                    //     $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
+                    // }
 
+                    $store_by_google_sheet->last_name = isset($candidate_name) ? $candidate_name: "";
                     $store_by_google_sheet->gender = isset($render[17]) ? $render[17] : "";
                     $store_by_google_sheet->dob = isset($render[18]) ? $render[18] : "";
                     if (strstr($candidate_phone, ';', false)) {
@@ -457,12 +459,12 @@ class ProfileController extends Controller
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
 
-                $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
+                // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                 $candidate_phone = isset($render[19]) ? $render[19] : "";
                 // query for checking the exisitng /duplicate record
                 $query = DB::table("candidate_informations")
-                    ->where("first_name", isset($candidate_name[0]) ? $candidate_name[0] : "")
-                    ->orwhere("last_name", isset($candidate_name[2]) ? $candidate_name[2] : "")
+                    // ->where("first_name", isset($candidate_name[0]) ? $candidate_name[0] : "")
+                    ->orwhere("last_name", isset($render[13]) ? $render[13] : "")
                     ->orwhere("phone", $candidate_phone)
                     ->first();
 

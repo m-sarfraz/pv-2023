@@ -168,7 +168,6 @@ class JdlController extends Controller
         if ($check) {
 
            $dataJdl = $Userdata->get();
-          dd($dataJdl);
         } else {
             if (!$check && !$searchCheck) {
                  $dataJdl = $Userdata->get();
