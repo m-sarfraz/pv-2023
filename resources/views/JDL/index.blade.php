@@ -585,11 +585,34 @@
                     {
                    
                         // Show notification message if fields are empty in candidate position fields
-                        swal({
-                            icon: "warning",
-                            text: " No data found according to this search  ",
-                            icon: "warning",
-                        });
+                        $('#filter_table_div').html(`
+                        <table id=" example1" class="table">
+            <thead class="bg-light w-100">
+                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                    <th class="ant-table-cell">Client</th>
+                    <th class="ant-table-cell">Segment</th>
+                    <th class="ant-table-cell">Sub Segment</th>
+                    <th class="ant-table-cell">Career Level</th>
+                    <th class="ant-table-cell">Position Title</th>
+                    <th class="ant-table-cell">Budget</th>
+                    <th class="ant-table-cell">Location</th>
+                    <th class="ant-table-cell">Work Sched</th>
+                    <th class="ant-table-cell">Priorty</th>
+                    <th class="ant-table-cell">Maturity Of Requirement</th>
+                    <th class="ant-table-cell">Status</th>
+                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td colspan='8' class='text-center'>
+            no data found according to this search
+            </td>
+            </tr>
+            </tbody>
+            </table>
+                        
+                        `);
                     }
                 },
             });
@@ -605,7 +628,7 @@
 
             let uppercased = arr.map(arr => arr.toUpperCase());
 
-            $("#segment").empty();
+            
             let domain = {!! $Alldomains !!};
             let segment = {!! $Allsegments !!};
             domain.forEach(elementDomain => {
@@ -652,10 +675,12 @@
                         for (var i = 0; i < res.length; i++) {
 
                             if (element.option_name == res[i].domain.toUpperCase()) {
+                                    if($('#candidateDomain').val()!= res[i].domain){
 
                                 $("#candidateDomain").append(
                                     `<option selected   value="${element.option_name}">${element.option_name}</option>`
                                 );
+                                    }
                                 changecareer_level(res);
                                 changeposition_title(res)
                                 changesegmentbyClient(res)
@@ -678,7 +703,7 @@
             let arr = $("#segment :selected").map(function(i, el) {
                 return $(el).val();
             }).get();
-            $("#sub_segment").empty();
+ 
             let segment = {!! $Allsegments !!};
             let SubSegment = {!! $SubSegment !!};
             segment.forEach(elementsegment => {
@@ -687,7 +712,7 @@
                     arr.forEach(element => {
                         if (element === elementsegment.segment_name) {
                             if (elementsubsegment.segment_id == elementsegment.id) {
-                                $("#sub_segment").append('<option  value="' +
+                                $("#sub_segment").append('<option selected  value="' +
                                     elementsubsegment.sub_segment_name +
                                     '">' + elementsubsegment.sub_segment_name +
                                     '</option>');
@@ -703,72 +728,89 @@
 
         function changecareer_level(res) {
 
+            var career_level=$('#career_level').val()
             for (var i = 0; i < res.length; i++) {
-                // $('#career_level').empty();
+                if(career_level != res[i].c_level){
+
                 $('#career_level').append('<option selected  value="' +
                     res[i].c_level +
                     '">' + res[i].c_level +
                     '</option>');
-            }
+                        }
+
+                                    }
 
 
         }
 
         function changeposition_title(res) {
-
+            var position_title=$('#position_title').val()
             for (var i = 0; i < res.length; i++) {
+                if(position_title != res[i].p_title){
+
                 $('#position_title').append('<option selected value="' +
                     res[i].p_title +
                     '">' + res[i].p_title +
                     '</option>');
-            }
+                   }
+              }
 
         }
 
         function changesegmentbyClient(res) {
 
-
+            var segment=$('#segment').val()
             for (var i = 0; i < res.length; i++) {
+                if(segment != res[i].segment){
                 $('#segment').append('<option selected value="' +
                     res[i].segment +
                     '">' + res[i].segment +
                     '</option>');
+                }
             }
 
         }
 
         function changesubsegmentbyClient(res) {
-
+            var subsegment=$('#sub_segment').val()
 
             for (var i = 0; i < res.length; i++) {
+                if(subsegment != res[i].subsegment){
                 $('#sub_segment').append('<option selected value="' +
                     res[i].subsegment +
                     '">' + res[i].subsegment +
                     '</option>');
-
+                }
             }
         }
 
         function changelocation(res) {
 
 
+
+            var location=$('#location').val()
+            
             for (var i = 0; i < res.length; i++) {
+                if(location != res[i].location){
+
                 $('#location').append('<option selected value="' +
                     res[i].location +
                     '">' + res[i].location +
                     '</option>');
+                }
 
             }
         }
 
         function changestatus(res) {
-
+            var status=$('#status').val()
             for (var i = 0; i < res.length; i++) {
+                if(status != res[i].status){
                 $('#status').append('<option selected value="' +
                     res[i].status +
                     '">' + res[i].status +
                     '</option>');
-
+                }
             }
         }
     </script>

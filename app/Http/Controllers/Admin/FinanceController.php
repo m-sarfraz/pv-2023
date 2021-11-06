@@ -50,7 +50,7 @@ class FinanceController extends Controller
         $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
         $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
         $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        $count = count($Userdata);
+        $count = count(CandidateInformation::all());
         $hires = count($Userdata);
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
