@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('style')
+    <style>
+        .borderRed {
+            border: 2px red solid !important;
+        }
 
+    </style>
 @endsection
 
 
@@ -655,7 +660,8 @@
                                                 <select name="POSITION_TITLE" disabled="" id="position"
                                                     onchange="traverse2()" class="select2_dropdown  w-100"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($position_title->options as $position_titleOptions)
                                                         <option value="{{ $position_titleOptions->option_name }}">
                                                             {{ $position_titleOptions->option_name }}
@@ -681,7 +687,8 @@
                                                 </label>
                                                 <select name="ENDORSEMENT_TYPE" id="endo_type" disabled=""
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($endoType->options as $endoTypeOptions)
                                                         <option value="{{ $endoTypeOptions->option_name }}">
                                                             {{ $endoTypeOptions->option_name }}
@@ -704,7 +711,8 @@
                                                 <select name="CAREER_LEVEL" disabled="" id="career"
                                                     onchange="careerChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                         <option value="{{ $CareerLevelOptions->option_name }}">
 
@@ -742,7 +750,7 @@
                                                 </label>
                                                 <select name="STATUS" id="status" disabled=""
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option class="selectedOption" selected disabled>Select Option</option>
                                                     @foreach ($status->options as $statusOptions)
                                                         <option value="{{ $statusOptions->option_name }}">
                                                             {{ $statusOptions->option_name }}
@@ -767,7 +775,8 @@
                                                 <label class="Label labelFontSize">Client</label>
                                                 <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($client->options as $clientOptions)
                                                         <option value="{{ $clientOptions->option_name }}">
                                                             {{ $clientOptions->option_name }}
@@ -793,7 +802,8 @@
                                                     @php
                                                         $remarks = Helper::get_dropdown('remarks_for_finance');
                                                     @endphp
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" selected id="selectedOption" disabled>Select Option
+                                                    </option>
                                                     @foreach ($remarks->options as $remarksOptions)
                                                         <option value="{{ $remarksOptions->option_name }}">
 
@@ -817,7 +827,8 @@
                                                 </label>
                                                 <select name="SITE" disabled="" id="site"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom   font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($site->options as $siteOptions)
                                                         <option value="{{ $siteOptions->option_name }}">
 
@@ -840,7 +851,8 @@
                                                 </label>
                                                 <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($remarks->options as $remarksOptions)
                                                         <option value="{{ $remarksOptions->option_name }}">
 
@@ -868,7 +880,7 @@
                                                 <select id="domain_endo" name="DOMAIN_ENDORSEMENT" disabled=""
                                                     onchange="endoDomainChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option selected disabled>
+                                                    <option class="selectedOption" selected disabled>
                                                         Select Option</option>
                                                     @foreach ($domainDrop as $domainOption)
                                                         <option value="{{ $domainOption->id }}">
@@ -890,7 +902,8 @@
                                                 </label>
                                                 <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                    <option value="" selected disabled selected>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                         <option value="{{ $ReasonForNotPOptions->option_name }}">
                                                             {{ $ReasonForNotPOptions->option_name }}
@@ -914,7 +927,7 @@
                                                 <select disabled="" id="segment" name="endo_SEGMENT"
                                                     onchange="endoSegmentChange(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option selected disabled>
+                                                    <option class="selectedOption" selected disabled>
                                                         Select Option</option>
                                                     @foreach ($segmentsDropDown as $segmentsOptions)
                                                         <option value="{{ $segmentsOptions->id }}">
@@ -946,7 +959,8 @@
                                                 <label class="Label labelFontSize">sub-segment</label>
                                                 <select disabled="" id="sub_segment" name="Endo_SUB_SEGMENT"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" selected disabled>Select Option</option>
+                                                    <option value="" class="selectedOption" selected disabled>Select Option
+                                                    </option>
                                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                                         <option value="{{ $sub_segmentOptions->id }}">
                                                             {{ $sub_segmentOptions->sub_segment_name }}
@@ -987,7 +1001,8 @@
                                                             </label>
                                                             <select name="REMARKS" id="remarks_finance"
                                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                                <option value="" selected disabled>Select Option</option>
+                                                                <option value="" class="selectedOption" selected disabled>
+                                                                    Select Option</option>
                                                                 @foreach ($remarks->options as $remarksOptions)
                                                                     <option value="{{ $remarksOptions->option_name }}">
                                                                         {{ $remarksOptions->option_name }}
@@ -1042,7 +1057,8 @@
                                                             <select name="CLIENT_FINANCE"
                                                                 class="form-control border h-px-20_custom w-100"
                                                                 id="client_finance" disabled="">
-                                                                <option value="" selected disabled>Select Option</option>
+                                                                <option value="" class="selectedOption" selected disabled>
+                                                                    Select Option</option>
                                                                 @foreach ($client->options as $clientOptions)
                                                                     <option value="{{ $clientOptions->option_name }}">
                                                                         {{ $clientOptions->option_name }}
@@ -1077,7 +1093,8 @@
                                                             <select name="CAREER_LEVEL_FINANCE" disabled="" readonly
                                                                 id="career_finance" onchange="SPRCalculator(this)"
                                                                 class="form-control border h-px-20_custom">
-                                                                <option value="" selected disabled selected>Select Option
+                                                                <option value="" class="selectedOption" selected disabled>
+                                                                    Select Option
                                                                 </option>
                                                                 @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                                     <option
@@ -1099,7 +1116,8 @@
                                                             </label>
                                                             <select name="RATE" class="form-control border h-px-20_custom"
                                                                 id="rate" id="rate_finance" oninput="amountFinder(this)">
-                                                                <option value="" selected disabled>Select Option</option>
+                                                                <option value="" class="selectedOption" selected disabled>
+                                                                    Select Option</option>
 
                                                                 <option value="10">10%</option>
                                                                 <option value="20">20 %</option>
@@ -1205,16 +1223,16 @@
         // $('#new').prop("disabled", true);
         // $('#COURSE').prop("disabled", true);
         $("form :input").on('input', function() {
-            $(this).css('border-color', '#ced4da');
-            $(this).parent().siblings('span').remove();
+            $(this).removeClass('borderRed')
+            // $(this).parent().siblings('span').remove();
         });
         $('select').on('change', function() {
-            $(this).css('border-color', '#ced4da');
-            $(this).siblings('div').children().remove();
+            $(this).removeClass('borderRed')
+            // $(this).siblings('div').children().remove();
         });
         $('textarea').on('input', function() {
-            $(this).css('border-color', '#ced4da');
-            $(this).next('div').children().remove();
+            $(this).removeClass('borderRed')
+            // $(this).next('div').children().remove();
         });
         // On form submit call ajax for data saving
         $('#data_entry').submit(function() {
@@ -1333,35 +1351,42 @@
                         // show validation error on scree with border color changed and text
                         if (res.hasOwnProperty("message")) {
                             var err = "";
-                            $("input").parent().siblings('span').remove();
-                            $("select").siblings('div').children().remove();
-                            $("textarea").next('div').children().remove();
-                            $("input").css('border-color', '#ced4da');
-                            $("select").css('border-color', '#ced4da');
-                            $("textarea").css('border-color', '#ced4da');
+                            // $("input").parent().siblings('span').remove();
+                            // $("select").siblings('div').children().remove();
+                            // $("textarea").next('div').children().remove();
+                            $("input").removeClass('borderRed')
+                            $("select").removeClass('borderRed')
+                            $("textarea").removeClass('borderRed')
+                            $("select").next().children().children().removeClass('borderRed') ;
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
                                 $("input[name='" + i + "']").prop('required', true)
-                                $("input[name='" + i + "']").parent().siblings(
-                                    'span').remove();
-                                $("input[name='" + i + "']").parent().parent()
-                                    .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
+                                // $("input[name='" + i + "']").parent().siblings(
+                                //     'span').remove();
+                                $("input[name='" + i + "']").addClass('borderRed')
+
+                                // $("input[name='" + i + "']").parent().parent()
+                                //     .append(
+                                //         '<span style="color:red;" >' + 'Required' + '</span>'
+                                //     );
                                 console.log($("select[name='" + i + "']"));
                                 $("select[name='" + i + "']").prop('required', true)
-                                $("select[name='" + i + "']").siblings(
-                                    'div').children().remove();
-                                $("select[name='" + i + "']").siblings('div')
-                                    .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
-                                    );
+                                $("select[name='" + i + "']").addClass('borderRed') 
+                                $("select[name='" + i + "']").next().children().children().addClass('borderRed') ;
+                                // $("select[name='" + i + "']").siblings(
+                                //     'div').children().remove();
+                                // $("select[name='" + i + "']").siblings('div')
+                                //     .append(
+                                //         '<span style="color:red;" >' + 'Required' + '</span>'
+                                //     );
                                 $("textarea[name='" + i + "']").prop('required', true)
-                                $("textarea[name='" + i + "']").next('div').children().remove();
-                                $("textarea[name='" + i + "']").next('div').append(
-                                    '<span style="color:red;" >' + 'Required' + '</span>'
-                                );
+                                $("textarea[name='" + i + "']").addClass('borderRed')
+
+                                // $("textarea[name='" + i + "']").next('div').children().remove();
+                                // $("textarea[name='" + i + "']").next('div').append(
+                                //     '<span style="color:red;" >' + 'Required' + '</span>'
+                                // );
                             });
 
                             // // show warning message to user if firld is required
@@ -1737,6 +1762,9 @@
                     //else disalbe the input fields of endorsement section 
                     $('#remarks').prop("disabled", true);
                     $('#status').prop("disabled", true);
+                    $('.selectedOption').prop("selected", true)
+                    $('#selectedOption').prop("selected", true)
+
                     $('#site').prop("disabled", true);
                     $('#client').prop("disabled", true);
                     $('#position').prop("disabled", true);
@@ -1760,7 +1788,8 @@
                     $('#off_salary_fianance').prop("disabled", true);
                     $('#onboard_date').prop("disabled", true);
                     $('#off_salary').prop("disabled", true);
-
+                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text("Select Option")
+                    $("#remarks_for_finance").append($newOption).trigger('change');
                 }
 
 
@@ -1774,6 +1803,8 @@
                 //else disalbe the input fields of endorsement section 
                 $('#remarks').prop("disabled", true);
                 $('#status').prop("disabled", true);
+                var $newOption = $("<option selected='selected'></option>").val("TheID").text("Select Option")
+                $("#remarks_for_finance").append($newOption).trigger('change');
                 $('#site').prop("disabled", true);
                 $('#client').prop("disabled", true);
                 $('#position').prop("disabled", true);

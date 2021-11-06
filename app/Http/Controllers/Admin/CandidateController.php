@@ -74,6 +74,7 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
+                "SOURCE" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
