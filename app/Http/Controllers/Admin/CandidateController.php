@@ -499,11 +499,12 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
+                "SOURCE" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                "INTERVIEW_NOTES" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
@@ -546,6 +547,7 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
@@ -558,7 +560,9 @@ class CandidateController extends Controller
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
                 $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
-            if ($request->finance_field == 1) {
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+
+            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
                 $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
@@ -581,7 +585,7 @@ class CandidateController extends Controller
                 "CANDIDATES_PROFILE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
+                "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
@@ -597,6 +601,26 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
+            if ($request->endorsement_field == 'active') {
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["CAREER_LEVEL"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["STATUS"] = "required";
+                $arrayCheck["CLIENT"] = "required";
+                $arrayCheck["SITE"] = "required";
+                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
+                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+            }
+            if ($request->finance_field == 1) {
+                $arrayCheck["REMARKS"] = "required";
+                $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
+                $arrayCheck["RATE"] = "required";
+                $arrayCheck["PLACEMENT_FEE"] = "required";
+            }
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
@@ -604,33 +628,13 @@ class CandidateController extends Controller
                 $arrayCheck["CURRENT_SALARY"] = "required";
                 $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
-
-            if ($request->endorsement_field == 'active') {
-                $arrayCheck["POSITION_TITLE"] = "required";
-                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
-                $arrayCheck["POSITION_TITLE"] = "required";
-                $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
-                $arrayCheck["STATUS"] = "required";
-                $arrayCheck["CLIENT"] = "required";
-                $arrayCheck["SITE"] = "required";
-                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
-            }
             $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
             if (
                 str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
-            }
-            if ($request->finance_field == 1) {
-                $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
-                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
-                $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                $arrayCheck["DATE_INVITED"] = "required";
             }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
@@ -659,6 +663,7 @@ class CandidateController extends Controller
             //     }
             // }
             // Update data of eantry page
+            // return $request->SOURCE;
             CandidateInformation::where('id', $id)->update([
                 'first_name' => $request->FIRST_NAME,
                 'middle_name' => $request->MIDDLE_NAME,
@@ -712,6 +717,7 @@ class CandidateController extends Controller
                     'position_applied' => $request->POSITION_TITLE_APPLIED,
                     'date_invited' => $request->DATE_INVITED,
                     'manner_of_invite' => $request->MANNER_OF_INVITE,
+                    'source' => $request->SOURCE,
                     'curr_salary' => $request->CURRENT_SALARY,
                     'exp_salary' => $request->EXPECTED_SALARY,
                     'off_salary' => $request->OFFERED_SALARY,
@@ -728,6 +734,7 @@ class CandidateController extends Controller
                     'manner_of_invite' => $request->MANNER_OF_INVITE,
                     'curr_salary' => $request->CURRENT_SALARY,
                     'exp_salary' => $request->EXPECTED_SALARY,
+                    'source' => $request->SOURCE,
                     'off_salary' => $request->OFFERED_SALARY,
                     'curr_allowance' => $request->CURRENT_ALLOWANCE,
                     'off_allowance' => $request->OFFERED_ALLOWANCE,

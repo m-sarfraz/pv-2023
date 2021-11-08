@@ -343,7 +343,10 @@
                                             </label>
                                             <select name="MANNER_OF_INVITE" onchange="mannerChange(this)" id="manners"
                                                 class="form-control p-0 users-input-S-C">
-                                                <option disabled></option>
+                                                <option value=""
+                                                {{ $user->manner_of_invite == null ?'selected' : '' }}
+                                                disabled>Select Option
+                                            </option>
                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                     <option value="{{ $manner_of_inviteOption->option_name }}"
                                                         {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
@@ -354,6 +357,30 @@
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <?php
+                                            $source = Helper::get_dropdown('source');
+                                            ?>
+                                            {{-- @dd($user->source) --}}
+                                            <label class="Label labelFontSize">
+                                                Source
+                                            </label>
+                                            <select name="SOURCE"  id="source"  class="form-control p-0 users-input-S-C">
+                                                <option value=""    
+                                                    {{ $user->source == null ?'selected' : '' }}
+                                                    disabled>Select Option
+                                                </option>
+                                                @foreach ($source->options as $sourceOption)
+                                                    <option value="{{ $sourceOption->option_name }}"
+                                                        {{ ($user->source != null ? $user->source == $sourceOption->option_name : '') ? 'selected' : '' }}>
+                                                        {{ $sourceOption->option_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
 
