@@ -124,11 +124,15 @@
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload Excel Files
+                                    Click here to Upload CSV Files
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
-
+                                        @if(session()->has('message'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('message') }}
+                                        </div>
+                                    @endif
                                 <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
@@ -205,7 +209,11 @@
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
 
-                             
+                                        @if(session()->has('JDL_SHEET_IMPORTED'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('JDL_SHEET_IMPORTED') }}
+                                        </div>
+                                    @endif
                                     <div style="padding: 93px;" class="pb-3">
                                         <img style="width: 68.75px; cursor: pointer"
                                             src="{{ asset('assets/image/profile/sheetImage.png') }}"
@@ -256,7 +264,7 @@
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal" data-target="#JDLExcel">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload Excel File
+                                    Click here to Upload CSV File
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
@@ -303,7 +311,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="JDLExcel"><i
-                            class="bi bi-file-earmark-spreadsheet-fill"></i>JDL EXCEL SHEET</h5>
+                            class="bi bi-file-earmark-spreadsheet-fill"></i>JDL CSV SHEET</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -659,40 +659,45 @@
                 data: {
                     _token: token,
                     client: $('#client').val(),
+                    domain: $('#candidateDomain').val(),
 
                 },
 
                 // Success fucniton of Ajax
                 success: function(res) {
+                    console.log(res.data)
+                    // for(var i=0;i<500000;i++){
+
+                    //     $("#candidateDomain").append(
+                    //         `<option selected   value="${res.data.domain[i]}">${res.data.domain[i]}</option>`
+                    //         );
+                    //     }
+                                    
                     // if (res[0] == null) {
                     //     location.reload();
                     // }
 
-                    var i;
-                    let domains = {!! $candidateDomain->options !!}
-                    domains.forEach(element => {
+                    // var i;
+                    // let domains = {!! $candidateDomain->options !!}
+                    // domains.forEach(element => {
 
-                        for (var i = 0; i < res.length; i++) {
+                    //     for (var i = 0; i < res.length; i++) {
 
-                            if (element.option_name == res[i].domain.toUpperCase()) {
-                                    if($('#candidateDomain').val()!= res[i].domain){
+                    //         if (element.option_name == res[i].domain.toUpperCase()) {
+                    //                 if($('#candidateDomain').val()!= res[i].domain){
 
-                                $("#candidateDomain").append(
-                                    `<option selected   value="${element.option_name}">${element.option_name}</option>`
-                                );
-                                    }
-                                changecareer_level(res);
-                                changeposition_title(res)
-                                changesegmentbyClient(res)
-                                changesubsegmentbyClient(res)
-                                changelocation(res)
-                                changestatus(res)
+                    //             changecareer_level(res);
+                    //             changeposition_title(res)
+                    //             changesegmentbyClient(res)
+                    //             changesubsegmentbyClient(res)
+                    //             changelocation(res)
+                    //             changestatus(res)
 
-                            }
+                    //         }
 
 
-                        }
-                    });
+                    //     }
+                    // });
 
                 }
             });

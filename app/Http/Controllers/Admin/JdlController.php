@@ -55,10 +55,11 @@ class JdlController extends Controller
         ];
         return view('JDL.index', $data);
     }
-    public function append_filter_data(Request $request){
+    public function append_filter_data(Request $request)
+    {
         $user = DB::table('jdl')->where('jdl.client', $request->client)
-        ->get();
-     return response()->json($user);
+            ->get();
+        return response()->json($user);
     }
     public function Filter(Request $request)
     {
@@ -114,13 +115,13 @@ class JdlController extends Controller
 
                 if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                //    return $match->client;
+                    //    return $match->client;
                     $Userdata->where('jdl.client', 'like', '%' . strtolower($request->searchKeyword) . '%');
                 }
 
                 if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                   
+
                     $Userdata->where('jdl.domain', 'like', '%' . strtolower($request->searchKeyword) . '%');
                 }
                 if (strpos(strtolower($match->segment), strtolower($request->searchKeyword)) !== false) {
@@ -148,12 +149,12 @@ class JdlController extends Controller
 
                 if (strpos(strtolower($match->location), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                   if(strtolower($request->searchKeyword)==strtolower($match->client)){
-                    break;
-                   }else{
-                      
-                       $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . ' %');
-                   }
+                    if (strtolower($request->searchKeyword) == strtolower($match->client)) {
+                        break;
+                    } else {
+
+                        $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . ' %');
+                    }
                 }
                 if (strpos(strtolower($match->budget), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
@@ -167,27 +168,25 @@ class JdlController extends Controller
         }
         if ($check) {
 
-           $dataJdl = $Userdata->get();
+            $dataJdl = $Userdata->get();
         } else {
             if (!$check && !$searchCheck) {
-                 $dataJdl = $Userdata->get();
-                
+                $dataJdl = $Userdata->get();
             } else {
 
                 $dataJdl = [];
-               
             }
         }
         $count = count($dataJdl);
-        
-        if($count<1){
-            return response()->json(['sms'=>'no record fond','count'=>$count]);
+
+        if ($count < 1) {
+            return response()->json(['sms' => 'no record fond', 'count' => $count]);
         }
         $data = [
             "Userdata" => $dataJdl,
             "count" => $count,
         ];
-        
+
         return view("JDL.Filter_user", $data);
     }
     public function filter_records_jdl_getclient(Request $request)
@@ -196,14 +195,27 @@ class JdlController extends Controller
         //endorsement .client name
         // candisate domain client domain
         $filter_Client_domain = [];
+        $return=[];
         if ($request->client) {
-
-            $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get();
+            $filter_Client_domain = DB::select('SELECT DISTINCT segment FROM `jdl` WHERE client='.$request->client.'');
+    
+            $filter_Client_segment = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("segment")->toArray();
+            $filter_Client_sub_segment = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("subsegment")->toArray();
+            $filter_Client_postion = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("p_title")->toArray();
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
         } else {
             $filter_Client_domain == null;
         }
 
-        return response()->json($filter_Client_domain);
+        return response()->json(['data' => [
+            "domain" =>$filter_Client_domain,
+            "segment" => array_unique($filter_Client_segment),
+            "sub_segment" => array_unique($filter_Client_sub_segment),
+            "position" => array_unique($filter_Client_postion),
+            "return" => $return,
+        ]]);
     }
     /**
      * Show the form for creating a new resource.
