@@ -52,8 +52,9 @@ class RecordController extends Controller
 
         $segmentsDropDown = Segment::all();
         $sub_segmentsDropDown = SubSegment::all();
-        $AllData = count(CandidateInformation::all());
-
+        $AllData = DB::select('select max(id) as totalCandidate from candidate_informations');
+        // $AllData = count(CandidateInformation::all());
+        // return $AllData;
         // make array of data to pas to view
         $data = [
             'user' => $user,

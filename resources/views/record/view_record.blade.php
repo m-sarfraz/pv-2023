@@ -43,7 +43,7 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
-                                            class="form-control h-px-20_custom border" value="{{ $AllData }}" />
+                                            class="form-control h-px-20_custom border" value="{{  $AllData[0]->totalCandidate }}" />
                                     </div>
                                 </div>
                             </div>
@@ -834,7 +834,6 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
-           
             $("#loader").show();
             // get values of selected inputs of users
             searchKeyword = $('#searchKeyword').val();

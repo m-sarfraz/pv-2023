@@ -530,7 +530,7 @@
         });
         $('#sifted').val({!! $sifted !!});
         $('#endo').val({!! $endo !!});
-        $('#foundRecord').val({!! $onBoarded !!});
+        $('#foundRecord').val({!! $count !!});
         $('#active').val({!! $active !!});
         $('#spr').val({!! $spr !!});
         $('#onBoarded').val({!! $onBoarded !!});
