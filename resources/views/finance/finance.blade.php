@@ -42,7 +42,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="{{ $count }}" disabled=""
+                                        <input type="text" name="REF_CODE" value="{{ $hires }}" disabled=""
                                             required="" id="record" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>

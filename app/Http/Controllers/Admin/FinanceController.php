@@ -7,7 +7,6 @@ use App\Finance_detail;
 use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
-use Carbon;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -34,24 +33,29 @@ class FinanceController extends Controller
             ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.last_name')->get();
         // return $candidate;
         $user = User::where('type', 3)->get();
+        $arr = ['Offer accepted', 'Onboarded'];
         $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where('remarks_for_finance', 'Onboarded')
-            ->orWhere('remarks_for_finance', 'Offer accepted')
-            ->offset($page)
+            ->whereIn('remarks_for_finance', $arr);
+        // ->orWhere('remarks_for_finance', 'Offer accepted')
+        // ->offset($page)
+        // ->limit($limit)
+        // ->paginate();
+        $hires = $Userdata->count();
+        $financeData = $Userdata->offset($page)
             ->limit($limit)
             ->paginate();
+        // return $hires;
         // return $Userdata;
         $billsArray = ['Billed', 'For Replacement', 'Replaced'];
         $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
         $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
         $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        $count = count(CandidateInformation::all());
-        $hires = count($Userdata);
+        // $count = count(CandidateInformation::all());
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
@@ -59,9 +63,9 @@ class FinanceController extends Controller
         // return $Userdata;
         $data = [
             'candidates' => $candidates,
-            'Userdata' => $Userdata,
+            'Userdata' => $financeData,
             'user' => $user,
-            'count' => $count,
+            // 'count' => $count,
             'hires' => $hires,
             'billed' => $billed,
             'unbilled' => $unbilled,
@@ -149,7 +153,7 @@ class FinanceController extends Controller
             $Userdata->where('finance.onboardnig_date', '>', $request->ob_date);
         }
         if (isset($request->toDate)) {
-            $Userdata->where('finance.onboardnig_date', '<',$request->toDate);
+            $Userdata->where('finance.onboardnig_date', '<', $request->toDate);
         }
         if (isset($request->client)) {
             $newarr = array();
@@ -214,7 +218,6 @@ class FinanceController extends Controller
             // $roles = DB::table('roles')->pluck("name");
 
             foreach ($perfect_match as $match) {
-
 
                 if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
                     $check = true;

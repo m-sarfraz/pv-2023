@@ -3,8 +3,11 @@
 @section('style')
     <style>
         .borderRed {
-            border: 2px red solid !important;
+            border: 1px red solid !important;
         }
+        .borderRed:focus {
+            box-shadow: 0 0 0 0.05rem red !important;
+}
 
     </style>
 @endsection
@@ -1361,7 +1364,7 @@
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
-                                $("input[name='" + i + "']").prop('required', true)
+                                // $("input[name='" + i + "']").prop('required', true)
                                 // $("input[name='" + i + "']").parent().siblings(
                                 //     'span').remove();
                                 $("input[name='" + i + "']").addClass('borderRed')
@@ -1371,7 +1374,7 @@
                                 //         '<span style="color:red;" >' + 'Required' + '</span>'
                                 //     );
                                 console.log($("select[name='" + i + "']"));
-                                $("select[name='" + i + "']").prop('required', true)
+                                // $("select[name='" + i + "']").prop('required', true)
                                 $("select[name='" + i + "']").addClass('borderRed') 
                                 $("select[name='" + i + "']").next().children().children().addClass('borderRed') ;
                                 // $("select[name='" + i + "']").siblings(
@@ -1380,7 +1383,7 @@
                                 //     .append(
                                 //         '<span style="color:red;" >' + 'Required' + '</span>'
                                 //     );
-                                $("textarea[name='" + i + "']").prop('required', true)
+                                // $("textarea[name='" + i + "']").prop('required', true)
                                 $("textarea[name='" + i + "']").addClass('borderRed')
 
                                 // $("textarea[name='" + i + "']").next('div').children().remove();
