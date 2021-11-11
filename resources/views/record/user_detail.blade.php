@@ -91,11 +91,21 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
+                            <?php
+                            $source = Helper::get_dropdown('source');
+                            ?>
                             <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="source" />
-                            <div>
+                            <select name="SOURCE"
+                            class=" form-control p-0 EmailInput-F" id="SOURCE">
+                            <option value=""  {{ $user->source == null ? 'selected' : '' }}  disabled>Select Option</option>
+                            @foreach ($source->options as $sourceOptions)
+                                <option value="{{ $sourceOptions->option_name }}"
+                                    {{ $user->source == $sourceOptions->option_name ? 'selected' : '' }}>
+                                    {{ $sourceOptions->option_name }}</option>
+                            @endforeach
+                        </select>                            <div>
                                 <small class="text-danger"></small>
                             </div>
                             <div>
