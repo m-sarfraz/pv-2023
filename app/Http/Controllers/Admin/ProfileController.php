@@ -829,28 +829,31 @@ class ProfileController extends Controller
             return redirect()->back()->with('JDL_SHEET_IMPORTED', 'data Import successfully');
         } else {
             // if Sheet doesnt exist
-            return redirect()->back()->with('JDL_SHEET_IMPORTED', 'data Import successfully');
+            return redirect()->back()->with('JDL_SHEET_IMPORTED', 'There are some errorr here');
         }
     }
     public function uploadJdlSheet(Request $request)
     {
         // dd($request->all());
-        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["sheetFileJDL"]["tmp_name"];
         if ($_FILES["sheetFileJDL"]["size"] > 0) {
+
             $file = fopen($filename, "r");
 
             if (!$file) {
                 die('Cannot open file for reading');
             }
+
+
             $row = 1;
             while (($render = fgetcsv($file, 1000, ",")) !== false) {
                 $num = count($render);
-                // if ($row > 6002) {
-                //         return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
-                //     }
+                if ($row > 6002) {
+                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
+                }
                 if ($render[0] != 'PRIORITY') {
+
 
                     $JDL_local_sheet = new jdlSheet();
                     $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
@@ -880,11 +883,12 @@ class ProfileController extends Controller
                     $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
                     $JDL_local_sheet->keyword = isset($render[25]) ? $render[21] : "";
                     $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-
                     $JDL_local_sheet->save();
                 }
             }
+
+            return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
         }
-        return redirect()->back();
+        return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is not Import successfully');
     }
 }

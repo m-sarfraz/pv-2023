@@ -268,6 +268,11 @@
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
+                                        @if(session()->has('CSV_FILE_UPLOADED_JDL'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('CSV_FILE_UPLOADED_JDL') }}
+                                        </div>
+                                    @endif
                                         <div style="padding: 93px;" class="pb-3 Coud_icon">
                                             <img style="width: 105px; cursor: pointer"
                                                 src="{{ asset('assets/image/profile/cloud.png') }}"
