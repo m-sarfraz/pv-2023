@@ -71,7 +71,7 @@
 
                    @endif
                </td>
-               <td>{{ $value->app_status }}</td>
+               <td>{{ $value->endostatus }}</td>
                <td>{{ $value->remarks }}</td>
                <td>{{ $value->remarks_for_finance }}</td>
                <td>{{ $value->srp }}</td>

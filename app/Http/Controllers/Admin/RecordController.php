@@ -468,6 +468,7 @@ class RecordController extends Controller
                 'curr_salary' => $request->curr_salary,
                 'exp_salary' => $request->expec_salary,
                 'off_salary' => $request->offered_salary,
+                'source' => $request->SOURCE,
                 'curr_allowance' => $request->curr_allowance,
                 'off_allowance' => $request->offered_allowance,
             ]);

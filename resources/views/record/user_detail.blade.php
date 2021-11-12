@@ -10,7 +10,7 @@
                                 Candidate Name*:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->first_name }}">
+                                value="{{ $user->last_name }}">
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -95,20 +95,20 @@
                             <?php
                             $source = Helper::get_dropdown('source');
                             ?>
-                            {{-- @dd($user->source) --}}
-                            <label class="Label labelFontSize">
+                            <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <select name="SOURCE" id="source" class="form-control p-0 users-input-S-C">
-                                <option value="" {{ $user->source == null ? 'selected' : '' }} disabled>Select Option
-                                </option>
-                                @foreach ($source->options as $sourceOption)
-                                    <option value="{{ $sourceOption->option_name }}"
-                                        {{ ($user->source != null ? $user->source == $sourceOption->option_name : '') ? 'selected' : '' }}>
-                                        {{ $sourceOption->option_name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <select name="SOURCE"
+                            class=" form-control p-0 EmailInput-F" id="SOURCE">
+                            <option value=""  {{ $user->source == null ? 'selected' : '' }}  disabled>Select Option</option>
+                            @foreach ($source->options as $sourceOptions)
+                                <option value="{{ $sourceOptions->option_name }}"
+                                    {{ $user->source == $sourceOptions->option_name ? 'selected' : '' }}>
+                                    {{ $sourceOptions->option_name }}</option>
+                            @endforeach
+                        </select>                            <div>
+                                <small class="text-danger"></small>
+                            </div>
                             <div>
                                 <small class="text-danger"></small>
                             </div>

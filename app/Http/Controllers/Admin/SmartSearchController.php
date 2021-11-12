@@ -44,6 +44,7 @@ class SmartSearchController extends Controller
         $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
         $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
         $address = DB::Select("select address from candidate_informations where  address!='' group by address");
+        $status = DB::Select("select status from endorsements group by status");
         // close
         $data = [
             'Userdata' => $user,
@@ -60,6 +61,7 @@ class SmartSearchController extends Controller
             'withdrawn' => $withdrawn,
             'rejected' => $rejected,
             'address' => $address,
+            'status'=>$status,
         ];
 
         return view('smartSearch.smart_search', $data);
@@ -78,13 +80,18 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('six_table_view.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-            return $request->recruiter;
+            
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
+        }
+        if (isset($request->status)) {
+            
+            $Userdata->whereIn('six_table_view.endostatus', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
             $Userdata->whereIn('six_table_view.client', $request->client);
         }
+       
         if ($request->cip == 1) {
             $stageArray = [
                 'Scheduled for Skills Interview',
@@ -231,10 +238,10 @@ class SmartSearchController extends Controller
                     $check = true;
                     $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
                 }
-                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
+                if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
 
                     $check = true;
-                    $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
+                    $Userdata->where('six_table_view.endostatus', 'like', '%' . $request->searchKeyword . '%');
                 }
                 if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
 

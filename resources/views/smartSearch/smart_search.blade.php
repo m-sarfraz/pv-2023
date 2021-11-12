@@ -194,7 +194,10 @@
                                         <Select multiple id="status" onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
 
-                                            <Option>To Be Endorsed</Option>
+                                         @foreach ($status as $item)
+                                         <option value="{{$item->status}}">{{$item->status}}</option>
+                                             
+                                         @endforeach
                                         </Select>
                                     </div>
                                 </div>
@@ -309,7 +312,7 @@
 
                                             @endif
                                         </td>
-                                        <td>{{ $value->app_status }}</td>
+                                        <td>{{ $value->endostatus }}</td>
                                         <td>{{ $value->remarks }}</td>
                                         <td>{{ $value->remarks_for_finance }}</td>
                                         <td>{{ $value->srp }}</td>

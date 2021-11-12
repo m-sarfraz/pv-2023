@@ -394,14 +394,27 @@ class JdlController extends Controller
         //endorsement .client name
         // candisate domain client domain
         $filter_Client_domain = [];
+        $return = [];
         if ($request->client) {
+            $filter_Client_domain = DB::select('SELECT DISTINCT segment FROM `jdl` WHERE client=' . $request->client . '');
 
-            $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get();
+            $filter_Client_segment = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("segment")->toArray();
+            $filter_Client_sub_segment = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("subsegment")->toArray();
+            $filter_Client_postion = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("p_title")->toArray();
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
+            // $filter_Client_domain = DB::table('jdl')->where("client", $request->client)->groupby("client")->get("domain");
         } else {
             $filter_Client_domain == null;
         }
 
-        return response()->json($filter_Client_domain);
+        return response()->json(['data' => [
+            "domain" => $filter_Client_domain,
+            "segment" => array_unique($filter_Client_segment),
+            "sub_segment" => array_unique($filter_Client_sub_segment),
+            "position" => array_unique($filter_Client_postion),
+            "return" => $return,
+        ]]);
     }
     /**
      * Show the form for creating a new resource.

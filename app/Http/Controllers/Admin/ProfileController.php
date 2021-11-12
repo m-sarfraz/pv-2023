@@ -114,7 +114,7 @@ class ProfileController extends Controller
 
                     //Explode candidate index into first,middle,last
                     // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
-                     $candidate_name = isset($render[13]) ? $render[13] : "";
+                    $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
 
                     $con = 0;
@@ -154,7 +154,7 @@ class ProfileController extends Controller
                     //     $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
                     // }
 
-                    $store_by_google_sheet->last_name = isset($candidate_name) ? $candidate_name: "";
+                    $store_by_google_sheet->last_name = isset($candidate_name) ? $candidate_name : "";
                     $store_by_google_sheet->gender = isset($render[17]) ? $render[17] : "";
                     $store_by_google_sheet->dob = isset($render[18]) ? $render[18] : "";
                     if (strstr($candidate_phone, ';', false)) {
@@ -259,7 +259,7 @@ class ProfileController extends Controller
                     $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
                     $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
                     $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-                    $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";  
+                    $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_google_sheet->id;
                     $endorsement->save();
@@ -756,7 +756,8 @@ class ProfileController extends Controller
 
             // fclose($file);
         }
-        return redirect()->back();
+
+        return redirect()->back()->with('message', 'data Import successfully');
     }
 
     public function verifySheet(Request $request)
@@ -825,66 +826,69 @@ class ProfileController extends Controller
             //save Google sheet addeed log to table starts
             Helper::save_log('JDL_SHEET_IMPORTED');
             // save Google sheet added to log table ends
-            return response()->json(['success' => true, 'message' => 'Data Import successfully']);
+            return redirect()->back()->with('JDL_SHEET_IMPORTED', 'data Import successfully');
         } else {
             // if Sheet doesnt exist
-            return response()->json(['success' => false, 'message' => 'Given Sheet is not found!']);
+            return redirect()->back()->with('JDL_SHEET_IMPORTED', 'There are some errorr here');
         }
     }
     public function uploadJdlSheet(Request $request)
     {
         // dd($request->all());
-        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["sheetFileJDL"]["tmp_name"];
         if ($_FILES["sheetFileJDL"]["size"] > 0) {
+
             $file = fopen($filename, "r");
 
             if (!$file) {
                 die('Cannot open file for reading');
             }
-            $row = 1;
-            while (($render = fgetcsv($file, 1000, ","))!== false) {
-                    $num = count($render);
-                    // if ($row > 6002) {
-                    //         return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
-                    //     }
-                   if($render[0]!='PRIORITY'){
 
-                       $JDL_local_sheet = new jdlSheet();
-                       $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
-                       $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
-                       $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
-                       $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
-                       $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
-                       $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
-                       $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
-                       $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
-                       $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
-                       $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
-                       $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
-                       $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
-                       $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
-                       $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
-                       $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
-                       $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
-                       $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
-                       $JDL_local_sheet->edu_attainment = isset($render[17]) ? $render[17] : "";
-                       $JDL_local_sheet->jd = isset($render[18]) ? $render[18] : "";
-                       $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
-                       $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
-                       $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
-                       $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
-                       $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
-                       $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
-                       $JDL_local_sheet->keyword = isset($render[25]) ? $render[21] : "";
-                       $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-   
-                       $JDL_local_sheet->save();
-                   }
+
+            $row = 1;
+            while (($render = fgetcsv($file, 1000, ",")) !== false) {
+                $num = count($render);
+                if ($row > 6002) {
+                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
+                }
+                if ($render[0] != 'PRIORITY') {
+
+
+                    $JDL_local_sheet = new jdlSheet();
+                    $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
+                    $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
+                    $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
+                    $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
+                    $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
+                    $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
+                    $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
+                    $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
+                    $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
+                    $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
+                    $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
+                    $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
+                    $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
+                    $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
+                    $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
+                    $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
+                    $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
+                    $JDL_local_sheet->edu_attainment = isset($render[17]) ? $render[17] : "";
+                    $JDL_local_sheet->jd = isset($render[18]) ? $render[18] : "";
+                    $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
+                    $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
+                    $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
+                    $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
+                    $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
+                    $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
+                    $JDL_local_sheet->keyword = isset($render[25]) ? $render[21] : "";
+                    $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
+                    $JDL_local_sheet->save();
+                }
             }
+
+            return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
         }
-        return redirect()->back();
+        return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is not Import successfully');
     }
-    
 }

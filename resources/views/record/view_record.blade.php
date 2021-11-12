@@ -1012,13 +1012,15 @@
             $('#career_level').empty();
             $('#app_status').empty();
             var profile = {!! $candidateprofile !!};
+            console.log(profile)
             var segment = {!! $candidateDomain !!};
             var status = {!! $endorsement !!};
             var client = {!! $endorsement !!};
             var career = {!! $endorsement !!};
             var count = 0;
             $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < segment.length; i++) {
+                for (let i = 0; i < profile.length; i++) {
+                    console.log(v)
                     if (v == profile[i].candidate_id) {
                         count++;
                         if (profile[i].candidate_profile != "") {

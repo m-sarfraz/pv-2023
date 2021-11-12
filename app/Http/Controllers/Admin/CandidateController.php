@@ -677,7 +677,7 @@ class CandidateController extends Controller
 
             ]);
             if (isset($request->CERTIFICATIONS)) {
-                $certification = implode(", ", $request->CERTIFICATIONS);
+                $certification = implode(",", $request->CERTIFICATIONS);
                 CandidateEducation::where('candidate_id', $id)->update([
                     'certification' => $certification,
                 ]);
