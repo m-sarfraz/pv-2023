@@ -16,7 +16,14 @@
             width: fit-content;
             margin-left: auto;
         }
+        .hideID:first-child,
+        .hidetrID tr td:first-child {
+            display: none !important;
+        }
 
+        .hidetrID tr:hover {
+            background-color: rgb(159, 165, 243);
+        }
         .tooltiptext {
             display: none;
             position: absolute;
@@ -239,9 +246,11 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
-                        <table id=" example1" class="table">
+                        <table id="jdlTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell hideID">id</th>
+                                    <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Segment</th>
                                     <th class="ant-table-cell">S segment</th>
@@ -257,39 +266,11 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($Userdata as $renderIndex)
-
-                                    <tr onclick="Filter(this,'{{ $renderIndex->id }}')"
-                                        class="hover common-tr hover-primary">
-                                        <!-- Table data 1 -->
-                                        <td>{{ $renderIndex->client }}</td>
-                                        <td>{{ $renderIndex->segment }}</td>
-                                        <td>{{ $renderIndex->subsegment }}</td>
-                                        <td>{{ $renderIndex->c_level }}</td>
-                                        <td>{{ $renderIndex->p_title }}</td>
-                                        <td>
-                                            @php
-                                                $date = Carbon\Carbon::parse($renderIndex->req_date);
-                                                // echo  $date;
-                                                
-                                                $now = Carbon\Carbon::now();
-                                                echo $diff = $date->diffInDays($now);
-                                            @endphp
-                                        </td>
-                                        <td>{{ $renderIndex->budget }}</td>
-                                        <td>{{ $renderIndex->location }}</td>
-                                        <td>{{ $renderIndex->w_schedule }}</td>
-                                        <td>{{ $renderIndex->priority }}</td>
-
-                                        <td>{{ $renderIndex->status }}</td>
-                                    </tr>
-                                @endforeach
-
+                            <tbody class="hidetrID" style="height:100px">
                             </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+                    {{-- {{ $Userdata->links() }} --}}
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
@@ -491,20 +472,180 @@
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
     </script>
     <script>
+        $(document).ready(function() {
+            load_datatable()
+        })
         select2Dropdown("select2_dropdown");
-    </script>
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
+        $('#jdlTable').on('click', 'tbody tr', function() {
+            // $(this).css('background-color','red')
+            $('tr').removeClass('hover-primary1');
+            $(this).addClass('hover-primary1');
+            let tdVal = $(this).children()[0];
+            var id = tdVal.innerHTML
+            Filter(this, id)
+            // alert($(this).val())
+        })
+        function load_datatable() {
+            var option_table = $('#jdlTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-jdl-table') }}",
+                    type: "GET",
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'segment',
+                        name: 'segment',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'subsegment',
+                        name: 'subsegment'
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level'
+                    },
+                    {
+                        data: 'p_title',
+                        name: 'p_title'
+                    },
+                    {
+                        data: 'maturity',
+                        name: 'maturity'
+                    },
+                    {
+                        data: 'budget',
+                        name: 'budget'
+                    },
+                    {
+                        data: 'location',
+                        name: 'location'
+                    },
+                    {
+                        data: 'w_schedule',
+                        name: 'w_schedule'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority'
+                    },
+                ]
             });
-        });
-    </script>
-    <!-- Datatable js end-->
-    <!-- ================= -->
-    <script>
+        }
+        function load_datatable1() {
+            searchKeyword = $('#searchKeyword').val();
+            client = $('#client').val();
+            candidateDomain = $('#candidateDomain').val();
+            segment = $('#segment').val();
+            sub_segment = $('#sub_segment').val();
+            position_title = $('#position_title').val();
+            career_level = $('#career_level').val();
+            status = $('#status').val();
+            address = $('#location').val();
+            var option_table = $('#filteredJdlTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-jdl-filter-table') }}",
+                    type: "GET",
+                    data: {
+                    _token: token,
+                    searchKeyword: searchKeyword,
+                    client: client,
+                    candidateDomain: candidateDomain,
+                    segment: segment,
+                    sub_segment: sub_segment,
+                    position_title: position_title,
+                    career_level: career_level,
+                    address: address,
+                    status: status,
+                },
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'segment',
+                        name: 'segment',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'subsegment',
+                        name: 'subsegment'
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level'
+                    },
+                    {
+                        data: 'p_title',
+                        name: 'p_title'
+                    },
+                    {
+                        data: 'maturity',
+                        name: 'maturity'
+                    },
+                    {
+                        data: 'budget',
+                        name: 'budget'
+                    },
+                    {
+                        data: 'location',
+                        name: 'location'
+                    },
+                    {
+                        data: 'w_schedule',
+                        name: 'w_schedule'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority'
+                    },
+                ]
+            });
+        }
         function Filter(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
@@ -570,20 +711,19 @@
 
                 // Success fucniton of Ajax
                 success: function(data) {
-               
-                    if(data){
-                        
-                    $('#filter_table_div').html(' ');
-                    $('#filter_table_div').html(data);
-                    if(data.count!=undefined){
 
-                    $('#No_of_count').val(data.count);
+                    if (data) {
+
+                        $('#filter_table_div').html(' ');
+                        $('#filter_table_div').html(data);
+                        if (data.count != undefined) {
+
+                            $('#No_of_count').val(data.count);
+                        }
+                        $("#loader").hide();
                     }
-                    $("#loader").hide();
-                    }
-                    if(data.sms)
-                    {
-                   
+                    if (data.sms) {
+
                         // Show notification message if fields are empty in candidate position fields
                         $('#filter_table_div').html(`
                         <table id=" example1" class="table">
@@ -628,7 +768,7 @@
 
             let uppercased = arr.map(arr => arr.toUpperCase());
 
-            
+
             let domain = {!! $Alldomains !!};
             let segment = {!! $Allsegments !!};
             domain.forEach(elementDomain => {
@@ -675,12 +815,12 @@
                         for (var i = 0; i < res.length; i++) {
 
                             if (element.option_name == res[i].domain.toUpperCase()) {
-                                    if($('#candidateDomain').val()!= res[i].domain){
+                                if ($('#candidateDomain').val() != res[i].domain) {
 
-                                $("#candidateDomain").append(
-                                    `<option selected   value="${element.option_name}">${element.option_name}</option>`
-                                );
-                                    }
+                                    $("#candidateDomain").append(
+                                        `<option selected   value="${element.option_name}">${element.option_name}</option>`
+                                    );
+                                }
                                 changecareer_level(res);
                                 changeposition_title(res)
                                 changesegmentbyClient(res)
@@ -703,7 +843,7 @@
             let arr = $("#segment :selected").map(function(i, el) {
                 return $(el).val();
             }).get();
- 
+
             let segment = {!! $Allsegments !!};
             let SubSegment = {!! $SubSegment !!};
             segment.forEach(elementsegment => {
@@ -728,58 +868,58 @@
 
         function changecareer_level(res) {
 
-            var career_level=$('#career_level').val()
+            var career_level = $('#career_level').val()
             for (var i = 0; i < res.length; i++) {
-                if(career_level != res[i].c_level){
+                if (career_level != res[i].c_level) {
 
-                $('#career_level').append('<option selected  value="' +
-                    res[i].c_level +
-                    '">' + res[i].c_level +
-                    '</option>');
-                        }
+                    $('#career_level').append('<option selected  value="' +
+                        res[i].c_level +
+                        '">' + res[i].c_level +
+                        '</option>');
+                }
 
-                                    }
+            }
 
 
         }
 
         function changeposition_title(res) {
-            var position_title=$('#position_title').val()
+            var position_title = $('#position_title').val()
             for (var i = 0; i < res.length; i++) {
-                if(position_title != res[i].p_title){
+                if (position_title != res[i].p_title) {
 
-                $('#position_title').append('<option selected value="' +
-                    res[i].p_title +
-                    '">' + res[i].p_title +
-                    '</option>');
-                   }
-              }
+                    $('#position_title').append('<option selected value="' +
+                        res[i].p_title +
+                        '">' + res[i].p_title +
+                        '</option>');
+                }
+            }
 
         }
 
         function changesegmentbyClient(res) {
 
-            var segment=$('#segment').val()
+            var segment = $('#segment').val()
             for (var i = 0; i < res.length; i++) {
-                if(segment != res[i].segment){
-                $('#segment').append('<option selected value="' +
-                    res[i].segment +
-                    '">' + res[i].segment +
-                    '</option>');
+                if (segment != res[i].segment) {
+                    $('#segment').append('<option selected value="' +
+                        res[i].segment +
+                        '">' + res[i].segment +
+                        '</option>');
                 }
             }
 
         }
 
         function changesubsegmentbyClient(res) {
-            var subsegment=$('#sub_segment').val()
+            var subsegment = $('#sub_segment').val()
 
             for (var i = 0; i < res.length; i++) {
-                if(subsegment != res[i].subsegment){
-                $('#sub_segment').append('<option selected value="' +
-                    res[i].subsegment +
-                    '">' + res[i].subsegment +
-                    '</option>');
+                if (subsegment != res[i].subsegment) {
+                    $('#sub_segment').append('<option selected value="' +
+                        res[i].subsegment +
+                        '">' + res[i].subsegment +
+                        '</option>');
                 }
             }
         }
@@ -788,28 +928,28 @@
 
 
 
-            var location=$('#location').val()
-            
-            for (var i = 0; i < res.length; i++) {
-                if(location != res[i].location){
+            var location = $('#location').val()
 
-                $('#location').append('<option selected value="' +
-                    res[i].location +
-                    '">' + res[i].location +
-                    '</option>');
+            for (var i = 0; i < res.length; i++) {
+                if (location != res[i].location) {
+
+                    $('#location').append('<option selected value="' +
+                        res[i].location +
+                        '">' + res[i].location +
+                        '</option>');
                 }
 
             }
         }
 
         function changestatus(res) {
-            var status=$('#status').val()
+            var status = $('#status').val()
             for (var i = 0; i < res.length; i++) {
-                if(status != res[i].status){
-                $('#status').append('<option selected value="' +
-                    res[i].status +
-                    '">' + res[i].status +
-                    '</option>');
+                if (status != res[i].status) {
+                    $('#status').append('<option selected value="' +
+                        res[i].status +
+                        '">' + res[i].status +
+                        '</option>');
                 }
             }
         }

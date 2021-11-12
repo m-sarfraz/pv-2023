@@ -18,6 +18,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Yajra\DataTables\DataTables;
 
 class RecordController extends Controller
 {
@@ -36,13 +37,13 @@ class RecordController extends Controller
         // get recruiter data
         $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $Userdata = DB::table('six_table_view')
-            ->select('six_table_view.id as cid', 'six_table_view.*')
-            ->offset($page)
-            ->limit($limit)
-            ->paginate();
+        // $page = $request->has('page') ? $request->get('page') : 1;
+        // $limit = $request->has('limit') ? $request->get('limit') : 10;
+        // $Userdata = DB::table('six_table_view')
+        //     ->select('six_table_view.id as cid', 'six_table_view.*')
+        //     ->offset($page)
+        //     ->limit($limit)
+        //     ->paginate();
         // get required data to use for select purpose
         $count = CandidateInformation::all()->last()->id;
         $candidates = CandidateInformation::select('id', 'last_name')->get();
@@ -60,7 +61,7 @@ class RecordController extends Controller
             'user' => $user,
             'candidates' => $candidates,
             'count' => $count,
-            'Userdata' => $Userdata,
+            // 'Userdata' => $Userdata,
             'candidateprofile' => $candidateprofile,
             'candidateDomain' => $candidateDomain,
             'segmentsDropDown' => $segmentsDropDown,
@@ -72,8 +73,8 @@ class RecordController extends Controller
     }
     // index function for showing the record of users with filters ends
 
-    // function for appending the resulting view to filtered record starts
-    public function filter(Request $request)
+    // show data table for view record page starts
+    public function view_record_filter_table(Request $request)
     {
         $check = $searchCheck = false;
         $Userdata = DB::table('six_table_view')
@@ -170,11 +171,197 @@ class RecordController extends Controller
                 $Alldata = [];
             }
         }
+        return Datatables::of($Alldata)
+            ->addIndexColumn()
+            ->addColumn('id', function ($Alldata) {
+                return $Alldata->id;
+            })
+            ->addColumn('recruiter', function ($Alldata) {
+                return $Alldata->recruiter;
+            })
 
-        $count = count($Alldata);
+            ->addColumn('Candidate', function ($Alldata) {
+                return $Alldata->last_name;
+            })
+            ->addColumn('profile', function ($Alldata) {
+                return $Alldata->candidate_profile;
+            })
+            ->addColumn('subSegment', function ($Alldata) {
+                return $Alldata->sub_segment;
+            })
+            ->addColumn('cSalary', function ($Alldata) {
+                return $Alldata->curr_salary;
+            })
+            ->addColumn('eSalary', function ($Alldata) {
+                return $Alldata->exp_salary;
+            })
+            ->addColumn('appStatus', function ($Alldata) {
+                return $Alldata->app_status;
+            })
+            ->addColumn('client', function ($Alldata) {
+                return $Alldata->client;
+            })
+            ->addColumn('career_level', function ($Alldata) {
+                return $Alldata->career_endo;
+            })
+            ->addColumn('endi_date', function ($Alldata) {
+                return $Alldata->endi_date;
+            })
+            ->rawColumns(['recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
+                'career_level', 'endi_date'])
+            ->make(true);
+
+    }
+    public function view_record_table()
+    {
+
+        $user = DB::table('six_table_view')->get();
+        return Datatables::of($user)
+            ->addIndexColumn()
+            ->addColumn('id', function ($user) {
+                return $user->id;
+            })
+            ->addColumn('recruiter', function ($user) {
+                return $user->recruiter;
+            })
+
+            ->addColumn('Candidate', function ($user) {
+                return $user->last_name;
+            })
+            ->addColumn('profile', function ($user) {
+                return $user->candidate_profile;
+            })
+            ->addColumn('subSegment', function ($user) {
+                return $user->sub_segment;
+            })
+            ->addColumn('cSalary', function ($user) {
+                return $user->curr_salary;
+            })
+            ->addColumn('eSalary', function ($user) {
+                return $user->exp_salary;
+            })
+            ->addColumn('appStatus', function ($user) {
+                return $user->app_status;
+            })
+            ->addColumn('client', function ($user) {
+                return $user->client;
+            })
+            ->addColumn('career_level', function ($user) {
+                return $user->career_endo;
+            })
+            ->addColumn('endi_date', function ($user) {
+                return $user->endi_date;
+            })
+            ->rawColumns(['recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
+                'career_level', 'endi_date'])
+            ->with('posts', 100)
+            ->make(true);
+    }
+    // show data table for view record page ends
+
+    // function for appending the resulting view to filtered record starts
+    public function filter(Request $request)
+    {
+        // $check = $searchCheck = false;
+        // $Userdata = DB::table('six_table_view')
+        //     ->select('six_table_view.id as CID', 'six_table_view.*');
+
+        // // condition for checking first to end not null starts here
+
+        // if (isset($request->user_id)) {
+        //     $Userdata->whereIn('six_table_view.saved_by', $request->user_id);
+        // }
+        // if (isset($request->candidate)) {
+        //     $Userdata->whereIn('six_table_view.id', $request->candidate);
+        // }
+        // if (isset($request->profile)) {
+        //     $Userdata->whereIn('six_table_view.candidate_profile', $request->profile);
+        // }
+        // if (isset($request->sub_segment)) {
+        //     $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment);
+        // }
+        // if (isset($request->app_status)) {
+        //     $Userdata->whereIn('six_table_view.app_status', $request->app_status);
+        // }
+        // if (isset($request->client)) {
+        //     $Userdata->whereIn('six_table_view.client', $request->client);
+        // }
+        // if (isset($request->career_level)) {
+        //     // return $request->career_level;
+        //     $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
+        // }
+        // if (isset($request->date)) {
+
+        //     $Userdata->where('six_table_view.endi_date', $request->date);
+        // }
+
+        // if (isset($request->searchKeyword)) {
+        //     ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
+        //     $searchCheck = true;
+        //     $perfect_match = DB::table('six_table_view')->get();
+
+        //     foreach ($perfect_match as $match) {
+        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->sub_segment), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.sub_segment', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->exp_salary), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.exp_salary', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->off_salary), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.off_salary', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //     }
+        // }
+        // if ($check) {
+
+        //     $Alldata = $Userdata->get();
+        // } else {
+        //     if (!$check && !$searchCheck) {
+        //         $Alldata = $Userdata->get();
+        //     } else {
+        //         $Alldata = [];
+        //     }
+        // }
+
+        // $count = count($Alldata);
         $data = [
-            'count' => $count,
-            'Userdata' => $Alldata,
+            'count' => 1,
+            // 'Userdata' => $Alldata,
         ];
         return view('record.filter-user', $data);
     }
@@ -207,7 +394,7 @@ class RecordController extends Controller
         // return $request->all();
 
         $arrayCheck = [
-            'source' => 'required',
+            'SOURCE' => 'required',
             "first_name" => "required",
             // "EMAIL_ADDRESS" => "required|email",
             "phone" => "required",

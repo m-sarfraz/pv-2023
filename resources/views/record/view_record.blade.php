@@ -3,15 +3,20 @@
 @section('style')
 
     <style>
-        /* .row {
-                                                                        margin: 0px !important;
-                                                                    } */
-
         #example1_filter label {
             display: flex;
             width: fit-content;
             margin-left: auto;
             align: items-center;
+        }
+
+        .hideID:first-child,
+        .hidetrID tr td:first-child {
+            display: none !important;
+        }
+
+        .hidetrID tr:hover {
+            background-color: rgb(159, 165, 243);
         }
 
     </style>
@@ -43,7 +48,8 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
-                                            class="form-control h-px-20_custom border" value="{{  $AllData[0]->totalCandidate }}" />
+                                            class="form-control h-px-20_custom border"
+                                            value="{{ $AllData[0]->totalCandidate }}" />
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +69,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1 pt-1">
                                         <label class="d-block font-size-3 mb-0">
-                                            Canidate
+                                            Candidate
                                         </label>
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
@@ -97,16 +103,18 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
                                         <?php
-                                        $sub_segment = DB::table('six_table_view')->distinct()->pluck("sub_segment");
+                                        $sub_segment = DB::table('six_table_view')
+                                            ->distinct()
+                                            ->pluck('sub_segment');
                                         ?>
-                                      
+
                                         <label class="d-block font-size-3 mb-0">
                                             Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
                                             @foreach ($sub_segment as $sub_segmentOption)
-                                                <option value="{{ $sub_segmentOption}}">
+                                                <option value="{{ $sub_segmentOption }}">
                                                     {{ $sub_segmentOption }}
                                                 </option>
                                             @endforeach
@@ -192,10 +200,11 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
-                        <table id=" record" class="table">
+                        <table id="recordTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell">Sr#</th>
+                                    <th class="ant-table-cell hideID">id</th>
+                                    <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Profile</th>
@@ -209,115 +218,12 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @forelse ( $Userdata as $key=>$value )
-                                    @if ($value->saved_by == Auth::user()->id)
-                                        <tr class="bg-transparent common-tr hover-primary"
-                                            onclick="UserDetail(this, '{{ $value->cid }}')">
-                                            <!-- Table data 1 -->
-                                            <td>{{ $key + 1 }}</td>
-                                            {{-- @php
-                                        $name = \App\User::with('candidate_information')
-                                            ->where('id', $value->saved_by)
-                                            ->first();
-                                    @endphp --}}
-                                            <td>
-                                                @if (isset($value->recruiter))
-                                                    {{ $value->recruiter }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($value->last_name))
-                                                    {{ $value->last_name }}
-
-                                                @endif
-                                            </td>
-                                            <td>{{ $value->candidate_profile }}
-                                            </td>
-                                            <td>{{ $value->sub_segment }}</td>
-                                            <td>
-                                                @if (isset($value->curr_salary))
-                                                    {{ $value->curr_salary }}
-
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($value->exp_salary))
-                                                    {{ $value->exp_salary }}
-
-                                                @endif
-                                            </td>
-                                            <td>{{ $value->app_status }}</td>
-                                            <td>{{ $value->client }}</td>
-                                            <td>{{ $value->career_endo }}</td>
-                                            <td>
-                                                @if (isset($value->endi_date))
-                                                    {{ $value->endi_date }}
-
-                                                @endif
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    @else
-                                        <tr class="hover-primary common-tr" style="background-color: #e9ecef;"
-                                            onclick="UserDetail(this, '{{ $value->cid }}')">
-                                            <!-- Table data 1 -->
-                                            <td>{{ $key + 1 }}</td>
-                                            {{-- @php
-                                            $name = \App\User::with('candidate_information')
-                                                ->where('id', $value->saved_by)
-                                                ->first();
-                                        @endphp --}}
-                                            <td>
-                                                @if (isset($value->recruiter))
-                                                    {{ $value->recruiter }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($value->first_name))
-                                                    {{ $value->first_name }} {{ $value->last_name }}
-
-                                                @endif
-                                            </td>
-                                            <td>{{ $value->candidate_profile }}
-                                            </td>
-                                            <td>{{ $value->sub_segment }}</td>
-                                            <td>
-                                                @if (isset($value->curr_salary))
-                                                    {{ $value->curr_salary }}
-
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($value->exp_salary))
-                                                    {{ $value->exp_salary }}
-
-                                                @endif
-                                            </td>
-                                            <td>{{ $value->app_status }}</td>
-                                            <td>{{ $value->client }}</td>
-                                            <td>{{ $value->career_endo }}</td>
-                                            <td>
-                                                @if (isset($value->endi_date))
-                                                    {{ $value->endi_date }}
-
-                                                @endif
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    @endif
-
-                                @empty
-                                    <tr>
-
-                                        <td> no data found</td>
-                                    </tr>
-                                @endforelse
+                            <tbody class="hidetrID" style="height:100px">
 
                             </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+                    {{-- {{ $Userdata->links() }} --}}
 
 
 
@@ -389,7 +295,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Shifted Date:
+                                                Date Sifted:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
@@ -531,7 +437,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Shifted By:
+                                                Sifted By:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" />
                                         </div>
@@ -746,7 +652,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">
-                                                                    sub-segment:
+                                                                    Sub-Segment:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
                                                                     <option value="1">Select Option</option>
@@ -774,7 +680,7 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group mb-0">
                                                                 <label class="Label-00">
-                                                                    Date Undated:
+                                                                    Date Updated:
                                                                 </label>
                                                                 <select name="" id="" class="w-100 form-control">
                                                                     <option value="1">Select Option</option>
@@ -815,9 +721,179 @@
             setTimeout(function() {
                 $('#loader').hide();
             }, 1000);
+            load_datatable()
             // show and hide loader after time set ends
 
         });
+        $('#recordTable').on('click', 'tbody tr', function() {
+            // $(this).css('background-color','red')
+            $('tr').removeClass('hover-primary1');
+            $(this).addClass('hover-primary1');
+            let tdVal = $(this).children()[0];
+            var id = tdVal.innerHTML
+            UserDetail(this, id)
+            // alert($(this).val())
+        })
+
+        function load_datatable() {
+            var option_table = $('#recordTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-record-table') }}",
+                    type: "GET",
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'profile',
+                        name: 'profile'
+                    },
+                    {
+                        data: 'subSegment',
+                        name: 'subSegment'
+                    },
+                    {
+                        data: 'cSalary',
+                        name: 'cSalary'
+                    },
+                    {
+                        data: 'eSalary',
+                        name: 'eSalary'
+                    },
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                ]
+            });
+        }
+
+        function load_datatable1() {
+            searchKeyword = $('#searchKeyword').val();
+            search = $('#search').val();
+            user_id = $('#recruiter').val();
+            candidate = $('#candidate').val();
+            profile = $('#profile').val();
+            sub_segment = $('#sub_segment').val();
+            app_status = $('#app_status').val();
+            career_level = $('#career_level').val();
+            client = $('#client').val();
+            date = $('#date').val();
+            var option_table = $('#filteredTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-record-filter-table') }}",
+                    type: "GET",
+                    data: {
+                        _token: token,
+                        searchKeyword: searchKeyword,
+                        user_id: user_id,
+                        candidate: candidate,
+                        profile: profile,
+                        sub_segment: sub_segment,
+                        app_status: app_status,
+                        career_level: career_level,
+                        client: client,
+                        date: date,
+                        search: search,
+                    },
+                },
+          
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'profile',
+                        name: 'profile'
+                    },
+                    {
+                        data: 'subSegment',
+                        name: 'subSegment'
+                    },
+                    {
+                        data: 'cSalary',
+                        name: 'cSalary'
+                    },
+                    {
+                        data: 'eSalary',
+                        name: 'eSalary'
+                    },
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                ]
+            
+                
+            });
+        }
         var count = {!! $count !!}
         $('#recordNumber').val(count)
         // Section for docement ready funciton starts
@@ -946,12 +1022,12 @@
                     if (v == profile[i].candidate_id) {
                         count++;
                         if (profile[i].candidate_profile != "") {
-                            
+
                             $('#profile').append('<option  selected  value="' + profile[i]
-                            .candidate_profile +
-                            '">' +
-                            profile[i].candidate_profile +
-                            '</option>');
+                                .candidate_profile +
+                                '">' +
+                                profile[i].candidate_profile +
+                                '</option>');
                         }
                         console.log(segment[i], i);
                         if (segment[i].sub_segment != '') {

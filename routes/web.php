@@ -64,6 +64,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
     //JDL Routes
     Route::get('jdl', 'JdlController@index')->name("jdl");
+    Route::get('view-jdl-table', 'JdlController@view_jdl_table')->name('view-jdl-table');
+    Route::get('view-jdl-filter-table', 'JdlController@view_jdl_filter_table')->name('view-jdl-filter-table');
     Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
@@ -78,6 +80,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
     Route::get('filter_records_detail', 'RecordController@UserDetails')->name('filterRecordDetail');
     Route::match(['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
+    Route::get('view-record-table', 'RecordController@view_record_table')->name('view-record-table');
+    Route::get('view-record-filter-table', 'RecordController@view_record_filter_table')->name('view-record-filter-table');
 
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
@@ -104,7 +108,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
     Route::post('connect_to_jdl_sheet', 'ProfileController@connect_to_jdl_sheet')->name('connect_to_jdl_sheet');
     Route::post('uploadJdlSheet', 'ProfileController@uploadJdlSheet')->name('uploadJdlSheet');
-    
+
     // finance route
     Route::get('finance', 'FinanceController@index')->name('finance');
     Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
@@ -118,6 +122,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');
+
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
     Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
