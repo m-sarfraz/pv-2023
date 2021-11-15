@@ -48,8 +48,7 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="REF_CODE" readonly required="" id="recordNumber"
-                                            class="form-control h-px-20_custom border"
-                                            value="{{ $AllData[0]->totalCandidate }}" />
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -801,6 +800,7 @@
                     },
                 ]
             });
+
         }
 
         function load_datatable1() {
@@ -895,19 +895,12 @@
 
             });
         }
-        var count = {!! $count !!}
-        $('#recordNumber').val(count)
+        setTimeout(function(){ countRecord() }, 10000);
+        function countRecord(){
+            var count = $('#recordTable_info').text().split(' ');
+            $('#recordNumber').val(count[5])
+        }
         // Section for docement ready funciton starts
-
-        // funciton for channging the data to Dat Table starts
-        $(function() {
-            $("#record").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-            });
-        });
-        // funciton for changing data to data tabl ends
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
@@ -1171,7 +1164,7 @@
         }
 
         // $('#recordTable_filter').children().children().css('display', 'none')
-        $('#searchKeyword' ).on( "input", function() {
+        $('#searchKeyword').on("input", function() {
             $('#recordTable_filter').children().children().val($('#searchKeyword').val());
             $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
             $('#recordTable_filter').children().children().focus();
@@ -1181,7 +1174,7 @@
             $('#filteredTable_filter').children().children().trigger('input');
             $('#recordTable_filter').hide('div');
             $('#filteredTable_filter').hide('div');
-            });
+        });
 
         function DomainChange(elem) {
             $('#segment').empty()
