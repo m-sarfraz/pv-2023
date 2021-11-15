@@ -194,16 +194,16 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterData_div">
                     <div class="">
-                        <table id=" example1" class="table">
+                        <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Reprocess</th>
                                     <th class="ant-table-cell">Candidate</th>
 
                                     <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">OB Date</th>
                                     <th class="ant-table-cell">Placement Fee</th>
                                     <th class="ant-table-cell">Remarks</th>
@@ -212,70 +212,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ( $Userdata as $key=>$value )
-                                    <tr class="bg-transparent common-tr hover-primary"
-                                        onclick="teamDetail(this,'{{ $value->C_id }}')">
-                                        <!-- Table data 1 -->
-                                        @php
-                                            $user = \App\User::where('id', $value->saved_by)->first();
-                                            $role = $user->roles->pluck('name');
-                                        @endphp
-                                        <td>
-                                            @if (isset($role[0]))
-                                                {{ $role[0] }}
-                                            @endif
-                                        </td>
-                                        @php
-                                            $name = \App\User::with('candidate_information')
-                                                ->where('id', $value->saved_by)
-                                                ->first();
-                                        @endphp
-                                        <td>{{ $name->name }}</td>
-                                        <td>{{ $value->reprocess }}</td>
-                                        <td>
-                                            @if (isset($value->last_name))
-                                                {{ $value->last_name }}
-                                            @endif
-                                        </td>
-
-                                        <td>{{ $value->career_endo }}</td>
-                                        <td>{{ $value->client }}</td>
-                                        <td>
-                                            @if (isset($value->onboardnig_date))
-                                                {{ $value->onboardnig_date }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->placement_fee))
-                                                {{ $value->placement_fee }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->remarks_for_finance))
-                                                {{ $value->remarks_for_finance }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->app_status))
-                                                {{ $value->app_status }}
-
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                @empty
-                                    <tr>
-
-                                        <td> no data found</td>
-                                    </tr>
-                                @endforelse
+                              
                             </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+                 
 
                 </div>
                 <!-- Datatable code end-->
@@ -853,6 +794,7 @@
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
+            load_datatable()
             var numberofHires = "{{ $hires }}";
             var numberofBilled = "{{ $billed }}";
             var numberofUnBilled = "{{ $unbilled }}";
@@ -879,9 +821,71 @@
                 "autoWidth": false,
             });
         });
+        function load_datatable() {
+            var option_table = $('#fmtable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
 
+                ajax: {
+                    url: "{{ route('view-finance-search-table') }}",
+                    type: "GET",
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'saved_by',
+                        name: 'saved_by'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
+
+    
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                   
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+                    
+
+
+                ]
+            });
+        }
         // funciton for getting detail of user starts 
         function teamDetail(elem, id) {
+            
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
             // call Ajax whihc will return view of detail data of user

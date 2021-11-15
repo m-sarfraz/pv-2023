@@ -112,12 +112,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // finance route
     Route::get('finance', 'FinanceController@index')->name('finance');
     Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
+    Route::get('view-finance-search-table', 'FinanceController@view_finance_search_table')->name('view-finance-search-table');
     Route::match(['get', 'post'], 'filter_records_finance', 'FinanceController@recordFilter')->name('financeRecordFilter');
     Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
 
     // Smart search controllers
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
+    Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');

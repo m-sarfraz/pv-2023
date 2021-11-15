@@ -36,9 +36,9 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="search keyword" required=""
-                                            id="search" onchange="FilterSearch()" class="form-control h-px-20_custom border"
-                                            value="" />
+                                        <input type="text" name="searchKeyword" id="searchKeyword"
+                                            placeholder="search keyword" required="" id="search" onchange="FilterSearch()"
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -72,7 +72,8 @@
                                             onchange="FilterSearch()" onchange="filterUserData()">
 
                                             @foreach ($user_recruiter as $key => $user_recruiter)
-                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}</option>
+                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -122,18 +123,18 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                      
+
                                         <label class="Label-00">Residence:</label>
                                         <select multiple name="residence" required="" id="residence"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
 
                                             @foreach ($address as $Userdatas)
-                                            @if(isset($Userdatas->address))
-                                                <option value="{{ $Userdatas->address }}">
-                                                    {{  $Userdatas->address }}
-                                                </option>
-                                            @endif
+                                                @if (isset($Userdatas->address))
+                                                    <option value="{{ $Userdatas->address }}">
+                                                        {{ $Userdatas->address }}
+                                                    </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -194,25 +195,26 @@
                                         <Select multiple id="status" onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
 
-                                         @foreach ($status as $item)
-                                         <option value="{{$item->status}}">{{$item->status}}</option>
-                                             
-                                         @endforeach
+                                            @foreach ($status as $item)
+                                                <option value="{{ $item->status }}">{{ $item->status }}</option>
+
+                                            @endforeach
                                         </Select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
                                         @php
-                                            $remarks = Helper::get_dropdown('remarks_from_finance');
+                                            $remarks = DB::select('select remarks_for_finance from endorsements');
                                         @endphp
+
                                         <label class="Label-00">Remarks:</label>
                                         <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
                                             class="w-100 form-control select2_dropdown w-100">
 
-                                            @foreach ($remarks->options as $remarksOptions)
-                                                <option value="{{ $remarksOptions->option_name }}">
-                                                    {{ $remarksOptions->option_name }}
+                                            @foreach ($remarks as $remarksOptions)
+                                                <option value="{{ $remarksOptions->remarks_for_finance }}">
+                                                    {{ $remarksOptions->remarks_for_finance }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -232,12 +234,12 @@
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
-                              
+
                             </div>
                             <div class="col-lg-2 ml-auto pt-3">
                                 <div class="form-group mb-0 text-right">
-                                    <label class="Label-00" >CIP</label>
-                                    <input type="checkbox"  id="cip" name="cip" onclick="FilterSearch()">
+                                    <label class="Label-00">CIP</label>
+                                    <input type="checkbox" id="cip" name="cip" onclick="FilterSearch()">
                                 </div>
                             </div>
                         </form>
@@ -248,7 +250,7 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterResult_div">
                     <div class="">
-                        <table id=" example1" class="table">
+                        <table id="smTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                                     <th class="ant-table-cell">Recruiter</th>
@@ -263,8 +265,9 @@
                                     <th class="ant-table-cell">Portal</th>
                                     <th class="ant-table-cell">Date Sifted</th>
                                     <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Endo</th>
                                     <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell">Endo Date</th>
+
                                     <th class="ant-table-cell">Remarks</th>
                                     <th class="ant-table-cell">Category</th>
                                     <th class="ant-table-cell">SPR</th>
@@ -276,68 +279,12 @@
                             </thead>
                             <tbody>
 
-                                @forelse ( $Userdata as $key=>$value )
-                                    <tr class="bg-transparent" >
-                                        <!-- Table data 1 -->
-                                        @php
-                                            $user = \App\User::where('id', $value->saved_by)->first();
-                                            $role = $user->roles->pluck('name');
-                                        @endphp
-                                        {{-- <td> {{ $role[0] }}</td> --}}
-                                        @php
-                                            $name = \App\User::with('candidate_information')
-                                                ->where('id', $value->saved_by)
-                                                ->first();
-                                        @endphp
-                                        <td>{{ $name->name }}</td>
-                                        <td>
-                                            @if (isset($value->last_name))
-                                                {{ $value->last_name }} 
 
-                                            @endif
-                                        </td>
-                                        <td> {{ $value->client }}</td>
-                                        <td> {{ $value->gender }}</td>
-                                        <td> {{ $value->domain }}</td>
-                                        <td>{{ $value->candidate_profile }}</td>
-                                      
-                                        <td>{{ $value->educational_attain }}</td>
-                                        <td>{{ $value->curr_salary }}</td>
-                                        <td></td>
-                                        <td>{{ $value->date_shifted }}</td>
-                                        <td>{{ $value->career_endo }}</td>
-                                        <td>
-                                            @if (isset($value->endi_date))
-                                                {{ $value->endi_date }}
-
-                                            @endif
-                                        </td>
-                                        <td>{{ $value->endostatus }}</td>
-                                        <td>{{ $value->remarks }}</td>
-                                        <td>{{ $value->remarks_for_finance }}</td>
-                                        <td>{{ $value->srp }}</td>
-                                        <td>{{ $value->onboardnig_date }}</td>
-                                        <td>
-                                            @if (isset($value->placement_fee))
-                                                {{ $value->placement_fee }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                                {{ $value->address }}
-
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td> no data found</td>
-                                    </tr>
-                                @endforelse
 
                             </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+
 
                 </div>
                 <!-- Datatable code end-->
@@ -545,8 +492,7 @@
 
         // funciton for filtering the data according to selected input starts
         function FilterSearch() {
-            $("#loader").show();
-
+            
             // get values of selected inputs of users
             domain = $('#domain').val();
             recruiter = $('#recruiter').val();
@@ -568,39 +514,221 @@
             } else {
                 cip = 0;
             }
-            // call Ajax for returning the data as view
-            $.ajax({
-                type: "GET",
-                url: '{{ url('admin/filter_search') }}',
-                data: {
-                    _token: token,
-                    domain: domain,
-                    recruiter: recruiter,
-                    client: client,
-                    residence: residence,
-                    career_level: career_level,
-                    cip: cip,
-                    category: category,
-                    status: status,
-                    remarks: remarks,
-                    endo_start: endo_start,
-                    endo_end: endo_end,
-                    ob_start: ob_start,
-                    ob_end: ob_end,
-                    sift_start: sift_start,
-                    sift_end: sift_end,
-                    searchKeyword: searchKeyword,
+            var option_table = $('#smTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
 
-                // Success fucniton of Ajax
-                success: function(data) {
-                    console.log(data)
-                    $('#filterResult_div').html(data);
-                    $("#loader").hide();
+                ajax: {
+                    url: "{{ route('filterSearch') }}",
+                    type: "GET",
+                    data: {
+                        _token: token,
+                        domain: domain,
+                        recruiter: recruiter,
+                        client: client,
+                        residence: residence,
+                        career_level: career_level,
+                        cip: cip,
+                        category: category,
+                        status: status,
+                        remarks: remarks,
+                        endo_start: endo_start,
+                        endo_end: endo_end,
+                        ob_start: ob_start,
+                        ob_end: ob_end,
+                        sift_start: sift_start,
+                        sift_end: sift_end,
+                        searchKeyword: searchKeyword,
+                    },
                 },
+                columns: [
+                    {
+                        data: 'saved_by',
+                        name: 'saved_by'
+                    },
+                      {  data: 'id',
+                        name: 'id'
+                    },
+                    
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain'
+                    },
+
+                    {
+                        data: 'candidate_profile',
+                        name: 'candidate_profile'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'curr_salary',
+                        name: 'curr_salary'
+                    },
+                    {
+                        data: 'portal',
+                        name: 'portal'
+                    },
+                    {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    },
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'srp',
+                        name: 'srp'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+
+
+                ]
             });
+            $("#loader").hide();
+            // call Ajax for returning the data as view
+
         }
         // funciton for filtering the data according to selected input ends
+        //start yajra
+        function load_datatable() {
+            var option_table = $('#smTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-smart-search-table') }}",
+                    type: "GET",
+                },
+                columns: [
+                    {
+                        data: 'saved_by',
+                        name: 'saved_by'
+                    },
+                      {  data: 'id',
+                        name: 'id'
+                    },
+                    
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain'
+                    },
+
+                    {
+                        data: 'candidate_profile',
+                        name: 'candidate_profile'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'curr_salary',
+                        name: 'curr_salary'
+                    },
+                    {
+                        data: 'portal',
+                        name: 'portal'
+                    },
+                    {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    },
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'srp',
+                        name: 'srp'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+
+
+                ]
+            });
+        }
     </script>
 
 @endsection

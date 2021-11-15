@@ -12,7 +12,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Str;
 use Symfony\Component\Process\Process;
-
+use Yajra\DataTables\DataTables;
 class FinanceController extends Controller
 {
 
@@ -24,6 +24,7 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
+        
         $page = $request->has('page') ? $request->get('page') : 1;
         $limit = $request->has('limit') ? $request->get('limit') : 10;
 
@@ -346,5 +347,48 @@ class FinanceController extends Controller
         Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
         Helper::save_log('Finance_Reference_updated');
         return $request->candidate_id;
+    }
+    public function view_finance_search_table(){
+        $Userdata = DB::table('six_table_view')->get();
+        return Datatables::of($Userdata)
+            ->addIndexColumn()
+            ->addColumn('id', function ($Userdata) {
+                return $Userdata->id;
+            })
+            ->addColumn('client', function ($Userdata) {
+                return $Userdata->client;
+            })
+            ->addColumn('reprocess', function ($Userdata) {
+                return $Userdata->reprocess;
+            })
+            ->addColumn('last_name', function ($Userdata) {
+                return $Userdata->last_name;
+            })
+            ->addColumn('career_endo', function ($Userdata) {
+              return $Userdata->career_endo;
+            })
+            ->addColumn('onboardnig_date', function ($Userdata) {
+                return $Userdata->onboardnig_date;
+            }) 
+            ->addColumn('placement_fee', function ($Userdata) {
+                return $Userdata->placement_fee;
+            })
+            ->addColumn('remarks_for_finance', function ($Userdata) {
+                return $Userdata->remarks_for_finance;
+            })
+            ->addColumn('endostatus', function ($Userdata) {
+                return $Userdata->endostatus;
+            })
+                ->addColumn('saved_by', function ($Userdata) {
+                $name= DB::select('select name from  users where id='.$Userdata->saved_by);
+                    return $name[0]->name;
+                })
+           
+
+           
+            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile','educational_attain',
+             'curr_salary','portal','date_shifted','career_endo','endostatus','endi_date', 'remarks_for_finance', 'category',
+                'srp', 'onboardnig_date', 'placement_fee', 'address'])
+            ->make(true);
     }
 }
