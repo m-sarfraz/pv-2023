@@ -24,6 +24,8 @@
 <script>
     $(document).ready(function() {
         load_datatable1()
+        $('#filteredTable_filter').hide('div');
+
     })
     $('#filteredTable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')
@@ -35,4 +37,17 @@
             UserDetail(this, id)
             // alert($(this).val())
         })
+        
+            $('#searchKeyword' ).on( "input", function() {
+            $('#recordTable_filter').children().children().val($('#searchKeyword').val());
+            $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
+            $('#recordTable_filter').children().children().focus();
+            $('#filteredTable_filter').children().children().focus();
+            $('#searchKeyword').focus();
+            $('#recordTable_filter').children().children().trigger('input');
+            $('#filteredTable_filter').children().children().trigger('input');
+            $('#recordTable_filter').hide('div');
+            $('#filteredTable_filter').hide('div');
+            });
+        // function for (if domain is changed append segments acoordingly) starts
 </script>

@@ -38,7 +38,7 @@
                                             Search (keyword):
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
-                                            placeholder="search keyword" required="" id="search" onchange="filterUserData()"
+                                            placeholder="search keyword" required=""
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -723,6 +723,7 @@
             }, 1000);
             load_datatable()
             // show and hide loader after time set ends
+            $('#recordTable_filter').hide('div');
 
         });
         $('#recordTable').on('click', 'tbody tr', function() {
@@ -826,7 +827,7 @@
                     type: "GET",
                     data: {
                         _token: token,
-                        searchKeyword: searchKeyword,
+                        // searchKeyword: searchKeyword,
                         user_id: user_id,
                         candidate: candidate,
                         profile: profile,
@@ -838,7 +839,7 @@
                         search: search,
                     },
                 },
-          
+
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -890,8 +891,8 @@
                         name: 'endi_date'
                     },
                 ]
-            
-                
+
+
             });
         }
         var count = {!! $count !!}
@@ -912,7 +913,7 @@
         function filterUserData() {
             $("#loader").show();
             // get values of selected inputs of users
-            searchKeyword = $('#searchKeyword').val();
+            $('#searchKeyword').val('');
             search = $('#search').val();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();
@@ -929,7 +930,7 @@
                 url: '{{ url('admin/filter_records') }}',
                 data: {
                     _token: token,
-                    searchKeyword: searchKeyword,
+                    // searchKeyword: searchKeyword,
                     user_id: user_id,
                     candidate: candidate,
                     profile: profile,
@@ -1169,7 +1170,19 @@
             });
         }
 
-        // function for (if domain is changed append segments acoordingly) starts
+        // $('#recordTable_filter').children().children().css('display', 'none')
+        $('#searchKeyword' ).on( "input", function() {
+            $('#recordTable_filter').children().children().val($('#searchKeyword').val());
+            $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
+            $('#recordTable_filter').children().children().focus();
+            $('#filteredTable_filter').children().children().focus();
+            $('#searchKeyword').focus();
+            $('#recordTable_filter').children().children().trigger('input');
+            $('#filteredTable_filter').children().children().trigger('input');
+            $('#recordTable_filter').hide('div');
+            $('#filteredTable_filter').hide('div');
+            });
+
         function DomainChange(elem) {
             $('#segment').empty()
             $('#Domainsegment').empty()

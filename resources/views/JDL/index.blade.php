@@ -16,6 +16,7 @@
             width: fit-content;
             margin-left: auto;
         }
+
         .hideID:first-child,
         .hidetrID tr td:first-child {
             display: none !important;
@@ -24,6 +25,7 @@
         .hidetrID tr:hover {
             background-color: rgb(159, 165, 243);
         }
+
         .tooltiptext {
             display: none;
             position: absolute;
@@ -73,7 +75,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" placeholder="search keyword"
                                             id="searchKeyword" required="" class="form-control h-px-20_custom border"
-                                            value="" onchange="Filter_user()" />
+                                            value="" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -474,6 +476,7 @@
     <script>
         $(document).ready(function() {
             load_datatable()
+            $('#jdlTable_filter').hide('div');
         })
         select2Dropdown("select2_dropdown");
         $('#jdlTable').on('click', 'tbody tr', function() {
@@ -485,6 +488,7 @@
             Filter(this, id)
             // alert($(this).val())
         })
+
         function load_datatable() {
             var option_table = $('#jdlTable').DataTable({
                 destroy: true,
@@ -555,6 +559,7 @@
                 ]
             });
         }
+
         function load_datatable1() {
             searchKeyword = $('#searchKeyword').val();
             client = $('#client').val();
@@ -577,17 +582,17 @@
                     url: "{{ route('view-jdl-filter-table') }}",
                     type: "GET",
                     data: {
-                    _token: token,
-                    searchKeyword: searchKeyword,
-                    client: client,
-                    candidateDomain: candidateDomain,
-                    segment: segment,
-                    sub_segment: sub_segment,
-                    position_title: position_title,
-                    career_level: career_level,
-                    address: address,
-                    status: status,
-                },
+                        _token: token,
+                        // searchKeyword: searchKeyword,
+                        client: client,
+                        candidateDomain: candidateDomain,
+                        segment: segment,
+                        sub_segment: sub_segment,
+                        position_title: position_title,
+                        career_level: career_level,
+                        address: address,
+                        status: status,
+                    },
                 },
                 columns: [{
                         data: 'id',
@@ -646,6 +651,18 @@
                 ]
             });
         }
+        $('#searchKeyword').on("input", function() {
+            $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
+            $('#filteredJdlTable_filter').children().children().val($('#searchKeyword').val());
+            $('#jdlTable_filter').children().children().focus();
+            $('#filteredJdlTable_filter').children().children().focus();
+            $('#searchKeyword').focus();
+            $('#jdlTable_filter').children().children().trigger('input');
+            $('#filteredJdlTable_filter').children().children().trigger('input');
+            $('#jdlTable_filter').hide('div');
+            $('#filteredJdlTable_filter').hide('div');
+        });
+
         function Filter(elem, id) {
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
@@ -675,14 +692,14 @@
 
         function Filter_user() {
 
-            if ($('#searchKeyword').val() == '' && $('#client').val() == '' && $('#candidateDomain').val() == '' &&
-                $('#segment').val() == '' && $('#sub_segment').val() == '' && $('#position_title').val() == '' && $(
-                    '#position_title').val() == '' &&
-                $('#career_level').val() == '' && $('#status').val() == '' && $('#location').val() == '') {
-                location.reload();
-            }
+            // if ($('#searchKeyword').val() == '' && $('#client').val() == '' && $('#candidateDomain').val() == '' &&
+            //     $('#segment').val() == '' && $('#sub_segment').val() == '' && $('#position_title').val() == '' && $(
+            //         '#position_title').val() == '' &&
+            //     $('#career_level').val() == '' && $('#status').val() == '' && $('#location').val() == '') {
+            //     location.reload();
+            // }
             $("#loader").show();
-            searchKeyword = $('#searchKeyword').val();
+            $('#searchKeyword').val('');
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();
@@ -698,7 +715,7 @@
                 url: "{{ url('admin/filter_records_jdl') }}",
                 data: {
                     _token: token,
-                    searchKeyword: searchKeyword,
+                    // searchKeyword: searchKeyword,
                     client: client,
                     candidateDomain: candidateDomain,
                     segment: segment,
@@ -812,7 +829,7 @@
                     //         `<option selected   value="${res.data.domain[i]}">${res.data.domain[i]}</option>`
                     //         );
                     //     }
-                                    
+
                     // if (res[0] == null) {
                     //     location.reload();
                     // }
@@ -823,27 +840,27 @@
 
                     //     for (var i = 0; i < res.length; i++) {
 
-                            if (element.option_name == res[i].domain.toUpperCase()) {
-                                if ($('#candidateDomain').val() != res[i].domain) {
+                    if (element.option_name == res[i].domain.toUpperCase()) {
+                        if ($('#candidateDomain').val() != res[i].domain) {
 
-                                    $("#candidateDomain").append(
-                                        `<option selected   value="${element.option_name}">${element.option_name}</option>`
-                                    );
-                                }
-                                changecareer_level(res);
-                                changeposition_title(res)
-                                changesegmentbyClient(res)
-                                changesubsegmentbyClient(res)
-                                changelocation(res)
-                                changestatus(res)
+                            $("#candidateDomain").append(
+                                `<option selected   value="${element.option_name}">${element.option_name}</option>`
+                            );
+                        }
+                        changecareer_level(res);
+                        changeposition_title(res)
+                        changesegmentbyClient(res)
+                        changesubsegmentbyClient(res)
+                        changelocation(res)
+                        changestatus(res)
 
-                    //         }
+                        //         }
 
 
-                    //     }
-                    // });
+                        //     }
+                        // });
 
-                }
+                    }
                 }
             });
         })
