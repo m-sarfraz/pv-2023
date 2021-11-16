@@ -18,6 +18,13 @@
             margin-left: auto;
         }
 
+        #smTable_filter {
+            visibility: hidden;
+        }
+        #smTable1_filter {
+            visibility: hidden;
+        }
+
     </style>
 @endsection
 
@@ -37,7 +44,7 @@
                                             Search (keyword):
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
-                                            placeholder="search keyword" required="" id="search" onchange="FilterSearch()"
+                                            placeholder="search keyword" required="" id="search"
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -492,7 +499,7 @@
 
         // funciton for filtering the data according to selected input starts
         function FilterSearch() {
-            
+
             // get values of selected inputs of users
             domain = $('#domain').val();
             recruiter = $('#recruiter').val();
@@ -545,15 +552,15 @@
                         searchKeyword: searchKeyword,
                     },
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'saved_by',
                         name: 'saved_by'
                     },
-                      {  data: 'id',
+                    {
+                        data: 'id',
                         name: 'id'
                     },
-                    
+
                     {
                         data: 'client',
                         name: 'client'
@@ -646,15 +653,15 @@
                     url: "{{ route('view-smart-search-table') }}",
                     type: "GET",
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'saved_by',
                         name: 'saved_by'
                     },
-                      {  data: 'id',
+                    {
+                        data: 'id',
                         name: 'id'
                     },
-                    
+
                     {
                         data: 'client',
                         name: 'client'
@@ -729,6 +736,14 @@
                 ]
             });
         }
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('input', function() {
+            $('#smTable_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable_filter').children().children().trigger('input');
+            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable1_filter').children().children().trigger('input');
+            
+        });
     </script>
 
 @endsection

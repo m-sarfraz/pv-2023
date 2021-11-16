@@ -86,6 +86,16 @@
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
+                                        @if(session()->has('message-live'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('message') }}
+                                        </div>
+                                        @endif   
+                                        @if(session()->has('error-live'))
+                                        <div class="alert alert-danger">
+                                            {{ session()->get('error-live') }}
+                                        </div>
+                                        @endif     
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
@@ -132,7 +142,12 @@
                                         <div class="alert alert-success">
                                             {{ session()->get('message') }}
                                         </div>
-                                    @endif
+                                        @endif   
+                                        @if(session()->has('error-local-sdb'))
+                                        <div class="alert alert-danger">
+                                            {{ session()->get('error-local-sdb') }}
+                                        </div>
+                                        @endif  
                                 <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
@@ -214,6 +229,11 @@
                                             {{ session()->get('JDL_SHEET_IMPORTED') }}
                                         </div>
                                     @endif
+                                    @if(session()->has('error-jdl-sheet'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-jdl-sheet') }}
+                                    </div>
+                                    @endif  
                                     <div style="padding: 93px;" class="pb-3">
                                         <img style="width: 68.75px; cursor: pointer"
                                             src="{{ asset('assets/image/profile/sheetImage.png') }}"
@@ -273,6 +293,11 @@
                                             {{ session()->get('CSV_FILE_UPLOADED_JDL') }}
                                         </div>
                                     @endif
+                                    @if(session()->has('error-jdl-sheet-local'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-jdl-sheet-local') }}
+                                    </div>
+                                    @endif  
                                         <div style="padding: 93px;" class="pb-3 Coud_icon">
                                             <img style="width: 105px; cursor: pointer"
                                                 src="{{ asset('assets/image/profile/cloud.png') }}"
@@ -297,6 +322,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form action="{{Route('connect-to-sheet')}}" method='post'>
+                @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">GoogleSheet ID:</label>
@@ -306,8 +333,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="uploadSheet()">Import</button>
+                    <button type="submit" class="btn btn-primary" >Import</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
@@ -333,7 +361,7 @@
                                             class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                             Upload File
                                         </label>
-                                        <input type="file"class="form-control" id="sheetFileJDL" accept=".xlsx, .xls, .csv"
+                                        <input type="file"class="form-control" id="sheetFileJDL" accept=" .csv"
                                             name="sheetFileJDL" required />
                                     </div>
                                 </div>
@@ -381,59 +409,59 @@
             })
         });
 
-        function uploadSheet(elem) {
-            $("#loader").show();
-            if (!$('#sheetID').val()) {
-                $('#error').html('');
-                $('#error').append('Please provide Sheet ID');
-                $('#error').removeClass('d-none');
-                $('#error').addClass('d-block');
-                $("#loader").hide();
+        // function uploadSheet(elem) {
+        //     $("#loader").show();
+        //     if (!$('#sheetID').val()) {
+        //         $('#error').html('');
+        //         $('#error').append('Please provide Sheet ID');
+        //         $('#error').removeClass('d-none');
+        //         $('#error').addClass('d-block');
+        //         $("#loader").hide();
 
-            } else {
-                $('#error').html('');
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+        //     } else {
+        //         $('#error').html('');
+        //         $.ajaxSetup({
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             }
+        //         });
 
-                sheetID = $('#sheetID').val();
-                $.ajax({
-                    url: "{{ Route('connect-to-sheet') }}",
-                    type: 'POST',
-                    data: {
-                        sheetID: sheetID
-                    },
-                    success: function(res) {
-                        if (res.success == true) {
+        //         sheetID = $('#sheetID').val();
+        //         $.ajax({
+        //             url: "{{ Route('connect-to-sheet') }}",
+        //             type: 'POST',
+        //             data: {
+        //                 sheetID: sheetID
+        //             },
+        //             success: function(res) {
+        //                 if (res.success == true) {
 
-                            swal({
-                                icon: "success",
-                                text: "{{ __('imported Successfully') }}",
-                                icon: "success",
-                            });
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
-                        } else if (res.success == false) {
-                            swal("{{ __('error') }}", res.message, 'error');
-                        }
+        //                     swal({
+        //                         icon: "success",
+        //                         text: "{{ __('imported Successfully') }}",
+        //                         icon: "success",
+        //                     });
+        //                     setTimeout(function() {
+        //                         location.reload();
+        //                     }, 1000);
+        //                 } else if (res.success == false) {
+        //                     swal("{{ __('error') }}", res.message, 'error');
+        //                 }
 
-                        $("#loader").hide();
-                    },
-                    error: function() {
-                        $("#loader").hide();
-                        swal({
-                            icon: "error",
-                            text: "{{ __('Some Error occured, Try again') }}",
-                            icon: "error",
-                        });
-                    }
-                });
-                return false;
-            }
-        }
+        //                 $("#loader").hide();
+        //             },
+        //             error: function() {
+        //                 $("#loader").hide();
+        //                 swal({
+        //                     icon: "error",
+        //                     text: "{{ __('Some Error occured, Try again') }}",
+        //                     icon: "error",
+        //                 });
+        //             }
+        //         });
+        //         return false;
+        //     }
+        // }
         // function UploadJDlSheet(){
           
         //     var JDL_sheet=$('#sheetFileJDL').val();

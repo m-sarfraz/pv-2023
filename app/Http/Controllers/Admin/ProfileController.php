@@ -93,6 +93,7 @@ class ProfileController extends Controller
     // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
+        
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
@@ -111,29 +112,30 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
-
                     //Explode candidate index into first,middle,last
                     // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
-
+                    
                     $con = 0;
                     $con1 = 1;
                     $con2 = 2;
-
+                    
                     // query for checking the exisitng /duplicate record
                     $query = DB::table("candidate_informations")
                         // ->where("first_name", $render[14])
                         ->where("last_name", $candidate_name)
                         ->orwhere("phone", $candidate_phone)
                         ->first();
-
-                    if (isset($query->id)) {
-                        // update record
-
-                        $store_by_google_sheet = CandidateInformation::find($query->id);
-                        if ($render[33] == "Re-endorsed") {
-                            $store_by_google_sheet->reprocess = $query->reprocess + 1;
+                        
+                        if (isset($query->id)) {
+                            // update record
+                            
+                            $store_by_google_sheet = CandidateInformation::find($query->id);
+                            $founder=isset($render[33])?$render[33]:"";
+                            if ($founder == "Re-endorsed") {
+                                
+                                $store_by_google_sheet->reprocess = $query->reprocess + 1;
                         } else {
                             $store_by_google_sheet->reprocess = $query->reprocess;
                         }
@@ -435,10 +437,10 @@ class ProfileController extends Controller
             //save Google sheet addeed log to table starts
             Helper::save_log('GOOGLE_SHEET_IMPORTED');
             // save Google sheet added to log table ends
-            return response()->json(['success' => true, 'message' => 'Data Import successfully']);
+            return redirect()->back()->with('message-live', 'data Import successfully');
         } else {
             // if Sheet doesnt exist
-            return response()->json(['success' => false, 'message' => 'Given Sheet is not found!']);
+            return redirect()->back()->with('error-live', 'there is some errror');
         }
     }
     public function readLocalAcceess()
@@ -471,16 +473,18 @@ class ProfileController extends Controller
                 if (isset($query->id)) {
                     // update record
                     $store_by_Ecxel = CandidateInformation::find($query->id);
-                    if (isset($render[33]) == "Re-Endorsed") {
+                    $founder =isset($render[33])?isset($render[33]):"0";
+                    if ($founder == "Re-Endorsed")
+                     {
                         $store_by_Ecxel->reprocess = $query->reprocess + 1;
                     }
                 } else {
                     // insert record
                     $store_by_Ecxel = new CandidateInformation();
                 }
-                $store_by_Ecxel->first_name = isset($candidate_name[0]) ? $candidate_name[0] : "";
-                $store_by_Ecxel->middle_name = isset($candidate_name[1]) ? $candidate_name[1] : "";
-                $store_by_Ecxel->last_name = isset($candidate_name[2]) ? $candidate_name[2] : "";
+                // $store_by_Ecxel->first_name = isset($candidate_name[0]) ? $candidate_name[0] : "";
+                // $store_by_Ecxel->middle_name = isset($candidate_name[1]) ? $candidate_name[1] : "";
+                $store_by_Ecxel->last_name = isset($render[13]) ? $render[13] : "";
 
                 $store_by_Ecxel->gender = isset($render[17]) ? $render[17] : "";
                 $store_by_Ecxel->dob = isset($render[18]) ? $render[18] : "";
@@ -755,9 +759,11 @@ class ProfileController extends Controller
             }
 
             // fclose($file);
+            return redirect()->back()->with('message', 'data Import successfully');
+        }else{
+            return redirect()->back()->with('error-local-sdb', 'there is some  Erorrs');
         }
 
-        return redirect()->back()->with('message', 'data Import successfully');
     }
 
     public function verifySheet(Request $request)
@@ -829,7 +835,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('JDL_SHEET_IMPORTED', 'data Import successfully');
         } else {
             // if Sheet doesnt exist
-            return redirect()->back()->with('JDL_SHEET_IMPORTED', 'There are some errorr here');
+            return redirect()->back()->with('error-jdl-sheet', 'there is some  Erorrs');
         }
     }
     public function uploadJdlSheet(Request $request)
@@ -889,6 +895,6 @@ class ProfileController extends Controller
 
             return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
         }
-        return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is not Import successfully');
+        return redirect()->back()->with('error-jdl-sheet-local', 'there is some  Erorrs');
     }
 }
