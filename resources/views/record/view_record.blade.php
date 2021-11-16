@@ -895,12 +895,27 @@
 
             });
         }
-        setTimeout(function(){ countRecord() }, 10000);
-        function countRecord(){
+        // count total number of records coming from data table with interval starts
+        setInterval(function() {
+            let tableID = $('#filter_table_div').children().children().attr('id')
+            if (tableID == 'filteredTable_wrapper') {
+                countRecordFilter()
+            }
+            if (tableID == 'recordTable_wrapper') {
+                countRecord()
+            }
+        }, 2000);
+
+        function countRecord() {
             var count = $('#recordTable_info').text().split(' ');
             $('#recordNumber').val(count[5])
         }
         // Section for docement ready funciton starts
+        function countRecordFilter() {
+            var count = $('#filteredTable_info').text().split(' ');
+            $('#recordNumber').val(count[5])
+        }
+        // close 
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
@@ -946,7 +961,7 @@
                 },
             });
         }
-        // funciton for filtering the data according to selected input ends
+        // close 
 
         // function for selected candidate of table to show detail data on right starts
         function UserDetail(elem, id) {
@@ -998,6 +1013,7 @@
         //         }
         //     })
         // });
+        // on candidate change append the dependent dropdowns 
         $('#candidate').change(function() {
             $('#profile').empty();
             $('#sub_segment').empty();
@@ -1063,15 +1079,17 @@
                 }
             })
         });
+        // close 
 
-        function AppendSelect(elem) {
-            console.log($(this).val);
-        }
+        // reset date on click and call ajax for filter
         $("#reset").click(function() {
             $('#date').val("")
             filterUserData();
         })
+        // close 
 
+
+        // update the selected records if it belongs to the user starts
         function UpdateRecord(id) {
             // show loader for waiting
             $("#loader").show();
@@ -1162,8 +1180,9 @@
                 }
             });
         }
+        // close 
 
-        // $('#recordTable_filter').children().children().css('display', 'none')
+        // make custom search data table search starts
         $('#searchKeyword').on("input", function() {
             $('#recordTable_filter').children().children().val($('#searchKeyword').val());
             $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
@@ -1175,6 +1194,7 @@
             $('#recordTable_filter').hide('div');
             $('#filteredTable_filter').hide('div');
         });
+        // close 
 
         function DomainChange(elem) {
             $('#segment').empty()

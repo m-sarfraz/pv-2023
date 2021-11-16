@@ -28,26 +28,28 @@
 
     })
     $('#filteredTable').on('click', 'tbody tr', function() {
-            // $(this).css('background-color','red')
-            $('tr').removeClass('hover-primary1');
-            $(this).addClass('hover-primary1');
-            let tdVal = $(this).children()[0];
-            console.log(tdVal)
-            var id = tdVal.innerHTML
-            UserDetail(this, id)
-            // alert($(this).val())
-        })
-        
-            $('#searchKeyword' ).on( "input", function() {
-            $('#recordTable_filter').children().children().val($('#searchKeyword').val());
-            $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
-            $('#recordTable_filter').children().children().focus();
-            $('#filteredTable_filter').children().children().focus();
-            $('#searchKeyword').focus();
-            $('#recordTable_filter').children().children().trigger('input');
-            $('#filteredTable_filter').children().children().trigger('input');
-            $('#recordTable_filter').hide('div');
-            $('#filteredTable_filter').hide('div');
-            });
-        // function for (if domain is changed append segments acoordingly) starts
+        // $(this).css('background-color','red')
+        $('tr').removeClass('hover-primary1');
+        $(this).addClass('hover-primary1');
+        let tdVal = $(this).children()[0];
+        console.log(tdVal)
+        var id = tdVal.innerHTML
+        UserDetail(this, id)
+        // alert($(this).val())
+    })
+
+    $('#searchKeyword').on("input", function() {
+        $('#recordTable_filter').children().children().val($('#searchKeyword').val());
+        $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
+        $('#recordTable_filter').children().children().focus();
+        $('#filteredTable_filter').children().children().focus();
+        $('#searchKeyword').focus();
+        $('#recordTable_filter').children().children().trigger('input');
+        $('#filteredTable_filter').children().children().trigger('input');
+        $('#recordTable_filter').hide('div');
+        $('#filteredTable_filter').hide('div');
+    });
+ 
+
+    // function for (if domain is changed append segments acoordingly) starts
 </script>
