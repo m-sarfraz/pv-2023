@@ -1,4 +1,3 @@
-<div class="table-responsive border-right pt-3" id="filter_table_div">
     <div class="">
         <table id="filteredJdlTable" class="table">
             <thead class="bg-light w-100">
@@ -25,33 +24,29 @@
         </table>
     </div>
 
-</div>
-<script>
-    $('#No_of_count').val({!! json_encode($count) !!});
-    $(document).ready(function() {
-        load_datatable1()
-        // $('#filteredJdlTable').hide('div');
+    <script>
+        $(document).ready(function() {
+            load_datatable1()
+            $('#filteredJdlTable_filter').hide('div');
 
-    })
-    // $('#searchKeyword').on("input", function() {
-    //     alert('yes  ')
-    //         $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
-    //         $('#filteredJdlTable').children().children().val($('#searchKeyword').val());
-    //         $('#jdlTable_filter').children().children().focus();
-    //         $('#filteredJdlTable').children().children().focus();
-    //         $('#searchKeyword').focus();
-    //         $('#jdlTable_filter').children().children().trigger('input');
-    //         $('#filteredJdlTable').children().children().trigger('input');
-    //         // $('#jdlTable_filter').hide('div');
-    //         // $('#filteredJdlTable').hide('div');
-    //     });
-    $('#filteredJdlTable').on('click', 'tbody tr', function() {
-           // $(this).css('background-color','red')
-           $('tr').removeClass('hover-primary1');
+        })
+        // $('#searchKeyword').on("input", function() {
+        //     alert('yes')
+        //         $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
+        //         $('#filteredJdlTable').children().children().val($('#searchKeyword').val());
+        //         $('#jdlTable_filter').children().children().focus();
+        //         $('#filteredJdlTable').children().children().focus();
+        //         $('#searchKeyword').focus();
+        //         $('#jdlTable_filter').children().children().trigger('input');
+        //         $('#filteredJdlTable').children().children().trigger('input');
+        //         // $('#jdlTable_filter').hide('div');
+        //         // $('#filteredJdlTable').hide('div');
+        //     });
+        $('#filteredJdlTable').on('click', 'tbody tr', function() {
+            $('tr').removeClass('hover-primary1');
             $(this).addClass('hover-primary1');
             let tdVal = $(this).children()[0];
             var id = tdVal.innerHTML
             Filter(this, id)
-            // alert($(this).val())
         })
-</script>
+    </script>
