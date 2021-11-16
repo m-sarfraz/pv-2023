@@ -47,9 +47,13 @@ class CandidateController extends Controller
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
+        $client = DB::table('taverse2')->distinct()->select('client')->get();
         // return $sub_segmentsDropDown;
         $data = [
             'user' => $user,
+            'client' => $client,
+            'pos_title' => $pos_title,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,

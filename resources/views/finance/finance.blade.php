@@ -14,6 +14,15 @@
             margin-left: auto;
         }
 
+        .hideID:first-child,
+        .hidetrID tr td:first-child {
+            display: none !important;
+        }
+
+        .hidetrID tr:hover {
+            background-color: rgb(159, 165, 243);
+        }
+
     </style>
 @endsection
 
@@ -42,7 +51,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="{{ $hires }}" disabled=""
+                                        <input type="text" name="REF_CODE" value="" disabled=""
                                             required="" id="record" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
@@ -132,7 +141,7 @@
                                         <select multiple name="process" id="process"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             <option disabaled> select option </option>
-                                            @foreach ($Userdata as $reprocess)
+                                            @foreach ($candidates as $reprocess)
                                                 <option value="{{ $reprocess->reprocess }}">
                                                     {{ $reprocess->reprocess }}
                                                 </option>
@@ -197,12 +206,12 @@
                         <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell hideID">id</th>
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Reprocess</th>
                                     <th class="ant-table-cell">Candidate</th>
-
                                     <th class="ant-table-cell">CL</th>
                                     <th class="ant-table-cell">OB Date</th>
                                     <th class="ant-table-cell">Placement Fee</th>
@@ -211,12 +220,10 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                              
-                            </tbody>
+                            <tbody class="hidetrID" style="height:100px"> </tbody>
                         </table>
                     </div>
-                 
+
 
                 </div>
                 <!-- Datatable code end-->
@@ -795,15 +802,6 @@
         // Section for docement ready funciton starts
         $(document).ready(function() {
             load_datatable()
-            var numberofHires = "{{ $hires }}";
-            var numberofBilled = "{{ $billed }}";
-            var numberofUnBilled = "{{ $unbilled }}";
-            var fallout = "{{ $fallout }}";
-            $('#hires').val(numberofHires);
-          
-            $('#billed').val(numberofBilled);
-            $('#unbilled').val(numberofUnBilled);
-            $('#fallout').val(fallout);
             select2Dropdown("select2_dropdown");
             // show and hide loader after time set starts
             $('#loader').show();
@@ -813,14 +811,21 @@
             // show and hide loader after time set ends
 
         });
-        // Section for docement ready funciton starts
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-            });
-        });
+        // close 
+
+        // show detail of record on click a row in data table 
+        $('#fmtable').on('click', 'tbody tr', function() {
+            // $(this).css('background-color','red')
+            $('tr').removeClass('hover-primary1');
+            $(this).addClass('hover-primary1');
+            let tdVal = $(this).children()[0];
+            var id = tdVal.innerHTML
+            console.log('id is ' + id)
+            userDetail(this, id)
+        })
+        // close 
+
+        // function for loading data in yajra on page load 
         function load_datatable() {
             var option_table = $('#fmtable').DataTable({
                 destroy: true,
@@ -839,8 +844,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'saved_by',
-                        name: 'saved_by'
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
                     },
                     {
                         data: 'client',
@@ -855,7 +864,7 @@
                         name: 'last_name'
                     },
 
-    
+
                     {
                         data: 'career_endo',
                         name: 'career_endo'
@@ -872,20 +881,22 @@
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance'
                     },
-                   
+
                     {
                         data: 'endostatus',
                         name: 'endostatus'
                     },
-                    
+
 
 
                 ]
             });
         }
-        // funciton for getting detail of user starts 
-        function teamDetail(elem, id) {
-            
+        // close 
+
+        // function for getting detail of user starts 
+        function userDetail(elem, id) {
+            $('#loader').show();
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
             // call Ajax whihc will return view of detail data of user
@@ -908,9 +919,9 @@
                 },
             });
         }
-        // function closed 
+        // close
 
-        // funciton for filtering the data according to selected input starts
+        // function for filtering the data according to selected input starts
         function filterUserData() {
             $("#loader").show();
 
@@ -935,7 +946,7 @@
                 url: '{{ url('admin/filter_records_finance') }}',
                 data: {
                     _token: token,
-                    searchKeyword: searchKeyword,
+                    // searchKeyword: searchKeyword,
                     recruiter: recruiter,
                     candidate: candidate,
                     remarks: remarks,
@@ -956,7 +967,8 @@
                 },
             });
         }
-        // funciton for filtering the data according to selected input ends
+        // close
+
     </script>
 @endsection
 {{-- script seciton ends here --}}

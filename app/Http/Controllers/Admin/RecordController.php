@@ -33,7 +33,7 @@ class RecordController extends Controller
     public function index(Request $request)
     {
 
-        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
         // get recruiter data
         $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
@@ -380,9 +380,13 @@ class RecordController extends Controller
             ->where('candidate_informations.id', $request->id)
             ->first();
         $domainDrop = Domain::all();
+        $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
+        $client = DB::table('taverse2')->distinct()->select('client')->get();
 
         $data = [
             'user' => $user,
+            'client' => $client,
+            'pos_title' => $pos_title,
             'domainDrop' => $domainDrop,
         ];
         return view('record.user_detail', $data);

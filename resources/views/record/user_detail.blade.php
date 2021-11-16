@@ -553,9 +553,7 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
-                                                    @php
-                                                        $client = Helper::get_dropdown('clients');
-                                                    @endphp
+                                                  
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
@@ -565,10 +563,10 @@
                                                         id="client_finance" disabled="">
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                        @foreach ($client->options as $clientOptions)
-                                                            <option value="{{ $clientOptions->option_name }}"
-                                                                {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $clientOptions->option_name }}
+                                                        @foreach ($client as $clientOptions)
+                                                            <option value="{{ $clientOptions->client }}"
+                                                                {{ $user->client == $clientOptions->client ? 'selected' : '' }}>
+                                                                {{ $clientOptions->client }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -618,10 +616,10 @@
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->position_title == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                        @foreach ($position_title->options as $position_titleOptions)
-                                                            <option value="{{ $position_titleOptions->option_name }}"
-                                                                {{ $user->position_title == $siteOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $position_titleOptions->option_name }}
+                                                        @foreach ($pos_title as $position_titleOptions)
+                                                            <option value="{{ $position_titleOptions->position }}"
+                                                                {{ $user->position_title == $position_titleOptions->position ? 'selected' : '' }}>
+                                                                {{ $position_titleOptions->position }}
                                                             </option>
                                                         @endforeach
                                                     </select>

@@ -711,6 +711,7 @@
 
 @section('script')
     <script>
+        
         // Section for docement ready funciton starts
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
@@ -725,6 +726,8 @@
             $('#recordTable_filter').hide('div');
 
         });
+
+        // show detail of record on click in data table 
         $('#recordTable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')
             $('tr').removeClass('hover-primary1');
@@ -732,9 +735,11 @@
             let tdVal = $(this).children()[0];
             var id = tdVal.innerHTML
             UserDetail(this, id)
-            // alert($(this).val())
         })
+        // close 
 
+
+        // load main table data on page load using ajax(Yajra datatable) 
         function load_datatable() {
             var option_table = $('#recordTable').DataTable({
                 destroy: true,
@@ -802,7 +807,9 @@
             });
 
         }
+        // close 
 
+        // load filtered record data table (Yajra DataTable) 
         function load_datatable1() {
             searchKeyword = $('#searchKeyword').val();
             search = $('#search').val();
@@ -895,6 +902,7 @@
 
             });
         }
+
         // count total number of records coming from data table with interval starts
         setInterval(function() {
             let tableID = $('#filter_table_div').children().children().attr('id')
@@ -906,11 +914,14 @@
             }
         }, 2000);
 
+        // count record on page load 
         function countRecord() {
             var count = $('#recordTable_info').text().split(' ');
             $('#recordNumber').val(count[5])
         }
-        // Section for docement ready funciton starts
+        // close 
+
+        // count record of filtered data
         function countRecordFilter() {
             var count = $('#filteredTable_info').text().split(' ');
             $('#recordNumber').val(count[5])
@@ -992,6 +1003,8 @@
                 },
             });
         }
+        //close 
+
         // function for selected candidate of table to show detail data on right starts
 
         // On recruiter change append the candidates of selected recruiter
@@ -1196,6 +1209,7 @@
         });
         // close 
 
+        // function for (if domain is changed append segments acoordingly) starts
         function DomainChange(elem) {
             $('#segment').empty()
             $('#Domainsegment').empty()
@@ -1216,9 +1230,9 @@
             SegmentChange("segment");
 
         }
-        // function for (if domain is changed append segments acoordingly) starts
+        // close 
 
-        // function for (if segment is changed append segments acoordingly) starts
+        // function for (if segment is changed append subsegments acoordingly) starts
         function SegmentChange(elem) {
             $('#Domain_sub_segment').empty()
             $('#endo_sub_segment').empty()
@@ -1239,24 +1253,7 @@
                 }
             }
         }
-        // function for (if segment is changed append segments acoordingly) ends
-
-        // apppending endorsements segments starts
-        // function changeSegment(elem) {
-        //     $('#endo_sub_segment').empty()
-        //     var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
-        //     var count = 0;
-        //     for (let i = 0; i < sub_segmentsDropDown.length; i++) {
-        //         if ($('#Domainsegment').val() == sub_segmentsDropDown[i].segment_id) {
-        //             count++;
-        //             $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].id + '">' +
-        //                 sub_segmentsDropDown[i]
-        //                 .sub_segment_name +
-        //                 '</option>');
-        //         }
-        //     }
-        // }
-        // apppending endorsements segments ends
+        // close 
     </script>
 
 @endsection
