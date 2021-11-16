@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Str;
 use Symfony\Component\Process\Process;
 use Yajra\DataTables\DataTables;
+
 class FinanceController extends Controller
 {
 
@@ -24,39 +25,11 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-        
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
-
-        $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->where('endorsements.remarks_for_finance', 'Onboarded')
-            ->orWhere('endorsements.remarks_for_finance', 'Offer accepted')
-            ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.last_name')->get();
-        // return $candidate;
-        $user = User::where('type', 3)->get();
+        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
         $arr = ['Offer accepted', 'Onboarded'];
-        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->whereIn('remarks_for_finance', $arr);
-        // ->orWhere('remarks_for_finance', 'Offer accepted')
-        // ->offset($page)
-        // ->limit($limit)
-        // ->paginate();
-        $hires = $Userdata->count();
-        $financeData = $Userdata->offset($page)
-            ->limit($limit)
-            ->paginate();
-        // return $hires;
-        // return $Userdata;
-        $billsArray = ['Billed', 'For Replacement', 'Replaced'];
-        $billed = $Userdata->whereIn('endorsements.remarks', $billsArray)->count();
-        $unbilled = $Userdata->where('endorsements.remarks', 'Unbilled')->count();
-        $fallout = $Userdata->where('endorsements.remarks', 'Fallout')->count();
-        // $count = count(CandidateInformation::all());
+        $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->whereIn('remarks_for_finance', $arr)
+            ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.last_name')->get();
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
@@ -64,17 +37,11 @@ class FinanceController extends Controller
         // return $Userdata;
         $data = [
             'candidates' => $candidates,
-            'Userdata' => $financeData,
-            'user' => $user,
-            // 'count' => $count,
-            'hires' => $hires,
-            'billed' => $billed,
-            'unbilled' => $unbilled,
-            'fallout' => $fallout,
             'recruiter' => $recruiter,
-            'remarks_finance' => $remarks_finance,
             "teams" => $teams,
             "appstatus" => $appstatus,
+            'remarks_finance' => $remarks_finance,
+
         ];
         return view('finance.finance', $data);
     }
@@ -348,12 +315,19 @@ class FinanceController extends Controller
         Helper::save_log('Finance_Reference_updated');
         return $request->candidate_id;
     }
-    public function view_finance_search_table(){
+    public function view_finance_search_table()
+    {
         $Userdata = DB::table('six_table_view')->get();
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($Userdata) {
                 return $Userdata->id;
+            })
+            // ->addColumn('team', function ($Userdata) {
+            //     return $Userdata->team;
+            // })
+            ->addColumn('recruiter', function ($Userdata) {
+                return $Userdata->recruiter;
             })
             ->addColumn('client', function ($Userdata) {
                 return $Userdata->client;
@@ -365,11 +339,11 @@ class FinanceController extends Controller
                 return $Userdata->last_name;
             })
             ->addColumn('career_endo', function ($Userdata) {
-              return $Userdata->career_endo;
+                return $Userdata->career_endo;
             })
             ->addColumn('onboardnig_date', function ($Userdata) {
                 return $Userdata->onboardnig_date;
-            }) 
+            })
             ->addColumn('placement_fee', function ($Userdata) {
                 return $Userdata->placement_fee;
             })
@@ -379,15 +353,13 @@ class FinanceController extends Controller
             ->addColumn('endostatus', function ($Userdata) {
                 return $Userdata->endostatus;
             })
-                ->addColumn('saved_by', function ($Userdata) {
-                $name= DB::select('select name from  users where id='.$Userdata->saved_by);
-                    return $name[0]->name;
-                })
-           
+        // ->addColumn('saved_by', function ($Userdata) {
+        //     $name = DB::select('select name from  users where id=' . $Userdata->saved_by);
+        //     return $name[0]->name;
+        // })
 
-           
-            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile','educational_attain',
-             'curr_salary','portal','date_shifted','career_endo','endostatus','endi_date', 'remarks_for_finance', 'category',
+            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
     }

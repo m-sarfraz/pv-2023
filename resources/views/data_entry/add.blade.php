@@ -665,9 +665,9 @@
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($position_title->options as $position_titleOptions)
-                                                        <option value="{{ $position_titleOptions->option_name }}">
-                                                            {{ $position_titleOptions->option_name }}
+                                                    @foreach ($pos_title as $position_titleOptions)
+                                                        <option value="{{ $position_titleOptions->position }}">
+                                                            {{ $position_titleOptions->position }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -771,18 +771,16 @@
                                     </div>
                                     <div class="row mb-1 align-items-center">
                                         <div class="col-lg-6">
-                                            @php
-                                                $client = Helper::get_dropdown('clients');
-                                            @endphp
+                                         
                                             <div class="form-group mb-0 pt-1 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Client</label>
                                                 <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($client->options as $clientOptions)
-                                                        <option value="{{ $clientOptions->option_name }}">
-                                                            {{ $clientOptions->option_name }}
+                                                    @foreach ($client as $clientOptions)
+                                                        <option value="{{ $clientOptions->client }}">
+                                                            {{ $clientOptions->client }}
                                                         </option>
                                                     @endforeach
                                                 </select>
