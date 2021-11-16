@@ -85,7 +85,7 @@
                                             Number Of Records Found:
                                         </label>
                                         <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
-                                            class="form-control h-px-20_custom border" value="{{ $AllData }}" />
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -479,6 +479,30 @@
             $('#jdlTable_filter').hide('div');
         })
         select2Dropdown("select2_dropdown");
+        // count total number of records coming from data table with interval starts
+        setInterval(function() {
+            let tableID = $('#filter_table_div').children().children().attr('id')
+            if (tableID == 'jdlTable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'filteredJdlTable_wrapper') {
+                countRecordFilter()
+            }
+        }, 2000);
+
+        // count record on page load 
+        function countRecord() {
+            var count = $('#jdlTable_info').text().split(' ');
+            $('#No_of_count').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#filteredJdlTable_info').text().split(' ');
+            $('#No_of_count').val(count[5])
+        }
+        // close 
         $('#jdlTable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')
             $('tr').removeClass('hover-primary1');

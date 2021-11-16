@@ -42,7 +42,6 @@ class JdlController extends Controller
         $positions = DB::table('jdl')->select("p_title")->groupby("p_title")->get();
         $c_levels = DB::table('jdl')->select("c_level")->groupby("c_level")->get();
         $Location = DB::table('jdl')->select("location")->groupby("location")->get();
-        $AllData = 3530;
         $data = [
             // "Userdata" => $Userdata,
             "Alldomains" => $Alldomains,
@@ -51,7 +50,6 @@ class JdlController extends Controller
             "positions" => $positions,
             "c_levels" => $c_levels,
             "Location" => $Location,
-            "AllData" => $AllData,
         ];
         return view('JDL.index', $data);
     }
