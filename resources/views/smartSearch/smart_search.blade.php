@@ -45,7 +45,7 @@
                                             Search (keyword):
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
-                                            placeholder="search keyword" required="" id="search"
+                                            placeholder="search keyword" required=""
                                             class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
@@ -488,7 +488,7 @@
         });
         $('#sifted').val({!! $sifted !!});
         $('#endo').val({!! $endo !!});
-        $('#foundRecord').val({!! $count !!});
+
         $('#active').val({!! $active !!});
         $('#spr').val({!! $spr !!});
         $('#onBoarded').val({!! $onBoarded !!});
@@ -516,7 +516,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
-            searchKeyword = $('#searchKeyword').val();
+           $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
@@ -550,7 +550,7 @@
                         ob_end: ob_end,
                         sift_start: sift_start,
                         sift_end: sift_end,
-                        searchKeyword: searchKeyword,
+                        // searchKeyword: searchKeyword,
                     },
                 },
                 columns: [{
@@ -743,12 +743,36 @@
             $('#smTable_filter').children().children().trigger('input');
             $('#smTable1_filter').children().children().val($('#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
-            var data = $('#smTable_info').html()
-            let total_recored = data.split(" ")
-            $('#foundRecord').val(total_recored[3])
+            // var data = $('#smTable_info').html()
+            // let total_recored = data.split(" ")
+            // console.log(total_recored)
+            // $('#foundRecord').val(total_recored[3])
 
 
         });
+        setInterval(function() {
+            let tableID = $('#filterResult_div').children().children().attr('id')
+            console.log(tableID);
+            if (tableID == 'smTable1_wrapper') {
+                countRecordFilter()
+            }
+            if (tableID == 'smTable_wrapper') {
+                countRecord()
+            }
+        }, 3000);
+
+        // count record on page load 
+        function countRecord() {
+            var count = $('#smTable_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#smTable1_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+        }
     </script>
 
 @endsection

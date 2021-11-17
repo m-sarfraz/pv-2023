@@ -174,173 +174,174 @@ class SmartSearchController extends Controller
             $Userdata->where('six_table_view.endi_date', '<=', $request->endo_end);
         }
         //start search
-        if (isset($request->searchKeyword)) {
-            $searchCheck = true;
-            $perfect_match = DB::table("six_table_view")->get();
+        // if (isset($request->searchKeyword)) {
+        //     $searchCheck = true;
+        //     $perfect_match = DB::table("six_table_view")->get();
 
-            foreach ($perfect_match as $match) {
-                if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->address), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.address', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->remarks), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.remarks', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->date_shifted), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.date_shifted', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->gender), strtolower($request->searchKeyword)) !== false) {
+        //     foreach ($perfect_match as $match) {
+        //         if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->address), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.address', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->remarks), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.remarks', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->date_shifted), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.date_shifted', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->gender), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.gender', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.gender', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->educational_attain), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->educational_attain), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.endostatus', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.endostatus', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->srp), strtolower($request->searchKeyword)) !== false) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //         if (strpos(strtolower($match->srp), strtolower($request->searchKeyword)) !== false) {
 
-                    $check = true;
-                    $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
-                }
-            }
-        }
-        if ($check) {
+        //             $check = true;
+        //             $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
+        //         }
+        //     }
+        // }
+        // if ($check) {
 
+        //     $user = $Userdata->get();
+        // } else {
+        //     if (!$check && !$searchCheck) {
+        //         $user = $Userdata->get();
+        //     } else {
+        //         $user = [];
+        //     }
+        // }
             $user = $Userdata->get();
-        } else {
-            if (!$check && !$searchCheck) {
-                $user = $Userdata->get();
-            } else {
-                $user = [];
-            }
-        }
 
         $onBoarded = count($Userdata->get());
-        return Datatables::of($Userdata)
+        return Datatables::of($user)
             ->addIndexColumn()
-            ->addColumn('id', function ($Userdata) {
-                $name= DB::select('select last_name from  candidate_informations where id='.$Userdata->id);
+            ->addColumn('id', function ($user) {
+                $name= DB::select('select last_name from  candidate_informations where id='.$user->id);
                 return  $name[0]->last_name;
             })
-            ->addColumn('client', function ($Userdata) {
-                return $Userdata->client;
+            ->addColumn('client', function ($user) {
+                return $user->client;
             })
-            ->addColumn('gender', function ($Userdata) {
-                return $Userdata->gender;
+            ->addColumn('gender', function ($user) {
+                return $user->gender;
             })
-            ->addColumn('domain', function ($Userdata) {
-                return $Userdata->domain;
+            ->addColumn('domain', function ($user) {
+                return $user->domain;
             })
-            ->addColumn('candidate_profile', function ($Userdata) {
-                return $Userdata->candidate_profile;
+            ->addColumn('candidate_profile', function ($user) {
+                return $user->candidate_profile;
             }) 
-            ->addColumn('educational_attain', function ($Userdata) {
-                return $Userdata->educational_attain;
+            ->addColumn('educational_attain', function ($user) {
+                return $user->educational_attain;
             })
-            ->addColumn('curr_salary', function ($Userdata) {
-                return $Userdata->curr_salary;
+            ->addColumn('curr_salary', function ($user) {
+                return $user->curr_salary;
             })
-            ->addColumn('portal', function ($Userdata) {
+            ->addColumn('portal', function ($user) {
                 return "N/A";
             })
-            ->addColumn('date_shifted', function ($Userdata) {
-              return $Userdata->date_shifted;
+            ->addColumn('date_shifted', function ($user) {
+              return $user->date_shifted;
             })
-            ->addColumn('career_endo', function ($Userdata) {
-              return $Userdata->career_endo;
+            ->addColumn('career_endo', function ($user) {
+              return $user->career_endo;
             })
-            ->addColumn('endostatus', function ($Userdata) {
-                return $Userdata->endostatus;
+            ->addColumn('endostatus', function ($user) {
+                return $user->endostatus;
               })
-              ->addColumn('endi_date', function ($Userdata) {
-                return $Userdata->endi_date;
+              ->addColumn('endi_date', function ($user) {
+                return $user->endi_date;
               })
-              ->addColumn('remarks_for_finance', function ($Userdata) {
-                return $Userdata->remarks_for_finance;
+              ->addColumn('remarks_for_finance', function ($user) {
+                return $user->remarks_for_finance;
               })
-              ->addColumn('category', function ($Userdata) {
+              ->addColumn('category', function ($user) {
                 return "N/A";
               })
-              ->addColumn('srp', function ($Userdata) {
-                return $Userdata->srp;
+              ->addColumn('srp', function ($user) {
+                return $user->srp;
               })
-              ->addColumn('onboardnig_date', function ($Userdata) {
-                return $Userdata->onboardnig_date;
+              ->addColumn('onboardnig_date', function ($user) {
+                return $user->onboardnig_date;
               })
-              ->addColumn('placement_fee', function ($Userdata) {
-                return $Userdata->placement_fee;
+              ->addColumn('placement_fee', function ($user) {
+                return $user->placement_fee;
               })
-              ->addColumn('address', function ($Userdata) {
-                return $Userdata->address;
+              ->addColumn('address', function ($user) {
+                return $user->address;
               })
-              ->addColumn('saved_by', function ($Userdata) {
-                $name= DB::select('select name from  users where id='.$Userdata->saved_by);
+              ->addColumn('saved_by', function ($user) {
+                $name= DB::select('select name from  users where id='.$user->saved_by);
                  return $name[0]->name;
              })
            

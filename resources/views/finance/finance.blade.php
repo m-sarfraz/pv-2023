@@ -23,6 +23,14 @@
             background-color: rgb(159, 165, 243);
         }
 
+        #fmtable_filter {
+                        visibility: hidden;
+                    }
+
+                    #fmtable1_filter {
+                        visibility: hidden;
+                    }
+
     </style>
 @endsection
 
@@ -43,7 +51,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
                                             placeholder="search keyword" required=""
-                                            class="form-control h-px-20_custom border" onchange="filterUserData()" />
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -51,8 +59,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="" disabled=""
-                                            required="" id="record" class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" value="" disabled="" required="" id="record"
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -182,8 +190,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Process Status:
                                         </label>
-                                        <select name="appstatus" id="appstatus" class="w-100 form-control select2_dropdown"
-                                            onchange="filterUserData()">
+                                        <select multiple name="appstatus" id="appstatus"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             <option disabaled> select option </option>
                                             @foreach ($appstatus as $appstatuss)
                                                 <option value="{{ $appstatuss->app_status }}">
@@ -893,7 +901,98 @@
             });
         }
         // close 
+        function load_datatable1() {
+            // get values of selected inputs of users
+            searchKeyword = $('#searchKeyword').val();
+            recruiter = $('#recruiter').val();
+            appstatus = $('#appstatus').val();
+            team_id = $('#team_id').val();
+            candidate = $('#candidate').val();
+            remarks = $('#remarks').val();
+            team = $('#team').val();
+            // status = $('#status').val();
+            toDate = $('#to_ob_date').val();
+            ob_date = $('#ob_date').val();
+            client = $('#client').val();
+            process = $('#process').val();
+            ob_date = $('#ob_date').val();
+            var option_table = $('#fmtable1').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
 
+                ajax: {
+                    url: "{{ route('financeRecordFilter') }}",
+                    type: "POST",
+                    data: {
+                        _token: token,
+                        // searchKeyword: searchKeyword,
+                        recruiter: recruiter,
+                        candidate: candidate,
+                        remarks: remarks,
+                        toDate: toDate,
+                        ob_date: ob_date,
+                        team: team,
+                        status: status,
+                        client: client,
+                        appstatus: appstatus,
+                        team_id: team_id,
+                        process: process,
+                    },
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
+
+
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+
+
+
+                ]
+            });
+        }
         // function for getting detail of user starts 
         function userDetail(elem, id) {
             $('#loader').show();
@@ -924,51 +1023,51 @@
         // function for filtering the data according to selected input starts
         function filterUserData() {
             $("#loader").show();
-
-            // get values of selected inputs of users
-            searchKeyword = $('#searchKeyword').val();
-            recruiter = $('#recruiter').val();
-            appstatus = $('#appstatus').val();
-            team_id = $('#team_id').val();
-            candidate = $('#candidate').val();
-            remarks = $('#remarks').val();
-            team = $('#team').val();
-            status = $('#status').val();
-            toDate = $('#to_ob_date').val();
-            ob_date = $('#ob_date').val();
-            client = $('#client').val();
-            process = $('#process').val();
-            ob_date = $('#ob_date').val();
-
             // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
-                url: '{{ url('admin/filter_records_finance') }}',
-                data: {
-                    _token: token,
-                    // searchKeyword: searchKeyword,
-                    recruiter: recruiter,
-                    candidate: candidate,
-                    remarks: remarks,
-                    toDate: toDate,
-                    team: team,
-                    status: status,
-                    client: client,
-                    ob_date: ob_date,
-                    appstatus: appstatus,
-                    team_id: team_id,
-                    process: process,
-                },
-
-                // Success fucniton of Ajax
+                url: '{{ url('admin/filterView') }}',
                 success: function(data) {
                     $('#filterData_div').html(data);
                     $("#loader").hide();
+                    // load_datatable1();
                 },
             });
         }
         // close
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('input', function() {
+            $('#fmtable_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable_filter').children().children().trigger('input');
+            $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable1_filter').children().children().trigger('input');
+        
 
+        });
+        setInterval(function() {
+            let tableID = $('#filterData_div').children().children().attr('id')
+
+            if (tableID == 'fmtable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'fmtable1_wrapper') {
+                countRecordFilter()
+            }
+        }, 3000);
+
+        // count record on page load 
+        function countRecord() {
+            var count = $('#fmtable_info').text().split(' ');
+
+            $('#record').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#fmtable1_info').text().split(' ');
+            $('#record').val(count[5])
+        }
     </script>
 @endsection
 {{-- script seciton ends here --}}
