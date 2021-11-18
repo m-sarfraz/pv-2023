@@ -2,12 +2,12 @@
     <table id="filteredTable" class="table">
         <thead class="bg-light w-100">
             <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                <th class="ant-table-cell">id</th>
+                <th class="ant-table-cell hideID">id</th>
                 <th class="ant-table-cell">Sr</th>
                 <th class="ant-table-cell">Recruiter</th>
                 <th class="ant-table-cell">Candidate</th>
                 <th class="ant-table-cell">Profile</th>
-                <th class="ant-table-cell">Subsegment</th>
+                <th class="ant-table-cell">S segment</th>
                 <th class="ant-table-cell">CSalary</th>
                 <th class="ant-table-cell">E.Salary</th>
                 <th class="ant-table-cell">App.Status</th>

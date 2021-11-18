@@ -1027,71 +1027,71 @@
         //     })
         // });
         // on candidate change append the dependent dropdowns 
-        $('#candidate').change(function() {
-            $('#profile').empty();
-            $('#sub_segment').empty();
-            $('#date').empty();
-            $('#client').empty();
-            $('#career_level').empty();
-            $('#app_status').empty();
-            var profile = {!! $candidateprofile !!};
-            console.log(profile)
-            var segment = {!! $candidateDomain !!};
-            var status = {!! $endorsement !!};
-            var client = {!! $endorsement !!};
-            var career = {!! $endorsement !!};
-            var count = 0;
-            $.each($(this).val(), function(i, v) {
-                for (let i = 0; i < profile.length; i++) {
-                    console.log(v)
-                    if (v == profile[i].candidate_id) {
-                        count++;
-                        if (profile[i].candidate_profile != "") {
+        // $('#candidate').change(function() {
+        //     $('#profile').empty();
+        //     $('#sub_segment').empty();
+        //     $('#date').empty();
+        //     $('#client').empty();
+        //     $('#career_level').empty();
+        //     $('#app_status').empty();
+        //     var profile = {!! $candidateprofile !!};
+        //     console.log(profile)
+        //     var segment = {!! $candidateDomain !!};
+        //     var status = {!! $endorsement !!};
+        //     var client = {!! $endorsement !!};
+        //     var career = {!! $endorsement !!};
+        //     var count = 0;
+        //     $.each($(this).val(), function(i, v) {
+        //         for (let i = 0; i < profile.length; i++) {
+        //             console.log(v)
+        //             if (v == profile[i].candidate_id) {
+        //                 count++;
+        //                 if (profile[i].candidate_profile != "") {
 
-                            $('#profile').append('<option  selected  value="' + profile[i]
-                                .candidate_profile +
-                                '">' +
-                                profile[i].candidate_profile +
-                                '</option>');
-                        }
-                        console.log(segment[i], i);
-                        if (segment[i].sub_segment != '') {
-                            if (v == segment[i].candidate_id) {
-                                $('#sub_segment').append('<option selected  value="' + segment[i]
-                                    .sub_segment +
-                                    '">' +
-                                    segment[i].sub_segment +
-                                    '</option>');
-                            }
-                        }
-                    }
-                    if (v == status[i].candidate_id) {
-                        count++;
-                        if (status[i].app_status != null) {
-                            $('#app_status').append('<option selected  value="' + status[i].app_status +
-                                '">' +
-                                status[i]
-                                .app_status +
-                                '</option>');
-                        }
-                        if (client[i].client != null) {
-                            $('#client').append('<option  selected value="' + client[i].client + '">' +
-                                client[
-                                    i]
-                                .client +
-                                '</option>');
-                        }
-                        if (career[i].career_endo != null) {
-                            $('#career_level').append('<option selected  value="' + career[i].career_endo +
-                                '">' + status[
-                                    i]
-                                .career_endo +
-                                '</option>');
-                        }
-                    }
-                }
-            })
-        });
+        //                     $('#profile').append('<option  selected  value="' + profile[i]
+        //                         .candidate_profile +
+        //                         '">' +
+        //                         profile[i].candidate_profile +
+        //                         '</option>');
+        //                 }
+        //                 console.log(segment[i], i);
+        //                 if (segment[i].sub_segment != '') {
+        //                     if (v == segment[i].candidate_id) {
+        //                         $('#sub_segment').append('<option selected  value="' + segment[i]
+        //                             .sub_segment +
+        //                             '">' +
+        //                             segment[i].sub_segment +
+        //                             '</option>');
+        //                     }
+        //                 }
+        //             }
+        //             if (v == status[i].candidate_id) {
+        //                 count++;
+        //                 if (status[i].app_status != null) {
+        //                     $('#app_status').append('<option selected  value="' + status[i].app_status +
+        //                         '">' +
+        //                         status[i]
+        //                         .app_status +
+        //                         '</option>');
+        //                 }
+        //                 if (client[i].client != null) {
+        //                     $('#client').append('<option  selected value="' + client[i].client + '">' +
+        //                         client[
+        //                             i]
+        //                         .client +
+        //                         '</option>');
+        //                 }
+        //                 if (career[i].career_endo != null) {
+        //                     $('#career_level').append('<option selected  value="' + career[i].career_endo +
+        //                         '">' + status[
+        //                             i]
+        //                         .career_endo +
+        //                         '</option>');
+        //                 }
+        //             }
+        //         }
+        //     })
+        // });
         // close 
 
         // reset date on click and call ajax for filter
@@ -1210,49 +1210,49 @@
         // close 
 
         // function for (if domain is changed append segments acoordingly) starts
-        function DomainChange(elem) {
-            $('#segment').empty()
-            $('#Domainsegment').empty()
-            var segmentsDropDown = {!! $segmentsDropDown !!};
-            var count = 0;
-            for (let i = 0; i < segmentsDropDown.length; i++) {
-                if ($(elem).val() == segmentsDropDown[i].domain_id) {
-                    count++;
-                    $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
-                        .segment_name +
-                        '</option>');
-                    $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
-                        .segment_name +
-                        '</option>');
-                }
+        // function DomainChange(elem) {
+        //     $('#segment').empty()
+        //     $('#Domainsegment').empty()
+        //     var segmentsDropDown = {!! $segmentsDropDown !!};
+        //     var count = 0;
+        //     for (let i = 0; i < segmentsDropDown.length; i++) {
+        //         if ($(elem).val() == segmentsDropDown[i].domain_id) {
+        //             count++;
+        //             $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+        //                 .segment_name +
+        //                 '</option>');
+        //             $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+        //                 .segment_name +
+        //                 '</option>');
+        //         }
 
-            }
-            SegmentChange("segment");
+        //     }
+        //     SegmentChange("segment");
 
-        }
+        // }
         // close 
 
         // function for (if segment is changed append subsegments acoordingly) starts
-        function SegmentChange(elem) {
-            $('#Domain_sub_segment').empty()
-            $('#endo_sub_segment').empty()
-            var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
-            var count = 0;
-            for (let i = 0; i < sub_segmentsDropDown.length; i++) {
-                console.log(sub_segmentsDropDown)
-                if ($('#segment').val() == sub_segmentsDropDown[i].segment_id) {
-                    count++;
-                    $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
-                        sub_segmentsDropDown[i]
-                        .sub_segment_name +
-                        '</option>');
-                    $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
-                        sub_segmentsDropDown[i]
-                        .sub_segment_name +
-                        '</option>');
-                }
-            }
-        }
+        // function SegmentChange(elem) {
+        //     $('#Domain_sub_segment').empty()
+        //     $('#endo_sub_segment').empty()
+        //     var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+        //     var count = 0;
+        //     for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+        //         console.log(sub_segmentsDropDown)
+        //         if ($('#segment').val() == sub_segmentsDropDown[i].segment_id) {
+        //             count++;
+        //             $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
+        //                 sub_segmentsDropDown[i]
+        //                 .sub_segment_name +
+        //                 '</option>');
+        //             $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
+        //                 sub_segmentsDropDown[i]
+        //                 .sub_segment_name +
+        //                 '</option>');
+        //         }
+        //     }
+        // }
         // close 
     </script>
 

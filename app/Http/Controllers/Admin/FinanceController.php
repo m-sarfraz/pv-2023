@@ -79,14 +79,14 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-
+dd($request->process);
         $Userdata = DB::table('six_table_view');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
         }
         if (isset($request->candidate)) {
-            $Userdata->whereIn('six_table_view.candidate_id', $request->candidate);
+            $Userdata->whereIn('six_table_view.id', $request->candidate);
         }
         if (isset($request->remarks)) {
             $Userdata->whereIn('six_table_view.remarks_for_finance', $request->remarks);
@@ -97,17 +97,16 @@ class FinanceController extends Controller
         if (isset($request->toDate)) {
             $Userdata->whereDate('six_table_view.onboardnig_date', '<', $request->toDate);
         }
-        if (isset($request->appstatus)) {
-            $Userdata->whereIn('six_table_view.endo_status', $request->appstatus);
-        }
-        if (isset($request->client)) {
-            $Userdata->whereIn('six_table_view.client', $request->client);
+        
+        if (isset($request->process)) {
+            $Userdata->whereIn('six_table_view.reprocess', $request->process);
         }
         if (isset($request->appstatus)) {
             $Userdata->whereIn('six_table_view.app_status', $request->appstatus);
         }
 
         $user = $Userdata->get();
+       
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -118,36 +117,38 @@ class FinanceController extends Controller
                 return $team[0]->name;
             })
 
-            ->addColumn('recruiter', function ($user) {
-                return $user->recruiter;
+            ->addColumn('recruiter', function ($Userdata) {
+                return $Userdata->recruiter;
             })
-            ->addColumn('client', function ($user) {
-                return $user->client;
+            ->addColumn('client', function ($Userdata) {
+                return $Userdata->client;
             })
-            ->addColumn('reprocess', function ($user) {
-                return $user->reprocess;
+            ->addColumn('reprocess', function ($Userdata) {
+                return $Userdata->reprocess;
             })
-            ->addColumn('last_name', function ($user) {
-                return $user->last_name;
+            ->addColumn('last_name', function ($Userdata) {
+                return $Userdata->last_name;
             })
-            ->addColumn('career_endo', function ($user) {
-                return $user->career_endo;
+            ->addColumn('career_endo', function ($Userdata) {
+                return $Userdata->career_endo;
             })
-            ->addColumn('onboardnig_date', function ($user) {
-                return $user->onboardnig_date;
+            ->addColumn('onboardnig_date', function ($Userdata) {
+                return $Userdata->onboardnig_date;
             })
-            ->addColumn('placement_fee', function ($user) {
-                return $user->placement_fee;
+            ->addColumn('placement_fee', function ($Userdata) {
+                return $Userdata->placement_fee;
             })
-            ->addColumn('remarks_for_finance', function ($user) {
-                return $user->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($Userdata) {
+                return $Userdata->remarks_for_finance;
             })
-            ->addColumn('endostatus', function ($user) {
-                return $user->endostatus;
+            ->addColumn('endostatus', function ($Userdata) {
+                return $Userdata->endostatus;
             })
+
             ->rawColumns([
-                'id', 'recruiter', 'client', 'reprocess', 'last_name', 'career_endo',
-                'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'endostatus',
+                'id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
+                'srp', 'onboardnig_date', 'placement_fee', 'address',
             ])
             ->make(true);
     }

@@ -88,7 +88,7 @@
                                         style="color:red">*</span> </span>
                                         @if(session()->has('message-live'))
                                         <div class="alert alert-success">
-                                            {{ session()->get('message') }}
+                                            {{ session()->get('message-live') }}
                                         </div>
                                         @endif   
                                         @if(session()->has('error-live'))

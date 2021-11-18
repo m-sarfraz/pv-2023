@@ -944,7 +944,7 @@
                     },
                 },
                 columns: [{
-                        data: 'id',
+                    data: 'id',
                         name: 'id'
                     },
                     {
@@ -990,7 +990,6 @@
                         data: 'endostatus',
                         name: 'endostatus'
                     },
-
 
 
                 ]
