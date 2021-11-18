@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CandidateInformation;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+
 class SmartSearchController extends Controller
 {
     public function __construct()
@@ -18,50 +18,50 @@ class SmartSearchController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
+        // $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+        //     ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+        //     ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+        //     ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+        //     ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
         $domain = Domain::all();
         $user_recruiter = User::where('type', 3)->get();
 
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $user = $Userdata->offset($page)
-            ->limit($limit)
-            ->paginate();
-        $count = $Userdata->count();
+        // $page = $request->has('page') ? $request->get('page') : 1;
+        // $limit = $request->has('limit') ? $request->get('limit') : 10;
+        // $user = $Userdata->offset($page)
+        // ->limit($limit)
+        // ->paginate();
+        // $count = $Userdata->count();
         // qurries for summary section start
-        $sifted = count($user);
-        $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
-        $failed = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Fail%')->get());
-        $withdrawn = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Withdraw%')->get());
-        $rejected = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%reject%')->get());
-        $accepted = count($Userdata->where('endorsements.remarks_for_finance', 'Offer accepted')->get());
-        $spr = count($Userdata->whereNotNull('finance.srp')->get());
-        $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
-        $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
+        // $sifted = count($user);
+        // $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
+        // $failed = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Fail%')->get());
+        // $withdrawn = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Withdraw%')->get());
+        // $rejected = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%reject%')->get());
+        // $accepted = count($Userdata->where('endorsements.remarks_for_finance', 'Offer accepted')->get());
+        // $spr = count($Userdata->whereNotNull('finance.srp')->get());
+        // $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
+        // $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
         $address = DB::Select("select address from candidate_informations where  address!='' group by address");
         $status = DB::Select("select status from endorsements group by status");
         // close
         $data = [
-            'Userdata' => $user,
             'domain' => $domain,
+            // 'Userdata' => $user,
             'user_recruiter' => $user_recruiter,
-            'sifted' => $sifted,
-            'endo' => $endo,
-            'active' => $active,
-            'onBoarded' => $onBoarded,
-            'count' => $count,
-            'spr' => $spr,
-            'accepted' => $accepted,
-            'failed' => $failed,
-            'withdrawn' => $withdrawn,
-            'rejected' => $rejected,
+            // 'sifted' => $sifted,
+            // 'endo' => $endo,
+            // 'active' => $active,
+            // 'onBoarded' => $onBoarded,
+            // 'count' => $count,
+            // 'spr' => $spr,
+            // 'accepted' => $accepted,
+            // 'failed' => $failed,
+            // 'withdrawn' => $withdrawn,
+            // 'rejected' => $rejected,
             'address' => $address,
-            'status'=>$status,
+            'status' => $status,
         ];
 
         return view('smartSearch.smart_search', $data);
@@ -80,18 +80,18 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('six_table_view.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-            
+
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
         }
         if (isset($request->status)) {
-            
+
             $Userdata->whereIn('six_table_view.endostatus', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
             $Userdata->whereIn('six_table_view.client', $request->client);
         }
-       
+
         if ($request->cip == 1) {
             $stageArray = [
                 'Scheduled for Skills Interview',
@@ -280,14 +280,14 @@ class SmartSearchController extends Controller
         //         $user = [];
         //     }
         // }
-            $user = $Userdata->get();
+        $user = $Userdata->get();
 
         $onBoarded = count($Userdata->get());
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                $name= DB::select('select last_name from  candidate_informations where id='.$user->id);
-                return  $name[0]->last_name;
+                $name = DB::select('select last_name from  candidate_informations where id=' . $user->id);
+                return $name[0]->last_name;
             })
             ->addColumn('client', function ($user) {
                 return $user->client;
@@ -300,7 +300,7 @@ class SmartSearchController extends Controller
             })
             ->addColumn('candidate_profile', function ($user) {
                 return $user->candidate_profile;
-            }) 
+            })
             ->addColumn('educational_attain', function ($user) {
                 return $user->educational_attain;
             })
@@ -311,43 +311,42 @@ class SmartSearchController extends Controller
                 return "N/A";
             })
             ->addColumn('date_shifted', function ($user) {
-              return $user->date_shifted;
+                return $user->date_shifted;
             })
             ->addColumn('career_endo', function ($user) {
-              return $user->career_endo;
+                return $user->career_endo;
             })
             ->addColumn('endostatus', function ($user) {
                 return $user->endostatus;
-              })
-              ->addColumn('endi_date', function ($user) {
+            })
+            ->addColumn('endi_date', function ($user) {
                 return $user->endi_date;
-              })
-              ->addColumn('remarks_for_finance', function ($user) {
+            })
+            ->addColumn('remarks_for_finance', function ($user) {
                 return $user->remarks_for_finance;
-              })
-              ->addColumn('category', function ($user) {
+            })
+            ->addColumn('category', function ($user) {
                 return "N/A";
-              })
-              ->addColumn('srp', function ($user) {
+            })
+            ->addColumn('srp', function ($user) {
                 return $user->srp;
-              })
-              ->addColumn('onboardnig_date', function ($user) {
+            })
+            ->addColumn('onboardnig_date', function ($user) {
                 return $user->onboardnig_date;
-              })
-              ->addColumn('placement_fee', function ($user) {
+            })
+            ->addColumn('placement_fee', function ($user) {
                 return $user->placement_fee;
-              })
-              ->addColumn('address', function ($user) {
+            })
+            ->addColumn('address', function ($user) {
                 return $user->address;
-              })
-              ->addColumn('saved_by', function ($user) {
-                $name= DB::select('select name from  users where id='.$user->saved_by);
-                 return $name[0]->name;
-             })
-           
-           
-            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile','educational_attain',
-             'curr_salary','portal','date_shifted','career_endo','endostatus','endi_date', 'remarks_for_finance', 'category',
+            })
+            ->addColumn('saved_by', function ($user) {
+                $name = DB::select('select name from  users where id=' . $user->saved_by);
+                return $name[0]->name;
+            })
+
+            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
 
@@ -359,13 +358,14 @@ class SmartSearchController extends Controller
     {
         return count($mainObject->where($target, $condition)->get());
     }
-    public function smartTOYajra(){
+    public function smartTOYajra()
+    {
         $Userdata = DB::table('six_table_view')->get();
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($Userdata) {
-                $name= DB::select('select last_name from  candidate_informations where id='.$Userdata->id);
-                return  $name[0]->last_name;
+                $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
+                return $name[0]->last_name;
             })
             ->addColumn('client', function ($Userdata) {
                 return $Userdata->client;
@@ -378,7 +378,7 @@ class SmartSearchController extends Controller
             })
             ->addColumn('candidate_profile', function ($Userdata) {
                 return $Userdata->candidate_profile;
-            }) 
+            })
             ->addColumn('educational_attain', function ($Userdata) {
                 return $Userdata->educational_attain;
             })
@@ -389,43 +389,42 @@ class SmartSearchController extends Controller
                 return "N/A";
             })
             ->addColumn('date_shifted', function ($Userdata) {
-              return $Userdata->date_shifted;
+                return $Userdata->date_shifted;
             })
             ->addColumn('career_endo', function ($Userdata) {
-              return $Userdata->career_endo;
+                return $Userdata->career_endo;
             })
             ->addColumn('endostatus', function ($Userdata) {
                 return $Userdata->endostatus;
-              })
-              ->addColumn('endi_date', function ($Userdata) {
+            })
+            ->addColumn('endi_date', function ($Userdata) {
                 return $Userdata->endi_date;
-              })
-              ->addColumn('remarks_for_finance', function ($Userdata) {
+            })
+            ->addColumn('remarks_for_finance', function ($Userdata) {
                 return $Userdata->remarks_for_finance;
-              })
-              ->addColumn('category', function ($Userdata) {
+            })
+            ->addColumn('category', function ($Userdata) {
                 return "N/A";
-              })
-              ->addColumn('srp', function ($Userdata) {
+            })
+            ->addColumn('srp', function ($Userdata) {
                 return $Userdata->srp;
-              })
-              ->addColumn('onboardnig_date', function ($Userdata) {
+            })
+            ->addColumn('onboardnig_date', function ($Userdata) {
                 return $Userdata->onboardnig_date;
-              })
-              ->addColumn('placement_fee', function ($Userdata) {
+            })
+            ->addColumn('placement_fee', function ($Userdata) {
                 return $Userdata->placement_fee;
-              })
-              ->addColumn('address', function ($Userdata) {
+            })
+            ->addColumn('address', function ($Userdata) {
                 return $Userdata->address;
-              })
-              ->addColumn('saved_by', function ($Userdata) {
-                $name= DB::select('select name from  users where id='.$Userdata->saved_by);
-                 return $name[0]->name;
-             })
-           
-           
-            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile','educational_attain',
-             'curr_salary','portal','date_shifted','career_endo','endostatus','endi_date', 'remarks_for_finance', 'category',
+            })
+            ->addColumn('saved_by', function ($Userdata) {
+                $name = DB::select('select name from  users where id=' . $Userdata->saved_by);
+                return $name[0]->name;
+            })
+
+            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
     }

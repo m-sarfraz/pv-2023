@@ -10,8 +10,6 @@ use Auth;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
-use Str;
-use Symfony\Component\Process\Process;
 use Yajra\DataTables\DataTables;
 
 class FinanceController extends Controller
@@ -25,7 +23,6 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-
 
         ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
         $arr = ['Offer accepted', 'Onboarded'];
@@ -78,7 +75,7 @@ class FinanceController extends Controller
     {
         return view('finance.filter_data');
     }
-    // close 
+    // close
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
@@ -110,12 +107,14 @@ class FinanceController extends Controller
             $Userdata->whereIn('six_table_view.app_status', $request->appstatus);
         }
 
-
         $user = $Userdata->get();
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                $team= DB::select('select * from  roles where id='.$user->saved_by);
+                return $user->id;
+            })
+            ->addColumn('team', function ($user) {
+                $team = DB::select('select * from  roles where id=' . $user->saved_by);
                 return $team[0]->name;
             })
 
@@ -148,7 +147,7 @@ class FinanceController extends Controller
             })
             ->rawColumns([
                 'id', 'recruiter', 'client', 'reprocess', 'last_name', 'career_endo',
-                'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'endostatus'
+                'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'endostatus',
             ])
             ->make(true);
     }
@@ -202,12 +201,14 @@ class FinanceController extends Controller
         $Userdata = DB::table('six_table_view')->get();
         return Datatables::of($Userdata)
             ->addIndexColumn()
-            ->addColumn('id', function ($Userdata) {
-                return $Userdata->id;
+            ->addColumn('id', function ($user) {
+                return $user->id;
             })
-            // ->addColumn('team', function ($Userdata) {
-            //     return $Userdata->team;
-            // })
+            ->addColumn('team', function ($user) {
+                $team = DB::select('select * from  roles where id=' . $user->saved_by);
+                return $team[0]->name;
+            })
+
             ->addColumn('recruiter', function ($Userdata) {
                 return $Userdata->recruiter;
             })
@@ -239,7 +240,7 @@ class FinanceController extends Controller
             ->rawColumns([
                 'id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
                 'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
-                'srp', 'onboardnig_date', 'placement_fee', 'address'
+                'srp', 'onboardnig_date', 'placement_fee', 'address',
             ])
             ->make(true);
     }

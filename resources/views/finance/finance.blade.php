@@ -852,8 +852,8 @@
                         name: 'id'
                     },
                     {
-                        data: 'recruiter',
-                        name: 'recruiter'
+                        data: 'team',
+                        name: 'team'
                     },
                     {
                         data: 'recruiter',
@@ -948,10 +948,13 @@
                         name: 'id'
                     },
                     {
+                        data: 'team',
+                        name: 'team'
+                    },
+                    {
                         data: 'recruiter',
                         name: 'recruiter'
                     },
-
                     {
                         data: 'client',
                         name: 'client'

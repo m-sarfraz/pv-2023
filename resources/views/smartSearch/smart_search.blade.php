@@ -285,7 +285,8 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="hidetrID" style="height:100px">
+
 
 
 
@@ -320,7 +321,7 @@
                                                 Total Endorsement:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
-                                                value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}"
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}}
                                                 placeholder="Rev.." id="endo" />
                                         </div>
                                     </div>
@@ -388,7 +389,7 @@
                                                 Number of Active File:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="active"
-                                                value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}"
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}}
                                                 placeholder="hires.." />
                                         </div>
                                     </div>
@@ -486,19 +487,8 @@
         $(document).ready(function() {
             load_datatable()
         });
-        $('#sifted').val({!! $sifted !!});
-        $('#endo').val({!! $endo !!});
-
-        $('#active').val({!! $active !!});
-        $('#spr').val({!! $spr !!});
-        $('#onBoarded').val({!! $onBoarded !!});
-        $('#accepted').val({!! $accepted !!});
-        $('#failed').val({!! $failed !!});
-        $('#withdrawn').val({!! $withdrawn !!});
-        $('#rejected').val({!! $rejected !!});
         select2Dropdown("select2_dropdown");
-
-        // funciton for filtering the data according to selected input starts
+        // function for filtering the data according to selected input starts
         function FilterSearch() {
 
             // get values of selected inputs of users
