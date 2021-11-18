@@ -285,9 +285,13 @@ class SmartSearchController extends Controller
         $onBoarded = count($Userdata->get());
         return Datatables::of($user)
             ->addIndexColumn()
-            ->addColumn('id', function ($user) {
-                $name = DB::select('select last_name from  candidate_informations where id=' . $user->id);
-                return $name[0]->last_name;
+            ->addColumn('recruiter', function ($Userdata) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
+                return $Userdata->recruiter;
+            })
+            ->addColumn('candidate', function ($Userdata) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
+                return $Userdata->last_name;
             })
             ->addColumn('client', function ($user) {
                 return $user->client;
@@ -360,12 +364,17 @@ class SmartSearchController extends Controller
     }
     public function smartTOYajra()
     {
+        
         $Userdata = DB::table('six_table_view')->get();
         return Datatables::of($Userdata)
-            ->addIndexColumn()
-            ->addColumn('id', function ($Userdata) {
-                $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
-                return $name[0]->last_name;
+            // ->addIndexColumn()
+            ->addColumn('recruiter', function ($Userdata) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
+                return $Userdata->recruiter;
+            })
+            ->addColumn('candidate', function ($Userdata) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
+                return $Userdata->last_name;
             })
             ->addColumn('client', function ($Userdata) {
                 return $Userdata->client;
@@ -418,10 +427,7 @@ class SmartSearchController extends Controller
             ->addColumn('address', function ($Userdata) {
                 return $Userdata->address;
             })
-            ->addColumn('saved_by', function ($Userdata) {
-                $name = DB::select('select name from  users where id=' . $Userdata->saved_by);
-                return $name[0]->name;
-            })
+      
 
             ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
                 'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',

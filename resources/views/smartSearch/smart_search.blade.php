@@ -544,12 +544,12 @@
                     },
                 },
                 columns: [{
-                        data: 'saved_by',
-                        name: 'saved_by'
+                        data: 'recruiter',
+                        name: 'recruiter'
                     },
                     {
-                        data: 'id',
-                        name: 'id'
+                        data: 'candidate',
+                        name: 'candidate'
                     },
 
                     {
@@ -645,12 +645,12 @@
                     type: "GET",
                 },
                 columns: [{
-                        data: 'saved_by',
-                        name: 'saved_by'
+                    data: 'recruiter',
+                        name: 'recruiter'
                     },
                     {
-                        data: 'id',
-                        name: 'id'
+                        data: 'candidate',
+                        name: 'candidate'
                     },
 
                     {
