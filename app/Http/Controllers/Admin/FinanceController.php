@@ -79,7 +79,6 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-dd($request->process);
         $Userdata = DB::table('six_table_view');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
@@ -97,7 +96,7 @@ dd($request->process);
         if (isset($request->toDate)) {
             $Userdata->whereDate('six_table_view.onboardnig_date', '<', $request->toDate);
         }
-        
+
         if (isset($request->process)) {
             $Userdata->whereIn('six_table_view.reprocess', $request->process);
         }
@@ -106,7 +105,7 @@ dd($request->process);
         }
 
         $user = $Userdata->get();
-       
+
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
