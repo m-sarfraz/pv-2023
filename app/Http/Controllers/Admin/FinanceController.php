@@ -10,6 +10,7 @@ use Auth;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
+use Str;
 use Yajra\DataTables\DataTables;
 
 class FinanceController extends Controller
@@ -57,6 +58,8 @@ class FinanceController extends Controller
 
         // dd($detail);
         $fee = $detail->placement_fee;
+        $remarks = $detail->remarks_for_finance;
+        $remarks_finance = $remarks;
         $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $savedBy->saved_by)->first();
         $role = $user->roles->pluck('name');
@@ -65,6 +68,7 @@ class FinanceController extends Controller
             'detail' => $detail,
             'team' => $team,
             'fee' => $fee,
+            'remarks_finance' => $remarks_finance,
         ];
         return view('finance.detail', $data);
     }
@@ -198,7 +202,8 @@ class FinanceController extends Controller
     }
     public function view_finance_search_table()
     {
-        $Userdata = DB::table('six_table_view')->get();
+        $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
+        $Userdata = DB::table('six_table_view')->whereIn('remarks_for_finance', $arr)->get();
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -243,5 +248,202 @@ class FinanceController extends Controller
                 'srp', 'onboardnig_date', 'placement_fee', 'address',
             ])
             ->make(true);
+    }
+    public function summaryAppend(Request $request)
+    {
+        $check = $searchCheck = false;
+        $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
+        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->join('finance_detail', 'candidate_informations.id', 'finance_detail.candidate_id')
+            ->select(
+                'candidate_educations.*',
+                'candidate_informations.id as C_id',
+                'candidate_informations.*',
+                'candidate_positions.*',
+                'candidate_domains.*',
+                'finance.*',
+                'endorsements.*',
+                'finance_detail.c_take',
+                'finance_detail.vcc_amount',
+
+            );
+        if (isset($request->candidate)) {
+            $newarr = array();
+            foreach ($request->candidate as $candidate) {
+                //$strc =
+                array_push($newarr, "'$candidate'");
+            }
+            $Userdata->whereIn('candidate_informations.id', $request->candidate);
+        }
+        // return $request->recruiter;
+        if (isset($request->recruiter)) {
+
+            $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
+        }
+        if (isset($request->remarks)) {
+            $newarr = array();
+            foreach ($request->remarks as $remarks) {
+                //$strc =
+                array_push($newarr, "'$remarks'");
+            }
+            $Userdata->whereIn('endorsements.remarks_for_finance', $request->remarks);
+        }
+        if (isset($request->ob_date)) {
+            $Userdata->where('finance.onboardnig_date', '>', $request->ob_date);
+        }
+        if (isset($request->toDate)) {
+            $Userdata->where('finance.onboardnig_date', '<', $request->toDate);
+        }
+        if (isset($request->client)) {
+            $newarr = array();
+            foreach ($request->client as $client) {
+                //$strc =
+                array_push($newarr, "'$client'");
+            }
+            $Userdata->whereIn('endorsements.client', $request->client);
+        }
+        if (isset($request->team_id)) {
+            $newarr = array();
+            $users = User::role($request->team_id)->select('id')->get();
+            for ($i = 0; $i < count($users); $i++) {
+                array_push($newarr, $users[$i]->id);
+            }
+            if (!empty($newarr)) {
+
+                $users = $Userdata->whereIn('candidate_informations.saved_by', $newarr);
+            }
+            if (empty($newarr)) {
+                $check = false;
+                $searchCheck = true;
+            }
+        }
+        if (isset($request->process)) {
+
+            $Userdata->whereIn('candidate_informations.reprocess', array($request->process));
+        }
+
+        // foreach ($request->career_level as $career) {
+        //     $sql = str_replace($career, "'$career'", $sql);
+        // }
+        if (isset($request->remarks)) {
+            # code...
+            foreach ($request->remarks as $remarks) {
+                $sql = str_replace($remarks, "'$remarks'", $sql);
+            }
+        }
+        if (isset($request->client)) {
+            # code...
+            foreach ($request->client as $client) {
+                $sql = str_replace($client, "'$client'", $sql);
+            }
+        }
+        if (isset($request->recruiter)) {
+
+            foreach ($request->recruiter as $recruiter) {
+                $sql = str_replace($recruiter, "'$recruiter'", $sql);
+            }
+        }
+        if (isset($request->candidate)) {
+
+            foreach ($request->candidate as $candidate) {
+                $sql = str_replace($candidate, "'$candidate'", $sql);
+            }
+        }
+        if (isset($request->searchKeyword)) {
+            $searchCheck = true;
+            $perfect_match = DB::table("six_table_view")->get();
+            // $roles = DB::table('roles')->pluck("name");
+
+            foreach ($perfect_match as $match) {
+
+                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('endorsements.career_endo', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('candidate_informations.last_name', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('candidate_informations.first_name', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('endorsements.client', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('finance.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('finance.placement_fee', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('endorsements.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+                    $Userdata->where('endorsements.app_status', 'like', '%' . $request->searchKeyword . '%');
+                }
+                if (strpos(strtolower($match->reprocess), strtolower($request->searchKeyword)) !== false) {
+                    $check = true;
+
+                    $Userdata->where('candidate_informations.reprocess', 'like', '%' . $request->searchKeyword . '%');
+                }
+            }
+        }
+        if ($check) {
+
+            $user = $Userdata->whereIn('endorsements.remarks_for_finance', $arr)->get();
+        } else {
+            if (!$check && !$searchCheck) {
+                $user = $Userdata->whereIn('endorsements.remarks_for_finance', $arr)->get();
+            } else {
+                $user = [];
+            }
+        }
+        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        foreach ($arr as $remarks) {
+            $sql = str_replace($remarks, "'$remarks'", $sql);
+        }
+        if (strpos($sql, 'where') !== false) {
+            $sql_fallout = $sql . " and remarks_for_finance LIKE '%fallout%' OR remarks_for_finance LIKE '%replacement%' ";
+            $sql_billed = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' ";
+            $sql_unBilled = $sql . " and endorsements.remarks LIKE '%unbilled%' ";
+            // $sql_unbilled = $sql . "  and endorsements.remarks='Unbilled'";
+            // $finance_c_t_sum = $sql . " and (select sum(c_take) from finance_detail )";
+            // $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
+            // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
+        } else {
+            $sql_fallout = $sql . " where remarks_for_finance LIKE '%fallout%' OR remarks_for_finance LIKE '%replacement%'  ";
+            $sql_billed = $sql . " where remarks LIKE '%collect%' OR remarks LIKE '%replace%'OR remarks LIKE 'billed%' ";
+            $sql_unBilled = $sql . " where remarks LIKE '%unbilled%' ";
+            // $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed'";
+            // $sql_unbilled = $sql . " where endorsements.remarks='Unbilled'";
+            // $finance_c_t_sum = $sql . "  and (select sum(c_take) from finance_detail )";
+            // $vcc_amount_sum = $sql . "  and (select sum(vcc_amount) from finance_detail )";
+            // $sql_active = $sql . "where endorsements.app_status='Active File'";
+            // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
+        }
+        $hires = count($user);
+        $data = [
+            'hires' => $hires,
+            'fallout' => count(DB::select($sql_fallout)),
+            'billed' => count(DB::select($sql_billed)),
+            'unbilled' => count(DB::select($sql_unBilled)),
+            // 'Userdata' => $user,
+            // 'c_t_sum' => $finance_c_t_sum,
+            // 'vcc_amount_sum' => $vcc_amount_sum,
+            // 'fallout' => $fallout,
+        ];
+
+        return view('finance.summary', $data);
     }
 }

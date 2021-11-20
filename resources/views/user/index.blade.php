@@ -28,6 +28,7 @@
         <thead>
             <tr>
                 <th>Action</th>
+                <th>UserID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -44,6 +45,9 @@
                         <i style="cursor: pointer;" class="bi bi-pencil-square"></i>
                     </a>
                     @endcan
+                </td>
+                <td>
+                    {{ $user->id }}
                 </td>
                 <td>
                     {{ $user->name }}

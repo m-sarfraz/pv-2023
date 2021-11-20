@@ -299,7 +299,7 @@
                 <!-- Datatable code end-->
                 <!-- ================= -->
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
                 <div class="card mb-13">
                     <div class="card-body">
@@ -321,8 +321,7 @@
                                                 Total Endorsement:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
-                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}}
-                                                placeholder="Rev.." id="endo" />
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}} placeholder="Rev.." id="endo" />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -359,7 +358,7 @@
                                             <label class="Label-00">
                                                 Initial Stage.
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="initial"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
@@ -389,8 +388,7 @@
                                                 Number of Active File:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="active"
-                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}}
-                                                placeholder="hires.." />
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}} placeholder="hires.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -398,7 +396,7 @@
                                             <label class="Label-00">
                                                 Mid Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="mid"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
@@ -436,7 +434,7 @@
                                             <label class="Label-00">
                                                 Final Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="final"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
@@ -484,9 +482,72 @@
     </script>
 
     <script>
+        // document.ready startrs
         $(document).ready(function() {
+            // call ajax for values appending 
+            summaryAppendAjax();
             load_datatable()
         });
+        // close 
+
+        // ajax call for view append
+        function summaryAppendAjax() {
+            $("#loader").show();
+
+            // get values of selected inputs of users
+            domain = $('#domain').val();
+            recruiter = $('#recruiter').val();
+            client = $('#client').val();
+            residence = $('#residence').val();
+            career_level = $('#career_level').val();
+            category = $('#category').val();
+            status = $('#status').val();
+            remarks = $('#remarks').val();
+            sift_start = $('#Shifted_start').val();
+            sift_end = $('#Shifted_end').val();
+            ob_start = $('#ob_start').val();
+            ob_end = $('#ob_end').val();
+            endo_start = $('#endo_start').val();
+            endo_end = $('#endo_end').val();
+            searchKeyword = $('#searchKeyword').val();
+            if ($('#cip').is(':checked')) {
+                cip = 1;
+            } else {
+                cip = 0;
+            }
+            // call Ajax for returning the data as view
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/summaryAppend') }}',
+                data: {
+                    _token: token,
+                    domain: domain,
+                    recruiter: recruiter,
+                    client: client,
+                    residence: residence,
+                    career_level: career_level,
+                    cip: cip,
+                    category: category,
+                    status: status,
+                    remarks: remarks,
+                    endo_start: endo_start,
+                    endo_end: endo_end,
+                    ob_start: ob_start,
+                    ob_end: ob_end,
+                    sift_start: sift_start,
+                    sift_end: sift_end,
+                    searchKeyword: searchKeyword,
+                },
+
+                // Success fucniton of Ajax
+                success: function(data) {
+                    console.log(data)
+                    $('#summaryDiv').html(data);
+                    $("#loader").hide();
+                },
+            });
+        }
+
         select2Dropdown("select2_dropdown");
         // function for filtering the data according to selected input starts
         function FilterSearch() {
@@ -506,7 +567,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
-           $('#searchKeyword').val('');
+            $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
@@ -628,8 +689,10 @@
             $("#loader").hide();
             // call Ajax for returning the data as view
 
+            // summaryAppendAjax()
         }
-        // funciton for filtering the data according to selected input ends
+        // close 
+
         //start yajra
         function load_datatable() {
             var option_table = $('#smTable').DataTable({
@@ -645,7 +708,7 @@
                     type: "GET",
                 },
                 columns: [{
-                    data: 'recruiter',
+                        data: 'recruiter',
                         name: 'recruiter'
                     },
                     {
@@ -727,6 +790,7 @@
                 ]
             });
         }
+        // close 
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
             $('#smTable_filter').children().children().val($('#searchKeyword').val());
@@ -750,6 +814,7 @@
                 countRecord()
             }
         }, 3000);
+        // close 
 
         // count record on page load 
         function countRecord() {
@@ -763,6 +828,7 @@
             var count = $('#smTable1_info').text().split(' ');
             $('#foundRecord').val(count[5])
         }
+        //close
     </script>
 
 @endsection
