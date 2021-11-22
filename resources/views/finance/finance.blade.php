@@ -809,7 +809,8 @@
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
-            load_datatable()
+            gfhgdhfghdfghdfgh
+            // load_datatable()
             select2Dropdown("select2_dropdown");
             // show and hide loader after time set starts
             $('#loader').show();
