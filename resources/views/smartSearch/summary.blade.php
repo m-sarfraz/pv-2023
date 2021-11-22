@@ -161,7 +161,6 @@
     </div>
 </div>
 <script>
-    sifted = {!! $sifted !!}
     endo = {!! $endo !!}    
     active = {!! $active !!}    
     failed = {!! $failed !!}    
@@ -175,7 +174,7 @@
     fallout = {!! $fallout !!}    
     revenue = {!! $revenue !!}    
     spr = {!! $spr !!}    
-    $('#sifted').val(sifted);
+    $('#sifted').val($('#foundRecord').val());
     $('#endo').val(endo);
     $('#active').val(active);
     $('#onBoarded').val(onBoarded);

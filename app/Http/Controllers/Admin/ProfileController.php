@@ -35,10 +35,16 @@ class ProfileController extends Controller
     // }
     public function view_profile()
     {
+        // $render='3/2/2020';
+        // $date=date('y-m-d', strtotime($render));
+        // dd($date);
+        // $m_d_y=explode("/",$date);
+        // $setformat=$m_d_y[0].'-'.$m_d_y[1].'-'.$m_d_y[2];
         return view('profile.edit_profile');
     }
     public function save_profile(Request $request)
     {
+
         $userId = $request->user_id;
         $arrayCheck = [
             'name' => ['required', 'string', 'max:255'],
@@ -93,7 +99,6 @@ class ProfileController extends Controller
     // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
-        
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
@@ -112,53 +117,39 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
+
                     //Explode candidate index into first,middle,last
-                    // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
-                    
                     $con = 0;
                     $con1 = 1;
                     $con2 = 2;
-                    
                     // query for checking the exisitng /duplicate record
                     $query = DB::table("candidate_informations")
-                        // ->where("first_name", $render[14])
                         ->where("last_name", $candidate_name)
                         ->orwhere("phone", $candidate_phone)
                         ->first();
-                        
-                        if (isset($query->id)) {
-                            // update record
-                            
-                            $store_by_google_sheet = CandidateInformation::find($query->id);
-                            $founder=isset($render[33])?$render[33]:"";
-                            if ($founder == "Re-endorsed") {
-                                
-                                $store_by_google_sheet->reprocess = $query->reprocess + 1;
+
+                    if (isset($query->id)) {
+                        // update record
+                        $store_by_google_sheet = CandidateInformation::find($query->id);
+                        $founder = isset($render[33]) ? $render[33] : "";
+                        if ($founder == "Re-endorsed") {
+                            $store_by_google_sheet->reprocess = $query->reprocess + 1;
                         } else {
                             $store_by_google_sheet->reprocess = $query->reprocess;
                         }
-                        // $store_by_google_sheet->reprocess=
                     } else {
                         // insert record
                         $store_by_google_sheet = new CandidateInformation();
                     }
-
-                    // if (!empty($candidate_name[2])) {
-
-                    //     $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
-                    //     $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
-                    //     $store_by_google_sheet->last_name = isset($candidate_name[$con2]) ? $candidate_name[$con2] : "";
-                    // } else {
-
-                    //     $store_by_google_sheet->first_name = isset($candidate_name[$con]) ? $candidate_name[$con] : "";
-                    //     $store_by_google_sheet->middle_name = isset($candidate_name[$con1]) ? $candidate_name[$con1] : "";
-                    // }
-
                     $store_by_google_sheet->last_name = isset($candidate_name) ? $candidate_name : "";
-                    $store_by_google_sheet->gender = isset($render[17]) ? $render[17] : "";
-                    $store_by_google_sheet->dob = isset($render[18]) ? $render[18] : "";
+                    if (strpos(isset($render['17']) ? $render['17'] : '', 'F') !== false) {
+                        $store_by_google_sheet->gender = 'FEMALE';
+                    } else {
+                        $store_by_google_sheet->gender = 'MALE';
+                    }
+                    $store_by_google_sheet->dob = isset($render[18]) ? date('y-m-d', strtotime($render[18])) : "";
                     if (strstr($candidate_phone, ';', false)) {
 
                         $store_by_google_sheet->phone = strstr($candidate_phone, ';', true);
@@ -168,10 +159,8 @@ class ProfileController extends Controller
 
                     $store_by_google_sheet->email = isset($render[20]) ? $render[20] : "";
                     $store_by_google_sheet->address = isset($render[21]) ? $render[21] : "";
-                    // $store_by_google_sheet->status = isset($render[20])?$render[20]:"";$render[21];
                     $store_by_google_sheet->saved_by = Auth::user()->id;
                     $store_by_google_sheet->save();
-
                     // start store data in candidate_educations
                     $query = DB::table("candidate_educations")
                         ->where("candidate_id", $store_by_google_sheet->id)
@@ -188,14 +177,11 @@ class ProfileController extends Controller
                     $candidateEducation->certification = isset($render[24]) ? $render[24] : "";
                     $candidateEducation->candidate_id = $store_by_google_sheet->id;
                     $candidateEducation->save();
-
                     // end  store data in candidate_educations
-
                     // start  store data in candidate_domains
                     $query = DB::table("candidate_domains")
                         ->where("candidate_id", $store_by_google_sheet->id)
                         ->first();
-
                     if (isset($query->id)) {
                         // update record
                         $candidateDomain = CandidateDomain::find($query->id);
@@ -204,7 +190,7 @@ class ProfileController extends Controller
                         $candidateDomain = new CandidateDomain();
                     }
                     $candidateDomain->candidate_id = $store_by_google_sheet->id;
-                    $candidateDomain->date_shifted = isset($render[4]) ? date('d-m-y', strtotime($render[4])) : "";
+                    $candidateDomain->date_shifted = isset($render[4]) ? date('y-m-d', strtotime($render[4])) : "";
                     $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
                     $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
                     $candidateDomain->interview_note = isset($render[26]) ? $render[26] : "";
@@ -212,12 +198,10 @@ class ProfileController extends Controller
                     $candidateDomain->sub_segment = isset($render[10]) ? $render[10] : "";
                     $candidateDomain->save();
                     // end  store data in candidate_domains
-
                     // start store data in candidate_position
                     $query = DB::table("candidate_positions")
                         ->where("candidate_id", $store_by_google_sheet->id)
                         ->first();
-
                     if (isset($query->id)) {
                         // update record
                         $candidatePosition = CandidatePosition::find($query->id);
@@ -228,13 +212,33 @@ class ProfileController extends Controller
                     $candidatePosition->candidate_id = $store_by_google_sheet->id;
                     $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
                     $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
-                    $candidatePosition->date_invited = isset($render[12]) ? $render[12] : "";
+                    $candidatePosition->date_invited = isset($render[12]) ? date('y-m-d', strtotime($render[12])) : "";
                     $candidatePosition->manner_of_invite = isset($render[11]) ? $render[11] : "";
-                    $candidatePosition->curr_salary = intval(isset($render[27]) ? $render[27] : "");
-                    $candidatePosition->exp_salary = intval(isset($render[29]) ? $render[29] : "");
-                    $candidatePosition->off_salary = intval(isset($render[30]) ? $render[30] : "");
-                    $candidatePosition->curr_allowance = intval(isset($render[28]) ? $render[28] : "");
-                    $candidatePosition->off_allowance = intval(isset($render[31]) ? $render[31] : "");
+                    $curr_salary = isset($render[27]) ? $render[27] : "";
+                    $curr_salary_divide = explode(',', $curr_salary);
+                    $c_s_combune_0 = isset($curr_salary_divide[0]) ? $curr_salary_divide[0] : '';
+                    $c_s_combune_1 = isset($curr_salary_divide[1]) ? $curr_salary_divide[1] : '';
+                    $candidatePosition->curr_salary = floatval($c_s_combune_0 . $c_s_combune_1);
+                    $exp_salary = isset($render[29]) ? $render[29] : "";
+                    $exp_salary_divide = explode(',', $exp_salary);
+                    $e_s_combune_0 = isset($exp_salary_divide[0]) ? $exp_salary_divide[0] : '';
+                    $e_s_combune_1 = isset($exp_salary_divide[1]) ? $exp_salary_divide[1] : '';
+                    $candidatePosition->exp_salary = floatval($e_s_combune_0 . $e_s_combune_1);
+                    $off_salary = isset($render[30]) ? $render[30] : "";
+                    $off_salary_divide = explode(',', $off_salary);
+                    $o_s_combune_0 = isset($off_salary_divide[0]) ? $off_salary_divide[0] : '';
+                    $o_s_combune_1 = isset($off_salary_divide[1]) ? $off_salary_divide[1] : '';
+                    $candidatePosition->off_salary = floatval($o_s_combune_0 . $o_s_combune_1);
+                    $curr_allowance = isset($render[28]) ? $render[28] : "";
+                    $curr_allowance_divide = explode(',', $curr_allowance);
+                    $ca_s_combune_0 = isset($curr_allowance_divide[0]) ? $curr_allowance_divide[0] : '';
+                    $ca_s_combune_1 = isset($curr_allowance_divide[1]) ? $curr_allowance_divide[1] : '';
+                    $candidatePosition->curr_allowance = floatval($ca_s_combune_0 . $ca_s_combune_1);
+                    $off_allowance = isset($render[31]) ? $render[31] : "";
+                    $off_allowance_divide = explode(',', $off_allowance);
+                    $offera_s_combune_0 = isset($off_allowance_divide[0]) ? $off_allowance_divide[0] : '';
+                    $offera_s_combune_1 = isset($off_allowance_divide[1]) ? $off_allowance_divide[1] : '';
+                    $candidatePosition->off_allowance = floatval($offera_s_combune_0 . $offera_s_combune_1);
                     $candidatePosition->save();
 
                     // end store data in candidate_position
@@ -250,18 +254,18 @@ class ProfileController extends Controller
                         // insert record
                         $endorsement = new Endorsement();
                     }
-                    $endorsement->app_status = isset($render[32]) ? $render[32] : "";
+                    $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                     $endorsement->client = isset($render[35]) ? $render[35] : "";
-                    $endorsement->status = isset($render[42]) ? $render[42] : "";
                     $endorsement->type = isset($render[33]) ? $render[33] : "";
                     $endorsement->site = isset($render[36]) ? $render[36] : "";
                     $endorsement->position_title = isset($render[37]) ? $render[37] : "";
-                    $endorsement->domain_endo = intval(isset($render[39]) ? $render[39] : "");
-                    $endorsement->interview_date = isset($render[45]) ? $render[45] : "";
+                    $endorsement->domain_endo = isset($render[39]) ? $render[39] : "";
+                    $endorsement->interview_date = isset($render[45]) ? date('y-m-d', strtotime($render[45])) : "";
                     $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
-                    $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
-                    $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-                    $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";
+                    $endorsement->segment_endo = isset($render[40]) ? $render[40] : "";
+                    $endorsement->sub_segment_endo = isset($render[41]) ? $render[41] : "";
+                    $endorsement->endi_date = isset($render[34]) ? date('y-m-d', strtotime($render[34])) : "";
+                    $endorsement->status = isset($render[42]) ? $render[42] : "";
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_google_sheet->id;
                     $endorsement->save();
@@ -280,17 +284,37 @@ class ProfileController extends Controller
                     }
                     $finance->candidate_id = $store_by_google_sheet->id;
                     // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-                    $finance->onboardnig_date = isset($render[59]) ? date('d-m-y', strtotime($render[59])) : "";
+                    $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
 
-                    $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
+                    $finance->invoice_number = isset($render[61]) ? $render[61] : "";
                     $finance->client_finance = isset($render[48]) ? $render[48] : "";
-                    $finance->career_finance = isset($render[63]) ? $render[63] : "";
-                    $finance->rate = intval(isset($render[67]) ? $render[67] : "");
-                    $finance->srp = intval(isset($render[47]) ? $render[47] : "");
-                    $finance->offered_salary = intval(isset($render[49]) ? $render[49] : "");
-                    $finance->placement_fee = intval(isset($render[54]) ? $render[54] : "");
-                    $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
+                    $finance->career_finance = isset($render[49]) ? $render[49] : "";
 
+                    $rate = isset($render[53]) ? $render[53] : "";
+                    $rate_divide = explode(',', $rate);
+                    $rate_combune_0 = isset($rate_divide[0]) ? $rate_divide[0] : '';
+                    $rate_combune_1 = isset($rate_divide[1]) ? $rate_divide[1] : '';
+                    $finance->rate = floatval($rate_combune_0 . $rate_combune_1);
+                    $srp = isset($render[47]) ? $render[47] : "";
+                    $srp_divide = explode(',', $srp);
+                    $srp_combune_0 = isset($srp_divide[0]) ? $srp_divide[0] : '';
+                    $srp_combune_1 = isset($srp_divide[1]) ? $srp_divide[1] : '';
+                    $finance->srp = floatval($srp_combune_0 . $srp_combune_1);
+                    $offered_salary = isset($render[49]) ? $render[49] : "";
+                    $offered_salary_divide = explode(',', $offered_salary);
+                    $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
+                    $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
+                    $finance->offered_salary = floatval($offered_salary_combune_0 . $offered_salary_combune_1);
+                    $placement_fee = isset($render[55]) ? $render[55] : "";
+                    $placement_fee_divide = explode(',', $placement_fee);
+                    $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                    $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                    $finance->placement_fee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
+                    $allowance = isset($render[51]) ? $render[51] : "";
+                    $allowance_divide = explode(',', $allowance);
+                    $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
+                    $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
+                    $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                     $finance->save();
 
                     //finance close
@@ -306,25 +330,45 @@ class ProfileController extends Controller
                         $finance_detail = new Finance_detail();
                     }
                     $finance_detail->candidate_id = $store_by_google_sheet->id;
-                    $finance_detail->offered_salary = isset($render[50]) ? intval($render[50]) : intval(0);
-                    $finance_detail->allowance = isset($render[51]) ? intval($render[51]) : intval(0);
+                    $offered_salary = isset($render[50]) ? $render[50] : "";
+                    $offered_salary_divide = explode(',', $offered_salary);
+                    $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
+                    $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
+                    $finance_detail->offered_salary = floatval($offered_salary_combune_0 . $offered_salary_combune_1);
+                    $allowance = isset($render[51]) ? $render[51] : "";
+                    $allowance_divide = explode(',', $allowance);
+                    $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
+                    $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
+                    $finance_detail->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                     $finance_detail->compensation = isset($render[52]) ? intval($render[52]) : intval(0);
-                    $finance_detail->rate_per = isset($render[53]) ? intval($render[53]) : intval(0);
-                    $finance_detail->vat_per = isset($render[54]) ? intval($render[54]) : intval(0);
-                    $finance_detail->placementFee = isset($render[55]) ? intval($render[55]) : intval(0);
-                    $finance_detail->finalFee = isset($render[56]) ? intval($render[56]) : intval(0);
-                    $finance_detail->adjustment = isset($render[57]) ? intval($render[57]) : intval(0);
-                    $finance_detail->credit_memo = isset($render[58]) ? intval($render[58]) : intval(0);
-                    $finance_detail->ob_date = isset($render[59]) ? intval($render[59]) : intval(0);
-                    $finance_detail->invoice_date = isset($render[60]) ? $render[60] : " ";
-                    $finance_detail->invoice_number = isset($render[61]) ? intval($render[61]) : intval(0);
-                    $finance_detail->date_delvrd = isset($render[62]) ? $render[62] : " ";
+                    $finance_detail->rate_per = isset($render[53]) ? $render[53] : "";
+                    $vat_per = isset($render[54]) ? $render[54] : "";
+                    $vat_per_divide = explode(',', $vat_per);
+                    $vat_per_combune_0 = isset($vat_per_divide[0]) ? $vat_per_divide[0] : '';
+                    $vat_per_combune_1 = isset($vat_per_divide[1]) ? $vat_per_divide[1] : '';
+                    $finance_detail->vat_per = floatval($vat_per_combune_0 . $vat_per_combune_1);
+                    $placement_fee = isset($render[55]) ? $render[55] : "";
+                    $placement_fee_divide = explode(',', $placement_fee);
+                    $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                    $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                    $finance_detail->placementFee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
+                    $finalFee = isset($render[56]) ? $render[56] : "";
+                    $finalFee_divide = explode(',', $finalFee);
+                    $finalFee_combune_0 = isset($finalFee_divide[0]) ? $finalFee_divide[0] : '';
+                    $finalFee_combune_1 = isset($finalFee_divide[1]) ? $finalFee_divide[1] : '';
+                    $finance_detail->finalFee = floatval($finalFee_combune_0 . $finalFee_combune_1);
+                    $finance_detail->adjustment = isset($render[57]) ? $render[57] : "";
+                    $finance_detail->credit_memo = isset($render[58]) ? $render[58] : "";
+                    $finance_detail->ob_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
+                    $finance_detail->invoice_date = isset($render[60]) ? date('y-m-d', strtotime($render[60])) : "";
+                    $finance_detail->invoice_number = isset($render[61]) ? $render[61] : "";
+                    $finance_detail->date_delvrd = isset($render[62]) ? date('y-m-d', strtotime($render[62])) : "";
                     $finance_detail->dpd = isset($render[63]) ? $render[63] : " ";
-                    $finance_detail->payment_term = isset($render[64]) ? intval($render[64]) : intval(0);
-                    $finance_detail->date_collected = isset($render[65]) ? $render[65] : " ";
+                    $finance_detail->payment_term = isset($render[64]) ? $render[64] : '';
+                    $finance_detail->date_collected = isset($render[65]) ? date('y-m-d', strtotime($render[65])) : "";
                     $finance_detail->or_number = isset($render[66]) ? intval($render[66]) : intval(0);
-                    $finance_detail->code = isset($render[67]) ? intval($render[67]) : intval(0);
-                    $finance_detail->term_date = isset($render[68]) ? $render[68] : "";
+                    $finance_detail->code = isset($render[67]) ? $render[67] : '';
+                    $finance_detail->term_date = isset($render[68]) ? date('y-m-d', strtotime($render[68])) : "";
                     $finance_detail->replacement_for = isset($render[69]) ? $render[69] : "";
                     $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
                     $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
@@ -390,9 +434,7 @@ class ProfileController extends Controller
                             21 => "Scheduled for Skills/Technical Interview",
                         ],
                     ];
-
                     $user = User::find($recruiter);
-
                     $query = DB::table("cip_progress")
                         ->where("candidate_id", $store_by_google_sheet->id)
                         ->first();
@@ -432,6 +474,7 @@ class ProfileController extends Controller
                     $con++;
                     $con1++;
                     $con2++;
+                    // dd(DB::select('select * from six_table_view where id=' . $store_by_google_sheet->id));
                 }
             }
             //save Google sheet addeed log to table starts
@@ -445,6 +488,7 @@ class ProfileController extends Controller
     }
     public function readLocalAcceess()
     {
+        $recruiter = Auth::user()->roles->first();
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["file"]["tmp_name"];
@@ -461,33 +505,35 @@ class ProfileController extends Controller
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
 
-                // $candidate_name = explode(' ', isset($render[13]) ? $render[13] : "");
+                $candidate_name = isset($render[13]) ? $render[13] : "";
+
                 $candidate_phone = isset($render[19]) ? $render[19] : "";
                 // query for checking the exisitng /duplicate record
                 $query = DB::table("candidate_informations")
-                    // ->where("first_name", isset($candidate_name[0]) ? $candidate_name[0] : "")
-                    ->orwhere("last_name", isset($render[13]) ? $render[13] : "")
+                    ->where("last_name", $candidate_name)
                     ->orwhere("phone", $candidate_phone)
                     ->first();
 
                 if (isset($query->id)) {
                     // update record
                     $store_by_Ecxel = CandidateInformation::find($query->id);
-                    $founder =isset($render[33])?isset($render[33]):"0";
-                    if ($founder == "Re-Endorsed")
-                     {
+                    $founder = isset($render[33]) ? $render[33] : "";
+                    if ($founder == "Re-endorsed") {
                         $store_by_Ecxel->reprocess = $query->reprocess + 1;
+                    } else {
+                        $store_by_Ecxel->reprocess = $query->reprocess;
                     }
                 } else {
                     // insert record
                     $store_by_Ecxel = new CandidateInformation();
                 }
-                // $store_by_Ecxel->first_name = isset($candidate_name[0]) ? $candidate_name[0] : "";
-                // $store_by_Ecxel->middle_name = isset($candidate_name[1]) ? $candidate_name[1] : "";
-                $store_by_Ecxel->last_name = isset($render[13]) ? $render[13] : "";
-
-                $store_by_Ecxel->gender = isset($render[17]) ? $render[17] : "";
-                $store_by_Ecxel->dob = isset($render[18]) ? $render[18] : "";
+                $store_by_Ecxel->last_name = isset($candidate_name) ? $candidate_name : "";
+                if (strpos(isset($render['17']) ? $render['17'] : '', 'F') !== false) {
+                    $store_by_Ecxel->gender = 'Female';
+                } else {
+                    $store_by_Ecxel->gender = 'Male';
+                }
+                $store_by_Ecxel->dob = isset($render[18]) ? date('y-m-d', strtotime($render[18])) : "";
                 if (strstr($candidate_phone, ';', false)) {
 
                     $store_by_Ecxel->phone = strstr($candidate_phone, ';', true);
@@ -497,7 +543,6 @@ class ProfileController extends Controller
 
                 $store_by_Ecxel->email = isset($render[20]) ? $render[20] : "";
                 $store_by_Ecxel->address = isset($render[21]) ? $render[21] : "";
-                // $store_by_Ecxel->status = isset($render[20])?$render[20]:"";$render[21];
                 $store_by_Ecxel->saved_by = Auth::user()->id;
                 $store_by_Ecxel->save();
 
@@ -533,7 +578,8 @@ class ProfileController extends Controller
                     $candidateDomain = new CandidateDomain();
                 }
                 $candidateDomain->candidate_id = $store_by_Ecxel->id;
-                $candidateDomain->date_shifted = isset($render[4]) ? date('d-m-y', strtotime($render[4])) : "";
+
+                $candidateDomain->date_shifted = isset($render[4]) ? date('y-m-d', strtotime($render[4])) : "";
                 $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
                 $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
                 $candidateDomain->interview_note = isset($render[26]) ? $render[26] : "";
@@ -555,15 +601,36 @@ class ProfileController extends Controller
                     $candidatePosition = new CandidatePosition();
                 }
                 $candidatePosition->candidate_id = $store_by_Ecxel->id;
+
                 $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
                 $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
-                $candidatePosition->date_invited = isset($render[12]) ? $render[12] : "";
+                $candidatePosition->date_invited = isset($render[12]) ? date('y-m-d', strtotime($render[12])) : "";
                 $candidatePosition->manner_of_invite = isset($render[11]) ? $render[11] : "";
-                $candidatePosition->curr_salary = intval(isset($render[27]) ? $render[27] : "");
-                $candidatePosition->exp_salary = intval(isset($render[29]) ? $render[29] : "");
-                $candidatePosition->off_salary = intval(isset($render[30]) ? $render[30] : "");
-                $candidatePosition->curr_allowance = intval(isset($render[28]) ? $render[28] : "");
-                $candidatePosition->off_allowance = intval(isset($render[31]) ? $render[31] : "");
+                $curr_salary = isset($render[27]) ? $render[27] : "";
+                $curr_salary_divide = explode(',', $curr_salary);
+                $c_s_combune_0 = isset($curr_salary_divide[0]) ? $curr_salary_divide[0] : '';
+                $c_s_combune_1 = isset($curr_salary_divide[1]) ? $curr_salary_divide[1] : '';
+                $candidatePosition->curr_salary = floatval($c_s_combune_0 . $c_s_combune_1);
+                $exp_salary = isset($render[29]) ? $render[29] : "";
+                $exp_salary_divide = explode(',', $exp_salary);
+                $e_s_combune_0 = isset($exp_salary_divide[0]) ? $exp_salary_divide[0] : '';
+                $e_s_combune_1 = isset($exp_salary_divide[1]) ? $exp_salary_divide[1] : '';
+                $candidatePosition->exp_salary = floatval($e_s_combune_0 . $e_s_combune_1);
+                $off_salary = isset($render[30]) ? $render[30] : "";
+                $off_salary_divide = explode(',', $off_salary);
+                $o_s_combune_0 = isset($off_salary_divide[0]) ? $off_salary_divide[0] : '';
+                $o_s_combune_1 = isset($off_salary_divide[1]) ? $off_salary_divide[1] : '';
+                $candidatePosition->off_salary = floatval($o_s_combune_0 . $o_s_combune_1);
+                $curr_allowance = isset($render[28]) ? $render[28] : "";
+                $curr_allowance_divide = explode(',', $curr_allowance);
+                $ca_s_combune_0 = isset($curr_allowance_divide[0]) ? $curr_allowance_divide[0] : '';
+                $ca_s_combune_1 = isset($curr_allowance_divide[1]) ? $curr_allowance_divide[1] : '';
+                $candidatePosition->curr_allowance = floatval($ca_s_combune_0 . $ca_s_combune_1);
+                $off_allowance = isset($render[31]) ? $render[31] : "";
+                $off_allowance_divide = explode(',', $off_allowance);
+                $offera_s_combune_0 = isset($off_allowance_divide[0]) ? $off_allowance_divide[0] : '';
+                $offera_s_combune_1 = isset($off_allowance_divide[1]) ? $off_allowance_divide[1] : '';
+                $candidatePosition->off_allowance = floatval($offera_s_combune_0 . $offera_s_combune_1);
                 $candidatePosition->save();
 
                 // end store data in candidate_position
@@ -579,7 +646,7 @@ class ProfileController extends Controller
                     // insert record
                     $endorsement = new Endorsement();
                 }
-                $endorsement->app_status = isset($render[32]) ? $render[32] : "";
+                $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                 $endorsement->client = isset($render[35]) ? $render[35] : "";
                 $endorsement->status = isset($render[42]) ? $render[42] : "";
                 $endorsement->type = isset($render[33]) ? $render[33] : "";
@@ -590,8 +657,9 @@ class ProfileController extends Controller
                 $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
                 $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
                 $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
-                $endorsement->endi_date = isset($render[34]) ? date('d-m-y', strtotime($render[34])) : "";
+                $endorsement->endi_date = isset($render[34]) ? date('y-m-d', strtotime($render[34])) : "";
                 $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
+
                 $endorsement->candidate_id = $store_by_Ecxel->id;
                 $endorsement->save();
                 //close
@@ -608,17 +676,37 @@ class ProfileController extends Controller
                     $finance = new Finance();
                 }
                 $finance->candidate_id = $store_by_Ecxel->id;
-                // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
-                $finance->onboardnig_date = isset($render[59]) ? date('d-m-y', strtotime($render[59])) : "";
-                $finance->invoice_number = intval(isset($render[61]) ? $render[61] : "");
-                $finance->client_finance = isset($render[48]) ? $render[48] : "";
-                $finance->career_finance = isset($render[63]) ? $render[63] : "";
-                $finance->rate = intval(isset($render[67]) ? $render[67] : "");
-                $finance->srp = intval(isset($render[47]) ? $render[47] : "");
-                $finance->offered_salary = intval(isset($render[49]) ? $render[49] : "");
-                $finance->placement_fee = intval(isset($render[54]) ? $render[54] : "");
-                $finance->allowance = intval(isset($render[51]) ? $render[51] : "");
+                $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
 
+                $finance->invoice_number = isset($render[61]) ? $render[61] : "";
+                $finance->client_finance = isset($render[48]) ? $render[48] : "";
+                $finance->career_finance = isset($render[49]) ? $render[49] : "";
+
+                $rate = isset($render[53]) ? $render[53] : "";
+                $rate_divide = explode(',', $rate);
+                $rate_combune_0 = isset($rate_divide[0]) ? $rate_divide[0] : '';
+                $rate_combune_1 = isset($rate_divide[1]) ? $rate_divide[1] : '';
+                $finance->rate = floatval($rate_combune_0 . $rate_combune_1);
+                $srp = isset($render[47]) ? $render[47] : "";
+                $srp_divide = explode(',', $srp);
+                $srp_combune_0 = isset($srp_divide[0]) ? $srp_divide[0] : '';
+                $srp_combune_1 = isset($srp_divide[1]) ? $srp_divide[1] : '';
+                $finance->srp = floatval($srp_combune_0 . $srp_combune_1);
+                $offered_salary = isset($render[49]) ? $render[49] : "";
+                $offered_salary_divide = explode(',', $offered_salary);
+                $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
+                $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
+                $finance->offered_salary = floatval($offered_salary_combune_0 . $offered_salary_combune_1);
+                $placement_fee = isset($render[55]) ? $render[55] : "";
+                $placement_fee_divide = explode(',', $placement_fee);
+                $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                $finance->placement_fee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
+                $allowance = isset($render[51]) ? $render[51] : "";
+                $allowance_divide = explode(',', $allowance);
+                $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
+                $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
+                $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                 $finance->save();
                 //finance detail start
 
@@ -633,25 +721,49 @@ class ProfileController extends Controller
                     $finance_detail = new Finance_detail();
                 }
                 $finance_detail->candidate_id = $store_by_Ecxel->id;
-                $finance_detail->offered_salary = isset($render[50]) ? intval($render[50]) : intval(0);
-                $finance_detail->allowance = isset($render[51]) ? intval($render[51]) : intval(0);
+                $offered_salary = isset($render[49]) ? $render[49] : "";
+                $offered_salary_divide = explode(',', $offered_salary);
+                $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
+                $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
+                $finance_detail->offered_salary = floatval($offered_salary_combune_0 . $offered_salary_combune_1);
+                $allowance = isset($render[51]) ? $render[51] : "";
+                $allowance_divide = explode(',', $allowance);
+                $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
+                $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
+                $finance_detail->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                 $finance_detail->compensation = isset($render[52]) ? intval($render[52]) : intval(0);
-                $finance_detail->rate_per = isset($render[53]) ? intval($render[53]) : intval(0);
-                $finance_detail->vat_per = isset($render[54]) ? intval($render[54]) : intval(0);
-                $finance_detail->placementFee = isset($render[55]) ? intval($render[55]) : intval(0);
-                $finance_detail->finalFee = isset($render[56]) ? intval($render[56]) : intval(0);
-                $finance_detail->adjustment = isset($render[57]) ? intval($render[57]) : intval(0);
-                $finance_detail->credit_memo = isset($render[58]) ? intval($render[58]) : intval(0);
-                $finance_detail->ob_date = isset($render[59]) ? intval($render[59]) : intval(0);
-                $finance_detail->invoice_date = isset($render[60]) ? $render[60] : " ";
-                $finance_detail->invoice_number = isset($render[61]) ? intval($render[61]) : intval(0);
-                $finance_detail->date_delvrd = isset($render[62]) ? $render[62] : " ";
+                $rate = isset($render[53]) ? $render[53] : "";
+                $rate_divide = explode(',', $rate);
+                $rate_combune_0 = isset($rate_divide[0]) ? $rate_divide[0] : '';
+                $rate_combune_1 = isset($rate_divide[1]) ? $rate_divide[1] : '';
+                $finance->rate_per = floatval($rate_combune_0 . $rate_combune_1);
+                $vat_per = isset($render[54]) ? $render[54] : "";
+                $vat_per_divide = explode(',', $vat_per);
+                $vat_per_combune_0 = isset($vat_per_divide[0]) ? $vat_per_divide[0] : '';
+                $vat_per_combune_1 = isset($vat_per_divide[1]) ? $vat_per_divide[1] : '';
+                $finance_detail->vat_per = floatval($vat_per_combune_0 . $vat_per_combune_1);
+                $placement_fee = isset($render[55]) ? $render[55] : "";
+                $placement_fee_divide = explode(',', $placement_fee);
+                $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                $finance_detail->placementFee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
+                $finalFee = isset($render[56]) ? $render[56] : "";
+                $finalFee_divide = explode(',', $finalFee);
+                $finalFee_combune_0 = isset($finalFee_divide[0]) ? $finalFee_divide[0] : '';
+                $finalFee_combune_1 = isset($finalFee_divide[1]) ? $finalFee_divide[1] : '';
+                $finance_detail->finalFee = floatval($finalFee_combune_0 . $finalFee_combune_1);
+                $finance_detail->adjustment = isset($render[57]) ? $render[57] : "";
+                $finance_detail->credit_memo = isset($render[58]) ? $render[58] : "";
+                $finance_detail->ob_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
+                $finance_detail->invoice_date = isset($render[60]) ? date('y-m-d', strtotime($render[60])) : "";
+                $finance_detail->invoice_number = isset($render[61]) ? $render[61] : "";
+                $finance_detail->date_delvrd = isset($render[62]) ? date('y-m-d', strtotime($render[62])) : "";
                 $finance_detail->dpd = isset($render[63]) ? $render[63] : " ";
-                $finance_detail->payment_term = isset($render[64]) ? intval($render[64]) : intval(0);
-                $finance_detail->date_collected = isset($render[65]) ? $render[65] : " ";
+                $finance_detail->payment_term = isset($render[64]) ? $render[64] : '';
+                $finance_detail->date_collected = isset($render[65]) ? date('y-m-d', strtotime($render[65])) : "";
                 $finance_detail->or_number = isset($render[66]) ? intval($render[66]) : intval(0);
-                $finance_detail->code = isset($render[67]) ? intval($render[67]) : intval(0);
-                $finance_detail->term_date = isset($render[68]) ? $render[68] : "";
+                $finance_detail->code = isset($render[67]) ? $render[67] : '';
+                $finance_detail->term_date = isset($render[68]) ? date('y-m-d', strtotime($render[68])) : "";
                 $finance_detail->replacement_for = isset($render[69]) ? $render[69] : "";
                 $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
                 $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
@@ -664,6 +776,7 @@ class ProfileController extends Controller
                 $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
                 $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                 $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
+                $finance_detail->t_id = $recruiter->id;
                 $finance_detail->save();
                 //start logic for cip
 
@@ -760,10 +873,9 @@ class ProfileController extends Controller
 
             // fclose($file);
             return redirect()->back()->with('message', 'data Import successfully');
-        }else{
+        } else {
             return redirect()->back()->with('error-local-sdb', 'there is some  Erorrs');
         }
-
     }
 
     public function verifySheet(Request $request)
@@ -793,9 +905,6 @@ class ProfileController extends Controller
                 unset($data[0][0]);
 
                 foreach ($render_skipped_rows as $render) {
-
-
-
 
                     $store_by_google_sheet = new jdlSheet();
                     $store_by_google_sheet->priority = isset($render[0]) ? $render[0] : "";
@@ -851,7 +960,6 @@ class ProfileController extends Controller
                 die('Cannot open file for reading');
             }
 
-
             $row = 1;
             while (($render = fgetcsv($file, 1000, ",")) !== false) {
                 $num = count($render);
@@ -859,7 +967,6 @@ class ProfileController extends Controller
                     redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
                 }
                 if ($render[0] != 'PRIORITY') {
-
 
                     $JDL_local_sheet = new jdlSheet();
                     $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";

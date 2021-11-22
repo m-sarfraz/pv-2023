@@ -840,278 +840,278 @@
 
             // call Ajax for returning the data as view
             $.ajax({
-                        type: "GET",
-                        url: '{{ url('admin/summaryAppend_finance') }}',
-                        data: {
-                            _token: token,
-                            recruiter: recruiter,
-                            candidate: candidate,
-                            remarks: remarks,
-                            toDate: toDate,
-                            team: team,
-                            status: status,
-                            client: client,
-                            ob_date: ob_date,
-                            process: process,
-                        },
+                type: "GET",
+                url: '{{ url('admin/summaryAppend_finance') }}',
+                data: {
+                    _token: token,
+                    recruiter: recruiter,
+                    candidate: candidate,
+                    remarks: remarks,
+                    toDate: toDate,
+                    team: team,
+                    status: status,
+                    client: client,
+                    ob_date: ob_date,
+                    process: process,
+                },
 
-                        // Success fucniton of Ajax
-                        success: function(data) {
-                            $('#summaryDiv').html('');
-                            $('#summaryDiv').html(data);
-                        }
-                    });
+                // Success fucniton of Ajax
+                success: function(data) {
+                    $('#summaryDiv').html('');
+                    $('#summaryDiv').html(data);
                 }
-                        //close
-                        // show detail of record on click a row in data table 
-                        $('#fmtable').on('click', 'tbody tr', function() {
-                            // $(this).css('background-color','red')
-                            $('tr').removeClass('hover-primary1');
-                            $(this).addClass('hover-primary1');
-                            let tdVal = $(this).children()[0];
-                            var id = tdVal.innerHTML
-                            console.log('id is ' + id)
-                            userDetail(this, id)
-                        })
-                        // close 
+            });
+        }
+        //close
+        // show detail of record on click a row in data table 
+        $('#fmtable').on('click', 'tbody tr', function() {
+            // $(this).css('background-color','red')
+            $('tr').removeClass('hover-primary1');
+            $(this).addClass('hover-primary1');
+            let tdVal = $(this).children()[0];
+            var id = tdVal.innerHTML
+            console.log('id is ' + id)
+            userDetail(this, id)
+        })
+        // close 
 
-                        // function for loading data in yajra on page load 
-                        function load_datatable() {
-                            var option_table = $('#fmtable').DataTable({
-                                destroy: true,
-                                processing: true,
-                                serverSide: true,
-                                "language": {
-                                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                                },
+        // function for loading data in yajra on page load 
+        function load_datatable() {
+            var option_table = $('#fmtable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
 
-                                ajax: {
-                                    url: "{{ route('view-finance-search-table') }}",
-                                    type: "GET",
-                                },
-                                columns: [{
-                                        data: 'id',
-                                        name: 'id'
-                                    },
-                                    {
-                                        data: 'team',
-                                        name: 'team'
-                                    },
-                                    {
-                                        data: 'recruiter',
-                                        name: 'recruiter'
-                                    },
-                                    {
-                                        data: 'client',
-                                        name: 'client'
-                                    },
-                                    {
-                                        data: 'reprocess',
-                                        name: 'reprocess'
-                                    },
-                                    {
-                                        data: 'last_name',
-                                        name: 'last_name'
-                                    },
-
-
-                                    {
-                                        data: 'career_endo',
-                                        name: 'career_endo'
-                                    },
-                                    {
-                                        data: 'onboardnig_date',
-                                        name: 'onboardnig_date'
-                                    },
-                                    {
-                                        data: 'placement_fee',
-                                        name: 'placement_fee'
-                                    },
-                                    {
-                                        data: 'remarks_for_finance',
-                                        name: 'remarks_for_finance'
-                                    },
-
-                                    {
-                                        data: 'endostatus',
-                                        name: 'endostatus'
-                                    },
+                ajax: {
+                    url: "{{ route('view-finance-search-table') }}",
+                    type: "GET",
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'team',
+                        name: 'team'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
 
 
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
 
-                                ]
-                            });
-                        }
-                        // close 
-                        function load_datatable1() {
-                            // get values of selected inputs of users
-                            searchKeyword = $('#searchKeyword').val();
-                            recruiter = $('#recruiter').val();
-                            appstatus = $('#appstatus').val();
-                            team_id = $('#team_id').val();
-                            candidate = $('#candidate').val();
-                            remarks = $('#remarks').val();
-                            team = $('#team').val();
-                            // status = $('#status').val();
-                            toDate = $('#to_ob_date').val();
-                            ob_date = $('#ob_date').val();
-                            client = $('#client').val();
-                            process = $('#process').val();
-                            ob_date = $('#ob_date').val();
-                            var option_table = $('#fmtable1').DataTable({
-                                destroy: true,
-                                processing: true,
-                                serverSide: true,
-                                "language": {
-                                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                                },
-
-                                ajax: {
-                                    url: "{{ route('financeRecordFilter') }}",
-                                    type: "POST",
-                                    data: {
-                                        _token: token,
-                                        // searchKeyword: searchKeyword,
-                                        recruiter: recruiter,
-                                        candidate: candidate,
-                                        remarks: remarks,
-                                        toDate: toDate,
-                                        ob_date: ob_date,
-                                        team: team,
-                                        status: status,
-                                        client: client,
-                                        appstatus: appstatus,
-                                        team_id: team_id,
-                                        process: process,
-                                    },
-                                },
-                                columns: [{
-                                        data: 'id',
-                                        name: 'id'
-                                    },
-                                    {
-                                        data: 'team',
-                                        name: 'team'
-                                    },
-                                    {
-                                        data: 'recruiter',
-                                        name: 'recruiter'
-                                    },
-                                    {
-                                        data: 'client',
-                                        name: 'client'
-                                    },
-                                    {
-                                        data: 'reprocess',
-                                        name: 'reprocess'
-                                    },
-                                    {
-                                        data: 'last_name',
-                                        name: 'last_name'
-                                    },
+                    {
+                        data: 'app_status',
+                        name: 'app_status'
+                    },
 
 
-                                    {
-                                        data: 'career_endo',
-                                        name: 'career_endo'
-                                    },
-                                    {
-                                        data: 'onboardnig_date',
-                                        name: 'onboardnig_date'
-                                    },
-                                    {
-                                        data: 'placement_fee',
-                                        name: 'placement_fee'
-                                    },
-                                    {
-                                        data: 'remarks_for_finance',
-                                        name: 'remarks_for_finance'
-                                    },
 
-                                    {
-                                        data: 'endostatus',
-                                        name: 'endostatus'
-                                    },
+                ]
+            });
+        }
+        // close 
+        function load_datatable1() {
+            // get values of selected inputs of users
+            searchKeyword = $('#searchKeyword').val();
+            recruiter = $('#recruiter').val();
+            appstatus = $('#appstatus').val();
+            team_id = $('#team_id').val();
+            candidate = $('#candidate').val();
+            remarks = $('#remarks').val();
+            team = $('#team').val();
+            // status = $('#status').val();
+            toDate = $('#to_ob_date').val();
+            ob_date = $('#ob_date').val();
+            client = $('#client').val();
+            process = $('#process').val();
+            ob_date = $('#ob_date').val();
+            var option_table = $('#fmtable1').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
 
-
-                                ]
-                            });
-                        }
-                        // function for getting detail of user starts 
-                        function userDetail(elem, id) {
-                            $('#loader').show();
-                            $('.common-tr').removeClass('hover-primary1');
-                            $(elem).addClass('hover-primary1');
-                            // call Ajax whihc will return view of detail data of user
-                            $.ajax({
-                                type: "GET",
-                                url: '{{ url('admin/finance_records_detail') }}',
-                                data: {
-                                    _token: token,
-                                    id: id,
-                                },
-
-                                // Ajax Success funciton
-                                success: function(data) {
-                                    // append retured view view to div 
-                                    $('#detailView').html('');
-                                    $('#detailView').html(data);
-
-                                    // hide loader 
-                                    $("#loader").hide();
-                                },
-                            });
-                        }
-                        // close
-
-                        // function for filtering the data according to selected input starts
-                        function filterUserData() {
-                            $("#loader").show();
-                            // call Ajax for returning the data as view
-                            $.ajax({
-                                type: "GET",
-                                url: '{{ url('admin/filterView') }}',
-                                success: function(data) {
-                                    $('#filterData_div').html(data);
-                                    $("#loader").hide();
-                                    // load_datatable1();
-                                },
-                            });
-                        }
-                        // close
-                        // oninput append value in yajra table 
-                        $('#searchKeyword').on('input', function() {
-                            $('#fmtable_filter').children().children().val($('#searchKeyword').val());
-                            $('#fmtable_filter').children().children().trigger('input');
-                            $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
-                            $('#fmtable1_filter').children().children().trigger('input');
+                ajax: {
+                    url: "{{ route('financeRecordFilter') }}",
+                    type: "POST",
+                    data: {
+                        _token: token,
+                        // searchKeyword: searchKeyword,
+                        recruiter: recruiter,
+                        candidate: candidate,
+                        remarks: remarks,
+                        toDate: toDate,
+                        ob_date: ob_date,
+                        team: team,
+                        status: status,
+                        client: client,
+                        appstatus: appstatus,
+                        team_id: team_id,
+                        process: process,
+                    },
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'team',
+                        name: 'team'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
 
 
-                        });
-                        setInterval(function() {
-                            let tableID = $('#filterData_div').children().children().attr('id')
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
 
-                            if (tableID == 'fmtable_wrapper') {
-                                countRecord()
-                            }
-                            if (tableID == 'fmtable1_wrapper') {
-                                countRecordFilter()
-                            }
-                        }, 3000);
+                    {
+                        data: 'app_status',
+                        name: 'app_status'
+                    },
 
-                        // count record on page load 
-                        function countRecord() {
-                            var count = $('#fmtable_info').text().split(' ');
 
-                            $('#record').val(count[5])
-                        }
-                        // close 
+                ]
+            });
+        }
+        // function for getting detail of user starts 
+        function userDetail(elem, id) {
+            $('#loader').show();
+            $('.common-tr').removeClass('hover-primary1');
+            $(elem).addClass('hover-primary1');
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/finance_records_detail') }}',
+                data: {
+                    _token: token,
+                    id: id,
+                },
 
-                        // count record of filtered data
-                        function countRecordFilter() {
-                            var count = $('#fmtable1_info').text().split(' ');
-                            $('#record').val(count[5])
-                        }
+                // Ajax Success funciton
+                success: function(data) {
+                    // append retured view view to div 
+                    $('#detailView').html('');
+                    $('#detailView').html(data);
+
+                    // hide loader 
+                    $("#loader").hide();
+                },
+            });
+        }
+        // close
+
+        // function for filtering the data according to selected input starts
+        function filterUserData() {
+            $("#loader").show();
+            // call Ajax for returning the data as view
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/filterView') }}',
+                success: function(data) {
+                    $('#filterData_div').html(data);
+                    $("#loader").hide();
+                    // load_datatable1();
+                },
+            });
+        }
+        // close
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('input', function() {
+            $('#fmtable_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable_filter').children().children().trigger('input');
+            $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable1_filter').children().children().trigger('input');
+
+
+        });
+        setInterval(function() {
+            let tableID = $('#filterData_div').children().children().attr('id')
+
+            if (tableID == 'fmtable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'fmtable1_wrapper') {
+                countRecordFilter()
+            }
+        }, 3000);
+
+        // count record on page load 
+        function countRecord() {
+            var count = $('#fmtable_info').text().split(' ');
+
+            $('#record').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#fmtable1_info').text().split(' ');
+            $('#record').val(count[5])
+        }
     </script>
 @endsection
 {{-- script seciton ends here --}}

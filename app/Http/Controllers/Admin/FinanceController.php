@@ -83,7 +83,8 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-        $Userdata = DB::table('six_table_view');
+        $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
+        $Userdata = DB::table('six_table_view')->whereIn('remarks_for_finance', $arr);
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
@@ -136,7 +137,12 @@ class FinanceController extends Controller
                 return $Userdata->career_endo;
             })
             ->addColumn('onboardnig_date', function ($Userdata) {
-                return $Userdata->onboardnig_date;
+                if (!empty($Userdata->onboardnig_date && $Userdata->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($Userdata->onboardnig_date), "m-d-Y");
+                    return $onboardnig_date;
+                } else {
+                    $Userdata->onboardnig_date = '';
+                }
             })
             ->addColumn('placement_fee', function ($Userdata) {
                 return $Userdata->placement_fee;
@@ -230,7 +236,12 @@ class FinanceController extends Controller
                 return $Userdata->career_endo;
             })
             ->addColumn('onboardnig_date', function ($Userdata) {
-                return $Userdata->onboardnig_date;
+                if (!empty($Userdata->onboardnig_date && $Userdata->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($Userdata->onboardnig_date), "m-d-Y");
+                    return $onboardnig_date;
+                } else {
+                    $Userdata->onboardnig_date = '';
+                }
             })
             ->addColumn('placement_fee', function ($Userdata) {
                 return $Userdata->placement_fee;

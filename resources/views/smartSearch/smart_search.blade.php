@@ -492,8 +492,7 @@
 
         // ajax call for view append
         function summaryAppendAjax() {
-            $("#loader").show();
-
+            // $("#loader").show();
             // get values of selected inputs of users
             domain = $('#domain').val();
             recruiter = $('#recruiter').val();
@@ -541,9 +540,8 @@
 
                 // Success fucniton of Ajax
                 success: function(data) {
-                    console.log(data)
                     $('#summaryDiv').html(data);
-                    $("#loader").hide();
+                    // $("#loader").hide();
                 },
             });
         }
@@ -708,7 +706,7 @@
                     type: "GET",
                 },
                 columns: [{
-                        data: 'recruiter',
+                    data: 'recruiter',
                         name: 'recruiter'
                     },
                     {
