@@ -417,7 +417,7 @@
                         <div class="pt-3">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                    Recruitment Process:
+                                    Employment History:
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"

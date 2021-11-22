@@ -5,9 +5,10 @@
         .borderRed {
             border: 1px red solid !important;
         }
+
         .borderRed:focus {
             box-shadow: 0 0 0 0.05rem red !important;
-}
+        }
 
     </style>
 @endsection
@@ -64,9 +65,11 @@
                                         </option>
                                     @endforeach
                                 </Select>
-                                {{-- <input type="email" disabled="" class="form-control users-input m-3 mt-0 mb-0 w-75" id="detail_candidate"
-                                style="padding-left: 5px !important;" aria-describedby="emailHelp"
-                                value="{{$candidateDetail != null ? $candidateDetail->first_name.''.$candidateDetail->last_name.''.$candidateDetail->candidate_profile.''.$candidateDetail->date_processed : ''}}" placeholder="enter candidate name" /> --}}
+                                <input type="text" readonly class="form-control users-input mt-3 mb-2 w-100 text-center"
+                                    style="padding-left: 0px !important;padding-right: 0px !important;font-size:12px !important"
+                                    id="userDetailInput"
+                                    value="{{ $candidateDetail != null ? $candidateDetail->first_name . '' . $candidateDetail->last_name . '' . $candidateDetail->candidate_profile . '' . $candidateDetail->date_processed : '' }}"
+                                    placeholder="Candidate Detail" />
                                 @can('search-data')
 
                                     <button class="btn btn_Group mb-2 mt-1 btn-sm" type="button" id="searchRecord"
@@ -771,7 +774,7 @@
                                     </div>
                                     <div class="row mb-1 align-items-center">
                                         <div class="col-lg-6">
-                                         
+
                                             <div class="form-group mb-0 pt-1 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Client</label>
                                                 <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
@@ -1192,6 +1195,7 @@
     <script>
         $(window).on('load', function() {
             $('#loader').show();
+            $('#userDetailInput').addClass('d-none')
             setTimeout(function() {
                 $('#loader').hide();
                 $('#transparentDiv').hide();
@@ -1202,7 +1206,6 @@
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
             // show and hide loader after time set ends
-
             // check logged in user id and disable/enable fileds 
             var team_id = {!! Auth::user()->agent !!};
             if (team_id == 1) {
@@ -1358,7 +1361,7 @@
                             $("input").removeClass('borderRed')
                             $("select").removeClass('borderRed')
                             $("textarea").removeClass('borderRed')
-                            $("select").next().children().children().removeClass('borderRed') ;
+                            $("select").next().children().children().removeClass('borderRed');
 
                             //function for appending span and changing css color for input
                             $.each(res.message, function(i, e) {
@@ -1373,8 +1376,9 @@
                                 //     );
                                 console.log($("select[name='" + i + "']"));
                                 // $("select[name='" + i + "']").prop('required', true)
-                                $("select[name='" + i + "']").addClass('borderRed') 
-                                $("select[name='" + i + "']").next().children().children().addClass('borderRed') ;
+                                $("select[name='" + i + "']").addClass('borderRed')
+                                $("select[name='" + i + "']").next().children().children().addClass(
+                                    'borderRed');
                                 // $("select[name='" + i + "']").siblings(
                                 //     'div').children().remove();
                                 // $("select[name='" + i + "']").siblings('div')

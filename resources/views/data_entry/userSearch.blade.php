@@ -1145,6 +1145,8 @@
         $('#saveRecord').prop("disabled", false)
     });
     $(document).ready(function() {
+        var detailInput = <?php echo json_encode($inputDetail) ?>;
+        $('#userDetailInput').val(detailInput);
         var id = $('#user').val();
         console.log('id is' + id);
         // ajax call for user data fetching starts

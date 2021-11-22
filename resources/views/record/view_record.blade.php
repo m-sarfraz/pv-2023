@@ -235,41 +235,51 @@
                 <p class="C-Heading pt-3">Record Details:</p>
                 <div class="card mb-13">
                     <div class="card-body">
-                        <form action="">
-                            <fieldset disabled="">
+                        <form action="" id="user_detail_form">
+                            <fieldset disabled="" id="recordFieldset">
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Candidate Name:*
+                                                Candidate Name*:
                                             </label>
-                                            <input type="text" class="form-control" placeholder="Enter Name" />
+                                            <input type="text" class="form-control" placeholder="enter first name" name="first_name"
+                                                 >
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $gender = Helper::get_dropdown('gender');
+                                            @endphp
                                             <label class="Label">Gender:</label>
-                                            <select class="w-100 form-control">
-                                                <option value="1" selected disabled="disabled">Select Gender</option>
-                                                <option value="2">Male</option>
-                                                <option value="3">Female</option>
-                                                <option value="4">Transgender</option>
+                                            <select class="w-100 form-control" name="gender">
+                                                <option  selected disabled>select option
+                                                </option>
+                                               
                                             </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">DOB:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="date" class="form-control users-input-S-C" name="dob"
+                                                 >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
-                                            <label class="Label">Email:</label>
-                                            <input type="text" class="form-control users-input-S-C"
-                                                placeholder="Enter Email" />
+                                            <label class="Label">Email Address:</label>
+                                            <input type="text" class="form-control users-input-S-C" placeholder="enter email"
+                                                name="email"   />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -277,8 +287,11 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Contact:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
-                                                placeholder="Enter Phone Number" />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell"
+                                                name="phone"  />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -286,9 +299,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Residence
+                                                Residendce
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" 
+                                                name="address" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -296,15 +313,32 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Date Sifted:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="date" class="form-control users-input-S-C" name="date_shifted"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $source = Helper::get_dropdown('source');
+                                            ?>
                                             <label class="d-block font-size-3 mb-0">
                                                 Source
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="SOURCE"
+                                            class=" form-control p-0 EmailInput-F" id="SOURCE">
+                                            <option selected disabled>Select Option</option>
+                                            
+                                        </select>                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                
                                         </div>
                                     </div>
                                 </div>
@@ -312,29 +346,62 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">Educational Attachment</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <?php
+                                            $eduAttainment = Helper::get_dropdown('educational_attainment');
+                                            ?>
+                
+                                            <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
+                                                class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
+                                            <option selected disabled>Select Option</option>
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">Date Invited:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="date" class="form-control users-input-S-C" name="date_invited"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $manner_of_invite = Helper::get_dropdown('manner_of_invite');
+                                            ?>
                                             <label class="Label">
                                                 Manner of Invite:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
+                                            <option selected disabled>Select Option</option>
+                                            
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $course = Helper::get_dropdown('course');
+                                            ?>
                                             <label class="Label">Course:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+                                            <option selected disabled>Select Option</option>
+                                           
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -342,7 +409,11 @@
                                             <label class="Label">
                                                 Current Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="curr_salary"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -350,15 +421,26 @@
                                             <label class="Label">
                                                 Current Allowance:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="curr_allowance"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
-                                            <label class="Label">Domain:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <label class="Label">Domain</label>
+                                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
+                                                onchange="DomainChange(this)">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -366,7 +448,11 @@
                                             <label class="Label">
                                                 Expected Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="expec_salary"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -374,23 +460,47 @@
                                             <label class="Label">
                                                 Offered Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="offered_salary"
+                                                 />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $segments = Helper::get_dropdown('segments');
+                                            @endphp
                                             <label class="Label">Segment:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
+                                                onchange="SegmentChange(this)">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
+                                            @php
+                                                $sub_segment = Helper::get_dropdown('sub_segment');
+                                            @endphp
                                             <label class="Label">
                                                 Sub Segment:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="sub_segment" id="Domain_sub_segment"
+                                                class="form-control p-0 users-input-S-C">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -398,15 +508,29 @@
                                             <label class="Label">
                                                 Offered Allowance:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="offered_allowance"
+                                               />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
+                                        <?php
+                                        $profile = Helper::get_dropdown('candidates_profile');
+                                        ?>
                                         <div class="form-group mb-0">
                                             <label class="Label">Profile:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
+                                                class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -414,15 +538,29 @@
                                             <label class="Label">
                                                 Date Processed:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="date" class="form-control users-input-S-C" nmae="date_processed"
+                                                />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $status = Helper::get_dropdown('application_status');
+                                            ?>
                                             <label class="Label">
                                                 Application Status:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <select name="APPLICATION_STATUS" id="ap_status"
+                                                class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -430,7 +568,11 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">Position Applied:</label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="position_applied"
+                                                />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -438,7 +580,10 @@
                                             <label class="Label">
                                                 Sifted By:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" />
+                                            <input type="text" class="form-control users-input-S-C" name="shifted_by" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -448,255 +593,312 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Interview Notes:
                                             </label>
-                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Interview Notes"></textarea>
+                                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
+                                                value="" placeholder="Enter Interview Notes"> </textarea>
+                                        </div>
+                                        <div class="pt-3">
+                                            <div class="form-group mb-0">
+                                                <label class="d-block font-size-3 mb-0">
+                                                    Employment History:
+                                                </label>
+                                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                    class="form-control border E_H h-px-20_custom"
+                                                    placeholder="Enter Interview Notes"> </textarea>
+                
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
+                                            <?php
+                                            $certificate = Helper::get_dropdown('certifications');
+                                            ?>
                                             <label class="d-block font-size-3 mb-0">
-                                                Employment History:
+                                                Certification:
                                             </label>
-                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                class="form-control E_HI" style="height: 225px"
-                                                placeholder="Enter  Employment History"></textarea>
+                                            <select name="CERTIFICATIONS" class="form-control users-input-S-C">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-6 mb-5">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Recruitment Process:
-                                            </label>
-                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                class="form-control border E_H h-px-20_custom"
-                                                placeholder="Enter Recruitment Process"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 E_NEG">
-                                        <p class="C-Heading pt-3">Endorsement Details:</p>
-                                        <div class="card mb-13">
-                                            <div class="card-body">
-                                                <form action="">
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Endorsement Type:
-                                                                </label>
-                                                                <input type="text" name="REF_CODE"
-                                                                    placeholder="Select Option" required=""
-                                                                    class="form-control h-px-20_custom border" value="" />
+                                        <div class="E_NEG">
+                                            <p class="C-Heading pt-5 mt-4">Endorsement Details:</p>
+                                            <div class="card mb-13">
+                                                <div class="card-body">
+                                                    <form action="">
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $endoType = Helper::get_dropdown('endorsement_type');
+                                                                    @endphp
+                                                                    <label class="Label-00">
+                                                                        Endorsement Type:
+                                                                    </label>
+                                                                    <select name="ENDORSEMENT_TYPE" id=""
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $CareerLevel = Helper::get_dropdown('career_level');
+                                                                    @endphp
+                                                                    <label class="Label-00">
+                                                                        Career Level:
+                                                                    </label>
+                                                                    <select name="CAREER_LEVEL" id="career"
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Career Level:
-                                                                </label>
-                                                                <input type="text" name="REF_CODE" value="" disabled=""
-                                                                    required=""
-                                                                    class="form-control h-px-20_custom border" />
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                @php
+                                                                    $site = Helper::get_dropdown('site');
+                                                                @endphp
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label-00">Site</label>
+                                                                    <select name="SITE" id="site"
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label-00 ">
+                                                                        Remarks (for Finance)
+                                                                    </label>
+                                                                    <select name="REMARKS_FOR_FINANCE" disabled=""
+                                                                        id="remarks_for_finance" onchange="RemarksChange(this)"
+                                                                        class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        @php
+                                                                            $remarks = Helper::get_dropdown('remarks_for_finance');
+                                                                        @endphp
+                                                                                                                   <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">Site</label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                  
+                                                                    <label class="Label-00">
+                                                                        Client
+                                                                    </label>
+                                                                    {{-- @dd($user->client) --}}
+                                                                    <select name="CLIENT_FINANCE"
+                                                                        class="form-control border h-px-20_custom w-100"
+                                                                        id="client_finance" disabled="">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $status = Helper::get_dropdown('status');
+                                                                    @endphp
+                                                                    <label class="Label-00">
+                                                                        Status:
+                                                                    </label>
+                                                                    <select name="STATUS" id="status" disabled=""
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                        &quot;item&quot;
+                                                                        </option>
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Remarks (for Finance)
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $position_title = Helper::get_dropdown('position_title');
+                                                                    @endphp
+                                                                    <label class="Label-00 ">
+                                                                        Position Title:
+                                                                    </label>
+                                                                    <select name="POSITION_TITLE" id="position"
+                                                                        onchange="Fetch_profile()"
+                                                                        class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                                                                    @endphp
+                                                                    <label class="Label-00">
+                                                                        Reason for not progressing:
+                                                                    </label>
+                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Client
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label-00">
+                                                                        Domain:
+                                                                    </label>
+                                                                    <select name="DOMAIN_endo" id="domain_endo"
+                                                                        onchange="DomainChange(this)"
+                                                                        class="form-control p-0 users-input-S-C">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label">Interview Schedule:</label>
+                                                                    <input type="date" name="INTERVIEW_SCHEDULE" id="interview_schedule"
+                                                                        
+                                                                        class="form-control users-input-S-C" />
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Status:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    @php
+                                                                        $segments = Helper::get_dropdown('segments');
+                                                                    @endphp
+                                                                    <label class="Label-00">
+                                                                        Segment:
+                                                                    </label>
+                                                                    <select name="endo_segment" id="Domainsegment"
+                                                                        class="w-100 form-control" onchange="changeSegment(this)">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                @php
+                                                                    $remarks = Helper::get_dropdown('remarks_from_finance');
+                                                                @endphp
+                                                                <div class=" mb-0">
+                                                                    <label class="Label">Remarks (From
+                                                                        Recruiter):</label>
+                                                                    <select name="REMARKS_FROM_FINANCE" id="remarks"
+                                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Position Title:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label-00 ">
+                                                                        Sub-Segment:
+                                                                    </label>
+                                                                    <select name="endo_sub_segment " id="endo_sub_segment"
+                                                                        class="w-100  form-control">
+                                                                        <option selected disabled>Select Option</option>
+
+                                                                    </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label">Endo Date:</label>
+                                                                    <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                                         class="form-control border h-px-20_custom" />
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Reason for not progressing:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
+                                                        <div class="row mb-1">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label-00">
+                                                                        Date Updated:
+                                                                    </label>
+                                                                    <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
+                                                                         class="form-control border h-px-20_custom" />
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Domain:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label">Interview Schedule:</label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Segment:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label">Remarks (From
-                                                                    Recruiter):</label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Sub-Segment:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label">Endo Date:</label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-1">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label-00">
-                                                                    Date Updated:
-                                                                </label>
-                                                                <select name="" id="" class="w-100 form-control">
-                                                                    <option value="1">Select Option</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                    <option value="4">Four</option>
-                                                                    <option value="5">Five</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                
                             </fieldset>
+                        
                         </form>
                     </div>
                 </div>

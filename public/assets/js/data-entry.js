@@ -152,6 +152,7 @@ function amountFinder(id) {
 
 // search user data and append in data entry fields starts
 function SearchUserData(e, div) {
+    $('#userDetailInput').removeClass('d-none')
     $('#searchRecord').prop("disabled", true)
     $('#saveRecord').prop("disabled", false)
     $('#editRecord').prop("disabled", false)
@@ -178,6 +179,7 @@ function SearchUserData(e, div) {
 }
 // search user data and append in data entry fields starts
 function enableSearch(id) {
+    $('#userDetailInput').addClass('d-none')
     $(id).prop("disabled", false)
     $('#save').prop("disabled", true)
     $('#saveRecord').prop("disabled", true)

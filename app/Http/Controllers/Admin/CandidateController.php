@@ -480,11 +480,13 @@ class CandidateController extends Controller
             ->where('candidate_informations.id', $request->id)
             ->first();
         // return $user;
+        $inputDetail = $user->last_name . '-' . $user->candidate_profile . '' . $user->client_endo . '-' . $user->endi_date;
         $data = [
             'domainDrop' => $domainDrop,
             'user' => $user,
             'segmentsDropDown' => $segmentsDropDown,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
+            'inputDetail' => $inputDetail,
         ];
         return view('data_entry.userSearch', $data);
     }
