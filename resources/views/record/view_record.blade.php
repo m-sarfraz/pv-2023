@@ -243,8 +243,8 @@
                                             <label class="Label">
                                                 Candidate Name*:
                                             </label>
-                                            <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                                 >
+                                            <input type="text" class="form-control" placeholder="enter first name"
+                                                name="first_name">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -254,9 +254,9 @@
                                             @endphp
                                             <label class="Label">Gender:</label>
                                             <select class="w-100 form-control" name="gender">
-                                                <option  selected disabled>select option
+                                                <option selected disabled>select option
                                                 </option>
-                                               
+
                                             </select>
                                             <div>
                                                 <small class="text-danger"></small>
@@ -266,8 +266,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">DOB:</label>
-                                            <input type="date" class="form-control users-input-S-C" name="dob"
-                                                 >
+                                            <input type="date" class="form-control users-input-S-C" name="dob">
                                         </div>
                                     </div>
                                 </div>
@@ -275,8 +274,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">Email Address:</label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="enter email"
-                                                name="email"   />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="enter email" name="email" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -287,8 +286,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Contact:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell"
-                                                name="phone"  />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="enter you cell" name="phone" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -301,8 +300,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Residendce
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" 
-                                                name="address" />
+                                            <input type="text" class="form-control users-input-S-C" name="address" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -313,8 +311,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Date Sifted:
                                             </label>
-                                            <input type="date" class="form-control users-input-S-C" name="date_shifted"
-                                                 />
+                                            <input type="date" class="form-control users-input-S-C" name="date_shifted" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -328,17 +325,17 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Source
                                             </label>
-                                            <select name="SOURCE"
-                                            class=" form-control p-0 EmailInput-F" id="SOURCE">
-                                            <option selected disabled>Select Option</option>
-                                            
-                                        </select>                            <div>
+                                            <select name="SOURCE" class=" form-control p-0 EmailInput-F" id="SOURCE">
+                                                <option selected disabled>Select Option</option>
+
+                                            </select>
+                                            <div>
                                                 <small class="text-danger"></small>
                                             </div>
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
-                
+
                                         </div>
                                     </div>
                                 </div>
@@ -349,10 +346,10 @@
                                             <?php
                                             $eduAttainment = Helper::get_dropdown('educational_attainment');
                                             ?>
-                
+
                                             <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
                                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                            <option selected disabled>Select Option</option>
+                                                <option selected disabled>Select Option</option>
                                             </select>
                                             <div>
                                                 <small class="text-danger"></small>
@@ -362,8 +359,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">Date Invited:</label>
-                                            <input type="date" class="form-control users-input-S-C" name="date_invited"
-                                                 />
+                                            <input type="date" class="form-control users-input-S-C" name="date_invited" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -378,8 +374,8 @@
                                                 Manner of Invite:
                                             </label>
                                             <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
-                                            <option selected disabled>Select Option</option>
-                                            
+                                                <option selected disabled>Select Option</option>
+
                                             </select>
                                             <div>
                                                 <small class="text-danger"></small>
@@ -395,13 +391,13 @@
                                             ?>
                                             <label class="Label">Course:</label>
                                             <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
-                                            <option selected disabled>Select Option</option>
-                                           
+                                                <option selected disabled>Select Option</option>
+
                                             </select>
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
-                
+
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -409,8 +405,7 @@
                                             <label class="Label">
                                                 Current Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="curr_salary"
-                                                 />
+                                            <input type="text" class="form-control users-input-S-C" name="curr_salary" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -421,8 +416,8 @@
                                             <label class="Label">
                                                 Current Allowance:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="curr_allowance"
-                                                 />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="curr_allowance" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -448,8 +443,7 @@
                                             <label class="Label">
                                                 Expected Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="expec_salary"
-                                                 />
+                                            <input type="text" class="form-control users-input-S-C" name="expec_salary" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -460,8 +454,8 @@
                                             <label class="Label">
                                                 Offered Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="offered_salary"
-                                                 />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="offered_salary" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -508,8 +502,8 @@
                                             <label class="Label">
                                                 Offered Allowance:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="offered_allowance"
-                                               />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="offered_allowance" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -523,8 +517,9 @@
                                         ?>
                                         <div class="form-group mb-0">
                                             <label class="Label">Profile:</label>
-                                            <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
-                                                class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
+                                            <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE"
+                                                class="select2_dropdown w-100" class="form-control p-0 users-input-S-C"
+                                                onchange="Fetch_profile()">
                                                 <option selected disabled>Select Option</option>
 
                                             </select>
@@ -538,8 +533,8 @@
                                             <label class="Label">
                                                 Date Processed:
                                             </label>
-                                            <input type="date" class="form-control users-input-S-C" nmae="date_processed"
-                                                />
+                                            <input type="date" class="form-control users-input-S-C"
+                                                nmae="date_processed" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -568,8 +563,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">Position Applied:</label>
-                                            <input type="text" class="form-control users-input-S-C" name="position_applied"
-                                                />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="position_applied" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -593,8 +588,9 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Interview Notes:
                                             </label>
-                                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                                value="" placeholder="Enter Interview Notes"> </textarea>
+                                            <textarea name="notes" rows="3" type="text"
+                                                class="form-control border E_H h-px-20_custom" value=""
+                                                placeholder="Enter Interview Notes"> </textarea>
                                         </div>
                                         <div class="pt-3">
                                             <div class="form-group mb-0">
@@ -604,7 +600,7 @@
                                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                                     class="form-control border E_H h-px-20_custom"
                                                     placeholder="Enter Interview Notes"> </textarea>
-                
+
                                             </div>
                                         </div>
                                     </div>
@@ -690,12 +686,13 @@
                                                                         Remarks (for Finance)
                                                                     </label>
                                                                     <select name="REMARKS_FOR_FINANCE" disabled=""
-                                                                        id="remarks_for_finance" onchange="RemarksChange(this)"
+                                                                        id="remarks_for_finance"
+                                                                        onchange="RemarksChange(this)"
                                                                         class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                         @php
                                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
                                                                         @endphp
-                                                                                                                   <option selected disabled>Select Option</option>
+                                                                        <option selected disabled>Select Option</option>
 
                                                                     </select>
                                                                     <div>
@@ -707,7 +704,7 @@
                                                         <div class="row mb-1">
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
-                                                                  
+
                                                                     <label class="Label-00">
                                                                         Client
                                                                     </label>
@@ -802,9 +799,10 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
-                                                                    <label class="Label">Interview Schedule:</label>
-                                                                    <input type="date" name="INTERVIEW_SCHEDULE" id="interview_schedule"
-                                                                        
+                                                                    <label class="Label">Interview
+                                                                        Schedule:</label>
+                                                                    <input type="date" name="INTERVIEW_SCHEDULE"
+                                                                        id="interview_schedule"
                                                                         class="form-control users-input-S-C" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
@@ -822,7 +820,8 @@
                                                                         Segment:
                                                                     </label>
                                                                     <select name="endo_segment" id="Domainsegment"
-                                                                        class="w-100 form-control" onchange="changeSegment(this)">
+                                                                        class="w-100 form-control"
+                                                                        onchange="changeSegment(this)">
                                                                         <option selected disabled>Select Option</option>
 
                                                                     </select>
@@ -869,7 +868,7 @@
                                                                 <div class="form-group mb-0">
                                                                     <label class="Label">Endo Date:</label>
                                                                     <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                                         class="form-control border h-px-20_custom" />
+                                                                        class="form-control border h-px-20_custom" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
                                                                     </div>
@@ -883,7 +882,7 @@
                                                                         Date Updated:
                                                                     </label>
                                                                     <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
-                                                                         class="form-control border h-px-20_custom" />
+                                                                        class="form-control border h-px-20_custom" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
                                                                     </div>
@@ -896,9 +895,9 @@
                                         </div>
                                     </div>
                                 </div>
-                
+
                             </fieldset>
-                        
+
                         </form>
                     </div>
                 </div>
@@ -913,7 +912,6 @@
 
 @section('script')
     <script>
-        
         // Section for docement ready funciton starts
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
@@ -929,6 +927,13 @@
 
         });
 
+        // Append endorsement data to finance portion starts
+        // const setDate = () => {
+        //     alert('hi')
+        //     // date_processed.value = endo_date.value
+        // }
+
+        // Append endorsement data to finance portion ends
         // show detail of record on click in data table 
         $('#recordTable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')

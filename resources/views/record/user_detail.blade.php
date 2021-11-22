@@ -98,15 +98,16 @@
                             <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <select name="SOURCE"
-                            class=" form-control p-0 EmailInput-F" id="SOURCE">
-                            <option value=""  {{ $user->source == null ? 'selected' : '' }}  disabled>Select Option</option>
-                            @foreach ($source->options as $sourceOptions)
-                                <option value="{{ $sourceOptions->option_name }}"
-                                    {{ $user->source == $sourceOptions->option_name ? 'selected' : '' }}>
-                                    {{ $sourceOptions->option_name }}</option>
-                            @endforeach
-                        </select>                            <div>
+                            <select name="SOURCE" class=" form-control p-0 EmailInput-F" id="SOURCE">
+                                <option value="" {{ $user->source == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
+                                @foreach ($source->options as $sourceOptions)
+                                    <option value="{{ $sourceOptions->option_name }}"
+                                        {{ $user->source == $sourceOptions->option_name ? 'selected' : '' }}>
+                                        {{ $sourceOptions->option_name }}</option>
+                                @endforeach
+                            </select>
+                            <div>
                                 <small class="text-danger"></small>
                             </div>
                             <div>
@@ -228,7 +229,8 @@
                             <label class="Label">Domain</label>
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
-                                <option {{ $user->domains == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option {{ $user->domains == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
                                         {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
@@ -274,7 +276,8 @@
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
-                                <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option</option>
+                                <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
                                 @foreach ($segments->options as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
                                         {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
@@ -349,8 +352,9 @@
                             <label class="Label">
                                 Date Processed:
                             </label>
-                            <input type="date" class="form-control users-input-S-C" nmae="date_processed"
-                                value="{{ Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') }}" />
+                            <input type="date" class="form-control users-input-S-C" name="date_processed"
+                                id="date_processed"
+                                value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -460,7 +464,7 @@
                                                     <label class="Label-00">
                                                         Endorsement Type:
                                                     </label>
-                                                    <select name="ENDORSEMENT_TYPE" id=""
+                                                    <select name="ENDORSEMENT_TYPE" id="endo_type"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->type == null ? 'selected' : '' }} disabled>
                                                             Select Option</option>
@@ -553,7 +557,7 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
-                                                  
+
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
@@ -885,5 +889,12 @@
                 $('#domain_endo').append(`<option>${res.data.domain}</option>`)
             },
         });
+
     }
+    $("#date_processed").on('input', function() {
+        if($('#endo_type').val()=='Endorsed'){$("#endo_date").val(this.value)}
+    });
+    $("#endo_date").on("input", function() {
+        if($('#endo_type').val()=='Endorsed'){$("#date_processed").val(this.value)}
+    });
 </script>
