@@ -950,8 +950,10 @@
         function load_datatable() {
             var option_table = $('#recordTable').DataTable({
                 destroy: true,
+                pageLength: 10,
                 processing: true,
                 serverSide: false,
+                stateSave: true,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -962,11 +964,13 @@
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'recruiter',
@@ -1008,7 +1012,8 @@
                     },
                     {
                         data: 'endi_date',
-                        name: 'endi_date'
+                        name: 'endi_date',
+                        searchable: false
                     },
                 ]
             });
@@ -1030,6 +1035,7 @@
             date = $('#date').val();
             var option_table = $('#filteredTable').DataTable({
                 destroy: true,
+                pageLength: 20,
                 processing: true,
                 serverSide: false,
                 "language": {

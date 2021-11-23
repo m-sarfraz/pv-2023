@@ -10,6 +10,33 @@
             box-shadow: 0 0 0 0.05rem red !important;
         }
 
+        .scroll-left {
+            overflow: hidden;
+            position: relative;
+            background-color: rgb(233 236 239);
+        }
+
+        .scroll-left p {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            white-space: nowrap;
+            margin: 0;
+            text-align: center;
+         transform: translateX(100%);
+         animation: scroll-left 15s linear infinite;
+        }
+
+         @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
     </style>
 @endsection
 
@@ -65,11 +92,12 @@
                                         </option>
                                     @endforeach
                                 </Select>
-                                <input type="text" readonly class="form-control users-input mt-3 mb-2 w-100 text-center"
-                                    style="padding-left: 0px !important;padding-right: 0px !important;font-size:12px !important"
-                                    id="userDetailInput"
-                                    value="{{ $candidateDetail != null ? $candidateDetail->first_name . '' . $candidateDetail->last_name . '' . $candidateDetail->candidate_profile . '' . $candidateDetail->date_processed : '' }}"
-                                    placeholder="Candidate Detail" />
+                                <div
+                                    class="scroll-left form-control users-input mt-3 mb-2 w-100 text-center align-items-center"
+                                    style="padding-left: 0px !important;padding-right: 0px !important;font-size:18px !important;line-height:0;"
+                                    id="userDetailInput">
+
+                                </div>
                                 @can('search-data')
 
                                     <button class="btn btn_Group mb-2 mt-1 btn-sm" type="button" id="searchRecord"
