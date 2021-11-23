@@ -1183,12 +1183,13 @@
 
         // function for selected candidate of table to show detail data on right starts
         function UserDetail(elem, id) {
+            console.log(id);
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
 
             // $(e).children().removeClass('fade');
             // show loader for waiting
-            $("#loader").show();
+            // $("#loader").show();
 
             // call Ajax whihc will return view of detail data of user
             $.ajax({
