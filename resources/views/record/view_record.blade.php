@@ -915,7 +915,8 @@
         // Section for docement ready funciton starts
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
-            // $('#candidate').empty();
+            // $('#searchKeyword').focus();
+
             // show and hide loader after time set starts
             $('#loader').show();
             setTimeout(function() {
@@ -961,6 +962,10 @@
                 ajax: {
                     url: "{{ route('view-record-table') }}",
                     type: "GET",
+                },
+                initComplete: function(settings, json) {
+            $('#searchKeyword').trigger('input');
+
                 },
                 columns: [{
                         data: 'id',
