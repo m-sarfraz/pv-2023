@@ -16,6 +16,7 @@ use App\Permission;
 use App\Segment;
 use App\User;
 use Auth;
+use Cache;
 use File;
 use Helper;
 use Illuminate\Http\Request;
@@ -153,6 +154,7 @@ class CandidateController extends Controller
                 'LAST_NAME' => 'required',
                 "FIRST_NAME" => "required",
                 "EMAIL_ADDRESS" => "required|email",
+                "SOURCE" => 'required ',
                 // "CONTACT_NUMBER" => "required",
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
@@ -260,7 +262,7 @@ class CandidateController extends Controller
             // return $request->all();
             //  save data to candidate information table
             $CandidateInformation = new CandidateInformation();
-            $CandidateInformation->last_name = $request->LAST_NAME;
+            $CandidateInformation->last_name = $request->FIRST_NAME . ' ' . $request->MIDDLE_NAME . ' ' . $request->LAST_NAME;
             $CandidateInformation->middle_name = $request->MIDDLE_NAME;
             $CandidateInformation->first_name = $request->FIRST_NAME;
             $CandidateInformation->email = $request->EMAIL_ADDRESS;
@@ -459,7 +461,7 @@ class CandidateController extends Controller
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
-
+            Cache::forget('users');
             return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
         }
     }
@@ -584,6 +586,7 @@ class CandidateController extends Controller
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
                 "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                "SOURCE" => 'required ',
                 // "DOMAIN" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
@@ -785,6 +788,7 @@ class CandidateController extends Controller
             //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
             // save candidate added to log table ends
+            Cache::forget('users');
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);

@@ -13,6 +13,7 @@ use App\Segment;
 use App\SubSegment;
 use App\User;
 use Auth;
+use Cache;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
@@ -77,6 +78,7 @@ class RecordController extends Controller
     public function view_record_filter_table(Request $request)
     {
         $check = $searchCheck = false;
+
         $Userdata = DB::table('six_table_view')
             ->select('six_table_view.id as CID', 'six_table_view.*');
 
@@ -221,7 +223,11 @@ class RecordController extends Controller
     public function view_record_table()
     {
 
-        $user = DB::table('six_table_view')->get();
+        // $user = DB::table('six_table_view')->get();
+        $seconds = 25151515151;
+        $user = cache()->remember('users', $seconds, function () {
+            return DB::table('six_table_view')->get();
+        });
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -504,6 +510,7 @@ class RecordController extends Controller
             //save CANDIDATE addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED_FROM_VIEW_RECORD_');
             // save CANDIDATE added to log table ends
+            Cache::forget('users');
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);

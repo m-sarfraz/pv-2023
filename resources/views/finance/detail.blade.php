@@ -448,13 +448,13 @@
     // close 
 
     // calculate DPD for changing the process status of candidate start
-    function DPDCalculate() {
-        let today = new Date();
-        let time = today.getDate();
-        dateDlvrd = new Date($('#dateDlvrd').val()).getDate()
-        var diff = time - dateDlvrd
-        return diff;
-    }
+    // function DPDCalculate() {
+    //     let today = new Date();
+    //     let time = today.getDate();
+    //     dateDlvrd = new Date($('#dateDlvrd').val()).getDate()
+    //     var diff = time - dateDlvrd
+    //     return diff;
+    // }
     // close 
 
     // calucate placement fee taking vcc share,credit memo , salry, vat ,compensation starts
@@ -498,7 +498,7 @@
 
     // function for remarks change starts 
     function remarksChange(elem) {
-        DPDCalculate();
+        // DPDCalculate();
         individualRevenue();
 
         // change process staus according to selected options 
@@ -514,6 +514,10 @@
         }
         if (value.includes('Billed')) {
             paymentTerm = $('#paymentTerm').val();
+            let today = new Date();
+            let time = today.getDate();
+            dateDlvrd = new Date($('#dateDlvrd').val()).getDate()
+            var diff = time - dateDlvrd
             if (diff > paymentTerm) {
                 $('#processStatus').val("OVERDUE");
             } else if (paymentTerm - diff <= 14) {
