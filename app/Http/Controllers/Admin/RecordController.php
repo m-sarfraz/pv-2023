@@ -207,7 +207,13 @@ class RecordController extends Controller
                 return $Alldata->career_endo;
             })
             ->addColumn('endi_date', function ($Alldata) {
-                return $Alldata->endi_date;
+                if (!empty($Alldata->endi_date && $Alldata->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($Alldata->endi_date), "m-d-Y");
+                    return $endi_date;
+                } else {
+                    $Alldata->endi_date = '';
+                }
+                
             })
             ->rawColumns(['recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
                 'career_level', 'endi_date'])
@@ -382,7 +388,7 @@ class RecordController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
+            ->select('candidate_educations.*', 'candidate_informations.*','candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
         $domainDrop = Domain::all();

@@ -271,17 +271,18 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
-                                $segments = Helper::get_dropdown('segments');
+                                $segments =DB::select('select * from segments');
                             @endphp
+                           
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                @foreach ($segments->options as $segmentsOptions)
+                                @foreach ($segments as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
-                                        {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->option_name }}
+                                        {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
+                                        {{ $segmentsOptions->segment_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -293,17 +294,20 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             @php
-                                $sub_segment = Helper::get_dropdown('sub_segment');
+                               $sub_segments=DB::select('select * from sub_segments')
                             @endphp
                             <label class="Label">
                                 Sub Segment:
                             </label>
+
                             <select name="sub_segment" id="Domain_sub_segment"
                                 class="form-control p-0 users-input-S-C">
-                                <option disabled>Select Option</option>
-                                @foreach ($sub_segment->options as $sub_segmentOptions)
-                                    <option value="{{ $sub_segmentOptions->id }}">
-                                        {{ $sub_segmentOptions->option_name }}
+                                <option {{ $user->sub_segment == null ? 'selected' : '' }}
+                                    disabled>Select Option</option>
+                                @foreach ($sub_segments as $Options)
+                                    <option value="{{ $Options->id }}"
+                                        {{ $user->sub_segment == $Options->sub_segment_name ? 'selected' : '' }}>
+                                        {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -695,22 +699,21 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $segments = Helper::get_dropdown('segments');
-                                                    @endphp
-                                                    <label class="Label-00">
-                                                        Segment:
-                                                    </label>
-                                                    <select name="endo_segment" id="Domainsegment"
-                                                        class="w-100 form-control" onchange="changeSegment(this)">
-                                                        <option {{ $user->segment == null ? 'selected' : '' }}
-                                                            disabled>Select Option</option>
-                                                        @foreach ($segments->options as $segmentsOptions)
-                                                            <option value="{{ $segmentsOptions->id }}"
-                                                                {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $segmentsOptions->option_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    $segments =DB::select('select * from segments');
+                                                @endphp
+                                               
+                                                <label class="Label">Segment:</label>
+                                                <select name="endo_segment" id="Domainsegment" class="form-control p-0 users-input-S-C"
+                                                    onchange="SegmentChange(this)">
+                                                    <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
+                                                    </option>
+                                                    @foreach ($segments as $segmentsOptions)
+                                                        <option value="{{ $segmentsOptions->id }}"
+                                                            {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
+                                                            {{ $segmentsOptions->segment_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                     <div>
                                                         <small class="text-danger"></small>
                                                     </div>
@@ -743,6 +746,9 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
+                                                    @php
+                                                        $sub_segments=DB::select('select * from sub_segments')
+                                                    @endphp
                                                     <label class="Label-00 ">
                                                         Sub-Segment:
                                                     </label>
@@ -750,10 +756,10 @@
                                                         class="w-100  form-control">
                                                         <option {{ $user->sub_segment == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                        @foreach ($sub_segment->options as $sub_segmentOptions)
-                                                            <option value="{{ $sub_segmentOptions->id }}"
-                                                                {{ $user->sub_segment == $sub_segmentOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $sub_segmentOptions->option_name }}
+                                                        @foreach ($sub_segments as $Options)
+                                                            <option value="{{ $Options->id }}"
+                                                                {{ $user->sub_segment == $Options->sub_segment_name ? 'selected' : '' }}>
+                                                                {{ $Options->sub_segment_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>

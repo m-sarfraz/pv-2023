@@ -89,6 +89,9 @@ class FinanceController extends Controller
         if (isset($request->recruiter)) {
             $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
         }
+        if (isset($request->client)) {
+            $Userdata->whereIn('six_table_view.client', $request->client);
+        }
         if (isset($request->candidate)) {
             $Userdata->whereIn('six_table_view.id', $request->candidate);
         }
