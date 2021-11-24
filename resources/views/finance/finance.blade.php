@@ -165,7 +165,7 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="client" id="client" class="w-100 form-control select2_dropdown"
+                                        <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
                                             <option value="" disabled>Select Option</option>
                                             @foreach ($client->options as $clientOptions)
