@@ -963,9 +963,8 @@
                     url: "{{ route('view-record-table') }}",
                     type: "GET",
                 },
-                initComplete: function(settings, json) {
-            $('#searchKeyword').trigger('input');
-
+                : function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                 },
                 columns: [{
                         data: 'id',
