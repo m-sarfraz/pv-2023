@@ -537,7 +537,7 @@
                                                     <label class="Label-00 ">
                                                         Remarks (for Finance)
                                                     </label>
-                                                    <select name="REMARKS_FOR_FINANCE" disabled=""
+                                                    <select name="REMARKS_FOR_FINANCE"
                                                         id="remarks_for_finance" onchange="RemarksChange(this)"
                                                         class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         @php
@@ -568,7 +568,7 @@
                                                     {{-- @dd($user->client) --}}
                                                     <select name="CLIENT_FINANCE"
                                                         class="form-control border h-px-20_custom w-100"
-                                                        id="client_finance" disabled="">
+                                                        id="client_finance" >
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($client as $clientOptions)
@@ -586,12 +586,12 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $status = Helper::get_dropdown('status');
+                                                        $status = Helper::get_dropdown('data_entry_status');
                                                     @endphp
                                                     <label class="Label-00">
                                                         Status:
                                                     </label>
-                                                    <select name="STATUS" id="status" disabled=""
+                                                    <select name="STATUS" id="status"  
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->status == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>

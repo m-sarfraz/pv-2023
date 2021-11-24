@@ -142,7 +142,7 @@
                                                             <label class="Label labelFontSize">Last Name:<sup
                                                                     class="font-weight-bolder">*</sup></label>
                                                             <input type="text" class="form-control users-input-S-C"
-                                                                name="LAST_NAME"
+                                                                name="LAST_NAME" id="last_name"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->last_name : '' }}" />
                                                         </div>
                                                         <div><small class="___class_+?36___"></small></div>
@@ -767,7 +767,7 @@
                                                     </label>
                                                     <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
                                                         placeholder="mm-dd-yyyy" onchange="setDate()"
-                                                        value="{{ $candidateDetail != null ? $candidateDetail->endi_date : '' }}"
+                                                       
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -1227,7 +1227,16 @@
                 $('#transparentDiv').hide();
                 $('#loader1').hide();
             }, 800);
-            $("#date_invited").prop('disabled', true)
+            if(!$('#last_name').val()){
+                $("#date_invited").prop('disabled', true)
+            }
+            else{
+                if($('#manners').val()=='Pending')
+                $("#date_invited").prop('disabled', true)
+                else{
+                    $("#date_invited").prop('disabled', false)
+                }
+            }
             // disable save button
             $('#save').prop('disabled', true);
             // show and hide loader after time set starts
