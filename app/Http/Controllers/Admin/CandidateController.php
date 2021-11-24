@@ -138,7 +138,7 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
@@ -193,7 +193,7 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
@@ -566,7 +566,7 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
@@ -621,7 +621,7 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
