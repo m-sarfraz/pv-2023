@@ -23,17 +23,17 @@
             white-space: nowrap;
             margin: 0;
             text-align: center;
-         transform: translateX(100%);
-         animation: scroll-left 15s linear infinite;
+            transform: translateX(100%);
+            animation: scroll-left 17s linear infinite;
         }
 
-         @keyframes scroll-left {
+        @keyframes scroll-left {
             0% {
-                transform: translateX(100%);
+                transform: translateX(10%);
             }
 
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-200%);
             }
         }
 
@@ -88,15 +88,13 @@
                                     </option>
                                     @foreach ($user as $key => $value)
                                         <option value="{{ $value->id }}">
-                                            {{ $value->first_name }} {{ $value->last_name }}
+                                            {{ $value->last_name }}
                                         </option>
                                     @endforeach
                                 </Select>
-                                <div
-                                    class="scroll-left form-control users-input mt-3 mb-2 w-100 text-center align-items-center"
+                                <div class="scroll-left form-control users-input mt-3 mb-2 w-100 text-center align-items-center"
                                     style="padding-left: 0px !important;padding-right: 0px !important;font-size:18px !important;line-height:0;"
                                     id="userDetailInput">
-
                                 </div>
                                 @can('search-data')
 
