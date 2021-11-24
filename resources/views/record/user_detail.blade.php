@@ -110,9 +110,7 @@
                             <div>
                                 <small class="text-danger"></small>
                             </div>
-                            <div>
-                                <small class="text-danger"></small>
-                            </div>
+                          
 
                         </div>
                     </div>
@@ -225,15 +223,16 @@
                 </div>
                 <div class="row mb-1">
                     <div class="col-lg-6">
+                        
                         <div class="form-group mb-0">
                             <label class="Label">Domain</label>
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
-                                <option {{ $user->domains == null ? 'selected' : '' }} disabled>Select Option
+                                <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
-                                        {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                        {{ $user->domain == $domainOption->domain_name ? 'selected' : '' }}>
                                         {{ $domainOption->domain_name }}</option>
                                 @endforeach
                             </select>
