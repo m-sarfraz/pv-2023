@@ -117,7 +117,6 @@ class ProfileController extends Controller
                 unset($data[0][0]);
                 unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
-
                     //Explode candidate index into first,middle,last
                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -159,7 +158,7 @@ class ProfileController extends Controller
 
                     $store_by_google_sheet->email = isset($render[20]) ? $render[20] : "";
                     $store_by_google_sheet->address = isset($render[21]) ? $render[21] : "";
-                    $store_by_google_sheet->saved_by = Auth::user()->id;
+                    $store_by_google_sheet->saved_by = isset($render[3]) ? $render[3] : "";
                     $store_by_google_sheet->save();
                     // start store data in candidate_educations
                     $query = DB::table("candidate_educations")

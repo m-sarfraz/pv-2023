@@ -263,8 +263,8 @@
                                     <th class="ant-table-cell">Budget</th>
                                     <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Sched</th>
-                                    <th class="ant-table-cell">Priorty</th>
-                                    <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell"> Status</th>
+                                    <th class="ant-table-cell">Priority</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
