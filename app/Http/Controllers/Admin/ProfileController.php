@@ -505,7 +505,6 @@ class ProfileController extends Controller
                 }
 
                 $candidate_name = isset($render[13]) ? $render[13] : "";
-
                 $candidate_phone = isset($render[19]) ? $render[19] : "";
                 // query for checking the exisitng /duplicate record
                 $query = DB::table("candidate_informations")
@@ -577,7 +576,6 @@ class ProfileController extends Controller
                     $candidateDomain = new CandidateDomain();
                 }
                 $candidateDomain->candidate_id = $store_by_Ecxel->id;
-
                 $candidateDomain->date_shifted = isset($render[4]) ? date('y-m-d', strtotime($render[4])) : "";
                 $candidateDomain->domain = isset($render[8]) ? $render[8] : "";
                 $candidateDomain->emp_history = isset($render[25]) ? $render[25] : "";
@@ -600,7 +598,6 @@ class ProfileController extends Controller
                     $candidatePosition = new CandidatePosition();
                 }
                 $candidatePosition->candidate_id = $store_by_Ecxel->id;
-
                 $candidatePosition->candidate_profile = isset($render[7]) ? $render[7] : "";
                 $candidatePosition->position_applied = isset($render[6]) ? $render[6] : "";
                 $candidatePosition->date_invited = isset($render[12]) ? date('y-m-d', strtotime($render[12])) : "";
@@ -647,18 +644,17 @@ class ProfileController extends Controller
                 }
                 $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                 $endorsement->client = isset($render[35]) ? $render[35] : "";
-                $endorsement->status = isset($render[42]) ? $render[42] : "";
                 $endorsement->type = isset($render[33]) ? $render[33] : "";
                 $endorsement->site = isset($render[36]) ? $render[36] : "";
                 $endorsement->position_title = isset($render[37]) ? $render[37] : "";
-                $endorsement->domain_endo = intval(isset($render[39]) ? $render[39] : "");
-                $endorsement->interview_date = isset($render[45]) ? $render[45] : "";
+                $endorsement->domain_endo = isset($render[39]) ? $render[39] : "";
+                $endorsement->interview_date = isset($render[45]) ? date('y-m-d', strtotime($render[45])) : "";
                 $endorsement->career_endo = isset($render[38]) ? $render[38] : "";
-                $endorsement->segment_endo = intval(isset($render[40]) ? $render[40] : "");
-                $endorsement->sub_segment_endo = intval(isset($render[41]) ? $render[41] : "");
+                $endorsement->segment_endo = isset($render[40]) ? $render[40] : "";
+                $endorsement->sub_segment_endo = isset($render[41]) ? $render[41] : "";
                 $endorsement->endi_date = isset($render[34]) ? date('y-m-d', strtotime($render[34])) : "";
+                $endorsement->status = isset($render[42]) ? $render[42] : "";
                 $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
-
                 $endorsement->candidate_id = $store_by_Ecxel->id;
                 $endorsement->save();
                 //close
@@ -720,7 +716,7 @@ class ProfileController extends Controller
                     $finance_detail = new Finance_detail();
                 }
                 $finance_detail->candidate_id = $store_by_Ecxel->id;
-                $offered_salary = isset($render[49]) ? $render[49] : "";
+                $offered_salary = isset($render[50]) ? $render[50] : "";
                 $offered_salary_divide = explode(',', $offered_salary);
                 $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
                 $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
@@ -731,11 +727,7 @@ class ProfileController extends Controller
                 $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                 $finance_detail->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                 $finance_detail->compensation = isset($render[52]) ? intval($render[52]) : intval(0);
-                $rate = isset($render[53]) ? $render[53] : "";
-                $rate_divide = explode(',', $rate);
-                $rate_combune_0 = isset($rate_divide[0]) ? $rate_divide[0] : '';
-                $rate_combune_1 = isset($rate_divide[1]) ? $rate_divide[1] : '';
-                $finance->rate_per = floatval($rate_combune_0 . $rate_combune_1);
+                $finance_detail->rate_per = isset($render[53]) ? $render[53] : "";
                 $vat_per = isset($render[54]) ? $render[54] : "";
                 $vat_per_divide = explode(',', $vat_per);
                 $vat_per_combune_0 = isset($vat_per_divide[0]) ? $vat_per_divide[0] : '';

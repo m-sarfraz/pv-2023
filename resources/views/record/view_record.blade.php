@@ -905,18 +905,13 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
-
-
-
 @section('script')
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
             select2Dropdown("select2_dropdown");
             // $('#searchKeyword').focus();
-
             // show and hide loader after time set starts
             $('#loader').show();
             setTimeout(function() {
@@ -925,7 +920,6 @@
             load_datatable()
             // show and hide loader after time set ends
             $('#recordTable_filter').hide('div');
-
         });
 
         // Append endorsement data to finance portion starts
@@ -982,7 +976,7 @@
                         name: 'recruiter'
                     },
                     {
-                        data: 'last_name',
+                        data: 'last_name',  
                         name: 'last_name',
                         // searchable: false,
                         // orderable: false
