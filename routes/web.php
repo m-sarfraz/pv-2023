@@ -93,6 +93,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
+    Route::get('get_candidateList', 'CandidateController@get_candidateList')->name('get_candidateList');
     Route::post('traveseDataByClientProfile', 'CandidateController@traveseDataByClientProfile')->name('traveseDataByClientProfile');
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');

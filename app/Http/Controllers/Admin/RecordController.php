@@ -213,7 +213,7 @@ class RecordController extends Controller
                 } else {
                     $Alldata->endi_date = '';
                 }
-                
+
             })
             ->rawColumns(['recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
                 'career_level', 'endi_date'])
@@ -224,10 +224,7 @@ class RecordController extends Controller
     {
 
         // $user = DB::table('six_table_view')->get();
-        $seconds = 25151515151;
-        $user = cache()->remember('users', $seconds, function () {
-            return DB::table('six_table_view')->get();
-        });
+        $user = DB::table('six_table_view');
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -388,7 +385,7 @@ class RecordController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*','candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
         $domainDrop = Domain::all();

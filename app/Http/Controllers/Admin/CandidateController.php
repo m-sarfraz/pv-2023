@@ -44,17 +44,16 @@ class CandidateController extends Controller
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
         } # code...
-        $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
+        // $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get();
+
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
-        $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
-        $client = DB::table('taverse2')->distinct()->select('client')->get();
+        // $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
+        // $client = DB::table('taverse2')->distinct()->select('client')->get();
         // return $sub_segmentsDropDown;
         $data = [
-            'user' => $user,
-            'client' => $client,
-            'pos_title' => $pos_title,
+            // 'user' => $user,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,
@@ -863,5 +862,10 @@ class CandidateController extends Controller
         // $p->guard_name = 'web';
         $p->save();
         return redirect()->back();
+    }
+    public function get_candidateList()
+    {
+        $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get()->toArray();
+        return response()->json($user);
     }
 }

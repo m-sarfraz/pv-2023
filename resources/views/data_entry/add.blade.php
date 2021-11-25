@@ -86,11 +86,11 @@
                                     onchange="enableSearch('#searchRecord')">
                                     <option value="" {{ $candidateDetail == null ? 'selected' : '' }} disabled selected>
                                     </option>
-                                    @foreach ($user as $key => $value)
+                                    {{-- @foreach ($user as $key => $value)
                                         <option value="{{ $value->id }}">
                                             {{ $value->last_name }}
                                         </option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </Select>
                                 <div class="scroll-left form-control users-input mt-3 mb-2 w-100 text-center align-items-center"
                                     style="padding-left: 0px !important;padding-right: 0px !important;font-size:18px !important;line-height:0;"
@@ -694,9 +694,9 @@
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($pos_title as $position_titleOptions)
-                                                        <option value="{{ $position_titleOptions->position }}">
-                                                            {{ $position_titleOptions->position }}
+                                                    @foreach ($position_title->options as $position_titleOptions)
+                                                        <option value="{{ $position_titleOptions->option_name }}">
+                                                            {{ $position_titleOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -767,7 +767,6 @@
                                                     </label>
                                                     <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
                                                         placeholder="mm-dd-yyyy" onchange="setDate()"
-                                                       
                                                         class="form-control border h-px-20_custom" />
                                                 </div>
                                             </div>
@@ -800,16 +799,18 @@
                                     </div>
                                     <div class="row mb-1 align-items-center">
                                         <div class="col-lg-6">
-
+                                            @php
+                                                $client = Helper::get_dropdown('clients');
+                                            @endphp
                                             <div class="form-group mb-0 pt-1 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Client</label>
                                                 <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($client as $clientOptions)
-                                                        <option value="{{ $clientOptions->client }}">
-                                                            {{ $clientOptions->client }}
+                                                    @foreach ($client->options as $clientOptions)
+                                                        <option value="{{ $clientOptions->option_name }}">
+                                                            {{ $clientOptions->option_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -1220,20 +1221,21 @@
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
     <script>
         $(window).on('load', function() {
+            {{ Artisan::call('optimize:clear') }}
             $('#loader').show();
             $('#userDetailInput').addClass('d-none')
             setTimeout(function() {
                 $('#loader').hide();
                 $('#transparentDiv').hide();
-                $('#loader1').hide();
-            }, 800);
-            if(!$('#last_name').val()){
+                // $('#loader1').hide();
+            }, 10);
+            appendUserAjax();
+            if (!$('#last_name').val()) {
                 $("#date_invited").prop('disabled', true)
-            }
-            else{
-                if($('#manners').val()=='Pending')
-                $("#date_invited").prop('disabled', true)
-                else{
+            } else {
+                if ($('#manners').val() == 'Pending')
+                    $("#date_invited").prop('disabled', true)
+                else {
                     $("#date_invited").prop('disabled', false)
                 }
             }
@@ -1252,7 +1254,24 @@
             // close
         });
 
+        //append all uiser to dropdown for of candidate list 
+        function appendUserAjax() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/get_candidateList') }}',
+                })
+                .done(function(res) {
+                    for (let i = 0; i < res.length; i++) {
+                        $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name + '</option>')
 
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
         // on form submit  
         $("form :input").on('input', function() {
             $('#save').prop('disabled', false)
@@ -1828,7 +1847,8 @@
                     $('#off_salary_fianance').prop("disabled", true);
                     $('#onboard_date').prop("disabled", true);
                     $('#off_salary').prop("disabled", true);
-                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text("Select Option")
+                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text(
+                        "Select Option")
                     $("#remarks_for_finance").append($newOption).trigger('change');
                 }
 
@@ -1893,7 +1913,8 @@
                 success: function(res) {
                     if (res.data.id) {
 
-                        $('#domain').append(`<option value="${res.data.domain}">${res.data.domain}</option>`);
+                        $('#domain').append(
+                            `<option value="${res.data.domain}">${res.data.domain}</option>`);
                         $('#Domainsegment').append(
                             `<option value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#Domainsub').append(
@@ -1951,9 +1972,11 @@
                         $('#segment').append(
                             `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
                         $('#sub_segment').append(
-                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`
+                        );
                         $('#position').append(
-                            `<option selected value="${res.data.position}">${res.data.position}</option>`);
+                            `<option selected value="${res.data.position}">${res.data.position}</option>`
+                        );
 
                         $('#client').attr('readonly', true);
                         $('#domain_endo').attr('readonly', true);
