@@ -12,7 +12,6 @@ use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
-use App\Permission;
 use App\Segment;
 use App\User;
 use Auth;
@@ -62,8 +61,9 @@ class CandidateController extends Controller
 
         return view('data_entry.add', $data);
     }
-    //index function for data entry page showing ends
+    // close
 
+    // save data entruy data
     public function save_data_entry(Request $request)
     {
         if (Auth::user()->agent == 1) {
@@ -464,7 +464,7 @@ class CandidateController extends Controller
             return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
         }
     }
-    // }
+    // close
 
     // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request, $id)
@@ -491,6 +491,9 @@ class CandidateController extends Controller
         ];
         return view('data_entry.userSearch', $data);
     }
+    // close
+
+    // update candidate function
     public function update_data_entry(Request $request, $id)
     {
 
@@ -793,6 +796,7 @@ class CandidateController extends Controller
             return response()->json(['success' => true, 'message' => 'Updated successfully']);
         }
     }
+    // close
 
     //doanload candidate cv function starts
     public function downloadCv(Request $request)
@@ -814,8 +818,9 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => 'No Attachment found']);
         }
     }
-    // download canidate cv functon ends
-    // traveseDataByClientProfile
+    // close
+
+    // get candidate profile data from ajax call
     public function traveseDataByClientProfile(Request $request)
     {
 
@@ -845,6 +850,9 @@ class CandidateController extends Controller
 
         return response()->json(['data' => "no data found"]);
     }
+    // close
+
+    // Qr code function
     public function QRCodeGenerator(Request $request, $id)
     {
         $image = QrCode::size(250)
@@ -853,19 +861,13 @@ class CandidateController extends Controller
 
         return response($image)->header('Content-type', 'image/png');
     }
-    public function abc(Request $request)
-    {
-        // return $request->all();
-        $p = new Permission();
-        $p->name = $request->name;
-        $p->type = $request->type;
-        // $p->guard_name = 'web';
-        $p->save();
-        return redirect()->back();
-    }
+    // close
+
+    //ajax call for getting candidate list
     public function get_candidateList()
     {
         $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get()->toArray();
         return response()->json($user);
     }
+    //close
 }
