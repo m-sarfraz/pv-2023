@@ -37,8 +37,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function candidate_information()
-    {
-        return $this->hasMany(CandidateInformation::class, 'saved_by', 'id');
-    }
+    // public function candidate_information()
+    // {
+    //     return $this->hasMany(CandidateInformation::class, 'saved_by', 'id');
+    // }
 }
