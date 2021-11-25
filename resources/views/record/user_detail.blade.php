@@ -272,7 +272,7 @@
                             @php
                                 $segments =DB::select('select * from segments');
                             @endphp
-                           @dd( $segments)
+                           
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">

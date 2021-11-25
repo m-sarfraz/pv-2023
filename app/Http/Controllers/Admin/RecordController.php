@@ -224,10 +224,9 @@ class RecordController extends Controller
     {
 
         // $user = DB::table('six_table_view')->get();
-        $seconds = 25151515151;
-        $user = cache()->remember('users', $seconds, function () {
-            return DB::table('six_table_view')->get();
-        });
+      
+        $user = DB::table('six_table_view')->get();
+    
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -382,6 +381,7 @@ class RecordController extends Controller
     // function for appending the data of selected row candidate starts
     public function UserDetails(Request $request)
     {
+   
         // return $request->id;
         $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -391,6 +391,7 @@ class RecordController extends Controller
             ->select('candidate_educations.*', 'candidate_informations.*','candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
             ->where('candidate_informations.id', $request->id)
             ->first();
+           
         $domainDrop = Domain::all();
         $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
         $client = DB::table('taverse2')->distinct()->select('client')->get();
