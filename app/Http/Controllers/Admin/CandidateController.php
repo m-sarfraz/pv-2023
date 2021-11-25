@@ -469,6 +469,7 @@ class CandidateController extends Controller
     // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request, $id)
     {
+
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
