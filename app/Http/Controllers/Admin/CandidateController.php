@@ -66,6 +66,7 @@ class CandidateController extends Controller
     // save data entruy data
     public function save_data_entry(Request $request)
     {
+
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
