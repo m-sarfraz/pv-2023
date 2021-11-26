@@ -37,6 +37,15 @@
             }
         }
 
+        #transparentDiv {
+            width: 100vw;
+            background: rgb(255 255 255 / 40%);
+            position: fixed;
+            z-index: +88;
+            height: 100vh;
+            top: 0;
+        }
+
     </style>
 @endsection
 
@@ -44,7 +53,7 @@
 @section('content')
     <div class="container-fluid">
         <div id="loader"></div>
-        <div id="transparentDiv" style="width:100vw;pointer-events:none;background: rgbargb(255 255 255 / 40%);"></div>
+        <div id="transparentDiv"></div>
         <form id="data_entry" method="post">
             <div class="row d-E-Row mb-6">
                 @csrf

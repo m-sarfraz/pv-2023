@@ -73,7 +73,10 @@
                                         </label>
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                          
+                                            {{-- @foreach ($candidates as $key => $candidate)
+                                                <option value="{{ $candidate->id }}">
+                                                    {{ $candidate->last_name }}</option>
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -81,25 +84,40 @@
                             <div class="row mb-1">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                    
+                                        <?php
+                                        $profile = Helper::get_dropdown('candidates_profile');
+                                        ?>
                                         <label class="d-block font-size-3 mb-0">
                                             Profile
                                         </label>
                                         <select multiple name="profile" id="profile" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                       
+                                            @foreach ($profile->options as $profileOption)
+                                                <option value="{{ $profileOption->option_name }}">
+                                                    {{ $profileOption->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                           
+                                        <?php
+                                        $sub_segment = DB::table('six_table_view')
+                                            ->distinct()
+                                            ->pluck('sub_segment');
+                                        ?>
+
                                         <label class="d-block font-size-3 mb-0">
                                             Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                   
+                                            @foreach ($sub_segment as $sub_segmentOption)
+                                                <option value="{{ $sub_segmentOption }}">
+                                                    {{ $sub_segmentOption }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -107,25 +125,37 @@
                             <div class="row mb-1">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                   
+                                        <?php
+                                        $status = Helper::get_dropdown('application_status');
+                                        ?>
                                         <label class="d-block font-size-3 mb-0">
                                             Application Status:
                                         </label>
                                         <select multiple name="app_status" id="app_status" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                    
+                                            @foreach ($status->options as $statusOptions)
+                                                <option value="{{ $statusOptions->option_name }}">
+                                                    {{ $statusOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                   
+                                        @php
+                                            $client = Helper::get_dropdown('clients');
+                                        @endphp
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
                                         <select multiple name="client" id="client" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                         
+                                            @foreach ($client->options as $clientOptions)
+                                                <option value="{{ $clientOptions->option_name }}">
+                                                    {{ $clientOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -133,13 +163,19 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                    
+                                        @php
+                                            $CareerLevel = Helper::get_dropdown('career_level');
+                                        @endphp
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
                                             Career Level:
                                         </label>
                                         <select multiple name="career_level" id="career_level"
                                             class="select2_dropdown  w-100" onchange="filterUserData()">
-                                         
+                                            @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                                <option value="{{ $CareerLevelOptions->option_name }}">
+                                                    {{ $CareerLevelOptions->option_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -894,27 +930,10 @@
                     url: '{{ url('admin/appendFilterOptions') }}',
                 })
                 .done(function(res) {
-                    for (let i = 0; i < res.user.length; i++) {
-                        $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name + '</option>')
-                    }
-                    for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i].last_name + '</option>')
-                    }
-                    for (let i = 0; i < res.candidates_profile.options.length; i++) {
-                        $('#profile').append('<option value="' + res.candidates_profile.options[i].option_name + '">' + res.candidates_profile.options[i].option_name  + '</option>')
-                    }
-                    for (let i = 0; i < res.sub_segment.options.length; i++) {
-                        $('#sub_segment').append('<option value="' + res.sub_segment.options[i].option_name + '">' + res.sub_segment.options[i].option_name  + '</option>')
-                    }
-                    for (let i = 0; i < res.clients.options.length; i++) {
-                        $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients.options[i].option_name  + '</option>')
-                    }
-                    for (let i = 0; i < res.career_level.options.length; i++) {
-                        $('#career_level').append('<option value="' + res.career_level.options[i].option_name + '">' + res.career_level.options[i].option_name  + '</option>')
-                    }
-                    for (let i = 0; i < res.application_status.options.length; i++) {
-                        $('#app_status').append('<option value="' + res.application_status.options[i].option_name + '">' + res.application_status.options[i].option_name + '</option>')
-                    }
+                    // for (let i = 0; i < res.length; i++) {
+                    //     $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name + '</option>')
+
+                    // }
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -1216,6 +1235,94 @@
         }
         //close 
 
+        // function for selected candidate of table to show detail data on right starts
+
+        // On recruiter change append the candidates of selected recruiter
+        // $('#recruiter').change(function() {
+        //     $('#candidate').empty();
+        //     var candidate = {!! $candidates !!};
+        //     var count = 0;
+
+        //     // append data for each recruiter to candidate field
+        //     $.each($(this).val(), function(i, v) {
+        //         for (let i = 0; i < candidate.length; i++) {
+        //             if (v == candidate[i].saved_by) {
+        //                 count++;
+        //                 // append resulting options to select field 
+        //                 $('#candidate').append('<option value="' + candidate[i].id + '">' + candidate[i]
+        //                     .first_name +
+        //                     '</option>');
+        //             }
+        //         }
+        //     })
+        // });
+        // on candidate change append the dependent dropdowns 
+        // $('#candidate').change(function() {
+        //     $('#profile').empty();
+        //     $('#sub_segment').empty();
+        //     $('#date').empty();
+        //     $('#client').empty();
+        //     $('#career_level').empty();
+        //     $('#app_status').empty();
+        //     var profile = {!! $candidateprofile !!};
+        //     console.log(profile)
+        //     var segment = {!! $candidateDomain !!};
+        //     var status = {!! $endorsement !!};
+        //     var client = {!! $endorsement !!};
+        //     var career = {!! $endorsement !!};
+        //     var count = 0;
+        //     $.each($(this).val(), function(i, v) {
+        //         for (let i = 0; i < profile.length; i++) {
+        //             console.log(v)
+        //             if (v == profile[i].candidate_id) {
+        //                 count++;
+        //                 if (profile[i].candidate_profile != "") {
+
+        //                     $('#profile').append('<option  selected  value="' + profile[i]
+        //                         .candidate_profile +
+        //                         '">' +
+        //                         profile[i].candidate_profile +
+        //                         '</option>');
+        //                 }
+        //                 console.log(segment[i], i);
+        //                 if (segment[i].sub_segment != '') {
+        //                     if (v == segment[i].candidate_id) {
+        //                         $('#sub_segment').append('<option selected  value="' + segment[i]
+        //                             .sub_segment +
+        //                             '">' +
+        //                             segment[i].sub_segment +
+        //                             '</option>');
+        //                     }
+        //                 }
+        //             }
+        //             if (v == status[i].candidate_id) {
+        //                 count++;
+        //                 if (status[i].app_status != null) {
+        //                     $('#app_status').append('<option selected  value="' + status[i].app_status +
+        //                         '">' +
+        //                         status[i]
+        //                         .app_status +
+        //                         '</option>');
+        //                 }
+        //                 if (client[i].client != null) {
+        //                     $('#client').append('<option  selected value="' + client[i].client + '">' +
+        //                         client[
+        //                             i]
+        //                         .client +
+        //                         '</option>');
+        //                 }
+        //                 if (career[i].career_endo != null) {
+        //                     $('#career_level').append('<option selected  value="' + career[i].career_endo +
+        //                         '">' + status[
+        //                             i]
+        //                         .career_endo +
+        //                         '</option>');
+        //                 }
+        //             }
+        //         }
+        //     })
+        // });
+        // close 
 
         // reset date on click and call ajax for filter
         $("#reset").click(function() {
@@ -1330,6 +1437,52 @@
             $('#recordTable_filter').hide('div');
             $('#filteredTable_filter').hide('div');
         });
+        // close 
+
+        // function for (if domain is changed append segments acoordingly) starts
+        // function DomainChange(elem) {
+        //     $('#segment').empty()
+        //     $('#Domainsegment').empty()
+        //     var segmentsDropDown = {!! $segmentsDropDown !!};
+        //     var count = 0;
+        //     for (let i = 0; i < segmentsDropDown.length; i++) {
+        //         if ($(elem).val() == segmentsDropDown[i].domain_id) {
+        //             count++;
+        //             $('#segment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+        //                 .segment_name +
+        //                 '</option>');
+        //             $('#Domainsegment').append('<option value="' + segmentsDropDown[i].id + '">' + segmentsDropDown[i]
+        //                 .segment_name +
+        //                 '</option>');
+        //         }
+
+        //     }
+        //     SegmentChange("segment");
+
+        // }
+        // close 
+
+        // function for (if segment is changed append subsegments acoordingly) starts
+        // function SegmentChange(elem) {
+        //     $('#Domain_sub_segment').empty()
+        //     $('#endo_sub_segment').empty()
+        //     var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
+        //     var count = 0;
+        //     for (let i = 0; i < sub_segmentsDropDown.length; i++) {
+        //         console.log(sub_segmentsDropDown)
+        //         if ($('#segment').val() == sub_segmentsDropDown[i].segment_id) {
+        //             count++;
+        //             $('#Domain_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
+        //                 sub_segmentsDropDown[i]
+        //                 .sub_segment_name +
+        //                 '</option>');
+        //             $('#endo_sub_segment').append('<option value="' + sub_segmentsDropDown[i].sub_segment_name + '">' +
+        //                 sub_segmentsDropDown[i]
+        //                 .sub_segment_name +
+        //                 '</option>');
+        //         }
+        //     }
+        // }
         // close 
     </script>
 
