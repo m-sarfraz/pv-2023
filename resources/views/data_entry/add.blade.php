@@ -683,9 +683,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group mb-0">
-                                                @php
-                                                    $position_title = Helper::get_dropdown('position_title');
-                                                @endphp
+
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Position Title:
                                                 </label>
@@ -694,11 +692,7 @@
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($position_title->options as $position_titleOptions)
-                                                        <option value="{{ $position_titleOptions->option_name }}">
-                                                            {{ $position_titleOptions->option_name }}
-                                                        </option>
-                                                    @endforeach
+
                                                 </select>
                                                 <div>
                                                     <small class="text-danger"></small>
@@ -1996,5 +1990,18 @@
             })
 
         }
+        $(document).ready(function() {
+            $.ajax({
+                url: "{{ route('Get_Position_title') }}",
+                type: 'get',
+                success: function(res) {
+                    console.info(res)
+                    for (var i = 0; i < res.length; i++) {
+                        $('#position').append(
+                            `<option value="${res[i].option_name}">${res[i].option_name} </option>`)
+                    }
+                }
+            });
+        });
     </script>
 @endsection

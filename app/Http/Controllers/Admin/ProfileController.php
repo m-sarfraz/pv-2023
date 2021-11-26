@@ -541,7 +541,7 @@ class ProfileController extends Controller
 
                 $store_by_Ecxel->email = isset($render[20]) ? $render[20] : "";
                 $store_by_Ecxel->address = isset($render[21]) ? $render[21] : "";
-                $store_by_Ecxel->saved_by = Auth::user()->id;
+                $store_by_Ecxel->saved_by = isset($render[3]) ? $render[3] : "";
                 $store_by_Ecxel->save();
 
                 // start store data in candidate_educations

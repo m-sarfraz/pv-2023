@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
 use DB;
+use Cache;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -55,8 +56,8 @@ class JdlController extends Controller
     }
     public function view_jdl_table()
     {
-
-        $Userdata = DB::table('jdl')->get();
+        $Userdata =    DB::table('jdl');
+        // $Userdata = DB::table('jdl');
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($Userdata) {
@@ -97,10 +98,11 @@ class JdlController extends Controller
             ->addColumn('priority', function ($Userdata) {
                 return $Userdata->priority;
             })
-            ->rawColumns(['id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority'])
+            ->rawColumns([
+                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
+                'location', 'w_schedule', 'status', 'priority'
+            ])
             ->make(true);
-
     }
     public function append_filter_data(Request $request)
     {
@@ -334,11 +336,9 @@ class JdlController extends Controller
         } else {
             if (!$check && !$searchCheck) {
                 $dataJdl = $Userdata->get();
-
             } else {
 
                 $dataJdl = [];
-
             }
         }
         $count = count($dataJdl);
@@ -382,8 +382,10 @@ class JdlController extends Controller
             ->addColumn('priority', function ($dataJdl) {
                 return $dataJdl->priority;
             })
-            ->rawColumns(['id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority'])
+            ->rawColumns([
+                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
+                'location', 'w_schedule', 'status', 'priority'
+            ])
             ->make(true);
     }
     public function filter_records_jdl_getclient(Request $request)

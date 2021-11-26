@@ -259,7 +259,12 @@ class RecordController extends Controller
                 return $user->career_endo;
             })
             ->addColumn('endi_date', function ($user) {
-                return $user->endi_date;
+               if (!empty($user->endi_date && $user->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($user->endi_date), "m-d-Y");
+                    return $endi_date;
+                } else {
+                    $user->endi_date = '';
+                }
             })
             ->rawColumns(['recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
                 'career_level', 'endi_date'])
