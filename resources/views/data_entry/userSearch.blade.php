@@ -206,7 +206,7 @@
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                             <option disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
-                                                <option value="{{ $certificateOption->option_name }}" 
+                                                <option value="{{ $certificateOption->option_name }}"
                                                     {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
@@ -344,9 +344,9 @@
                                             <select name="MANNER_OF_INVITE" onchange="mannerChange(this)" id="manners"
                                                 class="form-control p-0 users-input-S-C">
                                                 <option value=""
-                                                {{ $user->manner_of_invite == null ?'selected' : '' }}
-                                                disabled>Select Option
-                                            </option>
+                                                    {{ $user->manner_of_invite == null ? 'selected' : '' }} disabled>
+                                                    Select Option
+                                                </option>
                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                     <option value="{{ $manner_of_inviteOption->option_name }}"
                                                         {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
@@ -366,9 +366,8 @@
                                             <label class="Label labelFontSize">
                                                 Source
                                             </label>
-                                            <select name="SOURCE"  id="source"  class="form-control p-0 users-input-S-C">
-                                                <option value=""    
-                                                    {{ $user->source == null ?'selected' : '' }}
+                                            <select name="SOURCE" id="source" class="form-control p-0 users-input-S-C">
+                                                <option value="" {{ $user->source == null ? 'selected' : '' }}
                                                     disabled>Select Option
                                                 </option>
                                                 @foreach ($source->options as $sourceOption)
@@ -498,9 +497,11 @@
                                         <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
                                     </div>
-                                    <div class="d-flex  align-items-center mt-2" >
+                                    <div class="d-flex  align-items-center mt-2">
                                         @if ($user->cv)
-                                        <span class=" mr-3"><i class="bi bi-paperclip"></i>{{$user->first_name}}'s Resume</span>
+                                            <span class=" mr-3"><i
+                                                    class="bi bi-paperclip"></i>{{ $user->first_name }}'s
+                                                Resume</span>
                                             <a class="btn btn-success" type="button" target="blank"
                                                 href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
                                                 {{-- )" --}}>Download
@@ -763,7 +764,8 @@
                             </label>
                             <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user->remarks == null ? 'selected' : '' }} disabled>Select Option
+                                <option value="" {{ $user->remarks == null ? 'selected' : '' }} disabled>Select
+                                    Option
                                 </option>
                                 @foreach ($remarks->options as $remarksOptions)
                                     <option value="{{ $remarksOptions->option_name }}"
@@ -846,11 +848,11 @@
                                         Select Option
                                     </option>
                                     @foreach ($segmentsDropDown as $segmentsOptions)
-                                    <option value="{{ $segmentsOptions->id }}"
-                                        {{ ($user->segment_endo  != null ? $user->segment_endo == $segmentsOptions->segment_name : '') ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->segment_name }}
-                                    </option>
-                                @endforeach
+                                        <option value="{{ $segmentsOptions->id }}"
+                                            {{ ($user->segment_endo != null ? $user->segment_endo == $segmentsOptions->segment_name : '') ? 'selected' : '' }}>
+                                            {{ $segmentsOptions->segment_name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -877,15 +879,16 @@
                                 <label class="Label">sub-segment</label>
                                 <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user->sub_segment_endo == null ? 'selected' : '' }} disabled>
+                                    <option value="" {{ $user->sub_segment_endo == null ? 'selected' : '' }}
+                                        disabled>
                                         Select Option
                                     </option>
                                     @foreach ($sub_segment->options as $sub_segmentOptions)
-                                    <option value="{{ $sub_segmentOptions->id }}"
-                                        {{ ( $user->sub_segment_endo != null ? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name : '') ? 'selected' : '' }}>
-                                        {{ $sub_segmentOptions->sub_segment_name }}
-                                    </option>
-                                @endforeach
+                                        <option value="{{ $sub_segmentOptions->id }}"
+                                            {{ ($user->sub_segment_endo != null ? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name : '') ? 'selected' : '' }}>
+                                            {{ $sub_segmentOptions->sub_segment_name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -1145,8 +1148,8 @@
         $('#saveRecord').prop("disabled", false)
     });
     $(document).ready(function() {
-        var detailInput = <?php echo json_encode($inputDetail) ?>;
-        $('#userDetailInput').html('<p>'+detailInput+'</p>');
+        var detailInput = <?php echo json_encode($inputDetail); ?>;
+        $('#userDetailInput').html('<p>' + detailInput + '</p>');
         var id = $('#user').val();
         console.log('id is' + id);
         // ajax call for user data fetching starts
@@ -1159,7 +1162,7 @@
             },
             // success function after ajax call starts
             success: function(data) {
-                $('#QrCode').html(data);
+                // $('#QrCode').html(data);
             },
             // success function after ajax call ends
 

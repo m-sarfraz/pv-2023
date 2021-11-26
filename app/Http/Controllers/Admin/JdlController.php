@@ -96,8 +96,10 @@ class JdlController extends Controller
             ->addColumn('priority', function ($jdlData) {
                 return $jdlData->priority;
             })
-            ->rawColumns(['id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority'])
+            ->rawColumns([
+                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
+                'location', 'w_schedule', 'status', 'priority',
+            ])
             ->make(true);
     }
     public function append_filter_data(Request $request)
@@ -332,11 +334,9 @@ class JdlController extends Controller
         } else {
             if (!$check && !$searchCheck) {
                 $dataJdl = $Userdata->get();
-
             } else {
 
                 $dataJdl = [];
-
             }
         }
         $count = count($dataJdl);
@@ -380,8 +380,10 @@ class JdlController extends Controller
             ->addColumn('priority', function ($dataJdl) {
                 return $dataJdl->priority;
             })
-            ->rawColumns(['id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority'])
+            ->rawColumns([
+                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
+                'location', 'w_schedule', 'status', 'priority',
+            ])
             ->make(true);
     }
     public function filter_records_jdl_getclient(Request $request)
