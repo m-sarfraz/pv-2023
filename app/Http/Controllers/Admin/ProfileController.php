@@ -114,9 +114,10 @@ class ProfileController extends Controller
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
                 //unset first two rows
-                unset($data[0][0]);
-                unset($data[0][1]);
+                // unset($data[0][0]);
+                // unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
+                    dd($render[0]);
                     //Explode candidate index into first,middle,last
                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
@@ -503,7 +504,7 @@ class ProfileController extends Controller
                 if ($row > 6002) {
                     return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
                 }
-
+              
                 $candidate_name = isset($render[13]) ? $render[13] : "";
                 $candidate_phone = isset($render[19]) ? $render[19] : "";
                 // query for checking the exisitng /duplicate record
