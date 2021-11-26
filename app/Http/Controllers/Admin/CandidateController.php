@@ -872,7 +872,7 @@ class CandidateController extends Controller
         return response()->json($user);
     }
     //close
-    // get position titles with ajax  
+    // get position titles with ajax
     public function Get_Position_title(Request $request)
     {
 
@@ -880,4 +880,5 @@ class CandidateController extends Controller
 
         return response()->json($position_title->options);
     }
+
 }
