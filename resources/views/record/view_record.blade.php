@@ -948,10 +948,9 @@
                 pageLength: 10,
                 processing: true,
                 serverSide: false,
-                stateSave: true,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // },
 
                 ajax: {
                     url: "{{ route('view-record-table') }}",

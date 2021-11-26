@@ -222,13 +222,19 @@ class RecordController extends Controller
     }
     public function view_record_table()
     {
-
-        // $user = DB::table('six_table_view')->get();
-        $user = DB::table('six_table_view');
+        $user = CandidateInformation::join('users', 'candidate_informations.saved_by', 'users.id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->select('users.name as recruiter', 'candidate_informations.last_name',
+                'candidate_informations.id as cid', 'candidate_positions.candidate_profile', 'candidate_domains.sub_segment',
+                'candidate_positions.curr_salary', 'candidate_positions.exp_salary',
+                'candidate_domains.segment', 'endorsements.app_status', 'endorsements.app_status', 'endorsements.client',
+                'endorsements.endi_date', 'endorsements.career_endo');
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                return $user->id;
+                return $user->cid;
             })
             ->addColumn('recruiter', function ($user) {
                 return $user->recruiter;
