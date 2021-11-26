@@ -264,6 +264,7 @@ function careerChanged(elem) {
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
+
     $('#certificate').prop('disabled',false)
     // enabling th fieldset value
     $('#fileDiv').removeClass('d-none')
@@ -283,6 +284,9 @@ function EnableUserEdit(elem) {
                 $('#career').prop("disabled", false);
                 $('#segment').prop("disabled", false);
                 $('#sub_segment').prop("disabled", false);
+                $('#Domainsegment').prop("disabled", true);
+                $('#domain').prop("disabled", true);
+                $('#Domainsub').prop("disabled", true);
                 $('#endo_date').prop("disabled", false);
                 $('#remarks_for_finance').prop("disabled", false);
                 // $('#expec_salary').prop("disabled", false);

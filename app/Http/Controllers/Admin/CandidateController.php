@@ -66,6 +66,7 @@ class CandidateController extends Controller
     // save data entruy data
     public function save_data_entry(Request $request)
     {
+
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -874,9 +875,9 @@ class CandidateController extends Controller
     // get position titles with ajax  
     public function Get_Position_title(Request $request)
     {
-                                                           
+
         $position_title = Helper::get_dropdown('position_title');
-    
+
         return response()->json($position_title->options);
     }
 }
