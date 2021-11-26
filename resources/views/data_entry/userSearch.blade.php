@@ -1151,7 +1151,7 @@
         var detailInput = <?php echo json_encode($inputDetail); ?>;
         $('#userDetailInput').html('<p>' + detailInput + '</p>');
         var id = $('#user').val();
-        console.log('id is' + id);
+        // console.log('id is' + id);
         // ajax call for user data fetching starts
         $.ajax({
             type: "GET",

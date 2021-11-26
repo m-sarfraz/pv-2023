@@ -31,7 +31,7 @@ class RecordController extends Controller
     public function index(Request $request)
     {
 
-        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
+        // ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
         // get recruiter data
         // $user = User::where('type', 3)->get();
         // join the tables to get ccandidate data
