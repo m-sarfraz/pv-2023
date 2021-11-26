@@ -55,52 +55,50 @@ class JdlController extends Controller
     }
     public function view_jdl_table()
     {
-
-        $Userdata = DB::table('jdl')->get();
-        return Datatables::of($Userdata)
+        $jdlData = DB::table('jdl');
+        return Datatables::of($jdlData)
             ->addIndexColumn()
-            ->addColumn('id', function ($Userdata) {
-                return $Userdata->id;
+            ->addColumn('id', function ($jdlData) {
+                return $jdlData->id;
             })
-            ->addColumn('client', function ($Userdata) {
-                return $Userdata->client;
-            })
-
-            ->addColumn('segment', function ($Userdata) {
-                return $Userdata->segment;
-            })
-            ->addColumn('subsegment', function ($Userdata) {
-                return $Userdata->subsegment;
+            ->addColumn('client', function ($jdlData) {
+                return $jdlData->client;
             })
 
-            ->addColumn('c_level', function ($Userdata) {
-                return $Userdata->c_level;
+            ->addColumn('segment', function ($jdlData) {
+                return $jdlData->segment;
             })
-            ->addColumn('p_title', function ($Userdata) {
-                return $Userdata->p_title;
+            ->addColumn('subsegment', function ($jdlData) {
+                return $jdlData->subsegment;
             })
-            ->addColumn('maturity', function ($Userdata) {
-                return $Userdata->maturity;
+
+            ->addColumn('c_level', function ($jdlData) {
+                return $jdlData->c_level;
             })
-            ->addColumn('budget', function ($Userdata) {
-                return $Userdata->budget;
+            ->addColumn('p_title', function ($jdlData) {
+                return $jdlData->p_title;
             })
-            ->addColumn('location', function ($Userdata) {
-                return $Userdata->location;
+            ->addColumn('maturity', function ($jdlData) {
+                return $jdlData->maturity;
             })
-            ->addColumn('w_schedule', function ($Userdata) {
-                return $Userdata->w_schedule;
+            ->addColumn('budget', function ($jdlData) {
+                return $jdlData->budget;
             })
-            ->addColumn('status', function ($Userdata) {
-                return $Userdata->status;
+            ->addColumn('location', function ($jdlData) {
+                return $jdlData->location;
             })
-            ->addColumn('priority', function ($Userdata) {
-                return $Userdata->priority;
+            ->addColumn('w_schedule', function ($jdlData) {
+                return $jdlData->w_schedule;
+            })
+            ->addColumn('status', function ($jdlData) {
+                return $jdlData->status;
+            })
+            ->addColumn('priority', function ($jdlData) {
+                return $jdlData->priority;
             })
             ->rawColumns(['id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
                 'location', 'w_schedule', 'status', 'priority'])
             ->make(true);
-
     }
     public function append_filter_data(Request $request)
     {

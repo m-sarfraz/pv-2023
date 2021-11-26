@@ -517,7 +517,7 @@
             var option_table = $('#jdlTable').DataTable({
                 destroy: true,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
