@@ -24,26 +24,7 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-
-        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
-        $arr = ['Offer accepted', 'Onboarded'];
-        $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->whereIn('remarks_for_finance', $arr)
-            ->select('candidate_informations.first_name', 'candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.last_name')->get();
-        $recruiter = User::where("type", 3)->get();
-        $teams = DB::select("select * from roles");
-        $appstatus = DB::select("select app_status from endorsements group by app_status");
-        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
-        // return $Userdata;
-        $data = [
-            'candidates' => $candidates,
-            'recruiter' => $recruiter,
-            "teams" => $teams,
-            "appstatus" => $appstatus,
-            'remarks_finance' => $remarks_finance,
-
-        ];
-        return view('finance.finance', $data);
+        return view('finance.finance');
     }
     // close
 
@@ -84,46 +65,43 @@ class FinanceController extends Controller
     public function recordFilter(Request $request)
     {
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('six_table_view')->whereIn('remarks_for_finance', $arr);
+        $Userdata = DB::table('finance_view');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
+            $Userdata->whereIn('finance_view.saved_by', $request->recruiter);
         }
         if (isset($request->client)) {
-            $Userdata->whereIn('six_table_view.client', $request->client);
+            $Userdata->whereIn('finance_view.client', $request->client);
         }
         if (isset($request->candidate)) {
-            $Userdata->whereIn('six_table_view.id', $request->candidate);
+            $Userdata->whereIn('finance_view.cid', $request->candidate);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $request->remarks);
+            $Userdata->whereIn('finance_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_date)) {
-            $Userdata->whereDate('six_table_view.onboardnig_date', '>', $request->ob_date);
+            $Userdata->whereDate('finance_view.onboardnig_date', '>', $request->ob_date);
         }
         if (isset($request->toDate)) {
-            $Userdata->whereDate('six_table_view.onboardnig_date', '<', $request->toDate);
+            $Userdata->whereDate('finance_view.onboardnig_date', '<', $request->toDate);
         }
 
         if (isset($request->process)) {
-            $Userdata->whereIn('six_table_view.reprocess', $request->process);
+            $Userdata->whereIn('finance_view.reprocess', $request->process);
         }
         if (isset($request->appstatus)) {
-            $Userdata->whereIn('six_table_view.app_status', $request->appstatus);
+            $Userdata->whereIn('finance_view.app_status', $request->appstatus);
         }
-
         $user = $Userdata->get();
-
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                return $user->id;
+                return $user->cid;
             })
             ->addColumn('team', function ($user) {
                 $team = DB::select('select * from  roles where id=' . $user->saved_by);
                 return $team[0]->name;
             })
-
             ->addColumn('recruiter', function ($Userdata) {
                 return $Userdata->recruiter;
             })
@@ -153,14 +131,12 @@ class FinanceController extends Controller
             ->addColumn('remarks_for_finance', function ($Userdata) {
                 return $Userdata->remarks_for_finance;
             })
-            ->addColumn('endostatus', function ($Userdata) {
-                return $Userdata->endostatus;
+            ->addColumn('app_status', function ($Userdata) {
+                return $Userdata->app_status;
             })
-
             ->rawColumns([
-                'id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
-                'srp', 'onboardnig_date', 'placement_fee', 'address',
+                'id', 'team', 'recruiter', 'client', 'reprocess', 'last_name',
+                'career_endo', 'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'app_status',
             ])
             ->make(true);
     }
@@ -211,16 +187,20 @@ class FinanceController extends Controller
     }
     public function view_finance_search_table()
     {
+        // user, information ,endo , finance
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('six_table_view')->whereIn('remarks_for_finance', $arr)->get();
+        $Userdata = DB::table('finance_view')->get();
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                return $user->id;
+                return $user->cid;
             })
             ->addColumn('team', function ($user) {
                 $team = DB::select('select * from  roles where id=' . $user->saved_by);
-                return $team[0]->name;
+                foreach ($team as $teamName) {
+                    $teams = $teamName->name;
+                }
+                return $teams;
             })
 
             ->addColumn('recruiter', function ($Userdata) {
@@ -253,13 +233,12 @@ class FinanceController extends Controller
                 return $Userdata->remarks_for_finance;
             })
             ->addColumn('endostatus', function ($Userdata) {
-                return $Userdata->endostatus;
+                return $Userdata->app_status;
             })
 
             ->rawColumns([
-                'id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
-                'srp', 'onboardnig_date', 'placement_fee', 'address',
+                'id', 'team', 'recruiter', 'client', 'reprocess', 'last_name',
+                'career_endo', 'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'endostatus',
             ])
             ->make(true);
     }
@@ -521,5 +500,25 @@ class FinanceController extends Controller
         ];
 
         return view('finance.summary', $data);
+    }
+    public function appendFinanceOptions()
+    {
+        $arr = ['Offer accepted', 'Onboarded'];
+        $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->whereIn('remarks_for_finance', $arr)
+            ->select('candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.last_name')->get();
+        $recruiter = User::where("type", 3)->get();
+        $teams = DB::select("select * from roles");
+        $appstatus = DB::select("select app_status from endorsements group by app_status");
+        $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
+        $client = Helper::get_dropdown('clients');
+        return response()->json([
+            'candidates' => $candidates,
+            'recruiter' => $recruiter,
+            "teams" => $teams,
+            "appstatus" => $appstatus,
+            'remarks_finance' => $remarks_finance,
+            'client' => $client,
+        ]);
     }
 }
