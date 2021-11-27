@@ -961,9 +961,11 @@
                 processing: true,
                 serverSide: false,
                 searchHighlight: true,
-                // "language": {
-                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                // },
+                language: {
+                    processing: '<div class="spinner-border mr-3" role="status"></div>' +
+                        ' <span>Loading Records Please wait </span>' +
+                        ' <span>...</span>'
+                },
 
                 ajax: {
                     url: "{{ route('view-record-table') }}",

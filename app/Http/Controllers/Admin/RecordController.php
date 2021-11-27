@@ -30,43 +30,6 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
-
-        // ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
-        // get recruiter data
-        // $user = User::where('type', 3)->get();
-        // join the tables to get ccandidate data
-        // $page = $request->has('page') ? $request->get('page') : 1;
-        // $limit = $request->has('limit') ? $request->get('limit') : 10;
-        // $Userdata = DB::table('six_table_view')
-        //     ->select('six_table_view.id as cid', 'six_table_view.*')
-        //     ->offset($page)
-        //     ->limit($limit)
-        //     ->paginate();
-        // get required data to use for select purpose
-        // $count = CandidateInformation::all()->last()->id;
-        // $candidates = CandidateInformation::select('id', 'last_name')->get();
-        // $candidateprofile = CandidatePosition::select('candidate_profile', 'candidate_id')->get();
-        // $sub_segmentsDropDown = SubSegment::all();
-        // $candidateDomain = CandidateDomain::select('segment', 'sub_segment', 'candidate_id')->get();
-        // $endorsement = Endorsement::select('app_status', 'career_endo', 'client', 'candidate_id')->get();
-
-        // $segmentsDropDown = Segment::all();
-        // $AllData = DB::select('select max(id) as totalCandidate from candidate_informations');
-        // $AllData = count(CandidateInformation::all());
-        // return $AllData;
-        // make array of data to pas to view
-        // $data = [
-        // 'user' => $user,
-        // 'candidates' => $candidates,
-        // 'count' => $count,
-        // 'Userdata' => $Userdata,
-        // 'candidateprofile' => $candidateprofile,
-        // 'candidateDomain' => $candidateDomain,
-        // 'segmentsDropDown' => $segmentsDropDown,
-        // 'sub_segmentsDropDown' => $sub_segmentsDropDown,
-        // 'endorsement' => $endorsement,
-        // "AllData" => $AllData,
-        // ];
         return view('record.view_record');
     }
     // index function for showing the record of users with filters ends
@@ -76,45 +39,37 @@ class RecordController extends Controller
     {
         $check = $searchCheck = false;
 
-        $Userdata = CandidateInformation::join('users', 'candidate_informations.saved_by', 'users.id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->select('users.name as recruiter', 'candidate_informations.last_name',
-                'candidate_informations.id as cid', 'candidate_positions.candidate_profile', 'candidate_domains.sub_segment',
-                'candidate_positions.curr_salary', 'candidate_positions.exp_salary',
-                'candidate_domains.segment', 'endorsements.app_status', 'endorsements.app_status', 'endorsements.client',
-                'endorsements.endi_date', 'endorsements.career_endo');
+        $Userdata = DB::table('view_record');
 
         // condition for checking first to end not null starts here
 
         if (isset($request->user_id)) {
-            $Userdata->whereIn('candidate_informations.saved_by', $request->user_id);
+            $Userdata->whereIn('view_record.saved_by', $request->user_id);
         }
         if (isset($request->candidate)) {
-            $Userdata->whereIn('candidate_informations.id', $request->candidate);
+            $Userdata->whereIn('view_record.cid', $request->candidate);
         }
         if (isset($request->profile)) {
-            $Userdata->whereIn('candidate_positions.candidate_profile', $request->profile);
+            $Userdata->whereIn('view_record.candidate_profile', $request->profile);
         }
         if (isset($request->sub_segment)) {
-            $Userdata->whereIn('candidate_domains.sub_segment', $request->sub_segment);
+            $Userdata->whereIn('view_record.sub_segment', $request->sub_segment);
         }
         if (isset($request->app_status)) {
-            $Userdata->whereIn('endorsements.app_status', $request->app_status);
+            $Userdata->whereIn('view_record.app_status', $request->app_status);
         }
         if (isset($request->client)) {
-            $Userdata->whereIn('endorsements.client', $request->client);
+            $Userdata->whereIn('view_record.client', $request->client);
         }
         if (isset($request->career_level)) {
             // return $request->career_level;
-            $Userdata->whereIn('endorsements.career_endo', $request->career_level);
+            $Userdata->whereIn('view_record.career_endo', $request->career_level);
         }
         if (isset($request->date)) {
 
-            $Userdata->where('endorsements.endi_date', $request->date);
+            $Userdata->where('view_record.endi_date', $request->date);
         }
-        $Alldata = $Userdata->get();
+        $Alldata = $Userdata;
         return Datatables::of($Alldata)
             ->addIndexColumn()
             ->addColumn('id', function ($Alldata) {
@@ -164,15 +119,8 @@ class RecordController extends Controller
     }
     public function view_record_table()
     {
-        $record = CandidateInformation::join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('users', 'candidate_informations.saved_by', 'users.id')
-            ->select('users.name as recruiter', 'candidate_informations.last_name',
-                'candidate_informations.id as cid', 'candidate_positions.candidate_profile', 'candidate_domains.sub_segment',
-                'candidate_positions.curr_salary', 'candidate_positions.exp_salary',
-                'candidate_domains.segment', 'endorsements.app_status', 'endorsements.app_status', 'endorsements.client',
-                'endorsements.endi_date', 'endorsements.career_endo');
+        $record = DB::table('view_record');
+
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
@@ -223,108 +171,7 @@ class RecordController extends Controller
     // function for appending the resulting view to filtered record starts
     public function filter(Request $request)
     {
-        // $check = $searchCheck = false;
-        // $Userdata = DB::table('six_table_view')
-        //     ->select('six_table_view.id as CID', 'six_table_view.*');
-
-        // // condition for checking first to end not null starts here
-
-        // if (isset($request->user_id)) {
-        //     $Userdata->whereIn('six_table_view.saved_by', $request->user_id);
-        // }
-        // if (isset($request->candidate)) {
-        //     $Userdata->whereIn('six_table_view.id', $request->candidate);
-        // }
-        // if (isset($request->profile)) {
-        //     $Userdata->whereIn('six_table_view.candidate_profile', $request->profile);
-        // }
-        // if (isset($request->sub_segment)) {
-        //     $Userdata->whereIn('six_table_view.sub_segment', $request->sub_segment);
-        // }
-        // if (isset($request->app_status)) {
-        //     $Userdata->whereIn('six_table_view.app_status', $request->app_status);
-        // }
-        // if (isset($request->client)) {
-        //     $Userdata->whereIn('six_table_view.client', $request->client);
-        // }
-        // if (isset($request->career_level)) {
-        //     // return $request->career_level;
-        //     $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-        // }
-        // if (isset($request->date)) {
-
-        //     $Userdata->where('six_table_view.endi_date', $request->date);
-        // }
-
-        // if (isset($request->searchKeyword)) {
-        //     ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
-        //     $searchCheck = true;
-        //     $perfect_match = DB::table('six_table_view')->get();
-
-        //     foreach ($perfect_match as $match) {
-        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->sub_segment), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.sub_segment', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->exp_salary), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.exp_salary', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->off_salary), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.off_salary', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //     }
-        // }
-        // if ($check) {
-
-        //     $Alldata = $Userdata->get();
-        // } else {
-        //     if (!$check && !$searchCheck) {
-        //         $Alldata = $Userdata->get();
-        //     } else {
-        //         $Alldata = [];
-        //     }
-        // }
-
-        // $count = count($Alldata);
-        $data = [
-            'count' => 1,
-            // 'Userdata' => $Alldata,
-        ];
-        return view('record.filter-user', $data);
+        return view('record.filter-user');
     }
     // function for appending the resulting view to filtered record ends
 
@@ -339,6 +186,7 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.app_status', 'endorsements.*')
+
             ->where('candidate_informations.id', $request->id)
             ->first();
 
