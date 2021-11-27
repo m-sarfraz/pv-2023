@@ -65,6 +65,7 @@
             <div class="col-lg-6">
                 <p class="C-Heading">Requirements Finder:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <div class="row mb-4">
@@ -93,38 +94,24 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $client = Helper::get_dropdown('clients');
-                                        @endphp
+
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="client" id="client" class="select2_dropdown  w-100"
-                                            onchange="Filter_user()">
-                                            @foreach ($client->options as $clientOptions)
-                                                <option value="{{ $clientOptions->option_name }}">
-                                                    {{ $clientOptions->option_name }}
-                                                </option>
-                                            @endforeach
+                                        <select multiple name="client" id="client" class="select2_dropdown  w-100" onchange="Filter_user()" >
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-1">
-                                        <?php
-                                        $candidateDomain = Helper::get_dropdown('domains');
-                                        ?>
+
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
                                             Domain
                                         </label>
                                         <select name="candidateDomain" id="candidateDomain"
-                                            class="select2_dropdown w-100 form-control" multiple onchange="changeDomain()">
-                                            @foreach ($Alldomains as $render_domain)
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
 
-                                                <option value="{{ $render_domain->domain }}">
-                                                    {{ $render_domain->domain }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -132,38 +119,23 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $segments = Helper::get_dropdown('segments');
-                                        @endphp
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
                                             Segment
                                         </label>
                                         <select name="segment" id="segment" class="select2_dropdown w-100 form-control"
-                                            multiple onchange="changeValues()">
-                                            @foreach ($Allsegments as $segmentsrender)
-
-                                                <option value="{{ $segmentsrender->segment }}">
-                                                    {{ $segmentsrender->segment }}
-                                                </option>
-                                            @endforeach
+                                            multiple onchange="Filter_user()">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <?php
-                                        $sub_segment = Helper::get_dropdown('sub_segment');
-                                        ?>
+
                                         <label class="d-block font-size-3 mb-0">
                                             Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="Filter_user()">
-                                            @foreach ($SubSegment as $sub_segmentOption)
-                                                <option value="{{ $sub_segmentOption->subsegment }}">
-                                                    {{ $sub_segmentOption->subsegment }}
-                                                </option>
-                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>
@@ -171,37 +143,25 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <?php
-                                        $position_title = Helper::get_dropdown('position_title');
-                                        ?>
+
                                         <label class="d-block font-size-3 mb-0">
                                             Position
                                         </label>
                                         <select multiple name="position_title" id="position_title"
                                             class="select2_dropdown  w-100" onchange="Filter_user()">
-                                            @foreach ($positions as $position_titleOption)
-                                                <option value="{{ $position_titleOption->p_title }}">
-                                                    {{ $position_titleOption->p_title }}
-                                                </option>
-                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $CareerLevel = Helper::get_dropdown('career_level');
-                                        @endphp
+
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
                                             Career Level:
                                         </label>
                                         <select multiple name="career_level" id="career_level"
                                             class="select2_dropdown  w-100" onchange="Filter_user()">
-                                            @foreach ($c_levels as $CareerLevelOptions)
-                                                <option value="{{ $CareerLevelOptions->c_level }}">
-                                                    {{ $CareerLevelOptions->c_level }}
-                                                </option>
-                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>
@@ -230,11 +190,7 @@
                                         <label class="Label labelFontSize">Location</label>
                                         <select name="location" id="location" class="select2_dropdown w-100 form-control"
                                             multiple onchange="Filter_user()">
-                                            @foreach ($Location as $render_Location)
-                                                <option value="{{ $render_Location->location }}">
-                                                    {{ $render_Location->location }}
-                                                </option>
-                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>
@@ -259,12 +215,12 @@
                                     <th class="ant-table-cell">Career Level</th>
                                     <th class="ant-table-cell">Position Title</th>
                                     <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
-                                        Requirement</span></th>
-                                        <th class="ant-table-cell">Budget</th>
-                                        <th class="ant-table-cell">Location</th>
-                                        <th class="ant-table-cell">Work Sched</th>
-                                        <th class="ant-table-cell">Status</th>
-                                        <th class="ant-table-cell"> Priority</th>
+                                            Requirement</span></th>
+                                    <th class="ant-table-cell">Budget</th>
+                                    <th class="ant-table-cell">Location</th>
+                                    <th class="ant-table-cell">Work Sched</th>
+                                    <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell"> Priority</th>
                                     {{-- <th class="ant-table-cell ant-table-cell-scrollbar"></th> --}}
                                 </tr>
                             </thead>
@@ -476,10 +432,68 @@
     <script>
         $(document).ready(function() {
             load_datatable()
+            appendJdlOptions()
             $('#jdlTable_filter').hide('div');
         })
         select2Dropdown("select2_dropdown");
         // count total number of records coming from data table with interval starts
+        function appendJdlOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/appendJdlOptions') }}',
+                })
+                .done(function(res) {
+                    for (let i = 0; i < res.client.length; i++) {
+                        if (res.client[i].client != '') {
+                            $('#client').append('<option value="' + res.client[i].client + '">' +
+                                res.client[i].client + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.domains.length; i++) {
+                        if (res.domains[i].domain != '') {
+                            $('#candidateDomain').append('<option value="' + res.domains[i].domain + '">' + res.domains[
+                                    i]
+                                .domain +
+                                '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.segment.length; i++) {
+                        if (res.segment[i].segment != '') {
+                            $('#segment').append('<option value="' + res.segment[i].segment + '">' + res.segment[i]
+                                .segment + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.subSegment.length; i++) {
+                        if (res.subSegment[i].subsegment != '') {
+
+                            $('#sub_segment').append('<option value="' + res.subSegment[i].subsegment + '">' +
+                                res.subSegment[i].subsegment + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.position_title.length; i++) {
+                        if (res.position_title[i].p_title != '') {
+                            $('#position_title').append('<option value="' + res.position_title[i].p_title + '">' +
+                                res.position_title[i].p_title + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.career_level.length; i++) {
+                        if (res.career_level[i].c_level != '') {
+                            $('#career_level').append('<option value="' + res.career_level[i].c_level + '">' +
+                                res.career_level[i].c_level + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.location.length; i++) {
+                        if (res.location[i].location != '') {
+                            $('#location').append('<option value="' + res.location[i].location + '">' +
+                                res.location[i].location + '</option>')
+                        }
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
         setInterval(function() {
             let tableID = $('#filter_table_div').children().children().attr('id')
             if (tableID == 'jdlTable_wrapper') {
@@ -797,212 +811,6 @@
                     }
                 },
             });
-        }
-
-
-        // function for (if domain is changed append segments acoordingly) starts
-        function changeDomain() {
-
-            let arr = $("#candidateDomain :selected").map(function(i, el) {
-                return $(el).val();
-            }).get();
-
-            let uppercased = arr.map(arr => arr.toUpperCase());
-
-
-            let domain = {!! $Alldomains !!};
-            let segment = {!! $Allsegments !!};
-            domain.forEach(elementDomain => {
-                segment.forEach(elementsegment => {
-                    uppercased.forEach(element => {
-                        if (element == elementDomain.domain_name) {
-                            if (elementsegment.domain_id == elementDomain.id) {
-                                $("#segment").append('<option selected value="' +
-                                    elementsegment
-                                    .segment_name +
-                                    '">' + elementsegment.segment_name +
-                                    '</option>');
-                            }
-                        }
-                    })
-
-                });
-            });
-            Filter_user();
-            changeValues();
-        }
-        $('#client').change(function() {
-            // call Ajax for returning the data as view
-
-            $.ajax({
-                type: "post",
-                url: "{{ url('admin/filter_records_jdl_getclient') }}",
-                data: {
-                    _token: token,
-                    client: $('#client').val(),
-                    domain: $('#candidateDomain').val(),
-
-                },
-
-                // Success fucniton of Ajax
-                success: function(res) {
-                    console.log(res.data)
-                    // for(var i=0;i<500000;i++){
-
-                    //     $("#candidateDomain").append(
-                    //         `<option selected   value="${res.data.domain[i]}">${res.data.domain[i]}</option>`
-                    //         );
-                    //     }
-
-                    // if (res[0] == null) {
-                    //     location.reload();
-                    // }
-
-                    // var i;
-                    // let domains = {!! $candidateDomain->options !!}
-                    // domains.forEach(element => {
-
-                    //     for (var i = 0; i < res.length; i++) {
-
-                    if (element.option_name == res[i].domain.toUpperCase()) {
-                        if ($('#candidateDomain').val() != res[i].domain) {
-
-                            $("#candidateDomain").append(
-                                `<option selected   value="${element.option_name}">${element.option_name}</option>`
-                            );
-                        }
-                        changecareer_level(res);
-                        changeposition_title(res)
-                        changesegmentbyClient(res)
-                        changesubsegmentbyClient(res)
-                        changelocation(res)
-                        changestatus(res)
-
-                        //         }
-
-
-                        //     }
-                        // });
-
-                    }
-                }
-            });
-        })
-
-        function changeValues() {
-
-            let arr = $("#segment :selected").map(function(i, el) {
-                return $(el).val();
-            }).get();
-
-            let segment = {!! $Allsegments !!};
-            let SubSegment = {!! $SubSegment !!};
-            segment.forEach(elementsegment => {
-                SubSegment.forEach(elementsubsegment => {
-
-                    arr.forEach(element => {
-                        if (element === elementsegment.segment_name) {
-                            if (elementsubsegment.segment_id == elementsegment.id) {
-                                $("#sub_segment").append('<option selected  value="' +
-                                    elementsubsegment.sub_segment_name +
-                                    '">' + elementsubsegment.sub_segment_name +
-                                    '</option>');
-                            }
-                        }
-                    })
-
-                });
-            });
-            Filter_user();
-
-        }
-
-        function changecareer_level(res) {
-
-            var career_level = $('#career_level').val()
-            for (var i = 0; i < res.length; i++) {
-                if (career_level != res[i].c_level) {
-
-                    $('#career_level').append('<option selected  value="' +
-                        res[i].c_level +
-                        '">' + res[i].c_level +
-                        '</option>');
-                }
-
-            }
-
-
-        }
-
-        function changeposition_title(res) {
-            var position_title = $('#position_title').val()
-            for (var i = 0; i < res.length; i++) {
-                if (position_title != res[i].p_title) {
-
-                    $('#position_title').append('<option selected value="' +
-                        res[i].p_title +
-                        '">' + res[i].p_title +
-                        '</option>');
-                }
-            }
-
-        }
-
-        function changesegmentbyClient(res) {
-
-            var segment = $('#segment').val()
-            for (var i = 0; i < res.length; i++) {
-                if (segment != res[i].segment) {
-                    $('#segment').append('<option selected value="' +
-                        res[i].segment +
-                        '">' + res[i].segment +
-                        '</option>');
-                }
-            }
-
-        }
-
-        function changesubsegmentbyClient(res) {
-            var subsegment = $('#sub_segment').val()
-
-            for (var i = 0; i < res.length; i++) {
-                if (subsegment != res[i].subsegment) {
-                    $('#sub_segment').append('<option selected value="' +
-                        res[i].subsegment +
-                        '">' + res[i].subsegment +
-                        '</option>');
-                }
-            }
-        }
-
-        function changelocation(res) {
-
-
-
-            var location = $('#location').val()
-
-            for (var i = 0; i < res.length; i++) {
-                if (location != res[i].location) {
-
-                    $('#location').append('<option selected value="' +
-                        res[i].location +
-                        '">' + res[i].location +
-                        '</option>');
-                }
-
-            }
-        }
-
-        function changestatus(res) {
-            var status = $('#status').val()
-            for (var i = 0; i < res.length; i++) {
-                if (status != res[i].status) {
-                    $('#status').append('<option selected value="' +
-                        res[i].status +
-                        '">' + res[i].status +
-                        '</option>');
-                }
-            }
         }
     </script>
 @endsection

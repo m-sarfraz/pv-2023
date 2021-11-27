@@ -473,7 +473,7 @@ class RecordController extends Controller
     {
         // dd('hi');
         $user = User::where('type', 3)->get();
-        $candidates = CandidateInformation::select('id', 'last_name')->get();
+        $candidates = DB::table('candidate_informations')->select('id', 'last_name')->get();
         $candidates_profile = Helper::get_dropdown('candidates_profile');
         $sub_segment = Helper::get_dropdown('sub_segment');
         $application_status = Helper::get_dropdown('application_status');
