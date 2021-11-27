@@ -26,32 +26,7 @@ class JdlController extends Controller
      */
     public function index(Request $request)
     {
-        ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
-        // dd(phpinfo());
-
-        // join the tables to get candidate data
-        // $page = $request->has('page') ? $request->get('page') : 1;
-        // $limit = $request->has('limit') ? $request->get('limit') : 10;
-        // $Userdata = DB::table('jdl')
-        //     ->offset($page)->limit($limit)
-        //     ->paginate();
-        $Alldomains = DB::table('jdl')->select("domain")->groupby("domain")->get();
-
-        $Allsegments = DB::table('jdl')->select("segment")->groupby("segment")->get();
-        $SubSegment = DB::table('jdl')->select("subsegment")->groupby("subsegment")->get();
-        $positions = DB::table('jdl')->select("p_title")->groupby("p_title")->get();
-        $c_levels = DB::table('jdl')->select("c_level")->groupby("c_level")->get();
-        $Location = DB::table('jdl')->select("location")->groupby("location")->get();
-        $data = [
-            // "Userdata" => $Userdata,
-            "Alldomains" => $Alldomains,
-            "Allsegments" => $Allsegments,
-            "SubSegment" => $SubSegment,
-            "positions" => $positions,
-            "c_levels" => $c_levels,
-            "Location" => $Location,
-        ];
-        return view('JDL.index', $data);
+        return view('JDL.index');
     }
     public function view_jdl_table()
     {
@@ -478,5 +453,24 @@ class JdlController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function appendJdlOptions()
+    {
+        $domains = DB::table('jdl')->select("domain")->groupby("domain")->get();
+        $segment = DB::table('jdl')->select("segment")->groupby("segment")->get();
+        $subSegment = DB::table('jdl')->select("subsegment")->groupby("subsegment")->get();
+        $position_title = DB::table('jdl')->select("p_title")->groupby("p_title")->get();
+        $career_level = DB::table('jdl')->select("c_level")->groupby("c_level")->get();
+        $location = DB::table('jdl')->select("location")->groupby("location")->get();
+        $client = DB::table('jdl')->select("client")->groupby("client")->get();
+        return response()->json([
+            'domains' => $domains,
+            'segment' => $segment,
+            'subSegment' => $subSegment,
+            'position_title' => $position_title,
+            'career_level' => $career_level,
+            'location' => $location,
+            'client' => $client,
+        ]);
     }
 }

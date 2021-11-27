@@ -1431,7 +1431,7 @@
                                 //     .append(
                                 //         '<span style="color:red;" >' + 'Required' + '</span>'
                                 //     );
-                                console.log($("select[name='" + i + "']"));
+                                // console.log($("select[name='" + i + "']"));
                                 // $("select[name='" + i + "']").prop('required', true)
                                 $("select[name='" + i + "']").addClass('borderRed')
                                 $("select[name='" + i + "']").next().children().children().addClass(
@@ -2004,7 +2004,7 @@
                 url: "{{ route('Get_Position_title') }}",
                 type: 'get',
                 success: function(res) {
-                    console.info(res)
+                    // console.info(res)
                     for (var i = 0; i < res.length; i++) {
                         $('#position').append(
                             `<option value="${res[i].option_name}">${res[i].option_name} </option>`)

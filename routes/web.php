@@ -70,6 +70,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
     Route::get('append_filter_data', 'JdlController@append_filter_data')->name('append_filter_data');
+    Route::get('appendJdlOptions', 'JdlController@appendJdlOptions')->name('appendJdlOptions');
 
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');

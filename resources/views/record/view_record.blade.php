@@ -10,6 +10,11 @@
             align: items-center;
         }
 
+        mark {
+            padding: 0;
+            background: #f1c40f;
+        }
+
         .hideID:first-child,
         .hidetrID tr td:first-child {
             display: none !important;
@@ -73,7 +78,7 @@
                                         </label>
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                          
+
                                         </select>
                                     </div>
                                 </div>
@@ -81,25 +86,25 @@
                             <div class="row mb-1">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                    
+
                                         <label class="d-block font-size-3 mb-0">
                                             Profile
                                         </label>
                                         <select multiple name="profile" id="profile" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                       
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                           
+
                                         <label class="d-block font-size-3 mb-0">
                                             Sub Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                   
+
                                         </select>
                                     </div>
                                 </div>
@@ -107,25 +112,25 @@
                             <div class="row mb-1">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                   
+
                                         <label class="d-block font-size-3 mb-0">
                                             Application Status:
                                         </label>
                                         <select multiple name="app_status" id="app_status" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                    
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                   
+
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
                                         <select multiple name="client" id="client" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
-                                         
+
                                         </select>
                                     </div>
                                 </div>
@@ -133,13 +138,13 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1">
-                                    
+
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
                                             Career Level:
                                         </label>
                                         <select multiple name="career_level" id="career_level"
                                             class="select2_dropdown  w-100" onchange="filterUserData()">
-                                         
+
                                         </select>
                                     </div>
                                 </div>
@@ -895,25 +900,32 @@
                 })
                 .done(function(res) {
                     for (let i = 0; i < res.user.length; i++) {
-                        $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name + '</option>')
+                        $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name +
+                            '</option>')
                     }
                     for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i].last_name + '</option>')
+                        $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i]
+                            .last_name + '</option>')
                     }
                     for (let i = 0; i < res.candidates_profile.options.length; i++) {
-                        $('#profile').append('<option value="' + res.candidates_profile.options[i].option_name + '">' + res.candidates_profile.options[i].option_name  + '</option>')
+                        $('#profile').append('<option value="' + res.candidates_profile.options[i].option_name + '">' +
+                            res.candidates_profile.options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.sub_segment.options.length; i++) {
-                        $('#sub_segment').append('<option value="' + res.sub_segment.options[i].option_name + '">' + res.sub_segment.options[i].option_name  + '</option>')
+                        $('#sub_segment').append('<option value="' + res.sub_segment.options[i].option_name + '">' + res
+                            .sub_segment.options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.clients.options.length; i++) {
-                        $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients.options[i].option_name  + '</option>')
+                        $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients
+                            .options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.career_level.options.length; i++) {
-                        $('#career_level').append('<option value="' + res.career_level.options[i].option_name + '">' + res.career_level.options[i].option_name  + '</option>')
+                        $('#career_level').append('<option value="' + res.career_level.options[i].option_name + '">' +
+                            res.career_level.options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.application_status.options.length; i++) {
-                        $('#app_status').append('<option value="' + res.application_status.options[i].option_name + '">' + res.application_status.options[i].option_name + '</option>')
+                        $('#app_status').append('<option value="' + res.application_status.options[i].option_name +
+                            '">' + res.application_status.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
                 })
@@ -948,9 +960,12 @@
                 pageLength: 10,
                 processing: true,
                 serverSide: false,
-                // "language": {
-                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                // },
+                searchHighlight: true,
+                language: {
+                    processing: '<div class="spinner-border mr-3" role="status"></div>' +
+                        ' <span>Loading Records Please wait </span>' +
+                        ' <span>...</span>'
+                },
 
                 ajax: {
                     url: "{{ route('view-record-table') }}",
