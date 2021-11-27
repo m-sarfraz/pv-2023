@@ -280,10 +280,10 @@ function EnableUserEdit(elem) {
                 $('#client').prop("disabled", false);
                 $('#endo_type').prop("disabled", false);
                 $('#position').prop("disabled", false);
-                $('#domain_endo').prop("disabled", false);
+                $('#domain_endo').prop("disabled", true);
                 $('#career').prop("disabled", false);
-                $('#segment').prop("disabled", false);
-                $('#sub_segment').prop("disabled", false);
+                $('#segment').prop("disabled", true);
+                $('#sub_segment').prop("disabled", true);
                 $('#Domainsegment').prop("disabled", true);
                 $('#domain').prop("disabled", true);
                 $('#Domainsub').prop("disabled", true);
