@@ -6,6 +6,7 @@ use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
 use DB;
+use Helper;
 use Illuminate\Http\Request;
 use Str;
 use Yajra\DataTables\DataTables;
@@ -19,53 +20,7 @@ class SmartSearchController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-        // $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-        //     ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-        //     ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-        //     ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-        //     ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
-        $domain = Domain::all();
-        $user_recruiter = User::where('type', 3)->get();
-
-        // $page = $request->has('page') ? $request->get('page') : 1;
-        // $limit = $request->has('limit') ? $request->get('limit') : 10;
-        // $user = $Userdata->offset($page)
-        // ->limit($limit)
-        // ->paginate();
-        // $count = $Userdata->count();
-        // qurries for summary section start
-        // $sifted = count($user);
-        // $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
-        // $failed = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Fail%')->get());
-        // $withdrawn = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Withdraw%')->get());
-        // $rejected = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%reject%')->get());
-        // $accepted = count($Userdata->where('endorsements.remarks_for_finance', 'Offer accepted')->get());
-        // $spr = count($Userdata->whereNotNull('finance.srp')->get());
-        // $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
-        // $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
-        $address = DB::Select("select address from candidate_informations where  address!='' group by address");
-        $status = DB::Select("select status from endorsements group by status");
-        // close
-        $data = [
-            'domain' => $domain,
-            // 'Userdata' => $user,
-            'user_recruiter' => $user_recruiter,
-            // 'sifted' => $sifted,
-            // 'endo' => $endo,
-            // 'active' => $active,
-            // 'onBoarded' => $onBoarded,
-            // 'count' => $count,
-            // 'spr' => $spr,
-            // 'accepted' => $accepted,
-            // 'failed' => $failed,
-            // 'withdrawn' => $withdrawn,
-            // 'rejected' => $rejected,
-            'address' => $address,
-            'status' => $status,
-        ];
-
-        return view('smartSearch.smart_search', $data);
+        return view('smartSearch.smart_search');
     }
     // close
 
@@ -740,5 +695,25 @@ class SmartSearchController extends Controller
             'spr' => $sql_spr,
         ];
         return view('smartSearch.summary', $data);
+    }
+    public function appendSmartFilters()
+    {
+        $domain = Domain::all();
+        $user_recruiter = User::where('type', 3)->get();
+        $client = Helper::get_dropdown('clients');
+        $address = DB::Select("select address from candidate_informations where  address!='' group by address");
+        $remarks = Helper::get_dropdown('remarks_for_finance');
+        $status = Helper::get_dropdown('data_entry_status');
+
+        // close
+        return response()->json(
+            [
+                'domain' => $domain,
+                'user_recruiter' => $user_recruiter,
+                'client' => $client,
+                'address' => $address,
+                'status' => $status,
+                'remarks' => $remarks,
+            ]);
     }
 }

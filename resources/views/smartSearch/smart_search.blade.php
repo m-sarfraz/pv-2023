@@ -36,6 +36,7 @@
             <div class="col-lg-7">
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <div class="row mb-4">
@@ -65,11 +66,6 @@
                                         <label class="Label-00">Domain:</label>
                                         <select multiple name="DOMAIN" id="domain" required="" onchange="FilterSearch()"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
-
-                                            @foreach ($domain as $domainOption)
-                                                <option value="{{ $domainOption->domain_name }}">
-                                                    {{ $domainOption->domain_name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -78,28 +74,14 @@
                                         <label class="Label-00">Recruiter:</label>
                                         <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
                                             onchange="FilterSearch()" onchange="filterUserData()">
-
-                                            @foreach ($user_recruiter as $key => $user_recruiter)
-                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $client = Helper::get_dropdown('clients');
-                                        @endphp
                                         <label class="Label-00">Client:</label>
                                         <select multiple name="CLIENT" id="client" onchange="FilterSearch()"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-
-                                            @foreach ($client->options as $clientOptions)
-                                                <option value="{{ $clientOptions->option_name }}">
-                                                    {{ $clientOptions->option_name }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -136,14 +118,6 @@
                                         <select multiple name="residence" required="" id="residence"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-
-                                            @foreach ($address as $Userdatas)
-                                                @if (isset($Userdatas->address))
-                                                    <option value="{{ $Userdatas->address }}">
-                                                        {{ $Userdatas->address }}
-                                                    </option>
-                                                @endif
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -186,14 +160,6 @@
                                         <label class="Label-00">Category:</label>
                                         <select multiple name="REMARKS_FOR_FINANCE" id="category" onchange="FilterSearch()"
                                             class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                            @php
-                                                $remarks = Helper::get_dropdown('remarks_for_finance');
-                                            @endphp
-
-                                            @foreach ($remarks->options as $remarksOptions)
-                                                <option value="{{ $remarksOptions->option_name }}">
-                                                    {{ $remarksOptions->option_name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -202,29 +168,14 @@
                                         <label class="Label-00">Status:</label>
                                         <Select multiple id="status" onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-
-                                            @foreach ($status as $item)
-                                                <option value="{{ $item->status }}">{{ $item->status }}</option>
-
-                                            @endforeach
                                         </Select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $remarks = DB::select('select remarks_for_finance from endorsements');
-                                        @endphp
-
                                         <label class="Label-00">Remarks:</label>
                                         <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
                                             class="w-100 form-control select2_dropdown w-100">
-
-                                            @foreach ($remarks as $remarksOptions)
-                                                <option value="{{ $remarksOptions->remarks_for_finance }}">
-                                                    {{ $remarksOptions->remarks_for_finance }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -253,7 +204,6 @@
                         </form>
                     </div>
                 </div>
-
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterResult_div">
@@ -266,7 +216,6 @@
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Gender</th>
                                     <th class="ant-table-cell">DOMAIN</th>
-
                                     <th class="ant-table-cell">Profile</th>
                                     <th class="ant-table-cell">Education Attainment</th>
                                     <th class="ant-table-cell">Salary</th>
@@ -275,7 +224,6 @@
                                     <th class="ant-table-cell">CL</th>
                                     <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell">Endo Date</th>
-
                                     <th class="ant-table-cell">Remarks</th>
                                     <th class="ant-table-cell">Category</th>
                                     <th class="ant-table-cell">SPR</th>
@@ -286,10 +234,6 @@
                                 </tr>
                             </thead>
                             <tbody class="hidetrID" style="height:100px">
-
-
-
-
                             </tbody>
                         </table>
                     </div>
@@ -486,9 +430,61 @@
         $(document).ready(function() {
             // call ajax for values appending 
             summaryAppendAjax();
+            //call ajax for laod dat atable
             load_datatable()
+            //call ajax to append options of dropdown
+            appendFilterOptions()
         });
         // close 
+
+        //append  dropdowns
+        function appendFilterOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/appendSmartFilters') }}',
+                })
+                .done(function(res) {
+                    console.log(res)
+                    for (let i = 0; i < res.domain.length; i++) {
+                        $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
+                            .domain_name +
+                            '</option>')
+                    }
+                    for (let i = 0; i < res.user_recruiter.length; i++) {
+                        $('#recruiter').append('<option value="' + res.user_recruiter[i].id + '">' + res.user_recruiter[
+                                i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.client.options.length; i++) {
+                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' + res.client
+                            .options[i]
+                            .option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.address.length; i++) {
+                        if (res.address[i].address != '') {
+                            $('#residence').append('<option value="' + res.address[i].address + '">' + res.address[i]
+                                .address + '</option>')
+                        }
+                    }
+                    for (let i = 0; i < res.remarks.options.length; i++) {
+                        $('#category').append('<option value="' + res.remarks.options[i].option_name + '">' + res
+                            .remarks.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.status.options.length; i++) {
+                        $('#status').append('<option value="' + res.status.options[i].option_name + '">' + res
+                            .status.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.remarks.options.length; i++) {
+                        $('#remarks').append('<option value="' + res.remarks.options[i].option_name + '">' + res
+                            .remarks.options[i].option_name + '</option>')
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
 
         // ajax call for view append
         function summaryAppendAjax() {
@@ -547,6 +543,7 @@
         }
 
         select2Dropdown("select2_dropdown");
+
         // function for filtering the data according to selected input starts
         function FilterSearch() {
 
@@ -691,7 +688,7 @@
         }
         // close 
 
-        //start yajra
+        //start yajra table load 
         function load_datatable() {
             var option_table = $('#smTable').DataTable({
                 destroy: true,
@@ -706,7 +703,7 @@
                     type: "GET",
                 },
                 columns: [{
-                    data: 'recruiter',
+                        data: 'recruiter',
                         name: 'recruiter'
                     },
                     {
@@ -789,6 +786,7 @@
             });
         }
         // close 
+
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
             $('#smTable_filter').children().children().val($('#searchKeyword').val());

@@ -128,6 +128,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
     Route::get('summaryAppend', 'SmartSearchController@summaryAppend')->name('summaryAppend');
     Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');
+    Route::get('appendSmartFilters', 'SmartSearchController@appendSmartFilters')->name('appendSmartFilters');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
