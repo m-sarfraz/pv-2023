@@ -865,6 +865,7 @@
             });
         }
         //close
+        
         // show detail of record on click a row in data table 
         $('#fmtable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')

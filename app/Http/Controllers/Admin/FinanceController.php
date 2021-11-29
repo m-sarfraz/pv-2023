@@ -61,6 +61,7 @@ class FinanceController extends Controller
         return view('finance.filter_data');
     }
     // close
+
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
@@ -142,6 +143,7 @@ class FinanceController extends Controller
     }
     //close
 
+    // save the update data of candidate
     public function SavefinanceReference(Request $request)
     {
         $id = Auth::user()->id;
@@ -185,6 +187,9 @@ class FinanceController extends Controller
         Helper::save_log('Finance_Reference_updated');
         return $request->candidate_id;
     }
+    // close
+
+    // yajra data table of finance data
     public function view_finance_search_table()
     {
         // user, information ,endo , finance
@@ -242,6 +247,9 @@ class FinanceController extends Controller
             ])
             ->make(true);
     }
+    // close
+
+    // append the summary of filtered record
     public function summaryAppend(Request $request)
     {
         $check = $searchCheck = false;
@@ -501,6 +509,9 @@ class FinanceController extends Controller
 
         return view('finance.summary', $data);
     }
+    // close
+
+    // append finace filter options on page laod
     public function appendFinanceOptions()
     {
         $arr = ['Offer accepted', 'Onboarded'];
@@ -521,4 +532,5 @@ class FinanceController extends Controller
             'client' => $client,
         ]);
     }
+    // close
 }
