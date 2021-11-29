@@ -30,24 +30,21 @@ class SmartSearchController extends Controller
         $data = [];
         $check = $searchCheck = false;
         // return $request->all();
-        $Userdata = DB::table('six_table_view');
+        $Userdata =  DB::table('smart_view');
         //    check null values coming form selected options
         if (isset($request->domain)) {
-            $Userdata->whereIn('six_table_view.domain', $request->domain);
+            $Userdata->whereIn('smart_view.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-
-            $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
+            $Userdata->whereIn('smart_view.saved_by', $request->recruiter);
         }
         if (isset($request->status)) {
-
-            $Userdata->whereIn('six_table_view.endostatus', array($request->status));
+            $Userdata->whereIn('smart_view.status', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
-            $Userdata->whereIn('six_table_view.client', $request->client);
+            $Userdata->whereIn('smart_view.client', $request->client);
         }
-
         if ($request->cip == 1) {
             $stageArray = [
                 'Scheduled for Skills Interview',
@@ -96,157 +93,45 @@ class SmartSearchController extends Controller
                 'Position On Hold (Final Stage)',
                 'Shortlisted',
             ];
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $stageArray);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $stageArray);
         }
         if (isset($request->residence)) {
-            $Userdata->whereIn('six_table_view.address', $request->residence);
+            $Userdata->whereIn('smart_view.address', $request->residence);
         }
         if (isset($request->career_level)) {
 
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
+            $Userdata->whereIn('smart_view.career_endo', $request->career_level);
         }
         if (isset($request->category)) {
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $request->category);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('six_table_view.remarks', $request->remarks);
+            $Userdata->whereIn('smart_view.remarks', $request->remarks);
         }
         if (isset($request->ob_start)) {
-            $Userdata->whereDate('six_table_view.onboardnig_date', '>=', $request->ob_start);
+            $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
         }
         if (isset($request->ob_end)) {
-            $Userdata->whereDate('six_table_view.onboardnig_date', '<=', $request->ob_end);
+            $Userdata->whereDate('smart_view.onboardnig_date', '<=', $request->ob_end);
         }
         if (isset($request->sift_start)) {
-            $Userdata->whereDate('six_table_view.date_shifted', '>=', $request->sift_start);
+            $Userdata->whereDate('smart_view.date_shifted', '>=', $request->sift_start);
         }
         if (isset($request->sift_end)) {
-            $Userdata->whereDate('six_table_view.date_shifted', '<=', $request->sift_end);
+            $Userdata->whereDate('smart_view.date_shifted', '<=', $request->sift_end);
         }
         if (isset($request->endo_start)) {
-            $Userdata->whereDate('six_table_view.endi_date', '>=', $request->endo_start);
+            $Userdata->whereDate('smart_view.endi_date', '>=', $request->endo_start);
         }
         if (isset($request->endo_end)) {
-            $Userdata->whereDate('six_table_view.endi_date', '<=', $request->endo_end);
+            $Userdata->whereDate('smart_view.endi_date', '<=', $request->endo_end);
         }
-        //start search
-        // if (isset($request->searchKeyword)) {
-        //     $searchCheck = true;
-        //     $perfect_match = DB::table("six_table_view")->get();
-
-        //     foreach ($perfect_match as $match) {
-        //         if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->address), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.address', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->remarks), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.remarks', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->date_shifted), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.date_shifted', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword)) !== false) {
-        //             $check = true;
-        //             $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->gender), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.gender', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->educational_attain), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.endostatus', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //         if (strpos(strtolower($match->srp), strtolower($request->searchKeyword)) !== false) {
-
-        //             $check = true;
-        //             $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
-        //         }
-        //     }
-        // }
-        // if ($check) {
-
-        //     $user = $Userdata->get();
-        // } else {
-        //     if (!$check && !$searchCheck) {
-        //         $user = $Userdata->get();
-        //     } else {
-        //         $user = [];
-        //     }
-        // }
         $user = $Userdata->get();
-
-        $onBoarded = count($Userdata->get());
         return Datatables::of($user)
-            ->addIndexColumn()
             ->addColumn('recruiter', function ($Userdata) {
-                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
                 return $Userdata->recruiter;
             })
             ->addColumn('candidate', function ($Userdata) {
-                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
                 return $Userdata->last_name;
             })
             ->addColumn('client', function ($user) {
@@ -281,8 +166,8 @@ class SmartSearchController extends Controller
             ->addColumn('career_endo', function ($user) {
                 return $user->career_endo;
             })
-            ->addColumn('endostatus', function ($user) {
-                return $user->endostatus;
+            ->addColumn('app_status', function ($user) {
+                return $user->status;
             })
             ->addColumn('endi_date', function ($user) {
                 if (!empty($user->endi_date && $user->endi_date != '0000-00-00')) {
@@ -322,7 +207,7 @@ class SmartSearchController extends Controller
             })
 
             ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance', 'category',
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
 
@@ -337,88 +222,88 @@ class SmartSearchController extends Controller
     public function smartTOYajra()
     {
 
-        $Userdata = DB::table('six_table_view')->get();
-        return Datatables::of($Userdata)
+        $allData = DB::table('smart_view');
+        return Datatables::of($allData)
         // ->addIndexColumn()
-            ->addColumn('recruiter', function ($Userdata) {
-                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
-                return $Userdata->recruiter;
+            ->addColumn('recruiter', function ($allData) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
+                return $allData->recruiter;
             })
-            ->addColumn('candidate', function ($Userdata) {
-                // $name = DB::select('select last_name from  candidate_informations where id=' . $Userdata->id);
-                return $Userdata->last_name;
+            ->addColumn('candidate', function ($allData) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
+                return $allData->last_name;
             })
-            ->addColumn('client', function ($Userdata) {
-                return $Userdata->client;
+            ->addColumn('client', function ($allData) {
+                return $allData->client;
             })
-            ->addColumn('gender', function ($Userdata) {
-                return $Userdata->gender;
+            ->addColumn('gender', function ($allData) {
+                return $allData->gender;
             })
-            ->addColumn('domain', function ($Userdata) {
-                return $Userdata->domain;
+            ->addColumn('domain', function ($allData) {
+                return $allData->domain;
             })
-            ->addColumn('candidate_profile', function ($Userdata) {
-                return $Userdata->candidate_profile;
+            ->addColumn('candidate_profile', function ($allData) {
+                return $allData->candidate_profile;
             })
-            ->addColumn('educational_attain', function ($Userdata) {
-                return $Userdata->educational_attain;
+            ->addColumn('educational_attain', function ($allData) {
+                return $allData->educational_attain;
             })
-            ->addColumn('curr_salary', function ($Userdata) {
-                return $Userdata->curr_salary;
+            ->addColumn('curr_salary', function ($allData) {
+                return $allData->curr_salary;
             })
-            ->addColumn('portal', function ($Userdata) {
+            ->addColumn('portal', function ($allData) {
                 return "N/A";
             })
-            ->addColumn('date_shifted', function ($Userdata) {
-                if (!empty($Userdata->date_shifted && $Userdata->date_shifted != '0000-00-00')) {
-                    $date_shifted = date_format(date_create($Userdata->date_shifted), "m-d-Y");
+            ->addColumn('date_shifted', function ($allData) {
+                if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
+                    $date_shifted = date_format(date_create($allData->date_shifted), "m-d-Y");
                     return $date_shifted;
                 } else {
-                    $Userdata->date_shifted = '';
+                    $allData->date_shifted = '';
                 }
 
             })
-            ->addColumn('career_endo', function ($Userdata) {
-                return $Userdata->career_endo;
+            ->addColumn('career_endo', function ($allData) {
+                return $allData->career_endo;
             })
-            ->addColumn('endostatus', function ($Userdata) {
-                return $Userdata->endostatus;
+            ->addColumn('app_status', function ($allData) {
+                return $allData->status;
             })
-            ->addColumn('endi_date', function ($Userdata) {
-                if (!empty($Userdata->endi_date && $Userdata->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($Userdata->endi_date), "m-d-Y");
+            ->addColumn('endi_date', function ($allData) {
+                if (!empty($allData->endi_date && $allData->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($allData->endi_date), "m-d-Y");
                     return $endi_date;
                 } else {
-                    $Userdata->endi_date = '';
+                    $allData->endi_date = '';
                 }
 
             })
-            ->addColumn('remarks_for_finance', function ($Userdata) {
-                return $Userdata->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($allData) {
+                return $allData->remarks_for_finance;
             })
-            ->addColumn('category', function ($Userdata) {
+            ->addColumn('category', function ($allData) {
                 return "N/A";
             })
-            ->addColumn('srp', function ($Userdata) {
-                return $Userdata->srp;
+            ->addColumn('srp', function ($allData) {
+                return $allData->srp;
             })
-            ->addColumn('onboardnig_date', function ($Userdata) {
-                if (!empty($Userdata->onboardnig_date && $Userdata->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($Userdata->onboardnig_date), "m-d-Y");
+            ->addColumn('onboardnig_date', function ($allData) {
+                if (!empty($allData->onboardnig_date && $allData->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($allData->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $Userdata->onboardnig_date = '';
+                    $allData->onboardnig_date = '';
                 }
             })
-            ->addColumn('placement_fee', function ($Userdata) {
-                return $Userdata->placement_fee;
+            ->addColumn('placement_fee', function ($allData) {
+                return $allData->placement_fee;
             })
-            ->addColumn('address', function ($Userdata) {
-                return $Userdata->address;
+            ->addColumn('address', function ($allData) {
+                return $allData->address;
             })
 
             ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'endostatus', 'endi_date', 'remarks_for_finance', 'category',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance', 'category',
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
     }

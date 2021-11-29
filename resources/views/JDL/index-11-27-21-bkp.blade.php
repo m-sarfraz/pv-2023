@@ -549,7 +549,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'client',
@@ -641,7 +642,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'client',

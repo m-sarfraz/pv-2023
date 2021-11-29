@@ -444,7 +444,6 @@
                     url: '{{ url('admin/appendSmartFilters') }}',
                 })
                 .done(function(res) {
-                    console.log(res)
                     for (let i = 0; i < res.domain.length; i++) {
                         $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
                             .domain_name +
@@ -571,7 +570,7 @@
             var option_table = $('#smTable').DataTable({
                 destroy: true,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -646,8 +645,8 @@
                         name: 'career_endo'
                     },
                     {
-                        data: 'endostatus',
-                        name: 'endostatus'
+                        data: 'app_status',
+                        name: 'app_status'
                     },
                     {
                         data: 'endi_date',
@@ -693,7 +692,7 @@
             var option_table = $('#smTable').DataTable({
                 destroy: true,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -749,8 +748,8 @@
                         name: 'career_endo'
                     },
                     {
-                        data: 'endostatus',
-                        name: 'endostatus'
+                        data: 'app_status',
+                        name: 'app_status'
                     },
                     {
                         data: 'endi_date',
