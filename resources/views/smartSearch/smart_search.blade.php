@@ -701,6 +701,9 @@
                     url: "{{ route('view-smart-search-table') }}",
                     type: "GET",
                 },
+                initComplete: function(settings, json) {
+
+                },
                 columns: [{
                         data: 'recruiter',
                         name: 'recruiter'
@@ -815,6 +818,7 @@
         function countRecord() {
             var count = $('#smTable_info').text().split(' ');
             $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
         }
         // close 
 
@@ -822,6 +826,7 @@
         function countRecordFilter() {
             var count = $('#smTable1_info').text().split(' ');
             $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
         }
         //close
     </script>

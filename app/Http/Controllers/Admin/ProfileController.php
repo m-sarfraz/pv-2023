@@ -21,7 +21,6 @@ use DB;
 use File;
 use Helper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Response;
 
@@ -66,17 +65,21 @@ class ProfileController extends Controller
             if ($request->hasFile('profile')) {
                 $file_name = $userId . time() . '.' . $request->profile->getClientOriginalExtension();
                 $user = User::where('id', $userId)->first();
-                if ($user->image != "") {
-                    $userLogo = $user->image;
-                    $delFile = Storage::delete($userLogo);
-                    if (!$delFile) {
-                        return response()->json(['success' => false, 'message' => 'Existing file not deleted']);
-                    }
-                }
-                $filepath = "public/" . $userId . "/" . $request->image_type;
-                $path = $request->file('profile')->storeAs($filepath, $file_name);
+                // if ($user->image != "") {
+                //     $userLogo = $user->image;
+                //     $delFile = Storage::delete($userLogo);
+                //     if (!$delFile) {
+                //         return response()->json(['success' => false, 'message' => 'Existing file not deleted']);
+                //     }
+                // }
+                // $path = base_path();
+                $filepath =   public_path("/storage/uploads/" . $userId . "/" . $request->image_type); // upload path
+                // return $filepath;
+                $save = "/uploads/" . $userId . "/" . $request->image_type;
+                // $filepath = "uploads/" . $userId . "/" . $request->image_type;
+                $path = $request->file('profile')->move($filepath, $file_name);
                 //Storage::put($filepath, $file_name);
-                $userdata['image'] = $filepath . "/" . $file_name;
+                $userdata['image'] = $save . "/" . $file_name;
             }
             if ($request->password != '') {
                 $userdata['password'] = bcrypt($request->password);
@@ -99,7 +102,7 @@ class ProfileController extends Controller
     // function for Google sheet Import starts
     public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
-        ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+        ini_set('max_execution_time', 3000); //3000 seconds = 50 minutes
         $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
         $config = Config::get("datastudio.google_sheet_id");

@@ -9,7 +9,7 @@
                             <label class="Label-00">
                                 Average Salary:
                             </label>
-                            <input readonly type="text" class="form-control users-input-S-C"
+                            <input readonly type="text" class="form-control users-input-S-C" id="avgsalary"
                                 placeholder="hires.." />
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             <label class="Label-00">
                                 Active SPR:
                             </label>
-                            <input readonly type="text" class="form-control users-input-S-C"
+                            <input readonly type="text" class="form-control users-input-S-C" id="activeSPR"
                                 placeholder="Rev.." />
                         </div>
                     </div>
@@ -172,9 +172,12 @@
     final = {!! $final !!}    
     withdrawn = {!! $withdrawn !!}    
     fallout = {!! $fallout !!}    
-    revenue = {!! $revenue !!}    
+    revenue = {!! $revenue !!} 
+    activeSPR ={!! $activeSPR !!}   
+    salary ={!! $salary !!}   
     spr = {!! $spr !!}    
-    $('#sifted').val($('#foundRecord').val());
+    // $('#sifted').val($('#foundRecord').val());
+    avgSalary =Math.round(salary / endo);
     $('#endo').val(endo);
     $('#active').val(active);
     $('#onBoarded').val(onBoarded);
@@ -188,4 +191,6 @@
     $('#fallout').val(fallout);
     $('#revenue').val(revenue);
     $('#spr').val(spr);
+    $('#activeSPR').val(activeSPR);
+    $('#avgsalary').val(avgSalary); 
 </script>

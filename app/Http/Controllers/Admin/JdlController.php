@@ -244,7 +244,7 @@ class JdlController extends Controller
         if (isset($request->status)) {
             $Userdata->where('jdl.status', $request->status);
         }
-        $dataJdl = $Userdata->get();
+        $dataJdl = $Userdata;
         return Datatables::of($dataJdl)
             ->addColumn('id', function ($dataJdl) {
                 return $dataJdl->id;

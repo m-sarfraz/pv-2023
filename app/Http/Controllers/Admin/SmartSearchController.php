@@ -8,7 +8,6 @@ use App\User;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
-use Str;
 use Yajra\DataTables\DataTables;
 
 class SmartSearchController extends Controller
@@ -30,7 +29,7 @@ class SmartSearchController extends Controller
         $data = [];
         $check = $searchCheck = false;
         // return $request->all();
-        $Userdata =  DB::table('smart_view');
+        $Userdata = DB::table('smart_view');
         //    check null values coming form selected options
         if (isset($request->domain)) {
             $Userdata->whereIn('smart_view.domain', $request->domain);
@@ -219,6 +218,8 @@ class SmartSearchController extends Controller
     {
         return count($mainObject->where($target, $condition)->get());
     }
+
+    // convert table to yajra data table on page load
     public function smartTOYajra()
     {
 
@@ -307,111 +308,117 @@ class SmartSearchController extends Controller
                 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
     }
+    //close
+
+    // append summary on page load
     public function summaryAppend(Request $request)
     {
         // return $request->all();
-        $data = [];
-        $check = $searchCheck = false;
+        // $data = [];
+        // $check = $searchCheck = false;
         // return $request->all();
-        $Userdata = DB::table('six_table_view');
+        $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
+            ->select(DB::raw("SUM(finance.srp) as t_srp"), 'finance.srp',
+                DB::raw("SUM(finance.placement_fee) as t_placement_fee"),
+                'finance.placement_fee', 'endorsements.app_status', 'endorsements.remarks_for_finance');
         // ->SELECT('six_table_view.*', DB::raw('SUM(six_table_view.srp) as TotalSPR'), DB::raw('SUM(six_table_view.placement_fee) as TotalRevenue'));
         //    check null values coming form selected options
-        if (isset($request->domain)) {
-            $Userdata->whereIn('six_table_view.domain', $request->domain);
-        }
-        if (isset($request->recruiter)) {
-            $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
-        }
-        if (isset($request->client)) {
-            // return $request->client;
-            $newarr = array();
-            foreach ($request->client as $client) {
-                //$strc =
-                array_push($newarr, "'$client'");
-            }
-            $Userdata->whereIn('six_table_view.client', $request->client);
-        }
-        if ($request->cip == 1) {
-            $stageArray = [
-                'Scheduled for Skills Interview',
-                'Scheduled for Technical Interview',
-                'Scheduled for Technical exam',
-                'Sheduled for Behavioral Interview',
-                'Scheduled for account validation',
-                'Done Skills interview/ Awaiting Feedback',
-                ' Done Techincal Interview /Awaiting Feedback',
-                'Done Technical exam /Awaiting Feedback',
-                ' Done Behavioral /Awaiting Feedback',
-                ' Failed Skills interview',
-                ' Failed Techincal Interview',
-                'Failed Technical exam',
-                'Failed Behavioral Interview',
-                'Pending Country Head Interview',
-                'Pending Final Interview',
-                ' Pending Hiring Managers Interview',
-                ' Withdraw / CNI - Mid',
-                '   Position Closed (Mid Stage)',
-                ' Done Skills/Technical Interview / Awaiting Feedback',
-                ' Failed Skills/Technical Interview',
-                '  Position On Hold (Mid Stage)',
-                ' Scheduled for Behavioral Interview',
-                '  Scheduled for Skills/Technical Interview',
-                '  Fallout/Reneged',
-                'Scheduled for Country Head Interview',
-                'Scheduled for Final Interview',
-                'Scheduled for Hiring Managers Interview',
-                'Done Behavioral Interview / Awaiting Feedback',
-                'Done Final Interview / Awaiting Feedback',
-                'Done Hiring Managers Interview / Awaiting Feedback',
-                'Failed Country Head Interview',
-                'Failed Final Interview',
-                'Failed Hiring Managers Interview',
-                'Scheduled for Job Offer',
-                'Shortlisted/For Comparison',
-                'Onboarded',
-                'Offer accepted',
-                'Offer Rejected',
-                'Position Closed (Final Stage)',
-                'Withdraw / CNI - Final',
-                'Done Country Head Interview / Awaiting Feedback',
-                'Pending Offer Approval',
-                'Pending Offer Schedule',
-                'Position On Hold (Final Stage)',
-                'Shortlisted',
-            ];
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $stageArray);
-        }
-        if (isset($request->residence)) {
-            $Userdata->whereIn('six_table_view.address', $request->residence);
-        }
-        if (isset($request->career_level)) {
+        // if (isset($request->domain)) {
+        //     $Userdata->whereIn('six_table_view.domain', $request->domain);
+        // }
+        // if (isset($request->recruiter)) {
+        //     $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
+        // }
+        // if (isset($request->client)) {
+        //     // return $request->client;
+        //     $newarr = array();
+        //     foreach ($request->client as $client) {
+        //         //$strc =
+        //         array_push($newarr, "'$client'");
+        //     }
+        //     $Userdata->whereIn('six_table_view.client', $request->client);
+        // }
+        // if ($request->cip == 1) {
+        //     $stageArray = [
+        //         'Scheduled for Skills Interview',
+        //         'Scheduled for Technical Interview',
+        //         'Scheduled for Technical exam',
+        //         'Sheduled for Behavioral Interview',
+        //         'Scheduled for account validation',
+        //         'Done Skills interview/ Awaiting Feedback',
+        //         ' Done Techincal Interview /Awaiting Feedback',
+        //         'Done Technical exam /Awaiting Feedback',
+        //         ' Done Behavioral /Awaiting Feedback',
+        //         ' Failed Skills interview',
+        //         ' Failed Techincal Interview',
+        //         'Failed Technical exam',
+        //         'Failed Behavioral Interview',
+        //         'Pending Country Head Interview',
+        //         'Pending Final Interview',
+        //         ' Pending Hiring Managers Interview',
+        //         ' Withdraw / CNI - Mid',
+        //         '   Position Closed (Mid Stage)',
+        //         ' Done Skills/Technical Interview / Awaiting Feedback',
+        //         ' Failed Skills/Technical Interview',
+        //         '  Position On Hold (Mid Stage)',
+        //         ' Scheduled for Behavioral Interview',
+        //         '  Scheduled for Skills/Technical Interview',
+        //         '  Fallout/Reneged',
+        //         'Scheduled for Country Head Interview',
+        //         'Scheduled for Final Interview',
+        //         'Scheduled for Hiring Managers Interview',
+        //         'Done Behavioral Interview / Awaiting Feedback',
+        //         'Done Final Interview / Awaiting Feedback',
+        //         'Done Hiring Managers Interview / Awaiting Feedback',
+        //         'Failed Country Head Interview',
+        //         'Failed Final Interview',
+        //         'Failed Hiring Managers Interview',
+        //         'Scheduled for Job Offer',
+        //         'Shortlisted/For Comparison',
+        //         'Onboarded',
+        //         'Offer accepted',
+        //         'Offer Rejected',
+        //         'Position Closed (Final Stage)',
+        //         'Withdraw / CNI - Final',
+        //         'Done Country Head Interview / Awaiting Feedback',
+        //         'Pending Offer Approval',
+        //         'Pending Offer Schedule',
+        //         'Position On Hold (Final Stage)',
+        //         'Shortlisted',
+        //     ];
+        //     $Userdata->whereIn('six_table_view.remarks_for_finance', $stageArray);
+        // }
+        // if (isset($request->residence)) {
+        //     $Userdata->whereIn('six_table_view.address', $request->residence);
+        // }
+        // if (isset($request->career_level)) {
 
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
-        }
-        if (isset($request->category)) {
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $request->category);
-        }
-        if (isset($request->remarks)) {
-            $Userdata->whereIn('six_table_view.remarks', $request->remarks);
-        }
-        if (isset($request->ob_start)) {
-            $Userdata->where('six_table_view.onboardnig_date', '>=', $request->ob_start);
-        }
-        if (isset($request->ob_end)) {
-            $Userdata->where('six_table_view.onboardnig_date', '<=', $request->ob_end);
-        }
-        if (isset($request->sift_start)) {
-            $Userdata->where('six_table_view.date_shifted', '>=', $request->sift_start);
-        }
-        if (isset($request->sift_end)) {
-            $Userdata->where('six_table_view.date_shifted', '<=', $request->sift_end);
-        }
-        if (isset($request->endo_start)) {
-            $Userdata->where('six_table_view.endi_date', '>=', $request->endo_start);
-        }
-        if (isset($request->endo_end)) {
-            $Userdata->where('six_table_view.endi_date', '<=', $request->endo_end);
-        }
+        //     $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
+        // }
+        // if (isset($request->category)) {
+        //     $Userdata->whereIn('six_table_view.remarks_for_finance', $request->category);
+        // }
+        // if (isset($request->remarks)) {
+        //     $Userdata->whereIn('six_table_view.remarks', $request->remarks);
+        // }
+        // if (isset($request->ob_start)) {
+        //     $Userdata->where('six_table_view.onboardnig_date', '>=', $request->ob_start);
+        // }
+        // if (isset($request->ob_end)) {
+        //     $Userdata->where('six_table_view.onboardnig_date', '<=', $request->ob_end);
+        // }
+        // if (isset($request->sift_start)) {
+        //     $Userdata->where('six_table_view.date_shifted', '>=', $request->sift_start);
+        // }
+        // if (isset($request->sift_end)) {
+        //     $Userdata->where('six_table_view.date_shifted', '<=', $request->sift_end);
+        // }
+        // if (isset($request->endo_start)) {
+        //     $Userdata->where('six_table_view.endi_date', '>=', $request->endo_start);
+        // }
+        // if (isset($request->endo_end)) {
+        //     $Userdata->where('six_table_view.endi_date', '<=', $request->endo_end);
+        // }
         // //start search
         // if (isset($request->searchKeyword)) {
         //     $searchCheck = true;
@@ -516,52 +523,71 @@ class SmartSearchController extends Controller
         //         $user = [];
         //     }
         // }
-        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        $sql = $Userdata->toSql();
         // $sql = str_replace('*', "*,sum(srp) as TotalSPR,sum(placement_fee) as TotalRevenue", $sql1);
         // return $sql;
-        if (isset($request->client)) {
-            # code...
-            foreach ($request->client as $client) {
-                $sql = str_replace($client, "'$client'", $sql);
-            }
-        }
+        // if (isset($request->client)) {
+        # code...
+        // foreach ($request->client as $client) {
+        // $sql = str_replace($client, "'$client'", $sql);
+        // }
+        // }
         // foreach ($request->remarks as $career) {
         //     $sql = str_replace($career, "'$career'", $sql);
         // }
         // $user = $Userdata->get();
-        if (strpos($sql, 'where') !== false) {
-            $sql_enors = $sql . " and six_table_view.app_status='To Be Endorsed'";
-            $sql_active = $sql . " and app_status='Active File'";
-            $sql_onboarded = $sql . " and remarks_for_finance='Onboarded'";
-            $sql_failed = $sql . " and remarks_for_finance like %fail%'";
-            $sql_accepted = $sql . " and remarks_for_finance like %accept%'";
-            $sql_withdrawn = $sql . " and remarks_for_finance like %withdraw%'";
-            $sql_reject = $sql . " and remarks_for_finance like %reject%'";
-            $sql_final = $sql . " and remarks_for_finance like %final%'";
-            $sql_mid = $sql . " and remarks_for_finance like %mid%'";
-            $sql_initial = $sql . " and remarks_for_finance like %initial%'";
-            $sql_fallout = $sql . " and remarks_for_finance LIKE '%fallout%' OR remarks_for_finance LIKE '%replacement%' ";
-            $sql_revenue = $sql;
+        // if (strpos($sql, 'where') !== false) {
+        //     $sql_enors = $sql . " and endorsements.app_status='To Be Endorsed'";
+        //     $sql_active = $sql . " and app_status='Active File'";
+        //     $sql_onboarded = $sql . " and finance.remarks_for_finance='Onboarded'";
+        //     $sql_failed = $sql . " and finance.remarks_for_finance like %fail%'";
+        //     $sql_accepted = $sql . " and finance.remarks_for_finance like %accept%'";
+        //     $sql_withdrawn = $sql . " and finance.remarks_for_finance like %withdraw%'";
+        //     $sql_reject = $sql . " and finance.remarks_for_finance like %reject%'";
+        //     $sql_final = $sql . " and finance.remarks_for_finance like %final%'";
+        //     $sql_mid = $sql . " and finance.remarks_for_finance like %mid%'";
+        //     $sql_initial = $sql . " and finance.remarks_for_finance like %initial%'";
+        //     $sql_fallout = $sql . " and finance.remarks_for_finance LIKE '%fallout%' OR finance.remarks_for_finance LIKE '%replacement%' ";
+        //     $sql_revenue = DB::select($sql);
+        //     $sql_spr = DB::select($sql);
 
-        } else {
-            $sql_enors = $sql . "where six_table_view.app_status='To Be Endorsed'";
-            $sql_active = $sql . "where app_status='Active File'";
-            $sql_onboarded = $sql . "where remarks_for_finance='Onboarded'";
-            $sql_failed = $sql . "where remarks_for_finance LIKE '%fail%' ";
-            $sql_accepted = $sql . "where remarks_for_finance LIKE '%accept%' ";
-            $sql_withdrawn = $sql . "where remarks_for_finance LIKE '%withdraw%' ";
-            $sql_reject = $sql . "where remarks_for_finance LIKE '%reject%' ";
-            $sql_final = $sql . "where remarks_for_finance LIKE '%final%' ";
-            $sql_mid = $sql . "where remarks_for_finance LIKE '%mid%' ";
-            $sql_initial = $sql . "where remarks_for_finance LIKE '%initial%' ";
-            $sql_fallout = $sql . " where remarks_for_finance LIKE '%fallout%' OR remarks_for_finance LIKE '%replacement%'  ";
-            $sql_revenue = $sql;
-        }
-        // $sifted = 2345;
-        // dd($sifted);
+        // } else {
+        $sql_salary = "SELECT SUM(curr_salary) as totalSalary FROM `candidate_positions` GROUP BY 'candidate_id'";
+        $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
+        $sql_active = $sql . "where endorsements.app_status='Active File' group by `finance`.`candidate_id`";
+        $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded' group by `finance`.`candidate_id`";
+        $sql_failed = $sql . "where endorsements.remarks_for_finance LIKE '%fail%' group by `finance`.`candidate_id` ";
+        $sql_accepted = $sql . "where endorsements.remarks_for_finance LIKE '%accept%' group by `finance`.`candidate_id` ";
+        $sql_withdrawn = $sql . "where endorsements.remarks_for_finance LIKE '%withdraw%'  group by `finance`.`candidate_id`";
+        $sql_reject = $sql . "where endorsements.remarks_for_finance LIKE '%reject%' group by `finance`.`candidate_id` ";
+        $sql_final = $sql . "where endorsements.remarks_for_finance LIKE '%final%' group by `finance`.`candidate_id` ";
+        $sql_mid = $sql . "where endorsements.remarks_for_finance LIKE '%mid%' group by `finance`.`candidate_id` ";
+        $sql_initial = $sql . "where endorsements.remarks_for_finance LIKE '%initial%' group by `finance`.`candidate_id` ";
+        $sql_fallout = $sql . " where endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' group by `finance`.`candidate_id`  ";
+        $sql_active_spr = $sql . " where endorsements.remarks_for_finance LIKE '%final%' OR endorsements.remarks_for_finance LIKE '%mid%'  group by `finance`.`candidate_id`  ";
+        $sql_revenue = DB::select($sql);
+        $sql_spr = DB::select($sql);
+        $active_spr = DB::select($sql);
+        $sql_getActive_spr = DB::select($sql_active_spr);
+        // }
+        $curr_salary = DB::select($sql_salary);
+        $salary = ceil($curr_salary[0]->totalSalary);
         // return $sql_revenue->TotalSPR;
-        $sql_spr = 12;
-        $sql_revenue = 12;
+        // $sql_spr = 12; group by `finance`.`candidate_id`
+        $sql_spr_amount = 0;
+        $sql_active_spr_amount = 0;
+        $sql_revenue_amount = 0;
+        foreach ($sql_spr as $spr) {
+            $sql_spr_amount = ceil($sql_spr_amount + $spr->t_srp);
+        }
+        foreach ($sql_getActive_spr as $active) {
+            $sql_active_spr_amount = ceil($sql_active_spr_amount + $active->t_srp);
+        }
+        foreach ($sql_revenue as $revenue) {
+            $sql_revenue_amount = ceil($sql_revenue_amount + $revenue->t_placement_fee);
+        }
+        // return $sql_spr_amount;
+        // return $sql_revenue_amount;
         $data = [
             // 'Userdata' => $user,
             // 'sifted' => $sifted,
@@ -576,11 +602,16 @@ class SmartSearchController extends Controller
             'initial' => count(DB::select($sql_initial)),
             'withdrawn' => count(DB::select($sql_withdrawn)),
             'fallout' => count(DB::select($sql_fallout)),
-            'revenue' => $sql_revenue,
-            'spr' => $sql_spr,
+            'revenue' => $sql_revenue_amount,
+            'spr' => $sql_spr_amount,
+            'activeSPR' => $sql_spr_amount,
+            'salary' => $salary,
         ];
         return view('smartSearch.summary', $data);
     }
+    //close
+
+    // append drop down options on page load
     public function appendSmartFilters()
     {
         $domain = Domain::all();
@@ -601,4 +632,5 @@ class SmartSearchController extends Controller
                 'remarks' => $remarks,
             ]);
     }
+    //close
 }
