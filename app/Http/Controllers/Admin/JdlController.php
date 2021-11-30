@@ -244,82 +244,12 @@ class JdlController extends Controller
         if (isset($request->status)) {
             $Userdata->where('jdl.status', $request->status);
         }
-        if (isset($request->searchKeyword)) {
-            ini_set('max_execution_time', 60000); //300 seconds = 5 minutes
-            $searchCheck = true;
-            $perfect_match = DB::select(DB::raw('select client,domain,segment,subsegment,p_title,c_level,status,location,budget,w_schedule from jdl'));
-            foreach ($perfect_match as $match) {
-
-                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    //    return $match->client;
-                    $Userdata->where('jdl.client', 'like', '%' . strtolower($request->searchKeyword) . '%');
-                }
-
-                if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-
-                    $Userdata->where('jdl.domain', 'like', '%' . strtolower($request->searchKeyword) . '%');
-                }
-                if (strpos(strtolower($match->segment), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-
-                    $Userdata->where('jdl.segment', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->subsegment), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.subsegment', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->c_level), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.c_level', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->p_title), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.p_title', 'like', '%' . $request->searchKeyword . '%');
-                }
-
-                if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.status', 'like', '%' . $request->searchKeyword . '%');
-                }
-
-                if (strpos(strtolower($match->location), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    if (strtolower($request->searchKeyword) == strtolower($match->client)) {
-                        break;
-                    } else {
-
-                        $Userdata->where('jdl.location', 'like', '%' . $request->searchKeyword . ' %');
-                    }
-                }
-                if (strpos(strtolower($match->budget), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.budget', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->w_schedule), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('jdl.w_schedule', 'like', '%' . $request->searchKeyword . '%');
-                }
-            }
-        }
-        if ($check) {
-
-            $dataJdl = $Userdata->get();
-        } else {
-            if (!$check && !$searchCheck) {
-                $dataJdl = $Userdata->get();
-            } else {
-
-                $dataJdl = [];
-            }
-        }
-        $count = count($dataJdl);
+        $dataJdl = $Userdata->get();
         return Datatables::of($dataJdl)
-            ->addIndexColumn()
             ->addColumn('id', function ($dataJdl) {
                 return $dataJdl->id;
             })
+            ->addIndexColumn()
             ->addColumn('client', function ($dataJdl) {
                 return $dataJdl->client;
             })

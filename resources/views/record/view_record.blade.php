@@ -959,7 +959,7 @@
                 destroy: true,
                 pageLength: 10,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 searchHighlight: true,
                 language: {
                     processing: '<div class="spinner-border mr-3" role="status"></div>' +
@@ -982,8 +982,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        searchable: false
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'recruiter',
@@ -1050,7 +1050,7 @@
                 destroy: true,
                 pageLength: 20,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -1079,7 +1079,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'recruiter',

@@ -121,12 +121,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'filterView', 'FinanceController@filterView')->name('filterView');
     Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
     Route::get('summaryAppend_finance', 'FinanceController@summaryAppend')->name('summaryAppend_finance');
+    Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
 
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
     Route::get('summaryAppend', 'SmartSearchController@summaryAppend')->name('summaryAppend');
     Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');
+    Route::get('appendSmartFilters', 'SmartSearchController@appendSmartFilters')->name('appendSmartFilters');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');

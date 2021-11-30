@@ -531,7 +531,7 @@
             var option_table = $('#jdlTable').DataTable({
                 destroy: true,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -542,11 +542,13 @@
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        searchable: false 
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'client',
@@ -638,7 +640,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex', 
+                        searchable: false 
                     },
                     {
                         data: 'client',

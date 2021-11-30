@@ -41,6 +41,7 @@
             <div class="col-lg-6">
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <div class="row mb-4">
@@ -78,10 +79,10 @@
                                         <label class="Label">Recruiter</label>
                                         <select multiple name="recruiter" id="recruiter"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            @foreach ($recruiter as $key => $user)
+                                            {{-- @foreach ($recruiter as $key => $user)
                                                 <option value="{{ $user->id }}">
                                                     {{ $user->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -92,10 +93,10 @@
                                         </label>
                                         <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            @foreach ($candidates as $key => $candidate)
+                                            {{-- @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
                                                     {{ $candidate->last_name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -108,11 +109,11 @@
                                         </label>
                                         <select multiple name="remarks" id="remarks"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabled>Select Option</option>
-                                            @foreach ($remarks_finance as $remarks)
+                                            {{-- <option disabled>Select Option</option> --}}
+                                            {{-- @foreach ($remarks_finance as $remarks)
                                                 <option value="{{ $remarks->remarks_for_finance }}">
                                                     {{ $remarks->remarks_for_finance }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -123,10 +124,10 @@
                                         </label>
                                         <select multiple name="team_id" id="team_id"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($teams as $team)
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($teams as $team)
                                                 <option value="{{ $team->name }}">{{ $team->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -148,12 +149,12 @@
                                         </label>
                                         <select multiple name="process" id="process"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($candidates as $reprocess)
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($candidates as $reprocess)
                                                 <option value="{{ $reprocess->reprocess }}">
                                                     {{ $reprocess->reprocess }}
                                                 </option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -167,12 +168,12 @@
                                         </label>
                                         <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="" disabled>Select Option</option>
-                                            @foreach ($client->options as $clientOptions)
+                                            {{-- <option value="" disabled>Select Option</option> --}}
+                                            {{-- @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
                                                 </option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -192,11 +193,11 @@
                                         </label>
                                         <select multiple name="appstatus" id="appstatus"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($appstatus as $appstatuss)
+                                            {{-- <option disabaled> Select Option </option> --}}
+                                            {{-- @foreach ($appstatus as $appstatuss)
                                                 <option value="{{ $appstatuss->app_status }}">
                                                     {{ $appstatuss->app_status }}</option>
-                                            @endforeach
+                                            @endforeach --}}
 
                                         </select>
                                     </div>
@@ -815,10 +816,11 @@
             $('#loader').show();
             setTimeout(function() {
                 $('#loader').hide();
-            }, 1000);
+            }, 10);
             // show and hide loader after time set ends
             // call for summary append 
             appendSummary()
+            appendFilterOptions()
             // close 
         });
         // close 
@@ -863,6 +865,7 @@
             });
         }
         //close
+
         // show detail of record on click a row in data table 
         $('#fmtable').on('click', 'tbody tr', function() {
             // $(this).css('background-color','red')
@@ -913,8 +916,6 @@
                         data: 'last_name',
                         name: 'last_name'
                     },
-
-
                     {
                         data: 'career_endo',
                         name: 'career_endo'
@@ -931,18 +932,64 @@
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance'
                     },
-
                     {
-                        data: 'app_status',
-                        name: 'app_status'
+                        data: 'endostatus',
+                        name: 'endostatus'
                     },
-
-
-
                 ]
             });
         }
         // close 
+
+        //append  dropdowns
+        function appendFilterOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/appendFinanceOptions') }}',
+                })
+                .done(function(res) {
+                    for (let i = 0; i < res.candidates.length; i++) {
+                        $('#candidate').append('<option value="' + res.candidates[i].cid + '">' + res.candidates[i]
+                            .last_name +
+                            '</option>')
+                    }
+                    for (let i = 0; i < res.candidates.length; i++) {
+                        $('#process').append('<option value="' + res.candidates[i].reprocess + '">' + res.candidates[i]
+                            .reprocess + '</option>')
+                    }
+                    for (let i = 0; i < res.recruiter.length; i++) {
+                        $('#recruiter').append('<option value="' + res.recruiter[i].id + '">' + res.recruiter[i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.remarks_finance.length; i++) {
+                        $('#remarks').append('<option value="' + res.remarks_finance[i].remarks_for_finance + '">' + res
+                            .remarks_finance[i]
+                            .remarks_for_finance + '</option>')
+                    }
+                    for (let i = 0; i < res.teams.length; i++) {
+                        $('#team_id').append('<option value="' + res.teams[i].name + '">' + res.teams[i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.client.options.length; i++) {
+                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' + res.client
+                            .options[i]
+                            .option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.appstatus.length; i++) {
+                        if (res.appstatus[i].app_status != '') {
+                            $('#appstatus').append('<option value="' + res.appstatus[i].app_status + '">' + res
+                                .appstatus[i]
+                                .app_status + '</option>')
+                        }
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
+        
         function load_datatable1() {
             // get values of selected inputs of users
             searchKeyword = $('#searchKeyword').val();
@@ -1037,6 +1084,8 @@
                 ]
             });
         }
+        //close 
+
         // function for getting detail of user starts 
         function userDetail(elem, id) {
             $('#loader').show();
@@ -1079,6 +1128,7 @@
             });
         }
         // close
+
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
             $('#fmtable_filter').children().children().val($('#searchKeyword').val());
