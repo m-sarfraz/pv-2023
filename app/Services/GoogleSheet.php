@@ -47,7 +47,6 @@ class GoogleSheet
             $spreadSheetId,
             ['ranges' => 'Sheet1!A:A', 'majorDimension' => 'COLUMNS']
         );
- 
         //if data is present at nth row, it will return array till nth row
         //if all column values are empty, it returns null
         $rowMeta = $rowDimensions->getValueRanges()[0]->values;
@@ -62,7 +61,7 @@ class GoogleSheet
             $spreadSheetId,
             ['ranges' => 'Sheet1!1:1', 'majorDimension' => 'ROWS']
         );
-
+        
         //if data is present at nth col, it will return array till nth col
         //if all column values are empty, it returns null
         $colMeta = $colDimensions->getValueRanges()[0]->values;
