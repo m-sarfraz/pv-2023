@@ -959,7 +959,7 @@
                 destroy: true,
                 pageLength: 10,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 searchHighlight: true,
                 language: {
                     processing: '<div class="spinner-border mr-3" role="status"></div>' +
@@ -1050,7 +1050,7 @@
                 destroy: true,
                 pageLength: 20,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },

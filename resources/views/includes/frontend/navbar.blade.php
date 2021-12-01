@@ -102,7 +102,7 @@
                     </div>
                 </div>
             @endcan
-            <div class="ml-auto E_S_icon pr-8">
+            <div class="ml-auto E_S_icon pr-8 px-3">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
                             <div class="pt-0">
                                 <input type="text" placeholder="search here" class="border-0 pl-3 rounded" name="" id="" />
@@ -115,8 +115,14 @@
                 <h4 class="px-2 pt-1 text-white border-right" style="font-size: 22px;">
                     Eallaine System
                 </h4>
-                <div class="dropdown px-3">
-                    <img class="mb-1 dropbtn" src="{{ asset('assets/image/global/header-profile.png') }}" alt="" />
+                <div class="dropdown px-2">
+                    <?php
+                    $user = Auth::user();
+                     
+                    ?>
+                    <img class="mb-1 dropbtn" src="{{ url('storage/' . $user->image) }}" alt="" style="    width: 33px;
+                    height: 33px;
+                    border-radius: 100%;"  />
                     <i class="bi bi-chevron-down mt-2" style="color: white;"></i>
                     <div class="dropdown-content">
                         {{-- @can('view-profile') --}}
