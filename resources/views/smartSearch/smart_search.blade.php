@@ -429,7 +429,7 @@
         // document.ready startrs
         $(document).ready(function() {
             // call ajax for values appending 
-            summaryAppendAjax();
+            summaryAppendAjax(1);
             //call ajax for laod dat atable
             load_datatable()
             //call ajax to append options of dropdown
@@ -486,57 +486,19 @@
         //close 
 
         // ajax call for view append
-        function summaryAppendAjax() {
-            // $("#loader").show();
-            // get values of selected inputs of users
-            domain = $('#domain').val();
-            recruiter = $('#recruiter').val();
-            client = $('#client').val();
-            residence = $('#residence').val();
-            career_level = $('#career_level').val();
-            category = $('#category').val();
-            status = $('#status').val();
-            remarks = $('#remarks').val();
-            sift_start = $('#Shifted_start').val();
-            sift_end = $('#Shifted_end').val();
-            ob_start = $('#ob_start').val();
-            ob_end = $('#ob_end').val();
-            endo_start = $('#endo_start').val();
-            endo_end = $('#endo_end').val();
-            searchKeyword = $('#searchKeyword').val();
-            if ($('#cip').is(':checked')) {
-                cip = 1;
-            } else {
-                cip = 0;
-            }
-            // call Ajax for returning the data as view
+        function summaryAppendAjax(array) {
+            array = array;
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/summaryAppend') }}',
                 data: {
                     _token: token,
-                    domain: domain,
-                    recruiter: recruiter,
-                    client: client,
-                    residence: residence,
-                    career_level: career_level,
-                    cip: cip,
-                    category: category,
-                    status: status,
-                    remarks: remarks,
-                    endo_start: endo_start,
-                    endo_end: endo_end,
-                    ob_start: ob_start,
-                    ob_end: ob_end,
-                    sift_start: sift_start,
-                    sift_end: sift_end,
-                    searchKeyword: searchKeyword,
+                    array: array,
                 },
 
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html(data);
-                    // $("#loader").hide();
                 },
             });
         }
@@ -597,6 +559,10 @@
                         sift_end: sift_end,
                         // searchKeyword: searchKeyword,
                     },
+                },
+                initComplete: function(settings, json) {
+                    console.log(json.array);
+                    summaryAppendAjax(json.array);
                 },
                 columns: [{
                         data: 'recruiter',
