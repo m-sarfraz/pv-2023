@@ -110,7 +110,7 @@
                             <div>
                                 <small class="text-danger"></small>
                             </div>
-                          
+
 
                         </div>
                     </div>
@@ -178,15 +178,16 @@
                             $course = Helper::get_dropdown('course');
                             ?>
                             <label class="Label">Course:</label>
+                            <input type="text" name="COURSE" class="form-control" value="{{ $user->course }}">
                             <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
                                 <option {{ $user->course == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
-                                    <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
-                                        {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
-                                        }
+                                <option value="{{ strtoupper($courseOptions->option_name) }}" @if ($user->course != null)
+                                        {{ strtoupper($courseOptions->option_name)==strtoupper($user->course) ? 'selected' : '' }}
+
                                 @endif
                                 >
-                                {{ $courseOptions->option_name }}
+                                {{ strtoupper($courseOptions->option_name) }}
                                 </option>
                                 @endforeach
                             </select>
@@ -223,9 +224,10 @@
                 </div>
                 <div class="row mb-1">
                     <div class="col-lg-6">
-                        
+
                         <div class="form-group mb-0">
                             <label class="Label">Domain</label>
+
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
                                 <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
@@ -270,9 +272,9 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
-                                $segments =DB::select('select * from segments');
+                                $segments = DB::select('select * from segments');
                             @endphp
-                           
+
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
@@ -293,7 +295,7 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             @php
-                               $sub_segments=DB::select('select * from sub_segments')
+                                $sub_segments = DB::select('select * from sub_segments');
                             @endphp
                             <label class="Label">
                                 Sub Segment:
@@ -301,8 +303,8 @@
 
                             <select name="sub_segment" id="Domain_sub_segment"
                                 class="form-control p-0 users-input-S-C">
-                                <option {{ $user->sub_segment == null ? 'selected' : '' }}
-                                    disabled>Select Option</option>
+                                <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
                                 @foreach ($sub_segments as $Options)
                                     <option value="{{ $Options->id }}"
                                         {{ $user->sub_segment == $Options->sub_segment_name ? 'selected' : '' }}>
@@ -441,14 +443,17 @@
                             <label class="d-block font-size-3 mb-0">
                                 Certification:
                             </label>
-                            <select name="CERTIFICATIONS" class="form-control users-input-S-C">
+                            <input type="text" name="CERTIFICATIONS" class="form-control"
+                                value="{{ $user->certification }}">
+
+                            {{-- <select name="CERTIFICATIONS" class="form-control users-input-S-C">
                                 <option {{ $user->certification == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($certificate->options as $certificateOption)
                                     <option value="{{ $certificateOption->option_name }}"
                                         {{ $user->certification == $certificateOption->option_name ? 'selected' : '' }}>
                                         {{ $certificateOption->option_name }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -536,8 +541,8 @@
                                                     <label class="Label-00 ">
                                                         Remarks (for Finance)
                                                     </label>
-                                                    <select name="REMARKS_FOR_FINANCE"
-                                                        id="remarks_for_finance" onchange="RemarksChange(this)"
+                                                    <select name="REMARKS_FOR_FINANCE" id="remarks_for_finance"
+                                                        onchange="RemarksChange(this)"
                                                         class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
@@ -567,7 +572,7 @@
                                                     {{-- @dd($user->client) --}}
                                                     <select name="CLIENT_FINANCE"
                                                         class="form-control border h-px-20_custom w-100"
-                                                        id="client_finance" >
+                                                        id="client_finance">
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($client as $clientOptions)
@@ -590,7 +595,7 @@
                                                     <label class="Label-00">
                                                         Status:
                                                     </label>
-                                                    <select name="STATUS" id="status"  
+                                                    <select name="STATUS" id="status"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->status == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -698,21 +703,23 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                    $segments =DB::select('select * from segments');
-                                                @endphp
-                                               
-                                                <label class="Label">Segment:</label>
-                                                <select name="endo_segment" id="Domainsegment" class="form-control p-0 users-input-S-C"
-                                                    onchange="SegmentChange(this)">
-                                                    <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
-                                                    </option>
-                                                    @foreach ($segments as $segmentsOptions)
-                                                        <option value="{{ $segmentsOptions->id }}"
-                                                            {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
-                                                            {{ $segmentsOptions->segment_name }}
+                                                        $segments = DB::select('select * from segments');
+                                                    @endphp
+
+                                                    <label class="Label">Segment:</label>
+                                                    <select name="endo_segment" id="Domainsegment"
+                                                        class="form-control p-0 users-input-S-C"
+                                                        onchange="SegmentChange(this)">
+                                                        <option {{ $user->segment == null ? 'selected' : '' }}
+                                                            disabled>Select Option
                                                         </option>
-                                                    @endforeach
-                                                </select>
+                                                        @foreach ($segments as $segmentsOptions)
+                                                            <option value="{{ $segmentsOptions->id }}"
+                                                                {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
+                                                                {{ $segmentsOptions->segment_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                     <div>
                                                         <small class="text-danger"></small>
                                                     </div>
@@ -746,7 +753,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $sub_segments=DB::select('select * from sub_segments')
+                                                        $sub_segments = DB::select('select * from sub_segments');
                                                     @endphp
                                                     <label class="Label-00 ">
                                                         Sub-Segment:
@@ -897,9 +904,13 @@
 
     }
     $("#date_processed").on('input', function() {
-        if($('#endo_type').val()=='Endorsed'){$("#endo_date").val(this.value)}
+        if ($('#endo_type').val() == 'Endorsed') {
+            $("#endo_date").val(this.value)
+        }
     });
     $("#endo_date").on("input", function() {
-        if($('#endo_type').val()=='Endorsed'){$("#date_processed").val(this.value)}
+        if ($('#endo_type').val() == 'Endorsed') {
+            $("#date_processed").val(this.value)
+        }
     });
 </script>
