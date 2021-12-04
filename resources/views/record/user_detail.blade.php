@@ -307,7 +307,7 @@
                                 </option>
                                 @foreach ($sub_segments as $Options)
                                     <option value="{{ $Options->id }}"
-                                        {{ $user->sub_segment == $Options->sub_segment_name ? 'selected' : '' }}>
+                                        {{ strtoupper($user->sub_segment) == strtoupper($Options->sub_segment_name) ? 'selected' : '' }}>
                                         {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
