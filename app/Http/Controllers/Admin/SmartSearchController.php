@@ -450,6 +450,7 @@ class SmartSearchController extends Controller
             'activeSPR' => $sql_spr_amount,
             'salary' => $total_salary,
         ];
+        // return $data;
         return view('smartSearch.summary', $data);
     }
     //close

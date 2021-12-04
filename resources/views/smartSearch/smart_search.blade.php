@@ -36,8 +36,8 @@
             <div class="col-lg-7">
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
-                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
+                        <div id="loader1" style="display: block;"></div>
                         <form action="">
                             <div class="row mb-4">
                                 <div class="col-lg-6 ">
@@ -246,6 +246,7 @@
             <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <fieldset>
@@ -488,6 +489,7 @@
         // ajax call for view append
         function summaryAppendAjax(array) {
             array = array;
+            // $('#loader1').show();
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/summaryAppend') }}',
@@ -499,6 +501,8 @@
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html(data);
+                    $('#loader1').hide();
+                    
                 },
             });
         }
