@@ -7,7 +7,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">
-                                Candidate Name*:
+                                Candidate's Name:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
                                 value="{{ $user->last_name }}">
