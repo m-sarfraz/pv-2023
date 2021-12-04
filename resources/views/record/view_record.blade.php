@@ -74,7 +74,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-1 pt-1">
                                         <label class="d-block font-size-3 mb-0">
-                                            Candidate
+                                            Candidate's Name
                                         </label>
                                         <select multiple name="candidate" id="candidate" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
@@ -211,9 +211,9 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Candidate Name*:
+                                                Candidate's Name:
                                             </label>
-                                            <input type="text" class="form-control" placeholder="enter first name"
+                                            <input type="text" class="form-control" placeholder="Candidate's Name"
                                                 name="first_name">
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                                             @endphp
                                             <label class="Label">Gender:</label>
                                             <select class="w-100 form-control" name="gender">
-                                                <option selected disabled>select option
+                                                <option selected disabled>Select Option
                                                 </option>
 
                                             </select>
@@ -245,7 +245,7 @@
                                         <div class="form-group mb-0">
                                             <label class="Label">Email Address:</label>
                                             <input type="text" class="form-control users-input-S-C"
-                                                placeholder="enter email" name="email" />
+                                                placeholder="Email Address" name="email" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -257,7 +257,7 @@
                                                 Contact:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C"
-                                                placeholder="enter you cell" name="phone" />
+                                                placeholder="Contact #" name="phone" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -270,7 +270,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Residendce
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="address" />
+                                            <input type="text" class="form-control users-input-S-C" name="address" placeholder="Residendce" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>

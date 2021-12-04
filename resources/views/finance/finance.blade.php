@@ -89,7 +89,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
                                         <label class="d-block font-size-3 mb-0">
-                                            Candidate List:
+                                            Candidate's Name:
                                         </label>
                                         <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
