@@ -179,7 +179,7 @@
                             ?>
                             <label class="Label">Course:</label>
                             <input type="text" name="COURSE" class="form-control" value="{{ $user->course }}">
-                            <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+                            {{-- <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
                                 <option {{ $user->course == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
                                 <option value="{{ strtoupper($courseOptions->option_name) }}" @if ($user->course != null)
@@ -190,7 +190,7 @@
                                 {{ strtoupper($courseOptions->option_name) }}
                                 </option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <div>
                                 <small class="text-danger"></small>
                             </div>
