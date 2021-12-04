@@ -453,5 +453,8 @@ class SmartSearchController extends Controller
         return view('smartSearch.summary', $data);
     }
     //close
-
+public function find_id(Request $request)
+{
+dd($request->all());
+}
 }

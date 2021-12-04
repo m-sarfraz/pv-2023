@@ -761,10 +761,19 @@
             $('#smTable_filter').children().children().trigger('input');
             $('#smTable1_filter').children().children().val($('#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
-            // var data = $('#smTable_info').html()
-            // let total_recored = data.split(" ")
-            // console.log(total_recored)
-            // $('#foundRecord').val(total_recored[3])
+            var data = $(this).val()
+            $.ajax({
+
+                url: '{{ URL('admin/find_id') }}',
+                type: 'post',
+                data: {
+                    _token: _token,
+                    data: data,
+                },
+                success: function(res) {
+                    console.log(res)
+                }
+            })
 
 
         });
