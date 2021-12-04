@@ -226,7 +226,7 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('smart_view.remarks_for_finance', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('smart_view.remarks', $request->remarks);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_start)) {
             $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
@@ -454,5 +454,8 @@ class SmartSearchController extends Controller
         return view('smartSearch.summary', $data);
     }
     //close
-
+    public function searchsummary(Request $request)
+    {
+        return $request->all();
+    }
 }

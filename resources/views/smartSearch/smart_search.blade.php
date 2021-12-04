@@ -502,7 +502,7 @@
                 success: function(data) {
                     $('#summaryDiv').html(data);
                     $('#loader1').hide();
-                    
+
                 },
             });
         }
@@ -769,7 +769,21 @@
             // let total_recored = data.split(" ")
             // console.log(total_recored)
             // $('#foundRecord').val(total_recored[3])
+            var data = $(this).val();
+            $.ajax({
+                type: "post",
+                url: '{{ url('admin/searchsummary') }}',
+                data: {
+                    _token: token,
+                    data: data,
+                },
 
+                // Success fucniton of Ajax
+                success: function(data) {
+                    console.log(success)
+
+                },
+            });
 
         });
         setInterval(function() {
