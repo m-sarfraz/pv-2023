@@ -152,29 +152,20 @@
     </form>
 </div>
 <script>
-    fallout = {!! $fallout !!}
-    billed = {!! $billed !!}
-    unbilled = {!! $unbilled !!}
-    billedAmount = {!! $billedAmount !!}
-    unbilledAmount = {!! $unbilledAmount !!}
-    falloutAmount = {!! $falloutAmount !!}
-    receivablesAmount = {!! $receivablesAmount !!}
-    Current_receivablesAmount = {!! $Current_receivablesAmount !!}
-    overDue_receivablesAmount = {!! $overDue_receivablesAmount !!}
-    ctakeAmount = {!! $ctakeAmount !!}
-    c_take = {!! $c_take !!}
-    
-    $('#hires').val($('#record').val());
-    $('#fallout').val(fallout);
-    $('#billed').val(billed);
-    $('#unbilled').val(unbilled);
-    $('#revenue').val(billedAmount+unbilledAmount)
-    $('#billedAmount').val(billedAmount);
-    $('#unbilledAmount').val(unbilledAmount);
-    $('#falloutAmount').val(falloutAmount);
-    $('#receivablesAmount').val(receivablesAmount);
-    $('#Current_receivablesAmount').val(Current_receivablesAmount);
-    $('#overDue_receivablesAmount').val(overDue_receivablesAmount);
-    $('#ctakeAmount').val(ctakeAmount); 
-    $('#c_take').val(c_take);
+
+    var hires={!! $hires !!}
+    console.log(hires)
+    $('#hires').val(hires);
+    // $('#fallout').val(fallout);
+    // $('#billed').val(billed);
+    // $('#unbilled').val(unbilled);
+    // $('#revenue').val(billedAmount+unbilledAmount)
+    // $('#billedAmount').val(billedAmount);
+    // $('#unbilledAmount').val(unbilledAmount);
+    // $('#falloutAmount').val(falloutAmount);
+    // $('#receivablesAmount').val(receivablesAmount);
+    // $('#Current_receivablesAmount').val(Current_receivablesAmount);
+    // $('#overDue_receivablesAmount').val(overDue_receivablesAmount);
+    // $('#ctakeAmount').val(ctakeAmount); 
+    // $('#c_take').val(c_take);
 </script>

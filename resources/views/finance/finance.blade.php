@@ -830,15 +830,7 @@
             // $("#loader").show();
 
             // get values of selected inputs of users
-            recruiter = $('#recruiter').val();
-            candidate = $('#candidate').val();
-            remarks = $('#remarks').val();
-            team = $('#team').val();
-            status = $('#status').val();
-            toDate = $('#to_ob_date').val();
-            ob_date = $('#ob_date').val();
-            client = $('#client').val();
-            process = $('#process').val();
+      
 
             // call Ajax for returning the data as view
             $.ajax({
@@ -846,15 +838,6 @@
                 url: '{{ url('admin/summaryAppend_finance') }}',
                 data: {
                     _token: token,
-                    recruiter: recruiter,
-                    candidate: candidate,
-                    remarks: remarks,
-                    toDate: toDate,
-                    team: team,
-                    status: status,
-                    client: client,
-                    ob_date: ob_date,
-                    process: process,
                 },
 
                 // Success fucniton of Ajax
