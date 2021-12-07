@@ -152,13 +152,16 @@
     </form>
 </div>
 <script>
-
-    var hires={!! $hires !!}
-    console.log(hires)
+    fallout = {!! $fallout !!}
+    billed = {!! $billed !!}
+    unbilled = {!! $unbilled !!}
+   
+    hires = {!! $hires !!}
+    
     $('#hires').val(hires);
-    // $('#fallout').val(fallout);
-    // $('#billed').val(billed);
-    // $('#unbilled').val(unbilled);
+    $('#fallout').val(fallout);
+    $('#billed').val(billed);
+    $('#unbilled').val(unbilled);
     // $('#revenue').val(billedAmount+unbilledAmount)
     // $('#billedAmount').val(billedAmount);
     // $('#unbilledAmount').val(unbilledAmount);
