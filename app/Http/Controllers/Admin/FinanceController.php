@@ -253,7 +253,7 @@ class FinanceController extends Controller
     // append the summary of filtered record
     public function summaryAppend(Request $request)
     {
-        $check = $searchCheck = false;
+        // $check = $searchCheck = false;
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         $Userdata = Finance::join('endorsements','endorsements.candidate_id','finance.candidate_id')
         ->whereIn('endorsements.remarks_for_finance', $arr)
@@ -280,133 +280,133 @@ class FinanceController extends Controller
         //         'finance_detail.vcc_amount',
 
         //     );
-       /* if (isset($request->candidate)) {
-            $newarr = array();
-            foreach ($request->candidate as $candidate) {
-                //$strc =
-                array_push($newarr, "'$candidate'");
-            }
-            $Userdata->whereIn('six_table.id', $request->candidate);
+        /* if (isset($request->candidate)) {
+        $newarr = array();
+        foreach ($request->candidate as $candidate) {
+        //$strc =
+        array_push($newarr, "'$candidate'");
+        }
+        $Userdata->whereIn('six_table.id', $request->candidate);
         }
         // return $request->recruiter;
         if (isset($request->recruiter)) {
 
-            $Userdata->whereIn('six_table.saved_by', $request->recruiter);
+        $Userdata->whereIn('six_table.saved_by', $request->recruiter);
         }
         if (isset($request->remarks)) {
-            $newarr = array();
-            foreach ($request->remarks as $remarks) {
-                //$strc =
-                array_push($newarr, "'$remarks'");
-            }
-            $Userdata->whereIn('six_table.remarks_for_finance', $request->remarks);
+        $newarr = array();
+        foreach ($request->remarks as $remarks) {
+        //$strc =
+        array_push($newarr, "'$remarks'");
+        }
+        $Userdata->whereIn('six_table.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_date)) {
-            $Userdata->where('six_table.onboardnig_date', '>', $request->ob_date);
+        $Userdata->where('six_table.onboardnig_date', '>', $request->ob_date);
         }
         if (isset($request->toDate)) {
-            $Userdata->where('six_table.onboardnig_date', '<', $request->toDate);
+        $Userdata->where('six_table.onboardnig_date', '<', $request->toDate);
         }
         if (isset($request->client)) {
-            $newarr = array();
-            foreach ($request->client as $client) {
-                //$strc =
-                array_push($newarr, "'$client'");
-            }
-            $Userdata->whereIn('six_table.client', $request->client);
+        $newarr = array();
+        foreach ($request->client as $client) {
+        //$strc =
+        array_push($newarr, "'$client'");
+        }
+        $Userdata->whereIn('six_table.client', $request->client);
         }
         if (isset($request->team_id)) {
-            $newarr = array();
-            $users = User::role($request->team_id)->select('id')->get();
-            for ($i = 0; $i < count($users); $i++) {
-                array_push($newarr, $users[$i]->id);
-            }
-            if (!empty($newarr)) {
+        $newarr = array();
+        $users = User::role($request->team_id)->select('id')->get();
+        for ($i = 0; $i < count($users); $i++) {
+        array_push($newarr, $users[$i]->id);
+        }
+        if (!empty($newarr)) {
 
-                $users = $Userdata->whereIn('six_table.saved_by', $newarr);
-            }
-            if (empty($newarr)) {
-                $check = false;
-                $searchCheck = true;
-            }
+        $users = $Userdata->whereIn('six_table.saved_by', $newarr);
+        }
+        if (empty($newarr)) {
+        $check = false;
+        $searchCheck = true;
+        }
         }
         if (isset($request->process)) {
 
-            $Userdata->whereIn('six_table.reprocess', array($request->process));
+        $Userdata->whereIn('six_table.reprocess', array($request->process));
         }
 
         // foreach ($request->career_level as $career) {
         //     $sql = str_replace($career, "'$career'", $sql);
         // }
         if (isset($request->remarks)) {
-            # code...
-            foreach ($request->remarks as $remarks) {
-                $sql = str_replace($remarks, "'$remarks'", $sql);
-            }
+        # code...
+        foreach ($request->remarks as $remarks) {
+        $sql = str_replace($remarks, "'$remarks'", $sql);
+        }
         }
         if (isset($request->client)) {
-            # code...
-            foreach ($request->client as $client) {
-                $sql = str_replace($client, "'$client'", $sql);
-            }
+        # code...
+        foreach ($request->client as $client) {
+        $sql = str_replace($client, "'$client'", $sql);
+        }
         }
         if (isset($request->recruiter)) {
 
-            foreach ($request->recruiter as $recruiter) {
-                $sql = str_replace($recruiter, "'$recruiter'", $sql);
-            }
+        foreach ($request->recruiter as $recruiter) {
+        $sql = str_replace($recruiter, "'$recruiter'", $sql);
+        }
         }
         if (isset($request->candidate)) {
 
-            foreach ($request->candidate as $candidate) {
-                $sql = str_replace($candidate, "'$candidate'", $sql);
-            }
+        foreach ($request->candidate as $candidate) {
+        $sql = str_replace($candidate, "'$candidate'", $sql);
+        }
         }
         if (isset($request->searchKeyword)) {
-            $searchCheck = true;
-            $perfect_match = DB::table("six_table_view")->get();
-            // $roles = DB::table('roles')->pluck("name");
+        $searchCheck = true;
+        $perfect_match = DB::table("six_table_view")->get();
+        // $roles = DB::table('roles')->pluck("name");
 
-            foreach ($perfect_match as $match) {
+        foreach ($perfect_match as $match) {
 
-                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('career_endo', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('last_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('first_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('client', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('placement_fee', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('app_status', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->reprocess), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
+        if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('career_endo', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('last_name', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('first_name', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('client', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('placement_fee', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
+        $Userdata->where('app_status', 'like', '%' . $request->searchKeyword . '%');
+        }
+        if (strpos(strtolower($match->reprocess), strtolower($request->searchKeyword)) !== false) {
+        $check = true;
 
-                    $Userdata->where('reprocess', 'like', '%' . $request->searchKeyword . '%');
-                }
-            }
+        $Userdata->where('reprocess', 'like', '%' . $request->searchKeyword . '%');
+        }
+        }
         }*/
         // if ($check) {
 
@@ -420,10 +420,11 @@ class FinanceController extends Controller
         // }
         
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
-       
-        // foreach ($arr as $remarks) {
-        //     $sql = str_replace($remarks, "'$remarks'", $sql);
-        // }
+       //start modify  wherein()
+        foreach ($arr as $remarks) {
+            $sql = str_replace($remarks, "'$remarks'", $sql);
+        }
+        // end modify  wherein()
         if (strpos($sql, 'where') !== false) {
 
 
@@ -440,7 +441,7 @@ class FinanceController extends Controller
             // $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         } 
-    //  return $sql_overDue_receivables;
+    //  return $sql_fallout_amount;
         // else {
         //     $sql_fallout = $sql . " where remarks LIKE '%fallout%' OR remarks LIKE '%replacement%' group by `id`  ";
         //     $sql_billed = $sql . " where remarks LIKE '%collect%' OR remarks LIKE '%replace%'OR remarks LIKE 'billed%' group by `id`";
@@ -461,8 +462,8 @@ class FinanceController extends Controller
         // $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         // $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
         // $sql_ctake_amount = DB::select($sql_billed);
-        // $billedAmount = 0;
-        // $unbilledAmount = 0;
+        $billedAmount = 0;
+        $unbilledAmount = 0;
         // $falloutAmount = 0;
         // $receivablesAmount = 0;
         // $Current_receivablesAmount = 0;
@@ -474,6 +475,7 @@ class FinanceController extends Controller
         // foreach ($sql_unbilled_amount as $unbill) {
         //     $unbilledAmount = $unbilledAmount + $unbill->total;
         // }
+        // dd($unbilledAmount);
         // foreach ($sql_fallout_amount as $fallout) {
         //     $falloutAmount = $falloutAmount + $fallout->total;
         // }
@@ -489,11 +491,10 @@ class FinanceController extends Controller
         // foreach ($sql_ctake_amount as $ctake) {
         //     $ctakeAmount = $ctakeAmount + $ctake->totalC_take;
         // }
-        $hires = DB::select($sql_fallout);
-        return $hires;
+       
         $data = [
-            'hires' => count($Userdata),
-            'fallout' => count(DB::Select("'".$sql_fallout."'")),
+            'hires' => count($Userdata->get()),
+            'fallout' => count(DB::Select($sql_fallout)),
             'billed' => count(DB::select($sql_billed)),
             'unbilled' => count(DB::select($sql_unBilled)),
             // 'billedAmount' => $billedAmount,

@@ -155,7 +155,7 @@
     fallout = {!! $fallout !!}
     billed = {!! $billed !!}
     unbilled = {!! $unbilled !!}
-   
+  
     hires = {!! $hires !!}
     
     $('#hires').val(hires);
