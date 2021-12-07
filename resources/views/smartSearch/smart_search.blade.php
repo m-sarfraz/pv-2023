@@ -36,8 +36,8 @@
             <div class="col-lg-7">
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
-                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
+                        <div id="loader1" style="display: block;"></div>
                         <form action="">
                             <div class="row mb-4">
                                 <div class="col-lg-6 ">
@@ -246,6 +246,7 @@
             <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <fieldset>
@@ -488,6 +489,7 @@
         // ajax call for view append
         function summaryAppendAjax(array) {
             array = array;
+            // $('#loader1').show();
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/summaryAppend') }}',
@@ -499,6 +501,8 @@
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html(data);
+                    $('#loader1').hide();
+
                 },
             });
         }
@@ -757,53 +761,42 @@
 
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
-            $('#smTable_filter').children().children().val($('#searchKeyword').val());
-            $('#smTable_filter').children().children().trigger('input');
-            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
-            $('#smTable1_filter').children().children().trigger('input');
-            var data = $(this).val()
-            $.ajax({
+                    $('#smTable_filter').children().children().val($('#searchKeyword').val());
+                    $('#smTable_filter').children().children().trigger('input');
+                    $('#smTable1_filter').children().children().val($('#searchKeyword').val());
+                    $('#smTable1_filter').children().children().trigger('input');
+                    // let total_recored = data.split(" ")
+                    // console.log(total_recored)
+                    // $('#foundRecord').val(total_recored[3])
+                    var data = $(this).val();
+                    $.ajax({
+                        type: "post",
+                        url: '{{ url('admin/searchsummary') }}',
+                        data: {
+                            _token: token,
+                            data: data,
+                        },
+                        success: function(res) {
+                            console.log(res)
+                        }
+                        // Success fucniton of Ajax
+                    });
+                });
+                    // count record on page load 
+                    function countRecord() {
+                        var count = $('#smTable_info').text().split(' ');
+                        $('#foundRecord').val(count[5])
+                        $('#sifted').val(count[5])
+                    }
+                    // close 
 
-                url: '{{ URL('admin/find_id') }}',
-                type: 'post',
-                data: {
-                    _token: _token,
-                    data: data,
-                },
-                success: function(res) {
-                    console.log(res)
-                }
-            })
-
-
-        });
-        setInterval(function() {
-            let tableID = $('#filterResult_div').children().children().attr('id')
-            console.log(tableID);
-            if (tableID == 'smTable1_wrapper') {
-                countRecordFilter()
-            }
-            if (tableID == 'smTable_wrapper') {
-                countRecord()
-            }
-        }, 3000);
-        // close 
-
-        // count record on page load 
-        function countRecord() {
-            var count = $('#smTable_info').text().split(' ');
-            $('#foundRecord').val(count[5])
-            $('#sifted').val(count[5])
-        }
-        // close 
-
-        // count record of filtered data
-        function countRecordFilter() {
-            var count = $('#smTable1_info').text().split(' ');
-            $('#foundRecord').val(count[5])
-            $('#sifted').val(count[5])
-        }
-        //close
+                    // count record of filtered data
+                    function countRecordFilter() {
+                        var count = $('#smTable1_info').text().split(' ');
+                        $('#foundRecord').val(count[5])
+                        $('#sifted').val(count[5])
+                    }
+                    //close
     </script>
 
 @endsection

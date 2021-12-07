@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CandidateInformation;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -226,7 +227,7 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('smart_view.remarks_for_finance', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('smart_view.remarks', $request->remarks);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_start)) {
             $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
@@ -450,11 +451,12 @@ class SmartSearchController extends Controller
             'activeSPR' => $sql_spr_amount,
             'salary' => $total_salary,
         ];
+        // return $data;
         return view('smartSearch.summary', $data);
     }
     //close
-public function find_id(Request $request)
-{
-dd($request->all());
-}
+    public function searchsummary(Request $request)
+    {
+    $join=CandidateInformation::join();
+    }
 }
