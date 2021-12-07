@@ -187,7 +187,7 @@ class FinanceController extends Controller
         Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
         Helper::save_log('Finance_Reference_updated');
         return $request->candidate_id;
-    }
+    } 
     // close
 
     // yajra data table of finance data
