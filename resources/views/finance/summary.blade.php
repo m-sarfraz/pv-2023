@@ -155,17 +155,19 @@
     fallout = {!! $fallout !!}
     billed = {!! $billed !!}
     unbilled = {!! $unbilled !!}
-  
+    billedAmount={!! $billedAmount !!}
+    unbilledAmount={!! $unbilledAmount !!}
+    falloutAmount={!! $falloutAmount !!}
     hires = {!! $hires !!}
-    
+
     $('#hires').val(hires);
     $('#fallout').val(fallout);
     $('#billed').val(billed);
     $('#unbilled').val(unbilled);
-    // $('#revenue').val(billedAmount+unbilledAmount)
-    // $('#billedAmount').val(billedAmount);
-    // $('#unbilledAmount').val(unbilledAmount);
-    // $('#falloutAmount').val(falloutAmount);
+    $('#revenue').val(billedAmount+unbilledAmount)
+    $('#billedAmount').val(billedAmount);
+    $('#unbilledAmount').val(unbilledAmount);
+    $('#falloutAmount').val(falloutAmount);
     // $('#receivablesAmount').val(receivablesAmount);
     // $('#Current_receivablesAmount').val(Current_receivablesAmount);
     // $('#overDue_receivablesAmount').val(overDue_receivablesAmount);

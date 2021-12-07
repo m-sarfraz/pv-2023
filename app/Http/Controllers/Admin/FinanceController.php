@@ -255,12 +255,12 @@ class FinanceController extends Controller
     {
         // $check = $searchCheck = false;
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = Finance::join('endorsements','endorsements.candidate_id','finance.candidate_id')
+        $Userdata = Finance::
+        join('endorsements','endorsements.candidate_id','finance.candidate_id')
+        ->join('finance_detail','finance_detail.candidate_id','finance.candidate_id')
         ->whereIn('endorsements.remarks_for_finance', $arr)
         ->select('endorsements.*','finance.*');
-  
-        // ->groupBy('id');
-
+   // ->groupBy('id');
         // $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
         //     ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
         //     ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
@@ -431,17 +431,17 @@ class FinanceController extends Controller
             $sql_fallout = $sql . "  and remarks LIKE '%fallout%' OR remarks LIKE '%replacement%'  ";
             $sql_billed = $sql . " and remarks LIKE '%collect%' OR remarks LIKE '%replace%'OR remarks LIKE 'billed%'  ";
             $sql_unBilled = $sql . " and remarks ='Unbilled' ";
-            // $sql_billed_amount = DB::select($sql_billed);
-            // $sql_unbilled_amount = DB::select($sql_unBilled);
-            // $sql_fallout_amount = DB::select($sql_fallout);
-            // $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') group by `id` ";
-            // $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD') group by `id` ";
-            // $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' group by `id` ";
+            $sql_billed_amount = DB::select($sql_billed);
+            $sql_unbilled_amount = DB::select($sql_unBilled);
+            $sql_fallout_amount = DB::select($sql_fallout);
+            $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') ";
+            $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD') group by `id` ";
+            $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' group by `id` ";
             // $sql_unbilled = $sql . "  and endorsements.remarks='Unbilled'";
             // $vcc_amount_sum = $sql . " and (select sum(vcc_amount) from finance_detail )";
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         } 
-    //  return $sql_fallout_amount;
+    ;
         // else {
         //     $sql_fallout = $sql . " where remarks LIKE '%fallout%' OR remarks LIKE '%replacement%' group by `id`  ";
         //     $sql_billed = $sql . " where remarks LIKE '%collect%' OR remarks LIKE '%replace%'OR remarks LIKE 'billed%' group by `id`";
@@ -459,26 +459,27 @@ class FinanceController extends Controller
         //     // $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'";
         // }
         // $sql_receivables_amount = DB::select($sql_receivables);
+       
         // $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         // $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
         // $sql_ctake_amount = DB::select($sql_billed);
         $billedAmount = 0;
         $unbilledAmount = 0;
-        // $falloutAmount = 0;
-        // $receivablesAmount = 0;
+        $falloutAmount = 0;
+        $receivablesAmount = 0;
         // $Current_receivablesAmount = 0;
         // $overDue_receivablesAmount = 0;
         // $ctakeAmount = 0;
-        // foreach ($sql_billed_amount as $total) {
-        //     $billedAmount = $billedAmount + $total->total;
-        // }
-        // foreach ($sql_unbilled_amount as $unbill) {
-        //     $unbilledAmount = $unbilledAmount + $unbill->total;
-        // }
-        // dd($unbilledAmount);
-        // foreach ($sql_fallout_amount as $fallout) {
-        //     $falloutAmount = $falloutAmount + $fallout->total;
-        // }
+        foreach ($sql_billed_amount as $total) {
+            $billedAmount = $billedAmount + $total->Total_bilable_ammount;
+        }
+        foreach ($sql_unbilled_amount as $unbill) {
+            $unbilledAmount = $unbilledAmount + $unbill->Total_bilable_ammount;
+        }
+       
+        foreach ($sql_fallout_amount as $fallout) {
+            $falloutAmount = $falloutAmount + $fallout->Total_bilable_ammount;
+        }
         // foreach ($sql_receivables_amount as $receivable) {
         //     $receivablesAmount = $receivablesAmount + $receivable->totalFee;
         // }
@@ -497,9 +498,9 @@ class FinanceController extends Controller
             'fallout' => count(DB::Select($sql_fallout)),
             'billed' => count(DB::select($sql_billed)),
             'unbilled' => count(DB::select($sql_unBilled)),
-            // 'billedAmount' => $billedAmount,
-            // 'unbilledAmount' => $unbilledAmount,
-            // 'falloutAmount' => $falloutAmount,
+            'billedAmount' => $billedAmount,
+            'unbilledAmount' => $unbilledAmount,
+            'falloutAmount' => $falloutAmount,
             // 'receivablesAmount' => $receivablesAmount,
             // 'Current_receivablesAmount' => $receivablesAmount,
             // 'overDue_receivablesAmount' => $overDue_receivablesAmount,
