@@ -159,7 +159,12 @@
     unbilledAmount={!! $unbilledAmount !!}
     falloutAmount={!! $falloutAmount !!}
     hires = {!! $hires !!}
-
+    receivablesAmount={!! $receivablesAmount !!}
+    Current_receivablesAmount={!! $Current_receivablesAmount !!}
+    overDue_receivablesAmount={!! $overDue_receivablesAmount !!}
+    ctakeAmount={!! $ctakeAmount !!}
+    sql_c_share={!!$sql_c_share!!}
+    vcc_amount_sum={!!$vcc_amount_sum!!}
     $('#hires').val(hires);
     $('#fallout').val(fallout);
     $('#billed').val(billed);
@@ -168,9 +173,11 @@
     $('#billedAmount').val(billedAmount);
     $('#unbilledAmount').val(unbilledAmount);
     $('#falloutAmount').val(falloutAmount);
-    // $('#receivablesAmount').val(receivablesAmount);
-    // $('#Current_receivablesAmount').val(Current_receivablesAmount);
-    // $('#overDue_receivablesAmount').val(overDue_receivablesAmount);
-    // $('#ctakeAmount').val(ctakeAmount); 
-    // $('#c_take').val(c_take);
+    $('#receivablesAmount').val(receivablesAmount);
+    $('#Current_receivablesAmount').val(Current_receivablesAmount);
+    $('#overDue_receivablesAmount').val(overDue_receivablesAmount);
+    $('#ctakeAmount').val(ctakeAmount); 
+    $('#c_take').val(sql_c_share);
+    $('#vcc_share').val(vcc_amount_sum);
+    $('#Revenue_In_Incentive').val(vcc_amount_sum);
 </script>
