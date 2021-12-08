@@ -122,7 +122,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
     Route::get('summaryAppend_finance', 'FinanceController@summaryAppend')->name('summaryAppend_finance');
     Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
-
+    Route::post('financeserachforsummary','FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');

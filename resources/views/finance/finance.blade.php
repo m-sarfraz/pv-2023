@@ -839,7 +839,6 @@
                 data: {
                     _token: token,
                 },
-
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html('');
@@ -1119,7 +1118,18 @@
             $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
             $('#fmtable1_filter').children().children().trigger('input');
 
-
+            // code for search only for summary //
+            $.ajax({
+                type:'post',
+                url:'{{url('admin/financeserachforsummary')}}',
+                data:{
+                    _token: token,
+                    searchKeyword:$('#searchKeyword').val()},
+                success:function(res){
+                    $('#summaryDiv').html('');
+                    $('#summaryDiv').html(res);
+                }
+            }) 
         });
         setInterval(function() {
             let tableID = $('#filterData_div').children().children().attr('id')

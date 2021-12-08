@@ -777,7 +777,8 @@
                             data: data,
                         },
                         success: function(res) {
-                            console.log(res)
+                            $('#summaryDiv').html(res);
+                    $('#loader1').hide();
                         }
                         // Success fucniton of Ajax
                     });
