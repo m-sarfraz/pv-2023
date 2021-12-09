@@ -193,11 +193,11 @@
                                         </label>
                                         <select multiple name="appstatus" id="appstatus"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            {{-- <option disabaled> Select Option </option> --}}
-                                            {{-- @foreach ($appstatus as $appstatuss)
-                                                <option value="{{ $appstatuss->app_status }}">
-                                                    {{ $appstatuss->app_status }}</option>
-                                            @endforeach --}}
+                                            <option value="FB">FB</option>
+                                            <option value="DONE">DONE</option>
+                                            <option value="RCVD">RCVD</option>
+                                            <option value="FFUP">FFUP</option>
+                                            <option value="OVERDUE">OVERDUE</option>
 
                                         </select>
                                     </div>
@@ -416,7 +416,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
-                                                    Current Level:
+                                                    CAREER LEVEL:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -497,6 +497,7 @@
                                                     Remarks:
                                                 </label>
                                                 <select name="" id="" class="w-100 form-control">
+                                                    <option selected disabled> </option>
                                                     <option value="1">Billed</option>
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
@@ -516,7 +517,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Training date:
+                                                    TERMINATION DATE :
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -826,25 +827,41 @@
         // close 
 
         // ajax call for sumary append on documnet ready 
-        function appendSummary() {
+        function appendSummary(array) {
             // $("#loader").show();
+            if (!array) {
+                // call Ajax for returning the data as view
+                $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/summaryAppend_finance') }}',
+                    data: {
+                        _token: token,
+                        array: 1
+                    },
+                    // Success fucniton of Ajax
+                    success: function(data) {
+                        $('#summaryDiv').html('');
+                        $('#summaryDiv').html(data);
+                    }
+                });
+            }
+            if (array) {
+                // call Ajax for returning the data as view
+                $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/summaryAppend_finance') }}',
+                    data: {
+                        _token: token,
+                        array: array
+                    },
+                    // Success fucniton of Ajax
+                    success: function(data) {
+                        $('#summaryDiv').html('');
+                        $('#summaryDiv').html(data);
+                    }
+                });
+            }
 
-            // get values of selected inputs of users
-      
-
-            // call Ajax for returning the data as view
-            $.ajax({
-                type: "GET",
-                url: '{{ url('admin/summaryAppend_finance') }}',
-                data: {
-                    _token: token,
-                },
-                // Success fucniton of Ajax
-                success: function(data) {
-                    $('#summaryDiv').html('');
-                    $('#summaryDiv').html(data);
-                }
-            });
         }
         //close
 
@@ -930,6 +947,7 @@
                     url: '{{ url('admin/appendFinanceOptions') }}',
                 })
                 .done(function(res) {
+                 
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option value="' + res.candidates[i].cid + '">' + res.candidates[i]
                             .last_name +
@@ -952,18 +970,17 @@
                         $('#team_id').append('<option value="' + res.teams[i].name + '">' + res.teams[i]
                             .name + '</option>')
                     }
-                    for (let i = 0; i < res.client.options.length; i++) {
-                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' + res.client
-                            .options[i]
-                            .option_name + '</option>')
+                    for (let i = 0; i < res.client.length; i++) {
+                      
+                        $('#client').append('<option value="' + res.client[i].client + '">' + res.client[i].client + '</option>')
                     }
-                    for (let i = 0; i < res.appstatus.length; i++) {
-                        if (res.appstatus[i].app_status != '') {
-                            $('#appstatus').append('<option value="' + res.appstatus[i].app_status + '">' + res
-                                .appstatus[i]
-                                .app_status + '</option>')
-                        }
-                    }
+                    // for (let i = 0; i < res.appstatus.length; i++) {
+                    //     if (res.appstatus[i].app_status != '') {
+                    //         $('#appstatus').append('<option value="' + res.appstatus[i].app_status + '">' + res
+                    //             .appstatus[i]
+                    //             .app_status + '</option>')
+                    //     }
+                    // }
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -971,7 +988,7 @@
                 });
         }
         //close 
-        
+
         function load_datatable1() {
             // get values of selected inputs of users
             searchKeyword = $('#searchKeyword').val();
@@ -1013,6 +1030,10 @@
                         team_id: team_id,
                         process: process,
                     },
+                },
+                initComplete: function(settings, json) {
+                    console.log(json.array);
+                    appendSummary(json.array);
                 },
                 columns: [{
                         data: 'id',
@@ -1087,9 +1108,9 @@
                     // append retured view view to div 
                     $('#detailView').html('');
                     $('#detailView').html(data);
+                    $("#loader").hide();
 
                     // hide loader 
-                    $("#loader").hide();
                 },
             });
         }
@@ -1119,17 +1140,20 @@
             $('#fmtable1_filter').children().children().trigger('input');
 
             // code for search only for summary //
+
             $.ajax({
-                type:'post',
-                url:'{{url('admin/financeserachforsummary')}}',
-                data:{
+                type: 'post',
+                url: '{{ url('admin/financeserachforsummary') }}',
+                data: {
                     _token: token,
-                    searchKeyword:$('#searchKeyword').val()},
-                success:function(res){
+                    searchKeyword: $('#searchKeyword').val()
+                },
+                success: function(res) {
                     $('#summaryDiv').html('');
                     $('#summaryDiv').html(res);
+
                 }
-            }) 
+            })
         });
         setInterval(function() {
             let tableID = $('#filterData_div').children().children().attr('id')

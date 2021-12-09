@@ -399,8 +399,7 @@ class SmartSearchController extends Controller
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
 
-        } else  
-        {
+        } else {
             $sql_salary = DB::select($sql);
             $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
             $sql_active = $sql . "where endorsements.app_status='Active File' group by `finance`.`candidate_id`";

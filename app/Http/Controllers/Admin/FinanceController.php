@@ -16,7 +16,8 @@ use Yajra\DataTables\DataTables;
 
 class FinanceController extends Controller
 {
-
+// private array for controller to summary append on filter change
+private $candidate_arr = [];
     public function __construct()
     {
         $this->middleware('permission:view-finance', ['only' => ['index']]);
@@ -66,6 +67,7 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
+       
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
         $Userdata = DB::table('finance_view');
         //    check null values coming form selected options
@@ -95,6 +97,9 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.app_status', $request->appstatus);
         }
         $user = $Userdata->get();
+      
+        $this->candidate_arr = $Userdata->pluck('cid')->toArray();
+
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -139,6 +144,9 @@ class FinanceController extends Controller
             ->rawColumns([
                 'id', 'team', 'recruiter', 'client', 'reprocess', 'last_name',
                 'career_endo', 'onboardnig_date', 'placement_fee', 'remarks_for_finance', 'app_status',
+            ])
+            ->with([
+                'array' => $this->candidate_arr,
             ])
             ->make(true);
     }
@@ -251,14 +259,46 @@ class FinanceController extends Controller
     // close
 
     // append the summary of filtered record
-    public function summaryAppend()
+    public function summaryAppend(Request $request)
     {
-        // $check = $searchCheck = false;
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+        if($request->array==1  )
+        {
+            $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
             ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
             ->whereIn('endorsements.remarks_for_finance', $arr)
             ->select('endorsements.*', 'finance.*', 'finance_detail.*');
+        }
+        elseif(isset($request->array))
+        {
+            $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+            ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+            ->whereIn('endorsements.remarks_for_finance', $arr)
+            ->whereIn('endorsements.candidate_id', $request->array)
+            ->select('endorsements.*', 'finance.*', 'finance_detail.*');
+           
+        }else{
+
+            $data = [
+                'hires' => 0,
+                'fallout' => 0,
+                'billed' => 0,
+                'unbilled' => 0,
+                'billedAmount' => 0,
+                'unbilledAmount' => 0,
+                'falloutAmount' => 0,
+                'receivablesAmount' => 0,
+                'Current_receivablesAmount' => 0,
+                'overDue_receivablesAmount' => 0,
+                'ctakeAmount' => 0,
+                'sql_c_share' => 0,
+                'vcc_amount_sum' => 0,
+    
+            ];
+    
+            return view('finance.summary', $data);
+             
+        }
 
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
         //start modify  wherein()
@@ -267,8 +307,8 @@ class FinanceController extends Controller
         }
         // end modify  wherein()
         if (strpos($sql, 'where') !== false) {
-            $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%' group by endorsements.remarks  ";
-            $sql_billed = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' group by endorsements.remarks  ";
+            $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%'   ";
+            $sql_billed = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
             $sql_unBilled = $sql . " and endorsements.remarks ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
@@ -276,10 +316,10 @@ class FinanceController extends Controller
             $sql_receivables = $sql . " and finance_detail.process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and finance_detail.process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and finance_detail.process_status ='OVERDUE' ";
-            $sql_billed = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' group by endorsements.remarks  ";
-            $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' group by endorsements.remarks  ";
+            $sql_billed = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
+            $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
             // $sql_unbilled = $sql . "  and endorsements.remarks='Unbilled'";
-            $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' group by endorsements.remarks  ";
+            $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         };
 
@@ -364,7 +404,8 @@ class FinanceController extends Controller
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
-        $client = Helper::get_dropdown('clients');
+        $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');
+   
         return response()->json([
             'candidates' => $candidates,
             'recruiter' => $recruiter,
@@ -490,8 +531,8 @@ class FinanceController extends Controller
        
 
         if (strpos($sql, 'where') !== false) {
-            $sql_fallout = $sql . "  and six_table_view.remarks LIKE '%fallout%' OR six_table_view.remarks LIKE '%replacement%' group by six_table_view.remarks  ";
-            $sql_billed = $sql . " and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%' group by six_table_view.remarks  ";
+            $sql_fallout = $sql . "  and six_table_view.remarks LIKE '%fallout%' OR six_table_view.remarks LIKE '%replacement%'   ";
+            $sql_billed = $sql . " and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%'   ";
             $sql_unBilled = $sql . " and six_table_view.remarks ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
@@ -500,8 +541,8 @@ class FinanceController extends Controller
             $sql_Current_receivables = $sql . " and six_table_view.process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and six_table_view.process_status ='OVERDUE' ";
             // $sql_billed = $sql . "  and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%' ";
-            $c_share = $sql . "  and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%' group by six_table_view.remarks ";
-            $vcc_amount_sum = $sql . " and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%' group by six_table_view.remarks ";
+            $c_share = $sql . "  and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%'  ";
+            $vcc_amount_sum = $sql . " and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%'  ";
         };
         // return $sql_billed;
         $sql_receivables_amount = DB::select($sql_receivables);
