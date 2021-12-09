@@ -820,7 +820,7 @@
             }, 10);
             // show and hide loader after time set ends
             // call for summary append 
-            appendSummary()
+            appendSummary(1)
             appendFilterOptions()
             // close 
         });
@@ -829,23 +829,7 @@
         // ajax call for sumary append on documnet ready 
         function appendSummary(array) {
             // $("#loader").show();
-            if (!array) {
-                // call Ajax for returning the data as view
-                $.ajax({
-                    type: "GET",
-                    url: '{{ url('admin/summaryAppend_finance') }}',
-                    data: {
-                        _token: token,
-                        array: 1
-                    },
-                    // Success fucniton of Ajax
-                    success: function(data) {
-                        $('#summaryDiv').html('');
-                        $('#summaryDiv').html(data);
-                    }
-                });
-            }
-            if (array) {
+            // if (!array) {
                 // call Ajax for returning the data as view
                 $.ajax({
                     type: "GET",
@@ -860,7 +844,23 @@
                         $('#summaryDiv').html(data);
                     }
                 });
-            }
+            // }
+            // if (array) {
+            //     // call Ajax for returning the data as view
+            //     $.ajax({
+            //         type: "GET",
+            //         url: '{{ url('admin/summaryAppend_finance') }}',
+            //         data: {
+            //             _token: token,
+            //             array: array
+            //         },
+            //         // Success fucniton of Ajax
+            //         success: function(data) {
+            //             $('#summaryDiv').html('');
+            //             $('#summaryDiv').html(data);
+            //         }
+            //     });
+            // }
 
         }
         //close
@@ -1095,24 +1095,24 @@
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
             // call Ajax whihc will return view of detail data of user
-            $.ajax({
-                type: "GET",
-                url: '{{ url('admin/finance_records_detail') }}',
-                data: {
-                    _token: token,
-                    id: id,
-                },
+            // $.ajax({
+            //     type: "GET",
+            //     url: '{{ url('admin/finance_records_detail') }}',
+            //     data: {
+            //         _token: token,
+            //         id: id,
+            //     },
 
-                // Ajax Success funciton
-                success: function(data) {
-                    // append retured view view to div 
-                    $('#detailView').html('');
-                    $('#detailView').html(data);
-                    $("#loader").hide();
+            //     // Ajax Success funciton
+            //     success: function(data) {
+            //         // append retured view view to div 
+            //         $('#detailView').html('');
+            //         $('#detailView').html(data);
+            //         $("#loader").hide();
 
-                    // hide loader 
-                },
-            });
+            //         // hide loader 
+            //     },
+            // });
         }
         // close
 
