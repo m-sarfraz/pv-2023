@@ -932,8 +932,8 @@
                         name: 'remarks_for_finance'
                     },
                     {
-                        data: 'endostatus',
-                        name: 'endostatus'
+                        data: 'process_status',
+                        name: 'process_status'
                     },
                 ]
             });
@@ -1079,8 +1079,8 @@
                     },
 
                     {
-                        data: 'app_status',
-                        name: 'app_status'
+                        data: 'process_status',
+                        name: 'process_status'
                     },
 
 

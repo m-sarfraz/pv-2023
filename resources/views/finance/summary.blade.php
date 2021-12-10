@@ -7,8 +7,7 @@
                         <label class="Label">
                             Number of Hires:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                            id="hires" />
+                        <input type="text" class="form-control users-input-S-C" placeholder="hires.." id="hires" />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -16,8 +15,7 @@
                         <label class="Label">
                             Computed Revenue:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                            id="revenue" />
+                        <input type="text" class="form-control users-input-S-C" placeholder="Rev.." id="revenue" />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -25,8 +23,8 @@
                         <label class="Label">
                             Revenue In Incentive:
                         </label>
-                        <input type="text" id="Revenue_In_Incentive"
-                            class="form-control users-input-S-C" placeholder="Rev.." />
+                        <input type="text" id="Revenue_In_Incentive" class="form-control users-input-S-C"
+                            placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -34,7 +32,8 @@
                         <label class="Label">
                             Total Receivables:
                         </label>
-                        <input type="text" id="receivablesAmount" class="form-control users-input-S-C" placeholder="total.." />
+                        <input type="text" id="receivablesAmount" class="form-control users-input-S-C"
+                            placeholder="total.." />
                     </div>
                 </div>
             </div>
@@ -44,8 +43,7 @@
                         <label class="Label">
                             Number Of Billed:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" id="billed"
-                            placeholder="hires.." />
+                        <input type="text" class="form-control users-input-S-C" id="billed" placeholder="hires.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -61,8 +59,7 @@
                         <label class="Label">
                             BOD (less share):
                         </label>
-                        <input type="text" id="vcc_share" class="form-control users-input-S-C"
-                            placeholder="Rev.." />
+                        <input type="text" id="vcc_share" class="form-control users-input-S-C" placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -81,8 +78,7 @@
                         <label class="Label">
                             Number Of Unbilled:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" id="unbilled"
-                            placeholder="hires.." />
+                        <input type="text" class="form-control users-input-S-C" id="unbilled" placeholder="hires.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -90,7 +86,8 @@
                         <label class="Label">
                             Unbilled Amount:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" id="unbilledAmount" placeholder="Rev.." />
+                        <input type="text" class="form-control users-input-S-C" id="unbilledAmount"
+                            placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -98,7 +95,7 @@
                         <label class="Label">
                             BOD Share:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                        <input type="text" id="BOD_share" class="form-control users-input-S-C" placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -117,8 +114,7 @@
                         <label class="Label">
                             Number of Fallout:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" id="fallout"
-                            placeholder="hires.." />
+                        <input type="text" class="form-control users-input-S-C" id="fallout" placeholder="hires.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -126,7 +122,8 @@
                         <label class="Label">
                             Fallout Amount:
                         </label>
-                        <input type="text" class="form-control users-input-S-C" id="falloutAmount" placeholder="Rev.." />
+                        <input type="text" class="form-control users-input-S-C" id="falloutAmount"
+                            placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -134,8 +131,7 @@
                         <label class="Label">
                             Consultants Share:
                         </label>
-                        <input type="text" id="c_take" class="form-control users-input-S-C"  
-                            placeholder="Rev.." />
+                        <input type="text" id="c_take" class="form-control users-input-S-C" placeholder="Rev.." />
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -155,29 +151,31 @@
     fallout = {!! $fallout !!}
     billed = {!! $billed !!}
     unbilled = {!! $unbilled !!}
-    billedAmount={!! $billedAmount !!}
-    unbilledAmount={!! $unbilledAmount !!}
-    falloutAmount={!! $falloutAmount !!}
+    billedAmount = {!! $billedAmount !!}
+    unbilledAmount = {!! $unbilledAmount !!}
+    falloutAmount = {!! $falloutAmount !!}
     hires = {!! $hires !!}
-    receivablesAmount={!! $receivablesAmount !!}
-    Current_receivablesAmount={!! $Current_receivablesAmount !!}
-    overDue_receivablesAmount={!! $overDue_receivablesAmount !!}
-    ctakeAmount={!! $ctakeAmount !!}
-    sql_c_share={!!$sql_c_share!!}
-    vcc_amount_sum={!!$vcc_amount_sum!!}
+    receivablesAmount = {!! $receivablesAmount !!}
+    Current_receivablesAmount = {!! $Current_receivablesAmount !!}
+    overDue_receivablesAmount = {!! $overDue_receivablesAmount !!}
+    ctakeAmount = {!! $ctakeAmount !!}
+    sql_c_share = {!! $sql_c_share !!}
+    vcc_amount_sum = {!! $vcc_amount_sum !!}
+    teamRevenueAmount = {!! $teamRevenueAmount !!}
     $('#hires').val(hires);
     $('#fallout').val(fallout);
     $('#billed').val(billed);
     $('#unbilled').val(unbilled);
-    $('#revenue').val(billedAmount+unbilledAmount)
+    $('#revenue').val(billedAmount + unbilledAmount)
     $('#billedAmount').val(billedAmount);
     $('#unbilledAmount').val(unbilledAmount);
     $('#falloutAmount').val(falloutAmount);
     $('#receivablesAmount').val(receivablesAmount);
     $('#Current_receivablesAmount').val(Current_receivablesAmount);
     $('#overDue_receivablesAmount').val(overDue_receivablesAmount);
-    $('#ctakeAmount').val(ctakeAmount); 
+    $('#ctakeAmount').val(ctakeAmount);
     $('#c_take').val(sql_c_share);
     $('#vcc_share').val(vcc_amount_sum);
-    $('#Revenue_In_Incentive').val(vcc_amount_sum);
+    $('#BOD_share').val(sql_c_share);
+    $('#Revenue_In_Incentive').val(teamRevenueAmount)
 </script>

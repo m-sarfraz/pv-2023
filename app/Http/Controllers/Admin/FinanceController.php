@@ -26,6 +26,7 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
+
         return view('finance.finance');
     }
     // close
@@ -69,7 +70,9 @@ class FinanceController extends Controller
     {
 
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('finance_view');
+        $Userdata = DB::table('finance_view')
+            ->join('finance_detail', 'finance_detail.candidate_id', 'finance_view.cid')
+            ->select('finance_view.*', 'finance_detail.process_status');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
             $Userdata->whereIn('finance_view.saved_by', $request->recruiter);
@@ -94,7 +97,7 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.reprocess', $request->process);
         }
         if (isset($request->appstatus)) {
-            $Userdata->whereIn('finance_view.app_status', $request->appstatus);
+            $Userdata->whereIn('finance_detail.process_status', $request->appstatus);
         }
         $user = $Userdata->get();
 
@@ -138,8 +141,9 @@ class FinanceController extends Controller
             ->addColumn('remarks_for_finance', function ($Userdata) {
                 return $Userdata->remarks_for_finance;
             })
-            ->addColumn('app_status', function ($Userdata) {
-                return $Userdata->app_status;
+            ->addColumn('process_status', function ($Userdata) {
+
+                return $Userdata->process_status;
             })
             ->rawColumns([
                 'id', 'team', 'recruiter', 'client', 'reprocess', 'last_name',
@@ -203,7 +207,14 @@ class FinanceController extends Controller
     {
         // user, information ,endo , finance
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('finance_view')->get();
+        $Userdata = DB::table('finance_view')
+            ->join('endorsements', 'endorsements.id', 'finance_view.cid')
+            ->join('finance_detail', 'finance_detail.candidate_id', 'finance_view.cid')
+            ->select('finance_view.*', 'endorsements.remarks', 'finance_detail.process_status')
+            ->get();
+
+
+
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -246,8 +257,8 @@ class FinanceController extends Controller
             ->addColumn('remarks_for_finance', function ($Userdata) {
                 return $Userdata->remarks_for_finance;
             })
-            ->addColumn('endostatus', function ($Userdata) {
-                return $Userdata->app_status;
+            ->addColumn('process_status', function ($Userdata) {
+                return $Userdata->process_status;
             })
 
             ->rawColumns([
@@ -261,6 +272,16 @@ class FinanceController extends Controller
     // append the summary of filtered record
     public function summaryAppend(Request $request)
     {
+        //for check team revenue
+        // $recruiter = Auth::user()->roles()->pluck('name');
+        $revenueArray = [];
+        $revenue = DB::table('roles')->where('team_revenue', 1)->get('id');
+        // dd($revenue);
+        foreach ($revenue as $key => $value) {
+            $revenueArray[$key] = $value->id;
+        }
+        $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
+        //for check team revenue close 
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
             $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
@@ -275,7 +296,6 @@ class FinanceController extends Controller
                 ->whereIn('endorsements.candidate_id', $request->array)
                 ->select('endorsements.*', 'finance.*', 'finance_detail.*');
         } else {
-
             $data = [
                 'hires' => 0,
                 'fallout' => 0,
@@ -290,7 +310,7 @@ class FinanceController extends Controller
                 'ctakeAmount' => 0,
                 'sql_c_share' => 0,
                 'vcc_amount_sum' => 0,
-
+                'teamRevenueAmount' => 0,
             ];
 
             return view('finance.summary', $data);
@@ -301,27 +321,29 @@ class FinanceController extends Controller
         foreach ($arr as $remarks) {
             $sql = str_replace($remarks, "'$remarks'", $sql);
         }
-       
+
         // end modify  wherein()
         if (strpos($sql, 'where') !== false) {
-            
+
             $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%'   ";
             $sql_billed = $sql . " and  endorsements.remarks in('fallout','Billed','replacement')";
             $sql_unBilled = $sql . " and endorsements.remarks ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
             $sql_fallout_amount = DB::select($sql_fallout);
+            // $Revenue_In_Incentive="";
             $sql_receivables = $sql . " and finance_detail.process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and finance_detail.process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and finance_detail.process_status ='OVERDUE' ";
             $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
-            // $sql_unbilled = $sql . "  and endorsements.remarks='Unbilled'";
+
             $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
+            // $vcc_amount_sum_for_I_B_R=$sql." and endorsements.remarks LIKE '%collect%' OR "
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         };
 
-        $sql_receivables_amount = DB::select($sql_receivables);
 
+        $sql_receivables_amount = DB::select($sql_receivables);
         $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
         $sql_ctake_amount = DB::select($sql_billed);
@@ -367,7 +389,14 @@ class FinanceController extends Controller
             //unknown vlaue for some
             $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
         }
+        //find incentive_base_revenue formula consultant share +Bod Share +vcc share of agent TAT EHT
+        // if ($Revenue[0]->team_revenue) {
 
+        //     $incentive_base_revenue = $sql_c_share + $vcc_amount_sum + 5;
+        // } else {
+        //     $incentive_base_revenue = $sql_c_share + $vcc_amount_sum + 1;
+        // }
+        $teamRevenueAmountFinance = $teamRevenueAmount[0]->totoalRevenue + $vcc_amount_sum + $sql_c_share;
         $data = [
             'hires' => count($Userdata->get()),
             'fallout' => count(DB::Select($sql_fallout)),
@@ -382,6 +411,7 @@ class FinanceController extends Controller
             'ctakeAmount' => $ctakeAmount,
             'sql_c_share' => $sql_c_share,
             'vcc_amount_sum' => $vcc_amount_sum,
+            'teamRevenueAmount' => $teamRevenueAmountFinance,
 
         ];
 
@@ -416,7 +446,7 @@ class FinanceController extends Controller
     {
         $check = $searchCheck = false;
         if ($request->searchKeyword == null) {
-            $request->searchKeyword=1;
+            $request->searchKeyword = 1;
             return $this->summaryAppend($request->searchKeyword);
         }
         // dd($request->all());
@@ -548,7 +578,6 @@ class FinanceController extends Controller
             $sql_receivables = $sql . " and six_table_view.process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and six_table_view.process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and six_table_view.process_status ='OVERDUE' ";
-            // $sql_billed = $sql . "  and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%' ";
             $c_share = $sql . "  and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%'  ";
             $vcc_amount_sum = $sql . " and six_table_view.remarks LIKE '%collect%' OR six_table_view.remarks LIKE '%replace%'OR six_table_view.remarks LIKE 'billed%'  ";
         };
