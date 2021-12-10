@@ -1095,24 +1095,24 @@
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
             // call Ajax whihc will return view of detail data of user
-            // $.ajax({
-            //     type: "GET",
-            //     url: '{{ url('admin/finance_records_detail') }}',
-            //     data: {
-            //         _token: token,
-            //         id: id,
-            //     },
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/finance_records_detail') }}',
+                data: {
+                    _token: token,
+                    id: id,
+                },
 
-            //     // Ajax Success funciton
-            //     success: function(data) {
-            //         // append retured view view to div 
-            //         $('#detailView').html('');
-            //         $('#detailView').html(data);
-            //         $("#loader").hide();
+                // Ajax Success funciton
+                success: function(data) {
+                    // append retured view view to div 
+                    $('#detailView').html('');
+                    $('#detailView').html(data);
+                    $("#loader").hide();
 
-            //         // hide loader 
-            //     },
-            // });
+                    // hide loader 
+                },
+            });
         }
         // close
 
