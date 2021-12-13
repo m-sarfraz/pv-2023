@@ -21,7 +21,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">
-                                    CAREER LEVEL:
+                                    Career Level:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     value="{{ $detail->career_endo }}" />
@@ -129,7 +129,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    TERMINATION DATE :
+                                     Termination Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
                                     value="{{ $detail->term_date }}" name="term_date" />

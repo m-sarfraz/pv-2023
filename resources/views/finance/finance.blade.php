@@ -416,7 +416,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
-                                                    CAREER LEVEL:
+                                                    Career Level:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -497,7 +497,7 @@
                                                     Remarks:
                                                 </label>
                                                 <select name="" id="" class="w-100 form-control">
-                                                    <option selected disabled> </option>
+                                                    <option selected disabled>Select Option </option>
                                                     <option value="1">Billed</option>
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
@@ -517,7 +517,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    TERMINATION DATE :
+                                                    Termination Date:
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -534,7 +534,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Payment terms:
+                                                    Payment Terms:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="total.." />
@@ -630,7 +630,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Special consumption:
+                                                    Special Consumption:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." />
@@ -830,20 +830,20 @@
         function appendSummary(array) {
             // $("#loader").show();
             // if (!array) {
-                // call Ajax for returning the data as view
-                $.ajax({
-                    type: "GET",
-                    url: '{{ url('admin/summaryAppend_finance') }}',
-                    data: {
-                        _token: token,
-                        array: array
-                    },
-                    // Success fucniton of Ajax
-                    success: function(data) {
-                        $('#summaryDiv').html('');
-                        $('#summaryDiv').html(data);
-                    }
-                });
+            // call Ajax for returning the data as view
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/summaryAppend_finance') }}',
+                data: {
+                    _token: token,
+                    array: array
+                },
+                // Success fucniton of Ajax
+                success: function(data) {
+                    $('#summaryDiv').html('');
+                    $('#summaryDiv').html(data);
+                }
+            });
             // }
             // if (array) {
             //     // call Ajax for returning the data as view
@@ -947,7 +947,7 @@
                     url: '{{ url('admin/appendFinanceOptions') }}',
                 })
                 .done(function(res) {
-                 
+
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option value="' + res.candidates[i].cid + '">' + res.candidates[i]
                             .last_name +
@@ -971,8 +971,9 @@
                             .name + '</option>')
                     }
                     for (let i = 0; i < res.client.length; i++) {
-                      
-                        $('#client').append('<option value="' + res.client[i].client + '">' + res.client[i].client + '</option>')
+
+                        $('#client').append('<option value="' + res.client[i].client + '">' + res.client[i].client +
+                            '</option>')
                     }
                     // for (let i = 0; i < res.appstatus.length; i++) {
                     //     if (res.appstatus[i].app_status != '') {
