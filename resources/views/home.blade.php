@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        @php $data =  DB::table('roles')->wherein('id',array(1,3))->get(); @endphp
+        @php $data = DB::table('roles')->get(); @endphp
         <div class="row pt-4 m-0">
             <div class="col-lg-9">
                 <div class="card cardBorderColor mb-8">
@@ -195,9 +195,7 @@
                                     <tr>
                                         <td>Quarterly</td>
                                         <td>400000</td>
-                                        <td>
-                                          
-                                             @php echo   isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?$append[$i][$index_Quarterly_data__check][0]->f_srp:0;@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?$append[$i][$index_Quarterly_data__check][0]->f_srp:0;@endphp</td>
                                         <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100:0;@endphp</td>
                                     </tr>
                                     <tr>
