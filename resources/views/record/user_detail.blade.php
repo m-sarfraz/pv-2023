@@ -439,13 +439,22 @@
                         <div class="form-group mb-0">
                             <?php
                             $certificate = Helper::get_dropdown('certifications');
+                            $arr = explode(',', $user->certification);
                             ?>
-                            <label class="d-block font-size-3 mb-0">
-                                Certification:
+                            
+                            <label class="Label">
+                                CERTIFICATIONS
                             </label>
-                            <input type="text" name="CERTIFICATIONS" class="form-control"
-                                value="{{ $user->certification }}">
-
+                            {{-- @dd( $arr ) --}}
+                            <select multiple name="CERTIFICATIONS[]" id="certificate"
+                                class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                <option disabled></option>
+                                @foreach ($certificate->options as $certificateOption)
+                                    <option value="{{ $certificateOption->option_name }}"
+                                        {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}>
+                                        {{ $certificateOption->option_name }}</option>
+                                @endforeach
+                            </select>
                             {{-- <select name="CERTIFICATIONS" class="form-control users-input-S-C">
                                 <option {{ $user->certification == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($certificate->options as $certificateOption)
@@ -829,6 +838,8 @@
 </div>
 
 <script>
+      // show searcable select using select 2 dropdown
+      select2Dropdown("select2_dropdown");
     var recruiter = "{{ Auth::user()->id }}";
     var candidate = "{{ $user->saved_by }}";
     if (recruiter == candidate) {
