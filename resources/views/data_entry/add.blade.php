@@ -126,10 +126,10 @@
                     </div>
                     <div class="form-group">
                         <p class="C-Heading mt-5">QR Code:</p>
-                        {{-- <div  style="width: 100%;" class="pl-sm-15">
-                        </div> --}}
+                        <div  style="width: 100%;" class="pl-sm-15">
+                        </div>
                         <a href="" download="user" id=QrCode>
-                            <img style="width: 100%;" class="pl-sm-15" alt="" />
+                            <img style=" " class="pl-sm-15" alt="" />
                         </a>
                     </div>
                 </div>
