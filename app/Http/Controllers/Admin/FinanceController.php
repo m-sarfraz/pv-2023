@@ -396,7 +396,14 @@ class FinanceController extends Controller
         // } else {
         //     $incentive_base_revenue = $sql_c_share + $vcc_amount_sum + 1;
         // }
-        $teamRevenueAmountFinance = $teamRevenueAmount[0]->totoalRevenue + $vcc_amount_sum + $sql_c_share;
+        
+        $teamRevenueAmountFinance=0;
+        foreach ($teamRevenueAmount as  $value) {
+            # code...
+            $teamRevenueAmountFinance += $value->totoalRevenue ;
+        }
+        
+       $traf = $teamRevenueAmountFinance+$vcc_amount_sum + $sql_c_share;
         $data = [
             'hires' => count($Userdata->get()),
             'fallout' => count(DB::Select($sql_fallout)),
@@ -411,7 +418,7 @@ class FinanceController extends Controller
             'ctakeAmount' => $ctakeAmount,
             'sql_c_share' => $sql_c_share,
             'vcc_amount_sum' => $vcc_amount_sum,
-            'teamRevenueAmount' => $teamRevenueAmountFinance,
+            'teamRevenueAmount' =>  $traf,
 
         ];
 
