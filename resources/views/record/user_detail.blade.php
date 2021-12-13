@@ -103,7 +103,7 @@
                                 </option>
                                 @foreach ($source->options as $sourceOptions)
                                     <option value="{{ $sourceOptions->option_name }}"
-                                        {{ $user->source == $sourceOptions->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->source) == strtolower($sourceOptions->option_name) ? 'selected' : '' }}>
                                         {{ $sourceOptions->option_name }}</option>
                                 @endforeach
                             </select>
@@ -129,7 +129,7 @@
                                     Select Option</option>
                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                     <option value="{{ $eduAttainmentOptions->option_name }}"
-                                        {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->educational_attain) == strtolower($eduAttainmentOptions->option_name) ? 'selected' : '' }}>
                                         {{ $eduAttainmentOptions->option_name }}</option>
                                 @endforeach
                             </select>
@@ -160,7 +160,7 @@
                                 <option {{ $user->manner_of_invite == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                     <option value="{{ $manner_of_inviteOption->option_name }}"
-                                        {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->manner_of_invite) == strtolower($manner_of_inviteOption->option_name) ? 'selected' : '' }}>
                                         {{ $manner_of_inviteOption->option_name }}
                                     </option>
                                 @endforeach
@@ -234,7 +234,7 @@
                                 </option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
-                                        {{ $user->domain == $domainOption->domain_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->domain) == strtolower($domainOption->domain_name) ? 'selected' : '' }}>
                                         {{ $domainOption->domain_name }}</option>
                                 @endforeach
                             </select>
@@ -282,7 +282,7 @@
                                 </option>
                                 @foreach ($segments as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
-                                        {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                         {{ $segmentsOptions->segment_name }}
                                     </option>
                                 @endforeach
@@ -307,7 +307,7 @@
                                 </option>
                                 @foreach ($sub_segments as $Options)
                                     <option value="{{ $Options->id }}"
-                                        {{ strtoupper($user->sub_segment) == strtoupper($Options->sub_segment_name) ? 'selected' : '' }}>
+                                        {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
                                         {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
@@ -342,7 +342,7 @@
                                 <option {{ $user->candidate_profile == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($profile->options as $profileOption)
                                     <option value="{{ $profileOption->option_name }}"
-                                        {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->candidate_profile) == strtolower($profileOption->option_name) ? 'selected' : '' }}>
                                         {{ $profileOption->option_name }}
                                     </option>
                                 @endforeach
@@ -380,7 +380,7 @@
                                 {{-- @dd($user->app_status) --}}
                                 @foreach ($status->options as $statusOptions)
                                     <option value="{{ $statusOptions->option_name }}"
-                                        {{ $user->app_status == $statusOptions->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->app_status) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
                                         {{ $statusOptions->option_name }}
                                     </option>
                                 @endforeach
@@ -487,7 +487,7 @@
                                                             Select Option</option>
                                                         @foreach ($endoType->options as $endoTypeOptions)
                                                             <option value="{{ $endoTypeOptions->option_name }}"
-                                                                {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->type) == strtolower($endoTypeOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $endoTypeOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -511,7 +511,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                             <option value="{{ $CareerLevelOptions->option_name }}"
-                                                                {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->career_endo) == strtolower($CareerLevelOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $CareerLevelOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -535,7 +535,7 @@
                                                             Select Option</option>
                                                         @foreach ($site->options as $siteOptions)
                                                             <option value="{{ $siteOptions->option_name }}"
-                                                                {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->site) == strtolower($siteOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $siteOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -561,7 +561,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
-                                                                {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->remarks_for_finance) == strtolower($remarksOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $remarksOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -586,7 +586,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($client as $clientOptions)
                                                             <option value="{{ $clientOptions->client }}"
-                                                                {{ $user->client == $clientOptions->client ? 'selected' : '' }}>
+                                                                {{ strtolower($user->client) == strtolower($clientOptions->client) ? 'selected' : '' }}>
                                                                 {{ $clientOptions->client }}
                                                             </option>
                                                         @endforeach
@@ -610,7 +610,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($status->options as $statusOptions)
                                                             <option value="{{ $statusOptions->option_name }}"
-                                                                {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->status) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $statusOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -639,7 +639,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($pos_title as $position_titleOptions)
                                                             <option value="{{ $position_titleOptions->position }}"
-                                                                {{ $user->position_title == $position_titleOptions->position ? 'selected' : '' }}>
+                                                                {{ strtolower($user->position_title) == strtolower($position_titleOptions->position) ? 'selected' : '' }}>
                                                                 {{ $position_titleOptions->position }}
                                                             </option>
                                                         @endforeach
@@ -687,7 +687,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
                                                             <option value="{{ $domainOption->id }}"
-                                                                {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->domain) == strtolower($domainOption->option_name) ? 'selected' : '' }}>
                                                                 {{ $domainOption->domain_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -724,7 +724,7 @@
                                                         </option>
                                                         @foreach ($segments as $segmentsOptions)
                                                             <option value="{{ $segmentsOptions->id }}"
-                                                                {{ $user->segment == $segmentsOptions->segment_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                                                 {{ $segmentsOptions->segment_name }}
                                                             </option>
                                                         @endforeach
@@ -747,7 +747,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
-                                                                {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->remarks) == strtolower($remarksOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $remarksOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -773,7 +773,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($sub_segments as $Options)
                                                             <option value="{{ $Options->id }}"
-                                                                {{ $user->sub_segment == $Options->sub_segment_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
                                                                 {{ $Options->sub_segment_name }}
                                                             </option>
                                                         @endforeach

@@ -1247,6 +1247,8 @@
             $("#loader").show();
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
+            console.log(data);
+        
             data.append("_token", "{{ csrf_token() }}");
             data.append("id", id);
 

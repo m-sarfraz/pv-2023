@@ -110,12 +110,12 @@ class RecordController extends Controller
                 } else {
                     $Alldata->endi_date = '';
                 }
-
             })
-            ->rawColumns(['id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date'])
+            ->rawColumns([
+                'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
+                'career_level', 'endi_date'
+            ])
             ->make(true);
-
     }
     public function view_record_table()
     {
@@ -162,8 +162,10 @@ class RecordController extends Controller
                     $record->endi_date = '';
                 }
             })
-            ->rawColumns(['id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date'])
+            ->rawColumns([
+                'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
+                'career_level', 'endi_date'
+            ])
             ->make(true);
     }
     // show data table for view record page ends
@@ -205,7 +207,7 @@ class RecordController extends Controller
 
     public function updateDetails(Request $request)
     {
-        // return $request->all();
+        // return  $request->CERTIFICATIONS;
 
         $arrayCheck = [
             'SOURCE' => 'required',
@@ -254,10 +256,12 @@ class RecordController extends Controller
             ]);
 
             // update candidate education data
+            $For_save_good_format = implode(",", $request->CERTIFICATIONS);
+
             CandidateEducation::where('candidate_id', $request->id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
-                'certification' => $request->CERTIFICATIONS,
+                'certification' => $For_save_good_format,
             ]);
 
             // update candidae domain data
@@ -337,6 +341,5 @@ class RecordController extends Controller
                 'clients' => $clients,
             ]
         );
-
     }
 }
