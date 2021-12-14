@@ -317,6 +317,8 @@ class ProfileController extends Controller
                     $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
                     $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                     $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
+
+                    $finance->t_id = $recruiter->id;
                     $finance->save();
 
                     //finance close
@@ -445,19 +447,21 @@ class ProfileController extends Controller
                         $Cipprogress = Cipprogress::find($query->id);
                     } else {
                         // insert record
-                        $Cipprogress = new Cipprogress();
+                        if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
+                            $final_stage = 1;
+                        }
+                        if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
+                            $mid_stage = 1;
+                        }
                     }
                     // find in array
-                    if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
 
-                        $Cipprogress->final_stage = 1;
-                        $Cipprogress->cip = 1;
-                    }
-                    if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
-                        $Cipprogress->mid_stage = 1;
-                        $Cipprogress->cip = 1;
-                    }
                     //check
+                    $Cipprogress = new Cipprogress();
+                    $Cipprogress->cip = 1;
+                    $Cipprogress->final_stage = isset($final_stage) ? $final_stage : 0;
+                    $Cipprogress->mid_stage = isset($mid_stage) ? $mid_stage : 0;
+
                     $word_1 = "Offer";
                     $word_2 = "Onboarded";
                     $mystring = isset($render[43]) ? $render[43] : "";
@@ -659,6 +663,7 @@ class ProfileController extends Controller
                 $endorsement->status = isset($render[42]) ? $render[42] : "";
                 $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                 $endorsement->candidate_id = $store_by_Ecxel->id;
+
                 $endorsement->save();
                 //close
 
@@ -705,6 +710,7 @@ class ProfileController extends Controller
                 $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
                 $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                 $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
+                $finance->t_id = $recruiter->id;
                 $finance->save();
                 //finance detail start
 

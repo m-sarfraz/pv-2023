@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        @php $data = DB::table('roles')->get(); @endphp
+        @php $data = DB::table('roles')->where('team_revenue', 1)->get(); @endphp
         <div class="row pt-4 m-0">
             <div class="col-lg-9">
                 <div class="card cardBorderColor mb-8">
@@ -162,8 +162,8 @@
             </div>
         </div>
 
-
         @for ($i = 0; $i < count($data); $i++)
+       
             @php $index_weekly_data__check="weekly_data_".$i @endphp
             @php $index_Mounthly_data__check="Mounthly_data_".$i @endphp
             @php $index_Quarterly_data__check="Quarterly_data_".$i @endphp
@@ -172,7 +172,11 @@
             @php $index_user_pie__check="count_user_pie_".$i @endphp
             @php $index_count_onboarded__check="count_onboarded_".$i @endphp
             @php $index_count_offere__check="count_offere_".$i @endphp
-
+            @php $index_count_mid_failed_check="failed_mid_stage_".$i @endphp
+            @php $index_count_final_failed_check="failed_final_stage_".$i @endphp
+            @php $index_count_onborded_stage="onborded_stage_".$i @endphp
+            @php $index_count_offer_stage="offer_stage_".$i @endphp
+      
 
             
 
@@ -230,22 +234,22 @@
                                     <tr>
                                         <td>Mid</td>
                                         <td>@php echo isset($append[$i][$index_count_mid_stage_0__check])?count($append[$i][$index_count_mid_stage_0__check]):""; @endphp</td>
-                                        <td>1,573,665.00</td>
+                                        <td>@php echo !empty($append[$i][$index_count_mid_failed_check][0]->f_m_stage)?intval($append[$i][$index_count_mid_failed_check][0]->f_m_stage):0; @endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Final</td>
                                         <td>@php echo isset($append[$i][$index_count_final_stage_0__check])?count($append[$i][$index_count_final_stage_0__check]):""; @endphp</td>
-                                        <td>1,573,665.00</td>
+                                        <td>@php echo isset($append[$i][$index_count_final_failed_check][0]->f_m_stage)?intval($append[$i][$index_count_final_failed_check][0]->f_m_stage):0; @endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Offer Stage</td>
                                         <td>@php echo isset($append[$i][$index_count_offere__check])?count($append[$i][$index_count_offere__check]):""; @endphp</td>
-                                        <td>1,573,665.00</td>
+                                        <td>@php echo !empty($append[$i][$index_count_offer_stage][0]->f_m_stage)?intval($append[$i][$index_count_offer_stage][0]->f_m_stage):0; @endphp </td>
                                     </tr>
                                     <tr>
                                         <td>Onboarded</td>
                                         <td>@php echo isset($append[$i][$index_count_onboarded__check])?count($append[$i][$index_count_onboarded__check]):""; @endphp</td>
-                                        <td>1,573,665.00</td>
+                                        <td>@php echo !empty($append[$i][$index_count_onborded_stage][0]->f_m_stage)?intval($append[$i][$index_count_onborded_stage][0]->f_m_stage):0; @endphp</td>
                                     </tr>
                                 </tbody>
                             </table>

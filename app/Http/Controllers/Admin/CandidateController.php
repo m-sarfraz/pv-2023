@@ -449,6 +449,8 @@ class CandidateController extends Controller
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
+            $recruiter=Auth::user()->roles->pluck('id');
+            $finance->t_id = $recruiter[0];
             $finance->save();
             $finance_detail = new Finance_detail();
             $finance_detail->candidate_id = $CandidateInformation->id;
