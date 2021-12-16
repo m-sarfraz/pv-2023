@@ -115,7 +115,7 @@
 
                                     <tr>
                                         <td><?php echo $data[$i]->name; ?></td>
-                                        <td>2,000,000</td>
+                                        <td>@php echo $TAT @endphp</td>
                                         <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:0 @endphp</td>
                                         <td>@php echo  isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:0 @endphp</td>
                                         

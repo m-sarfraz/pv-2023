@@ -39,13 +39,7 @@ class HomeController extends Controller
             ->pluck('count');
 
 
-        $count_user_pie = new SampleChart();
-        $count_user_pie->labels(['First', 'Second', 'Third']);
-        $count_user_pie->dataset('my chart', 'pie', [3, 3, 3])->options([
-            'fill' => 'true',
-            'borderColor' => ['red', 'green', 'yellow'],
-            'backgroundColor' => ['red', 'green', 'yellow'],
-        ]);
+
         $Admin_team = Cipprogress::where("team", "Admin")->orderBy('id', 'ASC')->get();
 
         $Current_date = date('Y-m-d');
@@ -169,14 +163,22 @@ class HomeController extends Controller
         $sum_incentive_of_revenue_team = 0;
         $f = [];
         $sume = 0;
+        $single_sume = [];
         foreach ($append as $key => $value) {
             $sum_incentive_of_revenue_team = $value['incentive_base_revenue_' . $key];
             array_push($f, $sum_incentive_of_revenue_team);
         }
         foreach ($f as $key => $valueinner) {
-            if (isset($valueinner[$key]->Sume)) {
 
+            if (isset($valueinner[$key]->Sume)) {
                 $sume += $valueinner[$key]->Sume;
+            }
+        }
+        foreach ($f as $key => $valueinner) {
+
+            if (isset($valueinner[$key]->Sume)) {
+                $sume = $valueinner[$key]->Sume;
+                array_push($single_sume, $sume);
             }
         }
 
@@ -193,21 +195,44 @@ class HomeController extends Controller
 
         //close del
         ///first graph
-        $chart = new SampleChart();
-        $chart->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $chart->dataset('TAT ', 'bar', [ $total_incentive_base_revenue])->options([
-            // 'fill' => 'false',
-            'borderColor' => 'rgb(64, 135, 242)',
-            'backgroundColor' => 'rgb(64, 135, 242)',
+        $a = [];
+        $sum_incentive_of_revenue_team = '';
+        $h = [];
+        $pluck_name = '';
+        $data_for_team_revenue = DB::table('roles')->where('team_revenue', 1)->get();
+        foreach ($data_for_team_revenue as  $value) {
 
-        ]);
-        $chart->dataset('Profile', 'bar', [$sume])->options([
+            $sum_incentive_of_revenue_team = $value->name;
+
+            array_push($a, $sum_incentive_of_revenue_team);
+        }
+
+
+        $chart = new SampleChart();
+
+        $chart->labels($a);
+        $chart->dataset('TAT ', 'bar', [$this->size_of_Traget, $this->size_of_Traget, $this->size_of_Traget, $this->size_of_Traget])->options([
             // 'fill' => 'false',
             'borderColor' => 'rgb(253, 152, 0)',
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
+        $chart->dataset('Incentive Base Revenue', 'bar', $single_sume)->options([
+            // 'fill' => 'false',
+            'borderColor' => 'green',
+            'backgroundColor' => 'green',
+
+        ]);
         //first graph
+        //second graph
+        $count_user_pie = new SampleChart();
+        $count_user_pie->labels(['Inventice Base Revenue', 'TAT']);
+        $count_user_pie->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
+            'fill' => 'true',
+            'borderColor' => ['green', 'orange'],
+            'backgroundColor' => ['green', 'orange'],
+        ]);
+        //second graph
         $data = [
             "Admin_team" => $Admin_team,
             "chart" => $chart,
@@ -215,6 +240,7 @@ class HomeController extends Controller
             "append" => $append,
             "del" => $del,
             "Quarterly" => $Quarterly,
+            "TAT" => $this->size_of_Traget
 
         ];
         return view('home', $data);
