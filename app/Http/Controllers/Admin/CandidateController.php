@@ -449,7 +449,7 @@ class CandidateController extends Controller
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
-            $recruiter=Auth::user()->roles->pluck('id');
+            $recruiter = Auth::user()->roles->pluck('id');
             $finance->t_id = $recruiter[0];
             $finance->save();
             $finance_detail = new Finance_detail();
@@ -859,10 +859,23 @@ class CandidateController extends Controller
     // Qr code function
     public function QRCodeGenerator(Request $request, $id)
     {
+        $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->where('candidate_informations.id', $request->id)
+            ->first();
+        // return $user;
+        $data = [
+            'user' => $user,
+        ];
         $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
-            ->generate(url('admin/data-entry') . '?id=' . $request->id);
-
+        // ->generate(url('admin/redirect') . '/' . $request->id . '/4');
+            ->generate(view('data_entry.qrText', $data)->render());
+        // ->generate('name :Muhammad sarfraz \n Phone: 034343434343 \n '
         return response($image)->header('Content-type', 'image/png');
     }
     // close

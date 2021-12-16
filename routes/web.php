@@ -56,7 +56,15 @@ return view('JDL.index');
 // Route::view('add_company','companies.add_company_profile');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-    Route::get('redirect/{id}', 'UserController@redirect')->name('redirect');
+
+    //Search User data route
+    Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+    Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
+
+    Route::get('redirect/{cid}/{uid}', 'UserController@redirectThankyou')->name('redirect');
+    // Route::get('redirectQrCode/{cid}/{uid}', 'UserController@redirectQrCode')->name('redirectQrCode');
+    Route::get('checkIfQRScanned', 'UserController@checkIfQRScanned')->name('checkIfQRScanned');
+
     Route::get('save_user_CurrTimeStamp', 'UserController@saveActivity')->name('save_user_CurrTimeStamp');
 
     // companies routes
@@ -73,10 +81,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
     Route::get('append_filter_data', 'JdlController@append_filter_data')->name('append_filter_data');
     Route::get('appendJdlOptions', 'JdlController@appendJdlOptions')->name('appendJdlOptions');
-
-    //Search User data route
-    Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
-    Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
 
     // Record routes
     Route::get('record', 'RecordController@index')->name('record');

@@ -191,22 +191,58 @@ class UserController extends Controller
             // }
         }
     }
-    public function redirect(Request $request, $id)
+    public function redirectThankyou(Request $request, $cid, $uid)
     {
-        $activity = DB::table('users')->where('id', $id)->first('activity_timeStamp');
-        // dd(time());
+        $activity = DB::table('users')->where('id', $uid)->first('activity_timeStamp');
         if ($activity->activity_timeStamp >= time()) {
-            dd('logged in');
-
+            DB::table('users')->where('id', $uid)->limit(1)
+                ->update([
+                    'redirect' => 1,
+                    'cid' => $cid,
+                ]);
+            $data = [
+                'cid' => $cid,
+                'uid' => $uid,
+            ];
+            return view('user.thankYou', $data);
         } else {
             return response()->json(['Acknowledge' => 'user is not logged in yet!']);
         }
     }
+    public function checkIfQRScanned()
+    {
+        if (\Auth::user()->redirect == 1) {
+            DB::table('users')->where('id', \Auth::user()->id)->limit(1)
+                ->update([
+                    'redirect' => 0,
+                    'cid' => 0,
+                ]);
+
+            $id = \Auth::user()->cid;
+            $url = url('admin/data-entry/' . '?id=' . $id);
+
+            return response()->json(['success' => true, 'message' => 'sucessfully redirected', 'id' => $id, 'url' => $url]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Dont redirect']);
+
+        }
+    }
+
+    // public function redirectQrCode(Request $request, $cid, $uid)
+    // {
+    //     $activity = DB::table('users')->where('id', $uid)->first('activity_timeStamp');
+    //     if ($activity->activity_timeStamp >= time()) {
+    //         dd('logged in');
+
+    //     } else {
+    //         return response()->json(['Acknowledge' => 'user is not logged in yet!']);
+    //     }
+    // }
     public function saveActivity()
     {
         DB::table('users')->where('id', \Auth::user()->id)->limit(1)
             ->update([
-                'activity_timeStamp' => time() + 15,
+                'activity_timeStamp' => time() + 30,
             ]);
     }
 }

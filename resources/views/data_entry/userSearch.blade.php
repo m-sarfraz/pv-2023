@@ -1162,7 +1162,7 @@
             },
             // success function after ajax call starts
             success: function(data) {
-                // $('#QrCode').html(data);
+                $('#QrCode').html(data);
             },
             // success function after ajax call ends
 

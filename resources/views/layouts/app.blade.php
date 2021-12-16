@@ -61,8 +61,21 @@
         $.ajax({
             url: "{{ route('save_user_CurrTimeStamp') }}",
             type: 'get',
+            success: function(res) {}
+        });
+ 
+
+        $.ajax({
+            url: "{{ route('checkIfQRScanned') }}",
+            type: 'get',
             success: function(res) {
+                if (res.success==true) {
+                    window.location.href = res.url;
+                }
+                else{
+                    return false
+                }
             }
         });
-    }, 10000);
+    }, 2000);
 </script>
