@@ -37,20 +37,7 @@ class HomeController extends Controller
             ->whereYear('created_at', date('Y'))
             ->groupBy(DB::raw("Month(created_at)"))
             ->pluck('count');
-        $chart = new SampleChart();
-        $chart->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $chart->dataset('TAT ', 'bar', [200000])->options([
-            // 'fill' => 'false',
-            'borderColor' => 'rgb(64, 135, 242)',
-            'backgroundColor' => 'rgb(64, 135, 242)',
 
-        ]);
-        $chart->dataset('Profile', 'bar', [500])->options([
-            // 'fill' => 'false',
-            'borderColor' => 'rgb(253, 152, 0)',
-            'backgroundColor' => 'rgb(253, 152, 0)',
-
-        ]);
 
         $count_user_pie = new SampleChart();
         $count_user_pie->labels(['First', 'Second', 'Third']);
@@ -192,20 +179,35 @@ class HomeController extends Controller
                 $sume += $valueinner[$key]->Sume;
             }
         }
-      
+
 
         $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels([ 'Inventice Base Revenue','TAT']);
-        $del->dataset('my chart', 'pie', [ $sume,$total_incentive_base_revenue])->options([
+        $del->labels(['Inventice Base Revenue', 'TAT']);
+        $del->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
-            'borderColor' => [ 'green','orange'],
+            'borderColor' => ['green', 'orange'],
             'backgroundColor' => ['green', 'orange'],
         ]);
 
 
         //close del
+        ///first graph
+        $chart = new SampleChart();
+        $chart->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+        $chart->dataset('TAT ', 'bar', [ $total_incentive_base_revenue])->options([
+            // 'fill' => 'false',
+            'borderColor' => 'rgb(64, 135, 242)',
+            'backgroundColor' => 'rgb(64, 135, 242)',
 
+        ]);
+        $chart->dataset('Profile', 'bar', [$sume])->options([
+            // 'fill' => 'false',
+            'borderColor' => 'rgb(253, 152, 0)',
+            'backgroundColor' => 'rgb(253, 152, 0)',
+
+        ]);
+        //first graph
         $data = [
             "Admin_team" => $Admin_team,
             "chart" => $chart,
