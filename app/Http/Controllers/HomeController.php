@@ -12,6 +12,7 @@ use Auth;
 
 class HomeController extends Controller
 {
+    public $size_of_Traget = 2000000;
     /**
      * Create a new controller instance.
      *
@@ -149,10 +150,10 @@ class HomeController extends Controller
             and (`cip_progress`.`final_stage` = 1 OR `cip_progress`.`mid_stage` = 1)');
             $incentive_base_revenue_[$i] = DB::select('select sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail`
             inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance_detail`.`candidate_id`
-            where `cip_progress`.`t_id`='.$check[$i].'');
+            where `cip_progress`.`t_id`=' . $check[$i] . '');
             $PDM_LessShare_[$i] = DB::select('select sum(`finance_detail`.`c_take`) as Sume FROM `finance_detail`
             inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance_detail`.`candidate_id`
-            where `cip_progress`.`t_id`='.$check[$i].'');
+            where `cip_progress`.`t_id`=' . $check[$i] . '');
             $data_loop = [
                 "weekly_data_" . $i => $weekly_data_[$i],
                 "Mounthly_data_" . $i => $Mounthly_data_[$i],
@@ -169,31 +170,39 @@ class HomeController extends Controller
                 "onborded_stage_" . $i => $onborded_stage_[$i],
                 "offer_stage_" . $i => $offer_stage_[$i],
                 "incentive_base_revenue_" . $i => $incentive_base_revenue_[$i],
-               "PDM_LessShare_".$i => $PDM_LessShare_[$i]              
+                "PDM_LessShare_" . $i => $PDM_LessShare_[$i]
 
             ];
 
             array_push($append, $data_loop);
         }
 
-        
+
         // total nio of ongoin
+        $sum_incentive_of_revenue_team = 0;
+        $f = [];
+        $sume = 0;
+        foreach ($append as $key => $value) {
+            $sum_incentive_of_revenue_team = $value['incentive_base_revenue_' . $key];
+            array_push($f, $sum_incentive_of_revenue_team);
+        }
+        foreach ($f as $key => $valueinner) {
+            if (isset($valueinner[$key]->Sume)) {
 
+                $sume += $valueinner[$key]->Sume;
+            }
+        }
+      
 
+        $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $del->dataset('TAT ', 'bar', [80000000])->options([
-            // 'fill' => 'false',
-            'borderColor' => 'rgb(64, 135, 242)',
-            'backgroundColor' => 'rgb(64, 135, 242)',
-
+        $del->labels([ 'Inventice Base Revenue','TAT']);
+        $del->dataset('my chart', 'pie', [ $sume,$total_incentive_base_revenue])->options([
+            'fill' => 'true',
+            'borderColor' => [ 'green','orange'],
+            'backgroundColor' => ['green', 'orange'],
         ]);
-        $del->dataset('Incentive Base Revenue', 'bar', [500])->options([
-            // 'fill' => 'false',
-            'borderColor' => 'rgb(253, 152, 0)',
-            'backgroundColor' => 'rgb(253, 152, 0)',
 
-        ]);
 
         //close del
 
@@ -204,7 +213,7 @@ class HomeController extends Controller
             "append" => $append,
             "del" => $del,
             "Quarterly" => $Quarterly,
-         
+
         ];
         return view('home', $data);
     }
