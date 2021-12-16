@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}" />
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <link rel="stylesheet" href= "{{ asset('assets/css/font-awesome.min.css') }}" /> 
-    <link rel="stylesheet"  href= "{{ asset('assets/css/sweetalert.min.css') }}" /> 
-    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}"  />
-    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- ================= -->
     <!-- Datatable css start-->
-    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
     <!-- Datatable css end-->
     <!-- ================= -->
     @yield('style')
@@ -39,18 +39,30 @@
         var url = "{{ url('/') }}";
         var token = "{{ csrf_token() }}";
     </script>
-    <script src= "{{ asset('assets/js/jquery.min.js') }}" ></script>
-    <script src= "{{ asset('assets/js/jquery.dataTables.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/script/bootstrap.bundle.min.js') }}"></script>
     {{-- <script src="{{ asset('assets/plugins/bootstrap/script/jquery-3.5.1.slim.min.js') }}" ></script> --}}
-    <script src="{{ asset('assets/plugins/bootstrap/script/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('assets/plugins/bootstrap/script/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <!-- sweet alert cdn-->
-    <script src= "{{ asset('assets/js/sweetalert.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/js/global.js') }}"></script>
     @yield('script')
 
 </body>
 
 </html>
+{{-- script for saving the activity of user untill logged in --}}
+<script>
+    setInterval(() => {
+
+        $.ajax({
+            url: "{{ route('save_user_CurrTimeStamp') }}",
+            type: 'get',
+            success: function(res) {
+            }
+        });
+    }, 10000);
+</script>

@@ -191,4 +191,22 @@ class UserController extends Controller
             // }
         }
     }
+    public function redirect(Request $request, $id)
+    {
+        $activity = DB::table('users')->where('id', $id)->first('activity_timeStamp');
+        // dd(time());
+        if ($activity->activity_timeStamp >= time()) {
+            dd('logged in');
+
+        } else {
+            return response()->json(['Acknowledge' => 'user is not logged in yet!']);
+        }
+    }
+    public function saveActivity()
+    {
+        DB::table('users')->where('id', \Auth::user()->id)->limit(1)
+            ->update([
+                'activity_timeStamp' => time() + 15,
+            ]);
+    }
 }

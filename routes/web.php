@@ -56,6 +56,8 @@ return view('JDL.index');
 // Route::view('add_company','companies.add_company_profile');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+    Route::get('redirect/{id}', 'UserController@redirect')->name('redirect');
+    Route::get('save_user_CurrTimeStamp', 'UserController@saveActivity')->name('save_user_CurrTimeStamp');
 
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
@@ -122,7 +124,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
     Route::get('summaryAppend_finance', 'FinanceController@summaryAppend')->name('summaryAppend_finance');
     Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
-    Route::any('financeserachforsummary','FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
+    Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
