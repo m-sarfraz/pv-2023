@@ -143,14 +143,16 @@ class HomeController extends Controller
 
             // $no_of_ongoing
             $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
-            $total_ogoing_Last_column[$i] = Cipprogress::join("finance", "finance.candidate_id", "cip_progress.candidate_id")
-                ->where('cip_progress.t_id', $check[$i])
-                ->where("cip_progress.final_stage", 1)
-                ->orwhere("cip_progress.mid_stage", 1)
-                ->groupby("cip_progress.team")
-                ->orderby("cip_progress.id")
-                ->select(DB::raw("SUM(finance.srp) as f_srp"), "finance.srp", "cip_progress.team", "cip_progress.candidate_id as c_c_id", "finance.candidate_id")->get();
-
+            $total_ogoing_Last_column[$i] =  DB::select('select SUM(finance.srp) as f_srp from `finance` 
+            inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance`.`candidate_id`
+            where `finance`.`t_id` = ' . $check[$i] . '
+            and (`cip_progress`.`final_stage` = 1 OR `cip_progress`.`mid_stage` = 1)');
+            $incentive_base_revenue_[$i] = DB::select('select sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail`
+            inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance_detail`.`candidate_id`
+            where `cip_progress`.`t_id`='.$check[$i].'');
+            $PDM_LessShare_[$i] = DB::select('select sum(`finance_detail`.`c_take`) as Sume FROM `finance_detail`
+            inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance_detail`.`candidate_id`
+            where `cip_progress`.`t_id`='.$check[$i].'');
             $data_loop = [
                 "weekly_data_" . $i => $weekly_data_[$i],
                 "Mounthly_data_" . $i => $Mounthly_data_[$i],
@@ -165,15 +167,16 @@ class HomeController extends Controller
                 "failed_mid_stage_" . $i => $failed_mid_stage_[$i],
                 "failed_final_stage_" . $i => $failed_final_stage_[$i],
                 "onborded_stage_" . $i => $onborded_stage_[$i],
-                "offer_stage_" . $i => $offer_stage_[$i]
+                "offer_stage_" . $i => $offer_stage_[$i],
+                "incentive_base_revenue_" . $i => $incentive_base_revenue_[$i],
+               "PDM_LessShare_".$i => $PDM_LessShare_[$i]              
 
             ];
 
             array_push($append, $data_loop);
         }
 
-
-        $revenue = DB::select('select `finance_detail`.`t_id` ,sum(`finance_detail`.`vcc_amount`) as Sume FROM `finance_detail` inner join `cip_progress` on `cip_progress`.`id` = `finance_detail`.`t_id` group by `finance_detail`.`t_id`');
+        
         // total nio of ongoin
 
 
@@ -201,7 +204,7 @@ class HomeController extends Controller
             "append" => $append,
             "del" => $del,
             "Quarterly" => $Quarterly,
-            "revenue" => $revenue,
+         
         ];
         return view('home', $data);
     }

@@ -83,12 +83,7 @@
             </div>
         </div>
 
-        @php
-            $data = DB::table('roles')
-                ->where('team_revenue', 1)
-                ->get();
-        @endphp
-        {{-- @dd($append[1]['lastColumnsec_row_1']) --}}
+        @php $data = DB::table('roles')->where('team_revenue', 1)->get(); @endphp
         <div class="row pt-4 m-0">
             <div class="col-lg-9">
                 <div class="card cardBorderColor mb-8">
@@ -112,23 +107,36 @@
 
                                 @for ($i = 0; $i < count($data); $i++)
 
+                                    @php $index_count_final_stage_0__check="count_final_stage_".$i @endphp
+                                    @php $index_count_mid_stage_0__check="count_mid_stage_".$i @endphp
+                                    @php $index_total_ogoing__check="total_ogoing_".$i @endphp
+                                    @php $lastColumnsec_row__check="lastColumnsec_row_".$i @endphp
                                   
 
                                     <tr>
-                                        <td>teams</td>
+                                        <td><?php echo $data[$i]->name; ?></td>
                                         <td>2,000,000</td>
-                                        <td>1</td>
-                                        <td>0</td>
-
-                                        <td>0</td>
-                                        <td>
-
-                                            0
+                                        <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:0 @endphp</td>
+                                        <td>@php echo  isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:0 @endphp</td>
+                                        
+                                        <td>@php $incentive_base_revenue = isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:0;
+                                                 $PDM_Less_share=isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:0 
+                                                ;echo  $incentive_base_revenue+$PDM_Less_share   @endphp</td>
+                                        <td>@php
+                                     if($append[$i][$lastColumnsec_row__check][0]->f_srp > 1)
+                                         {
+                                         echo $incentive_base_revenue/$append[$i][$lastColumnsec_row__check][0]->f_srp;
+                                        }
+                                         {
+                                           echo  0;  
+                                         }
+                                        @endphp
                                             %
                                         </td>
-                                        <td>0</td>
-                                        <td>
-                                            0</td>
+                                        <td>@php
+                                            echo isset($append[$i][$index_total_ogoing__check]) ? $append[$i][$index_total_ogoing__check] : '';
+                                        @endphp</td>
+                                        <td>@php echo isset($append[$i][$lastColumnsec_row__check][0]->f_srp)?$append[$i][$lastColumnsec_row__check][0]->f_srp:0;@endphp</td>
                                     </tr>
 
                                 @endfor
@@ -152,7 +160,7 @@
         </div>
 
         @for ($i = 0; $i < count($data); $i++)
-
+       
             @php $index_weekly_data__check="weekly_data_".$i @endphp
             @php $index_Mounthly_data__check="Mounthly_data_".$i @endphp
             @php $index_Quarterly_data__check="Quarterly_data_".$i @endphp
@@ -165,9 +173,9 @@
             @php $index_count_final_failed_check="failed_final_stage_".$i @endphp
             @php $index_count_onborded_stage="onborded_stage_".$i @endphp
             @php $index_count_offer_stage="offer_stage_".$i @endphp
+      
 
-
-
+            
 
             <div class="row m-0 pt-4">
                 <div class="col-lg-5">
@@ -259,24 +267,24 @@
 
 
     <!-- <div class="container">
-                                                                                                                    <div class="row justify-content-center">
-                                                                                                                        <div class="col-md-8">
-                                                                                                                            <div class="card">
-                                                                                                                                <div class="card-header">Dashboard</div>
+                                                                                                            <div class="row justify-content-center">
+                                                                                                                <div class="col-md-8">
+                                                                                                                    <div class="card">
+                                                                                                                        <div class="card-header">Dashboard</div>
 
-                                                                                                                                <div class="card-body">
-                                                                                                                                    @if (session('status'))
-                                                                                                                                        <div class="alert alert-success" role="alert">
-                                                                                                                                            {{ session('status') }}
-                                                                                                                                        </div>
-                                                                                                                                    @endif
-
-                                                                                                                                    You are logged in!
+                                                                                                                        <div class="card-body">
+                                                                                                                            @if (session('status'))
+                                                                                                                                <div class="alert alert-success" role="alert">
+                                                                                                                                    {{ session('status') }}
                                                                                                                                 </div>
-                                                                                                                            </div>
+                                                                                                                            @endif
+
+                                                                                                                            You are logged in!
                                                                                                                         </div>
                                                                                                                     </div>
-                                                                                                                </div> -->
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->
@@ -302,7 +310,7 @@
                     let html = [];
                     for (var i = 0; i < data; i++) {
                         var fillarray = "total_ogoing_" + i;
-
+                      
                         var sume = 0;
                         var ongoing = 0;
                         if (res.data.revenue[i] == undefined) {
@@ -311,8 +319,8 @@
                             sum = res.data.revenue[i].Sume;
                         }
                         // (res.data.append[i][fillarray] == undefined)?ongoing = "0":ongoing = res.data.append[i][fillarray];
-
-
+                        
+                        
                         html += "<tr>" +
                             "<td>" + res.data.roles[i].name + "</td>" +
                             "<td>2,000,000</td>" +
@@ -324,7 +332,7 @@
                             "<td>" + res.data.total_ogoing_Last_column[i].f_srp + "</td>" +
                             "</tr>";
                         $("#render_body").html(html)
-
+                      
 
                     }
 
