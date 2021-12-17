@@ -584,6 +584,7 @@ class CandidateController extends Controller
                 $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
+
             $arrayCheck = [
                 'LAST_NAME' => 'required',
                 "FIRST_NAME" => "required",
@@ -616,7 +617,10 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
-
+            if ($request->salary_field == 1) {
+                $arrayCheck["OFFERED_SALARY"] = "required";
+                $arrayCheck["OFFERED_ALLOWANCE"] = "required";
+            }
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
