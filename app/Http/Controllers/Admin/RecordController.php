@@ -30,7 +30,23 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
-        return view('record.view_record');
+        $recordExist = 0;
+        $cid = 0;
+        if (isset($_GET['id'])) {
+            $recordExist = 1;
+            $cid = $_GET['id'];
+            $data = [
+                'recordExist' => $recordExist,
+                'cid' => $cid,
+            ];
+            return view('record.view_record', $data);
+        }
+        $data = [
+            'recordExist' => $recordExist,
+            'cid' => $cid,
+
+        ];
+        return view('record.view_record', $data);
     }
     // index function for showing the record of users with filters ends
 
@@ -113,7 +129,7 @@ class RecordController extends Controller
             })
             ->rawColumns([
                 'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date'
+                'career_level', 'endi_date',
             ])
             ->make(true);
     }
@@ -164,7 +180,7 @@ class RecordController extends Controller
             })
             ->rawColumns([
                 'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date'
+                'career_level', 'endi_date',
             ])
             ->make(true);
     }

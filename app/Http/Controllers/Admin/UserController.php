@@ -219,7 +219,8 @@ class UserController extends Controller
                 ]);
 
             $id = \Auth::user()->cid;
-            $url = url('admin/data-entry/' . '?id=' . $id);
+            // $url = url('admin/record');
+            $url = url('admin/record/' . '?id=' . $id);
 
             return response()->json(['success' => true, 'message' => 'sucessfully redirected', 'id' => $id, 'url' => $url]);
         } else {

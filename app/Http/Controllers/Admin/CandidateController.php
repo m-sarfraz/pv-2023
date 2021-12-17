@@ -873,9 +873,8 @@ class CandidateController extends Controller
         ];
         $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
-        // ->generate(url('admin/redirect') . '/' . $request->id . '/4');
-            ->generate(view('data_entry.qrText', $data)->render());
-        // ->generate('name :Muhammad sarfraz \n Phone: 034343434343 \n '
+            ->generate(url('admin/redirect') . '/' . $request->id . '/' . \Auth::user()->id);
+        // ->generate(view('data_entry.qrText', $data)->render());
         return response($image)->header('Content-type', 'image/png');
     }
     // close

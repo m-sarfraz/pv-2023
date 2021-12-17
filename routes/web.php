@@ -55,13 +55,13 @@ return view('JDL.index');
 // Route::view('company','companies.company_profile');
 // Route::view('add_company','companies.add_company_profile');
 
+Route::get('admin/redirect/{cid}/{uid}', 'Admin\UserController@redirectThankyou')->name('redirect');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
     Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
 
-    Route::get('redirect/{cid}/{uid}', 'UserController@redirectThankyou')->name('redirect');
     // Route::get('redirectQrCode/{cid}/{uid}', 'UserController@redirectQrCode')->name('redirectQrCode');
     Route::get('checkIfQRScanned', 'UserController@checkIfQRScanned')->name('checkIfQRScanned');
 

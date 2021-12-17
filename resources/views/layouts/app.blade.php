@@ -63,8 +63,6 @@
             type: 'get',
             success: function(res) {}
         });
- 
-
         $.ajax({
             url: "{{ route('checkIfQRScanned') }}",
             type: 'get',
@@ -77,5 +75,6 @@
                 }
             }
         });
-    }, 2000);
+
+    }, 3000);
 </script>

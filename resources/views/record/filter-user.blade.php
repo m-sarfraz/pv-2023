@@ -28,7 +28,6 @@
 
     })
     $('#filteredTable').on('click', 'tbody tr', function() {
-        // $(this).css('background-color','red')
         $('tr').removeClass('hover-primary1');
         $(this).addClass('hover-primary1');
         let tdVal = $(this).children()[0];

@@ -256,8 +256,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Contact:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
-                                                placeholder="Contact #" name="phone" />
+                                            <input type="text" class="form-control users-input-S-C" placeholder="Contact #"
+                                                name="phone" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -270,7 +270,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Residendce
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="address" placeholder="Residendce" />
+                                            <input type="text" class="form-control users-input-S-C" name="address"
+                                                placeholder="Residendce" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -880,6 +881,7 @@
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
+            var recordExist = {!! $recordExist !!};
             load_datatable()
             select2Dropdown("select2_dropdown");
             // $('#searchKeyword').focus();
@@ -889,6 +891,19 @@
                 $('#loader').hide();
             }, 1000);
             appendFilterOptions()
+            setTimeout(() => {
+                if (recordExist != 0) {
+                    var cid = {!! $cid !!};
+                    $('#candidate').val(cid); // Select the option with a value of '1'
+                    $('#candidate').trigger('change'); // Notify any JS components that the value changed
+                    var findChild = $('#filter_table_div').children().children().children().children()[6];
+                    var thisElement = findChild.childNodes[1].childNodes[0];
+                    UserDetail(thisElement, cid)
+                    setTimeout(() => {
+                        $('.hidetrID').children().addClass('hover-primary1');
+                    }, 1000);
+                }
+            }, 2000);
             // show and hide loader after time set ends
             $('#recordTable_filter').hide('div');
         });
@@ -982,8 +997,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex', 
-                        searchable: false 
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'recruiter',
@@ -1079,8 +1094,8 @@
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex', 
-                        searchable: false 
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'recruiter',
@@ -1248,7 +1263,7 @@
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
             console.log(data);
-        
+
             data.append("_token", "{{ csrf_token() }}");
             data.append("id", id);
 

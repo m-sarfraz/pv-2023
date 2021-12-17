@@ -213,8 +213,6 @@ class FinanceController extends Controller
             ->select('finance_view.*', 'endorsements.remarks', 'finance_detail.process_status')
             ->get();
 
-
-
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
@@ -224,8 +222,8 @@ class FinanceController extends Controller
                 $team = DB::select('select * from  roles where id=' . $user->saved_by);
                 foreach ($team as $teamName) {
                     $teams = $teamName->name;
+                    return $team[0]->name;
                 }
-                return $teams;
             })
 
             ->addColumn('recruiter', function ($Userdata) {
@@ -281,7 +279,7 @@ class FinanceController extends Controller
             $revenueArray[$key] = $value->id;
         }
         $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
-        //for check team revenue close 
+        //for check team revenue close
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
             $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
@@ -342,7 +340,6 @@ class FinanceController extends Controller
             // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
         };
 
-
         $sql_receivables_amount = DB::select($sql_receivables);
         $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
@@ -396,14 +393,14 @@ class FinanceController extends Controller
         // } else {
         //     $incentive_base_revenue = $sql_c_share + $vcc_amount_sum + 1;
         // }
-        
-        $teamRevenueAmountFinance=0;
-        foreach ($teamRevenueAmount as  $value) {
+
+        $teamRevenueAmountFinance = 0;
+        foreach ($teamRevenueAmount as $value) {
             # code...
-            $teamRevenueAmountFinance += $value->totoalRevenue ;
+            $teamRevenueAmountFinance += $value->totoalRevenue;
         }
-        
-       $traf = $teamRevenueAmountFinance+$vcc_amount_sum + $sql_c_share;
+
+        $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
         $data = [
             'hires' => count($Userdata->get()),
             'fallout' => count(DB::Select($sql_fallout)),
@@ -418,7 +415,7 @@ class FinanceController extends Controller
             'ctakeAmount' => $ctakeAmount,
             'sql_c_share' => $sql_c_share,
             'vcc_amount_sum' => $vcc_amount_sum,
-            'teamRevenueAmount' =>  $traf,
+            'teamRevenueAmount' => $traf,
 
         ];
 
@@ -574,7 +571,6 @@ class FinanceController extends Controller
             }
         }
 
-
         if (strpos($sql, 'where') !== false) {
             $sql_fallout = $sql . "  and six_table_view.remarks LIKE '%fallout%' OR six_table_view.remarks LIKE '%replacement%'   ";
             $sql_billed = $sql . " and  six_table_view.remarks in('fallout','Billed','replacement')   ";
@@ -615,13 +611,13 @@ class FinanceController extends Controller
             $falloutAmount = $falloutAmount + $fallout->Total_bilable_ammount;
         }
         foreach ($sql_receivables_amount as $receivable) {
-            $receivablesAmount = $receivablesAmount + isset($receivable->totalFee) ? $receivable->totalFee : 0;
+            $receivablesAmount = $receivablesAmount+isset($receivable->totalFee) ? $receivable->totalFee : 0;
         }
         foreach ($sql_Current_receivables_amount as $Curr_receivable) {
-            $Current_receivablesAmount = $Current_receivablesAmount + isset($Curr_receivable->totalFee) ? $Curr_receivable->totalFee : 0;
+            $Current_receivablesAmount = $Current_receivablesAmount+isset($Curr_receivable->totalFee) ? $Curr_receivable->totalFee : 0;
         }
         foreach ($sql_overDue_receivables_amount as $over_receivable) {
-            $overDue_receivablesAmount = $overDue_receivablesAmount +  isset($over_receivable->totalFee) ? $over_receivable->totalFee : 0;
+            $overDue_receivablesAmount = $overDue_receivablesAmount+isset($over_receivable->totalFee) ? $over_receivable->totalFee : 0;
         }
         foreach ($sql_ctake_amount as $ctake) {
             //unknown vlaue for some
