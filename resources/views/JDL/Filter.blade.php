@@ -33,7 +33,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">No of Endo:</label>
-                                <input type="text" class="form-control users-input-S-C" value="1" />
+                                <input type="text" class="form-control users-input-S-C" value={{$endorsmentCount}} />
                             </div>
                         </div>
                         <div class="col-lg-4">

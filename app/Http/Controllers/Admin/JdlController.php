@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domain;
+use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
@@ -89,11 +90,14 @@ class JdlController extends Controller
         // return $request->id;
         $user = DB::table('jdl')->where('jdl.id', $request->id)
             ->first();
-        // dd($user);
+        $endorsmentCount = Endorsement::where('client', $user->client)
+            ->where('position_title', $user->p_title)->where('career_endo', $user->c_level)
+            ->count();
         $domainDrop = Domain::all();
 
         $data = [
             'user' => $user,
+            'endorsmentCount' => $endorsmentCount,
 
         ];
         return view('JDL.Filter', $data);
