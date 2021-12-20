@@ -144,10 +144,10 @@ class CandidateController extends Controller
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
             $arrayCheck = [
@@ -197,10 +197,10 @@ class CandidateController extends Controller
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
@@ -578,10 +578,10 @@ class CandidateController extends Controller
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
 
@@ -635,10 +635,10 @@ class CandidateController extends Controller
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
