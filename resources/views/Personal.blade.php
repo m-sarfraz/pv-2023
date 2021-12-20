@@ -4,17 +4,21 @@
 
     <section class="px-3" id="copmlete_dashboard">
         <div class="row m-0 pt-3">
-            <div class="col-lg-12">
+            <div class="col-lg-3 ">
+               
                 <form action="{{URL('filter-dashboard-by-date')}}" method="post">
                     @csrf
-                    
-                    <label class="text-danger"> Select Date :</label> 
-                    <input type="date" name="date" id="date"   />
-                <button type="submit" class="btn btn-outline-default">Search</button>
+                   <span class="text-danger"> Select Date :</span> 
+                    <input type="date" name="date" id="date"
+                        onchange="filterdate()" />
+                <button type="submit">Search</button>
                 </form>
 
             </div>
-           
+            <div class="col-lg-9">
+                <p class="TVA" style="color: rgb(107, 110, 111); font-weight: bold;">Target vs Actual
+                    Revenue(under {{$Quater}}) {{$date}}</p>
+            </div>
         </div>
 
         <!-- SECTION ONE -->
