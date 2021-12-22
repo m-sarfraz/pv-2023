@@ -26,7 +26,7 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-
+       
         return view('finance.finance');
     }
     // close
@@ -109,41 +109,42 @@ class FinanceController extends Controller
                 return $user->cid;
             })
             ->addColumn('team', function ($user) {
-                $team = DB::select('select * from  roles where id=' . $user->saved_by);
-                return $team[0]->name;
+                $userid=User::where('id',$user->saved_by)->get();
+                $team = $userid[0]->roles->pluck('name');
+                return json_decode($team);
             })
-            ->addColumn('recruiter', function ($Userdata) {
-                return $Userdata->recruiter;
+            ->addColumn('recruiter', function ($user) {
+                return $user->recruiter;
             })
-            ->addColumn('client', function ($Userdata) {
-                return $Userdata->client;
+            ->addColumn('client', function ($user) {
+                return $user->client;
             })
-            ->addColumn('reprocess', function ($Userdata) {
-                return $Userdata->reprocess;
+            ->addColumn('reprocess', function ($user) {
+                return $user->reprocess;
             })
-            ->addColumn('last_name', function ($Userdata) {
-                return $Userdata->last_name;
+            ->addColumn('last_name', function ($user) {
+                return $user->last_name;
             })
-            ->addColumn('career_endo', function ($Userdata) {
-                return $Userdata->career_endo;
+            ->addColumn('career_endo', function ($user) {
+                return $user->career_endo;
             })
-            ->addColumn('onboardnig_date', function ($Userdata) {
-                if (!empty($Userdata->onboardnig_date && $Userdata->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($Userdata->onboardnig_date), "m-d-Y");
+            ->addColumn('onboardnig_date', function ($user) {
+                if (!empty($user->onboardnig_date && $user->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $Userdata->onboardnig_date = '';
+                    $user->onboardnig_date = '';
                 }
             })
-            ->addColumn('placement_fee', function ($Userdata) {
-                return $Userdata->placement_fee;
+            ->addColumn('placement_fee', function ($user) {
+                return $user->placement_fee;
             })
-            ->addColumn('remarks_for_finance', function ($Userdata) {
-                return $Userdata->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($user) {
+                return $user->remarks_for_finance;
             })
-            ->addColumn('process_status', function ($Userdata) {
+            ->addColumn('process_status', function ($user) {
 
-                return $Userdata->process_status;
+                return $user->process_status;
             })
             ->rawColumns([
                 'id', 'team', 'recruiter', 'client', 'reprocess', 'last_name',
@@ -215,15 +216,13 @@ class FinanceController extends Controller
 
         return Datatables::of($Userdata)
             ->addIndexColumn()
-            ->addColumn('id', function ($user) {
-                return $user->cid;
+            ->addColumn('id', function ($Userdata) {
+                return $Userdata->cid;
             })
-            ->addColumn('team', function ($user) {
-                $team = DB::select('select * from  roles where id=' . $user->saved_by);
-                foreach ($team as $teamName) {
-                    $teams = $teamName->name;
-                    return $team[0]->name;
-                }
+            ->addColumn('team', function ($Userdata) {
+                $userid=User::where('id',$Userdata->saved_by)->get();
+                $team = $userid[0]->roles->pluck('name');
+                return json_decode($team);
             })
 
             ->addColumn('recruiter', function ($Userdata) {
