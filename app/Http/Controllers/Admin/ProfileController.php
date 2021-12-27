@@ -118,7 +118,7 @@ class ProfileController extends Controller
                 }
                 //unset first two rows
                 unset($data[0][0]);
-                unset($data[0][1]);
+                // unset($data[0][1]);
                 foreach ($render_skipped_rows as $render) {
                     //Explode candidate index into first,middle,last
                     $candidate_name = isset($render[13]) ? $render[13] : "";
@@ -489,7 +489,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('message-live', 'data Import successfully');
         } else {
             // if Sheet doesnt exist
-            return redirect()->back()->with('error-live', 'there is some errror');
+            return redirect()->back()->with('error-live', 'There is some errror');
         }
     }
     public function readLocalAcceess()
