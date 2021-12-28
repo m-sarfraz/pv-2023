@@ -565,8 +565,14 @@
                     },
                 },
                 initComplete: function(settings, json) {
-                    console.log(json.array);
                     summaryAppendAjax(json.array);
+                    let tableID = $('#filterResult_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'smTable_wrapper') {
+                        countRecord()
+                    }
                 },
                 columns: [{
                         data: 'recruiter',
@@ -672,7 +678,13 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-
+                    let tableID = $('#filterResult_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'smTable_wrapper') {
+                        countRecord()
+                    }
                 },
                 columns: [{
                         data: 'recruiter',
@@ -759,45 +771,62 @@
         }
         // close 
 
+        // setInterval(() => {
+        //     let tableID = $('#filterResult_div').children().children().attr('id')
+        //     if (tableID == 'filteredTable_wrapper') {
+        //         countRecordFilter()
+        //     }
+        //     if (tableID == 'smTable_wrapper') {
+        //         countRecord()
+        //     }
+        // }, 2000);
+
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
-                    $('#smTable_filter').children().children().val($('#searchKeyword').val());
-                    $('#smTable_filter').children().children().trigger('input');
-                    $('#smTable1_filter').children().children().val($('#searchKeyword').val());
-                    $('#smTable1_filter').children().children().trigger('input');
-                    // let total_recored = data.split(" ")
-                    // console.log(total_recored)
-                    // $('#foundRecord').val(total_recored[3])
-                    var data = $(this).val();
-                    $.ajax({
-                        type: "post",
-                        url: '{{ url('admin/searchsummary') }}',
-                        data: {
-                            _token: token,
-                            data: data,
-                        },
-                        success: function(res) {
-                            $('#summaryDiv').html(res);
+            $('#smTable_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable_filter').children().children().trigger('input');
+            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable1_filter').children().children().trigger('input');
+            // let total_recored = data.split(" ")
+            // console.log(total_recored)
+            // $('#foundRecord').val(total_recored[3])
+            let tableID = $('#filterResult_div').children().children().attr('id')
+            if (tableID == 'filteredTable_wrapper') {
+                countRecordFilter()
+            }
+            if (tableID == 'smTable_wrapper') {
+                countRecord()
+            }
+            var data = $(this).val();
+            $.ajax({
+                type: "post",
+                url: '{{ url('admin/searchsummary') }}',
+                data: {
+                    _token: token,
+                    data: data,
+                },
+                success: function(res) {
+                    $('#summaryDiv').html(res);
                     $('#loader1').hide();
-                        }
-                        // Success fucniton of Ajax
-                    });
-                });
-                    // count record on page load 
-                    function countRecord() {
-                        var count = $('#smTable_info').text().split(' ');
-                        $('#foundRecord').val(count[5])
-                        $('#sifted').val(count[5])
-                    }
-                    // close 
+                }
+                // Success fucniton of Ajax
+            });
+        });
+        // count record on page load 
+        function countRecord() {
+            var count = $('#smTable_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
+        }
+        // close 
 
-                    // count record of filtered data
-                    function countRecordFilter() {
-                        var count = $('#smTable1_info').text().split(' ');
-                        $('#foundRecord').val(count[5])
-                        $('#sifted').val(count[5])
-                    }
-                    //close
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#smTable1_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
+        }
+        //close
     </script>
 
 @endsection
