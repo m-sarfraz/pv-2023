@@ -987,8 +987,14 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
-
+                    // $('#searchKeyword').trigger('input');
+                    let tableID = $('#filter_table_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'recordTable_wrapper') {
+                        countRecord()
+                    }
                 },
                 columns: [{
                         data: 'id',
@@ -1087,7 +1093,16 @@
                         search: search,
                     },
                 },
+                initComplete: function(settings, json) {
 
+                    let tableID = $('#filter_table_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'recordTable_wrapper') {
+                        countRecord()
+                    }
+                },
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -1146,15 +1161,15 @@
         }
 
         // count total number of records coming from data table with interval starts
-        setInterval(function() {
-            let tableID = $('#filter_table_div').children().children().attr('id')
-            if (tableID == 'filteredTable_wrapper') {
-                countRecordFilter()
-            }
-            if (tableID == 'recordTable_wrapper') {
-                countRecord()
-            }
-        }, 2000);
+        // setInterval(function() {
+        //     let tableID = $('#filter_table_div').children().children().attr('id')
+        //     if (tableID == 'filteredTable_wrapper') {
+        //         countRecordFilter()
+        //     }
+        //     if (tableID == 'recordTable_wrapper') {
+        //         countRecord()
+        //     }
+        // }, 2000);
 
         // count record on page load 
         function countRecord() {
@@ -1362,6 +1377,13 @@
             $('#filteredTable_filter').children().children().trigger('input');
             $('#recordTable_filter').hide('div');
             $('#filteredTable_filter').hide('div');
+            let tableID = $('#filter_table_div').children().children().attr('id')
+            if (tableID == 'filteredTable_wrapper') {
+                countRecordFilter()
+            }
+            if (tableID == 'recordTable_wrapper') {
+                countRecord()
+            }
         });
         // close 
     </script>

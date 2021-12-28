@@ -891,6 +891,15 @@
                     url: "{{ route('view-finance-search-table') }}",
                     type: "GET",
                 },
+                initComplete: function(settings, json) {
+                    let tableID = $('#filterData_div').children().children().attr('id')
+                    if (tableID == 'fmtable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'fmtable1_wrapper') {
+                        countRecordFilter()
+                    }
+                },
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -1033,7 +1042,14 @@
                     },
                 },
                 initComplete: function(settings, json) {
-                    console.log(json.array);
+                    let tableID = $('#filterData_div').children().children().attr('id')
+
+                    if (tableID == 'fmtable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'fmtable1_wrapper') {
+                        countRecordFilter()
+                    }
                     appendSummary(json.array);
                 },
                 columns: [{
@@ -1139,7 +1155,13 @@
             $('#fmtable_filter').children().children().trigger('input');
             $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
             $('#fmtable1_filter').children().children().trigger('input');
-
+            let tableID = $('#filterData_div').children().children().attr('id')
+            if (tableID == 'fmtable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'fmtable1_wrapper') {
+                countRecordFilter()
+            }
             // code for search only for summary //
 
             $.ajax({
@@ -1156,16 +1178,16 @@
                 }
             })
         });
-        setInterval(function() {
-            let tableID = $('#filterData_div').children().children().attr('id')
+        // setInterval(function() {
+        //     let tableID = $('#filterData_div').children().children().attr('id')
 
-            if (tableID == 'fmtable_wrapper') {
-                countRecord()
-            }
-            if (tableID == 'fmtable1_wrapper') {
-                countRecordFilter()
-            }
-        }, 3000);
+        //     if (tableID == 'fmtable_wrapper') {
+        //         countRecord()
+        //     }
+        //     if (tableID == 'fmtable1_wrapper') {
+        //         countRecordFilter()
+        //     }
+        // }, 3000);
 
         // count record on page load 
         function countRecord() {

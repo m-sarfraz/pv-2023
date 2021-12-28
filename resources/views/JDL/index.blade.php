@@ -98,7 +98,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="client" id="client" class="select2_dropdown  w-100" onchange="Filter_user()" >
+                                        <select multiple name="client" id="client" class="select2_dropdown  w-100"
+                                            onchange="Filter_user()">
 
                                         </select>
                                     </div>
@@ -494,15 +495,15 @@
                     console.log(err);
                 });
         }
-        setInterval(function() {
-            let tableID = $('#filter_table_div').children().children().attr('id')
-            if (tableID == 'jdlTable_wrapper') {
-                countRecord()
-            }
-            if (tableID == 'filteredJdlTable_wrapper') {
-                countRecordFilter()
-            }
-        }, 2000);
+        // setInterval(function() {
+        //     let tableID = $('#filter_table_div').children().children().attr('id')
+        //     if (tableID == 'jdlTable_wrapper') {
+        //         countRecord()
+        //     }
+        //     if (tableID == 'filteredJdlTable_wrapper') {
+        //         countRecordFilter()
+        //     }
+        // }, 2000);
 
         // count record on page load 
         function countRecord() {
@@ -540,15 +541,24 @@
                     url: "{{ route('view-jdl-table') }}",
                     type: "GET",
                 },
+                initComplete: function(settings, json) {
+                    let tableID = $('#filter_table_div').children().children().attr('id')
+                    if (tableID == 'jdlTable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'filteredJdlTable_wrapper') {
+                        countRecordFilter()
+                    }
+                },
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        searchable: false 
+                        searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex', 
-                        searchable: false 
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'client',
@@ -634,14 +644,23 @@
                         status: status,
                     },
                 },
+                initComplete: function(settings, json) {
+                    let tableID = $('#filter_table_div').children().children().attr('id')
+                    if (tableID == 'jdlTable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'filteredJdlTable_wrapper') {
+                        countRecordFilter()
+                    }
+                },
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex', 
-                        searchable: false 
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'client',
@@ -702,6 +721,13 @@
             $('#filteredJdlTable_filter').children().children().trigger('input');
             $('#jdlTable_filter').hide('div');
             $('#filteredJdlTable_filter').hide('div');
+            let tableID = $('#filter_table_div').children().children().attr('id')
+            if (tableID == 'jdlTable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'filteredJdlTable_wrapper') {
+                countRecordFilter()
+            }
         });
 
         function Filter(elem, id) {
