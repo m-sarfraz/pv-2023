@@ -542,6 +542,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'jdlTable_wrapper') {
                         countRecord()
@@ -645,6 +646,7 @@
                     },
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'jdlTable_wrapper') {
                         countRecord()
@@ -766,7 +768,7 @@
             //     location.reload();
             // }
             $("#loader").show();
-            $('#searchKeyword').val('');
+            // $('#searchKeyword').val('');
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();

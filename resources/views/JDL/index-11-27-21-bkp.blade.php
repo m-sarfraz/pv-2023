@@ -742,7 +742,7 @@
             //     location.reload();
             // }
             $("#loader").show();
-            $('#searchKeyword').val('');
+            // $('#searchKeyword').val('');
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();

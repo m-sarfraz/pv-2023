@@ -527,7 +527,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
-            $('#searchKeyword').val('');
+            // $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
@@ -565,6 +565,7 @@
                     },
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     summaryAppendAjax(json.array);
                     let tableID = $('#filterResult_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
@@ -678,6 +679,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filterResult_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()

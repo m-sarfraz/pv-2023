@@ -1162,7 +1162,7 @@
         function filterUserData() {
             $("#loader").show();
             // get values of selected inputs of users
-            $('#searchKeyword').val('');
+            // $('#searchKeyword').val('');
             search = $('#search').val();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();

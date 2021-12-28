@@ -892,6 +892,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')
                     if (tableID == 'fmtable_wrapper') {
                         countRecord()
@@ -1042,6 +1043,7 @@
                     },
                 },
                 initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')
 
                     if (tableID == 'fmtable_wrapper') {
@@ -1178,16 +1180,6 @@
                 }
             })
         });
-        // setInterval(function() {
-        //     let tableID = $('#filterData_div').children().children().attr('id')
-
-        //     if (tableID == 'fmtable_wrapper') {
-        //         countRecord()
-        //     }
-        //     if (tableID == 'fmtable1_wrapper') {
-        //         countRecordFilter()
-        //     }
-        // }, 3000);
 
         // count record on page load 
         function countRecord() {

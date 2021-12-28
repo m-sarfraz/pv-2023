@@ -987,7 +987,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-                    // $('#searchKeyword').trigger('input');
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1094,7 +1094,7 @@
                     },
                 },
                 initComplete: function(settings, json) {
-
+                    $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1160,17 +1160,6 @@
             });
         }
 
-        // count total number of records coming from data table with interval starts
-        // setInterval(function() {
-        //     let tableID = $('#filter_table_div').children().children().attr('id')
-        //     if (tableID == 'filteredTable_wrapper') {
-        //         countRecordFilter()
-        //     }
-        //     if (tableID == 'recordTable_wrapper') {
-        //         countRecord()
-        //     }
-        // }, 2000);
-
         // count record on page load 
         function countRecord() {
             var count = $('#recordTable_info').text().split(' ');
@@ -1189,7 +1178,7 @@
         function filterUserData() {
             $("#loader").show();
             // get values of selected inputs of users
-            $('#searchKeyword').val('');
+            // $('#searchKeyword').val('');
             search = $('#search').val();
             user_id = $('#recruiter').val();
             candidate = $('#candidate').val();
