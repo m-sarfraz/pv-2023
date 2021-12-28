@@ -223,7 +223,7 @@ class RecordController extends Controller
 
     public function updateDetails(Request $request)
     {
-        // return  $request->CERTIFICATIONS;
+        // return  $request->all();
 
         $arrayCheck = [
             'SOURCE' => 'required',
@@ -291,6 +291,7 @@ class RecordController extends Controller
                 'interview_note' => $request->notes,
                 'segment' => $request->segment,
                 'sub_segment' => $request->sub_segment,
+                'emp_history'=>$request->EMPLOYMENT_HISTORY,
             ]);
 
             // update candidate position data according to requested data
@@ -305,6 +306,7 @@ class RecordController extends Controller
                 'source' => $request->SOURCE,
                 'curr_allowance' => $request->curr_allowance,
                 'off_allowance' => $request->offered_allowance,
+                
             ]);
 
             //update endorsements table according to data updated

@@ -156,7 +156,6 @@ class FinanceController extends Controller
             ->make(true);
     }
     //close
-
     // save the update data of candidate
     public function SavefinanceReference(Request $request)
     {
