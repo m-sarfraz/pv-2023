@@ -1274,6 +1274,7 @@
         // update the selected records if it belongs to the user starts
         function UpdateRecord(id) {
             // show loader for waiting
+        
             $("#loader").show();
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
