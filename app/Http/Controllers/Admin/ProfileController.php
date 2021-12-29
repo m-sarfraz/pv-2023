@@ -43,7 +43,6 @@ class ProfileController extends Controller
     }
     public function save_profile(Request $request)
     {
-
         $userId = $request->user_id;
         $arrayCheck = [
             'name' => ['required', 'string', 'max:255'],
@@ -153,7 +152,6 @@ class ProfileController extends Controller
                     }
                     $store_by_google_sheet->dob = isset($render[18]) ? date('y-m-d', strtotime($render[18])) : "";
                     if (strstr($candidate_phone, ';', false)) {
-
                         $store_by_google_sheet->phone = strstr($candidate_phone, ';', true);
                     } else {
                         $store_by_google_sheet->phone = $candidate_phone;
@@ -540,7 +538,6 @@ class ProfileController extends Controller
                 }
                 $store_by_Ecxel->dob = isset($render[18]) ? date('y-m-d', strtotime($render[18])) : "";
                 if (strstr($candidate_phone, ';', false)) {
-
                     $store_by_Ecxel->phone = strstr($candidate_phone, ';', true);
                 } else {
                     $store_by_Ecxel->phone = $candidate_phone;
@@ -844,7 +841,6 @@ class ProfileController extends Controller
                 }
                 // find in array
                 if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
-
                     $Cipprogress->final_stage = 1;
                     $Cipprogress->cip = 1;
                 }
@@ -905,8 +901,22 @@ class ProfileController extends Controller
                 unset($data[0][0]);
 
                 foreach ($render_skipped_rows as $render) {
-
-                    $store_by_google_sheet = new jdlSheet();
+                    //Explode jdl previous information for
+                    $client = isset($render[8]) ? $render[8] : "";
+                    $c_level = isset($render[13]) ? $render[13] : "";
+                    $p_title = isset($render[12]) ? $render[12] : "";
+                    $con = 0;
+                    $con1 = 1;
+                    $con2 = 2;
+                    // query for checking the exisitng /duplicate record
+                    $query = DB::table("jdl")->where(["client"=> $client, "c_level"=>$c_level,"p_title"=> $p_title ])->first();
+                    if (isset($query->id)) {
+                        // update record
+                        $store_by_google_sheet = jdlSheet::find($query->id);
+                    } else {
+                        // insert record
+                        $store_by_google_sheet = new jdlSheet();
+                    }
                     $store_by_google_sheet->priority = isset($render[0]) ? $render[0] : "";
                     $store_by_google_sheet->ref_code = isset($render[1]) ? $render[1] : "";
                     $store_by_google_sheet->status = isset($render[2]) ? $render[2] : "";
@@ -953,7 +963,6 @@ class ProfileController extends Controller
         $recruiter = Auth::user()->roles->first();
         $filename = $_FILES["sheetFileJDL"]["tmp_name"];
         if ($_FILES["sheetFileJDL"]["size"] > 0) {
-
             $file = fopen($filename, "r");
 
             if (!$file) {
@@ -967,7 +976,6 @@ class ProfileController extends Controller
                     redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
                 }
                 if ($render[0] != 'PRIORITY') {
-
                     $JDL_local_sheet = new jdlSheet();
                     $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
                     $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
