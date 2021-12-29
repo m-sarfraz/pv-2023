@@ -272,7 +272,11 @@ class RecordController extends Controller
             ]);
 
             // update candidate education data
-            $For_save_good_format = implode(",", $request->CERTIFICATIONS);
+            $For_save_good_format=[];
+            if(isset($request->CERTIFICATIONS)){
+                
+            $For_save_good_format = implode(",",$request->CERTIFICATIONS);
+            }
 
             CandidateEducation::where('candidate_id', $request->id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,

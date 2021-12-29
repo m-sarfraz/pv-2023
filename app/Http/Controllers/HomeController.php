@@ -124,7 +124,7 @@ class HomeController extends Controller
             $total_ogoing_mid = DB::select('SELECT SUM(`mid_stage`) as `summid` FROM `cip_progress` WHERE `t_id`="' . $check[$i] . '"  AND (`mid_stage`=1 OR `final_stage`=1);');
 
             // $no_of_ongoing
-            $sum_ongoing_[$i] =0 + 0;
+            $sum_ongoing_[$i] = 0 + 0;
             // $sum_ongoing_[$i] = number_format($total_ogoing_final[0]->sumfinal) + number_format($total_ogoing_mid[0]->summid);
             $total_ogoing_Last_column[$i] =  DB::select('select SUM(finance.srp) as f_srp from `finance` 
             inner join `cip_progress` on `cip_progress`.`candidate_id` = `finance`.`candidate_id`
