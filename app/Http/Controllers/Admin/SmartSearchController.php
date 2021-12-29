@@ -50,14 +50,14 @@ class SmartSearchController extends Controller
                 'address' => $address,
                 'status' => $status,
                 'remarks' => $remarks,
-            ]);
+            ]
+        );
     }
     //close
 
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-
         $allData = DB::table('smart_view');
         return Datatables::of($allData)
         // ->addIndexColumn()
@@ -71,6 +71,15 @@ class SmartSearchController extends Controller
             })
             ->addColumn('client', function ($allData) {
                 return $allData->client;
+            })
+            ->addColumn('position_title', function ($allData) {
+                return $allData->position_title;
+            })
+            ->addColumn('email', function ($allData) {
+                return $allData->email;
+            })
+            ->addColumn('phone', function ($allData) {
+                return $allData->phone;
             })
             ->addColumn('gender', function ($allData) {
                 return $allData->gender;
@@ -97,7 +106,6 @@ class SmartSearchController extends Controller
                 } else {
                     $allData->date_shifted = '';
                 }
-
             })
             ->addColumn('career_endo', function ($allData) {
                 return $allData->career_endo;
@@ -112,7 +120,6 @@ class SmartSearchController extends Controller
                 } else {
                     $allData->endi_date = '';
                 }
-
             })
             ->addColumn('remarks_for_finance', function ($allData) {
                 return $allData->remarks_for_finance;
@@ -220,7 +227,6 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('smart_view.address', $request->residence);
         }
         if (isset($request->career_level)) {
-
             $Userdata->whereIn('smart_view.career_endo', $request->career_level);
         }
         if (isset($request->category)) {
@@ -258,6 +264,15 @@ class SmartSearchController extends Controller
             })
             ->addColumn('client', function ($user) {
                 return $user->client;
+            })
+            ->addColumn('position_title', function ($allData) {
+                return $allData->position_title;
+            })
+            ->addColumn('email', function ($allData) {
+                return $allData->email;
+            })
+            ->addColumn('phone', function ($allData) {
+                return $allData->phone;
             })
             ->addColumn('gender', function ($user) {
                 return $user->gender;
@@ -315,7 +330,6 @@ class SmartSearchController extends Controller
                 } else {
                     $user->onboardnig_date = '';
                 }
-
             })
             ->addColumn('placement_fee', function ($user) {
                 return $user->placement_fee;
@@ -336,7 +350,6 @@ class SmartSearchController extends Controller
             ->make(true);
 
         // close
-
     }
     // close
 
@@ -346,17 +359,27 @@ class SmartSearchController extends Controller
         if ($request->array == 1) {
             $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
                 ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
-                ->select(DB::raw("SUM(finance.srp) as t_srp"), 'finance.srp',
+                ->select(
+                    DB::raw("SUM(finance.srp) as t_srp"),
+                    'finance.srp',
                     DB::raw("SUM(finance.placement_fee) as t_placement_fee"),
                     DB::raw("SUM(candidate_positions.curr_salary) as t_salary"),
-                    'finance.placement_fee', 'endorsements.app_status', 'endorsements.remarks_for_finance');
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                );
         } elseif (isset($request->array)) {
             $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
                 ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
-                ->select(DB::raw("SUM(finance.srp) as t_srp"), 'finance.srp',
+                ->select(
+                    DB::raw("SUM(finance.srp) as t_srp"),
+                    'finance.srp',
                     DB::raw("SUM(finance.placement_fee) as t_placement_fee"),
                     DB::raw("SUM(candidate_positions.curr_salary) as t_salary"),
-                    'finance.placement_fee', 'endorsements.app_status', 'endorsements.remarks_for_finance')
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                )
                 ->whereIn('finance.candidate_id', $request->array);
         } else {
             $data = [
@@ -377,7 +400,6 @@ class SmartSearchController extends Controller
                 'salary' => 0,
             ];
             return view('smartSearch.summary', $data);
-
         }
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
         if (strpos($sql, 'where') !== false) {
@@ -398,7 +420,6 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql);
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
-
         } else {
             $sql_salary = DB::select($sql);
             $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
@@ -457,6 +478,5 @@ class SmartSearchController extends Controller
     //close
     public function searchsummary(Request $request)
     {
- 
     }
 }
