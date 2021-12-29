@@ -214,6 +214,9 @@
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell">Email</th>
+                                    <th class="ant-table-cell">Contact No.</th>
                                     <th class="ant-table-cell">Gender</th>
                                     <th class="ant-table-cell">DOMAIN</th>
                                     <th class="ant-table-cell">Profile</th>
@@ -589,6 +592,18 @@
                         name: 'client'
                     },
                     {
+                        data: 'position_title',
+                        name: 'position_title'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
                         data: 'gender',
                         name: 'gender'
                     },
@@ -702,6 +717,18 @@
                         name: 'client'
                     },
                     {
+                        data: 'position_title',
+                        name: 'position_title'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
                         data: 'gender',
                         name: 'gender'
                     },
@@ -800,19 +827,19 @@
                 countRecord()
             }
             var data = $(this).val();
-            $.ajax({
-                type: "post",
-                url: '{{ url('admin/searchsummary') }}',
-                data: {
-                    _token: token,
-                    data: data,
-                },
-                success: function(res) {
-                    $('#summaryDiv').html(res);
-                    $('#loader1').hide();
-                }
-                // Success fucniton of Ajax
-            });
+            // $.ajax({
+            //     type: "post",
+            //     url: '{{ url('admin/searchsummary') }}',
+            //     data: {
+            //         _token: token,
+            //         data: data,
+            //     },
+            //     success: function(res) {
+            //         $('#summaryDiv').html(res);
+            //         $('#loader1').hide();
+            //     }
+            //     // Success fucniton of Ajax
+            // });
         });
         // count record on page load 
         function countRecord() {
