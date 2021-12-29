@@ -800,19 +800,19 @@
                 countRecord()
             }
             var data = $(this).val();
-            $.ajax({
-                type: "post",
-                url: '{{ url('admin/searchsummary') }}',
-                data: {
-                    _token: token,
-                    data: data,
-                },
-                success: function(res) {
-                    $('#summaryDiv').html(res);
-                    $('#loader1').hide();
-                }
-                // Success fucniton of Ajax
-            });
+            // $.ajax({
+            //     type: "post",
+            //     url: '{{ url('admin/searchsummary') }}',
+            //     data: {
+            //         _token: token,
+            //         data: data,
+            //     },
+            //     success: function(res) {
+            //         $('#summaryDiv').html(res);
+            //         $('#loader1').hide();
+            //     }
+            //     // Success fucniton of Ajax
+            // });
         });
         // count record on page load 
         function countRecord() {
