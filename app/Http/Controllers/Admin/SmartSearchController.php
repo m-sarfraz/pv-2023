@@ -478,5 +478,5 @@ class SmartSearchController extends Controller
     //close
     public function searchsummary(Request $request)
     {
-    }
+    } 
 }
