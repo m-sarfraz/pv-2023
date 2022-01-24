@@ -56,25 +56,25 @@
 </html>
 {{-- script for saving the activity of user untill logged in --}}
 <script>
-    setInterval(() => {
+    // setInterval(() => {
 
-        $.ajax({
-            url: "{{ route('save_user_CurrTimeStamp') }}",
-            type: 'get',
-            success: function(res) {}
-        });
-        $.ajax({
-            url: "{{ route('checkIfQRScanned') }}",
-            type: 'get',
-            success: function(res) {
-                if (res.success==true) {
-                    window.location.href = res.url;
-                }
-                else{
-                    return false
-                }
-            }
-        });
+    //     $.ajax({
+    //         url: "{{ route('save_user_CurrTimeStamp') }}",
+    //         type: 'get',
+    //         success: function(res) {}
+    //     });
+    //     $.ajax({
+    //         url: "{{ route('checkIfQRScanned') }}",
+    //         type: 'get',
+    //         success: function(res) {
+    //             if (res.success==true) {
+    //                 window.location.href = res.url;
+    //             }
+    //             else{
+    //                 return false
+    //             }
+    //         }
+    //     });
 
-    }, 3000);
+    // }, 3000);
 </script>
