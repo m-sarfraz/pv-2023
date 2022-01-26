@@ -9,7 +9,24 @@
         .borderRed:focus {
             box-shadow: 0 0 0 0.05rem red !important;
         }
+        .labeled{
+    padding: 7px;
+  
+    display: initial;
+   background: rgb(250, 250, 250);
+   border: 1px solid black;
+   color: black;
+    width: 100%;
+    border-radius: 5px;
+     }
 
+.text-merge-input{
+    margin-right: 10px;
+}
+
+.demo-css{
+    display: none;
+}
         .scroll-left {
             overflow: hidden;
             position: relative;
@@ -156,16 +173,7 @@
                                                         </div>
                                                         <div><small class="___class_+?36___"></small></div>
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group mb-0">
-                                                            <label class="Label labelFontSize">
-                                                                Middle Initial
-                                                            </label>
-                                                            <input type="text" class="form-control users-input-S-C"
-                                                                value="{{ $candidateDetail != null ? $candidateDetail->middle_name : '' }}"
-                                                                name="MIDDLE_NAME" />
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
                                                             <label class="Label labelFontSize">First Name:<sup
@@ -175,6 +183,16 @@
                                                                 name="FIRST_NAME" />
                                                         </div>
                                                         <div><small class="___class_+?45___"></small></div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="form-group mb-0">
+                                                            <label class="Label labelFontSize">
+                                                                Middle Initial
+                                                            </label>
+                                                            <input type="text" class="form-control users-input-S-C"
+                                                                value="{{ $candidateDetail != null ? $candidateDetail->middle_name : '' }}"
+                                                                name="MIDDLE_NAME" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
@@ -620,10 +638,14 @@
                                                                     class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                                     <div class="w-100"
                                                                         style="text-align: end; margin-bottom: 6px;">
-                                                                        <input type="file" id="sheetFile" name="file"
+                                                           <span id="append-cv" class="text-merge-input">No Uploaded CV</span>  <label class="labeled"> Upload
+                                                                            <input type="file" id="sheetFile" name="file"
                                                                             oninput="uploadFile(this)"
                                                                             accept="application/pdf"
-                                                                            class="uploadcv    w-100">
+                                                                            class="uploadcv  demo-css  w-100">
+                                                                            </label> 
+
+                                                                        
                                                                         <i class="bi bi-x-circle d-none" id="cross"
                                                                             onclick="emptyFileinput()"
                                                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
@@ -1602,6 +1624,7 @@
         //empty file input on cross click
         function emptyFileinput() {
             $('#sheetFile').val('');
+            $('#append-cv').html('No Uploaded CV')
             $('#cross').removeClass('d-block')
             $('#cross').addClass('d-none')
         }
@@ -1610,6 +1633,12 @@
             if ($(elem).val().split('.').pop() == 'pdf') {
                 $('#cross').removeClass('d-none')
                 $('#cross').addClass('d-block')
+                var cvvcontent=$('#sheetFile').val();
+               console.log(cvvcontent)
+              if(cvvcontent){
+                $('#append-cv').html(` `)
+                $('#append-cv').append(cvvcontent)
+            }
 
             } else if ($(elem).val().split('.').pop() == '') {
                 $('#sheetFile').val();
@@ -2011,6 +2040,11 @@
                     }
                 }
             });
+
+          
         });
+        
+     
+        
     </script>
 @endsection
