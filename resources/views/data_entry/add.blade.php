@@ -454,7 +454,7 @@
                                                             ?>
                                                             <div class="form-group mb-0">
                                                                 <label class="Label labelFontSize">
-                                                                    candidate profile
+                                                                    Candidate’s Profile
                                                                 </label>
                                                                 <select name="CANDIDATES_PROFILE" id="candidate_profile"
                                                                     onchange="traverseData(this)"
