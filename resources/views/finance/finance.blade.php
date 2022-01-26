@@ -1041,7 +1041,7 @@
                         team_id: team_id,
                         process: process,
                     },
-                },
+                }, 
                 initComplete: function(settings, json) {
                     $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')

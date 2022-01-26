@@ -223,7 +223,6 @@ class FinanceController extends Controller
                 $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
-
             ->addColumn('recruiter', function ($Userdata) {
                 return $Userdata->recruiter;
             })
