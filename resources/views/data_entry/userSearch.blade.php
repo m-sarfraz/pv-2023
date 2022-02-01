@@ -22,6 +22,17 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
+                                        <label class="Label">*First Name:</label>
+                                        <input type="text" class="form-control users-input-S-C"
+                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+                                    <div><small class="___class_+?45___"></small></div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
                                         <label class="Label">
                                             Middle Initial
                                         </label>
@@ -32,17 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">*First Name:</label>
-                                        <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
-                                        <div>
-                                            <small class="text-danger"></small>
-                                        </div>
-                                    </div>
-                                    <div><small class="___class_+?45___"></small></div>
-                                </div>
+
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-6">
@@ -296,7 +297,7 @@
                                         ?>
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                candidate profile
+                                                Candidate’s Profile
                                             </label>
                                             <select name="CANDIDATES_PROFILE" id="candidate_profile"
                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100"
@@ -885,7 +886,7 @@
                                     </option>
                                     @foreach ($sub_segment->options as $sub_segmentOptions)
                                         <option value="{{ $sub_segmentOptions->id }}"
-                                            {{ ($user->sub_segment_endo != null ? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name : '') ? 'selected' : '' }}>
+                                            {{ ($user->sub_segment_endo != null? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name: '')? 'selected': '' }}>
                                             {{ $sub_segmentOptions->sub_segment_name }}
                                         </option>
                                     @endforeach

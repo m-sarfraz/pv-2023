@@ -638,7 +638,8 @@
                                                                     class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                                     <div class="w-100"
                                                                         style="text-align: end; margin-bottom: 6px;">
-                                                           <span id="append-cv" class="text-merge-input">No Uploaded CV</span>  <label class="labeled"> Upload
+                                                           <span id="append-cv" class="text-merge-input">No Uploaded CV</span> 
+                                                            <label class="labeled"> Upload
                                                                             <input type="file" id="sheetFile" name="file"
                                                                             oninput="uploadFile(this)"
                                                                             accept="application/pdf"
