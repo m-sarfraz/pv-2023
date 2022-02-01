@@ -1049,7 +1049,13 @@
                         name: 'endi_date',
                         searchable: false
                     },
-                ]
+                ],
+                // dom: 'Bfrtlp',
+                // buttons: [
+                //     'csv',
+                //     // 'pdf'
+                // ],
+                // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
             });
 
         }
@@ -1154,9 +1160,13 @@
                         data: 'endi_date',
                         name: 'endi_date'
                     },
-                ]
-
-
+                ],
+                // dom: 'Bfrtlp',
+                // buttons: [
+                //     'csv',
+                //     // 'pdf'
+                // ],
+                // lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
             });
         }
 

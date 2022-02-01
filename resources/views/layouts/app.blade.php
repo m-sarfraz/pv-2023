@@ -22,6 +22,7 @@
     <!-- ================= -->
     <!-- Datatable css start-->
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <!-- Datatable css end-->
     <!-- ================= -->
     @yield('style')
@@ -49,6 +50,10 @@
     <!-- sweet alert cdn-->
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/js/global.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js" type="text/javascript"></script>
+
     @yield('script')
 
 </body>
