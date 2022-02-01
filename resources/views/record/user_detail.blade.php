@@ -69,7 +69,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="d-block font-size-3 mb-0">
-                                Residendce
+                                Residence
                             </label>
                             <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}"
                                 name="address" />
@@ -118,7 +118,7 @@
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
-                            <label class="Label">Educational Attachment</label>
+                            <label class="Label">Educational Attainment</label>
                             <?php
                             $eduAttainment = Helper::get_dropdown('educational_attainment');
                             ?>
@@ -298,7 +298,7 @@
                                 $sub_segments = DB::select('select * from sub_segments');
                             @endphp
                             <label class="Label">
-                                Sub Segment:
+                                Sub-Segment:
                             </label>
 
                             <select name="sub_segment" id="Domain_sub_segment"
@@ -548,7 +548,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <label class="Label-00 ">
-                                                        Remarks (for Finance)
+                                                        Remarks (For Finance)
                                                     </label>
                                                     <select name="REMARKS_FOR_FINANCE" id="remarks_for_finance"
                                                         onchange="RemarksChange(this)"

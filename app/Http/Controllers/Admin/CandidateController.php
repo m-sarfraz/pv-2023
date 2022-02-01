@@ -886,7 +886,11 @@ class CandidateController extends Controller
     //ajax call for getting candidate list
     public function get_candidateList()
     {
-        $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get()->toArray();
+        $user = DB::table('candidate_informations')->join('endorsements','candidate_informations.id','endorsements.candidate_id')
+        ->join('candidate_positions','candidate_informations.id','candidate_positions.candidate_id')
+        ->select('candidate_informations.id', 'candidate_informations.last_name','candidate_positions.candidate_profile',
+        'endorsements.client','endorsements.position_title','endorsements.endi_date')
+        ->where('candidate_informations.saved_by', Auth::user()->id)->get()->toArray();
         return response()->json($user);
     }
     //close

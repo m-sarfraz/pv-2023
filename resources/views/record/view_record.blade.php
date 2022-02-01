@@ -88,7 +88,7 @@
                                     <div class="form-group mb-1">
 
                                         <label class="d-block font-size-3 mb-0">
-                                            Profile
+                                            Candidate’s Profile
                                         </label>
                                         <select multiple name="profile" id="profile" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
@@ -100,7 +100,7 @@
                                     <div class="form-group mb-1">
 
                                         <label class="d-block font-size-3 mb-0">
-                                            Sub Segment
+                                            Sub-Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="filterUserData()">
@@ -268,7 +268,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Residendce
+                                                Residence
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" name="address"
                                                 placeholder="Residendce" />
@@ -313,7 +313,7 @@
                                 <div class="row mb-1">
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
-                                            <label class="Label">Educational Attachment</label>
+                                            <label class="Label">Educational Attainment</label>
                                             <?php
                                             $eduAttainment = Helper::get_dropdown('educational_attainment');
                                             ?>
@@ -456,7 +456,7 @@
                                                 $sub_segment = Helper::get_dropdown('sub_segment');
                                             @endphp
                                             <label class="Label">
-                                                Sub Segment:
+                                                Sub-Segment:
                                             </label>
                                             <select name="sub_segment" id="Domain_sub_segment"
                                                 class="form-control p-0 users-input-S-C">
@@ -654,7 +654,7 @@
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
                                                                     <label class="Label-00 ">
-                                                                        Remarks (for Finance)
+                                                                        Remarks (For Finance)
                                                                     </label>
                                                                     <select name="REMARKS_FOR_FINANCE" disabled=""
                                                                         id="remarks_for_finance"

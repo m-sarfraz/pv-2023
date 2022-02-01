@@ -554,7 +554,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Replacement Date:
+                                                    Replacement For:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -630,7 +630,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Special Consumption:
+                                                    Special Compensation:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." />
@@ -712,14 +712,14 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    VSA:
+                                                    VCC Share Amount:
                                                 </label>
                                                 <input type="text" class="w-100 form-control users-input-S-C" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mb-1">
-                                        <div class="col-lg-3 p-1">
+                                        {{-- <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Final Fee:
@@ -727,8 +727,8 @@
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." disabled />
                                             </div>
-                                        </div>
-                                        <div class="col-lg-2 p-1">
+                                        </div> --}}
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     O.Share(%):
@@ -746,7 +746,7 @@
                                                     disabled />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     C.Take(%):
@@ -755,7 +755,7 @@
                                                     placeholder="total.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     C. Take Amount:
@@ -763,6 +763,15 @@
                                                 <input type="text" class="form-control users-input-S-C" disabled />
                                             </div>
                                         </div>
+                                        {{-- <div class="col-lg-3 p-1">
+                                            <div class="form-group mb-0">
+                                                <label class="Label-00">
+                                                    Adjustment:
+                                                </label>
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="hires.." />
+                                            </div>
+                                        </div> --}}
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-lg-3 p-1">
@@ -774,13 +783,22 @@
                                                     placeholder="hires.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 p-1">
+                                        {{-- <div class="col-lg-4 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Individual Revenue:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
+                                            </div>
+                                        </div> --}}
+                                        <div class="col-lg-4 p-1">
+                                            <div class="form-group mb-0">
+                                                <label class="Label-00">
+                                                    Final Fee:
+                                                </label>
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="hires.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 p-1">
@@ -789,7 +807,7 @@
 
                                                 </label>
                                                 <button
-                                                    class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
+                                                    class="font-size-small w-100 border-0 btn-00 users-input-S-C p-0 m-0"><small>Update</small></button>
                                             </div>
                                         </div>
                                     </div>

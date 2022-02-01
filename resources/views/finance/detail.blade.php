@@ -168,7 +168,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Replacement Date:
+                                    Replacement For:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     value="{{ $detail->replacement_for }}" name="replacement_for" />
@@ -334,7 +334,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    VSA:
+                                    VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
                                     id="vccAmount" />
@@ -342,16 +342,8 @@
                         </div>
                     </div>
                     <div class="row mb-1">
+                       
                         <div class="col-lg-3 p-1">
-                            <div class="form-group mb-0">
-                                <label class="Label-00">
-                                    Final Fee:
-                                </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="finalFee" readonly value="{{ $detail->finalFee }}" name="finalFee" />
-                            </div>
-                        </div>
-                        <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     O.Share(%):
@@ -371,7 +363,7 @@
                                     name="owner_share" />
                             </div>
                         </div>
-                        <div class="col-lg-2 p-1">
+                        <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     C.Take(%):
@@ -380,7 +372,7 @@
                                     value="{{ $detail->c_take_per }}" name="c_take_per" />
                             </div>
                         </div>
-                        <div class="col-lg-2 p-1">
+                        <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     C. Take Amount:
@@ -401,7 +393,16 @@
                                     value="{{ $detail->adjustment }}" />
                             </div>
                         </div>
-                        <div class="col-lg-4 p-1">
+                        <div class="col-lg-3 p-1">
+                            <div class="form-group mb-0">
+                                <label class="Label-00">
+                                    Final Fee:
+                                </label>
+                                <input type="text" class="form-control users-input-S-C" placeholder="hires.."
+                                    id="finalFee" readonly value="{{ $detail->finalFee }}" name="finalFee" />
+                            </div>
+                        </div>
+                        {{-- <div class="col-lg-4 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     Individual Revenue:
@@ -409,7 +410,7 @@
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="individualRevenue" name="ind_revenue" value="{{ $detail->ind_revenue }}" />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
@@ -417,7 +418,7 @@
                                 </label>
                                 @can('edit-finance-record')
                                     <button type="button" id="update"
-                                        class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
+                                        class="font-size-small w-100 border-0 btn-00 users-input-S-C p-0 m-0"><small>Update</small></button>
                                 @endcan
                             </div>
                         </div>

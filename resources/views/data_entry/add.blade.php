@@ -1286,8 +1286,13 @@
                     url: '{{ url('admin/get_candidateList') }}',
                 })
                 .done(function(res) {
+                    // console.log(res)
                     for (let i = 0; i < res.length; i++) {
-                        $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name + '</option>')
+                        $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name +'-'+
+                            res[i].candidate_profile +'-'+
+                            res[i].client +'-'+
+                            res[i].position_title +'-'+
+                            res[i].endi_date + '</option>')
 
                     }
                     $('#loader1').hide()

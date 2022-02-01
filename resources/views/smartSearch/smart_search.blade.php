@@ -141,14 +141,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (Shifted):</label>
+                                        <label class="Label">Start Date (Sifted):</label>
                                         <input type="date" id="Shifted_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End Date Shifted:</label>
+                                        <label class="Label">End Date (Sifted):</label>
                                         <input type="date" id="Shifted_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -181,14 +181,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (onbording):</label>
+                                        <label class="Label">Start Date (Onboarding):</label>
                                         <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End Date onbording:</label>
+                                        <label class="Label">End Date (Onboarding):</label>
                                         <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -295,7 +295,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Number of Shifted:
+                                                Number of Sifted:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="sifted"
                                                 placeholder="hires.." />
@@ -360,7 +360,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Number of Withdrew:
+                                                Number of Withdrawn:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="withdrawn"
                                                 placeholder="total.." />
@@ -389,7 +389,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Total of Revenue.
+                                                Total Revenue.
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
