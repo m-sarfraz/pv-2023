@@ -491,10 +491,26 @@
                             <div class="col-lg-6"></div>
                             <div class="col-lg-6">
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                    <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
+                                    {{-- <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
                                         <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
                                             accept="application/pdf" class="uploadcv  w-100">
+                                        <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
+                                            style="position: absolute;left: -7px; top:1px;color:red"></i>
+                                    </div> --}}
+                                    <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
+                                        id="fileDiv">
+                                        @if ($user->cv)
+                                        <span id="append-cv" class="text-merge-input"></span>
+                                        @else
+                                        <span id="append-cv" class="text-merge-input">No Uploaded CV</span>
+                                        @endif
+                                        <label class="labeled"> Upload
+                                            <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
+                                                accept="application/pdf" class="uploadcv  demo-css  w-100">
+                                        </label>
+
+
                                         <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
                                     </div>

@@ -580,10 +580,10 @@
             $('#individualRevenue').val(revenue)
         }
         if (value == "Billed" || value == "Collected" && team[0] == "consultant") {
-            console.log(placementfee + 'place mnet fee')
-            console.log(vccShare + 'vcc share is')
+            // console.log(placementfee + 'place mnet fee')
+            // console.log(vccShare + 'vcc share is')
             revenue = (placementfee * (vccShare * 1 / 100));
-            console.log('revenue is' + revenue)
+            // console.log('revenue is' + revenue)
             $('#individualRevenue').val(revenue)
         } else if (value == "Billed" || value == "Collected" && team[0] != "consultant") {
             revenue = placementfee;
@@ -600,7 +600,7 @@
         data.append("_token", "{{ csrf_token() }}");
         data.append("candidate_id", "{{ $detail->candidate_id }}");
 
-        console.log(data);
+        // console.log(data);
         // call ajax for data entry ad validation
         $.ajax({
             url: '{{ url('admin/save_finance-reference') }}',
