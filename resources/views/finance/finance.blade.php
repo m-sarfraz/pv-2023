@@ -910,7 +910,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')
                     if (tableID == 'fmtable_wrapper') {
                         countRecord()
@@ -1061,7 +1061,7 @@
                     },
                 }, 
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')
 
                     if (tableID == 'fmtable_wrapper') {

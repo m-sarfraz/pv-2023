@@ -98,7 +98,7 @@
                                     <th>Incentive Based Revenue</th>
                                     <th>PDM (Less Share) </th>
                                     <th>Company Revenue</th>
-                                    <th>Targest vs Revenue %</th>
+                                    <th>Target vs Revenue %</th>
                                     <th>No of Ongoing (CIP)</th>
                                     <th>Total Ongoing (CIP)</th>
                                 </tr>
@@ -118,27 +118,28 @@
                                     <tr>
                                         <td><?php echo $data[$i]->name; ?></td>
                                         <td>@php echo $TAT @endphp</td>
-                                        <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:0 @endphp</td>
-                                        <td>@php echo  isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:0 @endphp</td>
+                                        <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?number_format($append[$i]['incentive_base_revenue_'.$i][0]->Sume, 2, ".", ","):'0.00' @endphp</td>
+                                        <td>@php echo  isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?number_format($append[$i]['PDM_LessShare_'.$i][0]->Sume, 2, ".", ","):'0.00' @endphp</td>
                                         
-                                        <td>@php $incentive_base_revenue = isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:0;
-                                                 $PDM_Less_share=isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:0 
-                                                ;echo  $incentive_base_revenue+$PDM_Less_share   @endphp</td>
+                                        <td>@php $incentive_base_revenue = isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:'0.00';
+                                                 $PDM_Less_share=isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?$append[$i]['PDM_LessShare_'.$i][0]->Sume:'0.00' 
+                                                ;echo  number_format($incentive_base_revenue+$PDM_Less_share , 2, ".", ",")  @endphp</td>
                                         <td>@php
                                      if($append[$i][$lastColumnsec_row__check][0]->f_srp > 1)
                                          {
-                                         echo $incentive_base_revenue/$append[$i][$lastColumnsec_row__check][0]->f_srp;
+                                         echo number_format($incentive_base_revenue/$append[$i][$lastColumnsec_row__check][0]->f_srp, 2, ".", ",");
                                         }
+                                        else
                                          {
-                                           echo  0;  
+                                           echo '0.00';  
                                          }
                                         @endphp
                                             %
-                                        </td>
-                                        <td>@php
-                                            echo isset($append[$i][$index_total_ogoing__check]) ? $append[$i][$index_total_ogoing__check] : '';
+                                        </td> 
+                                        <td>@php 
+                                            echo isset($append[$i][$index_total_ogoing__check]) ? number_format( $append[$i][$index_total_ogoing__check], 2, ".", ","): '';
                                         @endphp</td>
-                                        <td>@php echo isset($append[$i][$lastColumnsec_row__check][0]->f_srp)?$append[$i][$lastColumnsec_row__check][0]->f_srp:0;@endphp</td>
+                                        <td>@php echo isset($append[$i][$lastColumnsec_row__check][0]->f_srp)?number_format($append[$i][$lastColumnsec_row__check][0]->f_srp, 2, ".", ","):'0.00';@endphp</td>
                                     </tr>
 
                                 @endfor
@@ -198,20 +199,21 @@
                                     <tr>
                                         <td>Quarterly</td>
                                         <td>400000</td>
-                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?$append[$i][$index_Quarterly_data__check][0]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100:0;@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?number_format($append[$i][$index_Quarterly_data__check][0]->f_srp, 2, ".", ","):'0.00';@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Monthly</td>
                                         <td>1200000</td>
-                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?$append[$i][$index_Mounthly_data__check][0]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?($append[$i][$index_Mounthly_data__check][0]->f_srp/1200000)*100:0;@endphp</td>
+                                        <td> @php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?number_format($append[$i][$index_Mounthly_data__check][0]->f_srp, 2, ".", ","):'0.00';@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Mounthly_data__check][0]->f_srp/1200000)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Weekly (WK-7)</td>
                                         <td>342857</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?$append[$i][$index_weekly_data__check][0]->f_srp:0;@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?($append[$i][$index_weekly_data__check][0]->f_srp/342857)*100:0;@endphp</td>
+                                      
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?number_format($append[$i][$index_weekly_data__check][0] ->f_srp, 2, ".", ","):'0.00';@endphp</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?(number_format(($append[$i][$index_weekly_data__check][0] ->f_srp/342857)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -232,23 +234,23 @@
                                 <tbody>
                                     <tr>
                                         <td>Mid</td>
-                                        <td>@php echo isset($append[$i][$index_count_mid_stage_0__check])?count($append[$i][$index_count_mid_stage_0__check]):""; @endphp</td>
-                                        <td>@php echo !empty($append[$i][$index_count_mid_failed_check][0]->f_m_stage)?intval($append[$i][$index_count_mid_failed_check][0]->f_m_stage):0; @endphp</td>
+                                        <td>@php echo isset($append[$i][$index_count_mid_stage_0__check])?number_format(count($append[$i][$index_count_mid_stage_0__check]), 2, ".", ","):'0.00'; @endphp</td>
+                                        <td>@php echo !empty($append[$i][$index_count_mid_failed_check][0]->f_m_stage)?number_format(intval($append[$i][$index_count_mid_failed_check][0]->f_m_stage), 2, ".", ","):'0.00'; @endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Final</td>
-                                        <td>@php echo isset($append[$i][$index_count_final_stage_0__check])?count($append[$i][$index_count_final_stage_0__check]):""; @endphp</td>
-                                        <td>@php echo isset($append[$i][$index_count_final_failed_check][0]->f_m_stage)?intval($append[$i][$index_count_final_failed_check][0]->f_m_stage):0; @endphp</td>
+                                        <td>@php echo isset($append[$i][$index_count_final_stage_0__check])?number_format(count($append[$i][$index_count_final_stage_0__check]), 2, ".", ","):'0.00'; @endphp</td>
+                                        <td>@php echo isset($append[$i][$index_count_final_failed_check][0]->f_m_stage)?number_format(intval($append[$i][$index_count_final_failed_check][0]->f_m_stage), 2, ".", ","):'0.00'; @endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Offer Stage</td>
-                                        <td>@php echo isset($append[$i][$index_count_offere__check])?count($append[$i][$index_count_offere__check]):""; @endphp</td>
-                                        <td>@php echo !empty($append[$i][$index_count_offer_stage][0]->f_m_stage)?intval($append[$i][$index_count_offer_stage][0]->f_m_stage):0; @endphp </td>
+                                        <td>@php echo isset($append[$i][$index_count_offere__check])? number_format(count($append[$i][$index_count_offere__check]), 2, ".", ","):'0.00';  @endphp</td>
+                                        <td>@php echo !empty($append[$i][$index_count_offer_stage][0]->f_m_stage)?number_format(intval($append[$i][$index_count_offer_stage][0]->f_m_stage), 2, ".", ","):'0.00'; @endphp </td>
                                     </tr>
                                     <tr>
                                         <td>Onboarded</td>
-                                        <td>@php echo isset($append[$i][$index_count_onboarded__check])?count($append[$i][$index_count_onboarded__check]):""; @endphp</td>
-                                        <td>@php echo !empty($append[$i][$index_count_onborded_stage][0]->f_m_stage)?intval($append[$i][$index_count_onborded_stage][0]->f_m_stage):0; @endphp</td>
+                                        <td>@php echo isset($append[$i][$index_count_onboarded__check])?number_format(count($append[$i][$index_count_onboarded__check]), 2, ".", ","):'0.00'; @endphp</td>
+                                        <td>@php echo !empty($append[$i][$index_count_onborded_stage][0]->f_m_stage)?number_format(intval($append[$i][$index_count_onborded_stage][0]->f_m_stage), 2, ".", ","):'0.00'; @endphp</td>
                                     </tr>
                                 </tbody>
                             </table>

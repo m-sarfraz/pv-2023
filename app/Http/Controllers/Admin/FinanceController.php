@@ -363,13 +363,13 @@ class FinanceController extends Controller
             $falloutAmount = $falloutAmount + $fallout->Total_bilable_ammount;
         }
         foreach ($sql_receivables_amount as $receivable) {
-            $receivablesAmount = $receivablesAmount + $receivable->totalFee;
+            $receivablesAmount = $receivablesAmount + $receivable->finalFee;
         }
         foreach ($sql_Current_receivables_amount as $Curr_receivable) {
-            $Current_receivablesAmount = $Current_receivablesAmount + $Curr_receivable->totalFee;
+            $Current_receivablesAmount = $Current_receivablesAmount + $Curr_receivable->finalFee;
         }
         foreach ($sql_overDue_receivables_amount as $over_receivable) {
-            $overDue_receivablesAmount = $overDue_receivablesAmount + $over_receivable->totalFee;
+            $overDue_receivablesAmount = $overDue_receivablesAmount + $over_receivable->finalFee;
         }
         foreach ($sql_ctake_amount as $ctake) {
             //unknown vlaue for some

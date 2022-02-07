@@ -457,26 +457,27 @@
     //     return diff;
     // }
     // close 
+    var currency = Intl.NumberFormat('en-IN');
 
     // calucate placement fee taking vcc share,credit memo , salry, vat ,compensation starts
     function placementFeeCalculator() {
 
         // parse values for formula 
-        salray = parseInt($('#offered_salary').val() || 0);
-        credit_memo = parseInt($('#credit_memo').val() || 0);
-        vat = parseInt($('#vat').val() || 0);
-        compensation = parseInt($('#compensation').val() || 0);
-        allowance = parseInt($('#allowance').val() || 0);
-        rate = parseInt($('#rate').val() || 0);
+        salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g,""));
+        credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g,""));
+        vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g,""));
+        compensation = parseInt($('#compensation').val().replace(/[^0-9.-]+/g,""));
+        allowance = parseInt($('#allowance').val().replace(/[^0-9.-]+/g,""));
+        rate = parseInt($('#rate').val().replace(/[^0-9.-]+/g,""));
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
             fee1 = ((salray + allowance + compensation) * (1 + (vat * 1 / 100)))
             fee2 = fee1 * (rate * 1 / 100) - credit_memo;
-            $('#placementfee').val(fee2);
+            $('#placementfee').val(currency.format(fee2));
         } else {
             placementFee = ((salray + allowance + compensation) * (1 + vat)) - credit_memo;
-            $('#placementfee').val(placementFee);
+            $('#placementfee').val(currency.format(placementFee));
         }
         // call function for adjustm fee calculator based on current placemnt fee 
         adjustmentCalculator();
@@ -485,10 +486,11 @@
 
     // function for adjustment fee calculator starts
     function adjustmentCalculator() {
-        adjustment = parseInt($('#adjustment').val() || 0);
-        placement = parseInt($('#placementfee').val() || 0);
+        adjustment = parseInt($('#adjustment').val().replace(/[^0-9.-]+/g,""));
+        placement = parseInt($('#placementfee').val().replace(/[^0-9.-]+/g,""));
+        console.log(placement)
         finalFee = adjustment + placement
-        $('#finalFee').val(finalFee)
+        $('#finalFee').val(currency.format(finalFee))
 
         // call final fee dependent functions 
         vccShareCalcualte()
@@ -534,13 +536,13 @@
 
     // vcc share calculator starts 
     function vccShareCalcualte() {
-        finalFee = $('#finalFee').val()
-        placementfee = $('#placementfee').val()
-        vccShare = $('#vccShare').val()
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
+        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g,"")
+        vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g,"")
         VCCamount = (finalFee * (vccShare * 1 / 100));
         cTake = (placementfee * (vccShare * 1 / 100));
-        $('#vccAmount').val(VCCamount)
-        $('#cTake').val(cTake)
+        $('#vccAmount').val(currency.format(VCCamount))
+        $('#cTake').val(currency.format(cTake))
         // call individualRevenue accoding to new VCCshare
         individualRevenue()
     }
@@ -548,21 +550,21 @@
 
     // owner share calculator funciton starts 
     function ownerShareCalculate() {
-        var owsP = $('#ownerSharePercentage').val();
-        finalFee = $('#finalFee').val()
+        var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g,"");
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
         ownerAmount = owsP * finalFee;
-        $('#ownerAmount').val(ownerAmount)
+        $('#ownerAmount').val(currency.format(ownerAmount))
     }
     // close 
 
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
-        var share = $('#reprocessShare').val();
-        finalFee = $('#finalFee').val()
+        var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g,"");
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
         reprocessAmount = share * finalFee;
 
         // append value
-        $('#reprocessAmount').val(reprocessAmount)
+        $('#reprocessAmount').val(currency.format(reprocessAmount))
     }
     // close 
 

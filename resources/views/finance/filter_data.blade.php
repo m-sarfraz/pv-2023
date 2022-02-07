@@ -27,7 +27,7 @@
         $(this).addClass('hover-primary1');
         let tdVal = $(this).children()[0];
         var id = tdVal.innerHTML
-        console.log('id is ' + id)
+        // console.log('id is ' + id)
         userDetail(this, id)
     })
     // close 
