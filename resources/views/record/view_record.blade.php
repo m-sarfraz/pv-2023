@@ -177,8 +177,8 @@
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Profile</th>
-                                    <th class="ant-table-cell">S segment</th>
-                                    <th class="ant-table-cell">CSalary</th>
+                                    <th class="ant-table-cell">S-Segment</th>
+                                    <th class="ant-table-cell">C.Salary</th>
                                     <th class="ant-table-cell">E.Salary</th>
                                     <th class="ant-table-cell">App.Status</th>
                                     <th class="ant-table-cell">Client</th>

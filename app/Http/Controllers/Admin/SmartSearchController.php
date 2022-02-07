@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CandidateInformation;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -58,7 +57,7 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-        $allData = DB::table('smart_view');
+        $allData = DB::table('smart_view')->get();
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {
@@ -88,6 +87,7 @@ class SmartSearchController extends Controller
                 return $allData->domain;
             })
             ->addColumn('candidate_profile', function ($allData) {
+
                 return $allData->candidate_profile;
             })
             ->addColumn('educational_attain', function ($allData) {
@@ -107,6 +107,7 @@ class SmartSearchController extends Controller
                     $allData->date_shifted = '';
                 }
             })
+
             ->addColumn('career_endo', function ($allData) {
                 return $allData->career_endo;
             })
@@ -145,10 +146,11 @@ class SmartSearchController extends Controller
                 return $allData->address;
             })
 
-            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance', 'category',
-                'srp', 'onboardnig_date', 'placement_fee', 'address'])
+            ->rawColumns(['recruiter', 'candidate', 'client', 'position_title', 'email', 'phone', 'gender',
+                'domain', 'educational_attain', 'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance'
+                , 'category', 'srp', 'onboardnig_date', 'placement_fee', 'address'])
             ->make(true);
+
     }
     //close
 
@@ -478,5 +480,5 @@ class SmartSearchController extends Controller
     //close
     public function searchsummary(Request $request)
     {
-    }  
+    }
 }

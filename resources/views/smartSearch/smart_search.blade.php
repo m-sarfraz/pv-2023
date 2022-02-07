@@ -87,14 +87,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (endorsement):</label>
+                                        <label class="Label">Start Date (Endorsement):</label>
                                         <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End date endorsement:</label>
+                                        <label class="Label">End Date (Endorsement):</label>
                                         <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -218,9 +218,9 @@
                                     <th class="ant-table-cell">Email</th>
                                     <th class="ant-table-cell">Contact No.</th>
                                     <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">DOMAIN</th>
+                                    <th class="ant-table-cell">Domain</th>
                                     <th class="ant-table-cell">Profile</th>
-                                    <th class="ant-table-cell">Education Attainment</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
                                     <th class="ant-table-cell">Salary</th>
                                     <th class="ant-table-cell">Portal</th>
                                     <th class="ant-table-cell">Date Sifted</th>

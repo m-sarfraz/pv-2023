@@ -424,7 +424,7 @@ input {
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 4.1px;
-    font-size: 0.8rem !important;
+    font-size: 11px !important;
     height: 26px;
 }
 

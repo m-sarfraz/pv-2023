@@ -259,7 +259,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Computed Revenue:
+                                                Company Revenue:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                 id="revenue" />
@@ -268,7 +268,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Revenue In Incentive:
+                                                Incentive Based Revenue:
                                             </label>
                                             <input type="text" id="Revenue_In_Incentive"
                                                 class="form-control users-input-S-C" placeholder="Rev.." />
