@@ -336,7 +336,7 @@
                         $profile = Helper::get_dropdown('candidates_profile');
                         ?>
                         <div class="form-group mb-0">
-                            <label class="Label">Profile:</label>
+                            <label class="Label">Candidate’s Profile:</label>
                             <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
                                 class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
                                 <option {{ $user->candidate_profile == null ? 'selected' : '' }} disabled></option>

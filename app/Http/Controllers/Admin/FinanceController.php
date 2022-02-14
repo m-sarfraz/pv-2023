@@ -445,7 +445,15 @@ class FinanceController extends Controller
     // close
     public function FinanceSearchForSummary(Request $request)
     {
-        $check = $searchCheck = false;
+        $revenueArray = [];
+        $revenue = DB::table('roles')->where('team_revenue', 1)->get('id');
+        // dd($revenue);
+        foreach ($revenue as $key => $value) {
+            $revenueArray[$key] = $value->id;
+        }
+        $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
+        
+        $check = $searchCheck = true;
         if ($request->searchKeyword == null) {
             $request->searchKeyword = 1;
             return $this->summaryAppend($request->searchKeyword);
@@ -561,6 +569,7 @@ class FinanceController extends Controller
                     'ctakeAmount' => 0,
                     'sql_c_share' => 0,
                     'vcc_amount_sum' => 0,
+                    'teamRevenueAmount' => 0,
 
                 ];
 
@@ -628,6 +637,13 @@ class FinanceController extends Controller
             //unknown vlaue for some
             $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
         }
+        $teamRevenueAmountFinance = 0;
+        foreach ($teamRevenueAmount as $value) {
+            # code...
+            $teamRevenueAmountFinance += $value->totoalRevenue;
+        }
+
+        $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
         $data = [
             'hires' => count(DB::select($sql)),
             'fallout' => count(DB::Select($sql_fallout)),
@@ -642,9 +658,9 @@ class FinanceController extends Controller
             'ctakeAmount' => $ctakeAmount,
             'sql_c_share' => $sql_c_share,
             'vcc_amount_sum' => $vcc_amount_sum,
+            'teamRevenueAmount' => $traf,
 
         ];
-
         return view('finance.summary', $data);
     }
 }

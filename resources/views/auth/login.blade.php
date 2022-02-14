@@ -4,7 +4,7 @@
     <form class="loginForm mt-0 pt-5" method="POST" action="{{ route('login') }}">
         @csrf
         <div class="d-flex justify-content-center pb-2 mt-0 pt-2">
-            <img  src="{{'assets/image/login/loginIcon.jpg'}}" style="width:80%" alt="" />
+            <img  src="{{'assets/image/login/VCC_Logo_Horizontal.png'}}" style="width:80%" alt="" />
         </div>
         <div class="form-group mb-4">
             <label class="mb-0 d-block font-size-3 mb-1">

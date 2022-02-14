@@ -62,7 +62,7 @@
                                     Remarks (For Finance):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    value="{{ $detail->remarks }}" />
+                                    value="{{ $detail->remarks_for_finance }}" />
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                                 <label class="Label-00">
                                     Remarks:
                                 </label>
-                                <select name="" id="remarksFinance" onchange="remarksChange(this)"
+                                <select name="" id="remarksFinance" onchange="remarksChange()"
                                     class="w-100 form-control">
                                     <option value="" selected disabled>Select Option</option>
                                     @foreach ($remarks->options as $remarksOptions)
@@ -129,7 +129,7 @@
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                     Termination Date:
+                                    Termination Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
                                     value="{{ $detail->term_date }}" name="term_date" />
@@ -149,7 +149,7 @@
                                 <label class="Label-00">
                                     Payment terms:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.."
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.." oninput="remarksChange()" 
                                     id="paymentTerm" value="{{ $detail->payment_term }}" name="payment_term" />
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                                 </label>
                                 <input type="date" class="w-100 users-input-S-C form-control" placeholder="Rev.."
                                     id="dateDlvrd" value="{{ $detail->date_delvrd }}" name="date_delvrd"
-                                    oninput="DPDCalculate()" />
+                                  oninput="remarksChange()" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -189,7 +189,7 @@
                                 <label class="Label-00">
                                     Process Status:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.."
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.." readonly
                                     id="processStatus" value="{{ $detail->process_status }}" name="process_status" />
                             </div>
                         </div>
@@ -342,7 +342,7 @@
                         </div>
                     </div>
                     <div class="row mb-1">
-                       
+
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
@@ -429,6 +429,8 @@
     </div>
 </div>
 {{-- section script starts --}}
+<script src="{{ asset('assets/js/moment.js') }}"></script>
+
 <script>
     // section loads on ready start
     $(document).ready(function() {
@@ -463,21 +465,24 @@
     function placementFeeCalculator() {
 
         // parse values for formula 
-        salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g,""));
-        credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g,""));
-        vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g,""));
-        compensation = parseInt($('#compensation').val().replace(/[^0-9.-]+/g,""));
-        allowance = parseInt($('#allowance').val().replace(/[^0-9.-]+/g,""));
-        rate = parseInt($('#rate').val().replace(/[^0-9.-]+/g,""));
+        salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
+        credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
+        vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g, ""));
+        compensation = parseInt($('#compensation').val().replace(/[^0-9.-]+/g, ""));
+        allowance = parseInt($('#allowance').val().replace(/[^0-9.-]+/g, ""));
+        rate = parseInt($('#rate').val().replace(/[^0-9.-]+/g, ""));
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
             fee1 = ((salray + allowance + compensation) * (1 + (vat * 1 / 100)))
             fee2 = fee1 * (rate * 1 / 100) - credit_memo;
-            $('#placementfee').val(currency.format(fee2));
+            (isNaN(fee2 )) ?  $('#placementfee').val(0) : $('#placementfee').val(currency.format(fee2));
+            // $('#placementfee').val(currency.format(fee2));
         } else {
             placementFee = ((salray + allowance + compensation) * (1 + vat)) - credit_memo;
-            $('#placementfee').val(currency.format(placementFee));
+            // $('#placementfee').val(currency.format(placementFee));
+            (isNaN(placementFee )) ?  $('#placementfee').val(0) : $('#placementfee').val(currency.format(placementFee));
+
         }
         // call function for adjustm fee calculator based on current placemnt fee 
         adjustmentCalculator();
@@ -486,11 +491,12 @@
 
     // function for adjustment fee calculator starts
     function adjustmentCalculator() {
-        adjustment = parseInt($('#adjustment').val().replace(/[^0-9.-]+/g,""));
-        placement = parseInt($('#placementfee').val().replace(/[^0-9.-]+/g,""));
+        adjustment = parseInt($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
+        placement = parseInt($('#placementfee').val().replace(/[^0-9.-]+/g, ""));
         console.log(placement)
         finalFee = adjustment + placement
-        $('#finalFee').val(currency.format(finalFee))
+        // $('#finalFee').val(currency.format(finalFee))
+        (isNaN(finalFee )) ?  $('#finalFee').val(0) : $('#finalFee').val(currency.format(finalFee));
 
         // call final fee dependent functions 
         vccShareCalcualte()
@@ -500,12 +506,12 @@
     // close 
 
     // function for remarks change starts 
-    function remarksChange(elem) {
+    function remarksChange() {
         // DPDCalculate();
         individualRevenue();
 
         // change process staus according to selected options 
-        var value = $(elem).val().trim();
+        var value = $('#remarksFinance').val().trim();
         if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('fall out') ||
             value.includes('Collected') || value.includes('Replacement')) {
             $('#processStatus').val("");
@@ -517,16 +523,16 @@
         }
         if (value.includes('Billed')) {
             paymentTerm = $('#paymentTerm').val();
-            let today = new Date();
-            let time = today.getDate();
-            dateDlvrd = new Date($('#dateDlvrd').val()).getDate()
-            var diff = time - dateDlvrd
-            if (diff > paymentTerm) {
+            var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
+            var today = moment();
+            var dpd = dateDlvrd.diff(today, 'days');
+            console.log('dpd is '+dpd)
+            if (dpd > paymentTerm) {
                 $('#processStatus').val("OVERDUE");
-            } else if (paymentTerm - diff <= 14) {
+            } else if (paymentTerm - dpd <= 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("FFUP");
-            } else {
+            } else if (paymentTerm - dpd > 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("RCVD");
             }
@@ -536,13 +542,16 @@
 
     // vcc share calculator starts 
     function vccShareCalcualte() {
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
-        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g,"")
-        vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g,"")
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
+        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g, "")
+        vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g, "")
         VCCamount = (finalFee * (vccShare * 1 / 100));
         cTake = (placementfee * (vccShare * 1 / 100));
-        $('#vccAmount').val(currency.format(VCCamount))
-        $('#cTake').val(currency.format(cTake))
+        (isNaN(VCCamount )) ?  $('#vccAmount').val(0) : $('#vccAmount').val(currency.format(VCCamount));
+        (isNaN(cTake )) ?  $('#cTake').val(0) : $('#cTake').val(currency.format(cTake));
+
+        // $('#vccAmount').val(currency.format(VCCamount))
+        // $('#cTake').val(currency.format(cTake))
         // call individualRevenue accoding to new VCCshare
         individualRevenue()
     }
@@ -550,21 +559,25 @@
 
     // owner share calculator funciton starts 
     function ownerShareCalculate() {
-        var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g,"");
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
+        var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "");
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
         ownerAmount = owsP * finalFee;
-        $('#ownerAmount').val(currency.format(ownerAmount))
+        (isNaN(ownerAmount )) ?  $('#ownerAmount').val(0) : $('#ownerAmount').val(currency.format(ownerAmount));
+
+        // $('#ownerAmount').val(currency.format(ownerAmount))
     }
     // close 
 
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
-        var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g,"");
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g,"")
+        var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g, "");
+        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
         reprocessAmount = share * finalFee;
 
         // append value
-        $('#reprocessAmount').val(currency.format(reprocessAmount))
+        (isNaN(reprocessAmount )) ?  $('#reprocessAmount').val(0) : $('#reprocessAmount').val(currency.format(reprocessAmount));
+
+        // $('#reprocessAmount').val(currency.format(reprocessAmount))
     }
     // close 
 
@@ -579,17 +592,21 @@
         // check selected options and type of team for individual revenue calculator 
         if (value == "Unbilled" || value == "For Replacement" || value == "Replaced") {
             revenue = 0;
-            $('#individualRevenue').val(revenue)
+            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+
+            // $('#individualRevenue').val(revenue)
         }
         if (value == "Billed" || value == "Collected" && team[0] == "consultant") {
             // console.log(placementfee + 'place mnet fee')
             // console.log(vccShare + 'vcc share is')
             revenue = (placementfee * (vccShare * 1 / 100));
             // console.log('revenue is' + revenue)
-            $('#individualRevenue').val(revenue)
+            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+            // $('#individualRevenue').val(revenue)
         } else if (value == "Billed" || value == "Collected" && team[0] != "consultant") {
             revenue = placementfee;
-            $('#individualRevenue').val(revenue)
+            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+            // $('#individualRevenue').val(revenue)
         }
         return;
     }
