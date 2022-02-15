@@ -26,7 +26,7 @@ class FinanceController extends Controller
     // index view of finance page starts
     public function index(Request $request)
     {
-       
+
         return view('finance.finance');
     }
     // close
@@ -39,11 +39,12 @@ class FinanceController extends Controller
             ->select('endorsements.*', 'finance.*', 'finance_detail.*')
             ->where('finance.candidate_id', $request->id)
             ->first();
-
         // dd($detail);
-        $fee = $detail->placement_fee;
+        $fee = $detail->placementFee;
         $remarks = $detail->remarks_for_finance;
         $remarks_finance = $remarks;
+        $salary = \App\CandidatePosition::where('candidate_id', $request->id)->first();
+        $off_salary = $salary->off_salary;
         $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $savedBy->saved_by)->first();
         $role = $user->roles->pluck('name');
@@ -52,6 +53,7 @@ class FinanceController extends Controller
             'detail' => $detail,
             'team' => $team,
             'fee' => $fee,
+            'off_salary'=>$off_salary,
             'remarks_finance' => $remarks_finance,
         ];
         return view('finance.detail', $data);
@@ -109,7 +111,7 @@ class FinanceController extends Controller
                 return $user->cid;
             })
             ->addColumn('team', function ($user) {
-                $userid=User::where('id',$user->saved_by)->get();
+                $userid = User::where('id', $user->saved_by)->get();
                 $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
@@ -159,11 +161,12 @@ class FinanceController extends Controller
     // save the update data of candidate
     public function SavefinanceReference(Request $request)
     {
+        // dd($request->all());
         $id = Auth::user()->id;
         $user = User::find($id);
         $userRole = $user->roles->pluck('id')->all();
         $t_id = $userRole;
-
+        // dd($request->onboardnig_date);
         $data = [
             "ob_date" => $request->onboardnig_date,
             "term_date" => $request->term_date,
@@ -219,7 +222,7 @@ class FinanceController extends Controller
                 return $Userdata->cid;
             })
             ->addColumn('team', function ($Userdata) {
-                $userid=User::where('id',$Userdata->saved_by)->get();
+                $userid = User::where('id', $Userdata->saved_by)->get();
                 $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
@@ -452,7 +455,7 @@ class FinanceController extends Controller
             $revenueArray[$key] = $value->id;
         }
         $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
-        
+
         $check = $searchCheck = true;
         if ($request->searchKeyword == null) {
             $request->searchKeyword = 1;

@@ -123,7 +123,7 @@
                                     Onboarding Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
-                                    value="{{ $detail->onboardnig_date }}" name="onboardnig_date" />
+                                    value="{{ $detail->ob_date }}" name="onboardnig_date" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -149,8 +149,9 @@
                                 <label class="Label-00">
                                     Payment terms:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." oninput="remarksChange()" 
-                                    id="paymentTerm" value="{{ $detail->payment_term }}" name="payment_term" />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.."
+                                    oninput="remarksChange()" id="paymentTerm" value="{{ $detail->payment_term }}"
+                                    name="payment_term" />
                             </div>
                         </div>
                     </div>
@@ -161,7 +162,7 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $detail->offered_salary }}" name="offered_salary"
+                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary"
                                     readonly />
                             </div>
                         </div>
@@ -181,7 +182,7 @@
                                 </label>
                                 <input type="date" class="w-100 users-input-S-C form-control" placeholder="Rev.."
                                     id="dateDlvrd" value="{{ $detail->date_delvrd }}" name="date_delvrd"
-                                  oninput="remarksChange()" />
+                                    oninput="remarksChange()" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -250,7 +251,7 @@
                                     Special consumption:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="compensation" oninput="placementFeeCalculator()" name="compensation	"
+                                    id="compensation" oninput="placementFeeCalculator()" name="compensation"
                                     value="{{ $detail->compensation }}" />
                             </div>
                         </div>
@@ -411,6 +412,8 @@
                                     id="individualRevenue" name="ind_revenue" value="{{ $detail->ind_revenue }}" />
                             </div>
                         </div> --}}
+                        <input type="text" class="form-control users-input-S-C d-none" placeholder="Rev.."
+                            id="individualRevenue" name="ind_revenue" value="{{ $detail->ind_revenue }}" />
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
@@ -432,11 +435,12 @@
 <script src="{{ asset('assets/js/moment.js') }}"></script>
 
 <script>
+    var currency = Intl.NumberFormat('en-IN');
     // section loads on ready start
     $(document).ready(function() {
         // append placement value on start          
         var fee = {!! $fee !!};
-        placementfee = $('#placementfee').val(fee)
+        placementfee = $('#placementfee').val(currency.format(fee))
         // close 
 
         // select default value unbilled if remarks are offer accepted or onboarded 
@@ -459,7 +463,6 @@
     //     return diff;
     // }
     // close 
-    var currency = Intl.NumberFormat('en-IN');
 
     // calucate placement fee taking vcc share,credit memo , salry, vat ,compensation starts
     function placementFeeCalculator() {
@@ -476,12 +479,12 @@
         if (rate > 0) {
             fee1 = ((salray + allowance + compensation) * (1 + (vat * 1 / 100)))
             fee2 = fee1 * (rate * 1 / 100) - credit_memo;
-            (isNaN(fee2 )) ?  $('#placementfee').val(0) : $('#placementfee').val(currency.format(fee2));
+            (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
             // $('#placementfee').val(currency.format(fee2));
         } else {
             placementFee = ((salray + allowance + compensation) * (1 + vat)) - credit_memo;
             // $('#placementfee').val(currency.format(placementFee));
-            (isNaN(placementFee )) ?  $('#placementfee').val(0) : $('#placementfee').val(currency.format(placementFee));
+            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
 
         }
         // call function for adjustm fee calculator based on current placemnt fee 
@@ -493,10 +496,10 @@
     function adjustmentCalculator() {
         adjustment = parseInt($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
         placement = parseInt($('#placementfee').val().replace(/[^0-9.-]+/g, ""));
-        console.log(placement)
-        finalFee = adjustment + placement
+        // console.log(placement)
+        finalFee = adjustment + placement;
         // $('#finalFee').val(currency.format(finalFee))
-        (isNaN(finalFee )) ?  $('#finalFee').val(0) : $('#finalFee').val(currency.format(finalFee));
+        (isNaN(finalFee)) ? $('#finalFee').val(0): $('#finalFee').val(currency.format(finalFee));
 
         // call final fee dependent functions 
         vccShareCalcualte()
@@ -526,7 +529,7 @@
             var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
             var today = moment();
             var dpd = dateDlvrd.diff(today, 'days');
-            console.log('dpd is '+dpd)
+            console.log('dpd is ' + dpd)
             if (dpd > paymentTerm) {
                 $('#processStatus').val("OVERDUE");
             } else if (paymentTerm - dpd <= 14) {
@@ -547,8 +550,8 @@
         vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g, "")
         VCCamount = (finalFee * (vccShare * 1 / 100));
         cTake = (placementfee * (vccShare * 1 / 100));
-        (isNaN(VCCamount )) ?  $('#vccAmount').val(0) : $('#vccAmount').val(currency.format(VCCamount));
-        (isNaN(cTake )) ?  $('#cTake').val(0) : $('#cTake').val(currency.format(cTake));
+        (isNaN(VCCamount)) ? $('#vccAmount').val(0): $('#vccAmount').val(currency.format(VCCamount));
+        (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
         // $('#vccAmount').val(currency.format(VCCamount))
         // $('#cTake').val(currency.format(cTake))
@@ -561,8 +564,8 @@
     function ownerShareCalculate() {
         var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "");
         finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        ownerAmount = owsP * finalFee;
-        (isNaN(ownerAmount )) ?  $('#ownerAmount').val(0) : $('#ownerAmount').val(currency.format(ownerAmount));
+        ownerAmount =  finalFee * ((owsP * 1) / 100);
+        (isNaN(ownerAmount)) ? $('#ownerAmount').val(0): $('#ownerAmount').val(currency.format(ownerAmount));
 
         // $('#ownerAmount').val(currency.format(ownerAmount))
     }
@@ -571,11 +574,14 @@
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
         var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g, "");
+        console.log(share)
+        console.log(finalFee)
         finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        reprocessAmount = share * finalFee;
+        reprocessAmount = finalFee * ((share * 1) / 100);
 
         // append value
-        (isNaN(reprocessAmount )) ?  $('#reprocessAmount').val(0) : $('#reprocessAmount').val(currency.format(reprocessAmount));
+        (isNaN(reprocessAmount)) ? $('#reprocessAmount').val(0): $('#reprocessAmount').val(currency.format(
+            reprocessAmount));
 
         // $('#reprocessAmount').val(currency.format(reprocessAmount))
     }
@@ -592,7 +598,7 @@
         // check selected options and type of team for individual revenue calculator 
         if (value == "Unbilled" || value == "For Replacement" || value == "Replaced") {
             revenue = 0;
-            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
 
             // $('#individualRevenue').val(revenue)
         }
@@ -601,11 +607,11 @@
             // console.log(vccShare + 'vcc share is')
             revenue = (placementfee * (vccShare * 1 / 100));
             // console.log('revenue is' + revenue)
-            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
             // $('#individualRevenue').val(revenue)
         } else if (value == "Billed" || value == "Collected" && team[0] != "consultant") {
             revenue = placementfee;
-            (isNaN(revenue )) ?  $('#individualRevenue').val(0) : $('#individualRevenue').val(currency.format(revenue));
+            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
             // $('#individualRevenue').val(revenue)
         }
         return;
