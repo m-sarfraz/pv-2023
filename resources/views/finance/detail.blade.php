@@ -162,8 +162,7 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary"
-                                    readonly />
+                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary" readonly />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -477,14 +476,17 @@
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
-            fee1 = ((salray + allowance + compensation) * (1 + (vat * 1 / 100)))
-            fee2 = fee1 * (rate * 1 / 100) - credit_memo;
+            fee1 = (salray + allowance + compensation);
+            fee1_rate = (fee1 * rate) / 100;
+            fee2 = (fee1_rate * (vat * 2)) - credit_memo;
+
             (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
             // $('#placementfee').val(currency.format(fee2));
         } else {
-            placementFee = ((salray + allowance + compensation) * (1 + vat)) - credit_memo;
+            fee1 = (salray + allowance + compensation)
+            fee2 = (fee1 * (1 + (vat * 1 / 100))) - credit_memo;
             // $('#placementfee').val(currency.format(placementFee));
-            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
+            (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
 
         }
         // call function for adjustm fee calculator based on current placemnt fee 
@@ -529,7 +531,7 @@
             var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
             var today = moment();
             var dpd = dateDlvrd.diff(today, 'days');
-            console.log('dpd is ' + dpd)
+            // console.log('dpd is ' + dpd)
             if (dpd > paymentTerm) {
                 $('#processStatus').val("OVERDUE");
             } else if (paymentTerm - dpd <= 14) {
@@ -564,7 +566,7 @@
     function ownerShareCalculate() {
         var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "");
         finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        ownerAmount =  finalFee * ((owsP * 1) / 100);
+        ownerAmount = finalFee * ((owsP * 1) / 100);
         (isNaN(ownerAmount)) ? $('#ownerAmount').val(0): $('#ownerAmount').val(currency.format(ownerAmount));
 
         // $('#ownerAmount').val(currency.format(ownerAmount))
@@ -574,8 +576,8 @@
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
         var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g, "");
-        console.log(share)
-        console.log(finalFee)
+        // console.log(share)
+        // console.log(finalFee)
         finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
         reprocessAmount = finalFee * ((share * 1) / 100);
 
@@ -594,7 +596,6 @@
         vccShare = $('#vccShare').val()
         var team = {!! $team !!};
         var fee = {!! $fee !!};
-
         // check selected options and type of team for individual revenue calculator 
         if (value == "Unbilled" || value == "For Replacement" || value == "Replaced") {
             revenue = 0;
@@ -602,16 +603,16 @@
 
             // $('#individualRevenue').val(revenue)
         }
-        if (value == "Billed" || value == "Collected" && team[0] == "consultant") {
-            // console.log(placementfee + 'place mnet fee')
-            // console.log(vccShare + 'vcc share is')
+        if (value == "Billed" || value == "Collected" && team[0] == "CONSULTANT") {
             revenue = (placementfee * (vccShare * 1 / 100));
             // console.log('revenue is' + revenue)
-            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
+            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(
+                revenue));
             // $('#individualRevenue').val(revenue)
-        } else if (value == "Billed" || value == "Collected" && team[0] != "consultant") {
+        } else if (value == "Billed" || value == "Collected" && team[0] != "CONSULTANT") {
             revenue = placementfee;
-            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
+            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(
+                revenue));
             // $('#individualRevenue').val(revenue)
         }
         return;
@@ -636,7 +637,7 @@
 
             // Ajax success function
             success: function(res) {
-                console.log("updated candidate_id", res)
+                // console.log("updated candidate_id", res)
                 if (res) {
                     // show success sweet alert and enable entering new record button
                     swal({

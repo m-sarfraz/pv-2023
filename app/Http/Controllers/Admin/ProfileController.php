@@ -113,7 +113,7 @@ class ProfileController extends Controller
         if (is_array($data)) {
             if ($data[0][0][0] != "CATEGORY" && $data[0][0][0] != "TEAM") {
                 // dd('yes');
-                return redirect()->back()->with('error-jdl-sheet', 'Data is not correct');
+                return redirect()->back()->with('error-live', 'Data is not correct');
             } else {
                 foreach ($data as $render_skipped_rows) {
                     if (count($render_skipped_rows) > 6002) {

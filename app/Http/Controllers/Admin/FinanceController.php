@@ -459,7 +459,13 @@ class FinanceController extends Controller
         $check = $searchCheck = true;
         if ($request->searchKeyword == null) {
             $request->searchKeyword = 1;
-            return $this->summaryAppend($request->searchKeyword);
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest->setMethod('POST');
+            $objetoRequest->request->add([
+                'array' => '1',
+            ]);
+            return $this->summaryAppend($objetoRequest);
+            // return $this->summaryAppend($request->searchKeyword);
         }
         // dd($request->all());
         $arr = ['"Onboarded"', '"Offer Accepted"', '"Fallout"'];
