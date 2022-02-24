@@ -331,6 +331,11 @@ class CandidateController extends Controller
             // $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
             $CandidiateDomain->sub_segment = $request->SUB_SEGMENT;
             $CandidiateDomain->save();
+            // save category of remarks for finance
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $category = Helper::getCategory($array);
+
+            // close
 
             //Save Endorsement Details
             // return $request->REMARKS_FROM_FINANCE;
@@ -351,6 +356,7 @@ class CandidateController extends Controller
             $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
             $endorsement->endi_date = $request->DATE_ENDORSED;
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
+            $endorsement->category = $category;
             $endorsement->save();
             //start logic for cip
 
@@ -759,7 +765,8 @@ class CandidateController extends Controller
                     'off_allowance' => $request->OFFERED_ALLOWANCE,
                 ]);
             }
-
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
                 'app_status' => $request->APPLICATION_STATUS,
@@ -776,6 +783,7 @@ class CandidateController extends Controller
                 'segment_endo' => $request->SEGMENT,
                 'sub_segment_endo' => $request->SUB_SEGMENT,
                 'endi_date' => $request->DATE_ENDORSED,
+                'category' => $category,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
 
@@ -842,16 +850,17 @@ class CandidateController extends Controller
         }
         if ($request->position) {
             $request->c_profile == null;
-            $response = DB::table('taverse2')->where("position", $request->position)->first();
+            $response = DB::table('jdl')->where("p_title", $request->position)
+            ->select('client','domain','segment','subsegment','p_title','c_level')->get(); 
             if ($response) {
 
                 return response()->json(['data' => $response]);
             }
         }
         if ($request->client_dropdown) {
-            $response = DB::table('taverse2')->where("client", $request->client_dropdown)->first();
+            $response = DB::table('jdl')->where("client", $request->client_dropdown)
+            ->select('client','domain','segment','subsegment','p_title','c_level')->get();
             if ($response) {
-
                 return response()->json(['data' => $response]);
             }
         }
@@ -877,7 +886,7 @@ class CandidateController extends Controller
         ];
         $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
-            // ->generate(url('admin/redirect') . '/' . $request->id . '/' . \Auth::user()->id)
+        // ->generate(url('admin/redirect') . '/' . $request->id . '/' . \Auth::user()->id)
             ->generate(view('data_entry.qrText', $data)->render());
         return response($image)->header('Content-type', 'image/png');
     }
@@ -886,11 +895,11 @@ class CandidateController extends Controller
     //ajax call for getting candidate list
     public function get_candidateList()
     {
-        $user = DB::table('candidate_informations')->join('endorsements','candidate_informations.id','endorsements.candidate_id')
-        ->join('candidate_positions','candidate_informations.id','candidate_positions.candidate_id')
-        ->select('candidate_informations.id', 'candidate_informations.last_name','candidate_positions.candidate_profile',
-        'endorsements.client','endorsements.position_title','endorsements.endi_date')
-        ->where('candidate_informations.saved_by', Auth::user()->id)->get()->toArray();
+        $user = DB::table('candidate_informations')->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->select('candidate_informations.id', 'candidate_informations.last_name', 'candidate_positions.candidate_profile',
+                'endorsements.client', 'endorsements.position_title', 'endorsements.endi_date')
+            ->where('candidate_informations.saved_by', Auth::user()->id)->get()->toArray();
         return response()->json($user);
     }
     //close
@@ -898,8 +907,8 @@ class CandidateController extends Controller
     public function Get_Position_title(Request $request)
     {
 
-        $position_title = Helper::get_dropdown('position_title');
+        $position_title = DB::table('jdl')->get('p_title');
 
-        return response()->json($position_title->options);
+        return response()->json($position_title);
     }
 }

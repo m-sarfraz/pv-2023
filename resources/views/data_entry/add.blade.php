@@ -9,24 +9,26 @@
         .borderRed:focus {
             box-shadow: 0 0 0 0.05rem red !important;
         }
-        .labeled{
-    padding: 7px;
-  
-    display: initial;
-   background: rgb(250, 250, 250);
-   border: 1px solid black;
-   color: black;
-    width: 100%;
-    border-radius: 5px;
-     }
 
-.text-merge-input{
-    margin-right: 10px;
-}
+        .labeled {
+            padding: 7px;
 
-.demo-css{
-    display: none;
-}
+            display: initial;
+            background: rgb(250, 250, 250);
+            border: 1px solid black;
+            color: black;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .text-merge-input {
+            margin-right: 10px;
+        }
+
+        .demo-css {
+            display: none;
+        }
+
         .scroll-left {
             overflow: hidden;
             position: relative;
@@ -123,7 +125,6 @@
                                     id="userDetailInput">
                                 </div>
                                 @can('search-data')
-
                                     <button class="btn btn_Group mb-2 mt-1 btn-sm" type="button" id="searchRecord"
                                         onclick="SearchUserData(this,'#UserData_div')" disabled="">
                                         Search Record
@@ -143,7 +144,7 @@
                     </div>
                     <div class="form-group">
                         <p class="C-Heading mt-5">QR Code:</p>
-                        <div  style="width: 100%;" class="pl-sm-15">
+                        <div style="width: 100%;" class="pl-sm-15">
                         </div>
                         <a href="" download="user" id=QrCode>
                             <img style=" " class="pl-sm-15" alt="" />
@@ -173,7 +174,7 @@
                                                         </div>
                                                         <div><small class="___class_+?36___"></small></div>
                                                     </div>
-                                                   
+
                                                     <div class="col-lg-4">
                                                         <div class="form-group mb-0">
                                                             <label class="Label labelFontSize">First Name:<sup
@@ -313,7 +314,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                                                     <option
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name : '') ? 'selected' : '' }}
+                                                                        {{ ($candidateDetail != null? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name: '')? 'selected': '' }}
                                                                         value="{{ $eduAttainmentOptions->option_name }}">
                                                                         {{ $eduAttainmentOptions->option_name }}</option>
                                                                 @endforeach
@@ -339,7 +340,7 @@
                                                                 @foreach ($course->options as $courseOptions)
                                                                     <option value="{{ $courseOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE' : '') ? 'disabled' : '' }}>
+                                                                        {{ ($candidateDetail != null? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE': '')? 'disabled': '' }}>
                                                                         {{ $courseOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -367,10 +368,8 @@
                                                                 {{-- <option value="" {{ $candidateDetail == null ? 'selected' : ''}} selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
                                                                     <option value="{{ $certificateOption->option_name }}"
-                                                                        @if ($candidateDetail != null)
-                                                                        {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}
-                                                                @endif>
-                                                                {{ $certificateOption->option_name }}</option>
+                                                                        @if ($candidateDetail != null) {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }} @endif>
+                                                                        {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -420,7 +419,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($segmentsDropDown as $segmentOption)
                                                                     <option value="{{ $segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->segment_name : '') ? 'selected' : '' }}>
+                                                                        {{ ($candidateDetail != null? $candidateDetail->segment == $segmentOption->segment_name: '')? 'selected': '' }}>
                                                                         {{ $segmentOption->segment_name }}</option>
                                                                 @endforeach
 
@@ -439,7 +438,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($sub_segmentsDropDown as $sub_segmentOption)
                                                                     <option value="{{ $sub_segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->sub_segment == $sub_segmentOption->sub_segment_name : '') ? 'selected' : '' }}>
+                                                                        {{ ($candidateDetail != null? $candidateDetail->sub_segment == $sub_segmentOption->sub_segment_name: '')? 'selected': '' }}>
                                                                         {{ $sub_segmentOption->sub_segment_name }}
                                                                     </option>
                                                                 @endforeach
@@ -466,7 +465,7 @@
                                                                     </option>
                                                                     @foreach ($profile->options as $profileOption)
                                                                         <option value="{{ $profileOption->option_name }}"
-                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
+                                                                            {{ ($candidateDetail != null? $candidateDetail->candidate_profile == $profileOption->option_name: '')? 'selected': '' }}>
                                                                             {{ $profileOption->option_name }}
                                                                         </option>
                                                                     @endforeach
@@ -508,7 +507,7 @@
                                                                     @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                                         <option
                                                                             value="{{ $manner_of_inviteOption->option_name }}"
-                                                                            {{ ($candidateDetail != null ? $candidateDetail->manner_of_invite == $manner_of_inviteOption->option_name : '') ? 'selected' : '' }}>
+                                                                            {{ ($candidateDetail != null? $candidateDetail->manner_of_invite == $manner_of_inviteOption->option_name: '')? 'selected': '' }}>
                                                                             {{ $manner_of_inviteOption->option_name }}
                                                                         </option>
                                                                     @endforeach
@@ -638,15 +637,16 @@
                                                                     class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
                                                                     <div class="w-100"
                                                                         style="text-align: end; margin-bottom: 6px;">
-                                                           <span id="append-cv" class="text-merge-input">No Uploaded CV</span> 
-                                                            <label class="labeled"> Upload
+                                                                        <span id="append-cv" class="text-merge-input">No
+                                                                            Uploaded CV</span>
+                                                                        <label class="labeled"> Upload
                                                                             <input type="file" id="sheetFile" name="file"
-                                                                            oninput="uploadFile(this)"
-                                                                            accept="application/pdf"
-                                                                            class="uploadcv  demo-css  w-100">
-                                                                            </label> 
+                                                                                oninput="uploadFile(this)"
+                                                                                accept="application/pdf"
+                                                                                class="uploadcv  demo-css  w-100">
+                                                                        </label>
 
-                                                                        
+
                                                                         <i class="bi bi-x-circle d-none" id="cross"
                                                                             onclick="emptyFileinput()"
                                                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
@@ -657,7 +657,11 @@
                                                                             <i
                                                                                 class="bi bi-paperclip d-flex align-items-center"></i>
                                                                             <span class="d-flex align-items-center">
-                                                                                @if ($candidateDetail != null) {{ $candidateDetail->first_name }}'s Resume @endif</span>
+                                                                                @if ($candidateDetail != null)
+                                                                                    {{ $candidateDetail->first_name }}'s
+                                                                                    Resume
+                                                                                @endif
+                                                                            </span>
                                                                             <a class="mt-2 ml-2 btn btn-success"
                                                                                 type="button"
                                                                                 style="border-color:#dc8627;border-radius:6%;background-color:#dc8627 !important"
@@ -720,7 +724,7 @@
                                                     Position Title:
                                                 </label>
                                                 <select name="POSITION_TITLE" disabled="" id="position"
-                                                    onchange="traverse2()" class="select2_dropdown  w-100"
+                                                    class="select2_dropdown  w-100"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
@@ -766,17 +770,16 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Career Level:
                                                 </label>
-                                                <select name="CAREER_LEVEL" disabled="" id="career"
-                                                    onchange="careerChanged(this)"
+                                                <select name="CAREER_LEVEL" disabled="" id="career" onchange="DomainSegmentAppend()"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
-                                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                                    {{-- @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                         <option value="{{ $CareerLevelOptions->option_name }}">
 
                                                             {{ $CareerLevelOptions->option_name }}
                                                         </option>
-                                                    @endforeach
+                                                    @endforeach --}}
                                                 </select>
                                                 <div>
                                                     <small class="text-danger"></small>
@@ -830,7 +833,8 @@
                                             @endphp
                                             <div class="form-group mb-0 pt-1 selectTwoTopMinus">
                                                 <label class="Label labelFontSize">Client</label>
-                                                <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                                                <select name="CLIENT" disabled="" id="client"
+                                                    onchange="clientChanged('position-title',this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
@@ -1289,10 +1293,10 @@
                 .done(function(res) {
                     // console.log(res)
                     for (let i = 0; i < res.length; i++) {
-                        $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name +'-'+
-                            res[i].candidate_profile +'-'+
-                            res[i].client +'-'+
-                            res[i].position_title +'-'+
+                        $('#user').append('<option value="' + res[i].id + '">' + res[i].last_name + '-' +
+                            res[i].candidate_profile + '-' +
+                            res[i].client + '-' +
+                            res[i].position_title + '-' +
                             res[i].endi_date + '</option>')
 
                     }
@@ -1639,12 +1643,11 @@
             if ($(elem).val().split('.').pop() == 'pdf') {
                 $('#cross').removeClass('d-none')
                 $('#cross').addClass('d-block')
-                var cvvcontent=$('#sheetFile').val();
-               console.log(cvvcontent)
-              if(cvvcontent){
-                $('#append-cv').html(` `)
-                $('#append-cv').append(cvvcontent)
-            }
+                var cvvcontent = $('#sheetFile').val();
+                if (cvvcontent) {
+                    $('#append-cv').html(` `)
+                    $('#append-cv').append(cvvcontent)
+                }
 
             } else if ($(elem).val().split('.').pop() == '') {
                 $('#sheetFile').val();
@@ -1986,7 +1989,10 @@
 
         }
 
-        function traverse2() {
+
+        var globalData = [];
+
+        function clientChanged(dropDown, elem) {
             $.ajax({
                 url: '{{ url('admin/traveseDataByClientProfile') }}',
                 type: 'POST',
@@ -1998,59 +2004,78 @@
 
                 // Ajax success function
                 success: function(res) {
-                    if (res.data.id) {
+                    if (res.data.length > 0) {
+                        globalData = res.data;
                         $('#domain_endo').empty();
                         $('#segment').empty();
                         $('#sub_segment').empty();
-                        $('#client').empty();
-                        $('#client').append(
-                            `<option selected value="${res.data.client}">${res.data.client}</option>`);
-                        $('#domain_endo').append(
-                            `<option selected value="${res.data.domain}">${res.data.domain}</option>`);
-                        $('#segment').append(
-                            `<option selected value="${res.data.segment}">${res.data.segment}</option>`);
-                        $('#sub_segment').append(
-                            `<option selected value="${res.data.s_segment}">${res.data.s_segment}</option>`
-                        );
-                        $('#position').append(
-                            `<option selected value="${res.data.position}">${res.data.position}</option>`
-                        );
-
+                        $('#career').empty();
+                        // $('#client').empty();
+                        $('#position').empty();
+                        for (let i = 0; i < res.data.length; i++) {
+                            if ($(elem).val() == res.data[i].client) {
+                                if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                                    $('#position').append(
+                                        `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                }
+                            }
+                        }
+                        $('#position').change();
                         $('#client').attr('readonly', true);
                         $('#domain_endo').attr('readonly', true);
                         $('#segment').attr('readonly', true);
                         $('#sub_segment').attr('readonly', true);
 
-                    } else {
-                        $('#client').append(`<option >no data found</option>`);
-                        $('#domain_endo').append(
-                            `<option >no data found</option>`);
-                        $('#segment').append(
-                            `<option >no data found</option>`);
-                        $('#sub_segment').append(
-                            `<option >no data found</option>`);
                     }
+
                 }
             })
 
+        }
+
+        $('#position').change(function() {
+            $('#career').empty();
+            for (let i = 0; i < globalData.length; i++) {
+                if ($('#position').val() == globalData[i].p_title) {
+                    $('#career').append(
+                        `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                }
+            }
+            DomainSegmentAppend()
+        })
+
+        function DomainSegmentAppend() {
+            for (let i = 0; i < globalData.length; i++) {
+                if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+                    $('#client').val() == globalData[i].client) {
+                    $('#domain_endo').append(
+                        `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`
+                    );
+                    $('#segment').append(
+                        `<option selected value="${globalData[i].segment}">${globalData[i].segment}</option>`
+                    );
+                    $('#sub_segment').append(
+                        `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
+                    );
+                }
+            }
         }
         $(document).ready(function() {
             $.ajax({
                 url: "{{ route('Get_Position_title') }}",
                 type: 'get',
                 success: function(res) {
-                    // console.info(res)
+                    console.info(res)
                     for (var i = 0; i < res.length; i++) {
                         $('#position').append(
-                            `<option value="${res[i].option_name}">${res[i].option_name} </option>`)
+                            `<option value="${res[i].p_title}">${res[i].p_title} </option>`)
                     }
                 }
             });
 
-          
+
         });
-        
-     
-        
     </script>
 @endsection

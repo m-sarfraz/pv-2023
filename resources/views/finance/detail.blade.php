@@ -293,16 +293,16 @@
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <div class="col-lg-3 p-1">
+                        {{-- <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     Reprocess:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.." readonly
-                                    value="{{ $detail->reprocess_share }}" name="reprocess_share" />
+                                    value="{{ $detail->reprocess_share }}"  value="{{ number_format($detail->reprocess_share, 2) }}" name="reprocess_share" />
                             </div>
-                        </div>
-                        <div class="col-lg-2 p-1">
+                        </div> --}}
+                        <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     R.Share(%):
@@ -318,10 +318,11 @@
                                     Reprocess Share Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="reprocessAmount" readonly />
+                                    value="{{ number_format($detail->reprocess_share, 2) }}" id="reprocessAmount"
+                                    readonly />
                             </div>
                         </div>
-                        <div class="col-lg-2 p-1">
+                        <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     VCC Share(%):
@@ -331,7 +332,7 @@
                                     name="vcc_share_per" />
                             </div>
                         </div>
-                        <div class="col-lg-2 p-1">
+                        <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
                                     VCC Share Amount:
@@ -359,7 +360,7 @@
                                     Owner Share Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="ownerAmount" readonly value="{{ $detail->owner_share }}"
+                                    id="ownerAmount" readonly value="{{ number_format($detail->owner_share, 2) }}"
                                     name="owner_share" />
                             </div>
                         </div>
@@ -378,7 +379,7 @@
                                     C. Take Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" readonly id="cTake"
-                                    value="{{ $detail->c_take }}" name="c_take" />
+                                    value="{{ number_format($detail->c_take, 2) }}" name="c_take" />
                             </div>
                         </div>
                     </div>
@@ -399,7 +400,8 @@
                                     Final Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="finalFee" readonly value="{{ $detail->finalFee }}" name="finalFee" />
+                                    id="finalFee" readonly value="{{ number_format($detail->finalFee, 2) }}"
+                                    name="finalFee" />
                             </div>
                         </div>
                         {{-- <div class="col-lg-4 p-1">
@@ -420,7 +422,7 @@
                                 </label>
                                 @can('edit-finance-record')
                                     <button type="button" id="update"
-                                        class="font-size-small w-100 border-0 btn-00 users-input-S-C p-0 m-0"><small>Update</small></button>
+                                        class="font-size-small ml-5 w-100 border-0 btn-00 p-0 m-0"><small>Update</small></button>
                                 @endcan
                             </div>
                         </div>

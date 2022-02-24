@@ -57,7 +57,7 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-        $allData = DB::table('smart_view')->get();
+        $allData = DB::table('smart_view');
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {
@@ -126,7 +126,8 @@ class SmartSearchController extends Controller
                 return $allData->remarks_for_finance;
             })
             ->addColumn('category', function ($allData) {
-                return "N/A";
+                return $allData->category;
+
             })
             ->addColumn('srp', function ($allData) {
                 return $allData->srp;
@@ -232,7 +233,7 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('smart_view.career_endo', $request->career_level);
         }
         if (isset($request->category)) {
-            $Userdata->whereIn('smart_view.remarks_for_finance', $request->category);
+            $Userdata->whereIn('smart_view.category', $request->category);
         }
         if (isset($request->remarks)) {
             $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
@@ -256,6 +257,7 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('smart_view.endi_date', '<=', $request->endo_end);
         }
         $user = $Userdata->get();
+        // return $user;
         $this->candidate_arr = $Userdata->pluck('candidate_id')->toArray();
         return Datatables::of($user)
             ->addColumn('recruiter', function ($Userdata) {
@@ -320,7 +322,8 @@ class SmartSearchController extends Controller
                 return $user->remarks_for_finance;
             })
             ->addColumn('category', function ($user) {
-                return "N/A";
+                return $user->category;
+
             })
             ->addColumn('srp', function ($user) {
                 return $user->srp;

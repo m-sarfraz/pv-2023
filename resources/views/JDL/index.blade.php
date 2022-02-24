@@ -132,7 +132,7 @@
                                     <div class="form-group mb-0">
 
                                         <label class="d-block font-size-3 mb-0">
-                                            Sub Segment
+                                            Sub-Segment
                                         </label>
                                         <select multiple name="sub_segment" id="sub_segment" class="select2_dropdown  w-100"
                                             onchange="Filter_user()">
@@ -212,7 +212,7 @@
                                     <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Segment</th>
-                                    <th class="ant-table-cell">S segment</th>
+                                    <th class="ant-table-cell">S-Segment</th>
                                     <th class="ant-table-cell">Career Level</th>
                                     <th class="ant-table-cell">Position Title</th>
                                     <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
@@ -817,7 +817,7 @@
                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                     <th class="ant-table-cell">Client</th>
                     <th class="ant-table-cell">Segment</th>
-                    <th class="ant-table-cell">Sub Segment</th>
+                    <th class="ant-table-cell">Sub-Segment</th>
                     <th class="ant-table-cell">Career Level</th>
                     <th class="ant-table-cell">Position Title</th>
                     <th class="ant-table-cell">Budget</th>

@@ -673,7 +673,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-1">
-                                        <div class="col-lg-3 p-1">
+                                        {{-- <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Reprocess:
@@ -681,8 +681,8 @@
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." disabled />
                                             </div>
-                                        </div>
-                                        <div class="col-lg-2 p-1">
+                                        </div> --}}
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     R.Share(%):
@@ -700,7 +700,7 @@
                                                     disabled />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     VCC Share(%):
@@ -709,7 +709,7 @@
                                                     placeholder="total.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     VCC Share Amount:
@@ -792,7 +792,7 @@
                                                     placeholder="Rev.." />
                                             </div>
                                         </div> --}}
-                                        <div class="col-lg-4 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Final Fee:
@@ -807,7 +807,7 @@
 
                                                 </label>
                                                 <button
-                                                    class="font-size-small w-100 border-0 btn-00 users-input-S-C p-0 m-0"><small>Update</small></button>
+                                                    class="font-size-small ml-5 w-100 border-0 btn-00 p-0 m-0"><small>Update</small></button>
                                             </div>
                                         </div>
                                     </div>
@@ -820,12 +820,10 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
 
 {{-- script section starts here --}}
 @section('script')
-
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
@@ -1059,7 +1057,7 @@
                         team_id: team_id,
                         process: process,
                     },
-                }, 
+                },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')

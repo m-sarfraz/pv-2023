@@ -573,21 +573,24 @@
                                         </div>
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
+                                                @php
+                                                $client = Helper::get_dropdown('clients');
+                                            @endphp
                                                 <div class="form-group mb-0">
 
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
                                                     {{-- @dd($user->client) --}}
-                                                    <select name="CLIENT_FINANCE"
+                                                    <select name="CLIENT_FINANCE"  onchange="clientChanged('position-title',this)"
                                                         class="form-control border h-px-20_custom w-100"
                                                         id="client_finance">
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                        @foreach ($client as $clientOptions)
-                                                            <option value="{{ $clientOptions->client }}"
+                                                            @foreach ($client->options as $clientOptions)
+                                                            <option value="{{ $clientOptions->option_name }}"
                                                                 {{ strtolower($user->client) == strtolower($clientOptions->client) ? 'selected' : '' }}>
-                                                                {{ $clientOptions->client }}
+                                                                {{ $clientOptions->option_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -924,4 +927,51 @@
             $("#date_processed").val(this.value)
         }
     });
+
+
+    var globalData = [];
+
+function clientChanged(dropDown, elem) {
+    $.ajax({
+        url: '{{ url('admin/traveseDataByClientProfile') }}',
+        type: 'POST',
+        data: {
+            position: $('#position').val(),
+            client_dropdown: $('#client_finance').val(),
+            _token: token
+        },
+
+        // Ajax success function
+        success: function(res) {
+            if (res.data.length > 0) {
+                globalData = res.data;
+                console.log(res.data)
+                $('#domain_endo').empty();
+                $('#Domainsegment').empty();
+                $('#endo_sub_segment').empty();
+                $('#career').empty();
+                // $('#client').empty();
+                $('#position').empty();
+                for (let i = 0; i < res.data.length; i++) {
+                    if ($(elem).val() == res.data[i].client) {
+                        if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                            $('#position').append(
+                                `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                            );
+                        }
+                    }
+                }
+                $('#position').change();
+                $('#client_finance').attr('readonly', true);
+                $('#domain_endo').attr('readonly', true);
+                $('#Domainsegment').attr('readonly', true);
+                $('#endo_sub_segment').attr('readonly', true);
+
+            }
+
+        }
+    })
+
+}
+
 </script>

@@ -176,7 +176,7 @@
                                     <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
-                                    <th class="ant-table-cell">Profile</th>
+                                    <th class="ant-table-cell">Candidate’s Profile</th>
                                     <th class="ant-table-cell">S-Segment</th>
                                     <th class="ant-table-cell">C.Salary</th>
                                     <th class="ant-table-cell">E.Salary</th>
@@ -271,7 +271,7 @@
                                                 Residence
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" name="address"
-                                                placeholder="Residendce" />
+                                                placeholder="Residence" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>

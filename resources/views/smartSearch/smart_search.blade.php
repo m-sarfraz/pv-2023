@@ -160,6 +160,13 @@
                                         <label class="Label-00">Category:</label>
                                         <select multiple name="REMARKS_FOR_FINANCE" id="category" onchange="FilterSearch()"
                                             class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                            <option value="Active - Initial Stage"> Active - Initial Stage</option>
+                                            <option value="Active - Mid Stage">Active - Mid Stage</option>
+                                            <option value="Active - Final Stage">Active - Final Stage</option>
+                                            <option value="Converted - Final Stage">Converted - Final Stage</option>
+                                            <option value="Inactive - Initial Stage">Inactive - Initial Stage</option>
+                                            <option value="Inactive - Mid Stage">Inactive - Mid Stage</option>
+                                            <option value="Inactive - Final Stage"> Inactive - Final Stage</option>
                                         </select>
                                     </div>
                                 </div>
@@ -414,7 +421,6 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
 
 
@@ -469,10 +475,10 @@
                                 .address + '</option>')
                         }
                     }
-                    for (let i = 0; i < res.remarks.options.length; i++) {
-                        $('#category').append('<option value="' + res.remarks.options[i].option_name + '">' + res
-                            .remarks.options[i].option_name + '</option>')
-                    }
+                    // for (let i = 0; i < res.remarks.options.length; i++) {
+                    //     $('#category').append('<option value="' + res.remarks.options[i].option_name + '">' + res
+                    //         .remarks.options[i].option_name + '</option>')
+                    // }
                     for (let i = 0; i < res.status.options.length; i++) {
                         $('#status').append('<option value="' + res.status.options[i].option_name + '">' + res
                             .status.options[i].option_name + '</option>')
@@ -857,5 +863,4 @@
         }
         //close
     </script>
-
 @endsection

@@ -258,6 +258,8 @@ class ProfileController extends Controller
                             // insert record
                             $endorsement = new Endorsement();
                         }
+                        $array = Str::lower(isset($render[43]) ? $render[43] : "");
+                        $category = Helper::getCategory($array);
                         $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                         $endorsement->client = isset($render[35]) ? $render[35] : "";
                         $endorsement->type = isset($render[33]) ? $render[33] : "";
@@ -272,6 +274,7 @@ class ProfileController extends Controller
                         $endorsement->status = isset($render[42]) ? $render[42] : "";
                         $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                         $endorsement->candidate_id = $store_by_google_sheet->id;
+                        $endorsement->category = $category;
                         $endorsement->save();
                         //close
 
@@ -1011,7 +1014,18 @@ class ProfileController extends Controller
                         redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
                     }
                     if ($render[0] != 'PRIORITY') {
-                        $JDL_local_sheet = new jdlSheet();
+                        $client = isset($render[8]) ? $render[8] : "";
+                        $c_level = isset($render[13]) ? $render[13] : "";
+                        $p_title = isset($render[12]) ? $render[12] : "";
+                        $query = DB::table("jdl")->where(["client" => $client, "c_level" => $c_level, "p_title" => $p_title])->first();
+                        if (isset($query->id)) {
+                            // update record
+                            $JDL_local_sheet = jdlSheet::find($query->id);
+                        } else {
+                            // insert record
+                            $JDL_local_sheet = new jdlSheet();
+                        }
+                        // $JDL_local_sheet = new jdlSheet();
                         $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
                         $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
                         $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
