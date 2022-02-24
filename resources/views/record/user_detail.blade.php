@@ -441,7 +441,7 @@
                             $certificate = Helper::get_dropdown('certifications');
                             $arr = explode(',', $user->certification);
                             ?>
-                            
+
                             <label class="Label">
                                 CERTIFICATIONS
                             </label>
@@ -506,6 +506,7 @@
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" id="career"
+                                                        onchange="DomainSegmentAppend()"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->career_endo == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -574,20 +575,21 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 @php
-                                                $client = Helper::get_dropdown('clients');
-                                            @endphp
+                                                    $client = Helper::get_dropdown('clients');
+                                                @endphp
                                                 <div class="form-group mb-0">
 
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
                                                     {{-- @dd($user->client) --}}
-                                                    <select name="CLIENT_FINANCE"  onchange="clientChanged('position-title',this)"
+                                                    <select name="CLIENT_FINANCE"
+                                                        onchange="clientChanged('position-title',this)"
                                                         class="form-control border h-px-20_custom w-100"
                                                         id="client_finance">
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                            @foreach ($client->options as $clientOptions)
+                                                        @foreach ($client->options as $clientOptions)
                                                             <option value="{{ $clientOptions->option_name }}"
                                                                 {{ strtolower($user->client) == strtolower($clientOptions->client) ? 'selected' : '' }}>
                                                                 {{ $clientOptions->option_name }}
@@ -635,8 +637,7 @@
                                                     <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
-                                                    <select name="POSITION_TITLE" id="position"
-                                                        onchange="Fetch_profile()"
+                                                    <select name="POSITION_TITLE" id="position" {{-- onchange="Fetch_profile()" --}}
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->position_title == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -827,11 +828,9 @@
             @endif
             @if (Auth::user()->id == $user->saved_by)
                 @can('edit-record')
-
                     <button class="btn btn-primary mt-5 btn-md"
                         onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
                 @endcan
-
             @else
                 <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
                     class="btn btn-primary mt-5 btn-md">Tap</a>
@@ -841,8 +840,8 @@
 </div>
 
 <script>
-      // show searcable select using select 2 dropdown
-      select2Dropdown("select2_dropdown");
+    // show searcable select using select 2 dropdown
+    select2Dropdown("select2_dropdown");
     var recruiter = "{{ Auth::user()->id }}";
     var candidate = "{{ $user->saved_by }}";
     if (recruiter == candidate) {
@@ -906,7 +905,7 @@
 
             // Success fucniton of Ajax
             success: function(res) {
-                console.log(res)
+                // console.log(res)
                 $('#Domain_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
                 $('#segment').append(`<option>${res.data.segment}</option>`)
                 $('#domain').append(`<option>${res.data.domain}</option>`)
@@ -931,47 +930,74 @@
 
     var globalData = [];
 
-function clientChanged(dropDown, elem) {
-    $.ajax({
-        url: '{{ url('admin/traveseDataByClientProfile') }}',
-        type: 'POST',
-        data: {
-            position: $('#position').val(),
-            client_dropdown: $('#client_finance').val(),
-            _token: token
-        },
+    function clientChanged(dropDown, elem) {
+        $.ajax({
+            url: '{{ url('admin/traveseDataByClientProfile') }}',
+            type: 'POST',
+            data: {
+                // position: $('#position').val(),
+                client_dropdown: $('#client_finance').val(),
+                _token: token
+            },
 
-        // Ajax success function
-        success: function(res) {
-            if (res.data.length > 0) {
-                globalData = res.data;
-                console.log(res.data)
-                $('#domain_endo').empty();
-                $('#Domainsegment').empty();
-                $('#endo_sub_segment').empty();
-                $('#career').empty();
-                // $('#client').empty();
-                $('#position').empty();
-                for (let i = 0; i < res.data.length; i++) {
-                    if ($(elem).val() == res.data[i].client) {
-                        if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
-                            $('#position').append(
-                                `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
-                            );
+            // Ajax success function
+            success: function(res) {
+                if (res.data.length > 0) {
+                    globalData = res.data;
+                    $('#domain_endo').empty();
+                    $('#Domainsegment').empty();
+                    $('#endo_sub_segment').empty();
+                    $('#career').empty();
+                    // $('#client').empty();
+                    $('#position').empty();
+                    for (let i = 0; i < res.data.length; i++) {
+                        if ($(elem).val() == res.data[i].client) {
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                                $('#position').append(
+                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                );
+                            }
                         }
                     }
+                    $('#position').change();
+                    // $('#client_finance').attr('readonly', true);
+                    $('#domain_endo').attr('readonly', true);
+                    $('#Domainsegment').attr('readonly', true);
+                    $('#endo_sub_segment').attr('readonly', true);
+
                 }
-                $('#position').change();
-                $('#client_finance').attr('readonly', true);
-                $('#domain_endo').attr('readonly', true);
-                $('#Domainsegment').attr('readonly', true);
-                $('#endo_sub_segment').attr('readonly', true);
 
             }
+        })
 
+    }
+    $('#position').change(function() {
+        console.log('globalData' + globalData)
+        $('#career').empty();
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title) {
+                $('#career').append(
+                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                );
+            }
         }
+        DomainSegmentAppend()
     })
 
-}
-
+    function DomainSegmentAppend() {
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+                $('#client_finance').val() == globalData[i].client) {
+                $('#domain_endo').append(
+                    `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`
+                );
+                $('#Domainsegment').append(
+                    `<option selected value="${globalData[i].segment}">${globalData[i].segment}</option>`
+                );
+                $('#endo_sub_segment').append(
+                    `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
+                );
+            }
+        }
+    }
 </script>

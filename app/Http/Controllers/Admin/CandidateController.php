@@ -857,14 +857,14 @@ class CandidateController extends Controller
                 return response()->json(['data' => $response]);
             }
         }
-        if ($request->client_dropdown) {
+        if ($request->client_dropdown) { 
             $response = DB::table('jdl')->where("client", $request->client_dropdown)
             ->select('client','domain','segment','subsegment','p_title','c_level')->get();
             if ($response) {
                 return response()->json(['data' => $response]);
             }
         }
-
+dd($response);
         return response()->json(['data' => "no data found"]);
     }
     // close
