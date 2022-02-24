@@ -48,6 +48,7 @@ class Helper
         // save category of arrays for finance
         if ($array != '') {
             $array = Str::lower($array);
+            // return $array;
             if (str_contains($array, Str::lower('Scheduled for Country Head Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Final Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Hiring Manager')) ||
@@ -67,10 +68,11 @@ class Helper
                 str_contains($array, Str::lower('Failed Final Interview')) ||
                 str_contains($array, Str::lower('Failed Hiring Manager')) ||
                 str_contains($array, Str::lower('Offer Rejected')) ||
-                str_contains($array, Str::lower('Position Closed (Final Stage))')) ||
+                str_contains($array, Str::lower('position closed (final stage)')) ||
                 str_contains($array, Str::lower('Withdraw / CNI - Final')) ||
+                str_contains($array, Str::lower('Fallout')) ||
                 str_contains($array, Str::lower('Position On Hold (Final Stage)'))) {
-                str_contains($array, Str::lower('Fallout/Reneged')) ||
+
                 $category = 'Inactive - Final Stage';
             }
             if (str_contains($array, Str::lower('Onboarded'))) {
@@ -81,10 +83,12 @@ class Helper
                 str_contains($array, Str::lower('Pending Skills Interview')) ||
                 str_contains($array, Str::lower('Pending for online exam')) ||
                 str_contains($array, Str::lower('Pending Behavioral Interview'))
-                || str_contains($array, Str::lower('Pending Call Simulation/mock call')) || str_contains($array, Str::lower('Scheduled for HRI'))
+                || str_contains($array, Str::lower('Pending Call Simulation/mock call')) ||
+                str_contains($array, Str::lower('Scheduled for HRI'))
                 || str_contains($array, Str::lower('Scheduled for Online Exam'))
                 || str_contains($array, Str::lower('Scheduled Call Simulation/mock call'))
-                || str_contains($array, Str::lower('Done Initial Interview')) || str_contains($array, Str::lower('Done Language Assessment Exam'))
+                || str_contains($array, Str::lower('Done Initial Interview')) ||
+                str_contains($array, Str::lower('Done Language Assessment Exam'))
                 || str_contains($array, Str::lower('Done Online exam'))
                 || str_contains($array, Str::lower('Done HR Interview/ Awaiting Feedback')) ||
                 str_contains($array, Str::lower('Pending CHR Approval')) ||

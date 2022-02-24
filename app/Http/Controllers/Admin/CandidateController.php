@@ -765,7 +765,7 @@ class CandidateController extends Controller
                     'off_allowance' => $request->OFFERED_ALLOWANCE,
                 ]);
             }
-            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $array =$request->REMARKS_FOR_FINANCE;
             $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
