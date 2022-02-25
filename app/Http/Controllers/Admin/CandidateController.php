@@ -890,7 +890,7 @@ class CandidateController extends Controller
     // Qr code function
     public function QRCodeGenerator(Request $request, $id)
     {
-        $image = QrCode::size(500)
+        $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
             ->generate(url('admin/candidate_detail') . '/' . $request->id);
         // ->generate(view('data_entry.qr', $data)->render());
