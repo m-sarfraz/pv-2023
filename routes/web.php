@@ -61,7 +61,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
     Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
-
+    Route::get('candidate_detail/{id}', 'CandidateController@QRCodeDetail')->name('QRCodeDetail');
     // Route::get('redirectQrCode/{cid}/{uid}', 'UserController@redirectQrCode')->name('redirectQrCode');
     Route::get('checkIfQRScanned', 'UserController@checkIfQRScanned')->name('checkIfQRScanned');
 

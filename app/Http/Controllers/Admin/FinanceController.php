@@ -45,6 +45,7 @@ class FinanceController extends Controller
         $remarks_finance = $remarks;
         $salary = \App\CandidatePosition::where('candidate_id', $request->id)->first();
         $off_salary = $salary->off_salary;
+        $off_allowance = $salary->off_allowance;
         $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $savedBy->saved_by)->first();
         $role = $user->roles->pluck('name');
@@ -54,6 +55,7 @@ class FinanceController extends Controller
             'team' => $team,
             'fee' => $fee,
             'off_salary' => $off_salary,
+            'off_allowance' => $off_allowance,
             'remarks_finance' => $remarks_finance,
         ];
         return view('finance.detail', $data);

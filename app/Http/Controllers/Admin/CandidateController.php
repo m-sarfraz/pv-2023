@@ -765,7 +765,7 @@ class CandidateController extends Controller
                     'off_allowance' => $request->OFFERED_ALLOWANCE,
                 ]);
             }
-            $array =$request->REMARKS_FOR_FINANCE;
+            $array = $request->REMARKS_FOR_FINANCE;
             $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
@@ -851,43 +851,49 @@ class CandidateController extends Controller
         if ($request->position) {
             $request->c_profile == null;
             $response = DB::table('jdl')->where("p_title", $request->position)
-            ->select('client','domain','segment','subsegment','p_title','c_level')->get(); 
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
             if ($response) {
 
                 return response()->json(['data' => $response]);
             }
         }
-        if ($request->client_dropdown) { 
+        if ($request->client_dropdown) {
             $response = DB::table('jdl')->where("client", $request->client_dropdown)
-            ->select('client','domain','segment','subsegment','p_title','c_level')->get();
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
             if ($response) {
                 return response()->json(['data' => $response]);
             }
         }
-dd($response);
+        dd($response);
         return response()->json(['data' => "no data found"]);
     }
     // close
 
-    // Qr code function
-    public function QRCodeGenerator(Request $request, $id)
+    // show data when QR is scanned
+    public function QRCodeDetail(Request $request, $id)
     {
+
         $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
             ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where('candidate_informations.id', $request->id)
+            ->where('candidate_informations.id', $id)
             ->first();
-        // return $user;
         $data = [
             'user' => $user,
         ];
-        $image = QrCode::size(250)
+        return view('data_entry.qr', $data);
+    }
+    // close
+    // Qr code function
+    public function QRCodeGenerator(Request $request, $id)
+    {
+        $image = QrCode::size(500)
             ->backgroundColor(255, 255, 255)
-        // ->generate(url('admin/redirect') . '/' . $request->id . '/' . \Auth::user()->id)
-            ->generate(view('data_entry.qrText', $data)->render());
+            ->generate(url('admin/candidate_detail') . '/' . $request->id);
+        // ->generate(view('data_entry.qr', $data)->render());
         return response($image)->header('Content-type', 'image/png');
     }
     // close

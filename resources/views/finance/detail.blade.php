@@ -201,7 +201,7 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance" value="{{ $detail->allowance }}" name="allowance" readonly />
+                                    id="allowance"   name="allowance" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -441,9 +441,14 @@
     $(document).ready(function() {
         // append placement value on start          
         var fee = {!! $fee !!};
-        placementfee = $('#placementfee').val(currency.format(fee))
+        var off_salary = {!! $off_salary !!};
+        var off_allowance = {!! $off_allowance !!};
+        placementfee = $('#placementfee').val(currency.format(fee)).toFixed(2)
+        allowance = $('#allowance').val(currency.format(off_allowance))
+        offered_salary = $('#offered_salary').val(currency.format(off_salary))
         // close 
-
+         
+        
         // select default value unbilled if remarks are offer accepted or onboarded 
         var remarks_finance = '<?php echo $remarks_finance; ?>';
         remarks = remarks_finance.toLowerCase();

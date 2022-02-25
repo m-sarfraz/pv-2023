@@ -109,7 +109,7 @@ class HomeController extends Controller
 
 
             $count_user_pie_[$i] = new SampleChart();
-            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
+            $count_user_pie_[$i]->labels(['Actual', 'CIP-Target']);
             $count_user_pie_[$i]->dataset('my chart', 'pie', [isset($Quarterly_data_[$i][0]) ? $Quarterly_data_[$i][0]->f_srp : 0, 400000])
                 ->options(
                     [
@@ -254,20 +254,20 @@ class HomeController extends Controller
         $data = explode("-", $date);
 
         if (($data[0] >= "01") && ($data[0] <= "03")) {
-            dd("1");
-            $Quartile = "Quartile 1";
+            // dd("1");
+            $Quartile = "Quarter 1";
         }
         if (($data[0] >= "04") && ($data[0] <= "06")) {
             // Quartile 1
-            $Quartile = "Quartile 2";
+            $Quartile = "Quarter 2";
         }
         if (($data[0] >= "07") && ($data[0] <= "09")) {
             // Quartile 1
-            $Quartile = "Quartile 3";
+            $Quartile = "Quarter 3";
         }
         if (($data[0] >= "10") && ($data[0] <= "12")) {
             // Quartile 1
-            $Quartile = "Quartile 4";
+            $Quartile = "Quarter 4";
         }
        
         $users = User::select(DB::raw("COUNT(*) as count"))
@@ -333,7 +333,7 @@ class HomeController extends Controller
 
 
             $count_user_pie_[$i] = new SampleChart();
-            $count_user_pie_[$i]->labels(['Actual', 'Cip-Taget']);
+            $count_user_pie_[$i]->labels(['Actual', 'CIP-Target']);
             $count_user_pie_[$i]->dataset('my chart', 'pie', [isset($Quarterly_data_[$i][0]) ? $Quarterly_data_[$i][0]->f_srp : 0, 400000])
                 ->options(
                     [

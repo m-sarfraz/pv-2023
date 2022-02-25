@@ -102,7 +102,7 @@
                                     <th>Incentive Based Revenue</th>
                                     <th>PDM (Less Share) </th>
                                     <th>Company Revenue</th>
-                                    <th>Targest vs Revenue %</th>
+                                    <th>Target vs Revenue %</th>
                                     <th>No of Ongoing (CIP)</th>
                                     <th>Total Ongoing (CIP)</th>
                                 </tr>

@@ -57,7 +57,7 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-        $allData = DB::table('smart_view');
+        $allData = DB::Select('select * from smart_view');
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {
