@@ -1,0 +1,4 @@
+vclink cpanel credential
+url: https://vcclink.com:2083/
+username = e6fx5atja9po
+pwd: 7&le?^5v_LQ_

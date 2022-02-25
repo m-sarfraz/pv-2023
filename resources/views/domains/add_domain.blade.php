@@ -219,7 +219,7 @@
             var AppendContent =
                 `<div class="row mt-3" >` +
                 `<div class="col-md-9 mt-1 mb-1" >` +
-                `<label>Candidate profile</label>`+
+                `<label>Candidate's profile</label>`+
                 `<div id='showinput'></div> <select id='hideselect' name='c_profile[]' class="form-control">`+
                 @php
                 foreach ($profile as $key => $value){

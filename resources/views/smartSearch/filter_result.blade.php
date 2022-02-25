@@ -9,7 +9,7 @@
         <th class="ant-table-cell">Gender</th>
         <th class="ant-table-cell">Domain</th>
 
-        <th class="ant-table-cell">Profile</th>
+        <th class="ant-table-cell">Candidate's Profile</th>
         <th class="ant-table-cell">Educational Attainment</th>
         <th class="ant-table-cell">Salary</th>
         <th class="ant-table-cell">Portal</th>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$user->last_name}}'s Details</title>
+    <title>{{ $user->last_name }}'s Details</title>
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}" />
@@ -53,13 +53,13 @@
                         id="formGroupExampleInput2">
                 </div>
                 <div class="mb-3">
-                    <label for="formGroupExampleInput2" class="form-label">Employement History</label>
+                    <label for="formGroupExampleInput2" class="form-label">Employment History</label>
                     <textarea readonly class="form-control" id="formGroupExampleInput2" rows="10" cols="">
                         <?php
                         if (isset($user->emp_history)) {
                             echo implode(' ', array_slice(explode(' ', $user->emp_history), 0, 20)) . "\n";
                         } else {
-                            echo 'No Employement History Found';
+                            echo 'No Employment History Found';
                         }
                         ?>;
                     </textarea>

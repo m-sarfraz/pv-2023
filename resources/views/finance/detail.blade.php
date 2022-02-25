@@ -443,7 +443,7 @@
         var fee = {!! $fee !!};
         var off_salary = {!! $off_salary !!};
         var off_allowance = {!! $off_allowance !!};
-        placementfee = $('#placementfee').val(currency.format(fee)).toFixed(2)
+        placementfee = $('#placementfee').val(currency.format(fee))
         allowance = $('#allowance').val(currency.format(off_allowance))
         offered_salary = $('#offered_salary').val(currency.format(off_salary))
         // close 

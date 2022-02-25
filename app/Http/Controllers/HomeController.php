@@ -186,7 +186,7 @@ class HomeController extends Controller
 
         $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels(['Inventice Base Revenue', 'TAT']);
+        $del->labels(['Inventice Based Revenue', 'TAT']);
         $del->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -218,7 +218,7 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
-        $chart->dataset('Incentive Base Revenue', 'bar', $single_sume)->options([
+        $chart->dataset('Incentive Based Revenue', 'bar', $single_sume)->options([
             // 'fill' => 'false',
             'borderColor' => 'green',
             'backgroundColor' => 'green',
@@ -227,7 +227,7 @@ class HomeController extends Controller
         //first graph
         //second graph
         $count_user_pie = new SampleChart();
-        $count_user_pie->labels(['Inventice Base Revenue', 'TAT']);
+        $count_user_pie->labels(['Inventice Based Revenue', 'TAT']);
         $count_user_pie->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -409,7 +409,7 @@ class HomeController extends Controller
 
         $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels(['Inventice Base Revenue', 'TAT']);
+        $del->labels(['Inventice Based Revenue', 'TAT']);
         $del->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -441,7 +441,7 @@ class HomeController extends Controller
             'backgroundColor' => 'rgb(253, 152, 0)',
 
         ]);
-        $chart->dataset('Incentive Base Revenue', 'bar', $single_sume)->options([
+        $chart->dataset('Incentive Based Revenue', 'bar', $single_sume)->options([
             // 'fill' => 'false',
             'borderColor' => 'green',
             'backgroundColor' => 'green',
@@ -450,7 +450,7 @@ class HomeController extends Controller
         //first graph
         //second graph
         $count_user_pie = new SampleChart();
-        $count_user_pie->labels(['Inventice Base Revenue', 'TAT']);
+        $count_user_pie->labels(['Inventice Based Revenue', 'TAT']);
         $count_user_pie->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
