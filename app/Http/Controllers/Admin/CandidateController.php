@@ -894,6 +894,13 @@ class CandidateController extends Controller
             ->backgroundColor(255, 255, 255)
             ->generate(url('admin/candidate_detail') . '/' . $request->id);
         // ->generate(view('data_entry.qr', $data)->render());
+        // $png = base64_encode($image);
+        // dd($image);
+        CandidateInformation::where('id', $request->id)->update([
+            'qrImage' => $image,
+        ]);
+        // dd('done');
+        // echo "<img src='data:image/png;base64," . $png . "'>";
         return response($image)->header('Content-type', 'image/png');
     }
     // close
@@ -912,9 +919,7 @@ class CandidateController extends Controller
     // get position titles with ajax
     public function Get_Position_title(Request $request)
     {
-
         $position_title = DB::table('jdl')->get('p_title');
-
         return response()->json($position_title);
     }
 }
