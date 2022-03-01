@@ -177,13 +177,12 @@
                                         <select name="COURSE"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100" id="COURSE">
                                             @foreach ($course->options as $courseOptions)
-                                                <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
+                                                <option value="{{ $courseOptions->option_name }}"
+                                                    @if ($user->course != null) {
                                                     {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
-                                                    }
-                                            @endif
-                                            >
-                                            {{ $courseOptions->option_name }}
-                                            </option>
+                                                    } @endif>
+                                                    {{ $courseOptions->option_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div>
@@ -501,9 +500,9 @@
                                     <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
                                         @if ($user->cv)
-                                        <span id="append-cv" class="text-merge-input"></span>
+                                            <span id="append-cv" class="text-merge-input"></span>
                                         @else
-                                        <span id="append-cv" class="text-merge-input">No Uploaded CV</span>
+                                            <span id="append-cv" class="text-merge-input">No Uploaded CV</span>
                                         @endif
                                         <label class="labeled"> Upload
                                             <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
@@ -579,7 +578,9 @@
                             <label class="d-block font-size-3 mb-0">
                                 Position Title:
                             </label>
-                            <select name="POSITION_TITLE" disabled="" id="position" onchange="traverse2()"
+                            <div id="loader2" class="d-none"></div>
+
+                            <select name="POSITION_TITLE" disabled="" id="position"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
                                 <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>
                                     Select Option</option>
@@ -696,7 +697,8 @@
                         @endphp
                         <div class="form-group mb-0">
                             <label class="Label">Client</label>
-                            <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                            <select name="CLIENT" disabled="" id="client"
+                                onchange="clientChanged('position-title',this)"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
                                 <option value="" {{ $user->client == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
@@ -1241,4 +1243,89 @@
     select2Dropdown("select2_dropdown");
     $('#certificate').prop('disabled', true)
     $('#detail_candidate').val()
+
+    var globalData = [];
+
+    function clientChanged(dropDown, elem) {
+        $('#loader2').addClass('d-block')
+        $('#loader2').removeClass('d-none')
+        $.ajax({
+            url: '{{ url('admin/traveseDataByClientProfile') }}',
+            type: 'POST',
+            data: {
+                // position: $('#position').val(),
+                client_dropdown: $('#client').val(),
+                _token: token
+            },
+
+            // Ajax success function
+            success: function(res) {
+                if (res.data.length > 0) {
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
+                    globalData = res.data;
+                    $('#domain_endo').empty();
+                    $('#segment').empty();
+                    $('#sub_segment').empty();
+                    $('#career').empty();
+                    // $('#client').empty();
+                    $('#position').empty();
+                    for (let i = 0; i < res.data.length; i++) {
+                        if ($(elem).val() == res.data[i].client) {
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                                $('#position').append(
+                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                );
+                            }
+                        }
+                    }
+                    $('#position').change();
+                    $('#client').attr('readonly', true);
+                    $('#domain_endo').attr('readonly', true);
+                    $('#segment').attr('readonly', true);
+                    $('#sub_segment').attr('readonly', true);
+
+                } else {
+                    $('#domain_endo').empty();
+                    $('#segment').empty();
+                    $('#sub_segment').empty();
+                    $('#career').empty();
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
+                    $('#position').empty();
+                }
+
+            }
+        })
+
+    }
+
+    $('#position').change(function() {
+        $('#career').empty();
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title) {
+                $('#career').append(
+                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                );
+            }
+        }
+        DomainSegmentAppend()
+    })
+
+    function DomainSegmentAppend() {
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+                $('#client').val() == globalData[i].client) {
+                $('#domain_endo').append(
+                    `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`
+                );
+                $('#segment').append(
+                    `<option selected value="${globalData[i].segment}">${globalData[i].segment}</option>`
+                );
+                $('#sub_segment').append(
+                    `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
+                );
+            }
+        }
+    }
 </script>
