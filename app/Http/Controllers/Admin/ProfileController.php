@@ -495,7 +495,7 @@ class ProfileController extends Controller
             }
         } else {
             // if Sheet doesnt exist
-            return redirect()->back()->with('error-live', 'There is some errror');
+            return redirect()->back()->with('error-live', 'Uploading Failed');
         }
     }
     public function readLocalAcceess()
@@ -889,7 +889,7 @@ class ProfileController extends Controller
                 return redirect()->back()->with('message', 'data Import successfully');
             }
         } else {
-            return redirect()->back()->with('error-local-sdb', 'there is some  Erorrs');
+            return redirect()->back()->with('error-local-sdb', 'Uploading Failed');
         }
     }
 
@@ -985,7 +985,7 @@ class ProfileController extends Controller
             }
         } else {
             // if Sheet doesnt exist
-            return redirect()->back()->with('error-jdl-sheet', 'there is some  Erorrs');
+            return redirect()->back()->with('error-jdl-sheet', 'Uploading Failed');
         }
 
     }
@@ -1061,6 +1061,6 @@ class ProfileController extends Controller
             }
         }
 
-        return redirect()->back()->with('error-jdl-sheet-local', 'there is some  Erorrs');
+        return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');
     }
 }

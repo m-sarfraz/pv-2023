@@ -723,6 +723,7 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Position Title:
                                                 </label>
+                                                <div id="loader2" class="d-none"></div>
                                                 <select name="POSITION_TITLE" disabled="" id="position"
                                                     class="select2_dropdown  w-100"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
@@ -770,7 +771,8 @@
                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                     Career Level:
                                                 </label>
-                                                <select name="CAREER_LEVEL" disabled="" id="career" onchange="DomainSegmentAppend()"
+                                                <select name="CAREER_LEVEL" disabled="" id="career"
+                                                    onchange="DomainSegmentAppend()"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     <option value="" class="selectedOption" selected disabled>Select Option
                                                     </option>
@@ -1993,11 +1995,13 @@
         var globalData = [];
 
         function clientChanged(dropDown, elem) {
+            $('#loader2').addClass('d-block')
+            $('#loader2').removeClass('d-none')
             $.ajax({
                 url: '{{ url('admin/traveseDataByClientProfile') }}',
                 type: 'POST',
                 data: {
-                    position: $('#position').val(),
+                    // position: $('#position').val(),
                     client_dropdown: $('#client').val(),
                     _token: token
                 },
@@ -2005,6 +2009,8 @@
                 // Ajax success function
                 success: function(res) {
                     if (res.data.length > 0) {
+                        $('#loader2').addClass('d-none')
+                        $('#loader2').removeClass('d-block')
                         globalData = res.data;
                         $('#domain_endo').empty();
                         $('#segment').empty();
@@ -2027,6 +2033,14 @@
                         $('#segment').attr('readonly', true);
                         $('#sub_segment').attr('readonly', true);
 
+                    } else {
+                        $('#domain_endo').empty();
+                        $('#segment').empty();
+                        $('#sub_segment').empty();
+                        $('#career').empty();
+                        $('#loader2').addClass('d-none')
+                        $('#loader2').removeClass('d-block')
+                        $('#position').empty();
                     }
 
                 }
@@ -2063,6 +2077,7 @@
             }
         }
         $(document).ready(function() {
+
             $.ajax({
                 url: "{{ route('Get_Position_title') }}",
                 type: 'get',
