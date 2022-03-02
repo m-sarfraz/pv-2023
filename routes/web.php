@@ -29,7 +29,6 @@ Route::get('/clear-all', function () {
 });
 /* Route for clear cache */
 /* ===================*/
-
 Route::get('/', function () {
     return redirect('login');
 });
@@ -53,10 +52,8 @@ return view('JDL.index');
 // Route::view('log', 'logs.log')->name('log');
 // Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
-// Route::view('add_company','companies.add_company_profile');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
     Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
@@ -67,35 +64,35 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('jdl_filter_records_detail', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
-
+    
     //Search User data route
     Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
     Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
-
+    
     // Record routes
     Route::get('record', 'RecordController@index')->name('record');
     Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
     Route::get('filter_records_detail', 'RecordController@UserDetails')->name('filterRecordDetail');
     Route::match(['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
-
+    
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
     Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
-
+    
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
-
+    
     Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::post('traveseDataByClientProfile', 'CandidateController@traveseDataByClientProfile')->name('traveseDataByClientProfile');
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
-
+    
     // log routes
     Route::get('log', 'LogController@index')->name('log');
-
+    
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
@@ -109,11 +106,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
     Route::match(['get', 'post'], 'filter_records_finance', 'FinanceController@recordFilter')->name('financeRecordFilter');
     Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
-
+    Route::view('extract-data','extract-data')->name('extract-data');
+    
     // Smart search controllers
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
-
+    
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
     Route::get('add-dropdown', 'DropDownController@show_dropdown_form')->name('add-dropdown');

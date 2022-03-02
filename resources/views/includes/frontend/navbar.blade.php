@@ -56,7 +56,15 @@
                     href="{{ route('search') }}" style="cursor: pointer;">
                     Smart Search
                 </a>
+                <a class="nav-link {{ $routeName == 'extract-data' ? 'nav-active' : 'text-white' }}"
+                    href="{{ route('extract-data') }}" style="cursor: pointer;">
+                    extract-data
+                </a>
             @endcan
+            <!-- @can('extract-data') -->
+
+            <!-- @endcan -->
+         
             @can('view-dropdowns')
                 <div class="dropdown pt-2 pl-2 text-white">
                     Dropdowns
