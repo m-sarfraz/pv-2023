@@ -1,54 +1,52 @@
-<div class="table-responsive border-right pt-3" id="filter_table_div">
-    <div class="">
-        <table id=" example1" class="table">
-            <thead class="bg-light w-100">
-                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                    <th class="ant-table-cell">Client</th>
-                    <th class="ant-table-cell">Segment</th>
-                    <th class="ant-table-cell">Sub Segment</th>
-                    <th class="ant-table-cell">Career Level</th>
-                    <th class="ant-table-cell">Position Title</th>
-                    <th class="ant-table-cell">Budget</th>
-                    <th class="ant-table-cell">Location</th>
-                    <th class="ant-table-cell">Work Sched</th>
-                    <th class="ant-table-cell">Priorty</th>
-                    <th class="ant-table-cell">Maturity Of Requirement</th>
-                    <th class="ant-table-cell">Status</th>
-                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach ($Userdata as $renderIndex)
-
-                    <tr class="common-tr hover-primary" onclick="Filter(this,'{{ $renderIndex->id }}')">
-                        <!-- Table data 1 -->
-                        <td>{{ $renderIndex->client }}</td>
-                        <td>{{ $renderIndex->segment }}</td>
-                        <td>{{ $renderIndex->subsegment }}</td>
-                        <td>{{ $renderIndex->c_level }}</td>
-                        <td>{{ $renderIndex->p_title }}</td>
-                        <td>{{ $renderIndex->budget }}</td>
-                        <td>{{ $renderIndex->location }}</td>
-                        <td>{{ $renderIndex->w_schedule }}</td>
-                        <td>{{ $renderIndex->priority }}</td>
-                        <td> @php
-                            $date = Carbon\Carbon::parse($renderIndex->req_date);
-                            // echo  $date;
-                            
-                            $now = Carbon\Carbon::now();
-                            echo $diff = $date->diffInDays($now);
-                        @endphp
-                        </td>
-                        <td>{{ $renderIndex->status }}</td>
-                    </tr>
-                @endforeach
-
-            </tbody>
-        </table>
-    </div>
-
+<div class="">
+    <table id="filteredJdlTable" class="table">
+        <thead class="bg-light w-100">
+            <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                <th class="ant-table-cell hideID">id</th>
+                <th class="ant-table-cell">Sr</th>
+                <th class="ant-table-cell">Client</th>
+                <th class="ant-table-cell">Segment</th>
+                <th class="ant-table-cell">S-Segment</th>
+                <th class="ant-table-cell">Career Level</th>
+                <th class="ant-table-cell">Position Title</th>
+                <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
+                        Requirement</span></th>
+                <th class="ant-table-cell">Budget</th>
+                <th class="ant-table-cell">Location</th>
+                <th class="ant-table-cell">Work Sched</th>
+                <th class="ant-table-cell"> Status</th>
+                <th class="ant-table-cell">Priority</th>
+                <th class="ant-table-cell ant-table-cell-scrollbar"></th>
+            </tr>
+        </thead>
+        <tbody class="hidetrID" style="height:100px">
+        </tbody>
+    </table>
 </div>
+
 <script>
-    $('#No_of_count').val({!! json_encode($count) !!});
+    $(document).ready(function() {
+        load_datatable1()
+        $('#filteredJdlTable_filter').hide('div');
+
+    })
+    // $('#searchKeyword').on("input", function() {
+    //     alert('yes')
+    //         $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
+    //         $('#filteredJdlTable').children().children().val($('#searchKeyword').val());
+    //         $('#jdlTable_filter').children().children().focus();
+    //         $('#filteredJdlTable').children().children().focus();
+    //         $('#searchKeyword').focus();
+    //         $('#jdlTable_filter').children().children().trigger('input');
+    //         $('#filteredJdlTable').children().children().trigger('input');
+    //         // $('#jdlTable_filter').hide('div');
+    //         // $('#filteredJdlTable').hide('div');
+    //     });
+    $('#filteredJdlTable').on('click', 'tbody tr', function() {
+        $('tr').removeClass('hover-primary1');
+        $(this).addClass('hover-primary1');
+        let tdVal = $(this).children()[0];
+        var id = tdVal.innerHTML
+        Filter(this, id)
+    })
 </script>

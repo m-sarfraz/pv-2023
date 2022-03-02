@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Auth;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -171,26 +170,80 @@ class UserController extends Controller
     }
     public function updatePassword(Request $request)
     {
-        // return $request->all();
-        $password = User::find(Auth::id());
+        $password = User::find($request->id);
         // return $password;
         $arrayCheck = [
-            'old_password' => ['required', 'string'],
-            'new_password' => ['required', 'string', 'min:8', 'confirmed', 'different:old_password'],
+            // 'old_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
         // return $arrayCheck;
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
-            if (Hash::check($request->old_password, $password->password)) {
+            // if (Hash::check($request->old_password, $password->password)) {
 
-                $password->password = Hash::make($request->new_password);
-                $password->save();
-                return response()->json(['success' => true, 'message' => 'Password Updated successfully']);
-            } else {
-                return response()->json(['success' => false, 'message' => 'Old password is wrong!']);
-            }
+            $password->password = Hash::make($request->new_password);
+            $password->save();
+            return response()->json(['success' => true, 'message' => 'Password Updated successfully']);
+            // } else {
+            // return response()->json(['success' => false, 'message' => 'Old password is wrong!']);
+            // }
         }
+    }
+    public function redirectThankyou(Request $request, $cid, $uid)
+    {
+        $activity = DB::table('users')->where('id', $uid)->first('activity_timeStamp');
+        if ($activity->activity_timeStamp >= time()) {
+            DB::table('users')->where('id', $uid)->limit(1)
+                ->update([
+                    'redirect' => 1,
+                    'cid' => $cid,
+                ]);
+            $data = [
+                'cid' => $cid,
+                'uid' => $uid,
+            ];
+            return view('user.thankYou', $data);
+        } else {
+            return response()->json(['Acknowledge' => 'user is not logged in yet!']);
+        }
+    }
+    public function checkIfQRScanned()
+    {
+        if (\Auth::user()->redirect == 1) {
+            DB::table('users')->where('id', \Auth::user()->id)->limit(1)
+                ->update([
+                    'redirect' => 0,
+                    'cid' => 0,
+                ]);
+
+            $id = \Auth::user()->cid;
+            // $url = url('admin/record');
+            $url = url('admin/record/' . '?id=' . $id);
+
+            return response()->json(['success' => true, 'message' => 'sucessfully redirected', 'id' => $id, 'url' => $url]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Dont redirect']);
+
+        }
+    }
+
+    // public function redirectQrCode(Request $request, $cid, $uid)
+    // {
+    //     $activity = DB::table('users')->where('id', $uid)->first('activity_timeStamp');
+    //     if ($activity->activity_timeStamp >= time()) {
+    //         dd('logged in');
+
+    //     } else {
+    //         return response()->json(['Acknowledge' => 'user is not logged in yet!']);
+    //     }
+    // }
+    public function saveActivity()
+    {
+        DB::table('users')->where('id', \Auth::user()->id)->limit(1)
+            ->update([
+                'activity_timeStamp' => time() + 30,
+            ]);
     }
 }

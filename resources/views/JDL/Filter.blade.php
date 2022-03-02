@@ -1,6 +1,6 @@
 <div class="col-lg-12" id="record_detail" style="width:100%">
 
- 
+
     <p class="C-Heading">Record Details:</p>
     <div class="card mb-13">
         <div class="card-body">
@@ -12,20 +12,20 @@
                                 <label class="Label">
                                     Position Title
                                 </label>
-                                <input type="text" class="form-control users-input-S-C"
-                                    value="{{ $user->p_title }}" />
+                                <input type="text" class="form-control users-input-S-C" value="{{ $user->p_title }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">Priority</label>
-                                <input type="text" class="form-control users-input-S-C"  value="{{ $user->priority }}"/>
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->priority }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">FTE:</label>
-                                <input type="text" class="form-control users-input-S-C" value="{{ $user->t_fte }}"/>
+                                <input type="text" class="form-control users-input-S-C" value="{{ $user->t_fte }}" />
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">No of Endo:</label>
-                                <input type="text" class="form-control users-input-S-C" />
+                                <input type="text" class="form-control users-input-S-C" value={{$endorsmentCount}} />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -69,13 +69,14 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Start Date
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" value="{{ $user->start_date }}"/>
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->start_date }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                Career Level
+                                    Career Level
                                 </label>
                                 <input type="text" class="form-control users-input-S-C"
                                     value="{{ $user->c_level }}" />
@@ -86,7 +87,7 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="Label">SLL No:</label>
-                                <input type="text" class="form-control users-input-S-C" value="{{ $user->sll_no }}"/>
+                                <input type="text" class="form-control users-input-S-C" value="{{ $user->sll_no }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -101,7 +102,8 @@
                                 <label class="Label">
                                     Work Schedule:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C"value="{{ $user->w_schedule }}" />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->w_schedule }}" />
                             </div>
                         </div>
                     </div>
@@ -109,7 +111,8 @@
                         <div class="col-lg-6">
                             <div class="form-group mb-0">
                                 <label class="Label">Budget:</label>
-                                <input type="text" class="form-control users-input-S-C"value="{{ $user->budget }}" />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->budget }}" />
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -117,7 +120,8 @@
                                 <label class="Label">
                                     Educational Background:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" value="{{ $user->edu_attainment }}"/>
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->edu_attainment }}" />
                             </div>
                         </div>
                     </div>
@@ -141,7 +145,7 @@
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
-                                    placeholder="Recruitment Process">{{$user->poc}}</textarea>
+                                    placeholder="Recruitment Process">{{ $user->poc }}</textarea>
                             </div>
                         </div>
                         <div class="col-lg-6">

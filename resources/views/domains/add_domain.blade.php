@@ -48,7 +48,7 @@
                                                     </select>
                                                     <div class="row">
                                                         <div class="col-sm">
-                                                            @can('add_domains')
+                                                            @can('add-domain')
                                                                 
                                                             <button style="background: #dc8627;"
                                                                 onclick="AddOption('domain_name','domain_input_append','domain_save_btn')"
@@ -99,7 +99,7 @@
 
                                                         <div class="row">
                                                             <div class="col-sm">
-                                                                @can('add_domains')
+                                                                @can('add-domain')
                                                                     
                                                                 <button style="background: #dc8627;"
                                                                     onclick="AddOption('segment_name','segment_input_append','segment_save_btn')"
@@ -144,7 +144,7 @@
                                     @csrf
                                     <div class="row m-0">
                                         <div class="col-md-3">
-                                            @can('add_domains')
+                                            @can('add-domain')
                                                 
                                             <button style="background: #dc8627;"
                                                 onclick="AddOption('sub_segment_name','sub_segment_input_append','sub_segment_save_btn')"
@@ -219,7 +219,7 @@
             var AppendContent =
                 `<div class="row mt-3" >` +
                 `<div class="col-md-9 mt-1 mb-1" >` +
-                `<label>Candidate profile</label>`+
+                `<label>Candidate's profile</label>`+
                 `<div id='showinput'></div> <select id='hideselect' name='c_profile[]' class="form-control">`+
                 @php
                 foreach ($profile as $key => $value){

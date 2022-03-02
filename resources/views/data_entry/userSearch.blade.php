@@ -22,6 +22,17 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
+                                        <label class="Label">*First Name:</label>
+                                        <input type="text" class="form-control users-input-S-C"
+                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
+                                        <div>
+                                            <small class="text-danger"></small>
+                                        </div>
+                                    </div>
+                                    <div><small class="___class_+?45___"></small></div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
                                         <label class="Label">
                                             Middle Initial
                                         </label>
@@ -32,17 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="Label">*First Name:</label>
-                                        <input type="text" class="form-control users-input-S-C"
-                                            value="{{ $user->first_name }}" name="FIRST_NAME" />
-                                        <div>
-                                            <small class="text-danger"></small>
-                                        </div>
-                                    </div>
-                                    <div><small class="___class_+?45___"></small></div>
-                                </div>
+
                             </div>
                             <div class="row mb-2">
                                 <div class="col-lg-6">
@@ -176,13 +177,12 @@
                                         <select name="COURSE"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100" id="COURSE">
                                             @foreach ($course->options as $courseOptions)
-                                                <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
+                                                <option value="{{ $courseOptions->option_name }}"
+                                                    @if ($user->course != null) {
                                                     {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
-                                                    }
-                                            @endif
-                                            >
-                                            {{ $courseOptions->option_name }}
-                                            </option>
+                                                    } @endif>
+                                                    {{ $courseOptions->option_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div>
@@ -206,7 +206,7 @@
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                             <option disabled></option>
                                             @foreach ($certificate->options as $certificateOption)
-                                                <option value="{{ $certificateOption->option_name }}" 
+                                                <option value="{{ $certificateOption->option_name }}"
                                                     {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}>
                                                     {{ $certificateOption->option_name }}</option>
                                             @endforeach
@@ -296,7 +296,7 @@
                                         ?>
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                candidate profile
+                                                Candidate’s Profile
                                             </label>
                                             <select name="CANDIDATES_PROFILE" id="candidate_profile"
                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100"
@@ -343,7 +343,10 @@
                                             </label>
                                             <select name="MANNER_OF_INVITE" onchange="mannerChange(this)" id="manners"
                                                 class="form-control p-0 users-input-S-C">
-                                                <option disabled></option>
+                                                <option value=""
+                                                    {{ $user->manner_of_invite == null ? 'selected' : '' }} disabled>
+                                                    Select Option
+                                                </option>
                                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                     <option value="{{ $manner_of_inviteOption->option_name }}"
                                                         {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
@@ -354,6 +357,29 @@
                                         </div>
                                         <div>
                                             <small class="text-danger"></small>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <?php
+                                            $source = Helper::get_dropdown('source');
+                                            ?>
+                                            {{-- @dd($user->source) --}}
+                                            <label class="Label labelFontSize">
+                                                Source
+                                            </label>
+                                            <select name="SOURCE" id="source" class="form-control p-0 users-input-S-C">
+                                                <option value="" {{ $user->source == null ? 'selected' : '' }}
+                                                    disabled>Select Option
+                                                </option>
+                                                @foreach ($source->options as $sourceOption)
+                                                    <option value="{{ $sourceOption->option_name }}"
+                                                        {{ ($user->source != null ? $user->source == $sourceOption->option_name : '') ? 'selected' : '' }}>
+                                                        {{ $sourceOption->option_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -464,16 +490,34 @@
                             <div class="col-lg-6"></div>
                             <div class="col-lg-6">
                                 <div class="d-flex w-100 flex-wrap gap-2 flex-column form-group col-md-12">
-                                    <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
+                                    {{-- <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
                                         id="fileDiv">
                                         <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
                                             accept="application/pdf" class="uploadcv  w-100">
                                         <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
                                             style="position: absolute;left: -7px; top:1px;color:red"></i>
-                                    </div>
-                                    <div class="d-flex  align-items-center mt-2" >
+                                    </div> --}}
+                                    <div class="w-100 d-none mt-2" style="text-align: end; margin-bottom: 6px; "
+                                        id="fileDiv">
                                         @if ($user->cv)
-                                        <span class=" mr-3"><i class="bi bi-paperclip"></i>{{$user->first_name}}'s Resume</span>
+                                            <span id="append-cv" class="text-merge-input"></span>
+                                        @else
+                                            <span id="append-cv" class="text-merge-input">No Uploaded CV</span>
+                                        @endif
+                                        <label class="labeled"> Upload
+                                            <input type="file" id="sheetFile" name="file" oninput="uploadFile(this)"
+                                                accept="application/pdf" class="uploadcv  demo-css  w-100">
+                                        </label>
+
+
+                                        <i class="bi bi-x-circle d-none" id="cross" onclick="emptyFileinput()"
+                                            style="position: absolute;left: -7px; top:1px;color:red"></i>
+                                    </div>
+                                    <div class="d-flex  align-items-center mt-2">
+                                        @if ($user->cv)
+                                            <span class=" mr-3"><i
+                                                    class="bi bi-paperclip"></i>{{ $user->first_name }}'s
+                                                Resume</span>
                                             <a class="btn btn-success" type="button" target="blank"
                                                 href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
                                                 {{-- )" --}}>Download
@@ -534,7 +578,9 @@
                             <label class="d-block font-size-3 mb-0">
                                 Position Title:
                             </label>
-                            <select name="POSITION_TITLE" disabled="" id="position" onchange="traverse2()"
+                            <div id="loader2" class="d-none"></div>
+
+                            <select name="POSITION_TITLE" disabled="" id="position"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
                                 <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>
                                     Select Option</option>
@@ -651,7 +697,8 @@
                         @endphp
                         <div class="form-group mb-0">
                             <label class="Label">Client</label>
-                            <select name="CLIENT" disabled="" id="client" onchange="clientChanged(this)"
+                            <select name="CLIENT" disabled="" id="client"
+                                onchange="clientChanged('position-title',this)"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
                                 <option value="" {{ $user->client == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
@@ -736,7 +783,8 @@
                             </label>
                             <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option value="" {{ $user->remarks == null ? 'selected' : '' }} disabled>Select Option
+                                <option value="" {{ $user->remarks == null ? 'selected' : '' }} disabled>Select
+                                    Option
                                 </option>
                                 @foreach ($remarks->options as $remarksOptions)
                                     <option value="{{ $remarksOptions->option_name }}"
@@ -819,11 +867,11 @@
                                         Select Option
                                     </option>
                                     @foreach ($segmentsDropDown as $segmentsOptions)
-                                    <option value="{{ $segmentsOptions->id }}"
-                                        {{ ($user->segment_endo  != null ? $user->segment_endo == $segmentsOptions->segment_name : '') ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->segment_name }}
-                                    </option>
-                                @endforeach
+                                        <option value="{{ $segmentsOptions->id }}"
+                                            {{ ($user->segment_endo != null ? $user->segment_endo == $segmentsOptions->segment_name : '') ? 'selected' : '' }}>
+                                            {{ $segmentsOptions->segment_name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -850,15 +898,16 @@
                                 <label class="Label">sub-segment</label>
                                 <select disabled="" id="sub_segment" name="SUB_SEGMENT"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user->sub_segment_endo == null ? 'selected' : '' }} disabled>
+                                    <option value="" {{ $user->sub_segment_endo == null ? 'selected' : '' }}
+                                        disabled>
                                         Select Option
                                     </option>
                                     @foreach ($sub_segment->options as $sub_segmentOptions)
-                                    <option value="{{ $sub_segmentOptions->id }}"
-                                        {{ ( $user->sub_segment_endo != null ? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name : '') ? 'selected' : '' }}>
-                                        {{ $sub_segmentOptions->sub_segment_name }}
-                                    </option>
-                                @endforeach
+                                        <option value="{{ $sub_segmentOptions->id }}"
+                                            {{ ($user->sub_segment_endo != null? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name: '')? 'selected': '' }}>
+                                            {{ $sub_segmentOptions->sub_segment_name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -1118,8 +1167,10 @@
         $('#saveRecord').prop("disabled", false)
     });
     $(document).ready(function() {
+        var detailInput = <?php echo json_encode($inputDetail); ?>;
+        $('#userDetailInput').html('<p>' + detailInput + '</p>');
         var id = $('#user').val();
-        console.log('id is' + id);
+        // console.log('id is' + id);
         // ajax call for user data fetching starts
         $.ajax({
             type: "GET",
@@ -1192,4 +1243,89 @@
     select2Dropdown("select2_dropdown");
     $('#certificate').prop('disabled', true)
     $('#detail_candidate').val()
+
+    var globalData = [];
+
+    function clientChanged(dropDown, elem) {
+        $('#loader2').addClass('d-block')
+        $('#loader2').removeClass('d-none')
+        $.ajax({
+            url: '{{ url('admin/traveseDataByClientProfile') }}',
+            type: 'POST',
+            data: {
+                // position: $('#position').val(),
+                client_dropdown: $('#client').val(),
+                _token: token
+            },
+
+            // Ajax success function
+            success: function(res) {
+                if (res.data.length > 0) {
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
+                    globalData = res.data;
+                    $('#domain_endo').empty();
+                    $('#segment').empty();
+                    $('#sub_segment').empty();
+                    $('#career').empty();
+                    // $('#client').empty();
+                    $('#position').empty();
+                    for (let i = 0; i < res.data.length; i++) {
+                        if ($(elem).val() == res.data[i].client) {
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                                $('#position').append(
+                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                );
+                            }
+                        }
+                    }
+                    $('#position').change();
+                    $('#client').attr('readonly', true);
+                    $('#domain_endo').attr('readonly', true);
+                    $('#segment').attr('readonly', true);
+                    $('#sub_segment').attr('readonly', true);
+
+                } else {
+                    $('#domain_endo').empty();
+                    $('#segment').empty();
+                    $('#sub_segment').empty();
+                    $('#career').empty();
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
+                    $('#position').empty();
+                }
+
+            }
+        })
+
+    }
+
+    $('#position').change(function() {
+        $('#career').empty();
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title) {
+                $('#career').append(
+                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                );
+            }
+        }
+        DomainSegmentAppend()
+    })
+
+    function DomainSegmentAppend() {
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+                $('#client').val() == globalData[i].client) {
+                $('#domain_endo').append(
+                    `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`
+                );
+                $('#segment').append(
+                    `<option selected value="${globalData[i].segment}">${globalData[i].segment}</option>`
+                );
+                $('#sub_segment').append(
+                    `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
+                );
+            }
+        }
+    }
 </script>

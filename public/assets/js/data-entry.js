@@ -152,6 +152,7 @@ function amountFinder(id) {
 
 // search user data and append in data entry fields starts
 function SearchUserData(e, div) {
+    $('#userDetailInput').removeClass('d-none')
     $('#searchRecord').prop("disabled", true)
     $('#saveRecord').prop("disabled", false)
     $('#editRecord').prop("disabled", false)
@@ -178,6 +179,7 @@ function SearchUserData(e, div) {
 }
 // search user data and append in data entry fields starts
 function enableSearch(id) {
+    $('#userDetailInput').addClass('d-none')
     $(id).prop("disabled", false)
     $('#save').prop("disabled", true)
     $('#saveRecord').prop("disabled", true)
@@ -262,6 +264,7 @@ function careerChanged(elem) {
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
+
     $('#certificate').prop('disabled',false)
     // enabling th fieldset value
     $('#fileDiv').removeClass('d-none')
@@ -277,10 +280,13 @@ function EnableUserEdit(elem) {
                 $('#client').prop("disabled", false);
                 $('#endo_type').prop("disabled", false);
                 $('#position').prop("disabled", false);
-                $('#domain_endo').prop("disabled", false);
+                $('#domain_endo').prop("disabled", true);
                 $('#career').prop("disabled", false);
-                $('#segment').prop("disabled", false);
-                $('#sub_segment').prop("disabled", false);
+                $('#segment').prop("disabled", true);
+                $('#sub_segment').prop("disabled", true);
+                $('#Domainsegment').prop("disabled", true);
+                $('#domain').prop("disabled", true);
+                $('#Domainsub').prop("disabled", true);
                 $('#endo_date').prop("disabled", false);
                 $('#remarks_for_finance').prop("disabled", false);
                 // $('#expec_salary').prop("disabled", false);

@@ -14,6 +14,23 @@
             margin-left: auto;
         }
 
+        .hideID:first-child,
+        .hidetrID tr td:first-child {
+            display: none !important;
+        }
+
+        .hidetrID tr:hover {
+            background-color: rgb(159, 165, 243);
+        }
+
+        #fmtable_filter {
+            visibility: hidden;
+        }
+
+        #fmtable1_filter {
+            visibility: hidden;
+        }
+
     </style>
 @endsection
 
@@ -24,6 +41,7 @@
             <div class="col-lg-6">
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <div class="row mb-4">
@@ -34,7 +52,7 @@
                                         </label>
                                         <input type="text" name="searchKeyword" id="searchKeyword"
                                             placeholder="search keyword" required=""
-                                            class="form-control h-px-20_custom border" onchange="filterUserData()" />
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -42,8 +60,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="{{ $count }}" disabled=""
-                                            required="" id="record" class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" value="" disabled="" required="" id="record"
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -61,24 +79,24 @@
                                         <label class="Label">Recruiter</label>
                                         <select multiple name="recruiter" id="recruiter"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            @foreach ($recruiter as $key => $user)
+                                            {{-- @foreach ($recruiter as $key => $user)
                                                 <option value="{{ $user->id }}">
                                                     {{ $user->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
                                         <label class="d-block font-size-3 mb-0">
-                                            Candidate List:
+                                            Candidate's Name:
                                         </label>
                                         <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            @foreach ($candidates as $key => $candidate)
+                                            {{-- @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
-                                                    {{ $candidate->first_name }}{{ $candidate->last_name }}</option>
-                                            @endforeach
+                                                    {{ $candidate->last_name }}</option>
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -91,11 +109,11 @@
                                         </label>
                                         <select multiple name="remarks" id="remarks"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabled>Select Option</option>
-                                            @foreach ($remarks_finance as $remarks)
+                                            {{-- <option disabled>Select Option</option> --}}
+                                            {{-- @foreach ($remarks_finance as $remarks)
                                                 <option value="{{ $remarks->remarks_for_finance }}">
                                                     {{ $remarks->remarks_for_finance }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -106,10 +124,10 @@
                                         </label>
                                         <select multiple name="team_id" id="team_id"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($teams as $team)
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($teams as $team)
                                                 <option value="{{ $team->name }}">{{ $team->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -131,12 +149,12 @@
                                         </label>
                                         <select multiple name="process" id="process"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($Userdata as $reprocess)
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($candidates as $reprocess)
                                                 <option value="{{ $reprocess->reprocess }}">
                                                     {{ $reprocess->reprocess }}
                                                 </option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -150,12 +168,12 @@
                                         </label>
                                         <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
                                             onchange="filterUserData()">
-                                            <option value="" disabled>Select Option</option>
-                                            @foreach ($client->options as $clientOptions)
+                                            {{-- <option value="" disabled>Select Option</option> --}}
+                                            {{-- @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
                                                 </option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -173,13 +191,13 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Process Status:
                                         </label>
-                                        <select name="appstatus" id="appstatus" class="w-100 form-control select2_dropdown"
-                                            onchange="filterUserData()">
-                                            <option disabaled> select option </option>
-                                            @foreach ($appstatus as $appstatuss)
-                                                <option value="{{ $appstatuss->app_status }}">
-                                                    {{ $appstatuss->app_status }}</option>
-                                            @endforeach
+                                        <select multiple name="appstatus" id="appstatus"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            <option value="FB">FB</option>
+                                            <option value="DONE">DONE</option>
+                                            <option value="RCVD">RCVD</option>
+                                            <option value="FFUP">FFUP</option>
+                                            <option value="OVERDUE">OVERDUE</option>
 
                                         </select>
                                     </div>
@@ -194,16 +212,16 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterData_div">
                     <div class="">
-                        <table id=" example1" class="table">
+                        <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell hideID">id</th>
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Reprocess</th>
                                     <th class="ant-table-cell">Candidate</th>
-
                                     <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">OB Date</th>
                                     <th class="ant-table-cell">Placement Fee</th>
                                     <th class="ant-table-cell">Remarks</th>
@@ -211,71 +229,10 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @forelse ( $Userdata as $key=>$value )
-                                    <tr class="bg-transparent common-tr hover-primary"
-                                        onclick="teamDetail(this,'{{ $value->C_id }}')">
-                                        <!-- Table data 1 -->
-                                        @php
-                                            $user = \App\User::where('id', $value->saved_by)->first();
-                                            $role = $user->roles->pluck('name');
-                                        @endphp
-                                        <td>
-                                            @if (isset($role[0]))
-                                                {{ $role[0] }}
-                                            @endif
-                                        </td>
-                                        @php
-                                            $name = \App\User::with('candidate_information')
-                                                ->where('id', $value->saved_by)
-                                                ->first();
-                                        @endphp
-                                        <td>{{ $name->name }}</td>
-                                        <td>{{ $value->reprocess }}</td>
-                                        <td>
-                                            @if (isset($value->first_name))
-                                                {{ $value->first_name }}
-                                            @endif
-                                        </td>
-
-                                        <td>{{ $value->career_endo }}</td>
-                                        <td>{{ $value->client }}</td>
-                                        <td>
-                                            @if (isset($value->onboardnig_date))
-                                                {{ $value->onboardnig_date }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->placement_fee))
-                                                {{ $value->placement_fee }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->remarks_for_finance))
-                                                {{ $value->remarks_for_finance }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (isset($value->app_status))
-                                                {{ $value->app_status }}
-
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                @empty
-                                    <tr>
-
-                                        <td> no data found</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
+                            <tbody class="hidetrID" style="height:100px"> </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+
 
                 </div>
                 <!-- Datatable code end-->
@@ -285,7 +242,7 @@
             </div>
             <div class="col-lg-6" id="detail_div">
                 <p class="C-Heading pt-3">Summary:</p>
-                <div class="card mb-13">
+                <div class="card mb-13" id="summaryDiv">
                     <div class="card-body">
                         <form action="">
                             <fieldset disabled="">
@@ -302,7 +259,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Computed Revenue:
+                                                Company Revenue:
                                             </label>
                                             <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                                 id="revenue" />
@@ -311,7 +268,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">
-                                                Revenue In Incentive:
+                                                Incentive Based Revenue:
                                             </label>
                                             <input type="text" id="Revenue_In_Incentive"
                                                 class="form-control users-input-S-C" placeholder="Rev.." />
@@ -459,7 +416,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
-                                                    Current Level:
+                                                    Career Level:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -540,6 +497,7 @@
                                                     Remarks:
                                                 </label>
                                                 <select name="" id="" class="w-100 form-control">
+                                                    <option selected disabled>Select Option </option>
                                                     <option value="1">Billed</option>
                                                     <option value="2">Two</option>
                                                     <option value="3">Three</option>
@@ -559,7 +517,7 @@
                                         <div class="col-lg-2 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Training date:
+                                                    Termination Date:
                                                 </label>
                                                 <input type="date" class="w-100 form-control users-input-S-C" />
                                             </div>
@@ -576,7 +534,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Payment terms:
+                                                    Payment Terms:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="total.." />
@@ -596,7 +554,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Replacement Date:
+                                                    Replacement For:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
@@ -672,7 +630,7 @@
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    Special consumption:
+                                                    Special Compensation:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." />
@@ -715,7 +673,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-1">
-                                        <div class="col-lg-3 p-1">
+                                        {{-- <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Reprocess:
@@ -723,8 +681,8 @@
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." disabled />
                                             </div>
-                                        </div>
-                                        <div class="col-lg-2 p-1">
+                                        </div> --}}
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     R.Share(%):
@@ -742,7 +700,7 @@
                                                     disabled />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     VCC Share(%):
@@ -751,17 +709,17 @@
                                                     placeholder="total.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
-                                                    VSA:
+                                                    VCC Share Amount:
                                                 </label>
                                                 <input type="text" class="w-100 form-control users-input-S-C" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mb-1">
-                                        <div class="col-lg-3 p-1">
+                                        {{-- <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Final Fee:
@@ -769,8 +727,8 @@
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="hires.." disabled />
                                             </div>
-                                        </div>
-                                        <div class="col-lg-2 p-1">
+                                        </div> --}}
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     O.Share(%):
@@ -788,7 +746,7 @@
                                                     disabled />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     C.Take(%):
@@ -797,7 +755,7 @@
                                                     placeholder="total.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     C. Take Amount:
@@ -805,6 +763,15 @@
                                                 <input type="text" class="form-control users-input-S-C" disabled />
                                             </div>
                                         </div>
+                                        {{-- <div class="col-lg-3 p-1">
+                                            <div class="form-group mb-0">
+                                                <label class="Label-00">
+                                                    Adjustment:
+                                                </label>
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="hires.." />
+                                            </div>
+                                        </div> --}}
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-lg-3 p-1">
@@ -816,13 +783,22 @@
                                                     placeholder="hires.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 p-1">
+                                        {{-- <div class="col-lg-4 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Individual Revenue:
                                                 </label>
                                                 <input type="text" class="form-control users-input-S-C"
                                                     placeholder="Rev.." />
+                                            </div>
+                                        </div> --}}
+                                        <div class="col-lg-3 p-1">
+                                            <div class="form-group mb-0">
+                                                <label class="Label-00">
+                                                    Final Fee:
+                                                </label>
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="hires.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 p-1">
@@ -831,7 +807,7 @@
 
                                                 </label>
                                                 <button
-                                                    class="font-size-small w-100 border-0 btn-00 users-input-S-C "><small>Update</small></button>
+                                                    class="font-size-small ml-5 w-100 border-0 btn-00 p-0 m-0"><small>Update</small></button>
                                             </div>
                                         </div>
                                     </div>
@@ -844,48 +820,315 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
 
 {{-- script section starts here --}}
 @section('script')
-
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {
-            var numberofHires = "{{ $hires }}";
-            var numberofBilled = "{{ $billed }}";
-            var numberofUnBilled = "{{ $unbilled }}";
-            var fallout = "{{ $fallout }}";
-            $('#hires').val(numberofHires);
-            $('#record').val(numberofHires);
-            $('#billed').val(numberofBilled);
-            $('#unbilled').val(numberofUnBilled);
-            $('#fallout').val(fallout);
+            load_datatable()
             select2Dropdown("select2_dropdown");
-            // $('#candidate').empty();
             // show and hide loader after time set starts
             $('#loader').show();
             setTimeout(function() {
                 $('#loader').hide();
-            }, 1000);
+            }, 10);
             // show and hide loader after time set ends
-
+            // call for summary append 
+            appendSummary(1)
+            appendFilterOptions()
+            // close 
         });
-        // Section for docement ready funciton starts
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
+        // close 
+
+        // ajax call for sumary append on documnet ready 
+        function appendSummary(array) {
+            // $("#loader").show();
+            // if (!array) {
+            // call Ajax for returning the data as view
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/summaryAppend_finance') }}',
+                data: {
+                    _token: token,
+                    array: array
+                },
+                // Success fucniton of Ajax
+                success: function(data) {
+                    $('#summaryDiv').html('');
+                    $('#summaryDiv').html(data);
+                }
             });
-        });
+            // }
+            // if (array) {
+            //     // call Ajax for returning the data as view
+            //     $.ajax({
+            //         type: "GET",
+            //         url: '{{ url('admin/summaryAppend_finance') }}',
+            //         data: {
+            //             _token: token,
+            //             array: array
+            //         },
+            //         // Success fucniton of Ajax
+            //         success: function(data) {
+            //             $('#summaryDiv').html('');
+            //             $('#summaryDiv').html(data);
+            //         }
+            //     });
+            // }
 
-        // funciton for getting detail of user starts 
-        function teamDetail(elem, id) {
+        }
+        //close
+
+        // show detail of record on click a row in data table 
+        $('#fmtable').on('click', 'tbody tr', function() {
+            // $(this).css('background-color','red')
+            $('tr').removeClass('hover-primary1');
+            $(this).addClass('hover-primary1');
+            let tdVal = $(this).children()[0];
+            var id = tdVal.innerHTML
+            console.log('id is ' + id)
+            userDetail(this, id)
+        })
+        // close 
+
+        // function for loading data in yajra on page load 
+        function load_datatable() {
+            var option_table = $('#fmtable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-finance-search-table') }}",
+                    type: "GET",
+                },
+                initComplete: function(settings, json) {
+                    // $('#searchKeyword').trigger('input');
+                    let tableID = $('#filterData_div').children().children().attr('id')
+                    if (tableID == 'fmtable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'fmtable1_wrapper') {
+                        countRecordFilter()
+                    }
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'team',
+                        name: 'team'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                    {
+                        data: 'process_status',
+                        name: 'process_status'
+                    },
+                ]
+            });
+        }
+        // close 
+
+        //append  dropdowns
+        function appendFilterOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/appendFinanceOptions') }}',
+                })
+                .done(function(res) {
+
+                    for (let i = 0; i < res.candidates.length; i++) {
+                        $('#candidate').append('<option value="' + res.candidates[i].cid + '">' + res.candidates[i]
+                            .last_name +
+                            '</option>')
+                    }
+                    for (let i = 0; i < res.candidates.length; i++) {
+                        $('#process').append('<option value="' + res.candidates[i].reprocess + '">' + res.candidates[i]
+                            .reprocess + '</option>')
+                    }
+                    for (let i = 0; i < res.recruiter.length; i++) {
+                        $('#recruiter').append('<option value="' + res.recruiter[i].id + '">' + res.recruiter[i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.remarks_finance.length; i++) {
+                        $('#remarks').append('<option value="' + res.remarks_finance[i].remarks_for_finance + '">' + res
+                            .remarks_finance[i]
+                            .remarks_for_finance + '</option>')
+                    }
+                    for (let i = 0; i < res.teams.length; i++) {
+                        $('#team_id').append('<option value="' + res.teams[i].name + '">' + res.teams[i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.client.length; i++) {
+
+                        $('#client').append('<option value="' + res.client[i].client + '">' + res.client[i].client +
+                            '</option>')
+                    }
+                    // for (let i = 0; i < res.appstatus.length; i++) {
+                    //     if (res.appstatus[i].app_status != '') {
+                    //         $('#appstatus').append('<option value="' + res.appstatus[i].app_status + '">' + res
+                    //             .appstatus[i]
+                    //             .app_status + '</option>')
+                    //     }
+                    // }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
+
+        function load_datatable1() {
+            // get values of selected inputs of users
+            searchKeyword = $('#searchKeyword').val();
+            recruiter = $('#recruiter').val();
+            appstatus = $('#appstatus').val();
+            team_id = $('#team_id').val();
+            candidate = $('#candidate').val();
+            remarks = $('#remarks').val();
+            team = $('#team').val();
+            // status = $('#status').val();
+            toDate = $('#to_ob_date').val();
+            ob_date = $('#ob_date').val();
+            client = $('#client').val();
+            process = $('#process').val();
+            ob_date = $('#ob_date').val();
+            var option_table = $('#fmtable1').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('financeRecordFilter') }}",
+                    type: "POST",
+                    data: {
+                        _token: token,
+                        // searchKeyword: searchKeyword,
+                        recruiter: recruiter,
+                        candidate: candidate,
+                        remarks: remarks,
+                        toDate: toDate,
+                        ob_date: ob_date,
+                        team: team,
+                        status: status,
+                        client: client,
+                        appstatus: appstatus,
+                        team_id: team_id,
+                        process: process,
+                    },
+                },
+                initComplete: function(settings, json) {
+                    // $('#searchKeyword').trigger('input');
+                    let tableID = $('#filterData_div').children().children().attr('id')
+
+                    if (tableID == 'fmtable_wrapper') {
+                        countRecord()
+                    }
+                    if (tableID == 'fmtable1_wrapper') {
+                        countRecordFilter()
+                    }
+                    appendSummary(json.array);
+                },
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'team',
+                        name: 'team'
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'reprocess',
+                        name: 'reprocess'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
+
+
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+
+                    {
+                        data: 'process_status',
+                        name: 'process_status'
+                    },
+
+
+                ]
+            });
+        }
+        //close 
+
+        // function for getting detail of user starts 
+        function userDetail(elem, id) {
+            $('#loader').show();
             $('.common-tr').removeClass('hover-primary1');
             $(elem).addClass('hover-primary1');
-            // $("#loader").show();
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "GET",
@@ -900,65 +1143,73 @@
                     // append retured view view to div 
                     $('#detailView').html('');
                     $('#detailView').html(data);
+                    $("#loader").hide();
 
                     // hide loader 
-                    $("#loader").hide();
                 },
             });
         }
-        // function closed 
+        // close
 
-        // funciton for filtering the data according to selected input starts
+        // function for filtering the data according to selected input starts
         function filterUserData() {
             $("#loader").show();
-
-            // get values of selected inputs of users
-            searchKeyword = $('#searchKeyword').val();
-            recruiter = $('#recruiter').val();
-            appstatus = $('#appstatus').val();
-            team_id = $('#team_id').val();
-            candidate = $('#candidate').val();
-            remarks = $('#remarks').val();
-            team = $('#team').val();
-            status = $('#status').val();
-            toDate = $('#to_ob_date').val();
-            ob_date = $('#ob_date').val();
-            client = $('#client').val();
-            process = $('#process').val();
-            ob_date = $('#ob_date').val();
-
             // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
-                url: '{{ url('admin/filter_records_finance') }}',
-                data: {
-                    _token: token,
-                    searchKeyword: searchKeyword,
-                    recruiter: recruiter,
-                    candidate: candidate,
-                    remarks: remarks,
-                    toDate: toDate,
-                    team: team,
-                    status: status,
-                    client: client,
-                    ob_date: ob_date,
-                    appstatus: appstatus,
-                    team_id: team_id,
-                    process: process,
-                },
-
-                // Success fucniton of Ajax
+                url: '{{ url('admin/filterView') }}',
                 success: function(data) {
                     $('#filterData_div').html(data);
-                    // $('#count').val(data.count);
                     $("#loader").hide();
-                    // appennd count value coming from hidden input of appended view to count
-                    // recordCount = $('#abc').val()
-                    // $('#recordNumber').val(recordCount)
+                    // load_datatable1();
                 },
             });
         }
-        // funciton for filtering the data according to selected input ends
+        // close
+
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('input', function() {
+            $('#fmtable_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable_filter').children().children().trigger('input');
+            $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
+            $('#fmtable1_filter').children().children().trigger('input');
+            let tableID = $('#filterData_div').children().children().attr('id')
+            if (tableID == 'fmtable_wrapper') {
+                countRecord()
+            }
+            if (tableID == 'fmtable1_wrapper') {
+                countRecordFilter()
+            }
+            // code for search only for summary //
+
+            $.ajax({
+                type: 'post',
+                url: '{{ url('admin/financeserachforsummary') }}',
+                data: {
+                    _token: token,
+                    searchKeyword: $('#searchKeyword').val()
+                },
+                success: function(res) {
+                    $('#summaryDiv').html('');
+                    $('#summaryDiv').html(res);
+
+                }
+            })
+        });
+
+        // count record on page load 
+        function countRecord() {
+            var count = $('#fmtable_info').text().split(' ');
+
+            $('#record').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#fmtable1_info').text().split(' ');
+            $('#record').val(count[5])
+        }
     </script>
 @endsection
 {{-- script seciton ends here --}}

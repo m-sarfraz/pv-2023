@@ -2,87 +2,179 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CandidateInformation;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
 use DB;
+use Helper;
 use Illuminate\Http\Request;
 use Str;
+use Yajra\DataTables\DataTables;
 
 class SmartSearchController extends Controller
 {
+    // private array for controller to summary append on filter change
+    private $candidate_arr = [];
+
+    // __construct() for checking permission
     public function __construct()
     {
         $this->middleware('permission:view-smart-search', ['only' => ['index']]);
     }
-    // index view of finance page starts
+    //close
+
+    // index function of finance page
     public function index(Request $request)
     {
-        $Userdata = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.id as C_id', 'candidate_informations.*', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*');
-        $domain = Domain::all();
-        $user_recruiter = User::where('type', 3)->get();
-
-        $page = $request->has('page') ? $request->get('page') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
-        $user = $Userdata->offset($page)
-            ->limit($limit)
-            ->paginate();
-        // qurries for summary section start
-        $sifted = count($user);
-        $onBoarded = count($Userdata->where('endorsements.remarks_for_finance', 'Onboarded')->get());
-        $failed = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Fail%')->get());
-        $withdrawn = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%Withdraw%')->get());
-        $rejected = count($Userdata->where('endorsements.remarks_for_finance', 'like', '%reject%')->get());
-        $accepted = count($Userdata->where('endorsements.remarks_for_finance', 'Offer accepted')->get());
-        $spr = count($Userdata->whereNotNull('finance.srp')->get());
-        $endo = count($Userdata->where('endorsements.app_status', 'To Be Endorsed')->get());
-        $active = count($Userdata->where('endorsements.app_status', 'Active File')->get());
-        $address = DB::Select("select address from candidate_informations where  address!='' group by address");
-        // close
-        $data = [
-            'Userdata' => $user,
-            'domain' => $domain,
-            'user_recruiter' => $user_recruiter,
-            'sifted' => $sifted,
-            'endo' => $endo,
-            'active' => $active,
-            'onBoarded' => $onBoarded,
-            'spr' => $spr,
-            'accepted' => $accepted,
-            'failed' => $failed,
-            'withdrawn' => $withdrawn,
-            'rejected' => $rejected,
-            'address' => $address,
-        ];
-
-        return view('smartSearch.smart_search', $data);
+        return view('smartSearch.smart_search');
     }
     // close
 
-    // filter record on basis on coming selected options starts
+    // append drop down options on page load
+    public function appendSmartFilters()
+    {
+        $domain = Domain::all();
+        $user_recruiter = User::where('type', 3)->get();
+        $client = Helper::get_dropdown('clients');
+        $address = DB::Select("select address from candidate_informations where  address!='' group by address");
+        $remarks = Helper::get_dropdown('remarks_for_finance');
+        $status = Helper::get_dropdown('data_entry_status');
+
+        // close
+        return response()->json(
+            [
+                'domain' => $domain,
+                'user_recruiter' => $user_recruiter,
+                'client' => $client,
+                'address' => $address,
+                'status' => $status,
+                'remarks' => $remarks,
+            ]
+        );
+    }
+    //close
+
+    // convert table to yajra data table on page load
+    public function smartTOYajra()
+    {
+        $allData = DB::Select('select * from smart_view');
+        return Datatables::of($allData)
+        // ->addIndexColumn()
+            ->addColumn('recruiter', function ($allData) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
+                return $allData->recruiter;
+            })
+            ->addColumn('candidate', function ($allData) {
+                // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
+                return $allData->last_name;
+            })
+            ->addColumn('client', function ($allData) {
+                return $allData->client;
+            })
+            ->addColumn('position_title', function ($allData) {
+                return $allData->position_title;
+            })
+            ->addColumn('email', function ($allData) {
+                return $allData->email;
+            })
+            ->addColumn('phone', function ($allData) {
+                return $allData->phone;
+            })
+            ->addColumn('gender', function ($allData) {
+                return $allData->gender;
+            })
+            ->addColumn('domain', function ($allData) {
+                return $allData->domain;
+            })
+            ->addColumn('candidate_profile', function ($allData) {
+
+                return $allData->candidate_profile;
+            })
+            ->addColumn('educational_attain', function ($allData) {
+                return $allData->educational_attain;
+            })
+            ->addColumn('curr_salary', function ($allData) {
+                return $allData->curr_salary;
+            })
+            ->addColumn('portal', function ($allData) {
+                return "N/A";
+            })
+            ->addColumn('date_shifted', function ($allData) {
+                if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
+                    $date_shifted = date_format(date_create($allData->date_shifted), "m-d-Y");
+                    return $date_shifted;
+                } else {
+                    $allData->date_shifted = '';
+                }
+            })
+
+            ->addColumn('career_endo', function ($allData) {
+                return $allData->career_endo;
+            })
+            ->addColumn('app_status', function ($allData) {
+                return $allData->status;
+            })
+            ->addColumn('endi_date', function ($allData) {
+                if (!empty($allData->endi_date && $allData->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($allData->endi_date), "m-d-Y");
+                    return $endi_date;
+                } else {
+                    $allData->endi_date = '';
+                }
+            })
+            ->addColumn('remarks_for_finance', function ($allData) {
+                return $allData->remarks_for_finance;
+            })
+            ->addColumn('category', function ($allData) {
+                return $allData->category;
+
+            })
+            ->addColumn('srp', function ($allData) {
+                return $allData->srp;
+            })
+            ->addColumn('onboardnig_date', function ($allData) {
+                if (!empty($allData->onboardnig_date && $allData->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($allData->onboardnig_date), "m-d-Y");
+                    return $onboardnig_date;
+                } else {
+                    $allData->onboardnig_date = '';
+                }
+            })
+            ->addColumn('placement_fee', function ($allData) {
+                return $allData->placement_fee;
+            })
+            ->addColumn('address', function ($allData) {
+                return $allData->address;
+            })
+
+            ->rawColumns(['recruiter', 'candidate', 'client', 'position_title', 'email', 'phone', 'gender',
+                'domain', 'educational_attain', 'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance'
+                , 'category', 'srp', 'onboardnig_date', 'placement_fee', 'address'])
+            ->make(true);
+
+    }
+    //close
+
+    // filter record on basis of seelcted dropdowns
     public function filterSearch(Request $request)
     {
         $data = [];
         $check = $searchCheck = false;
         // return $request->all();
-        $Userdata = DB::table('six_table_view');
+        $Userdata = DB::table('smart_view');
         //    check null values coming form selected options
         if (isset($request->domain)) {
-            $Userdata->whereIn('six_table_view.domain', $request->domain);
+            $Userdata->whereIn('smart_view.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-            return $request->recruiter;
-            $Userdata->whereIn('six_table_view.saved_by', $request->recruiter);
+            $Userdata->whereIn('smart_view.saved_by', $request->recruiter);
+        }
+        if (isset($request->status)) {
+            $Userdata->whereIn('smart_view.status', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
-            $Userdata->whereIn('six_table_view.client', $request->client);
+            $Userdata->whereIn('smart_view.client', $request->client);
         }
         if ($request->cip == 1) {
             $stageArray = [
@@ -132,160 +224,264 @@ class SmartSearchController extends Controller
                 'Position On Hold (Final Stage)',
                 'Shortlisted',
             ];
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $stageArray);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $stageArray);
         }
         if (isset($request->residence)) {
-            $Userdata->whereIn('six_table_view.address', $request->residence);
+            $Userdata->whereIn('smart_view.address', $request->residence);
         }
         if (isset($request->career_level)) {
-
-
-            $Userdata->whereIn('six_table_view.career_endo', $request->career_level);
+            $Userdata->whereIn('smart_view.career_endo', $request->career_level);
         }
         if (isset($request->category)) {
-            $Userdata->whereIn('six_table_view.remarks_for_finance', $request->category);
+            $Userdata->whereIn('smart_view.category', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('six_table_view.remarks', $request->remarks);
+            $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_start)) {
-            $Userdata->where('six_table_view.onboardnig_date', '>=', $request->ob_start);
+            $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
         }
         if (isset($request->ob_end)) {
-            $Userdata->where('six_table_view.onboardnig_date', '<=', $request->ob_end);
+            $Userdata->whereDate('smart_view.onboardnig_date', '<=', $request->ob_end);
         }
         if (isset($request->sift_start)) {
-            $Userdata->where('six_table_view.date_shifted', '>=', $request->sift_start);
+            $Userdata->whereDate('smart_view.date_shifted', '>=', $request->sift_start);
         }
         if (isset($request->sift_end)) {
-            $Userdata->where('six_table_view.date_shifted', '<=', $request->sift_end);
+            $Userdata->whereDate('smart_view.date_shifted', '<=', $request->sift_end);
         }
         if (isset($request->endo_start)) {
-            $Userdata->where('six_table_view.endi_date', '>=', $request->endo_start);
+            $Userdata->whereDate('smart_view.endi_date', '>=', $request->endo_start);
         }
         if (isset($request->endo_end)) {
-            $Userdata->where('six_table_view.endi_date', '<=', $request->endo_end);
+            $Userdata->whereDate('smart_view.endi_date', '<=', $request->endo_end);
         }
-        //start search
-        if (isset($request->searchKeyword)) {
-            $searchCheck = true;
-            $perfect_match = DB::table("six_table_view")->get();
+        $user = $Userdata->get();
+        // return $user;
+        $this->candidate_arr = $Userdata->pluck('candidate_id')->toArray();
+        return Datatables::of($user)
+            ->addColumn('recruiter', function ($Userdata) {
+                return $Userdata->recruiter;
+            })
+            ->addColumn('candidate', function ($Userdata) {
+                return $Userdata->last_name;
+            })
+            ->addColumn('client', function ($user) {
+                return $user->client;
+            })
+            ->addColumn('position_title', function ($allData) {
+                return $allData->position_title;
+            })
+            ->addColumn('email', function ($allData) {
+                return $allData->email;
+            })
+            ->addColumn('phone', function ($allData) {
+                return $allData->phone;
+            })
+            ->addColumn('gender', function ($user) {
+                return $user->gender;
+            })
+            ->addColumn('domain', function ($user) {
+                return $user->domain;
+            })
+            ->addColumn('candidate_profile', function ($user) {
+                return $user->candidate_profile;
+            })
+            ->addColumn('educational_attain', function ($user) {
+                return $user->educational_attain;
+            })
+            ->addColumn('curr_salary', function ($user) {
+                return $user->curr_salary;
+            })
+            ->addColumn('portal', function ($user) {
+                return "N/A";
+            })
+            ->addColumn('date_shifted', function ($user) {
+                if (!empty($user->date_shifted && $user->date_shifted != '0000-00-00')) {
+                    $date_shifted = date_format(date_create($user->date_shifted), "m-d-Y");
+                    return $date_shifted;
+                } else {
+                    $user->date_shifted = '';
+                }
+            })
+            ->addColumn('career_endo', function ($user) {
+                return $user->career_endo;
+            })
+            ->addColumn('app_status', function ($user) {
+                return $user->status;
+            })
+            ->addColumn('endi_date', function ($user) {
+                if (!empty($user->endi_date && $user->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($user->endi_date), "m-d-Y");
+                    return $endi_date;
+                } else {
+                    $user->endi_date = '';
+                }
+            })
+            ->addColumn('remarks_for_finance', function ($user) {
+                return $user->remarks_for_finance;
+            })
+            ->addColumn('category', function ($user) {
+                return $user->category;
 
-
-            foreach ($perfect_match as $match) {
-                if (strpos(strtolower($match->domain), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.domain', 'like', '%' . $request->searchKeyword . '%');
+            })
+            ->addColumn('srp', function ($user) {
+                return $user->srp;
+            })
+            ->addColumn('onboardnig_date', function ($user) {
+                if (!empty($user->onboardnig_date && $user->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
+                    return $onboardnig_date;
+                } else {
+                    $user->onboardnig_date = '';
                 }
-                if (strpos(strtolower($match->saved_by),strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.saved_by', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->client), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.client', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.remarks_for_finance', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->address), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.address', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.career_endo', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->remarks), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.remarks', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->onboardnig_date), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.onboardnig_date', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->date_shifted), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.date_shifted', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->endi_date), strtolower($request->searchKeyword))!== false) {
-                    $check = true;
-                    $Userdata->where('six_table_view.endi_date', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->gender), strtolower($request->searchKeyword))!== false) {
-                 
-                    $check = true;
-                    $Userdata->where('six_table_view.gender', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->candidate_profile), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.candidate_profile', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->educational_attain), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.educational_attain', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->app_status), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.app_status', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->first_name), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.first_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.last_name', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->curr_salary), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.curr_salary', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.placement_fee', 'like', '%' . $request->searchKeyword . '%');
-                }
-                if (strpos(strtolower($match->srp), strtolower($request->searchKeyword))!== false) {
-                  
-                    $check = true;
-                    $Userdata->where('six_table_view.srp', 'like', '%' . $request->searchKeyword . '%');
-                }
-            }
-        }
-        if ($check) {
-
-            $user = $Userdata->get();
-        } else {
-            if (!$check && !$searchCheck) {
-                $user = $Userdata->get();
-            } else {
-                $user = [];
-            }
-        }
-        
-        $onBoarded = count($Userdata->get());
-
-        $data = [
-
-            'Userdata' => $user,
-            'onBoarded' => $onBoarded,
-        ];
-        return view('smartSearch.filter_result', $data);
+            })
+            ->addColumn('placement_fee', function ($user) {
+                return $user->placement_fee;
+            })
+            ->addColumn('address', function ($user) {
+                return $user->address;
+            })
+            ->addColumn('saved_by', function ($user) {
+                $name = DB::select('select name from  users where id=' . $user->saved_by);
+                return $name[0]->name;
+            })
+            ->with([
+                'array' => $this->candidate_arr,
+            ])
+            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
+                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance', 'category',
+                'srp', 'onboardnig_date', 'placement_fee', 'address'])
+            ->make(true);
 
         // close
-
     }
     // close
-    private function getRecordSummary($mainObject, $target, $condition)
+
+    // append summary on page load or filter change
+    public function summaryAppend(Request $request)
     {
-        return count($mainObject->where($target, $condition)->get());
+        if ($request->array == 1) {
+            $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
+                ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
+                ->select(
+                    DB::raw("SUM(finance.srp) as t_srp"),
+                    'finance.srp',
+                    DB::raw("SUM(finance.placement_fee) as t_placement_fee"),
+                    DB::raw("SUM(candidate_positions.curr_salary) as t_salary"),
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                );
+        } elseif (isset($request->array)) {
+            $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
+                ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
+                ->select(
+                    DB::raw("SUM(finance.srp) as t_srp"),
+                    'finance.srp',
+                    DB::raw("SUM(finance.placement_fee) as t_placement_fee"),
+                    DB::raw("SUM(candidate_positions.curr_salary) as t_salary"),
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                )
+                ->whereIn('finance.candidate_id', $request->array);
+        } else {
+            $data = [
+                'endo' => 0,
+                'active' => 0,
+                'onBoarded' => 0,
+                'failed' => 0,
+                'accepted' => 0,
+                'rejected' => 0,
+                'final' => 0,
+                'mid' => 0,
+                'initial' => 0,
+                'withdrawn' => 0,
+                'fallout' => 0,
+                'revenue' => 0,
+                'spr' => 0,
+                'activeSPR' => 0,
+                'salary' => 0,
+            ];
+            return view('smartSearch.summary', $data);
+        }
+        $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        if (strpos($sql, 'where') !== false) {
+            $sql_salary = DB::select($sql);
+            $sql_enors = $sql . "and endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
+            $sql_active = $sql . "and endorsements.app_status='Active File' group by `finance`.`candidate_id`";
+            $sql_onboarded = $sql . "and endorsements.remarks_for_finance='Onboarded' group by `finance`.`candidate_id`";
+            $sql_failed = $sql . "and endorsements.remarks_for_finance LIKE '%fail%' group by `finance`.`candidate_id` ";
+            $sql_accepted = $sql . "and endorsements.remarks_for_finance LIKE '%accept%' group by `finance`.`candidate_id` ";
+            $sql_withdrawn = $sql . "and endorsements.remarks_for_finance LIKE '%withdraw%'  group by `finance`.`candidate_id`";
+            $sql_reject = $sql . "and endorsements.remarks_for_finance LIKE '%reject%' group by `finance`.`candidate_id` ";
+            $sql_final = $sql . "and endorsements.remarks_for_finance LIKE '%final%' group by `finance`.`candidate_id` ";
+            $sql_mid = $sql . "and endorsements.remarks_for_finance LIKE '%mid%' group by `finance`.`candidate_id` ";
+            $sql_initial = $sql . "and endorsements.remarks_for_finance LIKE '%initial%' group by `finance`.`candidate_id` ";
+            $sql_fallout = $sql . " and endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' group by `finance`.`candidate_id`  ";
+            $sql_active_spr = $sql . " and endorsements.remarks_for_finance LIKE '%final%' OR endorsements.remarks_for_finance LIKE '%mid%'  group by `finance`.`candidate_id`  ";
+            $sql_revenue = DB::select($sql);
+            $sql_spr = DB::select($sql);
+            $active_spr = DB::select($sql);
+            $sql_getActive_spr = DB::select($sql_active_spr);
+        } else {
+            $sql_salary = DB::select($sql);
+            $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
+            $sql_active = $sql . "where endorsements.app_status='Active File' group by `finance`.`candidate_id`";
+            $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded' group by `finance`.`candidate_id`";
+            $sql_failed = $sql . "where endorsements.remarks_for_finance LIKE '%fail%' group by `finance`.`candidate_id` ";
+            $sql_accepted = $sql . "where endorsements.remarks_for_finance LIKE '%accept%' group by `finance`.`candidate_id` ";
+            $sql_withdrawn = $sql . "where endorsements.remarks_for_finance LIKE '%withdraw%'  group by `finance`.`candidate_id`";
+            $sql_reject = $sql . "where endorsements.remarks_for_finance LIKE '%reject%' group by `finance`.`candidate_id` ";
+            $sql_final = $sql . "where endorsements.remarks_for_finance LIKE '%final%' group by `finance`.`candidate_id` ";
+            $sql_mid = $sql . "where endorsements.remarks_for_finance LIKE '%mid%' group by `finance`.`candidate_id` ";
+            $sql_initial = $sql . "where endorsements.remarks_for_finance LIKE '%initial%' group by `finance`.`candidate_id` ";
+            $sql_fallout = $sql . " where endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' group by `finance`.`candidate_id`  ";
+            $sql_active_spr = $sql . " where endorsements.remarks_for_finance LIKE '%final%' OR endorsements.remarks_for_finance LIKE '%mid%'  group by `finance`.`candidate_id`  ";
+            $sql_revenue = DB::select($sql);
+            $sql_spr = DB::select($sql);
+            $active_spr = DB::select($sql);
+            $sql_getActive_spr = DB::select($sql_active_spr);
+        }
+        $sql_spr_amount = 0;
+        $sql_active_spr_amount = 0;
+        $sql_revenue_amount = 0;
+        $total_salary = 0;
+        foreach ($sql_spr as $spr) {
+            $sql_spr_amount = ceil($sql_spr_amount + $spr->t_srp);
+        }
+        foreach ($sql_getActive_spr as $active) {
+            $sql_active_spr_amount = ceil($sql_active_spr_amount + $active->t_srp);
+        }
+        foreach ($sql_revenue as $revenue) {
+            $sql_revenue_amount = ceil($sql_revenue_amount + $revenue->t_placement_fee);
+        }
+        foreach ($sql_salary as $salary) {
+            $total_salary = ceil($total_salary + $revenue->t_salary);
+        }
+        $data = [
+            'endo' => count(DB::select($sql_enors)),
+            'active' => count(DB::select($sql_active)),
+            'onBoarded' => count(DB::select($sql_onboarded)),
+            'failed' => count(DB::select($sql_failed)),
+            'accepted' => count(DB::select($sql_accepted)),
+            'rejected' => count(DB::select($sql_reject)),
+            'final' => count(DB::select($sql_final)),
+            'mid' => count(DB::select($sql_mid)),
+            'initial' => count(DB::select($sql_initial)),
+            'withdrawn' => count(DB::select($sql_withdrawn)),
+            'fallout' => count(DB::select($sql_fallout)),
+            'revenue' => $sql_revenue_amount,
+            'spr' => $sql_spr_amount,
+            'activeSPR' => $sql_spr_amount,
+            'salary' => $total_salary,
+        ];
+        // return $data;
+        return view('smartSearch.summary', $data);
+    }
+    //close
+    public function searchsummary(Request $request)
+    {
     }
 }

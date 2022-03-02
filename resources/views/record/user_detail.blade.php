@@ -7,10 +7,10 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">
-                                Canidate Name*:
+                                Candidate's Name:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->first_name }}">
+                                value="{{ $user->last_name }}">
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -20,7 +20,8 @@
                             @endphp
                             <label class="Label">Gender:</label>
                             <select class="w-100 form-control" name="gender">
-                                <option value=""  {{ $user->gender == null ? 'selected' : '' }} disabled>select option</option>
+                                <option value="" {{ $user->gender == null ? 'selected' : '' }} disabled>select option
+                                </option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
                                         {{ $user->gender == $genderOptions->option_name ? 'selected' : '' }}>
@@ -43,7 +44,7 @@
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
-                            <label class="Label">Email:</label>
+                            <label class="Label">Email Address:</label>
                             <input type="text" class="form-control users-input-S-C" placeholder="enter email"
                                 name="email" value="{{ $user->email }}" />
                             <div>
@@ -68,7 +69,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="d-block font-size-3 mb-0">
-                                Residendce
+                                Residence
                             </label>
                             <input type="text" class="form-control users-input-S-C" value="{{ $user->address }}"
                                 name="address" />
@@ -80,7 +81,7 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             <label class="d-block font-size-3 mb-0">
-                                Shifted Date:
+                                Date Sifted:
                             </label>
                             <input type="date" class="form-control users-input-S-C" name="date_shifted"
                                 value="{{ Carbon\Carbon::parse($user->date_shifted)->format('Y-m-d') }}" />
@@ -91,33 +92,44 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
+                            <?php
+                            $source = Helper::get_dropdown('source');
+                            ?>
                             <label class="d-block font-size-3 mb-0">
                                 Source
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="source" />
+                            <select name="SOURCE" class=" form-control p-0 EmailInput-F" id="SOURCE">
+                                <option value="" {{ $user->source == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
+                                @foreach ($source->options as $sourceOptions)
+                                    <option value="{{ $sourceOptions->option_name }}"
+                                        {{ strtolower($user->source) == strtolower($sourceOptions->option_name) ? 'selected' : '' }}>
+                                        {{ $sourceOptions->option_name }}</option>
+                                @endforeach
+                            </select>
                             <div>
                                 <small class="text-danger"></small>
                             </div>
-                            <div>
-                                <small class="text-danger"></small>
-                            </div>
+
+
                         </div>
                     </div>
                 </div>
                 <div class="row mb-1">
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
-                            <label class="Label">Educational Attachment</label>
+                            <label class="Label">Educational Attainment</label>
                             <?php
                             $eduAttainment = Helper::get_dropdown('educational_attainment');
                             ?>
 
                             <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                <option value=""  {{ $user->educational_attain == null ? 'selected' : '' }}  disabled>Select Option</option>
+                                <option value="" {{ $user->educational_attain == null ? 'selected' : '' }} disabled>
+                                    Select Option</option>
                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                     <option value="{{ $eduAttainmentOptions->option_name }}"
-                                        {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->educational_attain) == strtolower($eduAttainmentOptions->option_name) ? 'selected' : '' }}>
                                         {{ $eduAttainmentOptions->option_name }}</option>
                                 @endforeach
                             </select>
@@ -145,10 +157,10 @@
                                 Manner of Invite:
                             </label>
                             <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
-                                <option {{ $user->manner_of_invite == null ? 'selected' : ''}} disabled></option>
+                                <option {{ $user->manner_of_invite == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                     <option value="{{ $manner_of_inviteOption->option_name }}"
-                                        {{ $user->manner_of_invite == $manner_of_inviteOption->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->manner_of_invite) == strtolower($manner_of_inviteOption->option_name) ? 'selected' : '' }}>
                                         {{ $manner_of_inviteOption->option_name }}
                                     </option>
                                 @endforeach
@@ -166,18 +178,19 @@
                             $course = Helper::get_dropdown('course');
                             ?>
                             <label class="Label">Course:</label>
-                            <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
-                                <option {{ $user->course == null ? 'selected' : ''}} disabled>Select Option</option>
+                            <input type="text" name="COURSE" class="form-control" value="{{ $user->course }}">
+                            {{-- <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+                                <option {{ $user->course == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
-                                    <option value="{{ $courseOptions->option_name }}" @if ($user->course != null) {
-                                        {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
-                                        }
+                                <option value="{{ strtoupper($courseOptions->option_name) }}" @if ($user->course != null)
+                                        {{ strtoupper($courseOptions->option_name)==strtoupper($user->course) ? 'selected' : '' }}
+
                                 @endif
                                 >
-                                {{ $courseOptions->option_name }}
+                                {{ strtoupper($courseOptions->option_name) }}
                                 </option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -211,14 +224,17 @@
                 </div>
                 <div class="row mb-1">
                     <div class="col-lg-6">
+
                         <div class="form-group mb-0">
                             <label class="Label">Domain</label>
+
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
                                 onchange="DomainChange(this)">
-                                <option {{ $user->domains == null ? 'selected' : ''}}  disabled>Select Option</option>
+                                <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
                                 @foreach ($domainDrop as $domainOption)
                                     <option value="{{ $domainOption->id }}"
-                                        {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->domain) == strtolower($domainOption->domain_name) ? 'selected' : '' }}>
                                         {{ $domainOption->domain_name }}</option>
                                 @endforeach
                             </select>
@@ -256,16 +272,18 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
-                                $segments = Helper::get_dropdown('segments');
+                                $segments = DB::select('select * from segments');
                             @endphp
+
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
                                 onchange="SegmentChange(this)">
-                                <option {{ $user->segment == null ? 'selected' : ''}}  disabled>Select Option</option>
-                                @foreach ($segments->options as $segmentsOptions)
+                                <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
+                                @foreach ($segments as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
-                                        {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->option_name }}
+                                        {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
+                                        {{ $segmentsOptions->segment_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -277,17 +295,20 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             @php
-                                $sub_segment = Helper::get_dropdown('sub_segment');
+                                $sub_segments = DB::select('select * from sub_segments');
                             @endphp
                             <label class="Label">
-                                Sub Segment:
+                                Sub-Segment:
                             </label>
+
                             <select name="sub_segment" id="Domain_sub_segment"
                                 class="form-control p-0 users-input-S-C">
-                                <option disabled>Select Option</option>
-                                @foreach ($sub_segment->options as $sub_segmentOptions)
-                                    <option value="{{ $sub_segmentOptions->id }}">
-                                        {{ $sub_segmentOptions->option_name }}
+                                <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
+                                @foreach ($sub_segments as $Options)
+                                    <option value="{{ $Options->id }}"
+                                        {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
+                                        {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -315,13 +336,13 @@
                         $profile = Helper::get_dropdown('candidates_profile');
                         ?>
                         <div class="form-group mb-0">
-                            <label class="Label">Profile:</label>
+                            <label class="Label">Candidate’s Profile:</label>
                             <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
                                 class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
-                                <option {{ $user->candidate_profile == null ? 'selected' : ''}}  disabled></option>
+                                <option {{ $user->candidate_profile == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($profile->options as $profileOption)
                                     <option value="{{ $profileOption->option_name }}"
-                                        {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->candidate_profile) == strtolower($profileOption->option_name) ? 'selected' : '' }}>
                                         {{ $profileOption->option_name }}
                                     </option>
                                 @endforeach
@@ -336,8 +357,9 @@
                             <label class="Label">
                                 Date Processed:
                             </label>
-                            <input type="date" class="form-control users-input-S-C" nmae="date_processed"
-                                value="{{ Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') }}" />
+                            <input type="date" class="form-control users-input-S-C" name="date_processed"
+                                id="date_processed"
+                                value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -353,11 +375,12 @@
                             </label>
                             <select name="APPLICATION_STATUS" id="ap_status"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                <option {{ $user->app_status == null ? 'selected' : ''}}  disabled>Select Option</option>
+                                <option {{ $user->app_status == null ? 'selected' : '' }} disabled>Select Option
+                                </option>
                                 {{-- @dd($user->app_status) --}}
                                 @foreach ($status->options as $statusOptions)
                                     <option value="{{ $statusOptions->option_name }}"
-                                        {{ $user->app_status == $statusOptions->option_name ? 'selected' : '' }}>
+                                        {{ strtolower($user->app_status) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
                                         {{ $statusOptions->option_name }}
                                     </option>
                                 @endforeach
@@ -382,7 +405,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">
-                                Shifted By:
+                                Sifted By:
                             </label>
                             <input type="text" class="form-control users-input-S-C" name="shifted_by" />
                             <div>
@@ -403,7 +426,7 @@
                         <div class="pt-3">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                    Recruitment Process:
+                                    Employment History:
                                 </label>
                                 <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                     class="form-control border E_H h-px-20_custom"
@@ -416,18 +439,30 @@
                         <div class="form-group mb-0">
                             <?php
                             $certificate = Helper::get_dropdown('certifications');
+                            $arr = explode(',', $user->certification);
                             ?>
-                            <label class="d-block font-size-3 mb-0">
-                                Certification:
+
+                            <label class="Label">
+                                CERTIFICATIONS
                             </label>
-                            <select name="CERTIFICATIONS" class="form-control users-input-S-C">
-                                <option {{ $user->certification == null ? 'selected' : ''}}  disabled></option>
+                            {{-- @dd( $arr ) --}}
+                            <select multiple name="CERTIFICATIONS[]" id="certificate"
+                                class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                <option disabled></option>
+                                @foreach ($certificate->options as $certificateOption)
+                                    <option value="{{ $certificateOption->option_name }}"
+                                        {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }}>
+                                        {{ $certificateOption->option_name }}</option>
+                                @endforeach
+                            </select>
+                            {{-- <select name="CERTIFICATIONS" class="form-control users-input-S-C">
+                                <option {{ $user->certification == null ? 'selected' : '' }} disabled></option>
                                 @foreach ($certificate->options as $certificateOption)
                                     <option value="{{ $certificateOption->option_name }}"
                                         {{ $user->certification == $certificateOption->option_name ? 'selected' : '' }}>
                                         {{ $certificateOption->option_name }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -446,12 +481,13 @@
                                                     <label class="Label-00">
                                                         Endorsement Type:
                                                     </label>
-                                                    <select name="ENDORSEMENT_TYPE" id=""
+                                                    <select name="ENDORSEMENT_TYPE" id="endo_type"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option {{ $user->type == null ? 'selected' : ''}}   disabled>Select Option</option>
+                                                        <option {{ $user->type == null ? 'selected' : '' }} disabled>
+                                                            Select Option</option>
                                                         @foreach ($endoType->options as $endoTypeOptions)
                                                             <option value="{{ $endoTypeOptions->option_name }}"
-                                                                {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->type) == strtolower($endoTypeOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $endoTypeOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -470,11 +506,13 @@
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" id="career"
+                                                        onchange="DomainSegmentAppend()"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option {{ $user->career_endo == null ? 'selected' : ''}}  disabled>Select Option</option>
+                                                        <option {{ $user->career_endo == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                             <option value="{{ $CareerLevelOptions->option_name }}"
-                                                                {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->career_endo) == strtolower($CareerLevelOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $CareerLevelOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -494,10 +532,11 @@
                                                     <label class="Label-00">Site</label>
                                                     <select name="SITE" id="site"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option {{ $user->site == null ? 'selected' : ''}} disabled>Select Option</option>
+                                                        <option {{ $user->site == null ? 'selected' : '' }} disabled>
+                                                            Select Option</option>
                                                         @foreach ($site->options as $siteOptions)
                                                             <option value="{{ $siteOptions->option_name }}"
-                                                                {{ $user->site == $siteOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->site) == strtolower($siteOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $siteOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -510,18 +549,20 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <label class="Label-00 ">
-                                                        Remarks (for Finance)
+                                                        Remarks (For Finance)
                                                     </label>
-                                                    <select name="REMARKS_FOR_FINANCE" disabled=""
-                                                        id="remarks_for_finance" onchange="RemarksChange(this)"
+                                                    <select name="REMARKS_FOR_FINANCE" id="remarks_for_finance"
+                                                        onchange="RemarksChange(this)"
                                                         class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
                                                         @endphp
-                                                        <option {{ $user->remarks_for_finance == null ? 'selected' : ''}} disabled>Select Option</option>
+                                                        <option
+                                                            {{ $user->remarks_for_finance == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
-                                                                {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->remarks_for_finance) == strtolower($remarksOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $remarksOptions->option_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -533,21 +574,24 @@
                                         </div>
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
+                                                @php
+                                                    $client = Helper::get_dropdown('clients');
+                                                @endphp
                                                 <div class="form-group mb-0">
-                                                    @php
-                                                        $client = Helper::get_dropdown('clients');
-                                                    @endphp
+
                                                     <label class="Label-00">
                                                         Client
                                                     </label>
                                                     {{-- @dd($user->client) --}}
                                                     <select name="CLIENT_FINANCE"
+                                                        onchange="clientChanged('position-title',this)"
                                                         class="form-control border h-px-20_custom w-100"
-                                                        id="client_finance" disabled="">
-                                                        <option  {{ $user->client == null ? 'selected' : ''}} disabled>Select Option</option>
+                                                        id="client_finance">
+                                                        <option {{ $user->client == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
                                                             <option value="{{ $clientOptions->option_name }}"
-                                                                {{ $user->client == $clientOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->client) == strtolower($clientOptions->client) ? 'selected' : '' }}>
                                                                 {{ $clientOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -560,17 +604,18 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $status = Helper::get_dropdown('status');
+                                                        $status = Helper::get_dropdown('data_entry_status');
                                                     @endphp
                                                     <label class="Label-00">
                                                         Status:
                                                     </label>
-                                                    <select name="STATUS" id="status" disabled=""
+                                                    <select name="STATUS" id="status"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option  {{ $user->status == null ? 'selected' : ''}} disabled>Select Option</option>
+                                                        <option {{ $user->status == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($status->options as $statusOptions)
                                                             <option value="{{ $statusOptions->option_name }}"
-                                                                {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->status) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $statusOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -592,13 +637,14 @@
                                                     <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
-                                                    <select name="POSITION_TITLE" id="position" onchange="Fetch_profile()"
+                                                    <select name="POSITION_TITLE" id="position" {{-- onchange="Fetch_profile()" --}}
                                                         class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option {{ $user->position_title == null ? 'selected' : ''}}  disabled>Select Option</option>
-                                                        @foreach ($position_title->options as $position_titleOptions)
-                                                            <option value="{{ $position_titleOptions->option_name }}"
-                                                                {{ $user->position_title == $siteOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $position_titleOptions->option_name }}
+                                                        <option {{ $user->position_title == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
+                                                        @foreach ($pos_title as $position_titleOptions)
+                                                            <option value="{{ $position_titleOptions->position }}"
+                                                                {{ strtolower($user->position_title) == strtolower($position_titleOptions->position) ? 'selected' : '' }}>
+                                                                {{ $position_titleOptions->position }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -617,7 +663,8 @@
                                                     </label>
                                                     <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option {{ $user->rfp == null ? 'selected' : ''}} disabled>Select Option</option>
+                                                        <option {{ $user->rfp == null ? 'selected' : '' }} disabled>
+                                                            Select Option</option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                                             {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
                                                             <option value="{{ $ReasonForNotPOptions->option_name }}">
@@ -637,12 +684,14 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
-                                                    <select name="DOMAIN_endo" id="domain_endo" onchange="DomainChange(this)"
+                                                    <select name="DOMAIN_endo" id="domain_endo"
+                                                        onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
-                                                        <option {{ $user->domain == null ? 'selected' : ''}}  disabled>Select Option</option>
+                                                        <option {{ $user->domain == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
                                                             <option value="{{ $domainOption->id }}"
-                                                                {{ $user->domain == $domainOption->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->domain) == strtolower($domainOption->option_name) ? 'selected' : '' }}>
                                                                 {{ $domainOption->domain_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -667,18 +716,20 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $segments = Helper::get_dropdown('segments');
+                                                        $segments = DB::select('select * from segments');
                                                     @endphp
-                                                    <label class="Label-00">
-                                                        Segment:
-                                                    </label>
+
+                                                    <label class="Label">Segment:</label>
                                                     <select name="endo_segment" id="Domainsegment"
-                                                        class="w-100 form-control" onchange="changeSegment(this)">
-                                                        <option {{ $user->segment == null ? 'selected' : ''}}  disabled>Select Option</option>
-                                                        @foreach ($segments->options as $segmentsOptions)
+                                                        class="form-control p-0 users-input-S-C"
+                                                        onchange="SegmentChange(this)">
+                                                        <option {{ $user->segment == null ? 'selected' : '' }}
+                                                            disabled>Select Option
+                                                        </option>
+                                                        @foreach ($segments as $segmentsOptions)
                                                             <option value="{{ $segmentsOptions->id }}"
-                                                                {{ $user->segment == $segmentsOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $segmentsOptions->option_name }}
+                                                                {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
+                                                                {{ $segmentsOptions->segment_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -696,10 +747,11 @@
                                                         Recruiter):</label>
                                                     <select name="REMARKS_FROM_FINANCE" id="remarks"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option {{ $user->remarks == null ? 'selected' : ''}}  disabled>Select Option</option>
+                                                        <option {{ $user->remarks == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
                                                         @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}"
-                                                                {{ $user->remarks == $remarksOptions->option_name ? 'selected' : '' }}>
+                                                                {{ strtolower($user->remarks) == strtolower($remarksOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $remarksOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -713,16 +765,20 @@
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
+                                                    @php
+                                                        $sub_segments = DB::select('select * from sub_segments');
+                                                    @endphp
                                                     <label class="Label-00 ">
-                                                        sub-segment:
+                                                        Sub-Segment:
                                                     </label>
                                                     <select name="endo_sub_segment " id="endo_sub_segment"
                                                         class="w-100  form-control">
-                                                        <option {{ $user->sub_segment == null ? 'selected' : ''}}   disabled>Select Option</option>
-                                                        @foreach ($sub_segment->options as $sub_segmentOptions)
-                                                            <option value="{{ $sub_segmentOptions->id }}"
-                                                                {{ $user->sub_segment == $sub_segmentOptions->option_name ? 'selected' : '' }}>
-                                                                {{ $sub_segmentOptions->option_name }}
+                                                        <option {{ $user->sub_segment == null ? 'selected' : '' }}
+                                                            disabled>Select Option</option>
+                                                        @foreach ($sub_segments as $Options)
+                                                            <option value="{{ $Options->id }}"
+                                                                {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
+                                                                {{ $Options->sub_segment_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -747,7 +803,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     <label class="Label-00">
-                                                        Date Undated:
+                                                        Date Updated:
                                                     </label>
                                                     <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
                                                         value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
@@ -771,12 +827,10 @@
                     href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
             @endif
             @if (Auth::user()->id == $user->saved_by)
-            @can('edit-record')
-                
-            <button class="btn btn-primary mt-5 btn-md"
-            onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
-            @endcan
-
+                @can('edit-record')
+                    <button class="btn btn-primary mt-5 btn-md"
+                        onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
+                @endcan
             @else
                 <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
                     class="btn btn-primary mt-5 btn-md">Tap</a>
@@ -786,6 +840,8 @@
 </div>
 
 <script>
+    // show searcable select using select 2 dropdown
+    select2Dropdown("select2_dropdown");
     var recruiter = "{{ Auth::user()->id }}";
     var candidate = "{{ $user->saved_by }}";
     if (recruiter == candidate) {
@@ -824,38 +880,124 @@
 
         }
     }
-    function Fetch_profile(){
-                 $('#Domain_sub_segment').empty()
-                $('#segment').empty()
-                $('#domain').empty()
-                $('#endo_sub_segment').empty()
-                $('#Domainsegment').empty()
-                $('#domain_endo').empty()
-                
-                
-                
-        var c_profile=$('#CANDIDATES_PROFILE').val();
-        var position= $('#position').val()
+
+    function Fetch_profile() {
+        $('#Domain_sub_segment').empty()
+        $('#segment').empty()
+        $('#domain').empty()
+        $('#endo_sub_segment').empty()
+        $('#Domainsegment').empty()
+        $('#domain_endo').empty()
+
+
+
+        var c_profile = $('#CANDIDATES_PROFILE').val();
+        var position = $('#position').val()
         $.ajax({
             type: 'POST',
-                url: '{{ url('admin/traveseDataByClientProfile') }}',
-                data: {
-                    _token: token,
-                    c_profile: c_profile,
-                    position:position,
-                   
-                },
+            url: '{{ url('admin/traveseDataByClientProfile') }}',
+            data: {
+                _token: token,
+                c_profile: c_profile,
+                position: position,
 
-                // Success fucniton of Ajax
-                success: function(res) {
-                console.log(res)
+            },
+
+            // Success fucniton of Ajax
+            success: function(res) {
+                // console.log(res)
                 $('#Domain_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
                 $('#segment').append(`<option>${res.data.segment}</option>`)
                 $('#domain').append(`<option>${res.data.domain}</option>`)
-                 $('#endo_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
+                $('#endo_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
                 $('#Domainsegment').append(`<option>${res.data.segment}</option>`)
                 $('#domain_endo').append(`<option>${res.data.domain}</option>`)
-                },
-            });
+            },
+        });
+
+    }
+    $("#date_processed").on('input', function() {
+        if ($('#endo_type').val() == 'Endorsed') {
+            $("#endo_date").val(this.value)
+        }
+    });
+    $("#endo_date").on("input", function() {
+        if ($('#endo_type').val() == 'Endorsed') {
+            $("#date_processed").val(this.value)
+        }
+    });
+
+
+    var globalData = [];
+
+    function clientChanged(dropDown, elem) {
+        $.ajax({
+            url: '{{ url('admin/traveseDataByClientProfile') }}',
+            type: 'POST',
+            data: {
+                // position: $('#position').val(),
+                client_dropdown: $('#client_finance').val(),
+                _token: token
+            },
+
+            // Ajax success function
+            success: function(res) {
+                if (res.data.length > 0) {
+                    globalData = res.data;
+                    $('#domain_endo').empty();
+                    $('#Domainsegment').empty();
+                    $('#endo_sub_segment').empty();
+                    $('#career').empty();
+                    // $('#client').empty();
+                    $('#position').empty();
+                    for (let i = 0; i < res.data.length; i++) {
+                        if ($(elem).val() == res.data[i].client) {
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                                $('#position').append(
+                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                );
+                            }
+                        }
+                    }
+                    $('#position').change();
+                    // $('#client_finance').attr('readonly', true);
+                    $('#domain_endo').attr('readonly', true);
+                    $('#Domainsegment').attr('readonly', true);
+                    $('#endo_sub_segment').attr('readonly', true);
+
+                }
+
+            }
+        })
+
+    }
+    $('#position').change(function() {
+        console.log('globalData' + globalData)
+        $('#career').empty();
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title) {
+                $('#career').append(
+                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                );
+            }
+        }
+        DomainSegmentAppend()
+    })
+
+    function DomainSegmentAppend() {
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+                $('#client_finance').val() == globalData[i].client) {
+                $('#domain_endo').append(
+                    `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`
+                );
+                $('#Domainsegment').append(
+                    `<option selected value="${globalData[i].segment}">${globalData[i].segment}</option>`
+                );
+                $('#endo_sub_segment').append(
+                    `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
+                );
+            }
+        }
     }
 </script>

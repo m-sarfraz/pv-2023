@@ -18,6 +18,14 @@
             margin-left: auto;
         }
 
+        #smTable_filter {
+            visibility: hidden;
+        }
+
+        #smTable1_filter {
+            visibility: hidden;
+        }
+
     </style>
 @endsection
 
@@ -29,6 +37,7 @@
                 <p class="C-Heading pt-3">Record Finder:</p>
                 <div class="card mb-13">
                     <div class="card-body">
+                        <div id="loader1" style="display: block;"></div>
                         <form action="">
                             <div class="row mb-4">
                                 <div class="col-lg-6 ">
@@ -36,9 +45,9 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
                                         </label>
-                                        <input type="text" name="searchKeyword" id="searchKeyword" placeholder="search keyword" required=""
-                                            id="search" onchange="FilterSearch()" class="form-control h-px-20_custom border"
-                                            value="" />
+                                        <input type="text" name="searchKeyword" id="searchKeyword"
+                                            placeholder="search keyword" required=""
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -57,11 +66,6 @@
                                         <label class="Label-00">Domain:</label>
                                         <select multiple name="DOMAIN" id="domain" required="" onchange="FilterSearch()"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
-
-                                            @foreach ($domain as $domainOption)
-                                                <option value="{{ $domainOption->domain_name }}">
-                                                    {{ $domainOption->domain_name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -70,40 +74,27 @@
                                         <label class="Label-00">Recruiter:</label>
                                         <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
                                             onchange="FilterSearch()" onchange="filterUserData()">
-
-                                            @foreach ($user_recruiter as $key => $user_recruiter)
-                                                <option value="{{ $user_recruiter->id }}">{{ $user_recruiter->name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $client = Helper::get_dropdown('clients');
-                                        @endphp
                                         <label class="Label-00">Client:</label>
                                         <select multiple name="CLIENT" id="client" onchange="FilterSearch()"
                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-
-                                            @foreach ($client->options as $clientOptions)
-                                                <option value="{{ $clientOptions->option_name }}">
-                                                    {{ $clientOptions->option_name }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (endorsement):</label>
+                                        <label class="Label">Start Date (Endorsement):</label>
                                         <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End date endorsement:</label>
+                                        <label class="Label">End Date (Endorsement):</label>
                                         <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -122,19 +113,11 @@
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                      
+
                                         <label class="Label-00">Residence:</label>
                                         <select multiple name="residence" required="" id="residence"
                                             onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-
-                                            @foreach ($address as $Userdatas)
-                                            @if(isset($Userdatas->address))
-                                                <option value="{{ $Userdatas->address }}">
-                                                    {{  $Userdatas->address }}
-                                                </option>
-                                            @endif
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -158,14 +141,14 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (Shifted):</label>
+                                        <label class="Label">Start Date (Sifted):</label>
                                         <input type="date" id="Shifted_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End Date Shifted:</label>
+                                        <label class="Label">End Date (Sifted):</label>
                                         <input type="date" id="Shifted_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
@@ -177,14 +160,13 @@
                                         <label class="Label-00">Category:</label>
                                         <select multiple name="REMARKS_FOR_FINANCE" id="category" onchange="FilterSearch()"
                                             class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                            @php
-                                                $remarks = Helper::get_dropdown('remarks_for_finance');
-                                            @endphp
-
-                                            @foreach ($remarks->options as $remarksOptions)
-                                                <option value="{{ $remarksOptions->option_name }}">
-                                                    {{ $remarksOptions->option_name }}</option>
-                                            @endforeach
+                                            <option value="Active - Initial Stage"> Active - Initial Stage</option>
+                                            <option value="Active - Mid Stage">Active - Mid Stage</option>
+                                            <option value="Active - Final Stage">Active - Final Stage</option>
+                                            <option value="Converted - Final Stage">Converted - Final Stage</option>
+                                            <option value="Inactive - Initial Stage">Inactive - Initial Stage</option>
+                                            <option value="Inactive - Mid Stage">Inactive - Mid Stage</option>
+                                            <option value="Inactive - Final Stage"> Inactive - Final Stage</option>
                                         </select>
                                     </div>
                                 </div>
@@ -193,75 +175,65 @@
                                         <label class="Label-00">Status:</label>
                                         <Select multiple id="status" onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
-
-                                            <Option>To Be Endorsed</Option>
                                         </Select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
-                                        @php
-                                            $remarks = Helper::get_dropdown('remarks_from_finance');
-                                        @endphp
                                         <label class="Label-00">Remarks:</label>
                                         <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
                                             class="w-100 form-control select2_dropdown w-100">
-
-                                            @foreach ($remarks->options as $remarksOptions)
-                                                <option value="{{ $remarksOptions->option_name }}">
-                                                    {{ $remarksOptions->option_name }}
-                                                </option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Start Date (onbording):</label>
+                                        <label class="Label">Start Date (Onboarding):</label>
                                         <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="Label">End Date onbording:</label>
+                                        <label class="Label">End Date (Onboarding):</label>
                                         <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
                                             onchange="FilterSearch()" />
                                     </div>
                                 </div>
-                              
+
                             </div>
                             <div class="col-lg-2 ml-auto pt-3">
                                 <div class="form-group mb-0 text-right">
-                                    <label class="Label-00" >CIP</label>
-                                    <input type="checkbox"  id="cip" name="cip" onclick="FilterSearch()">
+                                    <label class="Label-00">CIP</label>
+                                    <input type="checkbox" id="cip" name="cip" onclick="FilterSearch()">
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterResult_div">
                     <div class="">
-                        <table id=" example1" class="table">
+                        <table id="smTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell">Email</th>
+                                    <th class="ant-table-cell">Contact No.</th>
                                     <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">DOMAIN</th>
-
+                                    <th class="ant-table-cell">Domain</th>
                                     <th class="ant-table-cell">Profile</th>
-                                    <th class="ant-table-cell">Education Attainment</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
                                     <th class="ant-table-cell">Salary</th>
                                     <th class="ant-table-cell">Portal</th>
                                     <th class="ant-table-cell">Date Sifted</th>
                                     <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Endo</th>
                                     <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell">Endo Date</th>
                                     <th class="ant-table-cell">Remarks</th>
                                     <th class="ant-table-cell">Category</th>
                                     <th class="ant-table-cell">SPR</th>
@@ -271,78 +243,20 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-
-                                @forelse ( $Userdata as $key=>$value )
-                                    <tr class="bg-transparent" >
-                                        <!-- Table data 1 -->
-                                        @php
-                                            $user = \App\User::where('id', $value->saved_by)->first();
-                                            $role = $user->roles->pluck('name');
-                                        @endphp
-                                        {{-- <td> {{ $role[0] }}</td> --}}
-                                        @php
-                                            $name = \App\User::with('candidate_information')
-                                                ->where('id', $value->saved_by)
-                                                ->first();
-                                        @endphp
-                                        <td>{{ $name->name }}</td>
-                                        <td>
-                                            @if (isset($value->first_name))
-                                                {{ $value->first_name }} {{ $value->last_name }}
-
-                                            @endif
-                                        </td>
-                                        <td> {{ $value->client }}</td>
-                                        <td> {{ $value->gender }}</td>
-                                        <td> {{ $value->domain }}</td>
-                                        <td>{{ $value->candidate_profile }}</td>
-                                      
-                                        <td>{{ $value->educational_attain }}</td>
-                                        <td>{{ $value->curr_salary }}</td>
-                                        <td></td>
-                                        <td>{{ $value->date_shifted }}</td>
-                                        <td>{{ $value->career_endo }}</td>
-                                        <td>
-                                            @if (isset($value->endi_date))
-                                                {{ $value->endi_date }}
-
-                                            @endif
-                                        </td>
-                                        <td>{{ $value->app_status }}</td>
-                                        <td>{{ $value->remarks }}</td>
-                                        <td>{{ $value->remarks_for_finance }}</td>
-                                        <td>{{ $value->srp }}</td>
-                                        <td>{{ $value->onboardnig_date }}</td>
-                                        <td>
-                                            @if (isset($value->placement_fee))
-                                                {{ $value->placement_fee }}
-
-                                            @endif
-                                        </td>
-                                        <td>
-                                                {{ $value->address }}
-
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td> no data found</td>
-                                    </tr>
-                                @endforelse
-
+                            <tbody class="hidetrID" style="height:100px">
                             </tbody>
                         </table>
                     </div>
-                    {{ $Userdata->links() }}
+
 
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
                 <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
                         <form action="">
                             <fieldset>
@@ -362,8 +276,7 @@
                                                 Total Endorsement:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
-                                                value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}"
-                                                placeholder="Rev.." id="endo" />
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}} placeholder="Rev.." id="endo" />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -389,7 +302,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Number of Shifted:
+                                                Number of Sifted:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="sifted"
                                                 placeholder="hires.." />
@@ -400,7 +313,7 @@
                                             <label class="Label-00">
                                                 Initial Stage.
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="initial"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
@@ -430,8 +343,7 @@
                                                 Number of Active File:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="active"
-                                                value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}"
-                                                placeholder="hires.." />
+                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}} placeholder="hires.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -439,7 +351,7 @@
                                             <label class="Label-00">
                                                 Mid Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="mid"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
@@ -455,7 +367,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Number of Withdrew:
+                                                Number of Withdrawn:
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C" id="withdrawn"
                                                 placeholder="total.." />
@@ -477,14 +389,14 @@
                                             <label class="Label-00">
                                                 Final Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C"
+                                            <input readonly type="text" class="form-control users-input-S-C" id="final"
                                                 placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group mb-0">
                                             <label class="Label-00">
-                                                Total of Revenue.
+                                                Total Revenue.
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 placeholder="Rev.." />
@@ -509,7 +421,6 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
 
 
@@ -525,24 +436,90 @@
     </script>
 
     <script>
+        // document.ready startrs
         $(document).ready(function() {
+            // call ajax for values appending 
+            summaryAppendAjax(1);
+            //call ajax for laod dat atable
             load_datatable()
+            //call ajax to append options of dropdown
+            appendFilterOptions()
         });
-        $('#sifted').val({!! $sifted !!});
-        $('#endo').val({!! $endo !!});
-        $('#foundRecord').val({!! $onBoarded !!});
-        $('#active').val({!! $active !!});
-        $('#spr').val({!! $spr !!});
-        $('#onBoarded').val({!! $onBoarded !!});
-        $('#accepted').val({!! $accepted !!});
-        $('#failed').val({!! $failed !!});
-        $('#withdrawn').val({!! $withdrawn !!});
-        $('#rejected').val({!! $rejected !!});
+        // close 
+
+        //append  dropdowns
+        function appendFilterOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ url('admin/appendSmartFilters') }}',
+                })
+                .done(function(res) {
+                    for (let i = 0; i < res.domain.length; i++) {
+                        $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
+                            .domain_name +
+                            '</option>')
+                    }
+                    for (let i = 0; i < res.user_recruiter.length; i++) {
+                        $('#recruiter').append('<option value="' + res.user_recruiter[i].id + '">' + res.user_recruiter[
+                                i]
+                            .name + '</option>')
+                    }
+                    for (let i = 0; i < res.client.options.length; i++) {
+                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' + res.client
+                            .options[i]
+                            .option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.address.length; i++) {
+                        if (res.address[i].address != '') {
+                            $('#residence').append('<option value="' + res.address[i].address + '">' + res.address[i]
+                                .address + '</option>')
+                        }
+                    }
+                    // for (let i = 0; i < res.remarks.options.length; i++) {
+                    //     $('#category').append('<option value="' + res.remarks.options[i].option_name + '">' + res
+                    //         .remarks.options[i].option_name + '</option>')
+                    // }
+                    for (let i = 0; i < res.status.options.length; i++) {
+                        $('#status').append('<option value="' + res.status.options[i].option_name + '">' + res
+                            .status.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.remarks.options.length; i++) {
+                        $('#remarks').append('<option value="' + res.remarks.options[i].option_name + '">' + res
+                            .remarks.options[i].option_name + '</option>')
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
+
+        // ajax call for view append
+        function summaryAppendAjax(array) {
+            array = array;
+            // $('#loader1').show();
+            $.ajax({
+                type: "GET",
+                url: '{{ url('admin/summaryAppend') }}',
+                data: {
+                    _token: token,
+                    array: array,
+                },
+
+                // Success fucniton of Ajax
+                success: function(data) {
+                    $('#summaryDiv').html(data);
+                    $('#loader1').hide();
+
+                },
+            });
+        }
+
         select2Dropdown("select2_dropdown");
 
-        // funciton for filtering the data according to selected input starts
+        // function for filtering the data according to selected input starts
         function FilterSearch() {
-            $("#loader").show();
 
             // get values of selected inputs of users
             domain = $('#domain').val();
@@ -559,45 +536,331 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
-            searchKeyword = $('#searchKeyword').val();
+            // $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
                 cip = 0;
             }
-            // call Ajax for returning the data as view
-            $.ajax({
-                type: "GET",
-                url: '{{ url('admin/filter_search') }}',
-                data: {
-                    _token: token,
-                    domain: domain,
-                    recruiter: recruiter,
-                    client: client,
-                    residence: residence,
-                    career_level: career_level,
-                    cip: cip,
-                    category: category,
-                    status: status,
-                    remarks: remarks,
-                    endo_start: endo_start,
-                    endo_end: endo_end,
-                    ob_start: ob_start,
-                    ob_end: ob_end,
-                    sift_start: sift_start,
-                    sift_end: sift_end,
-                    searchKeyword: searchKeyword,
+            var option_table = $('#smTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
 
-                // Success fucniton of Ajax
-                success: function(data) {
-                    console.log(data)
-                    $('#filterResult_div').html(data);
-                    $("#loader").hide();
+                ajax: {
+                    url: "{{ route('filterSearch') }}",
+                    type: "GET",
+                    data: {
+                        _token: token,
+                        domain: domain,
+                        recruiter: recruiter,
+                        client: client,
+                        residence: residence,
+                        career_level: career_level,
+                        cip: cip,
+                        category: category,
+                        status: status,
+                        remarks: remarks,
+                        endo_start: endo_start,
+                        endo_end: endo_end,
+                        ob_start: ob_start,
+                        ob_end: ob_end,
+                        sift_start: sift_start,
+                        sift_end: sift_end,
+                        // searchKeyword: searchKeyword,
+                    },
                 },
+                initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
+                    summaryAppendAjax(json.array);
+                    let tableID = $('#filterResult_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'smTable_wrapper') {
+                        countRecord()
+                    }
+                },
+                columns: [{
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'candidate',
+                        name: 'candidate'
+                    },
+
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'position_title',
+                        name: 'position_title'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain'
+                    },
+
+                    {
+                        data: 'candidate_profile',
+                        name: 'candidate_profile'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'curr_salary',
+                        name: 'curr_salary'
+                    },
+                    {
+                        data: 'portal',
+                        name: 'portal'
+                    },
+                    {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    },
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'app_status',
+                        name: 'app_status'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'srp',
+                        name: 'srp'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+
+
+                ]
+            });
+            $("#loader").hide();
+            // call Ajax for returning the data as view
+
+            // summaryAppendAjax()
+        }
+        // close 
+
+        //start yajra table load 
+        function load_datatable() {
+            var option_table = $('#smTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: false,
+                "language": {
+                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                },
+
+                ajax: {
+                    url: "{{ route('view-smart-search-table') }}",
+                    type: "GET",
+                },
+                initComplete: function(settings, json) {
+                    $('#searchKeyword').trigger('input');
+                    let tableID = $('#filterResult_div').children().children().attr('id')
+                    if (tableID == 'filteredTable_wrapper') {
+                        countRecordFilter()
+                    }
+                    if (tableID == 'smTable_wrapper') {
+                        countRecord()
+                    }
+                },
+                columns: [{
+                        data: 'recruiter',
+                        name: 'recruiter'
+                    },
+                    {
+                        data: 'candidate',
+                        name: 'candidate'
+                    },
+
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'position_title',
+                        name: 'position_title'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain'
+                    },
+
+                    {
+                        data: 'candidate_profile',
+                        name: 'candidate_profile'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'curr_salary',
+                        name: 'curr_salary'
+                    },
+                    {
+                        data: 'portal',
+                        name: 'portal'
+                    },
+                    {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    },
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo'
+                    },
+                    {
+                        data: 'app_status',
+                        name: 'app_status'
+                    },
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'srp',
+                        name: 'srp'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'placement_fee',
+                        name: 'placement_fee'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+
+
+                ]
             });
         }
-        // funciton for filtering the data according to selected input ends
-    </script>
+        // close 
 
+        // setInterval(() => {
+        //     let tableID = $('#filterResult_div').children().children().attr('id')
+        //     if (tableID == 'filteredTable_wrapper') {
+        //         countRecordFilter()
+        //     }
+        //     if (tableID == 'smTable_wrapper') {
+        //         countRecord()
+        //     }
+        // }, 2000);
+
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('input', function() {
+            $('#smTable_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable_filter').children().children().trigger('input');
+            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable1_filter').children().children().trigger('input');
+            // let total_recored = data.split(" ")
+            // console.log(total_recored)
+            // $('#foundRecord').val(total_recored[3])
+            let tableID = $('#filterResult_div').children().children().attr('id')
+            if (tableID == 'filteredTable_wrapper') {
+                countRecordFilter()
+            }
+            if (tableID == 'smTable_wrapper') {
+                countRecord()
+            }
+            var data = $(this).val();
+            // $.ajax({
+            //     type: "post",
+            //     url: '{{ url('admin/searchsummary') }}',
+            //     data: {
+            //         _token: token,
+            //         data: data,
+            //     },
+            //     success: function(res) {
+            //         $('#summaryDiv').html(res);
+            //         $('#loader1').hide();
+            //     }
+            //     // Success fucniton of Ajax
+            // });
+        });
+        // count record on page load 
+        function countRecord() {
+            var count = $('#smTable_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
+        }
+        // close 
+
+        // count record of filtered data
+        function countRecordFilter() {
+            var count = $('#smTable1_info').text().split(' ');
+            $('#foundRecord').val(count[5])
+            $('#sifted').val(count[5])
+        }
+        //close
+    </script>
 @endsection

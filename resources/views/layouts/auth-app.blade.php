@@ -17,11 +17,12 @@
 </head>
 <body>
     <div id="app">
-        <div class="BoxTop"></div>
-        <div class="BoxBottom"></div>
+        <div style="    background-color: #ebf0f4!important;">
+        
         <div class="width-78 m-auto vh-100 d-flex align-items-center justify-content-center">
             @yield('content')
         </div>
+    </div>
     </div>
 </body>
 </html>

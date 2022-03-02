@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.4.0|^8.0",
         "consoletvs/charts": "^6",
         "fideloper/proxy": "^4.4",
         "laravel/framework": "^6.20.26",
@@ -19,7 +19,6 @@
         "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^1.16.15",
         "fakerphp/faker": "^1.9.1",
         "laravel/ui": "1.0",
@@ -32,7 +31,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
+<<<<<<< HEAD
             "php": "7.3.31"
+=======
+            "php": "7.4.0"
+>>>>>>> e16653896bcc803aa2b56a22ca1f37d8b1d5b79f
         }
     },
     "extra": {

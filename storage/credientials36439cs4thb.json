@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "datastudio-331709",
+  "private_key_id": "35a5276f09f46c274688b881738cb70e24973c7f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCpbpZHA4q1MA0F\nDPXnrzMCBAp0lcnMlPmg6ZvuIpodNGM8B7Y8linp4pXmIFL4R0rKLC6iKm+G8Yp+\nMpccxzoxcHLExNDGx9pesyGUo0ekyYt/abE9D7OlPHJ04EdYC2d6cEpP/ZQbPGLZ\n+UzX2YNXWfgNtKKHkIvYdieLKuGyIWYsc2GDgHCxhbhrETYOubyU992KOB+tiVJ3\nTgbK0SC5QVadPLlGdokVLKIqVI0U3JRzLjZdSM2ipZxVZJ5WnjYqh3tAl6esx7ns\nArlQA0iWWBu6phe0lGkDPKif7+xoty6vzBXtwg4PZhAguQMw0iQP7F/VtSbjfdrk\nCZf9Aj4bAgMBAAECggEAAfzZI47Aseftto7qwDnqBwwaeSS+kAMqyjxnDknAji0n\nsrj5q1ZKa29Q/moRln/qEu7N6d2Uz/vs+ce6AQiAsR17SzQf5L24jjACuJyHnS03\nM4H/Oet3nzd6jh2JTuKT+wuCWdPil52qvfu++M6Fc41GurRHabFr4pPUlYvqs5vf\n9y/NaNuAhaoYU98ZQe9w9JJ9wY7P9qFcjB/4pgbRCVzFQBWtE3AtUeFr8DRvZ1wL\n28kyVjXt5ywsMwxcb+nUaCI3iTnjuhzfJyz7FRkBM5+TpMo3oRC951ptoIxOcJzO\ndIoeTCKfUIzaowUD+Wm/VZJS9MGlJkFq9KVckqO/WQKBgQDTVgqEC+vzQlLagWS3\nXMgL0IUehUacS5iAlC1wjngU3X+igcWc7PSZK8YC6r/pA627sOQqMR+0gRAhqap8\nMi4z1KGq807wOnjneMv30Zy2qQUsmdN4IC510BpPBryMFavf8TzW8N41IBkSk6gL\n181qPkJyWiM9jtn97Z9Uhl76FwKBgQDNPWYunop6IEj5LQwXFHly/Bwd5f4/ngxY\nf/YK5xtzvFEv98KJx92ifZsWD/7pIukvIUTOqymmP9vQ8CGtkFud/yuDfserVLR+\nRUVsQPpOtv8Ds4coFCJEAIpybNX4aiRIe2qsjUVBvHRSFvqbt1CmRc22XN1secTi\ncrX6nsTSnQKBgGrehsDRmobQEj/m0PyckZjP4JFXiiZ9X+gdhoD1uqmqfOG7yCeb\n9/EBHsfY2CVIM/HG+QqQ/txzq6mqN8lIQu745qwhD9kRaJR9FIAEYsBH5pLwUuzb\nMUNocfVmjbA1QU4kmsSC14t76NHpE0Cx53GDfGyBQnLdq0TqhfjjXmIPAoGAUcr0\nXAPm4ADZ1CP1u4T3WbHLasbr6mKMPQDSB0pPEHKuUFWG++3hEA7KraI2TqcREy1J\nBKwF7zFn4v6wDUGIoZC9wKvX2xnozKHCpv/GQXSAcPMtG/XaKgulITDqnRN/3jsB\nKj8qqKX4HXb27PPDemA7OUANJlvo8O4SRAzeF6kCgYAUueEVCVuu/UdpIQO0QuVI\nlmboGf9D2z6yAq+K/0TtS/xQ6PqYnN4L8yZX19HYjJgOln8zjtInIcp8cWoMJP5S\nk33U8y2NgF83aw/uSDWSZtcsWlldiaA+uIABv5XrrsEq1g8nAckyFWLddhkXTD0C\nBDxCMcdoHEwpzvBCDK25CA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "datastudio@datastudio-331709.iam.gserviceaccount.com",
+  "client_id": "103660412734682015611",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/datastudio%40datastudio-331709.iam.gserviceaccount.com"
+}

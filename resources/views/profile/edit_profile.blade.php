@@ -14,8 +14,8 @@
                                     
                                     $user = Auth::user();
                                     /*if($user->image != ""){
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $image  =   $user->image;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }else{*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $image  =   $user->image;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }else{*/
                                     // $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
@@ -86,6 +86,16 @@
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
+                                @if (session()->has('message-live'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('message-live') }}
+                                    </div>
+                                @endif
+                                @if (session()->has('error-live'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-live') }}
+                                    </div>
+                                @endif
                                 <!-- <form class="C_To_GS"> -->
                                 {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
                                 <div style="padding: 93px;" class="pb-3">
@@ -102,8 +112,8 @@
                                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                                     Sheet Id
                                                 </label>
-                                                <input type="text" class="form-control h-px-48" id="sheetId" name="sheetId"
-                                                    placeholder="Enter Sheet ID" required />
+                                                <input type="text" class="form-control h-px-48 connectchecker" id="sheetId"
+                                                    name="sheetId" placeholder="Enter Sheet ID" required />
                                             </div>
                                         </div>
                                     </div>
@@ -124,11 +134,20 @@
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload Excel Files
+                                    Click here to Upload CSV Files
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
-
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('message') }}
+                                    </div>
+                                @endif
+                                @if (session()->has('error-local-sdb'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-local-sdb') }}
+                                    </div>
+                                @endif
                                 <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
@@ -159,8 +178,9 @@
                                                                         class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                                                         Upload File
                                                                     </label>
-                                                                    <input type="file" id="file" class="form-control"
-                                                                        accept=".csv" name="file" required  />
+                                                                    <input type="file" id="file"
+                                                                        class="form-control connectchecker" accept=".csv"
+                                                                        name="file" required />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -198,73 +218,97 @@
                         <!-- load sheetJDL start-->
                         <div
                             class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
-                            <div class="col-sm-12 col-md-6" >
+                            <div class="col-sm-12 col-md-6">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                     Click here to Connect Google Sheet
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
 
-                             
-                                    <div style="padding: 93px;" class="pb-3">
-                                        <img style="width: 68.75px; cursor: pointer"
-                                            src="{{ asset('assets/image/profile/sheetImage.png') }}"
-                                            onclick="showFieldJDL(this)"  data-toggle="modal"
-                                            data-whatever="@getbootstrap" data-target="#jdlModal"/>
+                                @if (session()->has('JDL_SHEET_IMPORTED'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('JDL_SHEET_IMPORTED') }}
                                     </div>
-                                    <div class="modal fade" id="jdlModal" tabindex="-1"
-                                            aria-labelledby="jdlModal" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
+                                @endif
+                                @if (session()->has('error-jdl-sheet'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-jdl-sheet') }}
+                                    </div>
+                                @endif
+                                <div style="padding: 93px;" class="pb-3">
+                                    <img style="width: 68.75px; cursor: pointer"
+                                        src="{{ asset('assets/image/profile/sheetImage.png') }}"
+                                        onclick="showFieldJDL(this)" data-toggle="modal" data-whatever="@getbootstrap"
+                                        data-target="#jdlModal" />
+                                </div>
+                                <div class="modal fade" id="jdlModal" tabindex="-1" aria-labelledby="jdlModal"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
 
-                                                    <div class="modal-body">
-                                                        <form action="{{Route('connect_to_jdl_sheet')}}" method="post">
-                                                            @csrf
-                                                            @method("post")
-                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                            <div class="col-lg-12">
-                                                                <h5 class="modal-title" id="exampleModalLabel"><i
-                                                                        class="bi bi-file-earmark-spreadsheet-fill"></i>connect To JDL Sheet </h5>
-                                                                <hr>
-                                                                <div class="form-group">
-                                                                    <label
-                                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                        Sheet ID
-                                                                    </label>
-                                                                    <input type="text" id="jdl_sheet_id" class="form-control"
-                                                                        name="jdl_sheet_id" required />
-                                                                </div>
+                                            <div class="modal-body">
+                                                <form action="{{ Route('connect_to_jdl_sheet') }}" method="post">
+                                                    @csrf
+                                                    @method("post")
+                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                        <div class="col-lg-12">
+                                                            <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                    class="bi bi-file-earmark-spreadsheet-fill"></i>connect
+                                                                To JDL Sheet </h5>
+                                                            <hr>
+                                                            <div class="form-group">
+                                                                <label
+                                                                    class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                    GoogleSheet ID:
+                                                                </label>
+                                                                <input type="text" id="jdl_sheet_id" class="form-control"
+                                                                    name="jdl_sheet_id" required />
                                                             </div>
                                                         </div>
-                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                            <div class="col-lg-10 text-right p-0">
-                                                                <div class="mt-2">
-                                                                    <div class="form-group">
-                                                                        <input type="submit" value="Upload"
-                                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
                                                     </div>
+                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                        <div class="col-lg-10 text-right p-0">
+                                                            <div class="mt-2">
+                                                                <div class="form-group">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
 
-                                                </div>
+                                                                    <input type="submit" value="Upload"
+                                                                        class="btn btn-primary Connect" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
+
                                         </div>
-                                
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal" data-target="#JDLExcel">
+                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal"
+                                data-target="#JDLExcel">
                                 <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload Excel File
+                                    Click here to Upload CSV File
                                 </label>
                                 <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
                                         style="color:red">*</span> </span>
-                                        <div style="padding: 93px;" class="pb-3 Coud_icon">
-                                            <img style="width: 105px; cursor: pointer"
-                                                src="{{ asset('assets/image/profile/cloud.png') }}"
-                                                onclick="showFieldJDL(this)" />
-                                        </div>
+                                @if (session()->has('CSV_FILE_UPLOADED_JDL'))
+                                    <div class="alert alert-success">
+                                        {{ session()->get('CSV_FILE_UPLOADED_JDL') }}
+                                    </div>
+                                @endif
+                                @if (session()->has('error-jdl-sheet-local'))
+                                    <div class="alert alert-danger">
+                                        {{ session()->get('error-jdl-sheet-local') }}
+                                    </div>
+                                @endif
+                                <div style="padding: 93px;" class="pb-3 Coud_icon">
+                                    <img style="width: 105px; cursor: pointer"
+                                        src="{{ asset('assets/image/profile/cloud.png') }}"
+                                        onclick="showFieldJDL(this)" />
+                                </div>
 
                             </div>
                         </div>
@@ -284,17 +328,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">GoogleSheet ID:</label>
-                        <input type="text" class="form-control" id="sheetID" name="sheetID">
-                        <div class="small d-none" id="error" style="color:red"></div>
+                <form action="{{ Route('connect-to-sheet') }}" method='post'>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">GoogleSheet ID:</label>
+                            <input type="text" class="form-control " id="sheetID" name="sheetID" required />
+                            <div class="small d-none" id="error" style="color:red"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="uploadSheet()">Import</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary Connect">Import</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -302,33 +349,32 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="JDLExcel"><i
-                            class="bi bi-file-earmark-spreadsheet-fill"></i>JDL EXCEL SHEET</h5>
+                    <h5 class="modal-title" id="JDLExcel"><i class="bi bi-file-earmark-spreadsheet-fill"></i>JDL CSV
+                        SHEET</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    
-                    <form action="{{ route("uploadJdlSheet") }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                      
 
-                      
-                                    <div class="form-group">
-                                        <label
-                                            class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                            Upload File
-                                        </label>
-                                        <input type="file"class="form-control" id="sheetFileJDL" accept=".xlsx, .xls, .csv"
-                                            name="sheetFileJDL" required />
-                                    </div>
-                                </div>
-                          
-                    <div class="modal-footer">
-                        
-                        <button type="submit" class="btn btn-success" onclick="UploadJDlSheet()">Upload</button>
-                    </div>
+                    <form action="{{ route('uploadJdlSheet') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+
+
+
+                        <div class="form-group">
+                            <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                Upload File
+                            </label>
+                            <input type="file" class="form-control " id="sheetFileJDL" accept=" .csv" name="sheetFileJDL"
+                                required />
+                        </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-success  Connect" onclick="UploadJDlSheet()">Upload</button>
+                </div>
                 </form>
             </div>
         </div>
@@ -368,72 +414,25 @@
             })
         });
 
-        function uploadSheet(elem) {
-            $("#loader").show();
-            if (!$('#sheetID').val()) {
-                $('#error').html('');
-                $('#error').append('Please provide Sheet ID');
-                $('#error').removeClass('d-none');
-                $('#error').addClass('d-block');
-                $("#loader").hide();
+        $('.Connect').on('click', function() {
 
-            } else {
-                $('#error').html('');
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+            if ($('#sheetID').val()) {
 
-                sheetID = $('#sheetID').val();
-                $.ajax({
-                    url: "{{ Route('connect-to-sheet') }}",
-                    type: 'POST',
-                    data: {
-                        sheetID: sheetID
-                    },
-                    success: function(res) {
-                        if (res.success == true) {
-
-                            swal({
-                                icon: "success",
-                                text: "{{ __('imported Successfully') }}",
-                                icon: "success",
-                            });
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
-                        } else if (res.success == false) {
-                            swal("{{ __('error') }}", res.message, 'error');
-                        }
-
-                        $("#loader").hide();
-                    },
-                    error: function() {
-                        $("#loader").hide();
-                        swal({
-                            icon: "error",
-                            text: "{{ __('Some Error occured, Try again') }}",
-                            icon: "error",
-                        });
-                    }
-                });
-                return false;
+                $("#loader").show();
             }
-        }
-        // function UploadJDlSheet(){
-          
-        //     var JDL_sheet=$('#sheetFileJDL').val();
-        //     $.ajax({
-        //         type:"post",
-        //         url:'{{URL('admin/uploadJdlSheet')}}',
-        //         data:{
-        //             File:JDL_sheet,
-        //         },
-        //         success:function(res){
+            if ($('#jdl_sheet_id').val()) {
 
-        //         }
-        //     })
-        // }
+                $("#loader").show();
+            }
+            if ($('#sheetFileJDL').val()) {
+
+                $("#loader").show();
+            }
+            if ($('#file').val()) {
+
+                $("#loader").show();
+            }
+
+        })
     </script>
 @endsection

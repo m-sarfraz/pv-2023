@@ -12,10 +12,10 @@ use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
-use App\Permission;
 use App\Segment;
 use App\User;
 use Auth;
+use Cache;
 use File;
 use Helper;
 use Illuminate\Http\Request;
@@ -43,13 +43,16 @@ class CandidateController extends Controller
                 ->where('candidate_informations.id', $_GET['id'])
                 ->first();
         } # code...
-        $user = CandidateInformation::where('saved_by', Auth::user()->id)->get();
+        // $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get();
+
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        // $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
+        // $client = DB::table('taverse2')->distinct()->select('client')->get();
         // return $sub_segmentsDropDown;
         $data = [
-            'user' => $user,
+            // 'user' => $user,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,
@@ -58,10 +61,12 @@ class CandidateController extends Controller
 
         return view('data_entry.add', $data);
     }
-    //index function for data entry page showing ends
+    // close
 
+    // save data entruy data
     public function save_data_entry(Request $request)
     {
+
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -74,6 +79,7 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
+                "SOURCE" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
@@ -132,22 +138,23 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
             $arrayCheck = [
                 'LAST_NAME' => 'required',
                 "FIRST_NAME" => "required",
                 "EMAIL_ADDRESS" => "required|email",
+                "SOURCE" => 'required ',
                 // "CONTACT_NUMBER" => "required",
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
@@ -186,14 +193,14 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             if ($request->finance_field == 1) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
@@ -243,18 +250,19 @@ class CandidateController extends Controller
             // } else {
             //get users data for matching duplicates
 
-            $lname = explode(" ", $request->LAST_NAME);
-            $fname = explode(" ", $request->FIRST_NAME);
-            $phone = explode(" ", $request->CONTACT_NUMBER);
-            $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
-            for ($i = 0; $i < count($record); $i++) {
-                if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
-                    return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
-                }
-            }
+            // $lname = explode(" ", $request->LAST_NAME);
+            // $fname = explode(" ", $request->FIRST_NAME);
+            // $phone = explode(" ", $request->CONTACT_NUMBER);
+            // $record = CandidateInformation::select('last_name', 'first_name', 'phone')->get();
+            // for ($i = 0; $i < count($record); $i++) {
+            //     if (in_array($record[$i]['last_name'], $lname) && in_array($record[$i]['first_name'], $fname) && in_array($record[$i]['phone'], $phone)) {
+            //         return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Data detected']);
+            //     }
+            // }
+            // return $request->all();
             //  save data to candidate information table
             $CandidateInformation = new CandidateInformation();
-            $CandidateInformation->last_name = $request->LAST_NAME;
+            $CandidateInformation->last_name = $request->FIRST_NAME . ' ' . $request->MIDDLE_NAME . ' ' . $request->LAST_NAME;
             $CandidateInformation->middle_name = $request->MIDDLE_NAME;
             $CandidateInformation->first_name = $request->FIRST_NAME;
             $CandidateInformation->email = $request->EMAIL_ADDRESS;
@@ -323,6 +331,11 @@ class CandidateController extends Controller
             // $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
             $CandidiateDomain->sub_segment = $request->SUB_SEGMENT;
             $CandidiateDomain->save();
+            // save category of remarks for finance
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $category = Helper::getCategory($array);
+
+            // close
 
             //Save Endorsement Details
             // return $request->REMARKS_FROM_FINANCE;
@@ -343,6 +356,7 @@ class CandidateController extends Controller
             $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
             $endorsement->endi_date = $request->DATE_ENDORSED;
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
+            $endorsement->category = $category;
             $endorsement->save();
             //start logic for cip
 
@@ -441,6 +455,8 @@ class CandidateController extends Controller
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
+            $recruiter = Auth::user()->roles->pluck('id');
+            $finance->t_id = $recruiter[0];
             $finance->save();
             $finance_detail = new Finance_detail();
             $finance_detail->candidate_id = $CandidateInformation->id;
@@ -453,15 +469,16 @@ class CandidateController extends Controller
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
-
+            Cache::forget('users');
             return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
         }
     }
-    // }
+    // close
 
     // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request, $id)
     {
+
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
@@ -474,14 +491,19 @@ class CandidateController extends Controller
             ->where('candidate_informations.id', $request->id)
             ->first();
         // return $user;
+        $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
         $data = [
             'domainDrop' => $domainDrop,
             'user' => $user,
             'segmentsDropDown' => $segmentsDropDown,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
+            'inputDetail' => $inputDetail,
         ];
         return view('data_entry.userSearch', $data);
     }
+    // close
+
+    // update candidate function
     public function update_data_entry(Request $request, $id)
     {
 
@@ -497,11 +519,12 @@ class CandidateController extends Controller
                 // "CERTIFICATIONS" => "required",
                 "RESIDENCE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
+                "SOURCE" => 'required ',
                 // "EDUCATIONAL_ATTAINTMENT" => 'required ',
                 // // "COURSE" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
-                "INTERVIEW_NOTES" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
                 "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
@@ -544,6 +567,7 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+
             if ($request->endorsement_field == 'active') {
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
@@ -554,16 +578,19 @@ class CandidateController extends Controller
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
                 $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
-            if ($request->finance_field == 1) {
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+
+            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
             }
         } else {
+
             $arrayCheck = [
                 'LAST_NAME' => 'required',
                 "FIRST_NAME" => "required",
@@ -572,6 +599,7 @@ class CandidateController extends Controller
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
                 "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                "SOURCE" => 'required ',
                 // "DOMAIN" => 'required ',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
@@ -579,7 +607,7 @@ class CandidateController extends Controller
                 "CANDIDATES_PROFILE" => 'required ',
                 "APPLICATION_STATUS" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
+                "DATE_SIFTED" => 'required ',
                 "EMPLOYMENT_HISTORY" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
@@ -595,6 +623,29 @@ class CandidateController extends Controller
             } else {
                 $arrayCheck["COURSE"] = "required";
             }
+            if ($request->salary_field == 1) {
+                $arrayCheck["OFFERED_SALARY"] = "required";
+                $arrayCheck["OFFERED_ALLOWANCE"] = "required";
+            }
+            if ($request->endorsement_field == 'active') {
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["CAREER_LEVEL"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["STATUS"] = "required";
+                $arrayCheck["CLIENT"] = "required";
+                $arrayCheck["SITE"] = "required";
+                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+            }
+            if ($request->finance_field == 1) {
+                $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
+                $arrayCheck["RATE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
+            }
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
                 $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
@@ -602,33 +653,13 @@ class CandidateController extends Controller
                 $arrayCheck["CURRENT_SALARY"] = "required";
                 $arrayCheck["INTERVIEW_NOTES"] = "required";
             }
-
-            if ($request->endorsement_field == 'active') {
-                $arrayCheck["POSITION_TITLE"] = "required";
-                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
-                $arrayCheck["POSITION_TITLE"] = "required";
-                $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
-                $arrayCheck["STATUS"] = "required";
-                $arrayCheck["CLIENT"] = "required";
-                $arrayCheck["SITE"] = "required";
-                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
-                $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
-            }
             $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
             if (
                 str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
-            }
-            if ($request->finance_field == 1) {
-                $arrayCheck["REMARKS"] = "required";
-                $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
-                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
-                $arrayCheck["RATE"] = "required";
-                $arrayCheck["PLACEMENT_FEE"] = "required";
+                $arrayCheck["DATE_INVITED"] = "required";
             }
         }
         $validator = Validator::make($request->all(), $arrayCheck);
@@ -657,6 +688,7 @@ class CandidateController extends Controller
             //     }
             // }
             // Update data of eantry page
+            // return $request->SOURCE;
             CandidateInformation::where('id', $id)->update([
                 'first_name' => $request->FIRST_NAME,
                 'middle_name' => $request->MIDDLE_NAME,
@@ -670,7 +702,7 @@ class CandidateController extends Controller
 
             ]);
             if (isset($request->CERTIFICATIONS)) {
-                $certification = implode(", ", $request->CERTIFICATIONS);
+                $certification = implode(",", $request->CERTIFICATIONS);
                 CandidateEducation::where('candidate_id', $id)->update([
                     'certification' => $certification,
                 ]);
@@ -710,6 +742,7 @@ class CandidateController extends Controller
                     'position_applied' => $request->POSITION_TITLE_APPLIED,
                     'date_invited' => $request->DATE_INVITED,
                     'manner_of_invite' => $request->MANNER_OF_INVITE,
+                    'source' => $request->SOURCE,
                     'curr_salary' => $request->CURRENT_SALARY,
                     'exp_salary' => $request->EXPECTED_SALARY,
                     'off_salary' => $request->OFFERED_SALARY,
@@ -726,12 +759,14 @@ class CandidateController extends Controller
                     'manner_of_invite' => $request->MANNER_OF_INVITE,
                     'curr_salary' => $request->CURRENT_SALARY,
                     'exp_salary' => $request->EXPECTED_SALARY,
+                    'source' => $request->SOURCE,
                     'off_salary' => $request->OFFERED_SALARY,
                     'curr_allowance' => $request->CURRENT_ALLOWANCE,
                     'off_allowance' => $request->OFFERED_ALLOWANCE,
                 ]);
             }
-
+            $array = $request->REMARKS_FOR_FINANCE;
+            $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             Endorsement::where('candidate_id', $id)->update([
                 'app_status' => $request->APPLICATION_STATUS,
@@ -748,6 +783,7 @@ class CandidateController extends Controller
                 'segment_endo' => $request->SEGMENT,
                 'sub_segment_endo' => $request->SUB_SEGMENT,
                 'endi_date' => $request->DATE_ENDORSED,
+                'category' => $category,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
 
@@ -770,11 +806,13 @@ class CandidateController extends Controller
             //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
             // save candidate added to log table ends
+            Cache::forget('users');
 
             //return success response after successfull data entry
             return response()->json(['success' => true, 'message' => 'Updated successfully']);
         }
     }
+    // close
 
     //doanload candidate cv function starts
     public function downloadCv(Request $request)
@@ -796,8 +834,9 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => 'No Attachment found']);
         }
     }
-    // download canidate cv functon ends
-    // traveseDataByClientProfile
+    // close
+
+    // get candidate profile data from ajax call
     public function traveseDataByClientProfile(Request $request)
     {
 
@@ -811,38 +850,75 @@ class CandidateController extends Controller
         }
         if ($request->position) {
             $request->c_profile == null;
-            $response = DB::table('taverse2')->where("position", $request->position)->first();
+            $response = DB::table('jdl')->where("p_title", $request->position)->where('status', 'like','open')
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
             if ($response) {
 
                 return response()->json(['data' => $response]);
             }
         }
         if ($request->client_dropdown) {
-            $response = DB::table('taverse2')->where("client", $request->client_dropdown)->first();
+            $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like','open')
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
             if ($response) {
-
                 return response()->json(['data' => $response]);
             }
         }
-
         return response()->json(['data' => "no data found"]);
     }
+    // close
+
+    // show data when QR is scanned
+    public function QRCodeDetail(Request $request, $id)
+    {
+
+        $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->where('candidate_informations.id', $id)
+            ->first();
+        $data = [
+            'user' => $user,
+        ];
+        return view('data_entry.qr', $data);
+    }
+    // close
+    // Qr code function
     public function QRCodeGenerator(Request $request, $id)
     {
         $image = QrCode::size(250)
             ->backgroundColor(255, 255, 255)
-            ->generate(url('admin/data-entry') . '?id=' . $request->id);
-
+            ->generate(url('admin/candidate_detail') . '/' . $request->id);
+        // ->generate(view('data_entry.qr', $data)->render());
+        // $png = base64_encode($image);
+        // dd($image);
+        CandidateInformation::where('id', $request->id)->update([
+            'qrImage' => $image,
+        ]);
+        // dd('done');
+        // echo "<img src='data:image/png;base64," . $png . "'>";
         return response($image)->header('Content-type', 'image/png');
     }
-    public function abc(Request $request)
+    // close
+
+    //ajax call for getting candidate list
+    public function get_candidateList()
     {
-        // return $request->all();
-        $p = new Permission();
-        $p->name = $request->name;
-        $p->type = $request->type;
-        // $p->guard_name = 'web';
-        $p->save();
-        return redirect()->back();
+        $user = DB::table('candidate_informations')->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->select('candidate_informations.id', 'candidate_informations.last_name', 'candidate_positions.candidate_profile',
+                'endorsements.client', 'endorsements.position_title', 'endorsements.endi_date')
+            ->where('candidate_informations.saved_by', Auth::user()->id)->get()->toArray();
+        return response()->json($user);
+    }
+    //close
+    // get position titles with ajax
+    public function Get_Position_title(Request $request)
+    {
+        $position_title = DB::table('jdl')->get('p_title');
+        return response()->json($position_title);
     }
 }
