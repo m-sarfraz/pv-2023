@@ -42,7 +42,7 @@
                                             </div> --}}
                                     <h5>Permissions</h5>
                                     <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                      <div class="row m-0 align-items-end">
+                                      <div class="row m-0 align-items-center">
 
                                      
                                         <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">

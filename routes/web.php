@@ -29,7 +29,6 @@ Route::get('/clear-all', function () {
 });
 /* Route for clear cache */
 /* ===================*/
-
 Route::get('/', function () {
     return redirect('login');
 });
@@ -53,7 +52,6 @@ return view('JDL.index');
 // Route::view('log', 'logs.log')->name('log');
 // Route::view('search', 'smartSearch.smart_search')->name('search');
 // Route::view('company','companies.company_profile');
-// Route::view('add_company','companies.add_company_profile');
 
 Route::get('admin/redirect/{cid}/{uid}', 'Admin\UserController@redirectThankyou')->name('redirect');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
@@ -96,11 +94,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
     Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
-
+    
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
-
+    
     Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::get('Get_Position_title', 'CandidateController@Get_Position_title')->name('Get_Position_title');
@@ -109,10 +107,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
-
+    
     // log routes
     Route::get('log', 'LogController@index')->name('log');
-
+    
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
