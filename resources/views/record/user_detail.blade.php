@@ -1,3 +1,11 @@
+<style>
+    select[readonly] {
+        background: rgb(134, 52, 52);
+        pointer-events: none;
+        touch-action: none;
+    }
+
+</style>
 <p class="C-Heading pt-3">Record Details:</p>
 <div class="card mb-13">
     <div class="card-body">
@@ -228,7 +236,7 @@
                         <div class="form-group mb-0">
                             <label class="Label">Domain</label>
 
-                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
+                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C" readonly
                                 onchange="DomainChange(this)">
                                 <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
@@ -276,7 +284,7 @@
                             @endphp
 
                             <label class="Label">Segment:</label>
-                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
+                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C" readonly
                                 onchange="SegmentChange(this)">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
@@ -301,7 +309,7 @@
                                 Sub-Segment:
                             </label>
 
-                            <select name="sub_segment" id="Domain_sub_segment"
+                            <select name="sub_segment" id="Domain_sub_segment" readonly
                                 class="form-control p-0 users-input-S-C">
                                 <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
@@ -585,13 +593,13 @@
                                                     {{-- @dd($user->client) --}}
                                                     <select name="CLIENT_FINANCE"
                                                         onchange="clientChanged('position-title',this)"
-                                                        class="form-control border h-px-20_custom w-100"
+                                                        class="form-control border h-px-20_custom select2_dropdown w-100"
                                                         id="client_finance">
                                                         <option {{ $user->client == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($client->options as $clientOptions)
                                                             <option value="{{ $clientOptions->option_name }}"
-                                                                {{ strtolower($user->client) == strtolower($clientOptions->client) ? 'selected' : '' }}>
+                                                                {{ strtolower($user->client) == strtolower($clientOptions->option_name) ? 'selected' : '' }}>
                                                                 {{ $clientOptions->option_name }}
                                                             </option>
                                                         @endforeach
@@ -637,8 +645,10 @@
                                                     <label class="Label-00 ">
                                                         Position Title:
                                                     </label>
+                                                    <div id="loader2" class="d-none"></div>
+
                                                     <select name="POSITION_TITLE" id="position" {{-- onchange="Fetch_profile()" --}}
-                                                        class="form-control border select2_dropdow pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                         <option {{ $user->position_title == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($pos_title as $position_titleOptions)
@@ -684,13 +694,13 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
-                                                    <select name="DOMAIN_endo" id="domain_endo"
+                                                    <select name="DOMAIN_endo" id="domain_endo" readonly
                                                         onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option {{ $user->domain == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
-                                                            <option value="{{ $domainOption->id }}"
+                                                            <option value="{{ $domainOption->option_name }}"
                                                                 {{ strtolower($user->domain) == strtolower($domainOption->option_name) ? 'selected' : '' }}>
                                                                 {{ $domainOption->domain_name }}</option>
                                                         @endforeach
@@ -720,14 +730,14 @@
                                                     @endphp
 
                                                     <label class="Label">Segment:</label>
-                                                    <select name="endo_segment" id="Domainsegment"
+                                                    <select name="endo_segment" id="Domainsegment" readonly
                                                         class="form-control p-0 users-input-S-C"
                                                         onchange="SegmentChange(this)">
                                                         <option {{ $user->segment == null ? 'selected' : '' }}
                                                             disabled>Select Option
                                                         </option>
                                                         @foreach ($segments as $segmentsOptions)
-                                                            <option value="{{ $segmentsOptions->id }}"
+                                                            <option value="{{ $segmentsOptions->segment_name }}"
                                                                 {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                                                 {{ $segmentsOptions->segment_name }}
                                                             </option>
@@ -771,12 +781,12 @@
                                                     <label class="Label-00 ">
                                                         Sub-Segment:
                                                     </label>
-                                                    <select name="endo_sub_segment " id="endo_sub_segment"
+                                                    <select name="endo_sub_segment " id="endo_sub_segment" readonly
                                                         class="w-100  form-control">
                                                         <option {{ $user->sub_segment == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($sub_segments as $Options)
-                                                            <option value="{{ $Options->id }}"
+                                                            <option value="{{ $Options->sub_segment_name }}"
                                                                 {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
                                                                 {{ $Options->sub_segment_name }}
                                                             </option>
@@ -927,10 +937,18 @@
         }
     });
 
-
+    $('#position').prop("disabled", true);
+    $('#career').prop("disabled", true);
+    $('#domain_endo').prop("readonly", true);
+    $('#Domainsegment').prop("readonly", true);
+    $('#endo_sub_segment').prop("readonly", true);
     var globalData = [];
 
     function clientChanged(dropDown, elem) {
+        $('#loader2').addClass('d-block')
+        $('#loader2').removeClass('d-none')
+        $('#position').prop("disabled", false);
+        $('#career').prop("disabled", false);
         $.ajax({
             url: '{{ url('admin/traveseDataByClientProfile') }}',
             type: 'POST',
@@ -943,6 +961,8 @@
             // Ajax success function
             success: function(res) {
                 if (res.data.length > 0) {
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
                     globalData = res.data;
                     $('#domain_endo').empty();
                     $('#Domainsegment').empty();
@@ -965,8 +985,15 @@
                     $('#Domainsegment').attr('readonly', true);
                     $('#endo_sub_segment').attr('readonly', true);
 
+                } else {
+                    $('#domain_endo').empty();
+                    $('#Domainsegment').empty();
+                    $('#endo_sub_segment').empty();
+                    $('#career').empty();
+                    $('#loader2').addClass('d-none')
+                    $('#loader2').removeClass('d-block')
+                    $('#position').empty();
                 }
-
             }
         })
 

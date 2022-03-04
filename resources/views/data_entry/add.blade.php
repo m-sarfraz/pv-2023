@@ -1848,9 +1848,7 @@
                     $('#status').prop("disabled", false);
                     $('#site').prop("disabled", false);
                     $('#client').prop("disabled", false);
-                    $('#position').prop("disabled", false);
                     $('#domain_endo').prop("disabled", false);
-                    $('#career').prop("disabled", false);
                     $('#segment').prop("disabled", false);
                     $('#sub_segment').prop("disabled", false);
                     $('#endo_date').prop("disabled", false);
@@ -1997,6 +1995,8 @@
         function clientChanged(dropDown, elem) {
             $('#loader2').addClass('d-block')
             $('#loader2').removeClass('d-none')
+            $('#position').prop("disabled", false);
+            $('#career').prop("disabled", false);
             $.ajax({
                 url: '{{ url('admin/traveseDataByClientProfile') }}',
                 type: 'POST',

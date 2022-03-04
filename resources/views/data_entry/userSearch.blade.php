@@ -579,7 +579,6 @@
                                 Position Title:
                             </label>
                             <div id="loader2" class="d-none"></div>
-
                             <select name="POSITION_TITLE" disabled="" id="position"
                                 class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
                                 <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>
