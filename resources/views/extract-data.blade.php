@@ -342,7 +342,7 @@
         <div class="col-lg-12">
             <p class="C-Heading pt-3">Filter By:</p>
           <div class="row mx-0 card align-items-center">
-              <div class="col-lg-11">
+              <div class="col-lg-12">
               <div class=" mb-13 h-100">
                 <div class="card-body px-0">
                     <form action="">
@@ -499,6 +499,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-12 text-center"> <button type="buton" class="btn btn-warning text-white mt-3">Extract</button></div>
                                 </div>
                             </div>
                         </div>
@@ -507,14 +508,15 @@
                 </div>
             </div>
               </div>
-              <div class="col-lg-1"> <button type="buton" class="btn btn-warning text-white w-100">Extract</button></div>
+           
           </div>
 
         </div>
     </div>
    <div class="col-lg-12 mt-3">
    <div class="card d-block py-3 justify-content-center align-items-center" style="text-align:center;">
-   <table id="example1" class="table table-striped table-bordered text-center" style="width:100%">
+  <div class="table-responsive">
+  <table id="example1" class="table table-striped table-bordered text-center" style="width:100%">
         <thead>
             <tr>
                 <th>Name</th>
@@ -554,6 +556,7 @@
                     </td>
                     </tr>
     </table>
+  </div>
    <!-- <img src="{{ asset('assets/image/global/icon.png') }}" width="77" alt="" srcset=""> <span style="    color: #6b6e6f !important;" class="h1 pl-3">76 Records Found</span> </div> -->
    </div>
 </div>
