@@ -94,11 +94,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::resource('role', 'RoleController')->name('*', 'role');
     Route::resource('user', 'UserController')->name('*', 'user');
     Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
-    
+
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
-    
+
     Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::get('Get_Position_title', 'CandidateController@Get_Position_title')->name('Get_Position_title');
@@ -107,10 +107,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
-    
+
     // log routes
     Route::get('log', 'LogController@index')->name('log');
-    
+
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
@@ -131,14 +131,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
-    // Data extract routes
-    Route::get('extract-data', 'DataExtractController@index')->name('extract-data');
-    Route::get('append-extract-option', 'DataExtractController@appendFilterOptions')->name('append-extract-option');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
     Route::get('summaryAppend', 'SmartSearchController@summaryAppend')->name('summaryAppend');
     Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');
     Route::get('appendSmartFilters', 'SmartSearchController@appendSmartFilters')->name('appendSmartFilters');
     Route::post('searchsummary', 'SmartSearchController@searchsummary')->name('searchsummary');
+
+    // Data extract routes
+    Route::get('extract-data', 'DataExtractController@index')->name('extract-data');
+    Route::get('append-extract-option', 'DataExtractController@appendFilterOptions')->name('append-extract-option');
+    Route::get('extract-search-filter', 'DataExtractController@extractData')->name('extract-search-filter');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
