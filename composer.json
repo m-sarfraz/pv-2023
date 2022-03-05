@@ -31,11 +31,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-<<<<<<< HEAD
             "php": "7.3.31"
-=======
-            "php": "7.4.0"
->>>>>>> e16653896bcc803aa2b56a22ca1f37d8b1d5b79f
         }
     },
     "extra": {

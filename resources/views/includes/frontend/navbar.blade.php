@@ -58,7 +58,7 @@
                 </a>
                 <a class="nav-link {{ $routeName == 'extract-data' ? 'nav-active' : 'text-white' }}"
                     href="{{ route('extract-data') }}" style="cursor: pointer;">
-                    extract-data
+                    Extract Data
                 </a>
             @endcan
             <!-- @can('extract-data') -->

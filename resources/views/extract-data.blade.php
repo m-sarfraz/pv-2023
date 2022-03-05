@@ -1,4 +1,4 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
 @section('style')
 <!-- ================= -->
@@ -221,6 +221,48 @@
 </script>
 <script>
 select2Dropdown("select2_dropdown");
+        //append all uiser to dropdown for of candidate list 
+        function appendFilterOptions() {
+            $.ajax({
+                    type: "GET",
+                    url: '{{ route('append-extract-option') }}',
+                })
+                .done(function(res) {
+                    for (let i = 0; i < res.user.length; i++) {
+                        $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name +
+                            '</option>')
+                    }
+                    for (let i = 0; i < res.candidates.length; i++) {
+                        $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i]
+                            .last_name + '</option>')
+                    }
+                    for (let i = 0; i < res.candidates_profile.options.length; i++) {
+                        $('#profile').append('<option value="' + res.candidates_profile.options[i].option_name + '">' +
+                            res.candidates_profile.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.sub_segment.options.length; i++) {
+                        $('#sub_segment').append('<option value="' + res.sub_segment.options[i].option_name + '">' + res
+                            .sub_segment.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.clients.options.length; i++) {
+                        $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients
+                            .options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.career_level.options.length; i++) {
+                        $('#career_level').append('<option value="' + res.career_level.options[i].option_name + '">' +
+                            res.career_level.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.application_status.options.length; i++) {
+                        $('#app_status').append('<option value="' + res.application_status.options[i].option_name +
+                            '">' + res.application_status.options[i].option_name + '</option>')
+                    }
+                    $('#loader1').hide()
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+        }
+        //close 
 </script>
 
 @endsection

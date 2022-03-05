@@ -131,6 +131,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
+    // Data extract routes
+    Route::get('extract-data', 'DataExtractController@index')->name('extract-data');
+    Route::get('append-extract-option', 'DataExtractController@appendFilterOptions')->name('append-extract-option');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
     Route::get('summaryAppend', 'SmartSearchController@summaryAppend')->name('summaryAppend');
     Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');
