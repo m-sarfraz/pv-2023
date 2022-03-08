@@ -65,7 +65,7 @@ class ExtractDataJob implements ShouldQueue
         }
         $header_style = (new StyleBuilder())
             ->setFontSize(12)
-            ->setShouldWrapText(true)
+            ->setShouldWrapText(false)
             ->setBackgroundColor("EDEDED")
             ->setFontBold()
             ->build();
