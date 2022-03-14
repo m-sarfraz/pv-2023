@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\ExtractDataJob;
+use Auth;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
-
+use File;
+use Artisan;
 class DataExtractController extends Controller
 {
     public function index()
@@ -40,11 +42,52 @@ class DataExtractController extends Controller
     public function extractData(Request $request)
     {
         ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
-        ini_set('memory_limit', '1000M');  //1000M  = 1 GB
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
         $data = $request->all();
+        $id = Auth::user()->id;
         // dispatch ob for exporting the data
-        ExtractDataJob::dispatch($data)->delay(now());
+        ExtractDataJob::dispatch($data, $id)->delay(now());
+        // return response()->json(['warning' => true, 'message' => 'Data Extraction has been Started!']);
+
     }
     // close
+
+    public function getReportHistory()
+    {
+        return response()->view('report-history');
+    }
+    public function downloadReport(Request $request)
+    {
+        // return $request->all();
+        // ini_set('memory_limit', '9072M');
+        // ini_set('MAX_EXECUTION_TIME', '-1');
+        // set_time_limit(10 * 60);
+        
+        // $fullFolderZipFile  = public_path().'/export/'.date('ym');
+        // $filePath           = $fullFolderZipFile.'/'.$request->fileName;
+        $filePath = storage_path('app/' . $request->file_name);
+        $nameDownload = "test";
+        if (file_exists($filePath)) {
+            $byteS = filesize($filePath);
+            $mb = number_format($byteS / 1048576, 2);
+            // if ($mb > 10) {
+            //     $filePathZip = ZipUtil::generateZipFromFile($filePath, $fullFolderZipFile, $request->file_name);
+            //     $nameDownload .= ".zip";
+            // } else {
+
+                $filePathZip = $filePath;
+                $nameDownload .= "." . pathinfo($request->file_name, PATHINFO_EXTENSION);
+            // }
+            
+            $mimeType = File::mimeType($filePathZip);
+            // dd ('mimetpe is'. $mimeType);
+            return response()->download($filePathZip, $nameDownload, [
+                'Content-Type' => $mimeType,
+                'Content-Encoding' => 'Shift-JIS',
+            ]);
+            // ->deleteFileAfterSend(true);
+        }
+        // return '';
+    }
 
 }

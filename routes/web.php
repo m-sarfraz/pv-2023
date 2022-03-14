@@ -141,6 +141,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('extract-data', 'DataExtractController@index')->name('extract-data');
     Route::get('append-extract-option', 'DataExtractController@appendFilterOptions')->name('append-extract-option');
     Route::get('extract-search-filter', 'DataExtractController@extractData')->name('extract-search-filter');
+    Route::get('get-report-history', 'DataExtractController@getReportHistory')->name('get-report-history');
+    Route::get('download-report', 'DataExtractController@downloadReport')->name('download-report');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');

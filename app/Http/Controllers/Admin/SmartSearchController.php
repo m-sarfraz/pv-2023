@@ -19,6 +19,7 @@ class SmartSearchController extends Controller
     // __construct() for checking permission
     public function __construct()
     {
+        set_time_limit(8000000);
         $this->middleware('permission:view-smart-search', ['only' => ['index']]);
     }
     //close
@@ -57,7 +58,8 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-        $allData = DB::Select('select * from smart_view');
+        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
+        $allData = DB::table('smart_view');
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {

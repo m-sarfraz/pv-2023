@@ -42,7 +42,6 @@
                     style="cursor: pointer;">
                     Logs
                 </a>
-
             @endcan
             @can('view-domain-list')
                 <a class="nav-link {{ $routeName == 'domain' ? 'nav-active' : 'text-white' }}"
@@ -51,20 +50,17 @@
                 </a>
             @endcan
             @can('view-smart-search')
-
                 <a class="nav-link {{ $routeName == 'search' ? 'nav-active' : 'text-white' }}"
                     href="{{ route('search') }}" style="cursor: pointer;">
                     Smart Search
                 </a>
-                <a class="nav-link {{ $routeName == 'extract-data' ? 'nav-active' : 'text-white' }}"
-                    href="{{ route('extract-data') }}" style="cursor: pointer;">
-                    Extract Data
-                </a>
             @endcan
-            <!-- @can('extract-data') -->
+            <!-- @can('extract-data')
+    -->
 
-            <!-- @endcan -->
-         
+                <!--
+@endcan -->
+
             @can('view-dropdowns')
                 <div class="dropdown pt-2 pl-2 text-white">
                     Dropdowns
@@ -110,6 +106,19 @@
                     </div>
                 </div>
             @endcan
+            {{-- @can('view_reports') --}}
+                <div class="dropdown pt-2 pl-2 text-white">
+                    Reports
+                    <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
+                    <div class="dropdown-content" style="left: 14px;">
+                        <a class="nav-link" href="{{ route('extract-data') }}" style="cursor: pointer;">
+                            Extract Data
+                        </a>
+
+                    </div>
+                </div>
+            {{-- @endcan --}}
+
             <div class="ml-auto E_S_icon pr-8 px-3">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
                             <div class="pt-0">
@@ -126,11 +135,11 @@
                 <div class="dropdown px-2">
                     <?php
                     $user = Auth::user();
-                     
+                    
                     ?>
                     <img class="mb-1 dropbtn" src="{{ url('storage/' . $user->image) }}" alt="" style="    width: 33px;
                     height: 33px;
-                    border-radius: 100%;"  />
+                    border-radius: 100%;" />
                     <i class="bi bi-chevron-down mt-2" style="color: white;"></i>
                     <div class="dropdown-content">
                         {{-- @can('view-profile') --}}

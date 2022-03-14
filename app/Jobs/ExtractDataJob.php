@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Report;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use DB;
 use Illuminate\Bus\Queueable;
@@ -15,15 +16,17 @@ class ExtractDataJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $data;
+    private $id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $id)
     {
         $this->data = $data;
+        $this->id = $id;
     }
 
     /**
@@ -33,6 +36,7 @@ class ExtractDataJob implements ShouldQueue
      */
     public function handle()
     {
+
         $Userdata = DB::table('data_extract_view');
         //    check null values coming form selected options
         if (isset($this->data['domain'])) {
@@ -74,8 +78,29 @@ class ExtractDataJob implements ShouldQueue
             ->setShouldWrapText(false)
             ->setBackgroundColor("FFFFFF")
             ->build();
-        return ((new FastExcel($this->usersGenerator($Userdata)))->headerStyle($header_style)
-                ->rowsStyle($row_style)->export(storage_path('app/' . time() . '.xlsx')));
+
+        if ($Userdata) {
+            $fileName = time();
+            $report = new Report();
+            $report->type = 'excel';
+            $report->user_id = $this->id;
+            $report->export_date = now();
+            $report->status = 'Processing';
+            $report->save();
+            try {
+                if ((new FastExcel($this->usersGenerator($Userdata)))->headerStyle($header_style)
+                    ->rowsStyle($row_style)->export(public_path('storage/reports/' . $fileName . '.xlsx'))) {
+                    Report::where('id', $report->id)->update([
+                        'download_link' =>$fileName . '.xlsx',
+                        'status' => 'Exported',
+                    ]);
+                }
+
+            } catch (\Exception$e) {
+                return $e->getMessage();
+            }
+
+        }
 
     }
     public function usersGenerator($Userdata)

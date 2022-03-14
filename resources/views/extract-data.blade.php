@@ -8,6 +8,177 @@
         <!-- Datatable css end-->
         <!-- ================= -->
         <style>
+            /* START TOOLTIP STYLES */
+            [tooltip] {
+                position: relative;
+                /* opinion 1 */
+            }
+
+            /* Applies to all tooltips */
+            [tooltip]::before,
+            [tooltip]::after {
+                text-transform: none;
+                /* opinion 2 */
+                font-size: .9em;
+                /* opinion 3 */
+                line-height: 1;
+                user-select: none;
+                pointer-events: none;
+                position: absolute;
+                display: none;
+                opacity: 0;
+            }
+
+            .tooltip-inner {
+                white-space: pre-wrap;
+            }
+
+            [tooltip]::before {
+                content: '';
+                border: 5px solid transparent;
+                /* opinion 4 */
+                z-index: 1001;
+                /* absurdity 1 */
+            }
+
+            [tooltip]::after {
+                content: attr(tooltip);
+                /* magic! */
+
+                /* most of the rest of this is opinion */
+                font-family: Helvetica, sans-serif;
+                text-align: center;
+
+                /*
+                                                                                                                    Let the content set the size of the tooltips
+                                                                                                                    but this will also keep them from being obnoxious
+                                                                                                                    */
+                min-width: 3em;
+                /* max-width: 21em; */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 1ch 1.5ch;
+                border-radius: .3ch;
+                box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+                background: #333;
+                color: #fff;
+                z-index: 1000;
+                /* absurdity 2 */
+            }
+
+            /* Make the tooltips respond to hover */
+            [tooltip]:hover::before,
+            [tooltip]:hover::after {
+                display: block;
+            }
+
+            /* don't show empty tooltips */
+            [tooltip='']::before,
+            [tooltip='']::after {
+                display: none !important;
+            }
+
+            /* FLOW: UP */
+            [tooltip]:not([flow])::before,
+            [tooltip][flow^="up"]::before {
+                bottom: 100%;
+                border-bottom-width: 0;
+                border-top-color: #333;
+            }
+
+            [tooltip]:not([flow])::after,
+            [tooltip][flow^="up"]::after {
+                bottom: calc(100% + 5px);
+            }
+
+            [tooltip]:not([flow])::before,
+            [tooltip]:not([flow])::after,
+            [tooltip][flow^="up"]::before,
+            [tooltip][flow^="up"]::after {
+                left: 50%;
+                transform: translate(-50%, -.5em);
+            }
+
+            /* FLOW: DOWN */
+            [tooltip][flow^="down"]::before {
+                top: 100%;
+                border-top-width: 0;
+                border-bottom-color: #333;
+            }
+
+            [tooltip][flow^="down"]::after {
+                top: calc(100% + 5px);
+            }
+
+            [tooltip][flow^="down"]::before,
+            [tooltip][flow^="down"]::after {
+                left: 50%;
+                transform: translate(-50%, .5em);
+            }
+
+            /* FLOW: LEFT */
+            [tooltip][flow^="left"]::before {
+                top: 50%;
+                border-right-width: 0;
+                border-left-color: #333;
+                left: calc(0em - 5px);
+                transform: translate(-.5em, -50%);
+            }
+
+            [tooltip][flow^="left"]::after {
+                top: 50%;
+                right: calc(100% + 5px);
+                transform: translate(-.5em, -50%);
+            }
+
+            /* FLOW: RIGHT */
+            [tooltip][flow^="right"]::before {
+                top: 50%;
+                border-left-width: 0;
+                border-right-color: #333;
+                right: calc(0em - 5px);
+                transform: translate(.5em, -50%);
+            }
+
+            [tooltip][flow^="right"]::after {
+                top: 50%;
+                left: calc(100% + 5px);
+                transform: translate(.5em, -50%);
+            }
+
+            /* KEYFRAMES */
+            @keyframes tooltips-vert {
+                to {
+                    opacity: .9;
+                    transform: translate(-50%, 0);
+                }
+            }
+
+            @keyframes tooltips-horz {
+                to {
+                    opacity: .9;
+                    transform: translate(0, -50%);
+                }
+            }
+
+            /* FX All The Things */
+            [tooltip]:not([flow]):hover::before,
+            [tooltip]:not([flow]):hover::after,
+            [tooltip][flow^="up"]:hover::before,
+            [tooltip][flow^="up"]:hover::after,
+            [tooltip][flow^="down"]:hover::before,
+            [tooltip][flow^="down"]:hover::after {
+                animation: tooltips-vert 300ms ease-out forwards;
+            }
+
+            [tooltip][flow^="left"]:hover::before,
+            [tooltip][flow^="left"]:hover::after,
+            [tooltip][flow^="right"]:hover::before,
+            [tooltip][flow^="right"]:hover::after {
+                animation: tooltips-horz 300ms ease-out forwards;
+            }
+
             .row {
                 margin: 0px !important;
             }
@@ -23,8 +194,8 @@
             }
 
             /* -----------------------------------------
-                          =Default css to make the demo more pretty
-                        -------------------------------------------- */
+                                                                                                                                                                                                                                                                                                                                                  =Default css to make the demo more pretty
+                                                                                                                                                                                                                                                                                                                                                -------------------------------------------- */
             .table td,
             .table th {
                 padding: 0.75rem;
@@ -40,20 +211,20 @@
 
 
             /* -----------------------------------------
-                          =CSS3 Loading animations
-                        -------------------------------------------- */
+                                                                                                                                                                                                                                                                                                                                                  =CSS3 Loading animations
+                                                                                                                                                                                                                                                                                                                                                -------------------------------------------- */
 
             /* =Elements style
-                        ---------------------- */
+                                                                                                                                                                                                                                                                                                                                                ---------------------- */
             .load-wrapp {
                 float: left;
                 /* width: 100px;
-                          height: 100px; */
+                                                                                                                                                                                                                                                                                                                                                  height: 100px; */
                 /* margin: 0 10px 10px 0; */
                 /* padding: 20px 20px 20px; */
                 /* border-radius: 5px; */
                 /* text-align: center;
-                          background-color: #d8d8d8; */
+                                                                                                                                                                                                                                                                                                                                                  background-color: #d8d8d8; */
             }
 
             .load-wrapp p {
@@ -114,8 +285,8 @@
 
             .letter {
                 float: left;
-                font-size: 14px;
-                color: #777;
+                font-size: 26px;
+                color: rgb(220 134 39);
             }
 
             .square {
@@ -492,7 +663,11 @@
                                                 </div>
                                                 <div class="text-center col-4 mt-5">
                                                     <button type="buton" onclick="extractResultFunction(this)"
-                                                        class="btn btn-warning btn btn-lg w-75 text-white">Extract</button>
+                                                        id="buttonExtract"
+                                                        class="btn btn-warning btn btn-lg w-75 text-white">Extract
+                                                        Data
+                                                        <span id="buttonTimer"></span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -511,54 +686,19 @@
 
         </div>
         </div>
-        <div class="col-lg-12 mt-3">
-            <h2 class="mt-4 mb-3 px-2">Report History</h2>
-            <div class="card d-block py-3 justify-content-center align-items-center" style="text-align:center;">
-                <div class="table-responsive">
-                    <table id="example1" class="table table-striped table-bordered text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Excel Type</th>
-                                <th>Export - Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>Edinburgh</td>
-                                <td>12/2/12</td>
-                                <td class="">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="load-wrapp">
-                                            <div class="load-6 d-flex justify-content-center">
-                                                <div class="letter-holder">
-                                                    <div class="l-1 letter">P</div>
-                                                    <div class="l-2 letter">r</div>
-                                                    <div class="l-3 letter">o</div>
-                                                    <div class="l-4 letter">c</div>
-                                                    <div class="l-5 letter">e</div>
-                                                    <div class="l-6 letter">s</div>
-                                                    <div class="l-7 letter">s</div>
-                                                    <div class="l-7 letter">i</div>
-                                                    <div class="l-7 letter">n</div>
-                                                    <div class="l-7 letter">g</div>
-                                                    <div class="l-8 letter">.</div>
-                                                    <div class="l-9 letter">.</div>
-                                                    <div class="l-10 letter">.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="ml-5"><button
-                                                class="btn btn-warning text-white">Exported</button></div>
-                                    </div>
-                                </td>
-                            </tr>
-                    </table>
-                </div>
-                <!-- <img src="{{ asset('assets/image/global/icon.png') }}" width="77" alt="" srcset=""> <span style="    color: #6b6e6f !important;" class="h1 pl-3">76 Records Found</span> </div> -->
-            </div>
+        <div class="d-flex align-items-end">
+            <h2 class="mt-4 mb-0 ml-3 mt-3 px-2">Report History </h2>
+            <h4> <span>
+                    <a style="color:blue"
+                        tooltip="Click on Extract Data button after selecting any filter,&#013; Downlaod Link will be available after report is ready to download!"
+                        flow="right">
+                        <i class="bi bi-info-circle"></i> </a>
+                </span>
+            </h4>
+        </div>
+        <span class="ml-4 mt-0"> <i>(Report History contains 10 recent reports)</i> </span>
+        <div class="col-lg-12 mt-3" id="reportHistoryTable">
+            <div class="mt-5" id="loader2"></div>
         </div>
     @endsection
 
@@ -567,7 +707,9 @@
         <script>
             select2Dropdown("select2_dropdown");
             $(document).ready(function() {
-                appendFilterOptions()
+                appendFilterOptions();
+                appendHistory();
+                onTimer();
             })
             //append  dropdowns
             function appendFilterOptions() {
@@ -611,8 +753,47 @@
             }
             //close 
 
+            // report download ajax function starts 
+            // function downloadReportAjaxCall(elem, fileName) {
+            //     console.log('hi')
+            //     $.ajax({
+            //             url: "{{ route('download-report') }}",
+            //             type: "GET",
+            //             xhrFields: {
+            //                 responseType: 'blob'
+            //             },
+            //             data: {
+            //                 _token: token,
+            //                 file_name: fileName,
+            //             },
+            //         })
+            //         .done(function(res) {
+            //             var url = window.URL.createObjectURL(res);r
+            //             window.open(url)
+            //             // var link = document.createElement('a');
+            //             // var filename = "data.xlsx";
+            //             // link.href = url;
+            //             // link.setAttribute('download', filename);
+            //             // document.body.appendChild(link);
+            //             // link.click();
+            //         })
+            //         .fail(function(err) {
+            //             $("#loader").hide();
+            //         });
+            // }
+            // close 
             // extract result function starts 
             function extractResultFunction(elem) {
+                // $('#buttonExtract').attr('disabled', true)
+
+                // onTimer();
+                swal({
+                    icon: "success",
+                    text: "{{ __('Report has been put to Queue!') }}",
+                    //content: wrapper,
+                    icon: "success",
+                });
+                appendHistory();
                 // elem.preventDefault();
                 // get values of selected inputs of users
                 domain = $('#domain').val();
@@ -627,33 +808,59 @@
                 endo_end = $('#endo_end').val();
                 //Calling Ajax
                 $.ajax({
-                    url: "{{ route('extract-search-filter') }}",
-                    type: "GET",
-                    data: {
-                        _token: token,
-                        domain: domain,
-                        client: client,
-                        career_level: career_level,
-                        category: category,
-                        status: status,
-                        remarks: remarks,
-                        endo_start: endo_start,
-                        endo_end: endo_end,
-                        sift_start: sift_start,
-                        sift_end: sift_end,
-                        // searchKeyword: searchKeyword,
-                    },
-                    success: function(res) {
+                        url: "{{ route('extract-search-filter') }}",
+                        type: "GET",
+                        data: {
+                            _token: token,
+                            domain: domain,
+                            client: client,
+                            career_level: career_level,
+                            category: category,
+                            status: status,
+                            remarks: remarks,
+                            endo_start: endo_start,
+                            endo_end: endo_end,
+                            sift_start: sift_start,
+                            sift_end: sift_end,
+                            // searchKeyword: searchKeyword,
+                        }
+                    })
+                    .done(function(res) {
+                        swal("Info", res.message, "warning").then((value) => {
 
+                            location.reload();
+                        });
                         $("#loader").hide();
-                    },
-                    error: function() {
+                    })
+                    .fail(function(err) {
                         $("#loader").hide();
-                    }
-                });
-                return false;
+                    })
             }
-            //close 
+            //close
+
+            // set interval for appending the history periodically 
+            setInterval(() => {
+                appendHistory();
+            }, 60000);
+            // close 
+
+            // append  history function 
+            function appendHistory() {
+                $.ajax({
+                        url: "{{ route('get-report-history') }}",
+                        type: "GET",
+                    })
+                    .done(function(res) {
+                        $('#reportHistoryTable').html(res)
+                    })
+                    // $("#loader").hide();
+                    .fail(function(err) {
+                        // $("#loader").hide();
+                    });
+            }
+            // close 
+
+            // function for data table 
             $(function() {
                 $("#example1").DataTable({
                     "responsive": true,
@@ -661,5 +868,29 @@
                     "autoWidth": false,
                 });
             });
+            // close 
+            // var i = 10;
+
+            // function onTimer() {
+            //     if (localStorage.getItem('timer') > 1) {
+            //         i = localStorage.getItem('timer')
+            //         $('#buttonExtract').attr('disabled', true)
+
+            //         // document.getElementById('buttonTimer').innerHTML = i;
+            //     }  
+
+            //         document.getElementById('buttonTimer').innerHTML = i;
+
+                
+            //     i--;
+            //     if (i < 1) {
+            //         document.getElementById('buttonTimer').innerHTML = '';
+            //         $('#buttonExtract').attr('disabled', false)
+            //         clearInterval(i);
+            //     } else {
+            //         localStorage.setItem('timer', i)
+            //         setTimeout(onTimer, 1000);
+            //     }
+            // }
         </script>
     @endsection
