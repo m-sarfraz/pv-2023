@@ -117,8 +117,8 @@
 
                                     <tr>
                                         <td><?php echo $data[$i]->name; ?></td>
-                                        <td>@php echo number_format($TAT, 2) @endphp</td>
-                                        <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?number_format($append[$i]['incentive_base_revenue_'.$i][0]->Sume, 2):'0.00' @endphp</td>
+                                        <td>@php echo $TAT @endphp</td>
+                                        <td>@php echo  isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?number_format($append[$i]['incentive_base_revenue_'.$i][0]->Sume, 2, ".", ","):'0.00' @endphp</td>
                                         <td>@php echo  isset($append[$i]['PDM_LessShare_'.$i][0]->Sume)?number_format($append[$i]['PDM_LessShare_'.$i][0]->Sume, 2, ".", ","):'0.00' @endphp</td>
                                         
                                         <td>@php $incentive_base_revenue = isset($append[$i]['incentive_base_revenue_'.$i][0]->Sume)?$append[$i]['incentive_base_revenue_'.$i][0]->Sume:'0.00';
@@ -198,22 +198,22 @@
                                 <tbody>
                                     <tr>
                                         <td>Quarterly</td>
-                                        <td>@php echo number_format(400000, 2) @endphp</td>
+                                        <td>400000</td>
                                         <td> @php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?number_format($append[$i][$index_Quarterly_data__check][0]->f_srp, 2, ".", ","):'0.00';@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100, 2, ".", ",")):'0.00';@endphp %</td>
+                                        <td>@php echo  isset($append[$i][$index_Quarterly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Quarterly_data__check][0]->f_srp/400000)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Monthly</td>
-                                        <td>@php echo number_format(1200000, 2) @endphp</td>
+                                        <td>1200000</td>
                                         <td> @php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?number_format($append[$i][$index_Mounthly_data__check][0]->f_srp, 2, ".", ","):'0.00';@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Mounthly_data__check][0]->f_srp/1200000)*100, 2, ".", ",")):'0.00';@endphp %</td>
+                                        <td>@php echo  isset($append[$i][$index_Mounthly_data__check][0]->f_srp)?(number_format(($append[$i][$index_Mounthly_data__check][0]->f_srp/1200000)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                     <tr>
                                         <td>Weekly (WK-7)</td>
-                                        <td>@php echo number_format(342857, 2) @endphp</td>
+                                        <td>342857</td>
                                       
                                         <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?number_format($append[$i][$index_weekly_data__check][0] ->f_srp, 2, ".", ","):'0.00';@endphp</td>
-                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?(number_format(($append[$i][$index_weekly_data__check][0] ->f_srp/342857)*100, 2, ".", ",")):'0.00';@endphp %</td>
+                                        <td>@php echo  isset($append[$i][$index_weekly_data__check][0]->f_srp)?(number_format(($append[$i][$index_weekly_data__check][0] ->f_srp/342857)*100, 2, ".", ",")):'0.00';@endphp</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -271,24 +271,24 @@
 
 
     <!-- <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
+                                                                                                            <div class="row justify-content-center">
+                                                                                                                <div class="col-md-8">
+                                                                                                                    <div class="card">
+                                                                                                                        <div class="card-header">Dashboard</div>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                                                                                                                        <div class="card-body">
+                                                                                                                            @if (session('status'))
+                                                                                                                                <div class="alert alert-success" role="alert">
+                                                                                                                                    {{ session('status') }}
+                                                                                                                                </div>
+                                                                                                                            @endif
 
-                        You are logged in!
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+                                                                                                                            You are logged in!
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->

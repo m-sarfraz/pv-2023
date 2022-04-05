@@ -17,7 +17,7 @@ function newRecord(elem) {
     // $(elem).prop("disabled", true);
     // $(elem).closest('form').find(':input').val("");
     // window.location="{{URL::to('home')}}";
-    window.location.href = "https://eallaine.com/admin/data-entry";
+    window.location.href = $(elem).data('href');
 
 }
 
@@ -60,7 +60,7 @@ function RemarksChange(elem) {
 
         // $('#off_allowance').prop("disabled", true);
     }
-    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard')|| value.includes('Scheduled') || value.includes('Offer accepted')) {
+    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard') || value.includes('Scheduled') || value.includes('Offer accepted')) {
         $('#off_allowance').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
     }
@@ -280,13 +280,13 @@ function EnableUserEdit(elem) {
         $('#client').prop("disabled", false);
         $('#endo_type').prop("disabled", false);
         $('#position').prop("disabled", false);
-        $('#domain_endo').prop("disabled", true);
+        $('#domain_endo').attr("readonly", true);
         $('#career').prop("disabled", false);
-        $('#segment').prop("disabled", true);
-        $('#sub_segment').prop("disabled", true);
-        $('#Domainsegment').prop("disabled", true);
-        $('#domain').prop("disabled", true);
-        $('#Domainsub').prop("disabled", true);
+        $('#segment').attr("readonly", true);
+        $('#sub_segment').attr("readonly", true);
+        $('#Domainsegment').attr("readonly", true);
+        $('#domain').attr("readonly", true);
+        $('#Domainsub').attr("readonly", true);
         $('#endo_date').prop("disabled", false);
         $('#remarks_for_finance').prop("disabled", false);
         // $('#expec_salary').prop("disabled", false);

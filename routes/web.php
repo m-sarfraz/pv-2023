@@ -55,7 +55,7 @@ return view('JDL.index');
 
 Route::get('admin/redirect/{cid}/{uid}', 'Admin\UserController@redirectThankyou')->name('redirect');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::get('candidate_detail/{id}', 'CandidateController@QRCodeDetail')->name('QRCodeDetail');
+    Route::get('candidate_detail/{id}/{endoID}', 'CandidateController@QRCodeDetail')->name('QRCodeDetail');
 });
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
@@ -107,6 +107,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
     Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
     Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
+
+    // multiple endorsements view routes
+    Route::post('endorsements_detail_view', 'CandidateController@endorsementDetailView')->name('endorsements_detail_view');
 
     // log routes
     Route::get('log', 'LogController@index')->name('log');

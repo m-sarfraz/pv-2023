@@ -11,9 +11,9 @@ use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
-use Auth;
 use Cache;
 use DB;
+use Auth;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -55,7 +55,7 @@ class RecordController extends Controller
     {
         $check = $searchCheck = false;
 
-        $Userdata = DB::table('view_record');
+        $Userdata = DB::table('view_record')->orderBy('timestamp', 'desc');
 
         // condition for checking first to end not null starts here
 
@@ -85,11 +85,12 @@ class RecordController extends Controller
 
             $Userdata->where('view_record.endi_date', $request->date);
         }
-        $Alldata = $Userdata;
+        $Alldata = $Userdata->get();
+        // return $Alldata;
         return Datatables::of($Alldata)
             ->addIndexColumn()
             ->addColumn('id', function ($Alldata) {
-                return $Alldata->cid;
+                return $Alldata->cid . '-' . $Alldata->numberOfEndo . '-' . $Alldata->saved_by;
             })
             ->addColumn('recruiter', function ($Alldata) {
                 return $Alldata->recruiter;
@@ -135,12 +136,11 @@ class RecordController extends Controller
     }
     public function view_record_table()
     {
-        $record = DB::table('view_record');
-
+        $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
-                return $record->cid;
+                return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
             })
             ->addColumn('recruiter', function ($record) {
                 return $record->recruiter;
@@ -197,16 +197,11 @@ class RecordController extends Controller
     public function UserDetails(Request $request)
     {
 
-        // return $request->id;
-        $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where('candidate_informations.id', $request->id)
+        $arrayofID = explode('-', $request->id);
+        // return $arrayofID;
+        $user = DB::table('six_table_view')
+            ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
             ->first();
-
         $domainDrop = Domain::all();
         $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
         $client = DB::table('taverse2')->distinct()->select('client')->get();
@@ -223,8 +218,10 @@ class RecordController extends Controller
 
     public function updateDetails(Request $request)
     {
-        // return  $request->all();
-
+        // return $request->id;
+        $arr = explode('-', $request->id);
+        $c_id = $arr[0];
+        $endo_id = $arr[1];
         $arrayCheck = [
             'SOURCE' => 'required',
             "first_name" => "required",
@@ -258,7 +255,7 @@ class RecordController extends Controller
         } else {
             // Update data of eantry page
             // $name = explode(" ", $request->first_name);
-            CandidateInformation::where('id', $request->id)->update([
+            CandidateInformation::where('id', $c_id)->update([
                 'first_name' => $request->first_name,
                 // 'middle_name' => $name[1],
                 // 'last_name' => $name[2],
@@ -268,17 +265,17 @@ class RecordController extends Controller
                 'gender' => $request->gender,
                 'dob' => $request->dob,
                 'status' => '1',
-                'saved_by' => Auth::user()->id,
+                // 'saved_by' => Auth::user()->id,
             ]);
 
             // update candidate education data
-            $For_save_good_format=[];
-            if(isset($request->CERTIFICATIONS)){
-                
-            $For_save_good_format = implode(",",$request->CERTIFICATIONS);
+            $For_save_good_format = [];
+            if (isset($request->CERTIFICATIONS)) {
+
+                $For_save_good_format = implode(",", $request->CERTIFICATIONS);
             }
 
-            CandidateEducation::where('candidate_id', $request->id)->update([
+            CandidateEducation::where('candidate_id', $c_id)->update([
                 'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
                 'course' => $request->COURSE,
                 'certification' => $For_save_good_format,
@@ -289,17 +286,17 @@ class RecordController extends Controller
             // $name = Segment::where('id', $request->segment)->first();
             // $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
 
-            CandidateDomain::where('candidate_id', $request->id)->update([
+            CandidateDomain::where('candidate_id', $c_id)->update([
                 'date_shifted' => $request->date_shifted,
                 'domain' => $request->DOMAIN,
                 'interview_note' => $request->notes,
                 'segment' => $request->segment,
                 'sub_segment' => $request->sub_segment,
-                'emp_history'=>$request->EMPLOYMENT_HISTORY,
+                'emp_history' => $request->EMPLOYMENT_HISTORY,
             ]);
 
             // update candidate position data according to requested data
-            CandidatePosition::where('candidate_id', $request->id)->update([
+            CandidatePosition::where('candidate_id', $c_id)->update([
                 'candidate_profile' => $request->CANDIDATES_PROFILE,
                 'position_applied' => $request->position_applied,
                 'date_invited' => $request->date_invited,
@@ -310,11 +307,10 @@ class RecordController extends Controller
                 'source' => $request->SOURCE,
                 'curr_allowance' => $request->curr_allowance,
                 'off_allowance' => $request->offered_allowance,
-                
-            ]);
 
+            ]);
             //update endorsements table according to data updated
-            Endorsement::where('candidate_id', $request->id)->update([
+            Endorsement::where(['candidate_id' => $c_id, 'numberOfEndo' => $endo_id, 'saved_by' => Auth::user()->id])->update([
                 'app_status' => $request->APPLICATION_STATUS,
                 'remarks' => $request->REMARKS_FROM_FINANCE,
                 'client' => $request->CLIENT_FINANCE,
@@ -328,7 +324,7 @@ class RecordController extends Controller
                 'segment_endo' => $request->endo_segment,
                 'sub_segment_endo' => $request->endo_sub_segment,
                 'endi_date' => $request->endo_date,
-                'remarks_for_finance' => $request->REMARKS_FROM_FINANCE,
+                'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
 
             //save CANDIDATE addeed log to table starts

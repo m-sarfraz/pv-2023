@@ -415,7 +415,8 @@
                             <label class="Label">
                                 Sifted By:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="shifted_by" />
+                            <input readonly type="text" class="form-control users-input-S-C"
+                                value="{{ $user->recruiter }}" name="shifted_by" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -428,16 +429,15 @@
                             <label class="d-block font-size-3 mb-0">
                                 Interview Notes:
                             </label>
-                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                value="" placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
+                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom" value=""
+                                placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
                         </div>
                         <div class="pt-3">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
                                     Employment History:
                                 </label>
-                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                    class="form-control border E_H h-px-20_custom"
+                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                     placeholder="Enter Interview Notes">{{ $user->emp_history }}</textarea>
 
                             </div>
@@ -694,14 +694,15 @@
                                                     <label class="Label-00">
                                                         Domain:
                                                     </label>
+                                                    {{-- @dd($user->domain_endo) --}}
                                                     <select name="DOMAIN_endo" id="domain_endo" readonly
                                                         onchange="DomainChange(this)"
                                                         class="form-control p-0 users-input-S-C">
                                                         <option {{ $user->domain == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
                                                         @foreach ($domainDrop as $domainOption)
-                                                            <option value="{{ $domainOption->option_name }}"
-                                                                {{ strtolower($user->domain) == strtolower($domainOption->option_name) ? 'selected' : '' }}>
+                                                            <option value="{{ $domainOption->domain_name }}"
+                                                                {{ strtolower($user->domain_endo) == strtolower($domainOption->domain_name) ? 'selected' : '' }}>
                                                                 {{ $domainOption->domain_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -726,7 +727,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $segments = DB::select('select * from segments');
+                                                        $segments = Helper::get_dropdown('segments');
                                                     @endphp
 
                                                     <label class="Label">Segment:</label>
@@ -736,10 +737,10 @@
                                                         <option {{ $user->segment == null ? 'selected' : '' }}
                                                             disabled>Select Option
                                                         </option>
-                                                        @foreach ($segments as $segmentsOptions)
+                                                        @foreach ($segments->options as $segmentsOptions)
                                                             <option value="{{ $segmentsOptions->segment_name }}"
-                                                                {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
-                                                                {{ $segmentsOptions->segment_name }}
+                                                                {{ strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
+                                                                {{ $segmentsOptions->option_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -776,7 +777,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0">
                                                     @php
-                                                        $sub_segments = DB::select('select * from sub_segments');
+                                                        $sub_segments = Helper::get_dropdown('sub_segment');
                                                     @endphp
                                                     <label class="Label-00 ">
                                                         Sub-Segment:
@@ -785,10 +786,10 @@
                                                         class="w-100  form-control">
                                                         <option {{ $user->sub_segment == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
-                                                        @foreach ($sub_segments as $Options)
+                                                        @foreach ($sub_segments->options as $Options)
                                                             <option value="{{ $Options->sub_segment_name }}"
-                                                                {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
-                                                                {{ $Options->sub_segment_name }}
+                                                                {{ strtolower($user->sub_segment_endo) == strtolower($Options->option_name) ? 'selected' : '' }}>
+                                                                {{ $Options->option_name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -836,13 +837,13 @@
                 <a class="btn btn-success mt-5 btn-md" type="button" target="blank"
                     href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
             @endif
-            @if (Auth::user()->id == $user->saved_by)
+            @if (Auth::user()->id == $user->recruiter_id)
                 @can('edit-record')
                     <button class="btn btn-primary mt-5 btn-md"
-                        onclick="UpdateRecord('{{ $user->cid }}')">Update</button>
+                        onclick="UpdateRecord('{{ $user->id . '-' . $user->numberOfEndo }}')">Update</button>
                 @endcan
             @else
-                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
+                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
                     class="btn btn-primary mt-5 btn-md">Tap</a>
             @endif
         </form>
@@ -853,7 +854,7 @@
     // show searcable select using select 2 dropdown
     select2Dropdown("select2_dropdown");
     var recruiter = "{{ Auth::user()->id }}";
-    var candidate = "{{ $user->saved_by }}";
+    var candidate = "{{ $user->recruiter_id }}";
     if (recruiter == candidate) {
         $('#recordFieldset').prop("disabled", false)
     } else {

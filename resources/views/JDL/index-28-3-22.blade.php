@@ -61,9 +61,8 @@
 
 @section('content')
     <div class="container-fluid">
-
         <div class="row m-0 pt-4">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <p class="C-Heading">Requirements Finder:</p>
                 <div class="card mb-13">
                     <div id="loader1" style="display: block;"></div>
@@ -93,7 +92,7 @@
                             </div>
                             <p class="mb-0 pt-2">Filter by:</p>
                             <div class="row mb-1 align-items-center">
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
 
                                         <label class="d-block font-size-3 mb-0">
@@ -105,7 +104,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-1">
 
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
@@ -117,8 +116,9 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-3">
+                            </div>
+                            <div class="row mb-1 align-items-center">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 Label labelFontSize mb-0">
                                             Segment
@@ -128,8 +128,7 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
 
                                         <label class="d-block font-size-3 mb-0">
@@ -141,11 +140,9 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
-
                             <div class="row mb-1 align-items-center">
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
 
                                         <label class="d-block font-size-3 mb-0">
@@ -157,7 +154,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
 
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
@@ -169,8 +166,9 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-3">
+                            </div>
+                            <div class="row mb-1 align-items-center">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0 pt-1">
                                         @php
                                             $status = Helper::get_dropdown('status');
@@ -188,7 +186,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-6">
                                     <div class="form-group mb-0">
                                         <label class="Label labelFontSize">Location</label>
                                         <select name="location" id="location" class="select2_dropdown w-100 form-control"
@@ -197,7 +195,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -206,7 +203,7 @@
 
                 <!-- ================= -->
                 <!-- Datatable code start-->
-                <div class="table-responsive pt-5" id="filter_table_div">
+                <div class="table-responsive border-right pt-3" id="filter_table_div">
                     <div class="">
                         <table id="jdlTable" class="table">
                             <thead class="bg-light w-100">
@@ -236,28 +233,189 @@
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
+
+
+
+            </div>
+            <div class="col-lg-6" id="record_detail">
+                <p class="C-Heading">Record Details:</p>
+                <div class="card mb-13">
+                    <div class="card-body">
+                        <form action="">
+                            <fieldset disabled="">
+                                <div class="row mb-1">
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Position Title
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">Priority</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">FTE:</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">No of Endo:</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Client:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Segment
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Sub-Segment
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Start Date
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Career Level
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">SLL No:</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">Location:</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Work Schedule:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">Budget:</label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Educational Background:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-12">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Job Description &amp; Work Experience:
+                                            </label>
+                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                class="form-control border E_H h-px-20_custom"
+                                                placeholder="Job Description &amp; Work Experience"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Recruitment Process:
+                                            </label>
+                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                class="form-control border E_H h-px-20_custom"
+                                                placeholder="Enter  Recruitment Process"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Notes:
+                                            </label>
+                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                class="form-control border E_H h-px-20_custom"
+                                                placeholder="Enter Interview Notes"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Assigned Recruiters:
+                                            </label>
+                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
+                                                class="form-control border E_H h-px-20_custom"
+                                                placeholder=" Assigned Recruiters"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Updated Date:
+                                            </label>
+                                            <input type="date" name="UPDATED_DATE"
+                                                class="form-control border h-px-20_custom" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog m-auto" style='max-width:80%'>
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Record Details:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body" id="record_detail"></div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" style="background: rgb(220 134 39);color: rgb(255 255 255);border:none" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-        </div>
-    </div>
 
 @endsection
 
@@ -367,7 +525,6 @@
             let tdVal = $(this).children()[0];
             var id = tdVal.innerHTML
             Filter(this, id)
-            $('#exampleModal').modal('show'); 
             // alert($(this).val())
         })
 

@@ -59,7 +59,7 @@ class SmartSearchController extends Controller
     public function smartTOYajra()
     {
         ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
-        $allData = DB::table('smart_view');
+        $allData = DB::select('select * from smart_view limit 100');
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CandidateInformation;
+use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
@@ -34,20 +35,33 @@ class FinanceController extends Controller
     // function for detail of team start
     public function recordDetail(Request $request)
     {
-        $detail = DB::table('finance')->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-            ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+        $arr = explode('-', $request->id);
+        // return $arr;
+        // return $arr[0] . '-'. $arr[1] . '-'. $arr[2] ;
+        $detail =
+        //  DB::select('select `endorsements`.*, `finance`.*, `finance_detail`.* from `endorsements` inner join `finance`
+        // on `finance`.`endorsement_id` = `endorsements`.`id` inner join `finance_detail`
+        // on `finance`.`id` = `finance_detail`.`finance_id`
+        // WHERE finance.candidate_id =' . $arr[0] . ' and endorsements.numberOfEndo =' . $arr[1] . ' and endorsements.saved_by = ' . $arr[2] . '');
+        DB::table('endorsements')
+            ->join('finance', 'finance.endorsement_id', 'endorsements.id')
+            ->join('finance_detail', 'finance.id', 'finance_detail.finance_id')
             ->select('endorsements.*', 'finance.*', 'finance_detail.*')
-            ->where('finance.candidate_id', $request->id)
+            ->where(['finance.candidate_id' => $arr[0],
+                'endorsements.numberOfEndo' => $arr[1], 'endorsements.saved_by' => $arr[2], 'endorsements.id' => $arr[4]])
             ->first();
+        // $sql = Str::replaceArray('?', $detail->getBindings(), $detail->toSql());
+
         // dd($detail);
-        $fee = $detail->placementFee;
-        $remarks = $detail->remarks_for_finance;
-        $remarks_finance = $remarks;
-        $salary = \App\CandidatePosition::where('candidate_id', $request->id)->first();
-        $off_salary = $salary->off_salary;
-        $off_allowance = $salary->off_allowance;
-        $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
-        $user = \App\User::where('id', $savedBy->saved_by)->first();
+        $fee = $detail->placementFee != null ? $detail->placementFee : 0;
+        $remarks_finance = $detail->remarks_for_finance != null ? $detail->remarks_for_finance : '';
+        // $remarks = $detail->remarks_for_finance;
+        // $remarks_finance = $remarks;
+        $salary = \App\CandidatePosition::where('candidate_id', $arr[0])->first();
+        $off_salary = $salary->off_salary != null ? $salary->off_salary : 0;
+        $off_allowance = $salary->off_allowance != null ? $salary->off_allowance : 0;
+        // $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
+        $user = \App\User::where('id', $arr[2])->first();
         $role = $user->roles->pluck('name');
         $team = $role;
         $data = [
@@ -57,6 +71,7 @@ class FinanceController extends Controller
             'off_salary' => $off_salary,
             'off_allowance' => $off_allowance,
             'remarks_finance' => $remarks_finance,
+            'fid' => $arr[3],
         ];
         return view('finance.detail', $data);
     }
@@ -74,9 +89,7 @@ class FinanceController extends Controller
     {
 
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('finance_view')
-            ->join('finance_detail', 'finance_detail.candidate_id', 'finance_view.cid')
-            ->select('finance_view.*', 'finance_detail.process_status');
+        $Userdata = DB::table('finance_view');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
             $Userdata->whereIn('finance_view.saved_by', $request->recruiter);
@@ -101,7 +114,7 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.reprocess', $request->process);
         }
         if (isset($request->appstatus)) {
-            $Userdata->whereIn('finance_detail.process_status', $request->appstatus);
+            $Userdata->whereIn('finance_view.process_status', $request->appstatus);
         }
         $user = $Userdata->get();
 
@@ -110,7 +123,8 @@ class FinanceController extends Controller
         return Datatables::of($user)
             ->addIndexColumn()
             ->addColumn('id', function ($user) {
-                return $user->cid;
+                return $user->cid . '-' . $user->numberOfEndo . '-' . $user->saved_by . '-' . $user->fid . '-' . $user->e_id;
+
             })
             ->addColumn('team', function ($user) {
                 $userid = User::where('id', $user->saved_by)->get();
@@ -118,7 +132,7 @@ class FinanceController extends Controller
                 return json_decode($team);
             })
             ->addColumn('recruiter', function ($user) {
-                return $user->recruiter;
+                return (User::where('id', $user->saved_by)->first('name'))->name;
             })
             ->addColumn('client', function ($user) {
                 return $user->client;
@@ -160,68 +174,18 @@ class FinanceController extends Controller
             ->make(true);
     }
     //close
-    // save the update data of candidate
-    public function SavefinanceReference(Request $request)
-    {
-        // dd($request->all());
-        $id = Auth::user()->id;
-        $user = User::find($id);
-        $userRole = $user->roles->pluck('id')->all();
-        $t_id = $userRole;
-        // dd($request->onboardnig_date);
-        $data = [
-            "ob_date" => $request->onboardnig_date,
-            "term_date" => $request->term_date,
-            "code" =>str_replace(',', '',  $request->code),
-            "payment_term" => str_replace(',', '', $request->payment_term),
-            "offered_salary" => str_replace(',', '', $request->offered_salary),
-            "replacement_for" =>str_replace(',', '',  $request->replacement_for),
-            "date_delvrd" => $request->date_delvrd,
-            "process_status" =>$request->process_status,
-            "allowance" =>str_replace(',', '',  $request->allowance),
-            "vat_per" => str_replace(',', '', $request->vat_per),
-            "credit_memo" => str_replace(',', '', $request->credit_memo),
-            "invoice_number" => str_replace(',', '', $request->invoice_number),
-            "invoice_date" => $request->invoice_date,
-            "compensation" =>str_replace(',', '',  $request->compensation),
-            "rate_per" =>str_replace(',', '',  $request->rate_per),
-            "placementFee" => str_replace(',', '', $request->placement_fee),
-            "or_number" => str_replace(',', '', $request->or_number),
-            "date_collected" => $request->date_collected,
-            "reprocess_share" =>str_replace(',', '',  $request->reprocess_share),
-            "reprocess_share_per" => str_replace(',', '', $request->reprocess_share_per),
-            "vcc_share_per" => str_replace(',', '', $request->vcc_share_per),
-            // "VSA" => $request->VSA,
-            "finalFee" =>str_replace(',', '',  $request->finalFee),
-            "owner_share_per" => str_replace(',', '', $request->owner_share_per),
-            "owner_share" => str_replace(',', '', $request->owner_share),
-            "c_take_per" => str_replace(',', '', $request->c_take_per),
-            "c_take" => str_replace(',', '', $request->c_take),
-            "adjustment" => str_replace(',', '', $request->adjustment),
-            "ind_revenue" =>str_replace(',', '',  $request->ind_revenue),
-            "t_id" => $t_id,
-        ];
-        Finance_detail::where("candidate_id", $request->candidate_id)->update($data);
-        Helper::save_log('Finance_Reference_updated');
-        return $request->candidate_id;
-    }
-    // close
 
     // yajra data table of finance data
     public function view_finance_search_table()
     {
         // user, information ,endo , finance
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('finance_view')
-            ->join('endorsements', 'endorsements.id', 'finance_view.cid')
-            ->join('finance_detail', 'finance_detail.candidate_id', 'finance_view.cid')
-            ->select('finance_view.*', 'endorsements.remarks', 'finance_detail.process_status')
-            ->get();
-
+        $Userdata = DB::table('finance_view')->get();
+        // dd($Userdata->get());
         return Datatables::of($Userdata)
             ->addIndexColumn()
             ->addColumn('id', function ($Userdata) {
-                return $Userdata->cid;
+                return $Userdata->cid . '-' . $Userdata->numberOfEndo . '-' . $Userdata->saved_by . '-' . $Userdata->fid . '-' . $Userdata->e_id;
             })
             ->addColumn('team', function ($Userdata) {
                 $userid = User::where('id', $Userdata->saved_by)->get();
@@ -229,7 +193,7 @@ class FinanceController extends Controller
                 return json_decode($team);
             })
             ->addColumn('recruiter', function ($Userdata) {
-                return $Userdata->recruiter;
+                return (User::where('id', $Userdata->saved_by)->first('name'))->name;
             })
             ->addColumn('client', function ($Userdata) {
                 return $Userdata->client;
@@ -269,6 +233,58 @@ class FinanceController extends Controller
     }
     // close
 
+    // save the update data of candidate
+    public function SavefinanceReference(Request $request)
+    {
+        // return ($request->all());
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $userRole = $user->roles->pluck('id')->all();
+        $t_id = $userRole;
+        // dd($request->onboardnig_date);
+        $data = [
+            "ob_date" => $request->onboardnig_date,
+            "term_date" => $request->term_date,
+            "code" => str_replace(',', '', $request->code),
+            "payment_term" => str_replace(',', '', $request->payment_term),
+            "offered_salary" => str_replace(',', '', $request->offered_salary),
+            "replacement_for" => str_replace(',', '', $request->replacement_for),
+            "date_delvrd" => $request->date_delvrd,
+            "process_status" => $request->process_status,
+            "allowance" => str_replace(',', '', $request->allowance),
+            "vat_per" => str_replace(',', '', $request->vat_per),
+            "credit_memo" => str_replace(',', '', $request->credit_memo),
+            "invoice_number" => str_replace(',', '', $request->invoice_number),
+            "invoice_date" => $request->invoice_date,
+            "compensation" => str_replace(',', '', $request->compensation),
+            "rate_per" => str_replace(',', '', $request->rate_per),
+            "placementFee" => str_replace(',', '', $request->placement_fee),
+            "or_number" => str_replace(',', '', $request->or_number),
+            "date_collected" => $request->date_collected,
+            "reprocess_share" => str_replace(',', '', $request->reprocess_share),
+            "reprocess_share_per" => str_replace(',', '', $request->reprocess_share_per),
+            "vcc_share_per" => str_replace(',', '', $request->vcc_share_per),
+            // "VSA" => $request->VSA,
+            "finalFee" => str_replace(',', '', $request->finalFee),
+            "owner_share_per" => str_replace(',', '', $request->owner_share_per),
+            "owner_share" => str_replace(',', '', $request->owner_share),
+            "c_take_per" => str_replace(',', '', $request->c_take_per),
+            "c_take" => str_replace(',', '', $request->c_take),
+            "adjustment" => str_replace(',', '', $request->adjustment),
+            "ind_revenue" => str_replace(',', '', $request->ind_revenue),
+            "t_id" => $t_id,
+        ];
+        $id = (Finance::where('id', $request->fid)->first())->endorsement_id;
+        Endorsement::where('id', $id)->update([
+            'remarks' => $request->remarks,
+        ]);
+        Finance_detail::where("finance_id", $request->fid)->update($data);
+        Helper::save_log('Finance_Reference_updated');
+        return $request->candidate_id;
+        // return response()->json
+    }
+    // close
+
     // append the summary of filtered record
     public function summaryAppend(Request $request)
     {
@@ -284,15 +300,15 @@ class FinanceController extends Controller
         //for check team revenue close
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
-            $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-                ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+            $Userdata = Finance::join('endorsements', 'endorsements.id', 'finance.endorsement_id')
+                ->join('finance_detail', 'finance_detail.finance_id', 'finance.id')
                 ->whereIn('endorsements.remarks_for_finance', $arr)
                 ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
                     'finance.placement_fee', 'finance.srp', 'finance_detail.*');
         } elseif (isset($request->array)) {
             // dd($request->array);
-            $Userdata = Finance::join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-                ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+            $Userdata = Finance::join('endorsements', 'endorsements.id', 'finance.endorsement_id')
+                ->join('finance_detail', 'finance_detail.finance_id', 'finance.id')
                 ->whereIn('endorsements.remarks_for_finance', $arr)
                 ->whereIn('endorsements.candidate_id', $request->array)
                 ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
@@ -478,7 +494,7 @@ class FinanceController extends Controller
             ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
             ->whereIn('endorsements.remarks_for_finance', $arr)
             ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                'candidate_informations.last_name', 'candidate_informations.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*');
+                'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*');
 
         //start search
         if (isset($request->searchKeyword)) {
@@ -487,7 +503,7 @@ class FinanceController extends Controller
                 ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
                 ->whereIn('endorsements.remarks_for_finance', $arr)
                 ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                    'candidate_informations.last_name', 'candidate_informations.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*')->get();
+                    'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*')->get();
             foreach ($perfect_match as $match) {
                 if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
@@ -495,7 +511,7 @@ class FinanceController extends Controller
                 }
                 if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
                     $check = true;
-                    $Userdata->where('candidate_informations.saved_by', 'like', '"%' . $request->searchKeyword . '%"');
+                    $Userdata->where('endorsements.saved_by', 'like', '"%' . $request->searchKeyword . '%"');
                 }
                 if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
                     $check = true;

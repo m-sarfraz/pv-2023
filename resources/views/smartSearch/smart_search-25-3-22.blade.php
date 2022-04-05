@@ -25,10 +25,7 @@
         #smTable1_filter {
             visibility: hidden;
         }
-        .smartSearchHeight{ height: 87.5%; }
-        @media only screen and (max-width: 600px) {
-            .smartSearchHeight { height: auto !important; }
-        }
+
     </style>
 @endsection
 
@@ -38,7 +35,7 @@
         <div class="row">
             <div class="col-lg-7">
                 <p class="C-Heading pt-3">Record Finder:</p>
-                <div class="card smartSearchHeight mb-13">
+                <div class="card mb-13">
                     <div class="card-body">
                         <div id="loader1" style="display: block;"></div>
                         <form action="">
@@ -214,6 +211,47 @@
                         </form>
                     </div>
                 </div>
+                <!-- ================= -->
+                <!-- Datatable code start-->
+                <div class="table-responsive border-right pt-3" id="filterResult_div">
+                    <div class="">
+                        <table id="smTable" class="table">
+                            <thead class="bg-light w-100">
+                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell">Email</th>
+                                    <th class="ant-table-cell">Contact No.</th>
+                                    <th class="ant-table-cell">Gender</th>
+                                    <th class="ant-table-cell">Domain</th>
+                                    <th class="ant-table-cell">Profile</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
+                                    <th class="ant-table-cell">Salary</th>
+                                    <th class="ant-table-cell">Portal</th>
+                                    <th class="ant-table-cell">Date Sifted</th>
+                                    <th class="ant-table-cell">CL</th>
+                                    <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell">Endo Date</th>
+                                    <th class="ant-table-cell">Remarks</th>
+                                    <th class="ant-table-cell">Category</th>
+                                    <th class="ant-table-cell">SPR</th>
+                                    <th class="ant-table-cell">Date Onboarded</th>
+                                    <th class="ant-table-cell">Placement fee</th>
+                                    <th class="ant-table-cell">Location</th>
+                                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="hidetrID" style="height:100px">
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <!-- Datatable code end-->
+                <!-- ================= -->
             </div>
             <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
@@ -381,49 +419,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-responsive border-right pt-3" id="filterResult_div">
-                    <div class="">
-                        <table id="smTable" class="table">
-                            <thead class="bg-light w-100">
-                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell">Recruiter</th>
-                                    <th class="ant-table-cell">Candidate</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">Position Title</th>
-                                    <th class="ant-table-cell">Email</th>
-                                    <th class="ant-table-cell">Contact No.</th>
-                                    <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">Domain</th>
-                                    <th class="ant-table-cell">Profile</th>
-                                    <th class="ant-table-cell">Educational Attainment</th>
-                                    <th class="ant-table-cell">Salary</th>
-                                    <th class="ant-table-cell">Portal</th>
-                                    <th class="ant-table-cell">Date Sifted</th>
-                                    <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Status</th>
-                                    <th class="ant-table-cell">Endo Date</th>
-                                    <th class="ant-table-cell">Remarks</th>
-                                    <th class="ant-table-cell">Category</th>
-                                    <th class="ant-table-cell">SPR</th>
-                                    <th class="ant-table-cell">Date Onboarded</th>
-                                    <th class="ant-table-cell">Placement fee</th>
-                                    <th class="ant-table-cell">Location</th>
-                                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="hidetrID" style="height:100px">
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                </div>
-            </div>    
-        </div>
-
     </div>
     <div style="height: 30px;"></div>
 @endsection

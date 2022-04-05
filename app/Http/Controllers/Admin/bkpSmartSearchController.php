@@ -73,7 +73,7 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('candidate_domains.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-            $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
+            $Userdata->whereIn('endorsements.saved_by', $request->recruiter);
         }
         if (isset($request->client)) {
             $Userdata->whereIn('endorsements.client', $request->client);

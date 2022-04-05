@@ -11,11 +11,10 @@
                                     Recruiter:
                                 </label>
                                 @php
-                                    $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
-                                    $name = \App\User::where('id', $savedBy->saved_by)->first();
+                                    $name = \App\User::where('id', $detail->saved_by)->first();
                                 @endphp
-                                <input type="text" class="form-control users-input-S-C" value="{{ $name->name }}"
-                                    placeholder="hires.." />
+                                <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $name != null ? $name->name : '' }}" placeholder="hires.." />
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -100,17 +99,17 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 @php
-                                    $remarks = Helper::get_dropdown('remarks_from_finance');
+                                    $remarkss = Helper::get_dropdown('remarks_from_finance');
                                 @endphp
                                 <label class="Label-00">
                                     Remarks:
                                 </label>
-                                <select name="" id="remarksFinance" onchange="remarksChange()"
+                                <select name="remarks" id="remarksFinance" onchange="remarksChange()"
                                     class="w-100 form-control">
                                     <option value="" selected disabled>Select Option</option>
-                                    @foreach ($remarks->options as $remarksOptions)
+                                    @foreach ($remarkss->options as $remarksOptions)
                                         <option value="{{ $remarksOptions->option_name }}"
-                                            {{ $detail->remarks_recruiter == $remarksOptions->option_name ? 'selected' : '' }}>
+                                            {{ strtolower($detail->remarks_recruiter) == strtolower($remarksOptions->option_name) ? 'selected' : '' }}>
                                             {{ $remarksOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -162,7 +161,8 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary" readonly />
+                                    placeholder="hires.." value="{{ number_format($off_salary, 2) }}"
+                                    name="offered_salary" readonly />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -201,7 +201,7 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance"   name="allowance" readonly />
+                                    id="allowance" name="allowance" readonly />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -251,7 +251,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="compensation" oninput="placementFeeCalculator()" name="compensation"
-                                    value="{{ $detail->compensation }}" />
+                                    value="{{ number_format($detail->compensation, 2) }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -270,7 +270,8 @@
                                     Placement Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.." readonly
-                                    value="{{ $detail->placement_fee }}" name="placement_fee" id="placementfee" />
+                                    value="{{ number_format($detail->placement_fee, 2) }}" name="placement_fee"
+                                    id="placementfee" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -404,6 +405,7 @@
                                     name="finalFee" />
                             </div>
                         </div>
+                        <input type="hidden" id="fid" value="{{ $fid }}" name="fid" />
                         {{-- <div class="col-lg-4 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
@@ -447,8 +449,8 @@
         allowance = $('#allowance').val(currency.format(off_allowance))
         offered_salary = $('#offered_salary').val(currency.format(off_salary))
         // close 
-         
-        
+
+
         // select default value unbilled if remarks are offer accepted or onboarded 
         var remarks_finance = '<?php echo $remarks_finance; ?>';
         remarks = remarks_finance.toLowerCase();
@@ -632,7 +634,7 @@
         var data = new FormData(document.getElementById('financeReferenceForm'));
         data.append("_token", "{{ csrf_token() }}");
         data.append("candidate_id", "{{ $detail->candidate_id }}");
-
+        console.log(data)
         // console.log(data);
         // call ajax for data entry ad validation
         $.ajax({

@@ -122,7 +122,7 @@ class FinanceController extends Controller
                 //$strc =
                 array_push($newarr, "'$recruiter'");
             }
-            $Userdata->whereIn('candidate_informations.saved_by', $request->recruiter);
+            $Userdata->whereIn('endorsements.saved_by', $request->recruiter);
         }
         if (isset($request->remarks)) {
             $newarr = array();

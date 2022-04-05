@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class HomeController extends Controller
+class HomeController24322 extends Controller
 {
     public $size_of_Traget = 2000000;
     /**
@@ -186,7 +186,7 @@ class HomeController extends Controller
 
         $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels(['Incentive Based Revenue', 'TAT']);
+        $del->labels(['Inventice Based Revenue', 'TAT']);
         $del->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -227,7 +227,7 @@ class HomeController extends Controller
         //first graph
         //second graph
         $count_user_pie = new SampleChart();
-        $count_user_pie->labels(['Incentive Based Revenue', 'TAT']);
+        $count_user_pie->labels(['Inventice Based Revenue', 'TAT']);
         $count_user_pie->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -409,7 +409,7 @@ class HomeController extends Controller
 
         $total_incentive_base_revenue = count($check) * $this->size_of_Traget;
         $del = new SampleChart();
-        $del->labels(['Incentive Based Revenue', 'TAT']);
+        $del->labels(['Inventice Based Revenue', 'TAT']);
         $del->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],
@@ -450,7 +450,7 @@ class HomeController extends Controller
         //first graph
         //second graph
         $count_user_pie = new SampleChart();
-        $count_user_pie->labels(['Incentive Based Revenue', 'TAT']);
+        $count_user_pie->labels(['Inventice Based Revenue', 'TAT']);
         $count_user_pie->dataset('my chart', 'pie', [$sume, $total_incentive_base_revenue])->options([
             'fill' => 'true',
             'borderColor' => ['green', 'orange'],

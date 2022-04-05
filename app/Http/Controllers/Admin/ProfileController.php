@@ -520,7 +520,7 @@ class ProfileController extends Controller
 
                 $row = 1;
                 while (($render = fgetcsv($file, 1000, ",")) !== false) {
-                    dd($render[1]);
+                    // dd($render[1]);
 
                     $num = count($render);
                     if ($row > 6002) {
@@ -845,7 +845,7 @@ class ProfileController extends Controller
                         ],
                     ];
 
-                    $user = User::find($recruiter);
+                    $user = User::find($recruiter->id);
 
                     $query = DB::table("cip_progress")
                         ->where("candidate_id", $store_by_Ecxel->id)
