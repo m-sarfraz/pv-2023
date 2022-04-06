@@ -48,5 +48,6 @@
         let tdVal = $(this).children()[0];
         var id = tdVal.innerHTML
         Filter(this, id)
+        $('#exampleModal').modal('show');
     })
 </script>

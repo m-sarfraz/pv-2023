@@ -280,18 +280,17 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
-                                $segments = DB::select('select * from segments');
+                                $segments = Helper::get_dropdown('segments');
                             @endphp
-
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C" readonly
                                 onchange="SegmentChange(this)">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                @foreach ($segments as $segmentsOptions)
+                                @foreach ($segments->options as $segmentsOptions)
                                     <option value="{{ $segmentsOptions->id }}"
-                                        {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
-                                        {{ $segmentsOptions->segment_name }}
+                                        {{ strtolower($user->segment) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
+                                        {{ $segmentsOptions->option_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -303,8 +302,9 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             @php
-                                $sub_segments = DB::select('select * from sub_segments');
+                                $sub_segments = Helper::get_dropdown('sub_segment');
                             @endphp
+                            {{-- @dd($user->sub_segment) --}}
                             <label class="Label">
                                 Sub-Segment:
                             </label>
@@ -313,10 +313,10 @@
                                 class="form-control p-0 users-input-S-C">
                                 <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                @foreach ($sub_segments as $Options)
+                                @foreach ($sub_segments->options as $Options)
                                     <option value="{{ $Options->id }}"
-                                        {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
-                                        {{ $Options->sub_segment_name }}
+                                        {{ str_replace(' ', '', strtolower($user->sub_segment)) ==str_replace(' ', '', strtolower($Options->option_name))? 'selected': '' }}>
+                                        {{ $Options->option_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -788,7 +788,7 @@
                                                             disabled>Select Option</option>
                                                         @foreach ($sub_segments->options as $Options)
                                                             <option value="{{ $Options->sub_segment_name }}"
-                                                                {{ strtolower($user->sub_segment_endo) == strtolower($Options->option_name) ? 'selected' : '' }}>
+                                                                {{ str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($Options->option_name))? 'selected': '' }}>
                                                                 {{ $Options->option_name }}
                                                             </option>
                                                         @endforeach

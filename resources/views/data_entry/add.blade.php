@@ -90,8 +90,8 @@
                                     value="{{ Auth::user()->name }}" placeholder="enter candidate name" />
                             </div>
                             <div class="d-grid gap-2 form-group col-md-12 ">
-                                <button class="btn btn_Group mb-4 btn-sm" data-href="{{ url('/admin/data-entry') }}" type="button"
-                                    id="new" onclick="newRecord(this)">
+                                <button class="btn btn_Group mb-4 btn-sm" data-href="{{ url('/admin/data-entry') }}"
+                                    type="button" id="new" onclick="newRecord(this)">
                                     New Record
                                 </button>
                                 @can('add-data')
@@ -414,6 +414,9 @@
                                                                 <small class="text-danger"></small>
                                                             </div>
                                                         </div>
+                                                        @php
+                                                            $segments = Helper::get_dropdown('segments');
+                                                        @endphp
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">segment</label>
                                                             <select name="Domainsegment" id="Domainsegment"
@@ -422,10 +425,10 @@
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($segmentsDropDown as $segmentOption)
+                                                                @foreach ($segments->options as $segmentOption)
                                                                     <option value="{{ $segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null? $candidateDetail->segment == $segmentOption->segment_name: '')? 'selected': '' }}>
-                                                                        {{ $segmentOption->segment_name }}</option>
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->option_name : '') ? 'selected' : '' }}>
+                                                                        {{ $segmentOption->option_name }}</option>
                                                                 @endforeach
 
                                                             </select>
@@ -433,6 +436,9 @@
                                                                 <small class="text-danger"></small>
                                                             </div>
                                                         </div>
+                                                        @php
+                                                            $sub_segment = Helper::get_dropdown('sub_segment');
+                                                        @endphp
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
 
                                                             <label class="Label labelFontSize">sub-segment</label>
@@ -441,10 +447,10 @@
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($sub_segmentsDropDown as $sub_segmentOption)
+                                                                @foreach ($sub_segment->options as $sub_segmentOption)
                                                                     <option value="{{ $sub_segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null? $candidateDetail->sub_segment == $sub_segmentOption->sub_segment_name: '')? 'selected': '' }}>
-                                                                        {{ $sub_segmentOption->sub_segment_name }}
+                                                                        {{ ($candidateDetail != null? str_replace(' ', '', strtolower($candidateDetail->sub_segment)) ==str_replace(' ', '', strtolower($sub_segmentOption->option_name)): '')? 'selected': '' }}>
+                                                                        {{ $sub_segmentOption->option_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1935,8 +1941,8 @@
                 var role_id = {!! Auth::user()->agent !!}
                 if (role_id == 1) {
                     $('#domain').prop('disabled', false)
-                    $('#Domainsegment').prop('disabled', false)
-                    $('#Domainsub').prop('disabled', false)
+                    $('#Domainsegment').attr('readonly', false)
+                    $('#Domainsub').attr('readonly', false)
                     // $('#candidate_profile').prop('disabled', false)
                 }
 
@@ -1996,9 +2002,9 @@
             } else {
 
                 //else disable domain segment and and candidate profile
-                $('#domain').prop('disabled', true)
-                $('#Domainsegment').prop('disabled', true)
-                $('#Domainsub').prop('disabled', true)
+                $('#domain').attr('readonly', true)
+                $('#Domainsegment').attr('readonly', true)
+                $('#Domainsub').attr('readonly', true)
                 // $('#candidate_profile').prop('disabled', true)
                 //else disalbe the input fields of endorsement section 
                 $('#remarks').prop("disabled", true);

@@ -262,7 +262,8 @@
                         <label class="d-block font-size-3 mb-0">
                             Domain
                         </label>
-                        <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="endoDomainChange(this)" disabled=""
+                        <select id="domain_endo" readonly name="DOMAIN_ENDORSEMENT" onchange="endoDomainChange(this)"
+                            disabled=""
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                 Select Option
@@ -312,16 +313,16 @@
                             $segments = Helper::get_dropdown('segments');
                         @endphp
                         <label class="Label">Segment</label>
-                        <select disabled="" id="segment" name="SEGMENT"
+                        <select disabled="" id="segment" name="SEGMENT" readonly
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100"
                             onchange="endoSegmentChange(this)">
                             <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                 Select Option
                             </option>
-                            @foreach ($segmentsDropDown as $segmentsOptions)
+                            @foreach ($segments->options as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->id }}"
-                                    {{ $user != null? (($user->segment_endo != null? $user->segment_endo == $segmentsOptions->segment_name: '')? 'selected': ''): '' }}>
-                                    {{ $segmentsOptions->segment_name }}
+                                    {{ $user != null? (($user->segment_endo != null? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name): '')? 'selected': ''): '' }}>
+                                    {{ $segmentsOptions->option_name }}
                                 </option>
                             @endforeach
                         </select>
@@ -349,15 +350,15 @@
                     @endphp
                     <div class="form-group mb-0">
                         <label class="Label">sub-segment</label>
-                        <select disabled="" id="sub_segment" name="SUB_SEGMENT"
+                        <select disabled="" id="sub_segment" name="SUB_SEGMENT" readonly
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                 Select Option
                             </option>
                             @foreach ($sub_segment->options as $sub_segmentOptions)
                                 <option value="{{ $sub_segmentOptions->id }}"
-                                    {{ $user != null? (($user->sub_segment_endo != null? $user->sub_segment_endo == $sub_segmentOptions->sub_segment_name: '')? 'selected': ''): '' }}>
-                                    {{ $sub_segmentOptions->sub_segment_name }}
+                                    {{ $user != null? (($user->sub_segment_endo != null? str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($sub_segmentOptions->option_name)): '')? 'selected': ''): '' }}>
+                                    {{ $sub_segmentOptions->option_name }}
                                 </option>
                             @endforeach
                         </select>

@@ -80,6 +80,7 @@ class CandidateController extends Controller
     // save data entruy data
     public function save_data_entry(Request $request)
     {
+
         if ($request->tap == 0) {
             $check = CandidateInformation::where(['phone' => $request->CONTACT_NUMBER, 'last_name' => $request->LAST_NAME])->exists();
             if ($check == true) {
@@ -266,9 +267,9 @@ class CandidateController extends Controller
             if ($candidate_id > 0) {
                 // if record is being updated from Tap
                 $CandidateInformation = CandidateInformation::find($candidate_id);
-                $CandidateEducation = CandidateEducation::find($candidate_id);
-                $CandidiatePosition = CandidatePosition::find($candidate_id);
-                $CandidiateDomain = CandidateDomain::find($candidate_id);
+                $CandidateEducation = CandidateEducation::where('candidate_id', $candidate_id)->firstOrFail();
+                $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
+                $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
                 $numberOfEndo = 0;
             } else {
                 // if new record insertion is happening
@@ -333,24 +334,38 @@ class CandidateController extends Controller
                 $CandidiatePosition->cv = $fileName;
             }
             $CandidiatePosition->save();
-
+            if (is_numeric(isset($request->Domainsegment))) {
+                $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
+            } else {
+                $name = $request->Domainsegment;
+            }
+            if (is_numeric(isset($request->Domainsub))) {
+                $Sub_name = (DropDownOption::where('id', $request->Domainsub)->first())->option_name;
+            } else {
+                $Sub_name = $request->Domainsub;
+            }
+            if (is_numeric(isset($request->DOMAIN))) {
+                $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
+            } else {
+                $domain = $request->DOMAIN;
+            }
+            // return $name;
             //  save data to candidate domain table
             // $CandidiateDomain = CandidateDomain::find($candidate_id);
             $CandidiateDomain->candidate_id = $CandidateInformation->id;
             $CandidiateDomain->date_shifted = $request->DATE_SIFTED;
             // $domain_name = Domain::where('domain_name', $request->DOMAIN)->first();
-            $CandidiateDomain->domain = $request->DOMAIN;
+            $CandidiateDomain->domain = $domain;
             $CandidiateDomain->emp_history = $request->EMPLOYMENT_HISTORY;
             $CandidiateDomain->interview_note = $request->INTERVIEW_NOTES;
             // $name = Segment::where('segment_name', $request->SEGMENT)->first();
-            $CandidiateDomain->segment = $request->SEGMENT;
+            $CandidiateDomain->segment = $name;
             // $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
-            $CandidiateDomain->sub_segment = $request->SUB_SEGMENT;
+            $CandidiateDomain->sub_segment = $Sub_name;
             $CandidiateDomain->save();
             // save category of remarks for finance
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
             $category = Helper::getCategory($array);
-
             // set number fo endo if candidate is being re endorsed
             if ($candidate_id > 0) {
                 $lastEndo = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $CandidateInformation->id])->count();
@@ -362,6 +377,25 @@ class CandidateController extends Controller
                     $numberOfEndo = $lastEndo + 1;
                 }
             }
+            if (is_numeric(isset($request->endo_SEGMENT))) {
+                $e_name = (DropDownOption::where('id', $request->endo_SEGMENT)->first())->option_name;
+            } else {
+                $e_name = $request->endo_SEGMENT;
+            }
+            if (is_numeric(isset($request->Endo_SUB_SEGMENT))) {
+
+                $e_sub_name = (DropDownOption::where('id', $request->Endo_SUB_SEGMENT)->first())->option_name;
+            } else {
+                $e_sub_name = $request->Endo_SUB_SEGMENT;
+            }
+            if (is_numeric(isset($request->DOMAIN_ENDORSEMENT))) {
+                $e_domain = (Domain::where('id', $request->DOMAIN_ENDORSEMENT)->first())->domain_name;
+
+            } else {
+                $e_domain = $request->DOMAIN_ENDORSEMENT;
+
+            }
+            // return  $e_name;
             // insert data in endorsement table
             $endorsement = new Endorsement();
             $endorsement->candidate_id = $CandidateInformation->id;
@@ -371,15 +405,15 @@ class CandidateController extends Controller
             $endorsement->status = $request->STATUS;
             $endorsement->type = $request->ENDORSEMENT_TYPE;
             $endorsement->site = $request->SITE;
-            $endorsement->domain_endo = $request->DOMAIN;
+            $endorsement->domain_endo = $e_domain;
             $endorsement->position_title = $request->POSITION_TITLE;
             $endorsement->timestamp = time();
             $endorsement->numberOfEndo = $numberOfEndo;
             // $endorsement->interview_date = $request->;
             $endorsement->rfp = $request->REASONS_FOR_NOT_PROGRESSING;
             $endorsement->career_endo = $request->CAREER_LEVEL;
-            $endorsement->segment_endo = $request->SEGMENT;
-            $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
+            $endorsement->segment_endo = $e_name;
+            $endorsement->sub_segment_endo = $e_sub_name;
             $endorsement->endi_date = $request->DATE_ENDORSED;
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
             $endorsement->saved_by = Auth::user()->id;
@@ -1012,22 +1046,39 @@ class CandidateController extends Controller
             // return $request->Domainsub;
             if (is_numeric(isset($request->Domainsegment))) {
                 $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
-                $Sub_name = (DropDownOption::where('id', $request->Domainsub)->first())->option_name;
-                $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
             } else {
                 $name = $request->Domainsegment;
+            }
+            if (is_numeric(isset($request->Domainsub))) {
+                $Sub_name = (DropDownOption::where('id', $request->Domainsub)->first())->option_name;
+            } else {
                 $Sub_name = $request->Domainsub;
+            }
+            if (is_numeric(isset($request->DOMAIN))) {
+                $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
+            } else {
                 $domain = $request->DOMAIN;
             }
             if (is_numeric(isset($request->SEGMENT))) {
                 $e_name = (DropDownOption::where('id', $request->SEGMENT)->first())->option_name;
-                $e_sub_name = (DropDownOption::where('id', $request->SUB_SEGMENT)->first())->option_name;
-                $e_domain = (Domain::where('id', $request->DOMAIN_ENDORSEMENT)->first())->domain_name;
             } else {
                 $e_name = $request->SEGMENT;
-                $e_sub_name = $request->SUB_SEGMENT;
-                $e_domain = $request->DOMAIN_ENDORSEMENT;
+
             }
+            if (is_numeric(isset($request->SUB_SEGMENT))) {
+
+                $e_sub_name = (DropDownOption::where('id', $request->SUB_SEGMENT)->first())->option_name;
+            } else {
+                $e_sub_name = $request->SUB_SEGMENT;
+            }
+            if (is_numeric(isset($request->DOMAIN_ENDORSEMENT))) {
+                $e_domain = (Domain::where('id', $request->DOMAIN_ENDORSEMENT)->first())->domain_name;
+
+            } else {
+                $e_domain = $request->DOMAIN_ENDORSEMENT;
+
+            }
+
             CandidateDomain::where('candidate_id', $candidate_id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
                 'domain' => $domain,
@@ -1264,4 +1315,5 @@ class CandidateController extends Controller
 
     }
     // close
+
 }
