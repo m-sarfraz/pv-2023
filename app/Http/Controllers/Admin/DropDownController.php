@@ -198,7 +198,6 @@ class DropDownController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
         } else {
-            dd('no');
             $id = explode('-', $request->id);
             DropDownOption::where('id', $id[0])->update([
                 'option_name' => $request->option_name,
@@ -279,7 +278,7 @@ class DropDownController extends Controller
                 case 'data_entry_status':
                     Endorsement::where('status', $request->prevValue)->update(['status' => $request->option_name]);
                     break;
-//
+        //
             }
             return response()->json(['success' => true, 'message' => 'Option updated successfully']);
 
