@@ -31,7 +31,7 @@ class JdlController extends Controller
     }
     public function view_jdl_table()
     {
-        $jdlData = DB::table('jdl');
+        $jdlData = DB::table('jdl')->get();
         return Datatables::of($jdlData)
             ->addIndexColumn()
             ->addColumn('id', function ($jdlData) {

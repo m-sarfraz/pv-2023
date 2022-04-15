@@ -107,7 +107,7 @@ class CandidateController extends Controller
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
@@ -133,7 +133,7 @@ class CandidateController extends Controller
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01";
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
@@ -155,7 +155,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -166,7 +166,7 @@ class CandidateController extends Controller
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 // $arrayCheck["PLACEMENT_FEE"] = "required";
@@ -843,7 +843,7 @@ class CandidateController extends Controller
                 "MANNER_OF_INVITE" => 'required ',
                 "CANDIDATES_PROFILE" => 'required ',
                 // "INTERVIEW_NOTES" => 'required ',
-                "DATE_SIFTED" => 'required|date|after:1970-01-01|before:now',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01',
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
@@ -869,7 +869,7 @@ class CandidateController extends Controller
                 || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
                 || str_contains($manner_of_invite, 'sms')
             ) {
-                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01|before:now";
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01";
             }
             if ($request->rfp == 1) {
                 $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
@@ -891,7 +891,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01|before:now";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -902,7 +902,7 @@ class CandidateController extends Controller
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
                 $arrayCheck["REMARKS"] = "required";
-                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01|before:now";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
                 // $arrayCheck["PLACEMENT_FEE"] = "required";

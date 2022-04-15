@@ -156,6 +156,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
     Route::post('view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
+    Route::post('update-option', 'DropDownController@update_option')->name('update-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
 
     // domain/segmnet routes

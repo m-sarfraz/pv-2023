@@ -190,9 +190,9 @@ function enableSearch(id) {
 // calculate standard proejct revenue value on career level change starts
 function SPRCalculator() {
     var domain = $('#domain').find(":selected").text().trim();
-    var CL = $('#career').find(":selected").text().trim();
+    var CLi = $('#career').find(":selected").text().trim();
     console.log(domain)
-    console.log(CL)
+    console.log(CLi)
 
     // create object of data for technology/CPI and price
     let data = [
@@ -240,7 +240,7 @@ function SPRCalculator() {
         },
     ];
     //g getting and appending the value of standard project revenue value
-    var revenue = data[0][domain][0][CL];
+    var revenue = data[0][domain][0][CLi];
     // appending the value of revenue 
     $('#srp').val(revenue)
 }

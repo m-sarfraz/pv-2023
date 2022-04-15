@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CandidateDomain;
+use App\CandidateInformation;
+use App\CandidatePosition;
 use App\DropDown;
 use App\DropDownOption;
+use App\Endorsement;
+use App\Finance;
 use App\Http\Controllers\Controller;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Response;
 use Yajra\DataTables\DataTables;
 
 class DropDownController extends Controller
@@ -142,8 +148,12 @@ class DropDownController extends Controller
                 }
                 //$this->authorize('delete-option');
                 $route = Route("delete-option");
+                $route2 = Route("update-option");
+                $edit = 0;
                 $function = 'delete_data(this,"' . $route . '")';
-                $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class="bg-transparent text-danger border-0">Delete</button>';
+                $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
+                $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger border-2 mr-3">Delete</button>' .
+                '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn btn-primary border-0">Edit</button>';
 
                 return $b;
             })
@@ -177,6 +187,102 @@ class DropDownController extends Controller
             return response()->json(['success' => true, 'message' => 'Options deleted successfully']);
         } else {
             return response()->json(['success' => false, 'message' => 'Error while deleting option']);
+        }
+    }
+    public function update_option(Request $request)
+    {
+        $arrayCheck = [
+            "option_name" => "required|unique:drop_down_options,option_name",
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        } else {
+            dd('no');
+            $id = explode('-', $request->id);
+            DropDownOption::where('id', $id[0])->update([
+                'option_name' => $request->option_name,
+            ]);
+            // return $id[1];
+            switch ($id[1]) {
+                case 'application_status':
+                    Endorsement::where('app_status', $request->prevValue)->update(['app_status' => $request->option_name]);
+                    break;
+
+                case 'candidates_profile':
+                    CandidatePosition::where('candidate_profile', $request->prevValue)->update(['candidate_profile' => $request->option_name]);
+                    break;
+                case 'career_level':
+                    Endorsement::where('career_endo', $request->prevValue)->update(['career_endo' => $request->option_name]);
+                    Finance::where('career_finance', $request->prevValue)->update(['career_finance' => $request->option_name]);
+                    break;
+
+                case 'course':
+                    CandidateEducations::where('course', $request->prevValue)->update(['course' => $request->option_name]);
+                    break;
+                case 'educational_attainment':
+                    CandidateEducations::where('educational_attain', $request->prevValue)->update(['educational_attain' => $request->option_name]);
+                    break;
+                case 'domains':
+                    Endorsement::where('domain_endo', $request->prevValue)->update(['domain_endo' => $request->option_name]);
+                    CandidateDomain::where('domain', $request->prevValue)->update(['domain' => $request->option_name]);
+                    break;
+                case 'segments':
+                    Endorsement::where('segment_endo', $request->prevValue)->update(['segment_endo' => $request->option_name]);
+                    CandidateDomain::where('segment ', $request->prevValue)->update(['segment ' => $request->option_name]);
+                    break;
+                case 'sub_segment':
+                    Endorsement::where('sub_segment_endo', $request->prevValue)->update(['sub_segment_endo' => $request->option_name]);
+                    CandidateDomain::where('sub_segment ', $request->prevValue)->update(['sub_segment ' => $request->option_name]);
+                    break;
+
+                case 'manner_of_invite':
+                    CandidatePosition::where('manner_of_invite', $request->prevValue)->update(['manner_of_invite' => $request->option_name]);
+                    break;
+                case 'position_title':
+                    Endorsement::where('position_title', $request->prevValue)->update(['position_title' => $request->option_name]);
+                    break;
+                case 'reason_for_not_progressing':
+                    Endorsement::where('rfp', $request->prevValue)->update(['rfp' => $request->option_name]);
+                    break;
+                case 'status':
+                    JDL::where('status', $request->prevValue)->update(['status' => $request->option_name]);
+                    break;
+                case 'clients':
+                    Finance::where('client_finance', $request->prevValue)->update(['client_finance' => $request->option_name]);
+                    Endorsement::where('client ', $request->prevValue)->update(['client ' => $request->option_name]);
+                    break;
+                case 'endorsement_type':
+                    Endorsement::where('type', $request->prevValue)->update(['type' => $request->option_name]);
+                    break;
+                case 'remarks_from_finance':
+                    Endorsement::where('remarks', $request->prevValue)->update(['remarks' => $request->option_name]);
+                    break;
+                case 'site':
+                    Endorsement::where('site', $request->prevValue)->update(['site' => $request->option_name]);
+                    break;
+                case 'source':
+                    CandidatePosition::where('source', $request->prevValue)->update(['source' => $request->option_name]);
+                    break;
+                case 'gender':
+                    CandidateInformation::where('gender', $request->prevValue)->update(['gender' => $request->option_name]);
+                    break;
+                case 'certifications':
+                    CandidateEducations::where('certification', $request->prevValue)->update(['certification' => $request->option_name]);
+                    break;
+                case 'remarks_for_finance':
+                    Endorsement::where('remarks_for_finance', $request->prevValue)->update(['remarks_for_finance' => $request->option_name]);
+                    break;
+                case 'residence':
+                    CandidateInformation::where('address', $request->prevValue)->update(['address' => $request->option_name]);
+                    break;
+                case 'data_entry_status':
+                    Endorsement::where('status', $request->prevValue)->update(['status' => $request->option_name]);
+                    break;
+//
+            }
+            return response()->json(['success' => true, 'message' => 'Option updated successfully']);
+
         }
     }
 }

@@ -11,9 +11,9 @@ use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
+use Auth;
 use Cache;
 use DB;
-use Auth;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -285,13 +285,48 @@ class RecordController extends Controller
             // $domain_name = Domain::where('id', $request->DOMAIN)->first();
             // $name = Segment::where('id', $request->segment)->first();
             // $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
+            if (is_numeric(isset($request->segment))) {
+                $name = (DropDownOption::where('id', $request->segment)->first())->option_name;
+            } else {
+                $name = $request->segment;
+            }
+            if (is_numeric(isset($request->sub_segment))) {
+                $Sub_name = (DropDownOption::where('id', $request->sub_segment)->first())->option_name;
+            } else {
+                $Sub_name = $request->sub_segment;
+            }
+            if (is_numeric(isset($request->DOMAIN))) {
+                $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
+            } else {
+                $domain = $request->DOMAIN;
+            }
+            if (is_numeric(isset($request->endo_segment))) {
+                $e_name = (DropDownOption::where('id', $request->endo_segment)->first())->option_name;
+            } else {
+                $e_name = $request->endo_segment;
 
+            }
+            if (is_numeric(isset($request->endo_sub_segment))) {
+
+                $e_sub_name = (DropDownOption::where('id', $request->endo_sub_segment)->first())->option_name;
+            } else {
+                $e_sub_name = $request->endo_sub_segment;
+            }
+            if (is_numeric(isset($request->DOMAIN_endo))) {
+
+                $e_domain = (Domain::where('id', $request->DOMAIN_endo)->first())->domain_name;
+
+            } else {
+                $e_domain = $request->DOMAIN_endo;
+
+            }
+            // return $e_sub_name ;
             CandidateDomain::where('candidate_id', $c_id)->update([
                 'date_shifted' => $request->date_shifted,
-                'domain' => $request->DOMAIN,
+                'domain' => $domain,
                 'interview_note' => $request->notes,
-                'segment' => $request->segment,
-                'sub_segment' => $request->sub_segment,
+                'segment' => $name,
+                'sub_segment' => $Sub_name,
                 'emp_history' => $request->EMPLOYMENT_HISTORY,
             ]);
 
@@ -318,11 +353,11 @@ class RecordController extends Controller
                 'status' => $request->STATUS,
                 'type' => $request->ENDORSEMENT_TYPE,
                 'position_title' => $request->POSITION_TITLE,
-                'domain_endo' => $request->DOMAIN_endo,
+                'domain_endo' => $e_domain,
                 'interview_date' => $request->INTERVIEW_SCHEDULE,
                 'career_endo' => $request->CAREER_LEVEL,
-                'segment_endo' => $request->endo_segment,
-                'sub_segment_endo' => $request->endo_sub_segment,
+                'segment_endo' => $e_name,
+                'sub_segment_endo' => $e_sub_name,
                 'endi_date' => $request->endo_date,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
@@ -340,7 +375,6 @@ class RecordController extends Controller
 
     public function appendFilterOptions()
     {
-        // dd('hi');
         $user = User::where('type', 3)->get();
         $candidates = DB::table('candidate_informations')->select('id', 'last_name')->get();
         $candidates_profile = Helper::get_dropdown('candidates_profile');

@@ -237,11 +237,12 @@
                             <label class="Label">Domain</label>
 
                             <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C" readonly
-                                onchange="DomainChange(this)">
+                                {{-- onchange="DomainChange(this)" --}}
+                                >
                                 <option {{ $user->domain == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
                                 @foreach ($domainDrop as $domainOption)
-                                    <option value="{{ $domainOption->id }}"
+                                    <option value="{{ $domainOption->domain_name }}"
                                         {{ strtolower($user->domain) == strtolower($domainOption->domain_name) ? 'selected' : '' }}>
                                         {{ $domainOption->domain_name }}</option>
                                 @endforeach
@@ -284,11 +285,12 @@
                             @endphp
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C" readonly
-                                onchange="SegmentChange(this)">
+                                {{-- onchange="SegmentChange(this) --}}
+                                ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
                                 @foreach ($segments->options as $segmentsOptions)
-                                    <option value="{{ $segmentsOptions->id }}"
+                                    <option value="{{ $segmentsOptions->option_name }}"
                                         {{ strtolower($user->segment) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
                                         {{ $segmentsOptions->option_name }}
                                     </option>
@@ -314,7 +316,7 @@
                                 <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
                                 @foreach ($sub_segments->options as $Options)
-                                    <option value="{{ $Options->id }}"
+                                    <option value="{{ $Options->option_name }}"
                                         {{ str_replace(' ', '', strtolower($user->sub_segment)) ==str_replace(' ', '', strtolower($Options->option_name))? 'selected': '' }}>
                                         {{ $Options->option_name }}
                                     </option>
@@ -514,7 +516,7 @@
                                                         Career Level:
                                                     </label>
                                                     <select name="CAREER_LEVEL" id="career"
-                                                        onchange="DomainSegmentAppend()"
+                                                        {{-- onchange="DomainSegmentAppend()" --}}
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         <option {{ $user->career_endo == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -696,7 +698,7 @@
                                                     </label>
                                                     {{-- @dd($user->domain_endo) --}}
                                                     <select name="DOMAIN_endo" id="domain_endo" readonly
-                                                        onchange="DomainChange(this)"
+                                                        {{-- onchange="DomainChange(this)" --}}
                                                         class="form-control p-0 users-input-S-C">
                                                         <option {{ $user->domain == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -733,7 +735,8 @@
                                                     <label class="Label">Segment:</label>
                                                     <select name="endo_segment" id="Domainsegment" readonly
                                                         class="form-control p-0 users-input-S-C"
-                                                        onchange="SegmentChange(this)">
+                                                        {{-- onchange="SegmentChange(this)" --}}
+                                                        >
                                                         <option {{ $user->segment == null ? 'selected' : '' }}
                                                             disabled>Select Option
                                                         </option>
@@ -782,7 +785,7 @@
                                                     <label class="Label-00 ">
                                                         Sub-Segment:
                                                     </label>
-                                                    <select name="endo_sub_segment " id="endo_sub_segment" readonly
+                                                    <select name="endo_sub_segment" id="endo_sub_segment" readonly
                                                         class="w-100  form-control">
                                                         <option {{ $user->sub_segment == null ? 'selected' : '' }}
                                                             disabled>Select Option</option>
@@ -896,9 +899,9 @@
         $('#Domain_sub_segment').empty()
         $('#segment').empty()
         $('#domain').empty()
-        $('#endo_sub_segment').empty()
-        $('#Domainsegment').empty()
-        $('#domain_endo').empty()
+        // $('#endo_sub_segment').empty()
+        // $('#Domainsegment').empty()
+        // $('#domain_endo').empty()
 
 
 
@@ -920,9 +923,9 @@
                 $('#Domain_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
                 $('#segment').append(`<option>${res.data.segment}</option>`)
                 $('#domain').append(`<option>${res.data.domain}</option>`)
-                $('#endo_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
-                $('#Domainsegment').append(`<option>${res.data.segment}</option>`)
-                $('#domain_endo').append(`<option>${res.data.domain}</option>`)
+                // $('#endo_sub_segment').append(`<option> ${res.data.s_segment}</option>`)
+                // $('#Domainsegment').append(`<option>${res.data.segment}</option>`)
+                // $('#domain_endo').append(`<option>${res.data.domain}</option>`)
             },
         });
 
