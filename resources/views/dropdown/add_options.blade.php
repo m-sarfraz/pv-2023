@@ -249,8 +249,9 @@
                             }, 1000);
                         } else if (res.success == false) {
                             swal("Warning", res.message, 'error');
-                            location.reload();
-
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         }
 
                         $("#loader").hide();
