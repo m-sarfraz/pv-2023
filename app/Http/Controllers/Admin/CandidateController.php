@@ -409,7 +409,7 @@ class CandidateController extends Controller
             $endorsement->position_title = $request->POSITION_TITLE;
             $endorsement->timestamp = time();
             $endorsement->numberOfEndo = $numberOfEndo;
-            // $endorsement->interview_date = $request->;
+            $endorsement->interview_date = $request->INTERVIEW_SCHEDULE;
             $endorsement->rfp = $request->REASONS_FOR_NOT_PROGRESSING;
             $endorsement->career_endo = $request->CAREER_LEVEL;
             $endorsement->segment_endo = $e_name;
@@ -1137,7 +1137,7 @@ class CandidateController extends Controller
                 'type' => $request->ENDORSEMENT_TYPE,
                 'site' => $request->SITE,
                 'position_title' => $request->POSITION_TITLE,
-                'interview_date' => $request->cv,
+                'interview_date' => $request->INTERVIEW_SCHEDULE,
                 'career_endo' => $request->CAREER_LEVEL,
                 'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
                 'domain_endo' => $e_domain,

@@ -1177,7 +1177,7 @@
                                                                 </label>
                                                                 <select name="CLIENT_FINANCE"
                                                                     class="form-control border h-px-20_custom w-100"
-                                                                    id="client_finance" disabled="">
+                                                                    id="client_finance" readonly>
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
                                                                         Select Option</option>
@@ -1279,7 +1279,7 @@
                                                                     Placement Fee
                                                                 </label>
                                                                 <input type="text" name="PLACEMENT_FEE" id="placement_fee"
-                                                                    class="form-control border h-px-20_custom" />
+                                                                    class="form-control border h-px-20_custom" readonly />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1958,8 +1958,10 @@
                     $('#endo_date').prop("disabled", false);
                     $('#remarks_for_finance').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
-                    $('#position').prop("disabled", false);
-                    $('#career').prop("disabled", false);
+                    // $('#position').prop("disabled", false);
+                    $('#position').attr("readonly", true);
+                    // $('#career').attr("readonly", true);
+                    // $('#career').prop("disabled", false);
                     // $('#expec_salary').prop("disabled", false);
 
 
@@ -1992,7 +1994,7 @@
                     $('#off_allowance_finance').prop("disabled", true);
                     $('#placement_fee').prop("disabled", true);
                     $('#off_salary_fianance').prop("disabled", true);
-                    $('#onboard_date').prop("disabled", true);
+                    $('#onboard_date').attr("readonly", true);
                     $('#off_salary').prop("disabled", true);
                     var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text("Select Option")
                     $("#remarks_for_finance").append($newOption).trigger('change');
@@ -2032,12 +2034,21 @@
                 $('#off_allowance_finance').prop("disabled", true);
                 $('#placement_fee').prop("disabled", true);
                 $('#off_salary_fianance').prop("disabled", true);
-                $('#onboard_date').prop("disabled", true);
+                    $('#onboard_date').attr("readonly", true);
+                // $('#onboard_date').prop("disabled", true);
                 $('#off_salary').prop("disabled", true);
 
             }
 
         }
+        // on reamrks recruiter change 
+        $('#remarks').change(function() {
+            value = $(this).val();
+            $('#remarks_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`);
+        });
+        // close 
 
         //  On application status changed function ends
         // client change and get domain segment and subsegment
@@ -2132,6 +2143,10 @@
                                 }
                             }
                         }
+                        let value = $('#client').val()
+                        $('#client_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
                         $('#position').change();
                         $('#client').attr('readonly', true);
                         $('#domain_endo').attr('readonly', true);
@@ -2154,7 +2169,6 @@
         }
 
         $('#position').change(function() {
-            console.log('position changed');
             $('#career').empty();
             for (let i = 0; i < globalData.length; i++) {
                 if ($('#position').val() == globalData[i].p_title) {
@@ -2163,7 +2177,12 @@
                     );
                 }
             }
+            let value = $('#career').val()
+            $('#career_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
             DomainSegmentAppend()
+            SPRCalculator()
         })
 
         function DomainSegmentAppend() {

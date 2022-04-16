@@ -455,7 +455,7 @@
                                     client
                                 </label>
                                 <select name="CLIENT_FINANCE" class="form-control border h-px-20_custom w-100"
-                                    id="client_finance" disabled="">
+                                    id="client_finance" readonly>
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                         Select
                                         Option</option>
@@ -619,6 +619,7 @@
         </div>
     </fieldset>
 </div>
+<script src="{{ asset('assets/js/data-entry.js') }}"></script>
 
 <script>
     select2Dropdown("select2_dropdown");
@@ -714,9 +715,16 @@
     }
 
     // on remarks for finance change shwo user input fields ends
-
+    // $('#remarks').change(function() {
+    //     console.log('ello');
+    //     value = $(this).val();
+    //     $('#remarks_finance').append(`<option selected value="${value}">
+    //                                    ${value}
+    //                               </option>`);
+    // });
     // close 
     function clientChanged(dropDown, elem) {
+        console.log('helllo');
         $('#loader2').addClass('d-block')
         $('#loader2').removeClass('d-none')
         $('#position').prop("disabled", false);
@@ -751,6 +759,11 @@
                             }
                         }
                     }
+                    let value = $('#client').val()
+                    console.log(value)
+                    $('#client_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -773,7 +786,6 @@
     }
 
     $('#position').change(function() {
-        console.log('position changed');
         $('#career').empty();
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val() == globalData[i].p_title) {
@@ -782,6 +794,12 @@
                 );
             }
         }
+        let value = $('#career').val()
+        $('#career_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
         DomainSegmentAppend()
+        SPRCalculator()
+
     })
 </script>

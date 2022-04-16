@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\CandidateTraversal;
 use App\Domain;
+use App\DropDownOption;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
@@ -21,7 +22,21 @@ class DomainController extends Controller
         $this->middleware('permission:add-domain', ['only' => ['add_domains']]);
         $this->middleware('permission:delete-domain', ['only' => ['delete_sub_segment']]);
     }
+    public function testinglink()
+    {
+        echo 'This is a Testing Link...';
+        die();
+        // $segments = DB::table('taverse2')->get('position')->unique();
+        // // return $segments;
+        // foreach ($segments as $value) {
 
+        //     $d = new DropDownOption();
+        //     $d->drop_down_id = 12;
+        //     $d->option_name = $value->position;
+        //     $d->save();
+        // }
+
+    }
     public function view_sub_segments()
     {
         $subSegments = SubSegment::all();

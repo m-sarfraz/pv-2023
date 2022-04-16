@@ -166,6 +166,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
     Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
+    // testing link fro entring or testing data
+    Route::get('testinglink', 'DomainController@testinglink')->name('testinglink');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

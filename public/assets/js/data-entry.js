@@ -45,6 +45,7 @@ function RemarksChange(elem) {
         $('#career_finance').prop("disabled", false);
         $('#srp').prop("disabled", false);
         $('#remarks_finance').prop("disabled", false);
+        $('#remarks_finance').attr("readonly", true);
         $('#invoice_number').prop("disabled", false);
         $('#bilable_amount').prop("disabled", false);
         $('#rate').prop("disabled", false);
@@ -52,6 +53,7 @@ function RemarksChange(elem) {
         $('#placement_fee').prop("disabled", false);
         $('#off_salary_fianance').prop("disabled", false);
         $('#onboard_date').prop("disabled", false);
+        // $('#onboard_date').attr("readonly", true);
         // $('#off_allowance').prop("disabled", false);
     } else {
 
@@ -155,6 +157,7 @@ function SearchUserData(e, div) {
     $('#userDetailInput').removeClass('d-none')
     $('#searchRecord').prop("disabled", true)
     $('#saveRecord').prop("disabled", false)
+    $('#saveNewRecord').prop("disabled", false)
     $('#editRecord').prop("disabled", false)
     $("#loader").show();
     var id = $('#user').val();
@@ -189,15 +192,16 @@ function enableSearch(id) {
 
 // calculate standard proejct revenue value on career level change starts
 function SPRCalculator() {
-    var domain = $('#domain').find(":selected").text().trim();
+    var domain = $('#domain_endo').find(":selected").text().trim();
     var CLi = $('#career').find(":selected").text().trim();
-    console.log(domain)
-    console.log(CLi)
+    // console.log('hi')
+    // console.log(domain)
+    // console.log(CLi)
 
     // create object of data for technology/CPI and price
     let data = [
         {
-            "Technology": [{
+            "TECHNOLOGY": [{
                 "CL5": '447000',
                 "CL6": '447000',
                 "CL7": '300000',
@@ -249,18 +253,18 @@ function SPRCalculator() {
 //function for appending endorsement client to finance portion starts
 function clientChanged(elem) {
     var selected = $(elem).find(":selected").text().trim();
-    $('#client_finance').html('<option>' + selected + '</option>');
+    // $('#client_finance').html('<option>' + selected + '</option>');
     // SPRCalculator()
     traverse2();
 }
 //function for appending endorsement client to finance portion ends
 
 //function for appending endorsement career to finance portion starts
-function careerChanged(elem) {
-    var selected = $(elem).find(":selected").text().trim();
-    $('#career_finance').html('<option>' + selected + '</option>');
-    SPRCalculator()
-}
+// function careerChanged(elem) {
+//     var selected = $(elem).find(":selected").text().trim();
+//     $('#career_finance').html('<option>' + selected + '</option>');
+//     SPRCalculator()
+// }
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
 function EnableUserEdit(elem) {
@@ -306,6 +310,7 @@ function EnableUserEdit(elem) {
         $('#career_finance').prop("disabled", false);
         $('#srp').prop("disabled", false);
         $('#remarks_finance').prop("disabled", false);
+        $('#remarks_finance').prop("readonly", true);
         $('#invoice_number').prop("disabled", false);
         $('#bilable_amount').prop("disabled", false);
         $('#rate').prop("disabled", false);
@@ -313,6 +318,7 @@ function EnableUserEdit(elem) {
         $('#placement_fee').prop("disabled", false);
         $('#off_salary_fianance').prop("disabled", false);
         $('#onboard_date').prop("disabled", false);
+        // $('#onboard_date').attr("readonly", true);
         // $('#off_allowance').prop("disabled", false);
     } else {
 

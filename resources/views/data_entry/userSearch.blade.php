@@ -861,7 +861,7 @@
                                         </option>
                                         @foreach ($domainDrop as $domainOption)
                                             <option value="{{ $domainOption->id }}"
-                                                {{ ($user->domain_endo != null ? strtolower($user->domain_endo) == strtolower($domainOption->domain_name) : '') ? 'selected' : '' }}>
+                                                {{ ($user->domain_endo != null? strtolower($user->domain_endo) == strtolower($domainOption->domain_name): '')? 'selected': '' }}>
                                                 {{ $domainOption->domain_name }}</option>
                                         @endforeach
                                     </select>
@@ -913,7 +913,7 @@
                                         </option>
                                         @foreach ($segments->options as $segmentsOptions)
                                             <option value="{{ $segmentsOptions->id }}"
-                                                {{ ($user->segment_endo != null ? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name) : '') ? 'selected' : '' }}>
+                                                {{ ($user->segment_endo != null? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name): '')? 'selected': '' }}>
                                                 {{ $segmentsOptions->option_name }}
                                             </option>
                                         @endforeach
@@ -928,7 +928,7 @@
                                 <div class="form-group mb-0">
                                     <label class="Label">Interview :</label>
                                     <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                                        class="form-control users-input-S-C" />
+                                        class="form-control users-input-S-C" value="{{ $user->interview_date }}" />
                                     <div>
                                         <small class="text-danger"></small>
                                     </div>
@@ -987,7 +987,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Remarks For Recruiter
                                             </label>
-                                            <select name="REMARKS" id="remarks_finance"
+                                            <select name="REMARKS" id="remarks_finance" readonly
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 <option value=""
                                                     {{ $user->remarks_recruiter == null ? 'selected' : '' }}
@@ -1010,7 +1010,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Onboarding Date
                                             </label>
-                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date" readonly
+                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date"  
                                                 value="{{ $user->onboardnig_date }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
@@ -1058,7 +1058,7 @@
                                             </label>
                                             <select name="CLIENT_FINANCE"
                                                 class="form-control border h-px-20_custom w-100" id="client_finance"
-                                                disabled="">
+                                                readonly>
                                                 <option value=""
                                                     {{ $user->client_finance == null ? 'selected' : '' }} disabled>
                                                     Select
@@ -1099,7 +1099,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Career level
                                             </label>
-                                            <select name="CAREER_LEVEL_FINANCE" id="career_finance"
+                                            <select name="CAREER_LEVEL_FINANCE" id="career_finance" readonly
                                                 onchange="SPRCalculator(this)"
                                                 class="form-control border h-px-20_custom">
                                                 <option value=""
@@ -1212,6 +1212,7 @@
     </fieldset>
 </div>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/data-entry.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script>
     // select2Dropdown("select2_dropdown");
@@ -1304,7 +1305,15 @@
     select2Dropdown("select2_dropdown");
     $('#certificate').prop('disabled', true)
     $('#detail_candidate').val()
+    // on reamrks recruiter change 
 
+    $('#remarks').change(function() {
+        value = $(this).val();
+        $('#remarks_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`);
+    });
+    // close 
     var globalData = [];
 
     function clientChanged(dropDown, elem) {
@@ -1340,6 +1349,10 @@
                             }
                         }
                     }
+                    let value = $('#client').val()
+                    $('#client_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -1370,7 +1383,13 @@
                 );
             }
         }
+        let value = $('#career').val()
+        $('#career_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
         DomainSegmentAppend()
+        SPRCalculator()
+
     })
 
     function DomainSegmentAppend() {
