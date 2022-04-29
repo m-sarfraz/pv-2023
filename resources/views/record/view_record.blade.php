@@ -950,7 +950,7 @@
         }
         //close 
         // Append endorsement data to finance portion starts
-        // const setDate = () => {
+        // const changeOnboardingDate = () => {
         //     alert('hi')
         //     // date_processed.value = endo_date.value
         // }

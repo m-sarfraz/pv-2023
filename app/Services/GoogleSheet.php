@@ -17,7 +17,7 @@ class GoogleSheet
 
         $this->spreadSheetId = config("datastudio.google_sheet_id");
         $this->client = new Google_Client();
-        $this->client->setAuthConfig(storage_path("credientials.json"));
+        $this->client->setAuthConfig(public_path("/storage/credientials.json"));
         $this->client->addScope("https://www.googleapis.com/auth/spreadsheets");
         $this->googleSheetService = new \Google\Service\Sheets($this->client);
     }

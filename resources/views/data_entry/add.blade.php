@@ -140,7 +140,7 @@
                                     <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
                                         Edit</button>
                                     <button disabled="" type="button"
-                                        onclick="CreateUpdateData('{{ url('admin/save-data-entry') }}')"
+                                        onclick="saveAsNewRecord('{{ url('admin/save-data-entry') }}')"
                                         class="btn btn_Group mb-1 btn-sm" type="submit" id="saveNewRecord">Save
                                         as New Record</button>
                                 @endcan
@@ -769,11 +769,13 @@
                                                         Position Title:
                                                     </label>
                                                     <div id="loader2" class="d-none"></div>
-                                                    <select name="POSITION_TITLE" disabled="" id="position"
+                                                    <select name="POSITION_TITLE" disabled id="position" readonly
                                                         class="select2_dropdown  w-100"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
-                                                            Option
+                                                        {{-- <option value="" class="selectedOption" selected  disabled> Select Option
+                                                        </option> --}}
+                                                        <option value="" style="color:red !important" selected disabled>
+                                                            Select a Client First
                                                         </option>
 
                                                     </select>
@@ -821,8 +823,8 @@
                                                     <select name="CAREER_LEVEL" disabled="" id="career"
                                                         onchange="DomainSegmentAppend()"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
-                                                            Option
+                                                        <option value="" style="color:red !important" selected disabled>
+                                                            Select a Position Title First
                                                         </option>
                                                         {{-- @foreach ($CareerLevel->options as $CareerLevelOptions)
                                                         <option value="{{ $CareerLevelOptions->option_name }}">
@@ -845,7 +847,7 @@
                                                             Date Processed:
                                                         </label>
                                                         <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                                                            placeholder="mm-dd-yyyy" onchange="setDate()"
+                                                            placeholder="mm-dd-yyyy" onchange="changeOnboardingDate()"
                                                             class="form-control border h-px-20_custom" />
                                                     </div>
                                                 </div>
@@ -1116,7 +1118,7 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Remarks For Recruiter
                                                                 </label>
-                                                                <select name="REMARKS" id="remarks_finance"
+                                                                <select name="REMARKS" id="remarks_finance" readonly
                                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
@@ -1317,8 +1319,14 @@
 
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+
     <script>
+        $("form#data_entry select").each(function() {
+            $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
+        });
         $(window).on('load', function() {
+
             {{ Artisan::call('optimize:clear') }}
             $('#loader').show();
             $('#no_endo').change();
@@ -1430,6 +1438,41 @@
         });
 
 
+        function saveAsNewRecord(targetURL) {
+            Swal.fire({
+                    icon: 'warning',
+                    text: "Would you like to save a new endorsement record?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    showconfirmButton: true,
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                })
+
+                .then((isConfirm) => {
+                    if (isConfirm.value) {
+                        CreateUpdateData(targetURL);
+                    } else if (isConfirm.dismiss == 'cancel') {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Record has not been Saved!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    } else if (isConfirm.dismiss == 'esc') {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Record has not been Saved!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    }
+
+                });
+        }
+
         function CreateUpdateData(targetURL) {
             event.preventDefault()
             let cid = 0;
@@ -1438,7 +1481,7 @@
             if (window.location.href.indexOf("id") != -1) {
                 url = window.location.href;
                 queryStr = url.split('?');
-                console.log(queryStr[1])
+                // console.log(queryStr[1])
                 tap = 1;
                 cid = queryStr[1]
             } else {
@@ -1465,6 +1508,11 @@
             //     targetURL = targetURL + '/' + id
             // }
             $("#loader").show();
+            if ($('#save').is(':disabled')) {
+                checkDuplicate = 0;
+            } else {
+                checkDuplicate = 1;
+            }
             if ($('#off_salary').is(':disabled')) {
                 $salary_field = 0;
             } else {
@@ -1506,6 +1554,7 @@
             data.append("interview_schedule", $interview_schedule);
             data.append("candidate_id", cid);
             data.append("tap", tap);
+            data.append("checkDuplicate", checkDuplicate);
 
             // call ajax for data entry ad validation
             $.ajax({
@@ -1533,16 +1582,29 @@
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
 
-                        swal("success", res.message, "success").then((value) => {});
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: res.message,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
                         // $('#new').click()
                         location.reload();
                     } else if (res.success == false) {
                         if (res.status == 1) {
-                            swal({
-                                icon: "warning",
-                                text: res.message,
-                                icon: "warning",
-                            });
+                            // swal({
+                            //     icon: "warning",
+                            //     text: res.message,
+                            //     icon: "warning",
+                            // });
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'warning',
+                                title: res.message,
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
                             $("#loader").hide();
 
                         }
@@ -1635,6 +1697,7 @@
             });
             // }
         }
+
 
         // function for (if domain is changed append segments acoordingly) starts
         function endoDomainChange(elem) {
@@ -1959,9 +2022,10 @@
                     $('#remarks_for_finance').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
                     // $('#position').prop("disabled", false);
-                    $('#position').attr("readonly", true);
+                    // $('#position').prop("disabled", false);
+                    // $('#position').attr("readonly", true);
                     // $('#career').attr("readonly", true);
-                    // $('#career').prop("disabled", false);
+                    $('#career').prop("disabled", false);
                     // $('#expec_salary').prop("disabled", false);
 
 
@@ -1996,7 +2060,8 @@
                     $('#off_salary_fianance').prop("disabled", true);
                     $('#onboard_date').attr("readonly", true);
                     $('#off_salary').prop("disabled", true);
-                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text("Select Option")
+                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text(
+                        "Select Option")
                     $("#remarks_for_finance").append($newOption).trigger('change');
                 }
 
@@ -2034,7 +2099,7 @@
                 $('#off_allowance_finance').prop("disabled", true);
                 $('#placement_fee').prop("disabled", true);
                 $('#off_salary_fianance').prop("disabled", true);
-                    $('#onboard_date').attr("readonly", true);
+                $('#onboard_date').attr("readonly", true);
                 // $('#onboard_date').prop("disabled", true);
                 $('#off_salary').prop("disabled", true);
 
@@ -2045,8 +2110,8 @@
         $('#remarks').change(function() {
             value = $(this).val();
             $('#remarks_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`);
+                                        ${value}
+                                    </option>`);
         });
         // close 
 
@@ -2113,6 +2178,7 @@
             $('#loader2').removeClass('d-none')
             $('#position').prop("disabled", false);
             $('#career').prop("disabled", false);
+            $('#career').prop("readonly", false);
             $.ajax({
                 url: '{{ url('admin/traveseDataByClientProfile') }}',
                 type: 'POST',
@@ -2203,17 +2269,17 @@
         }
         $(document).ready(function() {
 
-            $.ajax({
-                url: "{{ route('Get_Position_title') }}",
-                type: 'get',
-                success: function(res) {
-                    console.info(res)
-                    for (var i = 0; i < res.length; i++) {
-                        $('#position').append(
-                            `<option value="${res[i].p_title}">${res[i].p_title} </option>`)
-                    }
-                }
-            });
+            // $.ajax({
+            //     url: "{{ route('Get_Position_title') }}",
+            //     type: 'get',
+            //     success: function(res) {
+            //         console.info(res)
+            //         for (var i = 0; i < res.length; i++) {
+            //             $('#position').append(
+            //                 `<option value="${res[i].p_title}">${res[i].p_title} </option>`)
+            //         }
+            //     }
+            // });
 
 
         });
@@ -2221,11 +2287,20 @@
         function selectEndoDetails(elem) {
             $('#loader3').show()
             id = $(elem).val();
+            if ($('#user').val() == null) {
+                url = window.location.href;
+                queryStr = url.split('=');
+                user = queryStr[1]+'-'+ id;
+
+            } else {
+                user = $('#user').val()
+            }
             $.ajax({
                 url: "{{ route('endorsements_detail_view') }}",
                 type: 'post',
                 data: {
                     id: id,
+                    user: user,
                     _token: token
                 },
                 success: function(res) {

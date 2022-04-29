@@ -80,15 +80,12 @@ class CandidateController extends Controller
     // save data entruy data
     public function save_data_entry(Request $request)
     {
-
-        if ($request->tap == 0) {
+        if ($request->checkDuplicate == 1) {
             $check = CandidateInformation::where(['phone' => $request->CONTACT_NUMBER, 'last_name' => $request->LAST_NAME])->exists();
             if ($check == true) {
                 return response()->json(['success' => false, 'message' => 'A Record with this Phone & Last name already Exists!', 'status' => '1']);
-
             }
         }
-        // return $request->endo_number;
         if (Auth::user()->agent == 1) {
             $arrayCheck = [
                 "EMPLOYMENT_HISTORY" => 'required ',
@@ -260,28 +257,39 @@ class CandidateController extends Controller
         } else {
             if ($request->tap == 0) {
                 $candidate_id = 0;
-            } else {
-                $candidate_id = trim($request->candidate_id, "id=");
-            }
-            // return $candidate_id;
-            if ($candidate_id > 0) {
-                // if record is being updated from Tap
-                $CandidateInformation = CandidateInformation::find($candidate_id);
-                $CandidateEducation = CandidateEducation::where('candidate_id', $candidate_id)->firstOrFail();
-                $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
-                $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
-                $numberOfEndo = 0;
-            } else {
-                // if new record insertion is happening
                 $CandidateInformation = new CandidateInformation();
                 $CandidateEducation = new CandidateEducation();
                 $CandidiatePosition = new CandidatePosition();
                 $CandidiateDomain = new CandidateDomain();
                 $numberOfEndo = 1;
+            } else {
+                $candidate_id = trim($request->candidate_id, "id=");
+                $CandidateInformation = CandidateInformation::find($candidate_id);
+                $CandidateEducation = CandidateEducation::where('candidate_id', $candidate_id)->firstOrFail();
+                $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
+                $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
+                $numberOfEndo = 0;
+            }
+            $id = explode('-', $request->candidate_id);
+            if ($request->tap == 0 && $id[0] != 'null') {
+                $CandidateInformation = CandidateInformation::find($id[0]);
+                $CandidateEducation = CandidateEducation::where('candidate_id', $id[0])->firstOrFail();
+                $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
+                $CandidiateDomain = CandidateDomain::where('candidate_id', $id[0])->firstOrFail();
+                $numberOfEndo = $id[1] + 1;
             }
 
+            // return $candidate_id;
+            // if ($candidate_id > 0) {
+            //     // if record is being updated from Tap
+
+            // } else {
+            //     // if new record insertion is happening
+
+            // }
+
             // save data to candidate information table
-            $CandidateInformation->last_name = $request->FIRST_NAME . ' ' . $request->MIDDLE_NAME . ' ' . $request->LAST_NAME;
+            $CandidateInformation->last_name =  $request->LAST_NAME;
             $CandidateInformation->middle_name = $request->MIDDLE_NAME;
             $CandidateInformation->first_name = $request->FIRST_NAME;
             $CandidateInformation->email = $request->EMAIL_ADDRESS;
@@ -373,7 +381,6 @@ class CandidateController extends Controller
                 if ($lastEndo == 0) {
                     $numberOfEndo = 1;
                 } else {
-
                     $numberOfEndo = $lastEndo + 1;
                 }
             }
@@ -534,7 +541,7 @@ class CandidateController extends Controller
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
             // Cache::forget('users');
-            return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
+            return response()->json(['success' => true, 'message' => 'Record Saved successfully', "last_data_save" => $last_data_save]);
             return 'updated';
             // } else {
             //     return 'no';
@@ -774,7 +781,7 @@ class CandidateController extends Controller
             // Helper::save_log('CANDIDATE_CREATED');
             // //save record for logs ends
             // Cache::forget('users');
-            // return response()->json(['success' => true, 'message' => 'Data added successfully', "last_data_save" => $last_data_save]);
+            // return response()->json(['success' => true, 'message' => 'Record Saved successfully', "last_data_save" => $last_data_save]);
         }
     }
     // close
@@ -795,12 +802,14 @@ class CandidateController extends Controller
             ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('finance', 'endorsements.id', 'finance.endorsement_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->select('candidate_educations.*', 'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
             ->where(['candidate_informations.id' => $str_arr[0], 'endorsements.numberofEndo' => $endoID, 'endorsements.saved_by' => Auth::user()->id])
             ->first();
         // return $user;
+        $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
         $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
         $data = [
+            'financeDetail' => $financeDetail,
             'domainDrop' => $domainDrop,
             'user' => $user,
             'number' => $endoID,
@@ -1129,6 +1138,7 @@ class CandidateController extends Controller
             $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             $endorsement = Endorsement::where(['candidate_id' => $candidate_id, 'numberOfEndo' => $endo_number, 'saved_by' => Auth::user()->id])->first();
+        //    return $candidate_id;
             Endorsement::where(['candidate_id' => $candidate_id, 'numberOfEndo' => $endo_number, 'saved_by' => Auth::user()->id])->update([
                 'app_status' => $request->APPLICATION_STATUS,
                 'remarks' => $request->REMARKS_FROM_FINANCE,
@@ -1293,9 +1303,10 @@ class CandidateController extends Controller
             $detail = null;
         } else {
             $endoID = $request->id;
+            $cid = explode(',', $request->user);
             $detail = DB::table('endo_finance_view')
-                ->where(['numberOfEndo' => $endoID, 'saved_by' => Auth::user()->id])->first();
-            // dd($detail);
+                ->where(['numberOfEndo' => $endoID,'candidate_id'=>$cid[0] ,'saved_by' => Auth::user()->id])->first();
+                // dd($detail);
         }
         try {
 

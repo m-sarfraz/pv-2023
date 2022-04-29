@@ -108,7 +108,7 @@
                         <label class="d-block font-size-3 mb-0">
                             Date Processed:
                         </label>
-                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="setDate()"
+                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="changeOnboardingDate()"
                             class="form-control border h-px-20_custom"
                             value="{{ $user != null ? $user->endi_date : '' }}" />
                         <div>
@@ -387,7 +387,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Remarks For Recruiter
                                 </label>
-                                <select name="REMARKS" id="remarks_finance"
+                                <select name="REMARKS" id="remarks_finance" readonly 
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                     </option>
@@ -408,7 +408,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Onboarding Date
                                 </label>
-                                <input type="date" name="ONBOARDING_DATE" id="onboard_date" readonly
+                                <input type="date" name="ONBOARDING_DATE" id="onboard_date"  
                                     value="{{ $user != null ? $user->onboardnig_date : '' }}"
                                     class="form-control border h-px-20_custom" />
                                 <div>
@@ -494,7 +494,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Career level
                                 </label>
-                                <select name="CAREER_LEVEL_FINANCE" id="career_finance" onchange="SPRCalculator(this)"
+                                <select name="CAREER_LEVEL_FINANCE" id="career_finance" readonly onchange="SPRCalculator(this)"
                                     class="form-control border h-px-20_custom">
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                         Select
@@ -723,8 +723,13 @@
     //                               </option>`);
     // });
     // close 
+
+    $("form#data_entry select").each(function() {
+        $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
+    });
+
     function clientChanged(dropDown, elem) {
-        console.log('helllo');
+        // console.log('helllo');
         $('#loader2').addClass('d-block')
         $('#loader2').removeClass('d-none')
         $('#position').prop("disabled", false);

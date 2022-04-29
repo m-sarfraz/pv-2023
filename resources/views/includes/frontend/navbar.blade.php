@@ -106,7 +106,7 @@
                     </div>
                 </div>
             @endcan
-            {{-- @can('view_reports') --}}
+            @if (Auth::user()->type == 1)
                 <div class="dropdown pt-2 pl-2 text-white">
                     Reports
                     <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
@@ -117,7 +117,7 @@
 
                     </div>
                 </div>
-            {{-- @endcan --}}
+            @endif
 
             <div class="ml-auto E_S_icon pr-8 px-3">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">

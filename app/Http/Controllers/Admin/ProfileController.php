@@ -19,6 +19,7 @@ use Auth;
 use Config;
 use DB;
 use File;
+use Str;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -99,7 +100,7 @@ class ProfileController extends Controller
         }
     }
     // function for Google sheet Import starts
-    public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
+    public function readsheet(\App\Services\GoogleSheet$googleSheet, Request $request)
     {
         ini_set('max_execution_time', 3000); //3000 seconds = 50 minutes
         $recruiter = Auth::user()->roles->first();
@@ -163,7 +164,7 @@ class ProfileController extends Controller
 
                         $store_by_google_sheet->email = isset($render[20]) ? $render[20] : "";
                         $store_by_google_sheet->address = isset($render[21]) ? $render[21] : "";
-                        $store_by_google_sheet->saved_by = isset($render[3]) ? $render[3] : "";
+                        // $store_by_google_sheet->saved_by = isset($render[3]) ? $render[3] : "";
                         $store_by_google_sheet->save();
                         // start store data in candidate_educations
                         $query = DB::table("candidate_educations")
@@ -275,6 +276,8 @@ class ProfileController extends Controller
                         $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                         $endorsement->candidate_id = $store_by_google_sheet->id;
                         $endorsement->category = $category;
+                        $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
+
                         $endorsement->save();
                         //close
 
@@ -443,7 +446,7 @@ class ProfileController extends Controller
                                 21 => "Scheduled for Skills/Technical Interview",
                             ],
                         ];
-                        $user = User::find($recruiter);
+                        $user = User::find($recruiter->id);
                         $query = DB::table("cip_progress")
                             ->where("candidate_id", $store_by_google_sheet->id)
                             ->first();
@@ -563,7 +566,7 @@ class ProfileController extends Controller
 
                     $store_by_Ecxel->email = isset($render[20]) ? $render[20] : "";
                     $store_by_Ecxel->address = isset($render[21]) ? $render[21] : "";
-                    $store_by_Ecxel->saved_by = isset($render[3]) ? $render[3] : "";
+                    // $store_by_Ecxel->saved_by = isset($render[3]) ? $render[3] : "";
                     $store_by_Ecxel->save();
 
                     // start store data in candidate_educations
@@ -678,6 +681,7 @@ class ProfileController extends Controller
                     $endorsement->status = isset($render[42]) ? $render[42] : "";
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_Ecxel->id;
+                    $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
 
                     $endorsement->save();
                     //close
@@ -901,7 +905,7 @@ class ProfileController extends Controller
         // dd($config, Config::get("datastudio.google_sheet_id"));
         return response()->json(['success' => true, 'message' => 'successfully']);
     }
-    public function connect_to_jdl_sheet(\App\Services\GoogleSheet $googleSheet, Request $request)
+    public function connect_to_jdl_sheet(\App\Services\GoogleSheet$googleSheet, Request $request)
     {
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // change configuration for google sheet ID

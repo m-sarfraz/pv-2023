@@ -5,15 +5,22 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ExtractDataJob;
 use Auth;
 use DB;
+use File;
 use Helper;
 use Illuminate\Http\Request;
-use File;
-use Artisan;
+
 class DataExtractController extends Controller
 {
+    public function __construct()
+    {
+    }
     public function index()
     {
-        return view('extract-data');
+        if (Auth::user()->type != 1) {
+            return redirect()->back();
+        } else {
+            return view('extract-data');
+        }
     }
 
     // append filter options on page load
@@ -62,7 +69,7 @@ class DataExtractController extends Controller
         // ini_set('memory_limit', '9072M');
         // ini_set('MAX_EXECUTION_TIME', '-1');
         // set_time_limit(10 * 60);
-        
+
         // $fullFolderZipFile  = public_path().'/export/'.date('ym');
         // $filePath           = $fullFolderZipFile.'/'.$request->fileName;
         $filePath = storage_path('app/' . $request->file_name);
@@ -75,10 +82,10 @@ class DataExtractController extends Controller
             //     $nameDownload .= ".zip";
             // } else {
 
-                $filePathZip = $filePath;
-                $nameDownload .= "." . pathinfo($request->file_name, PATHINFO_EXTENSION);
+            $filePathZip = $filePath;
+            $nameDownload .= "." . pathinfo($request->file_name, PATHINFO_EXTENSION);
             // }
-            
+
             $mimeType = File::mimeType($filePathZip);
             // dd ('mimetpe is'. $mimeType);
             return response()->download($filePathZip, $nameDownload, [

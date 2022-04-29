@@ -669,7 +669,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Career Level:
                                 </label>
-                                <select name="CAREER_LEVEL" disabled="" id="career"
+                                <select name="CAREER_LEVEL" disabled=""   id="career"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user->career_endo == null ? 'selected' : '' }} disabled>
                                         Select
@@ -695,7 +695,7 @@
                                         Date Processed:
                                     </label>
                                     <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                                        onchange="setDate()" class="form-control border h-px-20_custom"
+                                        onchange="changeOnboardingDate()" class="form-control border h-px-20_custom"
                                         value="{{ $user->endi_date }}" />
                                     <div>
                                         <small class="text-danger"></small>
@@ -1010,7 +1010,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Onboarding Date
                                             </label>
-                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date"  
+                                            <input type="date" name="ONBOARDING_DATE" id="onboard_date"
                                                 value="{{ $user->onboardnig_date }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
@@ -1023,7 +1023,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="d-block font-size-3 mb-0">
-                                                Standard Projected Reveneu
+                                                Standard Projected Revenue
                                             </label>
                                             <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
                                                 value="{{ $user->srp }}" class="form-control h-px-20_custom"
@@ -1038,8 +1038,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Invoice Number
                                             </label>
-                                            <input type="number" name="INVOICE_NUMBER" id="invoice_number" readonly
-                                                value="{{ $user->invoice_number }}"
+                                            <input type="text" name="INVOICE_NUMBER" id="invoice_number" readonly
+                                                value="{{$financeDetail->invoice_number}}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1176,7 +1176,7 @@
                                                 Placement Fee
                                             </label>
                                             <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
-                                                value="{{ $user->placement_fee }}"
+                                                value="{{ $financeDetail->placementFee }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1215,6 +1215,9 @@
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script>
+       $("form#data_entry select").each(function(){
+                $(this).attr('readonly') ? $(this).css('pointer-events','none') : ''
+            });
     // select2Dropdown("select2_dropdown");
     $('#saveRecord').prop("disabled", true)
     $('#save').prop("disabled", true)

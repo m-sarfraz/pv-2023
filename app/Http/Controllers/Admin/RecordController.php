@@ -198,10 +198,9 @@ class RecordController extends Controller
     {
 
         $arrayofID = explode('-', $request->id);
-        // return $arrayofID;
         $user = DB::table('six_table_view')
-            ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
-            ->first();
+        ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0]  == '' ? 0 : $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
+        ->first();
         $domainDrop = Domain::all();
         $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
         $client = DB::table('taverse2')->distinct()->select('client')->get();

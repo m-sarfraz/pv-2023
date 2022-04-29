@@ -121,7 +121,7 @@ function SalaryAppend(id) {
 // append selected salary and alloeance to finance portion ends
 
 // Append endorsement data to finance portion starts
-const setDate = () => {
+function changeOnboardingDate  ()  {
     onboard_date.value = endo_date.value
 }
 // Append endorsement data to finance portion ends
@@ -284,6 +284,7 @@ function EnableUserEdit(elem) {
         $('#client').prop("disabled", false);
         $('#endo_type').prop("disabled", false);
         $('#position').prop("disabled", false);
+        $('#position').attr("readonly", true);
         $('#domain_endo').attr("readonly", true);
         $('#career').prop("disabled", false);
         $('#segment').attr("readonly", true);
