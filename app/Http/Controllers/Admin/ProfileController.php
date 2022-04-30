@@ -19,11 +19,11 @@ use Auth;
 use Config;
 use DB;
 use File;
-use Str;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Str;
 
 class ProfileController extends Controller
 {
@@ -133,7 +133,7 @@ class ProfileController extends Controller
                         // query for checking the exisitng /duplicate record
                         $query = DB::table("candidate_informations")
                             ->where("last_name", $candidate_name)
-                            ->orwhere("phone", $candidate_phone)
+                            ->where("phone", $candidate_phone)
                             ->first();
 
                         if (isset($query->id)) {
@@ -254,9 +254,18 @@ class ProfileController extends Controller
                             ->first();
                         if (isset($query->id)) {
                             // update record
-                            $endorsement = Endorsement::find($query->id);
+                            $endorsement = new Endorsement();
+                            // $endorsement = Endorsement::find($query->id);
+                            $lastEndo = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $query->id])->count();
+                            // return $lastEndo;
+                            if ($lastEndo == 0) {
+                                $numberOfEndo = 1;
+                            } else {
+                                $numberOfEndo = $lastEndo + 1;
+                            }
                         } else {
                             // insert record
+                            $numberOfEndo = 1;
                             $endorsement = new Endorsement();
                         }
                         $array = Str::lower(isset($render[43]) ? $render[43] : "");
@@ -276,6 +285,7 @@ class ProfileController extends Controller
                         $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                         $endorsement->candidate_id = $store_by_google_sheet->id;
                         $endorsement->category = $category;
+                        $endorsement->numberOfEndo = $numberOfEndo;
                         $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
 
                         $endorsement->save();
@@ -287,19 +297,18 @@ class ProfileController extends Controller
                             ->first();
                         if (isset($query->id)) {
                             // update record
-                            $finance = Finance::find($query->id);
+                            $finance = new Finance();
+                            // $finance = Finance::find($query->id);
                         } else {
                             // insert record
                             $finance = new Finance();
                         }
                         $finance->candidate_id = $store_by_google_sheet->id;
-                        // $finance->onboardnig_date = isset($render[59]) ? $render[59] : "";
+                        $finance->endorsement_id = $endorsement->id;
                         $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
-
                         $finance->invoice_number = isset($render[61]) ? $render[61] : "";
                         $finance->client_finance = isset($render[48]) ? $render[48] : "";
                         $finance->career_finance = isset($render[49]) ? $render[49] : "";
-
                         $rate = isset($render[53]) ? $render[53] : "";
                         $rate_divide = explode(',', $rate);
                         $rate_combune_0 = isset($rate_divide[0]) ? $rate_divide[0] : '';
@@ -336,11 +345,13 @@ class ProfileController extends Controller
                             ->first();
                         if (isset($query->id)) {
                             // update record
-                            $finance_detail = Finance_detail::find($query->id);
+                            $finance_detail = new Finance_detail();
+                            // $finance_detail = Finance_detail::find($query->id);
                         } else {
                             // insert record
                             $finance_detail = new Finance_detail();
                         }
+                        $finance_detail->finance_id = $finance->id;
                         $finance_detail->candidate_id = $store_by_google_sheet->id;
                         $offered_salary = isset($render[50]) ? $render[50] : "";
                         $offered_salary_divide = explode(',', $offered_salary);
@@ -522,6 +533,7 @@ class ProfileController extends Controller
             } else {
 
                 $row = 1;
+                // unset($render[0]);
                 while (($render = fgetcsv($file, 1000, ",")) !== false) {
                     // dd($render[1]);
 
@@ -534,8 +546,7 @@ class ProfileController extends Controller
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
                     // query for checking the exisitng /duplicate record
                     $query = DB::table("candidate_informations")
-                        ->where("last_name", $candidate_name)
-                        ->orwhere("phone", $candidate_phone)
+                        ->where(["last_name" => $candidate_name, "phone" => $candidate_phone])
                         ->first();
 
                     if (isset($query->id)) {
@@ -662,9 +673,18 @@ class ProfileController extends Controller
                         ->first();
                     if (isset($query->id)) {
                         // update record
-                        $endorsement = Endorsement::find($query->id);
+                        $lastEndo = Endorsement::where(['saved_by' => isset($render[3]) ? $render[3] : Auth::user()->id, 'candidate_id' => $query->id])->count();
+                        // return $lastEndo;
+                        if ($lastEndo == 0) {
+                            $numberOfEndo = 1;
+                        } else {
+                            $numberOfEndo = $lastEndo + 1;
+                        }
+                        $endorsement = new Endorsement();
+                        // $endorsement = Endorsement::find($query->id);
                     } else {
                         // insert record
+                        $numberOfEndo = 1;
                         $endorsement = new Endorsement();
                     }
                     $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
@@ -681,6 +701,7 @@ class ProfileController extends Controller
                     $endorsement->status = isset($render[42]) ? $render[42] : "";
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_Ecxel->id;
+                    $endorsement->numberOfEndo = $numberOfEndo;
                     $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
 
                     $endorsement->save();
@@ -692,14 +713,15 @@ class ProfileController extends Controller
                         ->first();
                     if (isset($query->id)) {
                         // update record
-                        $finance = Finance::find($query->id);
+                        $finance = new Finance();
+                        // $finance = Finance::find($query->id);
                     } else {
                         // insert record
                         $finance = new Finance();
                     }
                     $finance->candidate_id = $store_by_Ecxel->id;
                     $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
-
+                    $finance->endorsement_id = $endorsement->id;
                     $finance->invoice_number = isset($render[61]) ? $render[61] : "";
                     $finance->client_finance = isset($render[48]) ? $render[48] : "";
                     $finance->career_finance = isset($render[49]) ? $render[49] : "";
@@ -738,11 +760,14 @@ class ProfileController extends Controller
                         ->first();
                     if (isset($query->id)) {
                         // update record
-                        $finance_detail = Finance_detail::find($query->id);
+                        $finance_detail = new Finance_detail();
+                        // $finance_detail = Finance_detail::find($query->id);
                     } else {
                         // insert record
                         $finance_detail = new Finance_detail();
                     }
+
+                    $finance_detail->finance_id = $finance->id;
                     $finance_detail->candidate_id = $store_by_Ecxel->id;
                     $offered_salary = isset($render[50]) ? $render[50] : "";
                     $offered_salary_divide = explode(',', $offered_salary);
@@ -856,7 +881,8 @@ class ProfileController extends Controller
                         ->first();
                     if (isset($query->id)) {
                         // update record
-                        $Cipprogress = Cipprogress::find($query->id);
+                        $Cipprogress = new Cipprogress();
+                        // $Cipprogress = Cipprogress::find($query->id);
                     } else {
                         // insert record
                         $Cipprogress = new Cipprogress();
@@ -890,7 +916,7 @@ class ProfileController extends Controller
                 }
 
                 // fclose($file);
-                return redirect()->back()->with('message', 'data Import successfully');
+                return redirect()->back()->with('message', 'data Imported successfully');
             }
         } else {
             return redirect()->back()->with('error-local-sdb', 'Uploading Failed');
