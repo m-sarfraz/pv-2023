@@ -617,8 +617,9 @@
                                     Position Title:
                                 </label>
                                 <div id="loader2" class="d-none"></div>
-                                <select name="POSITION_TITLE" disabled="" id="position"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
+                                <select name="POSITION_TITLE" disabled id="position" readonly
+                                    class="select2_dropdown  w-100"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>
                                         Select Option</option>
                                     @foreach ($position_title->options as $position_titleOptions)
@@ -669,7 +670,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Career Level:
                                 </label>
-                                <select name="CAREER_LEVEL" disabled=""   id="career"
+                                <select name="CAREER_LEVEL" disabled="" id="career"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user->career_endo == null ? 'selected' : '' }} disabled>
                                         Select
@@ -861,7 +862,7 @@
                                         </option>
                                         @foreach ($domainDrop as $domainOption)
                                             <option value="{{ $domainOption->id }}"
-                                                {{ ($user->domain_endo != null? strtolower($user->domain_endo) == strtolower($domainOption->domain_name): '')? 'selected': '' }}>
+                                                {{ ($user->domain_endo != null ? strtolower($user->domain_endo) == strtolower($domainOption->domain_name) : '') ? 'selected' : '' }}>
                                                 {{ $domainOption->domain_name }}</option>
                                         @endforeach
                                     </select>
@@ -913,7 +914,7 @@
                                         </option>
                                         @foreach ($segments->options as $segmentsOptions)
                                             <option value="{{ $segmentsOptions->id }}"
-                                                {{ ($user->segment_endo != null? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name): '')? 'selected': '' }}>
+                                                {{ ($user->segment_endo != null ? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name) : '') ? 'selected' : '' }}>
                                                 {{ $segmentsOptions->option_name }}
                                             </option>
                                         @endforeach
@@ -950,7 +951,7 @@
                                         </option>
                                         @foreach ($sub_segment->options as $sub_segmentOptions)
                                             <option value="{{ $sub_segmentOptions->id }}"
-                                                {{ ($user->sub_segment_endo != null? strtolower($user->sub_segment_endo) == strtolower($sub_segmentOptions->option_name): '')? 'selected': '' }}>
+                                                {{ ($user->sub_segment_endo != null ? strtolower($user->sub_segment_endo) == strtolower($sub_segmentOptions->option_name) : '') ? 'selected' : '' }}>
                                                 {{ $sub_segmentOptions->option_name }}
                                             </option>
                                         @endforeach
@@ -1039,7 +1040,7 @@
                                                 Invoice Number
                                             </label>
                                             <input type="text" name="INVOICE_NUMBER" id="invoice_number" readonly
-                                                value="{{$financeDetail->invoice_number}}"
+                                                value="{{ $financeDetail->invoice_number }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1123,101 +1124,77 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Rate
                                             </label>
-                                            <select name="RATE" class="form-control border h-px-20_custom" id="rate"
-                                                id="rate_finance" oninput="amountFinder(this)">
-                                                <option Disabled {{ $user->rate == 0 ? 'selected' : '' }}> Select
-                                                    Option
-                                                </option>
-                                                <option value="10" {{ $user->rate == 10 ? 'selected' : '' }}> 10%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 20 ? 'selected' : '' }}> 20%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 30 ? 'selected' : '' }}> 30%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 40 ? 'selected' : '' }}> 40%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 50 ? 'selected' : '' }}> 50%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 60 ? 'selected' : '' }}> 60%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 70 ? 'selected' : '' }}> 70%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 80 ? 'selected' : '' }}> 80%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 90 ? 'selected' : '' }}> 90%
-                                                </option>
-                                                <option value="10" {{ $user->rate == 100 ? 'selected' : '' }}> 100%
-                                                </option>
-
-                                            </select>
+                                            <input type="text" name="RATE" id="rate" maxlength="6"
+                                                oninput="amountFinder(this)" class="form-control border h-px-20_custom"
+                                                value="{{ $user->rate }}"" />
                                             <div>
-                                                <small class="text-danger"></small>
-                                            </div>
+                                                <small class="  text-danger"></small>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-6">
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Offered Salary
-                                            </label>
-                                            <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance"
-                                                readonly value="{{ $user->off_salary }}"
-                                                class="form-control border h-px-20_custom" />
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Placement Fee
-                                            </label>
-                                            <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
-                                                value="{{ $financeDetail->placementFee }}"
-                                                class="form-control border h-px-20_custom" />
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-9">
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Allowance
-                                            </label>
-                                            <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
-                                                value="{{ $user->allowance }}"
-                                                class="form-control border h-px-20_custom" />
-                                            <div>
-                                                <small class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                </div>
-                            </fieldset>
                         </div>
-                    </div>
+                        <div class="row mb-6">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-0">
+                                    <label class="d-block font-size-3 mb-0">
+                                        Offered Salary
+                                    </label>
+                                    <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance" readonly
+                                        value="{{ $user->off_salary }}"
+                                        class="form-control border h-px-20_custom" />
+                                    <div>
+                                        <small class="text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-0">
+                                    <label class="d-block font-size-3 mb-0">
+                                        Placement Fee
+                                    </label>
+                                    <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
+                                        value="{{ $financeDetail->placementFee }}"
+                                        class="form-control border h-px-20_custom" />
+                                    <div>
+                                        <small class="text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-9">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-0">
+                                    <label class="d-block font-size-3 mb-0">
+                                        Allowance
+                                    </label>
+                                    <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
+                                        value="{{ $user->allowance }}"
+                                        class="form-control border h-px-20_custom" />
+                                    <div>
+                                        <small class="text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6"></div>
+                        </div>
                 </fieldset>
             </div>
         </div>
-
-        <!-- FINANCE section end -->
-        <!-- ================== -->
     </fieldset>
+</div>
+</div>
+
+<!-- FINANCE section end -->
+<!-- ================== -->
+</fieldset>
 </div>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script>
-       $("form#data_entry select").each(function(){
-                $(this).attr('readonly') ? $(this).css('pointer-events','none') : ''
-            });
+    $("form#data_entry select").each(function() {
+        $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
+    });
     // select2Dropdown("select2_dropdown");
     $('#saveRecord').prop("disabled", true)
     $('#save').prop("disabled", true)
@@ -1228,6 +1205,7 @@
     select2Dropdown("select2_dropdown");
 
     $(document).ready(function() {
+        mask('rate');
         var detailInput = <?php echo json_encode($inputDetail); ?>;
         $('#userDetailInput').html('<p>' + detailInput + '</p>');
         var id = $('#user').val();
@@ -1321,6 +1299,7 @@
 
     function clientChanged(dropDown, elem) {
         $('#loader2').addClass('d-block')
+        $('#position').prop("disabled", false);
         $('#loader2').removeClass('d-none')
         $.ajax({
             url: '{{ url('admin/traveseDataByClientProfile') }}',
@@ -1352,6 +1331,7 @@
                             }
                         }
                     }
+
                     let value = $('#client').val()
                     $('#client_finance').append(`<option selected value="${value}">
                                        ${value}
@@ -1410,5 +1390,48 @@
                 );
             }
         }
+    }
+
+    function mask(id) {
+        const elm = document.getElementById(id);
+        const suffix = '%';
+        const bypass = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93];
+
+        const saveValue = (data) => {
+            elm.dataset.value = data;
+        };
+
+        const pureValue = () => {
+            let value = elm.value.replace(/[^\d.-]/g, '');
+            // value = parseFloat(value)
+            console.log(value)
+            return value || '';
+        };
+
+        const focusNumber = () => {
+            elm.setSelectionRange(elm.dataset.value.length, elm.dataset.value.length);
+        };
+
+        elm.addEventListener('keyup', (e) => {
+            if (bypass.indexOf(e.keyCode) !== -1) return;
+            const pure = pureValue();
+            saveValue(pure);
+
+            if (!pure) {
+                elm.value = '';
+                return;
+            }
+            elm.value = pure + suffix;
+            focusNumber();
+        });
+        const pure = pureValue();
+            saveValue(pure);
+
+            if (!pure) {
+                elm.value = '';
+                return;
+            }
+            elm.value = pure + suffix;
+            focusNumber();
     }
 </script>

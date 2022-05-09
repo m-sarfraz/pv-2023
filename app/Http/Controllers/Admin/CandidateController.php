@@ -32,7 +32,7 @@ class CandidateController extends Controller
     //index function for data entry page showing starts
     public function data_entry()
     {
-
+        $profile = Helper::get_dropdown('candidates_profile');
         $candidateDetail = null;
         $number_of_endorsements = 0;
         if (isset($_GET['id'])) {
@@ -255,6 +255,7 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
             // }
         } else {
+          
             if ($request->tap == 0) {
                 $candidate_id = 0;
                 $CandidateInformation = new CandidateInformation();
@@ -289,7 +290,7 @@ class CandidateController extends Controller
             // }
 
             // save data to candidate information table
-            $CandidateInformation->last_name =  $request->LAST_NAME;
+            $CandidateInformation->last_name = $request->LAST_NAME;
             $CandidateInformation->middle_name = $request->MIDDLE_NAME;
             $CandidateInformation->first_name = $request->FIRST_NAME;
             $CandidateInformation->email = $request->EMAIL_ADDRESS;
@@ -517,7 +518,7 @@ class CandidateController extends Controller
             $finance->invoice_number = $request->INVOICE_NUMBER;
             $finance->client_finance = $request->CLIENT_FINANCE;
             $finance->career_finance = $request->CAREER_LEVEL;
-            $finance->rate = $request->RATE;
+            $finance->rate = preg_replace('/%/', '', $request->RATE);
             $finance->srp = $request->STANDARD_PROJECTED_REVENUE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
@@ -1138,7 +1139,7 @@ class CandidateController extends Controller
             $category = Helper::getCategory($array);
             //update endorsements table according to data updated
             $endorsement = Endorsement::where(['candidate_id' => $candidate_id, 'numberOfEndo' => $endo_number, 'saved_by' => Auth::user()->id])->first();
-        //    return $candidate_id;
+            //    return $candidate_id;
             Endorsement::where(['candidate_id' => $candidate_id, 'numberOfEndo' => $endo_number, 'saved_by' => Auth::user()->id])->update([
                 'app_status' => $request->APPLICATION_STATUS,
                 'remarks' => $request->REMARKS_FROM_FINANCE,
@@ -1164,7 +1165,7 @@ class CandidateController extends Controller
                 'invoice_number' => $request->INVOICE_NUMBER,
                 'client_finance' => $request->CLIENT_FINANCE,
                 'career_finance' => $request->CAREER_LEVEL,
-                'rate' => $request->EXPECTED_SALARY,
+                'rate' => preg_replace('/%/', '', $request->RATE),
                 'Total_bilable_ammount' => $request->TOTAL_BILLABLE_AMOUNT,
                 'srp' => $request->STANDARD_PROJECTED_REVENUE,
                 'offered_salary' => $request->OFFERED_SALARY_finance,
@@ -1230,6 +1231,7 @@ class CandidateController extends Controller
         if ($request->client_dropdown) {
             $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like', 'open')
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
+                // return $response;
             if ($response) {
                 return response()->json(['data' => $response]);
             }
@@ -1281,7 +1283,7 @@ class CandidateController extends Controller
     {
         $user = DB::table('candidate_informations')->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->select('candidate_informations.id', 'candidate_informations.last_name', 'candidate_positions.candidate_profile',
+            ->select('candidate_informations.id', 'candidate_informations.last_name', 'candidate_positions.candidate_profile', 'candidate_informations.first_name',
                 'endorsements.client', 'endorsements.position_title', 'endorsements.endi_date', 'endorsements.numberOfEndo as number')
             ->where('endorsements.saved_by', Auth::user()->id)->get()->toArray();
         return response()->json($user);
@@ -1305,8 +1307,8 @@ class CandidateController extends Controller
             $endoID = $request->id;
             $cid = explode(',', $request->user);
             $detail = DB::table('endo_finance_view')
-                ->where(['numberOfEndo' => $endoID,'candidate_id'=>$cid[0] ,'saved_by' => Auth::user()->id])->first();
-                // dd($detail);
+                ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
+            // dd($detail);
         }
         try {
 

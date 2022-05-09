@@ -319,7 +319,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                                                     <option
-                                                                        {{ ($candidateDetail != null? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name: '')? 'selected': '' }}
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name : '') ? 'selected' : '' }}
                                                                         value="{{ $eduAttainmentOptions->option_name }}">
                                                                         {{ $eduAttainmentOptions->option_name }}</option>
                                                                 @endforeach
@@ -345,7 +345,7 @@
                                                                 @foreach ($course->options as $courseOptions)
                                                                     <option value="{{ $courseOptions->option_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}
-                                                                        {{ ($candidateDetail != null? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE': '')? 'disabled': '' }}>
+                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE' : '') ? 'disabled' : '' }}>
                                                                         {{ $courseOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -449,7 +449,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($sub_segment->options as $sub_segmentOption)
                                                                     <option value="{{ $sub_segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null? str_replace(' ', '', strtolower($candidateDetail->sub_segment)) ==str_replace(' ', '', strtolower($sub_segmentOption->option_name)): '')? 'selected': '' }}>
+                                                                        {{ ($candidateDetail != null ? str_replace(' ', '', strtolower($candidateDetail->sub_segment)) == str_replace(' ', '', strtolower($sub_segmentOption->option_name)) : '') ? 'selected' : '' }}>
                                                                         {{ $sub_segmentOption->option_name }}
                                                                     </option>
                                                                 @endforeach
@@ -476,7 +476,7 @@
                                                                     </option>
                                                                     @foreach ($profile->options as $profileOption)
                                                                         <option value="{{ $profileOption->option_name }}"
-                                                                            {{ ($candidateDetail != null? $candidateDetail->candidate_profile == $profileOption->option_name: '')? 'selected': '' }}>
+                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
                                                                             {{ $profileOption->option_name }}
                                                                         </option>
                                                                     @endforeach
@@ -518,7 +518,7 @@
                                                                     @foreach ($manner_of_invite->options as $manner_of_inviteOption)
                                                                         <option
                                                                             value="{{ $manner_of_inviteOption->option_name }}"
-                                                                            {{ ($candidateDetail != null? $candidateDetail->manner_of_invite == $manner_of_inviteOption->option_name: '')? 'selected': '' }}>
+                                                                            {{ ($candidateDetail != null ? $candidateDetail->manner_of_invite == $manner_of_inviteOption->option_name : '') ? 'selected' : '' }}>
                                                                             {{ $manner_of_inviteOption->option_name }}
                                                                         </option>
                                                                     @endforeach
@@ -1240,7 +1240,10 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Rate
                                                                 </label>
-                                                                <select name="RATE"
+                                                                <input type="text" name="RATE" id="rate" maxlength ="6"
+                                                                    oninput="amountFinder(this)"  
+                                                                    class="form-control border h-px-20_custom" />
+                                                                {{-- <select name="RATE"
                                                                     class="form-control border h-px-20_custom" id="rate"
                                                                     id="rate_finance" oninput="amountFinder(this)">
                                                                     <option value="" class="selectedOption" selected
@@ -1257,7 +1260,7 @@
                                                                     <option value="80">80 %</option>
                                                                     <option value="90">90 %</option>
                                                                     <option value="100">100 %</option>
-                                                                </select>
+                                                                </select> --}}
                                                                 <div>
                                                                     <small class="text-danger"></small>
                                                                 </div>
@@ -1320,8 +1323,46 @@
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+    <script src="https://unpkg.com/imask"></script>
+
+
+
 
     <script>
+        function mask(id) {
+            const elm = document.getElementById(id);
+            const suffix = '%';
+            const bypass = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93];
+
+            const saveValue = (data) => {
+                elm.dataset.value = data;
+            };
+
+            const pureValue = () => {
+                let value = elm.value.replace(/[^\d.-]/g, '');
+                // value = parseFloat(value)
+                console.log(value)
+                return value || '';
+            };
+
+            const focusNumber = () => {
+                elm.setSelectionRange(elm.dataset.value.length, elm.dataset.value.length);
+            };
+
+            elm.addEventListener('keyup', (e) => {
+                if (bypass.indexOf(e.keyCode) !== -1) return;
+                const pure = pureValue();
+                saveValue(pure);
+
+                if (!pure) {
+                    elm.value = '';
+                    return;
+                }
+                elm.value = pure + suffix;
+                focusNumber();
+            });
+        }
+        mask('rate');
         $("form#data_entry select").each(function() {
             $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
         });
@@ -1382,7 +1423,7 @@
                     // console.log(res)
                     for (let i = 0; i < res.length; i++) {
                         $('#user').append('<option value="' + res[i].id + '-' + res[i].number +
-                            '">' + res[i].last_name + '-' +
+                            '">' + res[i].first_name + ' ' + res[i].last_name + '+' +
                             res[i].candidate_profile + '-' +
                             res[i].client + '-' +
                             res[i].position_title + '-' +
@@ -1454,7 +1495,7 @@
                         CreateUpdateData(targetURL);
                     } else if (isConfirm.dismiss == 'cancel') {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'error',
                             title: 'Record has not been Saved!',
                             showConfirmButton: false,
@@ -1462,7 +1503,7 @@
                         })
                     } else if (isConfirm.dismiss == 'esc') {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'error',
                             title: 'Record has not been Saved!',
                             showConfirmButton: false,
@@ -1583,7 +1624,7 @@
                         // $('#new').prop("disabled", false);
 
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'success',
                             title: res.message,
                             showConfirmButton: false,
@@ -1599,7 +1640,7 @@
                             //     icon: "warning",
                             // });
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'warning',
                                 title: res.message,
                                 showConfirmButton: false,
@@ -2209,6 +2250,7 @@
                                 }
                             }
                         }
+
                         let value = $('#client').val()
                         $('#client_finance').append(`<option selected value="${value}">
                                        ${value}
@@ -2290,7 +2332,7 @@
             if ($('#user').val() == null) {
                 url = window.location.href;
                 queryStr = url.split('=');
-                user = queryStr[1]+'-'+ id;
+                user = queryStr[1] + '-' + id;
 
             } else {
                 user = $('#user').val()

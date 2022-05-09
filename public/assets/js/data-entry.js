@@ -121,7 +121,7 @@ function SalaryAppend(id) {
 // append selected salary and alloeance to finance portion ends
 
 // Append endorsement data to finance portion starts
-function changeOnboardingDate  ()  {
+function changeOnboardingDate() {
     onboard_date.value = endo_date.value
 }
 // Append endorsement data to finance portion ends
@@ -145,8 +145,11 @@ function mannerChange(elem) {
 function amountFinder(id) {
     amount = $('#bilable_amount').val();
     rate = $('#rate').val();
+    rate = rate.replace(" ", "");
+    rate = rate.replace("%", "");
+    rate = parseFloat(rate)
     // formula for calculating the placement fee in finance section
-    placmentFee = (amount * rate) / 100;
+    placmentFee = ((amount * rate) / 100).toFixed(2);
     // append to SPR input
     $('#placement_fee').val(placmentFee);
 }

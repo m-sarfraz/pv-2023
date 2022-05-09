@@ -149,7 +149,10 @@ class ProfileController extends Controller
                             // insert record
                             $store_by_google_sheet = new CandidateInformation();
                         }
-                        $store_by_google_sheet->last_name = isset($candidate_name) ? $candidate_name : "";
+                        $name = explode(' ', $candidate_name);
+                        $store_by_Ecxel->first_name = isset($name[0]) ? $name[0] : "";
+                        $store_by_Ecxel->middle_name = isset($name[1]) ? $name[1] : "";
+                        $store_by_Ecxel->last_name = isset($name[2]) ? $name[2] : "";
                         if (strpos(isset($render['17']) ? $render['17'] : '', 'F') !== false) {
                             $store_by_google_sheet->gender = 'FEMALE';
                         } else {
@@ -562,7 +565,10 @@ class ProfileController extends Controller
                         // insert record
                         $store_by_Ecxel = new CandidateInformation();
                     }
-                    $store_by_Ecxel->last_name = isset($candidate_name) ? $candidate_name : "";
+                    $name = explode(' ', $candidate_name);
+                    $store_by_Ecxel->first_name = isset($name[0]) ? $name[0] : "";
+                    $store_by_Ecxel->middle_name = isset($name[1]) ? $name[1] : "";
+                    $store_by_Ecxel->last_name = isset($name[2]) ? $name[2] : "";
                     if (strpos(isset($render['17']) ? $render['17'] : '', 'F') !== false) {
                         $store_by_Ecxel->gender = 'Female';
                     } else {
