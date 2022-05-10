@@ -226,7 +226,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 d-none">
                 <div class="form-group mb-0">
                     @php
                         $remarks = Helper::get_dropdown('remarks_from_finance');
@@ -251,6 +251,32 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="form-group mb-0">
+                    @php
+                        $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                    @endphp
+                    <label class="Label">
+                        Reason for not progressing:
+                    </label>
+                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                        class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
+                        <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
+                            Option
+                        </option>
+                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
+                            {{ $user != null ? ($user->rfp == $ReasonForNotP->option_name ? 'selected' : '') : '' }}>
+                            <option value="{{ $ReasonForNotPOptions->option_name }}">
+                                {{ $ReasonForNotPOptions->option_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div>
+                        <small class="text-danger"></small>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <fieldset>
             <div class="row mb-1">
@@ -279,32 +305,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group mb-0">
-                        @php
-                            $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
-                        @endphp
-                        <label class="Label">
-                            Reason for not progressing:
-                        </label>
-                        <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                            class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
-                            <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
-                                Option
-                            </option>
-                            @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                {{ $user != null ? ($user->rfp == $ReasonForNotP->option_name ? 'selected' : '') : '' }}>
-                                <option value="{{ $ReasonForNotPOptions->option_name }}">
-                                    {{ $ReasonForNotPOptions->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <div>
-                            <small class="text-danger"></small>
-                        </div>
+            {{-- reason for njot progressing  --}}
+            <div class="col-lg-6">
+                <div class="form-group mb-0">
+                    <label class="Label">Interview Date:</label>
+                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
+                        class="form-control users-input-S-C"
+                        value="{{ $user != null ? $user->interview_date : '' }}" />
+                    <div>
+                        <small class="text-danger"></small>
                     </div>
                 </div>
-
+            </div>
             </div>
             <div class="row mb-1">
                 <div class="col-lg-6">
@@ -331,42 +343,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group mb-0">
-                        <label class="Label">Interview :</label>
-                        <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                            class="form-control users-input-S-C"
-                            value="{{ $user != null ? $user->interview_date : '' }}" />
-                        <div>
-                            <small class="text-danger"></small>
-                        </div>
+               {{-- interview date  --}}
+               <div class="col-lg-6">
+                @php
+                    $sub_segment = Helper::get_dropdown('sub_segment');
+                @endphp
+                <div class="form-group mb-0">
+                    <label class="Label">sub-segment</label>
+                    <select disabled="" id="sub_segment" name="SUB_SEGMENT" readonly
+                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                        <option value="" {{ $user == null ? 'selected' : '' }} disabled>
+                            Select Option
+                        </option>
+                        @foreach ($sub_segment->options as $sub_segmentOptions)
+                            <option value="{{ $sub_segmentOptions->id }}"
+                                {{ $user != null? (($user->sub_segment_endo != null? str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($sub_segmentOptions->option_name)): '')? 'selected': ''): '' }}>
+                                {{ $sub_segmentOptions->option_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div>
+                        <small class="text-danger"></small>
                     </div>
                 </div>
             </div>
+            </div>
             <div class="row mb-1">
-                <div class="col-lg-6">
-                    @php
-                        $sub_segment = Helper::get_dropdown('sub_segment');
-                    @endphp
-                    <div class="form-group mb-0">
-                        <label class="Label">sub-segment</label>
-                        <select disabled="" id="sub_segment" name="SUB_SEGMENT" readonly
-                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                            <option value="" {{ $user == null ? 'selected' : '' }} disabled>
-                                Select Option
-                            </option>
-                            @foreach ($sub_segment->options as $sub_segmentOptions)
-                                <option value="{{ $sub_segmentOptions->id }}"
-                                    {{ $user != null? (($user->sub_segment_endo != null? str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($sub_segmentOptions->option_name)): '')? 'selected': ''): '' }}>
-                                    {{ $sub_segmentOptions->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <div>
-                            <small class="text-danger"></small>
-                        </div>
-                    </div>
-                </div>
+             {{-- sub segment  --}}
 
             </div>
         </fieldset>
@@ -385,9 +388,9 @@
                                     $remarks = Helper::get_dropdown('remarks_from_finance');
                                 @endphp
                                 <label class="d-block font-size-3 mb-0">
-                                    Remarks For Recruiter
+                                    Remarks (from Finance)
                                 </label>
-                                <select name="REMARKS" id="remarks_finance" readonly 
+                                <select name="REMARKS" id="remarks_finance"  
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                     </option>
@@ -516,8 +519,11 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Rate
                                 </label>
-                                <select name="RATE" class="form-control border h-px-20_custom" id="rate"
-                                    id="rate_finance" oninput="amountFinder(this)">
+                                <input type="text" name="RATE" id="rate" maxlength="6"
+                                oninput="amountFinder(this)"
+                                class="form-control border h-px-20_custom" value="{{$user->rate}}" />
+                                {{-- <select name="RATE" class="form-control border h-px-20_custom" id="rate"
+                                    id="rate_finance" oninput="amountFinder(this)" >
                                     <option Disabled {{ $user != null ? ($user->rate == 0 ? 'selected' : '') : '' }}>
                                         Select Option
                                     </option>
@@ -563,7 +569,7 @@
                                         100%
                                     </option>
 
-                                </select>
+                                </select> --}}
                                 <div>
                                     <small class="text-danger"></small>
                                 </div>
@@ -807,4 +813,38 @@
         SPRCalculator()
 
     })
+    function mask(id) {
+            const elm = document.getElementById(id);
+            const suffix = '%';
+            const bypass = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93];
+
+            const saveValue = (data) => {
+                elm.dataset.value = data;
+            };
+
+            const pureValue = () => {
+                let value = elm.value.replace(/[^\d.-]/g, '');
+                // value = parseFloat(value)
+                console.log(value)
+                return value || '';
+            };
+
+            const focusNumber = () => {
+                elm.setSelectionRange(elm.dataset.value.length, elm.dataset.value.length);
+            };
+
+            elm.addEventListener('keyup', (e) => {
+                if (bypass.indexOf(e.keyCode) !== -1) return;
+                const pure = pureValue();
+                saveValue(pure);
+
+                if (!pure) {
+                    elm.value = '';
+                    return;
+                }
+                elm.value = pure + suffix;
+                focusNumber();
+            });
+        }
+        mask('rate');
 </script>

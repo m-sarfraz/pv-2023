@@ -818,7 +818,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 d-none">
                             <div class="form-group mb-0">
                                 @php
                                     $remarks = Helper::get_dropdown('remarks_from_finance');
@@ -843,6 +843,31 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0">
+                                @php
+                                    $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                                @endphp
+                                <label class="Label">
+                                    Reason for not progressing:
+                                </label>
+                                <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                    <option value="" {{ $user->rfp == null ? 'selected' : '' }} disabled>Select
+                                        Option
+                                    </option>
+                                    @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
+                                        {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
+                                        <option value="{{ $ReasonForNotPOptions->option_name }}">
+                                            {{ $ReasonForNotPOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div>
+                                    <small class="text-danger"></small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <fieldset>
                         <div class="row mb-1">
@@ -857,7 +882,8 @@
                                     <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="endoDomainChange(this)"
                                         readonly
                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                        <option value="" {{ $user->domain_endo == null ? 'selected' : '' }} disabled>
+                                        <option value="" {{ $user->domain_endo == null ? 'selected' : '' }}
+                                            disabled>
                                             Select Option
                                         </option>
                                         @foreach ($domainDrop as $domainOption)
@@ -871,32 +897,17 @@
                                     </div>
                                 </div>
                             </div>
+                            {{-- reason for not progressing --}}
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
-                                    @php
-                                        $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
-                                    @endphp
-                                    <label class="Label">
-                                        Reason for not progressing:
-                                    </label>
-                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                                        class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                        <option value="" {{ $user->rfp == null ? 'selected' : '' }} disabled>Select
-                                            Option
-                                        </option>
-                                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                            {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
-                                            <option value="{{ $ReasonForNotPOptions->option_name }}">
-                                                {{ $ReasonForNotPOptions->option_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label class="Label">Interview Date:</label>
+                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
+                                        class="form-control users-input-S-C" value="{{ $user->interview_date }}" />
                                     <div>
                                         <small class="text-danger"></small>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row mb-1">
                             <div class="col-lg-6">
@@ -925,18 +936,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="Label">Interview :</label>
-                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                                        class="form-control users-input-S-C" value="{{ $user->interview_date }}" />
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
+                            {{-- interview date --}}
+
                             <div class="col-lg-6">
                                 @php
                                     $sub_segment = Helper::get_dropdown('sub_segment');
@@ -961,6 +962,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row mb-1">
+                            {{-- sub segment --}}
 
                         </div>
                     </fieldset>
@@ -986,9 +990,9 @@
                                                 $remarks = Helper::get_dropdown('remarks_from_finance');
                                             @endphp
                                             <label class="d-block font-size-3 mb-0">
-                                                Remarks For Recruiter
+                                                Remarks (from Finance)
                                             </label>
-                                            <select name="REMARKS" id="remarks_finance" readonly
+                                            <select name="REMARKS" id="remarks_finance"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                 <option value=""
                                                     {{ $user->remarks_recruiter == null ? 'selected' : '' }}
@@ -1128,7 +1132,7 @@
                                                 oninput="amountFinder(this)" class="form-control border h-px-20_custom"
                                                 value="{{ $user->rate }}"" />
                                             <div>
-                                                <small class="  text-danger"></small>
+                                                <small class="   text-danger"></small>
                                         </div>
                                     </div>
                                 </div>
@@ -1425,13 +1429,13 @@
             focusNumber();
         });
         const pure = pureValue();
-            saveValue(pure);
+        saveValue(pure);
 
-            if (!pure) {
-                elm.value = '';
-                return;
-            }
-            elm.value = pure + suffix;
-            focusNumber();
+        if (!pure) {
+            elm.value = '';
+            return;
+        }
+        elm.value = pure + suffix;
+        focusNumber();
     }
 </script>

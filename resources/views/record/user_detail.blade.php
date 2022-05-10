@@ -883,7 +883,7 @@
         $('#fieldset_endorsement').prop("disabled", false);
         $('#client_finance').prop("disabled", false);
         $('#remarks_for_finance').prop("disabled", false);
-        $('#rfp').prop("disabled", false);
+        // $('#rfp').prop("disabled", false);
     }
     // show searcable select using select 2 dropdown
     select2Dropdown("select2_dropdown");

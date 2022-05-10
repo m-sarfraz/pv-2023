@@ -64,8 +64,8 @@ class SmartSearchController extends Controller
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {
                 $name = User::where('id',$allData->saved_by)->first();
-                return $name->name;
-                return $allData->recruiter;
+                return isset($name->name) ? $name->name : '';
+                // return $allData->recruiter;
             })
             ->addColumn('candidate', function ($allData) {
                 // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);

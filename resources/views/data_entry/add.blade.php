@@ -958,6 +958,31 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
+                                                <div class="form-group mb-0 selectTwoTopMinus">
+                                                    @php
+                                                        $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
+                                                    @endphp
+                                                    <label class="Label labelFontSize">
+                                                        Reason for not progressing:
+                                                    </label>
+                                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                            Option
+                                                        </option>
+                                                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
+                                                            <option value="{{ $ReasonForNotPOptions->option_name }}">
+                                                                {{ $ReasonForNotPOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div>
+                                                        <small class="text-danger"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 d-none">
                                                 <div class="form-group mb-0">
                                                     @php
                                                         $remarks = Helper::get_dropdown('remarks_from_finance');
@@ -1009,31 +1034,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{-- reason for not processing --}}
                                             <div class="col-lg-6">
                                                 <div class="form-group mb-0 selectTwoTopMinus">
-                                                    @php
-                                                        $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
-                                                    @endphp
-                                                    <label class="Label labelFontSize">
-                                                        Reason for not progressing:
-                                                    </label>
-                                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
-                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
-                                                            Option
-                                                        </option>
-                                                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                                                            <option value="{{ $ReasonForNotPOptions->option_name }}">
-                                                                {{ $ReasonForNotPOptions->option_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div>
-                                                        <small class="text-danger"></small>
-                                                    </div>
+                                                    <label class="Label labelFontSize">Interview Date:</label>
+                                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
+                                                        placeholder="mm-dd-yyyy" id="interview_schedule"
+                                                        class="form-control users-input-S-C" />
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="row mb-1">
                                             <div class="col-lg-6">
@@ -1058,17 +1067,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group mb-0 selectTwoTopMinus">
-                                                    <label class="Label labelFontSize">Interview :</label>
-                                                    <input type="date" name="INTERVIEW_SCHEDULE" disabled=""
-                                                        placeholder="mm-dd-yyyy" id="interview_schedule"
-                                                        class="form-control users-input-S-C" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-lg-6">
                                                 @php
                                                     $sub_segment = Helper::get_dropdown('sub_segment');
@@ -1091,6 +1089,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{-- interview date --}}
+                                        </div>
+                                        <div class="row">
+                                            {{-- sub segment --}}
 
                                         </div>
                                         </fieldset>
@@ -1116,9 +1118,9 @@
                                                                     $remarks = Helper::get_dropdown('remarks_from_finance');
                                                                 @endphp
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
-                                                                    Remarks For Recruiter
+                                                                    Remarks (from Finance)
                                                                 </label>
-                                                                <select name="REMARKS" id="remarks_finance" readonly
+                                                                <select name="REMARKS" id="remarks_finance"
                                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
@@ -1240,8 +1242,8 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Rate
                                                                 </label>
-                                                                <input type="text" name="RATE" id="rate" maxlength ="6"
-                                                                    oninput="amountFinder(this)"  
+                                                                <input type="text" name="RATE" id="rate" maxlength="6"
+                                                                    oninput="amountFinder(this)"
                                                                     class="form-control border h-px-20_custom" />
                                                                 {{-- <select name="RATE"
                                                                     class="form-control border h-px-20_custom" id="rate"
@@ -2148,9 +2150,9 @@
 
         }
         // on reamrks recruiter change 
-        $('#remarks').change(function() {
+        $('#remarks_finance').change(function() {
             value = $(this).val();
-            $('#remarks_finance').append(`<option selected value="${value}">
+            $('#remarks').append(`<option selected value="${value}">
                                         ${value}
                                     </option>`);
         });
@@ -2359,6 +2361,6 @@
                 }
             });
         }
-        // close 
+        // close
     </script>
 @endsection
