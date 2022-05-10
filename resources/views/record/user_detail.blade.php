@@ -863,6 +863,8 @@
         </form>
     </div>
 </div>
+<script src="{{ asset('assets/js/data-entry.js') }}"></script>
+
 <script>
     function ApplicationStatusChange(elem) {
         if ($(elem).val().toLowerCase() == 'to be endorsed') {
@@ -1059,4 +1061,5 @@
             }
         }
     }
+    
 </script>

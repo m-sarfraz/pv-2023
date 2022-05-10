@@ -14,7 +14,12 @@ class Helper
 {
     public static function get_dropdown($type)
     {
-        return $data = DropDown::with('options')->where('type', $type)->first();
+        return $data = DropDown::with([
+            'options' => function ($q1) {
+                return $q1->orderBy('option_name');
+            }])->where('type', $type)->first();
+
+        // return $data = DropDown::with('options')->where('type', $type)->first();
     }
     public static function save_log($action)
     {

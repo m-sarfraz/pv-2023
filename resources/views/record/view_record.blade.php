@@ -878,6 +878,8 @@
     <div style="height: 30px;"></div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/js/data-entry.js') }}"></script>
+
     <script>
         // Section for docement ready funciton starts
         $(document).ready(function() {

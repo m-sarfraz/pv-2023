@@ -1222,7 +1222,7 @@ class CandidateController extends Controller
         if ($request->position) {
             $request->c_profile == null;
             $response = DB::table('jdl')->where("p_title", $request->position)->where('status', 'like', 'open')
-                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
             if ($response) {
 
                 return response()->json(['data' => $response]);
@@ -1230,7 +1230,7 @@ class CandidateController extends Controller
         }
         if ($request->client_dropdown) {
             $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like', 'open')
-                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->get();
+                ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
                 // return $response;
             if ($response) {
                 return response()->json(['data' => $response]);

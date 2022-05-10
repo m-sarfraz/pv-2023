@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
 use Auth;
+use Str;
 use Cache;
 use DB;
 use Helper;
@@ -280,6 +281,8 @@ class RecordController extends Controller
                 'certification' => $For_save_good_format,
             ]);
 
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $category = Helper::getCategory($array);
             // update candidae domain data
             // $domain_name = Domain::where('id', $request->DOMAIN)->first();
             // $name = Segment::where('id', $request->segment)->first();
@@ -356,6 +359,7 @@ class RecordController extends Controller
                 'interview_date' => $request->INTERVIEW_SCHEDULE,
                 'career_endo' => $request->CAREER_LEVEL,
                 'segment_endo' => $e_name,
+                'category' => $category,
                 'sub_segment_endo' => $e_sub_name,
                 'endi_date' => $request->endo_date,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
