@@ -999,8 +999,8 @@ class ProfileController extends Controller
                         $store_by_google_sheet->sll_no = isset($render[14]) ? $render[14] : "";
                         $store_by_google_sheet->t_fte = isset($render[15]) ? $render[15] : "";
                         $store_by_google_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
-                        $store_by_google_sheet->edu_attainment = isset($render[17]) ? $render[17] : "";
-                        $store_by_google_sheet->jd = isset($render[18]) ? $render[18] : "";
+                        $store_by_google_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
+                        $store_by_google_sheet->jd = isset($render[17]) ? $render[17] : "";
                         $store_by_google_sheet->location = isset($render[19]) ? $render[19] : "";
                         $store_by_google_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
                         $store_by_google_sheet->budget = isset($render[21]) ? $render[21] : "";
@@ -1079,8 +1079,8 @@ class ProfileController extends Controller
                         $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
                         $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
                         $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
-                        $JDL_local_sheet->edu_attainment = isset($render[17]) ? $render[17] : "";
-                        $JDL_local_sheet->jd = isset($render[18]) ? $render[18] : "";
+                        $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
+                        $JDL_local_sheet->jd =isset($render[17]) ? $render[17] : "";
                         $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
                         $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
                         $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
