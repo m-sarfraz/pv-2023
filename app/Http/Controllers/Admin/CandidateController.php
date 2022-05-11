@@ -82,7 +82,7 @@ class CandidateController extends Controller
     {
         if ($request->checkDuplicate == 1) {
             $check = CandidateInformation::where(['phone' => $request->CONTACT_NUMBER, 'last_name' => $request->LAST_NAME])->exists();
-            if ($check == true) {
+            if ($check == true) { 
                 return response()->json(['success' => false, 'message' => 'A Record with this Phone & Last name already Exists!', 'status' => '1']);
             }
         }
