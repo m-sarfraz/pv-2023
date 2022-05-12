@@ -82,7 +82,7 @@ class CandidateController extends Controller
     {
         if ($request->checkDuplicate == 1) {
             $check = CandidateInformation::where(['phone' => $request->CONTACT_NUMBER, 'last_name' => $request->LAST_NAME])->exists();
-            if ($check == true) { 
+            if ($check == true) {
                 return response()->json(['success' => false, 'message' => 'A Record with this Phone & Last name already Exists!', 'status' => '1']);
             }
         }
@@ -255,7 +255,7 @@ class CandidateController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
             // }
         } else {
-          
+
             if ($request->tap == 0) {
                 $candidate_id = 0;
                 $CandidateInformation = new CandidateInformation();
@@ -1231,7 +1231,7 @@ class CandidateController extends Controller
         if ($request->client_dropdown) {
             $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like', 'open')
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
-                // return $response;
+            // return $response;
             if ($response) {
                 return response()->json(['data' => $response]);
             }
@@ -1327,6 +1327,15 @@ class CandidateController extends Controller
         }
 
     }
+    // close
+
+    // get reamnrks for finance options function
+    public function get_remarksForFinance_options()
+    {
+        $remarks = Helper::get_dropdown('remarks_for_finance');
+        return response()->json($remarks);
+    }
+
     // close
 
 }

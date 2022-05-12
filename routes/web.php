@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
     // data entry route
-
+    Route::get('get_remarksForFinance_options', 'CandidateController@get_remarksForFinance_options')->name('get_remarksForFinance_options');
     Route::post('save_permission', 'CandidateController@abc')->name('save_permission');
     Route::get('data-entry', 'CandidateController@data_entry')->name('data-entry');
     Route::get('Get_Position_title', 'CandidateController@Get_Position_title')->name('Get_Position_title');

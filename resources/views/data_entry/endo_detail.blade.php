@@ -108,8 +108,8 @@
                         <label class="d-block font-size-3 mb-0">
                             Date Processed:
                         </label>
-                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date" onchange="changeOnboardingDate()"
-                            class="form-control border h-px-20_custom"
+                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                            onchange="changeOnboardingDate()" class="form-control border h-px-20_custom"
                             value="{{ $user != null ? $user->endi_date : '' }}" />
                         <div>
                             <small class="text-danger"></small>
@@ -178,16 +178,16 @@
                     <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
                         onchange="RemarksChange(this)"
                         class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                        @php
+                        {{-- @php
                             $remarks = Helper::get_dropdown('remarks_for_finance');
-                        @endphp
+                        @endphp --}}
                         <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                             Select Option</option>
-                        @foreach ($remarks->options as $remarksOptions)
+                        {{-- @foreach ($remarks->options as $remarksOptions)
                             <option value="{{ $remarksOptions->option_name }}"
                                 {{ $user != null ? ($user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '') : '' }}>
                                 {{ $remarksOptions->option_name }}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                     <div>
                         <small class="text-danger"></small>
@@ -296,7 +296,7 @@
                             </option>
                             @foreach ($domainDrop as $domainOption)
                                 <option value="{{ $domainOption->id }}"
-                                    {{ $user != null? (($user->domain_endo != null? $user->domain_endo == $domainOption->domain_name: '')? 'selected': ''): '' }}>
+                                    {{ $user != null ? (($user->domain_endo != null ? $user->domain_endo == $domainOption->domain_name : '') ? 'selected' : '') : '' }}>
                                     {{ $domainOption->domain_name }}</option>
                             @endforeach
                         </select>
@@ -305,18 +305,18 @@
                         </div>
                     </div>
                 </div>
-            {{-- reason for njot progressing  --}}
-            <div class="col-lg-6">
-                <div class="form-group mb-0">
-                    <label class="Label">Interview Date:</label>
-                    <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
-                        class="form-control users-input-S-C"
-                        value="{{ $user != null ? $user->interview_date : '' }}" />
-                    <div>
-                        <small class="text-danger"></small>
+                {{-- reason for njot progressing --}}
+                <div class="col-lg-6">
+                    <div class="form-group mb-0">
+                        <label class="Label">Interview Date:</label>
+                        <input type="date" name="INTERVIEW_SCHEDULE" disabled="" id="interview_schedule"
+                            class="form-control users-input-S-C"
+                            value="{{ $user != null ? $user->interview_date : '' }}" />
+                        <div>
+                            <small class="text-danger"></small>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             <div class="row mb-1">
                 <div class="col-lg-6">
@@ -333,7 +333,7 @@
                             </option>
                             @foreach ($segments->options as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->id }}"
-                                    {{ $user != null? (($user->segment_endo != null? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name): '')? 'selected': ''): '' }}>
+                                    {{ $user != null ? (($user->segment_endo != null ? strtolower($user->segment_endo) == strtolower($segmentsOptions->option_name) : '') ? 'selected' : '') : '' }}>
                                     {{ $segmentsOptions->option_name }}
                                 </option>
                             @endforeach
@@ -343,33 +343,33 @@
                         </div>
                     </div>
                 </div>
-               {{-- interview date  --}}
-               <div class="col-lg-6">
-                @php
-                    $sub_segment = Helper::get_dropdown('sub_segment');
-                @endphp
-                <div class="form-group mb-0">
-                    <label class="Label">sub-segment</label>
-                    <select disabled="" id="sub_segment" name="SUB_SEGMENT" readonly
-                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                        <option value="" {{ $user == null ? 'selected' : '' }} disabled>
-                            Select Option
-                        </option>
-                        @foreach ($sub_segment->options as $sub_segmentOptions)
-                            <option value="{{ $sub_segmentOptions->id }}"
-                                {{ $user != null? (($user->sub_segment_endo != null? str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($sub_segmentOptions->option_name)): '')? 'selected': ''): '' }}>
-                                {{ $sub_segmentOptions->option_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <div>
-                        <small class="text-danger"></small>
-                    </div>
-                </div>
-            </div>
+                {{-- interview date --}}
             </div>
             <div class="row mb-1">
-             {{-- sub segment  --}}
+                {{-- sub segment --}}
+                <div class="col-lg-6">
+                    @php
+                        $sub_segment = Helper::get_dropdown('sub_segment');
+                    @endphp
+                    <div class="form-group mb-0">
+                        <label class="Label">sub-segment</label>
+                        <select disabled="" id="sub_segment" name="SUB_SEGMENT" readonly
+                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" {{ $user == null ? 'selected' : '' }} disabled>
+                                Select Option
+                            </option>
+                            @foreach ($sub_segment->options as $sub_segmentOptions)
+                                <option value="{{ $sub_segmentOptions->id }}"
+                                    {{ $user != null ? (($user->sub_segment_endo != null ? str_replace(' ', '', strtolower($user->sub_segment_endo)) == str_replace(' ', '', strtolower($sub_segmentOptions->option_name)) : '') ? 'selected' : '') : '' }}>
+                                    {{ $sub_segmentOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div>
+                            <small class="text-danger"></small>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </fieldset>
@@ -390,7 +390,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Remarks (from Finance)
                                 </label>
-                                <select name="REMARKS" id="remarks_finance"  
+                                <select name="REMARKS" id="remarks_finance"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                     </option>
@@ -411,7 +411,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Onboarding Date
                                 </label>
-                                <input type="date" name="ONBOARDING_DATE" id="onboard_date"  
+                                <input type="date" name="ONBOARDING_DATE" id="onboard_date"
                                     value="{{ $user != null ? $user->onboardnig_date : '' }}"
                                     class="form-control border h-px-20_custom" />
                                 <div>
@@ -497,8 +497,8 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Career level
                                 </label>
-                                <select name="CAREER_LEVEL_FINANCE" id="career_finance" readonly onchange="SPRCalculator(this)"
-                                    class="form-control border h-px-20_custom">
+                                <select name="CAREER_LEVEL_FINANCE" id="career_finance" readonly
+                                    onchange="SPRCalculator(this)" class="form-control border h-px-20_custom">
                                     <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                         Select
                                         Option</option>
@@ -519,9 +519,9 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Rate
                                 </label>
-                                <input type="text" name="RATE" id="rate" maxlength="6"
-                                oninput="amountFinder(this)"
-                                class="form-control border h-px-20_custom" value="{{$user->rate}}" />
+                                <input type="text" name="RATE" id="rate" maxlength="6" oninput="amountFinder(this)"
+                                    class="form-control border h-px-20_custom"
+                                    value="{{ $user->rate != null ? $user->rate : 0 }}" />
                                 {{-- <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                     id="rate_finance" oninput="amountFinder(this)" >
                                     <option Disabled {{ $user != null ? ($user->rate == 0 ? 'selected' : '') : '' }}>
@@ -628,6 +628,10 @@
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
 
 <script>
+    $(document).ready(function() {
+        // appendRemarksForFinance(1)
+        $('#status').change();
+    });
     select2Dropdown("select2_dropdown");
 
     var globalData = [];
@@ -813,38 +817,77 @@
         SPRCalculator()
 
     })
+
     function mask(id) {
-            const elm = document.getElementById(id);
-            const suffix = '%';
-            const bypass = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93];
+        const elm = document.getElementById(id);
+        const suffix = '%';
+        const bypass = [9, 16, 17, 18, 36, 37, 38, 39, 40, 91, 92, 93];
 
-            const saveValue = (data) => {
-                elm.dataset.value = data;
-            };
+        const saveValue = (data) => {
+            elm.dataset.value = data;
+        };
 
-            const pureValue = () => {
-                let value = elm.value.replace(/[^\d.-]/g, '');
-                // value = parseFloat(value)
-                console.log(value)
-                return value || '';
-            };
+        const pureValue = () => {
+            let value = elm.value.replace(/[^\d.-]/g, '');
+            // value = parseFloat(value)
+            console.log(value)
+            return value || '';
+        };
 
-            const focusNumber = () => {
-                elm.setSelectionRange(elm.dataset.value.length, elm.dataset.value.length);
-            };
+        const focusNumber = () => {
+            elm.setSelectionRange(elm.dataset.value.length, elm.dataset.value.length);
+        };
 
-            elm.addEventListener('keyup', (e) => {
-                if (bypass.indexOf(e.keyCode) !== -1) return;
-                const pure = pureValue();
-                saveValue(pure);
+        elm.addEventListener('keyup', (e) => {
+            if (bypass.indexOf(e.keyCode) !== -1) return;
+            const pure = pureValue();
+            saveValue(pure);
 
-                if (!pure) {
-                    elm.value = '';
-                    return;
-                }
-                elm.value = pure + suffix;
-                focusNumber();
-            });
+            if (!pure) {
+                elm.value = '';
+                return;
+            }
+            elm.value = pure + suffix;
+            focusNumber();
+        });
+    }
+    mask('rate');
+    // append option in remarks for finance on status change 
+    $('#status').on('change', function() {
+        if ($(this).val().toLowerCase() == 'invalid') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("In Client's DB/Portal", "In Client's DB/Portal", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else if ($(this).val().toLowerCase() == 'pending validation') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("Pending DB Validation", "Pending DB Validation", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else {
+            appendRemarksForFinance(0)
         }
-        mask('rate');
+
+    });
+    // close
+
+    // ajax to append remarks for finance options 
+    function appendRemarksForFinance(bol) {
+        $.ajax({
+            url: "{{ route('get_remarksForFinance_options') }}",
+            type: 'get',
+            success: function(res) {
+                if (bol == 0) {
+                    $('#remarks_for_finance').empty().trigger('change');
+                }
+                optionArray = ["pending db validation", "in client's db/portal"];
+                for (var i = 0; i < res.options.length; i++) {
+                    if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
+                        var option = new Option(res.options[i].option_name, res.options[i].option_name,
+                            true, false);
+                        $('#remarks_for_finance').append(option).trigger('change');
+                    }
+                }
+
+            }
+        });
+    }
 </script>

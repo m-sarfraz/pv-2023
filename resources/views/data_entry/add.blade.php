@@ -914,16 +914,16 @@
                                                     <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
                                                         onchange="RemarksChange(this)" class="select2_dropdown  w-100"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        @php
+                                                        {{-- @php
                                                             $remarks = Helper::get_dropdown('remarks_for_finance');
-                                                        @endphp
+                                                        @endphp --}}
                                                         <option value="" selected id="selectedOption" disabled>Select Option
                                                         </option>
-                                                        @foreach ($remarks->options as $remarksOptions)
+                                                        {{-- @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}">
 
                                                                 {{ $remarksOptions->option_name }}</option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -1067,6 +1067,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            {{-- interview date --}}
+                                        </div>
+
+                                        <div class="row">
+                                            {{-- sub segment --}}
                                             <div class="col-lg-6">
                                                 @php
                                                     $sub_segment = Helper::get_dropdown('sub_segment');
@@ -1089,11 +1095,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- interview date --}}
-                                        </div>
-                                        <div class="row">
-                                            {{-- sub segment --}}
-
                                         </div>
                                         </fieldset>
                                     </div>
@@ -2312,6 +2313,7 @@
             }
         }
         $(document).ready(function() {
+            appendRemarksForFinance(1)
 
             // $.ajax({
             //     url: "{{ route('Get_Position_title') }}",
@@ -2361,6 +2363,47 @@
                 }
             });
         }
+        // close
+
+        // append option in remarks for finance on status change 
+        $('#status').on('change', function() {
+            if ($(this).val().toLowerCase() == 'invalid') {
+                $('#remarks_for_finance').empty().trigger('change');
+                var option = new Option("In Client's DB/Portal", "In Client's DB/Portal", true, true);
+                $('#remarks_for_finance').append(option).trigger('change');
+            } else if ($(this).val().toLowerCase() == 'pending validation') {
+                $('#remarks_for_finance').empty().trigger('change');
+                var option = new Option("Pending DB Validation", "Pending DB Validation", true, true);
+                $('#remarks_for_finance').append(option).trigger('change');
+            } else {
+                appendRemarksForFinance(0)
+            }
+
+        });
+        // close
+
+        // ajax to append remarks for finance options 
+        function appendRemarksForFinance(bol) {
+            $.ajax({
+                url: "{{ route('get_remarksForFinance_options') }}",
+                type: 'get',
+                success: function(res) {
+                    if (bol == 0) {
+                        $('#remarks_for_finance').empty().trigger('change');
+                    }
+                    optionArray = ["pending db validation", "in client's db/portal"];
+                    for (var i = 0; i < res.options.length; i++) {
+                        if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
+                            var option = new Option(res.options[i].option_name, res.options[i].option_name,
+                                true, false);
+                            $('#remarks_for_finance').append(option).trigger('change');
+                        }
+                    }
+
+                }
+            });
+        }
+
         // close
     </script>
 @endsection

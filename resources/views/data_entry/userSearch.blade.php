@@ -768,17 +768,17 @@
                                 <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
                                     onchange="RemarksChange(this)"
                                     class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    @php
+                                    {{-- @php
                                         $remarks = Helper::get_dropdown('remarks_for_finance');
-                                    @endphp
+                                    @endphp --}}
                                     <option value="" {{ $user->remarks_for_finance == null ? 'selected' : '' }}
                                         disabled>
                                         Select Option</option>
-                                    @foreach ($remarks->options as $remarksOptions)
+                                    {{-- @foreach ($remarks->options as $remarksOptions)
                                         <option value="{{ $remarksOptions->option_name }}"
                                             {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
                                             {{ $remarksOptions->option_name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -938,6 +938,10 @@
                             </div>
                             {{-- interview date --}}
 
+
+                        </div>
+                        <div class="row mb-1">
+                            {{-- sub segment --}}
                             <div class="col-lg-6">
                                 @php
                                     $sub_segment = Helper::get_dropdown('sub_segment');
@@ -962,10 +966,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            {{-- sub segment --}}
-
                         </div>
                     </fieldset>
                 </div>
@@ -1130,67 +1130,67 @@
                                             </label>
                                             <input type="text" name="RATE" id="rate" maxlength="6"
                                                 oninput="amountFinder(this)" class="form-control border h-px-20_custom"
-                                                value="{{ $user->rate }}"" />
+                                                value="{{ $user->rate ? $user->rate : 0 }}" />
                                             <div>
                                                 <small class="   text-danger"></small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                        </div>
-                        <div class="row mb-6">
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
-                                        Offered Salary
-                                    </label>
-                                    <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance" readonly
-                                        value="{{ $user->off_salary }}"
-                                        class="form-control border h-px-20_custom" />
-                                    <div>
-                                        <small class="text-danger"></small>
+                                <div class="row mb-6">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Offered Salary
+                                            </label>
+                                            <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance"
+                                                readonly value="{{ $user->off_salary }}"
+                                                class="form-control border h-px-20_custom" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Placement Fee
+                                            </label>
+                                            <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
+                                                value="{{ $financeDetail->placementFee }}"
+                                                class="form-control border h-px-20_custom" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
-                                        Placement Fee
-                                    </label>
-                                    <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
-                                        value="{{ $financeDetail->placementFee }}"
-                                        class="form-control border h-px-20_custom" />
-                                    <div>
-                                        <small class="text-danger"></small>
+                                <div class="row mb-9">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-0">
+                                            <label class="d-block font-size-3 mb-0">
+                                                Allowance
+                                            </label>
+                                            <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
+                                                value="{{ $user->allowance }}"
+                                                class="form-control border h-px-20_custom" />
+                                            <div>
+                                                <small class="text-danger"></small>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="col-lg-6"></div>
                                 </div>
-                            </div>
+                            </fieldset>
                         </div>
-                        <div class="row mb-9">
-                            <div class="col-lg-6">
-                                <div class="form-group mb-0">
-                                    <label class="d-block font-size-3 mb-0">
-                                        Allowance
-                                    </label>
-                                    <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
-                                        value="{{ $user->allowance }}"
-                                        class="form-control border h-px-20_custom" />
-                                    <div>
-                                        <small class="text-danger"></small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6"></div>
-                        </div>
+                    </div>
                 </fieldset>
             </div>
         </div>
-    </fieldset>
-</div>
-</div>
 
-<!-- FINANCE section end -->
-<!-- ================== -->
-</fieldset>
+        <!-- FINANCE section end -->
+        <!-- ================== -->
+    </fieldset>
 </div>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
@@ -1209,6 +1209,7 @@
     select2Dropdown("select2_dropdown");
 
     $(document).ready(function() {
+        $('#status').change();
         mask('rate');
         var detailInput = <?php echo json_encode($inputDetail); ?>;
         $('#userDetailInput').html('<p>' + detailInput + '</p>');
@@ -1437,5 +1438,43 @@
         }
         elm.value = pure + suffix;
         focusNumber();
+    }
+    // append option in remarks for finance on status change 
+    $('#status').on('change', function() {
+        if ($(this).val().toLowerCase() == 'invalid') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("In Client's DB/Portal", "In Client's DB/Portal", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else if ($(this).val().toLowerCase() == 'pending validation') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("Pending DB Validation", "Pending DB Validation", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else {
+            appendRemarksForFinance(0)
+        }
+
+    });
+    // close
+
+    // ajax to append remarks for finance options 
+    function appendRemarksForFinance(bol) {
+        $.ajax({
+            url: "{{ route('get_remarksForFinance_options') }}",
+            type: 'get',
+            success: function(res) {
+                if (bol == 0) {
+                    $('#remarks_for_finance').empty().trigger('change');
+                }
+                optionArray = ["pending db validation", "in client's db/portal"];
+                for (var i = 0; i < res.options.length; i++) {
+                    if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
+                        var option = new Option(res.options[i].option_name, res.options[i].option_name,
+                            true, false);
+                        $('#remarks_for_finance').append(option).trigger('change');
+                    }
+                }
+
+            }
+        });
     }
 </script>
