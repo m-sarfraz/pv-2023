@@ -60,6 +60,7 @@ class FinanceController extends Controller
         $salary = \App\CandidatePosition::where('candidate_id', $arr[0])->first();
         $off_salary = $salary->off_salary != null ? $salary->off_salary : 0;
         $off_allowance = $salary->off_allowance != null ? $salary->off_allowance : 0;
+        $billAmount = $salary->Total_bilable_ammount != null ? $salary->Total_bilable_ammount : 0;
         // $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $arr[2])->first();
         $role = $user->roles->pluck('name');
@@ -68,6 +69,7 @@ class FinanceController extends Controller
             'detail' => $detail,
             'team' => $team,
             'fee' => $fee,
+            'billAmount' => $billAmount,
             'off_salary' => $off_salary,
             'off_allowance' => $off_allowance,
             'remarks_finance' => $remarks_finance,

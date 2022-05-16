@@ -476,6 +476,7 @@
     function placementFeeCalculator() {
 
         // parse values for formula 
+        var billAmount = {!! $billAmount !!};
         salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
         credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
         vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g, ""));
@@ -485,14 +486,16 @@
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
-            fee1 = (salray + allowance + compensation);
+            fee1 = (billAmount + compensation);
+            // fee1 = (salray + allowance + compensation);
             fee1_rate = (fee1 * rate) / 100;
             fee2 = (fee1_rate * (vat * 2)) - credit_memo;
 
             (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
             // $('#placementfee').val(currency.format(fee2));
         } else {
-            fee1 = (salray + allowance + compensation)
+            // fee1 = (salray + allowance + compensation)
+            fee1 = (billAmount + compensation);
             fee2 = (fee1 * (1 + (vat * 1 / 100))) - credit_memo;
             // $('#placementfee').val(currency.format(placementFee));
             (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
