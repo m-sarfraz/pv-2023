@@ -21,7 +21,13 @@
         .hidetrID tr td:first-child {
             display: none !important;
         }
-
+        .hideID:first-child,
+        .hidetrID tr td:nth-child(6) ,.hidetrID tr td:nth-child(8)   {
+             text-align: center !important;
+        }
+        .hidetrID tr td{
+            white-space: nowrap !important;
+        }
         .hidetrID tr:hover {
             background-color: rgb(159, 165, 243);
         }
@@ -215,14 +221,14 @@
                                     <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Segment</th>
-                                    <th class="ant-table-cell">S-Segment</th>
-                                    <th class="ant-table-cell">Career Level</th>
+                                    <th class="ant-table-cell">Subsegment</th>
+                                    <th class="ant-table-cell ">Career Level</th>
                                     <th class="ant-table-cell">Position Title</th>
                                     <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
                                             Requirement</span></th>
                                     <th class="ant-table-cell">Budget</th>
                                     <th class="ant-table-cell">Location</th>
-                                    <th class="ant-table-cell">Work Sched</th>
+                                    <th class="ant-table-cell">Work Schedule</th>
                                     <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell"> Priority</th>
                                     {{-- <th class="ant-table-cell ant-table-cell-scrollbar"></th> --}}
@@ -277,6 +283,7 @@
             load_datatable()
             appendJdlOptions()
             $('#jdlTable_filter').hide('div');
+            
         })
         select2Dropdown("select2_dropdown");
         // count total number of records coming from data table with interval starts

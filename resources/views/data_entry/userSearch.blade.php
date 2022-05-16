@@ -987,20 +987,19 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             @php
-                                                $remarks = Helper::get_dropdown('remarks_from_finance');
+                                                $remarkss = Helper::get_dropdown('remarks_from_finance');
                                             @endphp
                                             <label class="d-block font-size-3 mb-0">
                                                 Remarks (from Finance)
                                             </label>
                                             <select name="REMARKS" id="remarks_finance"
                                                 class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                <option value=""
-                                                    {{ $user->remarks_recruiter == null ? 'selected' : '' }}
+                                                <option value="" {{ $finance_remark == null ? 'selected' : '' }}
                                                     disabled>
                                                 </option>
-                                                @foreach ($remarks->options as $remarksOptions)
+                                                @foreach ($remarkss->options as $remarksOptions)
                                                     <option value="{{ $remarksOptions->option_name }}"
-                                                        {{ $user->remarks_recruiter == $remarksOptions->option_name ? 'selected' : '' }}>
+                                                        {{ strtolower($remarksOptions->option_name) == strtolower($finance_remark) ? 'selected' : '' }}>
                                                         {{ $remarksOptions->option_name }}
                                                     </option>
                                                 @endforeach

@@ -44,8 +44,8 @@ function RemarksChange(elem) {
         $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
         $('#srp').prop("disabled", false);
-        $('#remarks_finance').prop("disabled", false);
-        // $('#remarks_finance').attr("readonly", true);
+        // $('#remarks_finance').prop("disabled", false);
+        $('#remarks_finance').attr("readonly", true);
         $('#invoice_number').prop("disabled", false);
         $('#bilable_amount').prop("disabled", false);
         $('#rate').prop("disabled", false);
@@ -313,7 +313,7 @@ function EnableUserEdit(elem) {
         $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
         $('#srp').prop("disabled", false);
-        $('#remarks_finance').prop("disabled", false);
+        // $('#remarks_finance').prop("disabled", false);
         // $('#remarks_finance').prop("readonly", true);
         $('#invoice_number').prop("disabled", false);
         $('#bilable_amount').prop("disabled", false);

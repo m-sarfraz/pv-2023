@@ -811,8 +811,10 @@ class CandidateController extends Controller
             ->first();
         // return $user;
         $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
+        $finance_remark = $financeDetail->remarks;
         $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
         $data = [
+            'finance_remark' => $finance_remark,
             'financeDetail' => $financeDetail,
             'domainDrop' => $domainDrop,
             'user' => $user,
@@ -1317,6 +1319,7 @@ class CandidateController extends Controller
             $detail = DB::table('endo_finance_view')
                 ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
             $detail_f = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
+            $remarks_f = $detail_f->remarks;
         }
         try {
 
@@ -1324,6 +1327,7 @@ class CandidateController extends Controller
             $segmentsDropDown = DB::table('segments')->get();
             $sub_segmentsDropDown = DB::table('sub_segments')->get();
             $data = [
+                'remarks_f' => $remarks_f,
                 'detail_f' => $detail_f,
                 'user' => $detail,
                 'domainDrop' => $domainDrop,

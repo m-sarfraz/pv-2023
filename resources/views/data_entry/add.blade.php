@@ -1121,7 +1121,7 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Remarks (from Finance)
                                                                 </label>
-                                                                <select name="REMARKS" id="remarks_finance"
+                                                                <select name="REMARKS" id="remarks_finance"  
                                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>

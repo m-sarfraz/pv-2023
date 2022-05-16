@@ -6,16 +6,16 @@
                 <th class="ant-table-cell">Sr</th>
                 <th class="ant-table-cell">Client</th>
                 <th class="ant-table-cell">Segment</th>
-                <th class="ant-table-cell">S-Segment</th>
-                <th class="ant-table-cell">Career Level</th>
+                <th class="ant-table-cell">Subsegment</th>
+                <th class="ant-table-cell ">Career Level</th>
                 <th class="ant-table-cell">Position Title</th>
                 <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
                         Requirement</span></th>
                 <th class="ant-table-cell">Budget</th>
                 <th class="ant-table-cell">Location</th>
-                <th class="ant-table-cell">Work Sched</th>
-                <th class="ant-table-cell"> Status</th>
-                <th class="ant-table-cell">Priority</th>
+                <th class="ant-table-cell">Work Schedule</th>
+                <th class="ant-table-cell">Status</th>
+                <th class="ant-table-cell"> Priority</th>
                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
             </tr>
         </thead>
