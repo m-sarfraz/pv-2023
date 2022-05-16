@@ -583,7 +583,7 @@
                                     Offered Salary
                                 </label>
                                 <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance" readonly
-                                    value="{{ $user != null ? $user->offered_salary : '' }}"
+                                    value="{{ $user != null ? $detail_f->offered_salary : '' }}"
                                     class="form-control border h-px-20_custom" />
                                 <div>
                                     <small class="text-danger"></small>
@@ -596,7 +596,7 @@
                                     Placement Fee
                                 </label>
                                 <input type="number" name="PLACEMENT_FEE" id="placement_fee" readonly
-                                    value="{{ $user != null ? $user->placement_fee : '' }}"
+                                    value="{{ $user != null ? $detail_f->placementFee : '' }}"
                                     class="form-control border h-px-20_custom" />
                                 <div>
                                     <small class="text-danger"></small>
@@ -611,7 +611,7 @@
                                     Allowance
                                 </label>
                                 <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
-                                    value="{{ $user != null ? $user->allowance : '' }}"
+                                    value="{{ $user != null ? $detail_f->allowance : '' }}"
                                     class="form-control border h-px-20_custom" />
                                 <div>
                                     <small class="text-danger"></small>

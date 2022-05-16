@@ -522,8 +522,8 @@ class CandidateController extends Controller
             $finance->srp = $request->STANDARD_PROJECTED_REVENUE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
             $finance->offered_salary = $request->OFFERED_SALARY_finance;
-            $finance->placement_fee = $request->PLACEMENT_FEE;
             $finance->allowance = $request->ALLOWANCE;
+            $finance->placement_fee = $request->PLACEMENT_FEE;
             $recruiter = Auth::user()->roles->pluck('id');
             $finance->t_id = $recruiter[0];
             $finance->save();
@@ -531,6 +531,9 @@ class CandidateController extends Controller
             // insert data to finance detail
             $finance_detail = new Finance_detail();
             $finance_detail->candidate_id = $CandidateInformation->id;
+            $finance_detail->offered_salary = $request->OFFERED_SALARY_finance;
+            $finance_detail->placementFee = $request->PLACEMENT_FEE;
+            $finance_detail->allowance = $request->ALLOWANCE;
             $finance_detail->finance_id = $finance->id;
             $finance_detail->save();
 
@@ -1173,7 +1176,12 @@ class CandidateController extends Controller
                 'allowance' => $request->ALLOWANCE,
             ]);
             //update data of finance table acooridngly starts
-
+            $fid_detail = (Finance::where(['candidate_id' => $candidate_id, 'endorsement_id' => $endorsement->id])->first())->id;
+            DB::table('finance_detail')->where('finance_id', $fid_detail)->update([
+                'offered_salary' => $request->OFFERED_SALARY_finance,
+                'placementFee' => $request->PLACEMENT_FEE,
+                'allowance' => $request->ALLOWANCE,
+            ]);
             //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
             // save candidate added to log table ends
@@ -1308,7 +1316,7 @@ class CandidateController extends Controller
             $cid = explode(',', $request->user);
             $detail = DB::table('endo_finance_view')
                 ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
-            // dd($detail);
+            $detail_f = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
         }
         try {
 
@@ -1316,6 +1324,7 @@ class CandidateController extends Controller
             $segmentsDropDown = DB::table('segments')->get();
             $sub_segmentsDropDown = DB::table('sub_segments')->get();
             $data = [
+                'detail_f' => $detail_f,
                 'user' => $detail,
                 'domainDrop' => $domainDrop,
                 'segmentsDropDown' => $segmentsDropDown,

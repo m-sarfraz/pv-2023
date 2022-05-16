@@ -161,8 +161,8 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ number_format($off_salary, 2) }}"
-                                    name="offered_salary" readonly />
+                                    placeholder="hires.." value="{{  $off_salary }}"
+                                    name="offered_salary"   />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -201,7 +201,7 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance" name="allowance" readonly />
+                                    id="allowance" name="allowance"   value="{{ $detail->allowance }}"  />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -442,12 +442,13 @@
     // section loads on ready start
     $(document).ready(function() {
         // append placement value on start          
-        var fee = {!! $fee !!};
-        var off_salary = {!! $off_salary !!};
-        var off_allowance = {!! $off_allowance !!};
-        placementfee = $('#placementfee').val(currency.format(fee))
-        allowance = $('#allowance').val(currency.format(off_allowance))
-        offered_salary = $('#offered_salary').val(currency.format(off_salary))
+        // var fee = {!! $fee !!};
+        // var off_salary = {!! $off_salary !!};
+        // var off_allowance = {!! $off_allowance !!};
+        // placementfee = $('#placementfee').val(currency.format(fee))
+          $('#allowance').val(currency.format($('#allowance').val()))
+          $('#offered_salary').val(currency.format($('#offered_salary').val()))
+        // offered_salary = $('#offered_salary').val(currency.format(off_salary))
         // close 
 
 

@@ -768,17 +768,17 @@
                                 <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
                                     onchange="RemarksChange(this)"
                                     class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    {{-- @php
+                                    @php
                                         $remarks = Helper::get_dropdown('remarks_for_finance');
-                                    @endphp --}}
+                                    @endphp
                                     <option value="" {{ $user->remarks_for_finance == null ? 'selected' : '' }}
                                         disabled>
                                         Select Option</option>
-                                    {{-- @foreach ($remarks->options as $remarksOptions)
+                                    @foreach ($remarks->options as $remarksOptions)
                                         <option value="{{ $remarksOptions->option_name }}"
                                             {{ $user->remarks_for_finance == $remarksOptions->option_name ? 'selected' : '' }}>
                                             {{ $remarksOptions->option_name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -1144,7 +1144,7 @@
                                                 Offered Salary
                                             </label>
                                             <input type="number" name="OFFERED_SALARY_finance" id="off_salary_fianance"
-                                                readonly value="{{ $user->off_salary }}"
+                                                readonly value="{{ $financeDetail->offered_salary }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1172,7 +1172,7 @@
                                                 Allowance
                                             </label>
                                             <input type="number" name="ALLOWANCE" id="off_allowance_finance" readonly
-                                                value="{{ $user->allowance }}"
+                                                value="{{ $financeDetail->allowance }}"
                                                 class="form-control border h-px-20_custom" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1209,15 +1209,18 @@
     select2Dropdown("select2_dropdown");
 
     $(document).ready(function() {
-        $('#status').change();
         mask('rate');
         var detailInput = <?php echo json_encode($inputDetail); ?>;
+        status = <?php echo json_encode($user->status); ?>;
+        if (status.toLowerCase() != 'valid') {
+            $('#status').change();
+        }
         $('#userDetailInput').html('<p>' + detailInput + '</p>');
         var id = $('#user').val();
         // var endoID = $('#no_endo').val();
         // console.log('id is' + id);
         var t = url + "/admin/QRCode" + '/' + id;
-        console.log(t);
+        // console.log(t);
         // ajax call for user data fetching starts
         $.ajax({
             type: "GET",

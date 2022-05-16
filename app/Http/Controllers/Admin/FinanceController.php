@@ -57,10 +57,12 @@ class FinanceController extends Controller
         $remarks_finance = $detail->remarks_for_finance != null ? $detail->remarks_for_finance : '';
         // $remarks = $detail->remarks_for_finance;
         // $remarks_finance = $remarks;
-        $salary = \App\CandidatePosition::where('candidate_id', $arr[0])->first();
-        $off_salary = $salary->off_salary != null ? $salary->off_salary : 0;
-        $off_allowance = $salary->off_allowance != null ? $salary->off_allowance : 0;
-        $billAmount = $salary->Total_bilable_ammount != null ? $salary->Total_bilable_ammount : 0;
+        $salary1 = \App\Finance::where(['candidate_id'=> $arr[0], 'endorsement_id' => $arr[4]])->first();
+        $salary = Finance_detail::where('finance_id', $salary1->id)->first();
+        $off_salary = $salary->offered_salary != null ? $salary->offered_salary : 0;
+        $off_allowance = $salary->allowance != null ? $salary->allowance : 0;
+        $billAmount = $salary1->Total_bilable_ammount != null ? $salary1->Total_bilable_ammount : 0;
+        // return $billAmount;
         // $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $arr[2])->first();
         $role = $user->roles->pluck('name');
