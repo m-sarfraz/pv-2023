@@ -19,7 +19,7 @@
                                 Candidate's Name:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->last_name }}">
+                                value="{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name }}">
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -288,7 +288,7 @@
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                       @foreach ($segments->options as
+                                          @foreach ($segments->options as
                                 $segmentsOptions)
                                 <option value="{{ $segmentsOptions->option_name }}"
                                     {{ strtolower($user->segment) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
@@ -317,7 +317,7 @@
                                 </option>
                                 @foreach ($sub_segments->options as $Options)
                                     <option value="{{ $Options->option_name }}"
-                                        {{ str_replace(' ', '', strtolower($user->sub_segment)) ==str_replace(' ', '', strtolower($Options->option_name))? 'selected': '' }}>
+                                        {{ str_replace(' ', '', strtolower($user->sub_segment)) == str_replace(' ', '', strtolower($Options->option_name)) ? 'selected' : '' }}>
                                         {{ $Options->option_name }}
                                     </option>
                                 @endforeach
@@ -761,7 +761,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
+                                                {{-- <div class="col-lg-6">
                                                     @php
                                                         $remarks = Helper::get_dropdown('remarks_from_finance');
                                                     @endphp
@@ -779,6 +779,17 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
+                                                        <div>
+                                                            <small class="text-danger"></small>
+                                                        </div>
+                                                    </div>
+                                                </div> --}}
+                                                <div class="col-lg-6">
+                                                    <div class="form-group mb-0">
+                                                        <label class="Label">Endo Date:</label>
+                                                        <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                            value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
+                                                            class="form-control border h-px-20_custom" />
                                                         <div>
                                                             <small class="text-danger"></small>
                                                         </div>
@@ -801,7 +812,7 @@
                                                                 disabled>Select Option</option>
                                                             @foreach ($sub_segments->options as $Options)
                                                                 <option value="{{ $Options->sub_segment_name }}"
-                                                                    {{ str_replace(' ', '', strtolower($user->sub_segment_endo)) ==str_replace(' ', '', strtolower($Options->option_name))? 'selected': '' }}>
+                                                                    {{ str_replace(' ', '', strtolower($user->sub_segment_endo)) == str_replace(' ', '', strtolower($Options->option_name)) ? 'selected' : '' }}>
                                                                     {{ $Options->option_name }}
                                                                 </option>
                                                             @endforeach
@@ -811,19 +822,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group mb-0">
-                                                        <label class="Label">Endo Date:</label>
-                                                        <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                            value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
-                                                            class="form-control border h-px-20_custom" />
-                                                        <div>
-                                                            <small class="text-danger"></small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-1">
+
+                                                {{-- <div class="row mb-1"> --}}
                                                 <div class="col-lg-6">
                                                     <div class="form-group mb-0">
                                                         <label class="Label-00">
@@ -838,30 +838,31 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </fieldset>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </fieldset>
-            @if ($user->cv)
-                <a class="btn btn-success mt-5 btn-md" type="button" target="blank"
-                    href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
-            @endif
-            @if (Auth::user()->id == $user->recruiter_id)
-                @can('edit-record')
-                    <button class="btn btn-primary mt-5 btn-md"
-                        onclick="UpdateRecord('{{ $user->id . '-' . $user->numberOfEndo }}')">Update</button>
-                @endcan
-            @else
-                <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
-                    class="btn btn-primary mt-5 btn-md">Tap</a>
-            @endif
         </form>
+        </fieldset>
     </div>
+</div>
+</div>
+</div>
+</div>
+
+</fieldset>
+@if ($user->cv)
+    <a class="btn btn-success mt-5 btn-md" type="button" target="blank"
+        href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
+@endif
+@if (Auth::user()->id == $user->recruiter_id)
+    @can('edit-record')
+        <button class="btn btn-primary mt-5 btn-md"
+            onclick="UpdateRecord('{{ $user->id . '-' . $user->numberOfEndo }}')">Update</button>
+    @endcan
+@else
+    <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
+        class="btn btn-primary mt-5 btn-md">Tap</a>
+@endif
+</form>
+</div>
 </div>
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
 
@@ -871,7 +872,7 @@
             $('#fieldset_endorsement').prop("disabled", false);
             $('#client_finance').prop("disabled", false);
             $('#remarks_for_finance').prop("disabled", false);
-            $('#rfp').prop("disabled", false);
+            // $('#rfp').prop("disabled", false);
         } else {
             $('#fieldset_endorsement').prop("disabled", true);
             $('#client_finance').prop("disabled", true);
@@ -1061,5 +1062,4 @@
             }
         }
     }
-    
 </script>

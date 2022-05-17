@@ -28,6 +28,11 @@
         .hidetrID tr td{
             white-space: nowrap !important;
         }
+        #jdlTable thead tr th,
+        #jdlTable tbody tr td{
+            width:fit-content !important;
+
+        }
         .hidetrID tr:hover {
             background-color: rgb(159, 165, 243);
         }

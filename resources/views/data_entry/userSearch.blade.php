@@ -622,12 +622,12 @@
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user->position_title == null ? 'selected' : '' }} disabled>
                                         Select Option</option>
-                                    @foreach ($position_title->options as $position_titleOptions)
+                                    {{-- @foreach ($position_title->options as $position_titleOptions)
                                         <option value="{{ $position_titleOptions->option_name }}"
                                             {{ $user->position_title == $position_titleOptions->option_name ? 'selected' : '' }}>
                                             {{ $position_titleOptions->option_name }}
                                         </option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -739,8 +739,7 @@
                             @endphp
                             <div class="form-group mb-0">
                                 <label class="Label">Client</label>
-                                <select name="CLIENT" disabled="" id="client"
-                                    onchange="clientChanged('position-title',this)"
+                                <select name="CLIENT" disabled="" id="client" onchange="clientChanged(1)"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown w-100">
                                     <option value="" {{ $user->client == null ? 'selected' : '' }} disabled>Select
                                         Option
@@ -882,8 +881,7 @@
                                     <select id="domain_endo" name="DOMAIN_ENDORSEMENT" onchange="endoDomainChange(this)"
                                         readonly
                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                        <option value="" {{ $user->domain_endo == null ? 'selected' : '' }}
-                                            disabled>
+                                        <option value="" {{ $user->domain_endo == null ? 'selected' : '' }} disabled>
                                             Select Option
                                         </option>
                                         @foreach ($domainDrop as $domainOption)
@@ -1206,8 +1204,26 @@
         $('#saveRecord').prop("disabled", false)
     });
     select2Dropdown("select2_dropdown");
-
+    var globalData = [];
     $(document).ready(function() {
+        // $.ajax({
+        //     url: '{{ url('admin/traveseDataByClientProfile') }}',
+        //     type: 'POST',
+        //     data: {
+        //         // position: $('#position').val(),
+        //         client_dropdown: $('#client').val(),
+        //         _token: token
+        //     },
+
+        //     // Ajax success function
+        //     success: function(res) {
+        //         if (res.data.length > 0) {
+        //             globalData = res.data;
+        //             $('#position').change()
+        //         }
+        //     }
+        // })
+        clientChanged(0)
         mask('rate');
         var detailInput = <?php echo json_encode($inputDetail); ?>;
         status = <?php echo json_encode($user->status); ?>;
@@ -1302,11 +1318,14 @@
                                   </option>`);
     });
     // close 
-    var globalData = [];
+    // var globalData = [];
 
-    function clientChanged(dropDown, elem) {
+    function clientChanged(val) {
+
         $('#loader2').addClass('d-block')
-        $('#position').prop("disabled", false);
+        if (val == 1) {
+            $('#position').prop("disabled", false);
+        }
         $('#loader2').removeClass('d-none')
         $.ajax({
             url: '{{ url('admin/traveseDataByClientProfile') }}',
@@ -1330,11 +1349,19 @@
                     // $('#client').empty();
                     $('#position').empty();
                     for (let i = 0; i < res.data.length; i++) {
-                        if ($(elem).val() == res.data[i].client) {
+                        //  var existval = {!! $title !!};
+                        var existval = "<?php echo $title; ?>";
+                        if ($('#client').val() == res.data[i].client) {
                             if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
-                                $('#position').append(
-                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
-                                );
+                                if (res.data[i].p_title == existval) {
+                                    $('#position').append(
+                                        `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                } else {
+                                    $('#position').append(
+                                        `<option   value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                }
                             }
                         }
                     }
@@ -1366,8 +1393,11 @@
 
     $('#position').change(function() {
         $('#career').empty();
+        console.log(globalData)
         for (let i = 0; i < globalData.length; i++) {
-            if ($('#position').val() == globalData[i].p_title) {
+            if ($('#position').val().toLowerCase() == (globalData[i].p_title).toLowerCase()) {
+                console.log(globalData[i].p_title);
+                console.log('hiii');
                 $('#career').append(
                     `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
                 );
@@ -1411,7 +1441,6 @@
         const pureValue = () => {
             let value = elm.value.replace(/[^\d.-]/g, '');
             // value = parseFloat(value)
-            console.log(value)
             return value || '';
         };
 

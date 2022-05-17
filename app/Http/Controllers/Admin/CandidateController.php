@@ -813,7 +813,9 @@ class CandidateController extends Controller
         $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
         $finance_remark = $financeDetail->remarks;
         $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
+        $title = $user->position_title;
         $data = [
+            'title' => $title,
             'finance_remark' => $finance_remark,
             'financeDetail' => $financeDetail,
             'domainDrop' => $domainDrop,
@@ -1241,7 +1243,6 @@ class CandidateController extends Controller
         if ($request->client_dropdown) {
             $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like', 'open')
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
-            // return $response;
             if ($response) {
                 return response()->json(['data' => $response]);
             }

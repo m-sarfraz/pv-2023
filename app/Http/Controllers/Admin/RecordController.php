@@ -98,7 +98,8 @@ class RecordController extends Controller
             })
 
             ->addColumn('Candidate', function ($Alldata) {
-                return $Alldata->last_name;
+                return $Alldata->first_name .' ' .$Alldata->middle_name .' ' . $Alldata->last_name;
+
             })
             ->addColumn('profile', function ($Alldata) {
                 return $Alldata->candidate_profile;
@@ -148,7 +149,8 @@ class RecordController extends Controller
             })
 
             ->addColumn('Candidate', function ($record) {
-                return $record->last_name;
+                return  $record->first_name .' ' .$record->middle_name .' ' . $record->last_name ;
+                
             })
             ->addColumn('profile', function ($record) {
                 return $record->candidate_profile;
@@ -256,7 +258,7 @@ class RecordController extends Controller
             // Update data of eantry page
             // $name = explode(" ", $request->first_name);
             CandidateInformation::where('id', $c_id)->update([
-                'first_name' => $request->first_name,
+                'last_name' => $request->first_name,
                 // 'middle_name' => $name[1],
                 // 'last_name' => $name[2],
                 'email' => $request->email,

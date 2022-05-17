@@ -161,8 +161,7 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{  $off_salary }}"
-                                    name="offered_salary"   />
+                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -201,7 +200,7 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance" name="allowance"   value="{{ $detail->allowance }}"  />
+                                    id="allowance" name="allowance" value="{{ $detail->allowance }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -441,16 +440,15 @@
     var currency = Intl.NumberFormat('en-IN');
     // section loads on ready start
     $(document).ready(function() {
-        // append placement value on start          
-        // var fee = {!! $fee !!};
+
+        // append placement allowance offered_salary value on start          
+        var fee = {!! $fee !!};
         // var off_salary = {!! $off_salary !!};
         // var off_allowance = {!! $off_allowance !!};
-        // placementfee = $('#placementfee').val(currency.format(fee))
-          $('#allowance').val(currency.format($('#allowance').val()))
-          $('#offered_salary').val(currency.format($('#offered_salary').val()))
+        $('#placementfee').val(currency.format(fee))
+        $('#allowance').val(currency.format($('#allowance').val()))
+        $('#offered_salary').val(currency.format($('#offered_salary').val()))
         // offered_salary = $('#offered_salary').val(currency.format(off_salary))
-        // close 
-
 
         // select default value unbilled if remarks are offer accepted or onboarded 
         var remarks_finance = '<?php echo $remarks_finance; ?>';
@@ -478,6 +476,8 @@
 
         // parse values for formula 
         var billAmount = {!! $billAmount !!};
+
+        // get inputs values by removing space or comma in it 
         salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
         credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
         vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g, ""));
@@ -488,18 +488,24 @@
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
             fee1 = (billAmount + compensation);
-            // fee1 = (salray + allowance + compensation);
-            fee1_rate = (fee1 * rate) / 100;
-            fee2 = (fee1_rate * (vat * 2)) - credit_memo;
+            ratePercentage = fee1 * (rate / 100);
+            findVatpercent = (1 + vat / 100)
+            multiplyVatandRate = findVatpercent * ratePercentage;
+            placementFee = multiplyVatandRate - credit_memo;
 
-            (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
-            // $('#placementfee').val(currency.format(fee2));
+            // append value of placement fee  
+            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
         } else {
-            // fee1 = (salray + allowance + compensation)
+
+            // if rate value is equal to zero or negative 
             fee1 = (billAmount + compensation);
-            fee2 = (fee1 * (1 + (vat * 1 / 100))) - credit_memo;
-            // $('#placementfee').val(currency.format(placementFee));
-            (isNaN(fee2)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(fee2));
+            ratePercentage = fee1;
+            findVatpercent = (1 + vat / 100)
+            multiplyVatandRate = findVatpercent * ratePercentage;
+            placementFee = multiplyVatandRate - credit_memo;
+
+            // append value if is number 
+            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
 
         }
         // call function for adjustm fee calculator based on current placemnt fee 

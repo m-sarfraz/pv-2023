@@ -801,7 +801,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
+                                                            {{-- <div class="col-lg-6 d-none">
                                                                 @php
                                                                     $remarks = Helper::get_dropdown('remarks_from_finance');
                                                                 @endphp
@@ -813,6 +813,16 @@
                                                                         <option selected disabled>Select Option</option>
 
                                                                     </select>
+                                                                    <div>
+                                                                        <small class="text-danger"></small>
+                                                                    </div>
+                                                                </div>
+                                                            </div> --}}
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label">Endo Date:</label>
+                                                                    <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                                        class="form-control border h-px-20_custom" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
                                                                     </div>
@@ -835,18 +845,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="form-group mb-0">
-                                                                    <label class="Label">Endo Date:</label>
-                                                                    <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                                        class="form-control border h-px-20_custom" />
-                                                                    <div>
-                                                                        <small class="text-danger"></small>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-1">
+                                                           
+                                                        {{-- </div> --}}
+                                                        {{-- <div class="row mb-1"> --}}
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
                                                                     <label class="Label-00">
@@ -1013,8 +1014,8 @@
                         name: 'recruiter'
                     },
                     {
-                        data: 'last_name',
-                        name: 'last_name',
+                        data: 'Candidate',
+                        name: 'Candidate',
                         // searchable: false,
                         // orderable: false
                     },
@@ -1125,8 +1126,8 @@
                         name: 'recruiter'
                     },
                     {
-                        data: 'last_name',
-                        name: 'last_name',
+                        data: 'Candidate',
+                        name: 'Candidate',
                         // searchable: false,
                         // orderable: false
                     },
