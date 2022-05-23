@@ -53,7 +53,8 @@ class CandidateController extends Controller
             $number_of_endorsements = Endorsement::where([
                 'saved_by' => Auth::user()->id,
                 'candidate_id' => $_GET['id'],
-            ])->count();
+                'is_deleted' => 0,
+            ])->get();
             // return $number_of_endorsements;
         }
         // $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get();
@@ -162,7 +163,7 @@ class CandidateController extends Controller
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
-                $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
@@ -215,7 +216,7 @@ class CandidateController extends Controller
                 // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             if ($request->finance_field == 1) {
-                $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
@@ -273,6 +274,7 @@ class CandidateController extends Controller
             }
             $id = explode('-', $request->candidate_id);
             if ($request->tap == 0 && $id[0] != 'null') {
+                $candidate_id = $id[0];
                 $CandidateInformation = CandidateInformation::find($id[0]);
                 $CandidateEducation = CandidateEducation::where('candidate_id', $id[0])->firstOrFail();
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
@@ -378,7 +380,6 @@ class CandidateController extends Controller
             // set number fo endo if candidate is being re endorsed
             if ($candidate_id > 0) {
                 $lastEndo = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $CandidateInformation->id])->count();
-                // return $lastEndo;
                 if ($lastEndo == 0) {
                     $numberOfEndo = 1;
                 } else {
@@ -797,7 +798,7 @@ class CandidateController extends Controller
         $str_arr = explode('-', $request->id);
         // return $str_arr[1] ;
         $endoID = $str_arr[1];
-        $number_of_endorsements = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $str_arr[0]])->count();
+        $number_of_endorsements = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $str_arr[0], 'is_deleted' => 0])->get();
         $domainDrop = Domain::all();
         // $segmentsDropDown = DB::table('segments')->get();
         // $sub_segmentsDropDown = DB::table('sub_segments')->get();
@@ -918,7 +919,7 @@ class CandidateController extends Controller
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
             if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
-                $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
@@ -975,7 +976,7 @@ class CandidateController extends Controller
                 // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
             }
             if ($request->finance_field == 1) {
-                $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
                 $arrayCheck["RATE"] = "required";
@@ -1296,6 +1297,7 @@ class CandidateController extends Controller
             ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
             ->select('candidate_informations.id', 'candidate_informations.last_name', 'candidate_positions.candidate_profile', 'candidate_informations.first_name',
                 'endorsements.client', 'endorsements.position_title', 'endorsements.endi_date', 'endorsements.numberOfEndo as number')
+            ->where('endorsements.is_deleted', 0)
             ->where('endorsements.saved_by', Auth::user()->id)->get()->toArray();
         return response()->json($user);
     }
@@ -1312,18 +1314,19 @@ class CandidateController extends Controller
     //endorsemnt detail view append for multiple endorsemtns
     public function endorsementDetailView(Request $request)
     {
-        if ($request->id == '') {
-            $detail = null;
-        } else {
-            $endoID = $request->id;
-            $cid = explode(',', $request->user);
-            $detail = DB::table('endo_finance_view')
-                ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
-            $detail_f = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
-            $remarks_f = $detail_f->remarks;
-        }
         try {
-
+            if ($request->id == '') {
+                $detail = null;
+                $detail_f = null;
+                $remarks_f = null;
+            } else {
+                $endoID = $request->id;
+                $cid = explode(',', $request->user);
+                $detail = DB::table('endo_finance_view')
+                    ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
+                $detail_f = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
+                $remarks_f = $detail_f->remarks;
+            }
             $domainDrop = Domain::all();
             $segmentsDropDown = DB::table('segments')->get();
             $sub_segmentsDropDown = DB::table('sub_segments')->get();

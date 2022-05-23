@@ -12,13 +12,13 @@ use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
 use Auth;
-use Str;
 use Cache;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Str;
 use Yajra\DataTables\DataTables;
 
 class RecordController extends Controller
@@ -98,7 +98,7 @@ class RecordController extends Controller
             })
 
             ->addColumn('Candidate', function ($Alldata) {
-                return $Alldata->first_name .' ' .$Alldata->middle_name .' ' . $Alldata->last_name;
+                return $Alldata->first_name . ' ' . $Alldata->middle_name . ' ' . $Alldata->last_name;
 
             })
             ->addColumn('profile', function ($Alldata) {
@@ -149,8 +149,8 @@ class RecordController extends Controller
             })
 
             ->addColumn('Candidate', function ($record) {
-                return  $record->first_name .' ' .$record->middle_name .' ' . $record->last_name ;
-                
+                return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
+
             })
             ->addColumn('profile', function ($record) {
                 return $record->candidate_profile;
@@ -202,8 +202,8 @@ class RecordController extends Controller
 
         $arrayofID = explode('-', $request->id);
         $user = DB::table('six_table_view')
-        ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0]  == '' ? 0 : $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
-        ->first();
+            ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0] == '' ? 0 : $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
+            ->first();
         $domainDrop = Domain::all();
         $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
         $client = DB::table('taverse2')->distinct()->select('client')->get();
@@ -377,11 +377,19 @@ class RecordController extends Controller
         }
     }
     // close
-
+    // append filter options
     public function appendFilterOptions()
     {
         $user = User::where('type', 3)->get();
-        $candidates = DB::table('candidate_informations')->select('id', 'last_name')->get();
+        $candidates = DB::table('candidate_informations')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->select('candidate_informations.id',
+                'candidate_informations.first_name', 'candidate_informations.last_name', 'candidate_informations.middle_name',
+                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),IFNULL(candidate_informations.middle_name ,'') ,IFNULL(candidate_informations.last_name,'')) as name"  ))
+            ->where('endorsements.is_deleted', 0)
+            ->distinct()
+            ->get();
+        // return $candidates;
         $candidates_profile = Helper::get_dropdown('candidates_profile');
         $sub_segment = Helper::get_dropdown('sub_segment');
         $application_status = Helper::get_dropdown('application_status');
@@ -399,4 +407,27 @@ class RecordController extends Controller
             ]
         );
     }
+    // close
+
+    // delete candidate data function
+    public function deleteCandidateData(Request $request)
+    {
+        try {
+            if ($request->id) {
+                $data = explode('-', $request->id);
+                $user_id = $data[0];
+                $numberOfEndo = $data[1];
+                $recruiter = $data[2];
+                Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])
+                    ->update([
+                        'is_deleted' => 1,
+                    ]);
+                
+                return response()->json(['success' => true, 'message' => 'Record Deleted Succesfully!']);
+            }
+        } catch (\Exception$e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+    // close
 }

@@ -2,7 +2,7 @@
 @section('content')
 <div class="col-lg-6 bg-white ">
     <form class="loginForm mt-0 pt-5" method="POST" action="{{ route('login') }}">
-        @csrf
+        {{ csrf_field() }}
         <div class="d-flex justify-content-center pb-2 mt-0 pt-2">
             <img  src="{{'assets/image/login/VCC_Logo_Horizontal.png'}}" style="width:80%" alt="" />
         </div>

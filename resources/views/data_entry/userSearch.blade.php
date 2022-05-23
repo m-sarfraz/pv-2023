@@ -559,12 +559,16 @@
                         <select name="endo_number" id="no_endo" onchange="selectEndoDetails(this)"
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" disabled>Select Endorsement</option>
-
-                            @for ($i = 1; $i <= $number_of_endorsements; $i++)
+                            @foreach ($number_of_endorsements as $value)
+                                <option   value="{{ $value->numberOfEndo }}" {{-- {{ $i == $number ? 'selected' : '' }} --}}>
+                                    {{ $value->numberOfEndo }}
+                                </option>
+                            @endforeach
+                            {{-- @for ($i = 1; $i <= $number_of_endorsements; $i++)
                                 <option value="{{ $i }}" {{ $i == $number ? 'selected' : '' }}>
                                     {{ $i }}
                                 </option>
-                            @endfor
+                            @endfor --}}
                         </select>
                     </div>
                 </div>

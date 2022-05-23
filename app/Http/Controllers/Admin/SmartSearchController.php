@@ -14,7 +14,7 @@ use Yajra\DataTables\DataTables;
 class SmartSearchController extends Controller
 {
     // private array for controller to summary append on filter change
-    private $candidate_arr = [];
+    private $candidate_arr = array();
 
     // __construct() for checking permission
     public function __construct()
@@ -63,7 +63,7 @@ class SmartSearchController extends Controller
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('recruiter', function ($allData) {
-                $name = User::where('id',$allData->saved_by)->first();
+                $name = User::where('id', $allData->saved_by)->first();
                 return isset($name->name) ? $name->name : '';
                 // return $allData->recruiter;
             })
@@ -187,24 +187,24 @@ class SmartSearchController extends Controller
                 'Sheduled for Behavioral Interview',
                 'Scheduled for account validation',
                 'Done Skills interview/ Awaiting Feedback',
-                ' Done Techincal Interview /Awaiting Feedback',
+                'Done Techincal Interview /Awaiting Feedback',
                 'Done Technical exam /Awaiting Feedback',
-                ' Done Behavioral /Awaiting Feedback',
-                ' Failed Skills interview',
-                ' Failed Techincal Interview',
+                'Done Behavioral /Awaiting Feedback',
+                'Failed Skills interview',
+                'Failed Techincal Interview',
                 'Failed Technical exam',
                 'Failed Behavioral Interview',
                 'Pending Country Head Interview',
                 'Pending Final Interview',
-                ' Pending Hiring Managers Interview',
-                ' Withdraw / CNI - Mid',
-                '   Position Closed (Mid Stage)',
-                ' Done Skills/Technical Interview / Awaiting Feedback',
-                ' Failed Skills/Technical Interview',
-                '  Position On Hold (Mid Stage)',
-                ' Scheduled for Behavioral Interview',
-                '  Scheduled for Skills/Technical Interview',
-                '  Fallout/Reneged',
+                'Pending Hiring Managers Interview',
+                'Withdraw / CNI - Mid',
+                'Position Closed (Mid Stage)',
+                'Done Skills/Technical Interview / Awaiting Feedback',
+                'Failed Skills/Technical Interview',
+                'Position On Hold (Mid Stage)',
+                'Scheduled for Behavioral Interview',
+                'Scheduled for Skills/Technical Interview',
+                'Fallout/Reneged',
                 'Scheduled for Country Head Interview',
                 'Scheduled for Final Interview',
                 'Scheduled for Hiring Managers Interview',
@@ -216,7 +216,6 @@ class SmartSearchController extends Controller
                 'Failed Hiring Managers Interview',
                 'Scheduled for Job Offer',
                 'Shortlisted/For Comparison',
-                'Onboarded',
                 'Offer accepted',
                 'Offer Rejected',
                 'Position Closed (Final Stage)',
@@ -260,11 +259,17 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('smart_view.endi_date', '<=', $request->endo_end);
         }
         $user = $Userdata->get();
-        // return $user;
-        $this->candidate_arr = $Userdata->pluck('candidate_id')->toArray();
+        $arrayOfIDS = $Userdata->select('candidate_id', 'endorsement_id')->get();
+        // return $arrayOfIDS;
+        // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
+        foreach ($arrayOfIDS as $key => $value) {
+            $this->candidate_arr[$value->endorsement_id] = $value->candidate_id;
+        }
+        //    return $this->candidate_arr;
         return Datatables::of($user)
             ->addColumn('recruiter', function ($Userdata) {
-                return $Userdata->recruiter;
+                return (User::where('id', $Userdata->saved_by)->first('name'))->name;
+
             })
             ->addColumn('candidate', function ($Userdata) {
                 return $Userdata->last_name;
@@ -365,8 +370,15 @@ class SmartSearchController extends Controller
     public function summaryAppend(Request $request)
     {
         if ($request->array == 1) {
-            $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
-                ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
+            $Userdata = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
+                ->join('finance', 'endorsements.id', 'finance.endorsement_id')
+                ->select(
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                );
+            $Userdata1 = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
+                ->join('finance', 'endorsements.id', 'finance.endorsement_id')
                 ->select(
                     DB::raw("SUM(finance.srp) as t_srp"),
                     'finance.srp',
@@ -376,9 +388,20 @@ class SmartSearchController extends Controller
                     'endorsements.app_status',
                     'endorsements.remarks_for_finance'
                 );
-        } elseif (isset($request->array)) {
-            $Userdata = DB::table('finance')->join('endorsements', 'finance.candidate_id', 'endorsements.candidate_id')
-                ->join('candidate_positions', 'endorsements.candidate_id', 'candidate_positions.candidate_id')
+        } else if (isset($request->array)) {
+
+            $Userdata = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
+                ->join('finance', 'endorsements.id', 'finance.endorsement_id')
+
+                ->select(
+                    'finance.placement_fee',
+                    'endorsements.app_status',
+                    'endorsements.remarks_for_finance'
+                )
+                ->whereIn('endorsements.id', array_keys($request->array))
+                ->whereIn('endorsements.candidate_id', array_values($request->array));
+            $Userdata1 = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
+                ->join('finance', 'endorsements.id', 'finance.endorsement_id')
                 ->select(
                     DB::raw("SUM(finance.srp) as t_srp"),
                     'finance.srp',
@@ -388,7 +411,8 @@ class SmartSearchController extends Controller
                     'endorsements.app_status',
                     'endorsements.remarks_for_finance'
                 )
-                ->whereIn('finance.candidate_id', $request->array);
+                ->whereIn('endorsements.id', array_keys($request->array))
+                ->whereIn('endorsements.candidate_id', array_values($request->array));
         } else {
             $data = [
                 'endo' => 0,
@@ -410,40 +434,42 @@ class SmartSearchController extends Controller
             return view('smartSearch.summary', $data);
         }
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        $sql1 = Str::replaceArray('?', $Userdata1->getBindings(), $Userdata1->toSql());
+        // return $sql;
         if (strpos($sql, 'where') !== false) {
-            $sql_salary = DB::select($sql);
-            $sql_enors = $sql . "and endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
-            $sql_active = $sql . "and endorsements.app_status='Active File' group by `finance`.`candidate_id`";
-            $sql_onboarded = $sql . "and endorsements.remarks_for_finance='Onboarded' group by `finance`.`candidate_id`";
-            $sql_failed = $sql . "and endorsements.remarks_for_finance LIKE '%fail%' group by `finance`.`candidate_id` ";
-            $sql_accepted = $sql . "and endorsements.remarks_for_finance LIKE '%accept%' group by `finance`.`candidate_id` ";
-            $sql_withdrawn = $sql . "and endorsements.remarks_for_finance LIKE '%withdraw%'  group by `finance`.`candidate_id`";
-            $sql_reject = $sql . "and endorsements.remarks_for_finance LIKE '%reject%' group by `finance`.`candidate_id` ";
-            $sql_final = $sql . "and endorsements.remarks_for_finance LIKE '%final%' group by `finance`.`candidate_id` ";
-            $sql_mid = $sql . "and endorsements.remarks_for_finance LIKE '%mid%' group by `finance`.`candidate_id` ";
-            $sql_initial = $sql . "and endorsements.remarks_for_finance LIKE '%initial%' group by `finance`.`candidate_id` ";
-            $sql_fallout = $sql . " and endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' group by `finance`.`candidate_id`  ";
-            $sql_active_spr = $sql . " and endorsements.remarks_for_finance LIKE '%final%' OR endorsements.remarks_for_finance LIKE '%mid%'  group by `finance`.`candidate_id`  ";
-            $sql_revenue = DB::select($sql);
-            $sql_spr = DB::select($sql);
-            $active_spr = DB::select($sql);
+            $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
+            $sql_enors = $sql . "and endorsements.app_status='To Be Endorsed' and endorsements.is_deleted='0'  ";
+            $sql_active = $sql . "and endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
+            $sql_onboarded = $sql . "and endorsements.remarks_for_finance='Onboarded' and endorsements.is_deleted='0' ";
+            $sql_failed = $sql . "and endorsements.remarks_for_finance LIKE '%fail%' and endorsements.is_deleted='0'  ";
+            $sql_accepted = $sql . "and endorsements.remarks_for_finance LIKE '%accept%' and endorsements.is_deleted='0'  ";
+            $sql_withdrawn = $sql . "and endorsements.remarks_for_finance LIKE '%withdraw%' and endorsements.is_deleted='0' ";
+            $sql_reject = $sql . "and endorsements.remarks_for_finance LIKE '%reject%' and endorsements.is_deleted='0'  ";
+            $sql_final = $sql . "and endorsements.category LIKE '%final%' and endorsements.is_deleted='0'  ";
+            $sql_mid = $sql . "and endorsements.category LIKE '%mid%' and endorsements.is_deleted='0'  ";
+            $sql_initial = $sql . "and endorsements.category LIKE '%initial%' and endorsements.is_deleted='0'  ";
+            $sql_fallout = $sql . " and endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' and endorsements.is_deleted='0'   ";
+            $sql_active_spr = $sql1 . " and endorsements.category LIKE '%final%' OR endorsements.category LIKE '%mid%' and endorsements.is_deleted='0'    ";
+            $sql_revenue = DB::select($sql1);
+            $sql_spr = DB::select($sql1 . "and endorsements.is_deleted='0' ");
+            $active_spr = DB::select($sql1);
             $sql_getActive_spr = DB::select($sql_active_spr);
         } else {
-            $sql_salary = DB::select($sql);
-            $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' group by `finance`.`candidate_id`";
-            $sql_active = $sql . "where endorsements.app_status='Active File' group by `finance`.`candidate_id`";
-            $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded' group by `finance`.`candidate_id`";
-            $sql_failed = $sql . "where endorsements.remarks_for_finance LIKE '%fail%' group by `finance`.`candidate_id` ";
-            $sql_accepted = $sql . "where endorsements.remarks_for_finance LIKE '%accept%' group by `finance`.`candidate_id` ";
-            $sql_withdrawn = $sql . "where endorsements.remarks_for_finance LIKE '%withdraw%'  group by `finance`.`candidate_id`";
-            $sql_reject = $sql . "where endorsements.remarks_for_finance LIKE '%reject%' group by `finance`.`candidate_id` ";
-            $sql_final = $sql . "where endorsements.remarks_for_finance LIKE '%final%' group by `finance`.`candidate_id` ";
-            $sql_mid = $sql . "where endorsements.remarks_for_finance LIKE '%mid%' group by `finance`.`candidate_id` ";
-            $sql_initial = $sql . "where endorsements.remarks_for_finance LIKE '%initial%' group by `finance`.`candidate_id` ";
-            $sql_fallout = $sql . " where endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' group by `finance`.`candidate_id`  ";
-            $sql_active_spr = $sql . " where endorsements.remarks_for_finance LIKE '%final%' OR endorsements.remarks_for_finance LIKE '%mid%'  group by `finance`.`candidate_id`  ";
-            $sql_revenue = DB::select($sql);
-            $sql_spr = DB::select($sql);
+            $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
+            $sql_active = $sql . "where endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
+            $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' and endorsements.is_deleted='0'  ";
+            $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'and endorsements.is_deleted='0' ";
+            $sql_failed = $sql . "where endorsements.remarks_for_finance LIKE '%fail%' and endorsements.is_deleted='0' ";
+            $sql_accepted = $sql . "where endorsements.remarks_for_finance LIKE '%accept%'and endorsements.is_deleted='0'  ";
+            $sql_withdrawn = $sql . "where endorsements.remarks_for_finance LIKE '%withdraw%' and endorsements.is_deleted='0' ";
+            $sql_reject = $sql . "where endorsements.remarks_for_finance LIKE '%reject%'and endorsements.is_deleted='0'  ";
+            $sql_final = $sql . "where endorsements.category LIKE '%final%' and endorsements.is_deleted='0' ";
+            $sql_mid = $sql . "where endorsements.category LIKE '%mid%' and endorsements.is_deleted='0' ";
+            $sql_initial = $sql . "where endorsements.category LIKE '%initial%'and endorsements.is_deleted='0'  ";
+            $sql_fallout = $sql . " where endorsements.remarks_for_finance LIKE '%fallout%' OR endorsements.remarks_for_finance LIKE '%replacement%' and endorsements.is_deleted='0'  ";
+            $sql_active_spr = $sql1 . " where endorsements.category LIKE '%final%' OR endorsements.category LIKE '%mid%' and endorsements.is_deleted='0'   ";
+            $sql_revenue = DB::select($sql1 . "and endorsements.is_deleted='0' ");
+            $sql_spr = DB::select($sql1);
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
         }
@@ -461,7 +487,7 @@ class SmartSearchController extends Controller
             $sql_revenue_amount = ceil($sql_revenue_amount + $revenue->t_placement_fee);
         }
         foreach ($sql_salary as $salary) {
-            $total_salary = ceil($total_salary + $revenue->t_salary);
+            $total_salary = ceil($total_salary + $salary->t_salary);
         }
         $data = [
             'endo' => count(DB::select($sql_enors)),
@@ -477,10 +503,9 @@ class SmartSearchController extends Controller
             'fallout' => count(DB::select($sql_fallout)),
             'revenue' => $sql_revenue_amount,
             'spr' => $sql_spr_amount,
-            'activeSPR' => $sql_spr_amount,
+            'activeSPR' => $sql_active_spr_amount,
             'salary' => $total_salary,
         ];
-        // return $data;
         return view('smartSearch.summary', $data);
     }
     //close

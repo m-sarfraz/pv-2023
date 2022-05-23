@@ -288,7 +288,7 @@
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                          @foreach ($segments->options as
+                                                     @foreach ($segments->options as
                                 $segmentsOptions)
                                 <option value="{{ $segmentsOptions->option_name }}"
                                     {{ strtolower($user->segment) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
@@ -861,12 +861,80 @@
     <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->id }}"
         class="btn btn-primary mt-5 btn-md">Tap</a>
 @endif
+@if (Auth::user()->type == 1)
+    <button class="btn btn-danger mt-5 btn-md"
+        onclick="verifyDeleteRecord('{{ $user->id . '-' . $user->numberOfEndo . '-' . $user->recruiter_id }}')">Delete
+        Record</button>
+@endif
+
 </form>
 </div>
 </div>
 <script src="{{ asset('assets/js/data-entry.js') }}"></script>
+<script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
 
 <script>
+    function verifyDeleteRecord(id) {
+        Swal.fire({
+                icon: 'warning',
+                text: "Would you like to Delete this record?",
+                type: 'warning',
+                showCancelButton: true,
+                showconfirmButton: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+            })
+
+            .then((isConfirm) => {
+                if (isConfirm.value) {
+                    DeleteRecord(id);
+                } else if (isConfirm.dismiss == 'cancel') {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Record has not been Deleted!',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                }
+            })
+    }
+
+    function DeleteRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('admin/deleteCandidateData') }}',
+            data: {
+                _token: token,
+                id: id,
+
+            },
+
+            // Success fucniton of Ajax
+            success: function(res) {
+                if (res.success == true) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 4000
+                    })
+                    location.reload();
+                } else if (res.success == false) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 4000
+                    })
+
+                }
+            }
+        });
+    }
+
     function ApplicationStatusChange(elem) {
         if ($(elem).val().toLowerCase() == 'to be endorsed') {
             $('#fieldset_endorsement').prop("disabled", false);
@@ -975,9 +1043,11 @@
 
     $('#position').prop("disabled", true);
     $('#career').prop("disabled", true);
-    $('#domain_endo').prop("readonly", true);
+    $('#domain_endo').prop(
+        "readonly", true);
     $('#Domainsegment').prop("readonly", true);
-    $('#endo_sub_segment').prop("readonly", true);
+    $('#endo_sub_segment').prop(
+        "readonly", true);
     var globalData = [];
 
     function clientChanged(dropDown, elem) {
@@ -1008,7 +1078,8 @@
                     $('#position').empty();
                     for (let i = 0; i < res.data.length; i++) {
                         if ($(elem).val() == res.data[i].client) {
-                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`)
+                                .length < 1) {
                                 $('#position').append(
                                     `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
                                 );
@@ -1048,7 +1119,8 @@
 
     function DomainSegmentAppend() {
         for (let i = 0; i < globalData.length; i++) {
-            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
+            if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i]
+                .c_level &&
                 $('#client_finance').val() == globalData[i].client) {
                 $('#domain_endo').append(
                     `<option selected value="${globalData[i].domain}">${globalData[i].domain}</option>`

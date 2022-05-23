@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-
     <style>
         #example1_filter label {
             display: flex;
@@ -559,8 +558,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Interview Notes:
                                             </label>
-                                            <textarea name="notes" rows="3" type="text"
-                                                class="form-control border E_H h-px-20_custom" value=""
+                                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom" value=""
                                                 placeholder="Enter Interview Notes"> </textarea>
                                         </div>
                                         <div class="pt-3">
@@ -568,8 +566,7 @@
                                                 <label class="d-block font-size-3 mb-0">
                                                     Employment History:
                                                 </label>
-                                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                    class="form-control border E_H h-px-20_custom"
+                                                <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                                     placeholder="Enter Interview Notes"> </textarea>
 
                                             </div>
@@ -845,9 +842,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                           
-                                                        {{-- </div> --}}
-                                                        {{-- <div class="row mb-1"> --}}
+
+                                                            {{-- </div> --}}
+                                                            {{-- <div class="row mb-1"> --}}
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
                                                                     <label class="Label-00">
@@ -879,7 +876,7 @@
     <div style="height: 30px;"></div>
 @endsection
 @section('script')
-<script src="{{ asset('assets/js/data-entry.js') }}"></script>
+    <script src="{{ asset('assets/js/data-entry.js') }}"></script>
 
     <script>
         // Section for docement ready funciton starts
@@ -918,12 +915,17 @@
                 })
                 .done(function(res) {
                     for (let i = 0; i < res.user.length; i++) {
-                        $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name +
-                            '</option>')
+                        if (res.user[i].name != 'null') {
+
+                            $('#recruiter').append('<option value="' + res.user[i].id + '">' + res.user[i].name +
+                                '</option>')
+                        }
                     }
                     for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i]
-                            .last_name + '</option>')
+                        if (res.candidates[i].name != null || res.candidates[i].name != ' ' ) {
+                            $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i]
+                                .name + '</option>')
+                        }
                     }
                     for (let i = 0; i < res.candidates_profile.options.length; i++) {
                         $('#profile').append('<option value="' + res.candidates_profile.options[i].option_name + '">' +
@@ -1276,7 +1278,7 @@
         // update the selected records if it belongs to the user starts
         function UpdateRecord(id) {
             // show loader for waiting
-        
+
             $("#loader").show();
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
@@ -1302,7 +1304,15 @@
 
                         // show success sweet alert and enable entering new record button
                         // $('#new').prop("disabled", false);
-                        swal("success", res.message, "success").then((value) => {});
+                        // swal("success", res.message, "success").then((value) => {});
+                        Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: res.message,
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                            location.reload();
                     } else if (res.success == false) {
 
                         // show validation error on scree with border color changed and text
@@ -1388,7 +1398,6 @@
                 countRecord()
             }
         });
-        // close 
+        // close
     </script>
-
 @endsection

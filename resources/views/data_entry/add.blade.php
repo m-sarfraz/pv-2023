@@ -718,14 +718,12 @@
                                             <div>
                                                 <select name="endo_number" id="no_endo" onchange="selectEndoDetails(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" disabled>Select Endorsement</option>
-
-                                                    @for ($i = 1; $i <= $number_of_endorsements; $i++)
-                                                        <option value="{{ $i }}"
-                                                            {{ $i == $number_of_endorsements ? 'selected' : '' }}>
-                                                            {{ $i }}
+                                                    @foreach ($number_of_endorsements as $value)
+                                                        <option   value="{{ $value->numberOfEndo }}"
+                                                            {{-- {{ $i == $number ? 'selected' : '' }} --}}>
+                                                            {{ $value->numberOfEndo }}
                                                         </option>
-                                                    @endfor
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -1121,7 +1119,7 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Remarks (from Finance)
                                                                 </label>
-                                                                <select name="REMARKS" id="remarks_finance"  
+                                                                <select name="REMARKS" id="remarks_finance"
                                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
@@ -1391,7 +1389,7 @@
                 $('#transparentDiv').hide();
                 // $('#loader1').hide();
             }, 10);
-            appendUserAjax();
+            getCandidateList();
             if (!$('#last_name').val()) {
                 $("#date_invited").prop('disabled', true)
             } else {
@@ -1417,7 +1415,7 @@
         });
 
         //append all uiser to dropdown for of candidate list 
-        function appendUserAjax() {
+        function getCandidateList() {
             $.ajax({
                     type: "GET",
                     url: '{{ url('admin/get_candidateList') }}',
@@ -2337,6 +2335,7 @@
                 url = window.location.href;
                 queryStr = url.split('=');
                 user = queryStr[1] + '-' + id;
+                console.log(user)
 
             } else {
                 user = $('#user').val()

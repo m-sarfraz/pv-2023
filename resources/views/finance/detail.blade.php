@@ -664,6 +664,7 @@
                         text: "{{ __('Updated finance') }}",
                         icon: "success",
                     });
+                    location.reload();
                 } else if (!res) {
                     $("#loader").hide();
 
@@ -674,7 +675,6 @@
                         icon: "error",
                     });
                 }
-
                 //hide loader
                 $("#loader").hide();
             },

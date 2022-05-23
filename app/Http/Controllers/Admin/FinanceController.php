@@ -57,7 +57,7 @@ class FinanceController extends Controller
         $remarks_finance = $detail->remarks_for_finance != null ? $detail->remarks_for_finance : '';
         // $remarks = $detail->remarks_for_finance;
         // $remarks_finance = $remarks;
-        $salary1 = \App\Finance::where(['candidate_id'=> $arr[0], 'endorsement_id' => $arr[4]])->first();
+        $salary1 = \App\Finance::where(['candidate_id' => $arr[0], 'endorsement_id' => $arr[4]])->first();
         $salary = Finance_detail::where('finance_id', $salary1->id)->first();
         $off_salary = $salary->offered_salary != null ? $salary->offered_salary : 0;
         $off_allowance = $salary->allowance != null ? $salary->allowance : 0;
@@ -159,7 +159,7 @@ class FinanceController extends Controller
                 }
             })
             ->addColumn('placement_fee', function ($user) {
-                return $user->placement_fee;
+                return $user->placementFee;
             })
             ->addColumn('remarks_for_finance', function ($user) {
                 return $user->remarks_for_finance;
@@ -220,7 +220,7 @@ class FinanceController extends Controller
                 }
             })
             ->addColumn('placement_fee', function ($Userdata) {
-                return $Userdata->placement_fee;
+                return $Userdata->placementFee;
             })
             ->addColumn('remarks_for_finance', function ($Userdata) {
                 return $Userdata->remarks_for_finance;

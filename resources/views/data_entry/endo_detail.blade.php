@@ -522,7 +522,8 @@
                                 </label>
                                 <input type="text" name="RATE" id="rate" maxlength="6" oninput="amountFinder(this)"
                                     class="form-control border h-px-20_custom"
-                                    value="{{ $user->rate != null ? $user->rate : 0 }}" />
+                                    value="{{ $user != null ? $user->rate : '' }}"/>
+                                    
                                 {{-- <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                     id="rate_finance" oninput="amountFinder(this)" >
                                     <option Disabled {{ $user != null ? ($user->rate == 0 ? 'selected' : '') : '' }}>

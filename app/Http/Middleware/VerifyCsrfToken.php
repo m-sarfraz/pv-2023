@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
+use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class VerifyCsrfToken extends Middleware
@@ -19,6 +21,16 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'login',
     ];
+    public function handle($request, Closure $next)
+    {
+        if ($request->route()->named('logout')) {
+            if (!Auth::check() || Auth::guard()->viaRemember()) {
+                $this->except[] = route('logout');
+            }
+        }
+
+        return parent::handle($request, $next);
+    }
 }

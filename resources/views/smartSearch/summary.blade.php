@@ -18,8 +18,8 @@
                             <label class="Label-00">
                                 Total Endorsement:
                             </label>
-                            <input readonly type="text" class="form-control users-input-S-C"
-                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}} placeholder="Rev.." id="endo" />
+                            <input readonly type="text" class="form-control users-input-S-C" {{-- value="{{ $Userdata->where('endorsements.app_status', 'To Be Endorsed')->count() }}" --}}
+                                placeholder="Rev.." id="endo" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -27,8 +27,8 @@
                             <label class="Label-00">
                                 Total SPR:
                             </label>
-                            <input readonly type="text" class="form-control users-input-S-C"
-                                placeholder="Rev.." id="spr" />
+                            <input readonly type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                id="spr" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -103,8 +103,8 @@
                             <label class="Label-00">
                                 Number of hires:
                             </label>
-                            <input readonly type="text" class="form-control users-input-S-C"
-                                placeholder="Rev.." id="onBoarded" />
+                            <input readonly type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                id="onBoarded" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -161,23 +161,23 @@
     </div>
 </div>
 <script>
-    endo = {!! $endo !!}    
-    active = {!! $active !!}    
-    failed = {!! $failed !!}    
-    accepted = {!! $accepted !!}    
-    onBoarded = {!! $onBoarded !!}    
-    rejected = {!! $rejected !!}    
-    mid = {!! $mid !!}    
-    initial = {!! $initial !!}    
-    final = {!! $final !!}    
-    withdrawn = {!! $withdrawn !!}    
-    fallout = {!! $fallout !!}    
-    revenue = {!! $revenue !!} 
-    activeSPR ={!! $activeSPR !!}   
-    salary ={!! $salary !!}   
-    spr = {!! $spr !!}    
-    // $('#sifted').val($('#foundRecord').val());
-    avgSalary =Math.round(salary / endo);
+    endo = {!! $endo !!}
+    active = {!! $active !!}
+    failed = {!! $failed !!}
+    accepted = {!! $accepted !!}
+    onBoarded = {!! $onBoarded !!}
+    rejected = {!! $rejected !!}
+    mid = {!! $mid !!}
+    initial = {!! $initial !!}
+    final = {!! $final !!}
+    withdrawn = {!! $withdrawn !!}
+    fallout = {!! $fallout !!}
+    revenue = {!! $revenue !!}
+    activeSPR = {!! $activeSPR !!}
+    salary = {!! $salary !!}
+    spr = {!! $spr !!}
+    $('#sifted').val($('#foundRecord').val());
+    avgSalary = Math.round(salary / endo);
     $('#endo').val(endo);
     $('#active').val(active);
     $('#onBoarded').val(onBoarded);
@@ -192,5 +192,5 @@
     $('#revenue').val(revenue);
     $('#spr').val(spr);
     $('#activeSPR').val(activeSPR);
-    $('#avgsalary').val(avgSalary); 
+    $('#avgsalary').val(isNaN(avgSalary) ? 0 : avgSalary);
 </script>
