@@ -482,34 +482,7 @@ class CandidateController extends Controller
 
             // $user = User::find($recruiter);
 
-            $Cipprogress = new Cipprogress();
-            // find in array
-            if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
 
-                $Cipprogress->final_stage = 1;
-                $Cipprogress->cip = 1;
-            }
-            if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
-                $Cipprogress->mid_stage = 1;
-                $Cipprogress->cip = 1;
-            }
-            //check
-            $word_1 = "Offer";
-            $word_2 = "Onboarded";
-            $mystring = $request->REMARKS_FOR_FINANCE;
-            if (strpos($mystring, $word_1) !== false) {
-                $Cipprogress->offered = 1;
-            }
-            if (strpos($mystring, $word_2) !== false) {
-                $Cipprogress->onboarded = 1;
-            }
-            $recruiter = Auth::user()->roles->first();
-            // return $recruiter;
-            $Cipprogress->candidate_id = $CandidateInformation->id;
-            $Cipprogress->team = $recruiter->name;
-            $Cipprogress->t_id = $recruiter->id;
-            $Cipprogress->save();
-            //close cip
             // save data to finance tables
             $finance = new Finance();
             $finance->candidate_id = $CandidateInformation->id;
@@ -542,6 +515,37 @@ class CandidateController extends Controller
             //get last record  save data
             $last_data_save = CandidateInformation::where("id", $CandidateInformation->id)->first();
 
+            $Cipprogress = new Cipprogress();
+            // find in array
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
+
+                $Cipprogress->final_stage = 1;
+                $Cipprogress->cip = 1;
+            }
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
+                $Cipprogress->mid_stage = 1;
+                $Cipprogress->cip = 1;
+            }
+            //check
+            $word_1 = "Offer";
+            $word_2 = "Onboarded";
+            $mystring = $request->REMARKS_FOR_FINANCE;
+            if (strpos($mystring, $word_1) !== false) {
+                $Cipprogress->offered = 1;
+            }
+            if (strpos($mystring, $word_2) !== false) {
+                $Cipprogress->onboarded = 1;
+            }
+            $recruiter = Auth::user()->roles->first();
+            // return $recruiter;
+            $Cipprogress->candidate_id = $CandidateInformation->id;
+            $Cipprogress->team = $recruiter->name;
+            $Cipprogress->t_id = $recruiter->id;
+            $Cipprogress->endorsement_id = $endorsement->id;
+            $Cipprogress->finance_id = $finance->id;
+            $Cipprogress->save();
+            //close cip
+            
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
@@ -1187,6 +1191,86 @@ class CandidateController extends Controller
                 'placementFee' => $request->PLACEMENT_FEE,
                 'allowance' => $request->ALLOWANCE,
             ]);
+            
+            $array = [
+                'Final Stage' => [
+                    0 => 'Scheduled for Country Head Interview',
+                    1 => 'Scheduled for Final Interview',
+                    2 => "Scheduled for Hiring Manager's Interview",
+                    3 => 'Done Behavioral Interview / Awaiting Feedback',
+                    4 => 'Done Final Interview / Awaiting Feedback',
+                    5 => "Done Hiring Manager's Interview / Awaiting Feedback",
+                    6 => 'Failed Country Head Interview',
+                    7 => 'Failed Final Interview',
+                    8 => "Failed Hiring Manager's Interview",
+                    9 => "Scheduled for Job Offer",
+                    10 => "Shortlisted/For Comparison",
+                    11 => "Onboarded",
+                    12 => "Offer accepted",
+                    13 => "Offer Rejected",
+                    14 => "Position Closed (Final Stage)",
+                    15 => "Done Country Head Interview / Awaiting Feedback",
+                    16 => "Pending Offer Approval",
+                    17 => "Pending Offer Schedule",
+                    18 => "Position On Hold (Final Stage)",
+                    19 => "Shortlisted",
+                    20 => "Fallout/Reneged",
+                ],
+                "Mid Stage" => [
+                    0 => 'Scheduled for Skills Interview',
+                    1 => 'Scheduled for Technical Interview',
+                    2 => "Scheduled for Technical exam",
+                    3 => 'Sheduled for Behavioral Interview',
+                    4 => 'Scheduled for account validation',
+                    5 => "Done Skills interview/ Awaiting Feedback",
+                    6 => 'Done Techincal Interview /Awaiting Feedback',
+                    7 => 'Done Technical exam /Awaiting Feedback',
+                    8 => "Done Behavioral /Awaiting Feedback",
+                    9 => "Failed Skills interview",
+                    10 => "Failed Techincal Interview",
+                    11 => "Failed Technical exam",
+                    12 => "Failed Behavioral Interview",
+                    13 => "Pending Country Head Interview",
+                    14 => "Pending Final Interview",
+                    15 => "Pending Hiring Manager's Interview",
+                    16 => "Position Closed (Mid Stage)",
+                    17 => "Done Skills/Technical Interview / Awaiting Feedback",
+                    18 => "Failed Skills/Technical Interview",
+                    19 => "Position On Hold (Mid Stage)",
+                    20 => "Scheduled for Behavioral Interview",
+                    21 => "Scheduled for Skills/Technical Interview",
+                ],
+            ];
+
+            $Cipprogress = Cipprogress::where('endorsement_id', $endorsement->id)->firstOrFail();
+            // find in array
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
+
+                $Cipprogress->final_stage = 1;
+                $Cipprogress->cip = 1;
+            }
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Mid Stage'])) {
+                $Cipprogress->mid_stage = 1;
+                $Cipprogress->cip = 1;
+            }
+            //check
+            $word_1 = "Offer";
+            $word_2 = "Onboarded";
+            $mystring = $request->REMARKS_FOR_FINANCE;
+            if (strpos($mystring, $word_1) !== false) {
+                $Cipprogress->offered = 1;
+            }
+            if (strpos($mystring, $word_2) !== false) {
+                $Cipprogress->onboarded = 1;
+            }
+            $recruiter = Auth::user()->roles->first();
+            // return $recruiter;
+            $Cipprogress->candidate_id = $candidate_id;
+            $Cipprogress->team = $recruiter->name;
+            $Cipprogress->t_id = $recruiter->id;
+            $Cipprogress->endorsement_id = $endorsement->id;
+            $Cipprogress->save();
+
             //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
             // save candidate added to log table ends

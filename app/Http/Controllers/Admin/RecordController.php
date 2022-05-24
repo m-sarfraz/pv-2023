@@ -6,6 +6,7 @@ use App\CandidateDomain;
 use App\CandidateEducation;
 use App\CandidateInformation;
 use App\CandidatePosition;
+use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
 use App\Http\Controllers\Controller;
@@ -385,7 +386,7 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->select('candidate_informations.id',
                 'candidate_informations.first_name', 'candidate_informations.last_name', 'candidate_informations.middle_name',
-                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),IFNULL(candidate_informations.middle_name ,'') ,IFNULL(candidate_informations.last_name,'')) as name"  ))
+                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),IFNULL(candidate_informations.middle_name ,'') ,IFNULL(candidate_informations.last_name,'')) as name"))
             ->where('endorsements.is_deleted', 0)
             ->distinct()
             ->get();
@@ -418,11 +419,13 @@ class RecordController extends Controller
                 $user_id = $data[0];
                 $numberOfEndo = $data[1];
                 $recruiter = $data[2];
+ 
                 Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])
                     ->update([
                         'is_deleted' => 1,
                     ]);
-                
+                $id = Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])->first();
+                Cipprogress::where(['candidate_id' => $user_id, 'endorsement_id' => $id->id])->delete();
                 return response()->json(['success' => true, 'message' => 'Record Deleted Succesfully!']);
             }
         } catch (\Exception$e) {

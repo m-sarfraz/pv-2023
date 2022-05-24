@@ -737,7 +737,7 @@
                                                                     <label class="Label-00">
                                                                         Reason for not progressing:
                                                                     </label>
-                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
+                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp" disabled
                                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                                         <option selected disabled>Select Option</option>
 

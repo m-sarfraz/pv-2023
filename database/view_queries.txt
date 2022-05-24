@@ -4,35 +4,37 @@ smart view
 
 
 CREATE VIEW smart_view AS
-SELECT candidate_informations.last_name,users.name as recruiter,endorsements.client,candidate_informations.gender,candidate_domains.domain,endorsements.saved_by,
+SELECT candidate_informations.last_name, endorsements.client,candidate_informations.gender,candidate_domains.domain,endorsements.saved_by,
 candidate_positions.candidate_profile,candidate_educations.educational_attain,candidate_positions.curr_salary,candidate_domains.date_shifted,endorsements.career_endo,endorsements.status,
-endorsements.endi_date,endorsements.remarks_for_finance,finance.srp,candidate_informations.address,finance.onboardnig_date,finance.placement_fee,
+endorsements.endi_date,endorsements.remarks_for_finance,endorsements.id as endorsement_id,
+finance.srp,candidate_informations.address,finance.onboardnig_date,finance.placement_fee,
 candidate_informations.email,candidate_informations.phone,endorsements.position_title,endorsements.category, candidate_informations.id as candidate_id
 FROM candidate_informations
-JOIN endorsements on endorsements.candidate_id = candidate_informations.id
-JOIN users on endorsements.saved_by = users.id
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
 JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
 JOIN candidate_educations on candidate_informations.id = candidate_educations.candidate_id
-JOIN finance on candidate_informations.id = finance.candidate_id
+JOIN endorsements on endorsements.candidate_id = candidate_informations.id
+JOIN finance on endorsements.id = finance.endorsement_id
+WHERE endorsements.is_deleted = 0
 
------------------------
+----------------------
 View record
 ----------------------
 
 
 CREATE VIEW view_record AS
-SELECT users.name as recruiter, candidate_informations.last_name,candidate_informations.id as cid,
+SELECT users.name as recruiter, candidate_informations.last_name,candidate_informations.id as cid, 
+ candidate_informations.middle_name, candidate_informations.first_name,
 candidate_positions.candidate_profile,candidate_domains.sub_segment,candidate_positions.curr_salary,
 candidate_positions.exp_salary,candidate_domains.segment, 
-endorsements.app_status,endorsements.timestamp,endorsements.numberOfEndo,endorsements.client,
+endorsements.app_status,endorsements.timestamp,endorsements.numberOfEndo,endorsements.client,endorsements.is_deleted,
 endorsements.endi_date, endorsements.career_endo,endorsements.saved_by
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
 JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
 JOIN endorsements on candidate_informations.id = endorsements.candidate_id
-JOIN users on endorsements.saved_by = users.id;
-
+JOIN users on endorsements.saved_by = users.id
+WHERE endorsements.is_deleted = 0
 
 -----------------------
 finance view
@@ -41,7 +43,7 @@ finance view
 
 CREATE VIEW finance_view AS select   candidate_informations.id  as  cid , 
  endorsements.saved_by ,  candidate_informations.reprocess ,endorsements.numberOfEndo,
- candidate_informations.last_name ,  finance.onboardnig_date ,  finance.placement_fee ,  
+ candidate_informations.last_name ,  finance.onboardnig_date , finance_detail.placementFee,  
  endorsements.remarks_for_finance ,  endorsements.app_status , finance.id as fid,finance.endorsement_id as e_id,
  endorsements.career_endo ,  endorsements.client  ,endorsements.remarks,finance_detail.process_status
 from  candidate_informations  
@@ -49,7 +51,19 @@ JOIN  endorsements  on  candidate_informations.id  =  endorsements.candidate_id
 JOIN  finance  on  endorsements.id  =  finance.endorsement_id  
 JOIN  finance_detail  on  finance.id  =  finance_detail.finance_id  
 where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded')
+WHERE endorsements.is_deleted = 0
 
+---------------------------------------
+update query finance view
+ --------------------------------
+CREATE VIEW finance_view AS select   candidate_informations.id  as  cid , 
+  candidate_informations.reprocess , e.saved_by,e.id,e.numberOfEndo,e.is_deleted,e.remarks_for_finance,e.app_status,e.remarks,e.client,e.career_endo,e.candidate_id,
+ candidate_informations.last_name ,  finance.onboardnig_date ,  finance_detail.placementFee ,  finance.id as fid,finance.endorsement_id as e_id,finance_detail.process_status
+from  candidate_informations  
+JOIN (SELECT id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
+JOIN  finance  on  e.id  =  finance.endorsement_id  
+JOIN  finance_detail  on  finance.id  =  finance_detail.finance_id  
+where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded');
 
 -----------------------
 six table view
@@ -67,7 +81,7 @@ endorsements.career_endo,endorsements.rfp,endorsements.segment_endo,endorsements
 endorsements.remarks_for_finance,endorsements.status as endostatus,candidate_educations.educational_attain,
 candidate_educations.course,candidate_educations.certification,finance.endorsement_id,finance.remarks_recruiter,
 finance.onboardnig_date,finance.invoice_number,finance.client_finance,finance.career_finance,finance.rate,
-finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance.placement_fee,finance.allowance,
+finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance_detail.placementFee,finance.allowance,
 finance_detail.c_take,finance_detail.vcc_amount,finance_detail.finalFee,finance_detail.process_status,
 users.id as UserID,users.name as recruiter,
 candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id
@@ -79,7 +93,7 @@ JOIN candidate_educations on endorsements.candidate_id = candidate_educations.ca
 JOIN finance on candidate_educations.candidate_id = finance.candidate_id
 JOIN finance_detail on finance.candidate_id = finance_detail.candidate_id
 JOIN users on endorsements.saved_by = users.id;
-
+WHERE endorsements.is_deleted = 0
 
 -----------------------
 Data extract view
@@ -107,15 +121,16 @@ JOIN candidate_educations on endorsements.candidate_id = candidate_educations.ca
 JOIN finance on candidate_educations.candidate_id = finance.candidate_id
 JOIN finance_detail on finance.candidate_id = finance_detail.candidate_id
 JOIN users on endorsements.saved_by = users.id;
-
+WHERE endorsements.is_deleted = 0
 
 --------------------------------------------------------------
 finance and endorsement view
 --------------------------------------------------------------
 CREATE VIEW endo_finance_view AS
 SELECT endorsements.*,   finance.t_id ,  finance.endorsement_id ,  finance.remarks_recruiter , 
- finance.onboardnig_date ,  finance.invoice_number ,  finance.client_finance ,  finance.career_finance ,  finance.rate ,  finance.Total_bilable_ammount ,  finance.srp ,
+ finance.onboardnig_date , finance.id as f_id,  finance.invoice_number ,  finance.client_finance ,  finance.career_finance ,  finance.rate ,  finance.Total_bilable_ammount ,  finance.srp ,
   finance.offered_salary ,  finance.placement_fee ,  finance.allowance 
 
 FROM endorsements
 JOIN finance on endorsements.id = finance.endorsement_id;
+WHERE endorsements.is_deleted = 0
