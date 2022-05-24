@@ -419,13 +419,14 @@ class RecordController extends Controller
                 $user_id = $data[0];
                 $numberOfEndo = $data[1];
                 $recruiter = $data[2];
- 
+
                 Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])
                     ->update([
                         'is_deleted' => 1,
                     ]);
                 $id = Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])->first();
                 Cipprogress::where(['candidate_id' => $user_id, 'endorsement_id' => $id->id])->delete();
+                Helper::save_log('CANDIDATE_DELETED');
                 return response()->json(['success' => true, 'message' => 'Record Deleted Succesfully!']);
             }
         } catch (\Exception$e) {

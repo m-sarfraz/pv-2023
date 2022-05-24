@@ -268,7 +268,9 @@ class SmartSearchController extends Controller
         //    return $this->candidate_arr;
         return Datatables::of($user)
             ->addColumn('recruiter', function ($Userdata) {
-                return (User::where('id', $Userdata->saved_by)->first('name'))->name;
+                $name = User::where('id', $Userdata->saved_by)->first();
+                return isset($name->name) ? $name->name : '';
+
 
             })
             ->addColumn('candidate', function ($Userdata) {
@@ -352,7 +354,7 @@ class SmartSearchController extends Controller
             })
             ->addColumn('saved_by', function ($user) {
                 $name = DB::select('select name from  users where id=' . $user->saved_by);
-                return $name[0]->name;
+                return isset($name[0]->name) ? $name[0]->name : '';
             })
             ->with([
                 'array' => $this->candidate_arr,

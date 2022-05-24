@@ -120,7 +120,7 @@ JOIN endorsements on candidate_domains.candidate_id = endorsements.candidate_id
 JOIN candidate_educations on endorsements.candidate_id = candidate_educations.candidate_id
 JOIN finance on candidate_educations.candidate_id = finance.candidate_id
 JOIN finance_detail on finance.candidate_id = finance_detail.candidate_id
-JOIN users on endorsements.saved_by = users.id;
+JOIN users on endorsements.saved_by = users.id
 WHERE endorsements.is_deleted = 0
 
 --------------------------------------------------------------
@@ -132,5 +132,5 @@ SELECT endorsements.*,   finance.t_id ,  finance.endorsement_id ,  finance.remar
   finance.offered_salary ,  finance.placement_fee ,  finance.allowance 
 
 FROM endorsements
-JOIN finance on endorsements.id = finance.endorsement_id;
+JOIN finance on endorsements.id = finance.endorsement_id
 WHERE endorsements.is_deleted = 0
