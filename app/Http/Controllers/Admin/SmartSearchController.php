@@ -40,6 +40,7 @@ class SmartSearchController extends Controller
         $address = DB::Select("select address from candidate_informations where  address!='' group by address");
         $remarks = Helper::get_dropdown('remarks_for_finance');
         $status = Helper::get_dropdown('data_entry_status');
+        $portal = Helper::get_dropdown('source');
 
         // close
         return response()->json(
@@ -50,6 +51,7 @@ class SmartSearchController extends Controller
                 'address' => $address,
                 'status' => $status,
                 'remarks' => $remarks,
+                'portal' => $portal,
             ]
         );
     }
@@ -62,6 +64,11 @@ class SmartSearchController extends Controller
         $allData = DB::select('select * from smart_view limit 100');
         return Datatables::of($allData)
         // ->addIndexColumn()
+            ->addColumn('array', function ($allData) {
+
+                return $allData->candidate_id . '-' . $allData->endorsement_id;
+                // return $allData->recruiter;
+            })
             ->addColumn('recruiter', function ($allData) {
                 $name = User::where('id', $allData->saved_by)->first();
                 return isset($name->name) ? $name->name : '';
@@ -100,7 +107,7 @@ class SmartSearchController extends Controller
                 return $allData->curr_salary;
             })
             ->addColumn('portal', function ($allData) {
-                return "N/A";
+                return $allData->source;
             })
             ->addColumn('date_shifted', function ($allData) {
                 if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
@@ -240,6 +247,9 @@ class SmartSearchController extends Controller
         if (isset($request->remarks)) {
             $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
         }
+        if (isset($request->portal)) {
+            $Userdata->whereIn('smart_view.source', $request->portal);
+        }
         if (isset($request->ob_start)) {
             $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
         }
@@ -267,14 +277,16 @@ class SmartSearchController extends Controller
         }
         //    return $this->candidate_arr;
         return Datatables::of($user)
-            ->addColumn('recruiter', function ($Userdata) {
-                $name = User::where('id', $Userdata->saved_by)->first();
+            ->addColumn('array', function ($allData) {
+                return $allData->candidate_id . '-' . $allData->endorsement_id;
+            })
+            ->addColumn('recruiter', function ($allData) {
+                $name = User::where('id', $allData->saved_by)->first();
                 return isset($name->name) ? $name->name : '';
 
-
             })
-            ->addColumn('candidate', function ($Userdata) {
-                return $Userdata->last_name;
+            ->addColumn('candidate', function ($allData) {
+                return $allData->last_name;
             })
             ->addColumn('client', function ($user) {
                 return $user->client;
@@ -288,72 +300,72 @@ class SmartSearchController extends Controller
             ->addColumn('phone', function ($allData) {
                 return $allData->phone;
             })
-            ->addColumn('gender', function ($user) {
-                return $user->gender;
+            ->addColumn('gender', function ($allData) {
+                return $allData->gender;
             })
-            ->addColumn('domain', function ($user) {
-                return $user->domain;
+            ->addColumn('domain', function ($allData) {
+                return $allData->domain;
             })
-            ->addColumn('candidate_profile', function ($user) {
-                return $user->candidate_profile;
+            ->addColumn('candidate_profile', function ($allData) {
+                return $allData->candidate_profile;
             })
-            ->addColumn('educational_attain', function ($user) {
-                return $user->educational_attain;
+            ->addColumn('educational_attain', function ($allData) {
+                return $allData->educational_attain;
             })
-            ->addColumn('curr_salary', function ($user) {
-                return $user->curr_salary;
+            ->addColumn('curr_salary', function ($allData) {
+                return $allData->curr_salary;
             })
-            ->addColumn('portal', function ($user) {
-                return "N/A";
+            ->addColumn('portal', function ($allData) {
+                return $allData->source;
             })
-            ->addColumn('date_shifted', function ($user) {
-                if (!empty($user->date_shifted && $user->date_shifted != '0000-00-00')) {
-                    $date_shifted = date_format(date_create($user->date_shifted), "m-d-Y");
+            ->addColumn('date_shifted', function ($allData) {
+                if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
+                    $date_shifted = date_format(date_create($allData->date_shifted), "m-d-Y");
                     return $date_shifted;
                 } else {
-                    $user->date_shifted = '';
+                    $allData->date_shifted = '';
                 }
             })
-            ->addColumn('career_endo', function ($user) {
-                return $user->career_endo;
+            ->addColumn('career_endo', function ($allData) {
+                return $allData->career_endo;
             })
-            ->addColumn('app_status', function ($user) {
-                return $user->status;
+            ->addColumn('app_status', function ($allData) {
+                return $allData->status;
             })
-            ->addColumn('endi_date', function ($user) {
-                if (!empty($user->endi_date && $user->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($user->endi_date), "m-d-Y");
+            ->addColumn('endi_date', function ($allData) {
+                if (!empty($allData->endi_date && $allData->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($allData->endi_date), "m-d-Y");
                     return $endi_date;
                 } else {
-                    $user->endi_date = '';
+                    $allData->endi_date = '';
                 }
             })
-            ->addColumn('remarks_for_finance', function ($user) {
-                return $user->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($allData) {
+                return $allData->remarks_for_finance;
             })
-            ->addColumn('category', function ($user) {
-                return $user->category;
+            ->addColumn('category', function ($allData) {
+                return $allData->category;
 
             })
-            ->addColumn('srp', function ($user) {
-                return $user->srp;
+            ->addColumn('srp', function ($allData) {
+                return $allData->srp;
             })
-            ->addColumn('onboardnig_date', function ($user) {
-                if (!empty($user->onboardnig_date && $user->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
+            ->addColumn('onboardnig_date', function ($allData) {
+                if (!empty($allData->onboardnig_date && $allData->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($allData->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $user->onboardnig_date = '';
+                    $allData->onboardnig_date = '';
                 }
             })
-            ->addColumn('placement_fee', function ($user) {
-                return $user->placement_fee;
+            ->addColumn('placement_fee', function ($allData) {
+                return $allData->placement_fee;
             })
-            ->addColumn('address', function ($user) {
-                return $user->address;
+            ->addColumn('address', function ($allData) {
+                return $allData->address;
             })
-            ->addColumn('saved_by', function ($user) {
-                $name = DB::select('select name from  users where id=' . $user->saved_by);
+            ->addColumn('saved_by', function ($allData) {
+                $name = DB::select('select name from  users where id=' . $allData->saved_by);
                 return isset($name[0]->name) ? $name[0]->name : '';
             })
             ->with([
@@ -437,7 +449,6 @@ class SmartSearchController extends Controller
         }
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
         $sql1 = Str::replaceArray('?', $Userdata1->getBindings(), $Userdata1->toSql());
-        // return $sql;
         if (strpos($sql, 'where') !== false) {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
             $sql_enors = $sql . "and endorsements.app_status='To Be Endorsed' and endorsements.is_deleted='0'  ";

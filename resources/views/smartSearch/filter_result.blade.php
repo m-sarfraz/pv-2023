@@ -3,6 +3,7 @@
     <table id="smTable1" class="table">
    <thead class="bg-light w-100">
        <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+        <th class="ant-table-cell">secret-id</th>
         <th class="ant-table-cell">Recruiter</th>
         <th class="ant-table-cell">Candidate</th>
         <th class="ant-table-cell">Client</th>

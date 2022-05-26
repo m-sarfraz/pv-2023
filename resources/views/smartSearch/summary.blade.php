@@ -1,5 +1,7 @@
 <p class="C-Heading pt-3">Summary:</p>
 <div class="card mb-13">
+    <div id="loader3"></div>
+
     <div class="card-body">
         <form action="">
             <fieldset>

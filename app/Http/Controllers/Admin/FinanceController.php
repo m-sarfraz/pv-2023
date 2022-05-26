@@ -108,10 +108,10 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.remarks_for_finance', $request->remarks);
         }
         if (isset($request->ob_date)) {
-            $Userdata->whereDate('finance_view.onboardnig_date', '>', $request->ob_date);
+            $Userdata->whereDate('finance_view.onboardnig_date', '>=', $request->ob_date);
         }
         if (isset($request->toDate)) {
-            $Userdata->whereDate('finance_view.onboardnig_date', '<', $request->toDate);
+            $Userdata->whereDate('finance_view.onboardnig_date', '<=', $request->toDate);
         }
 
         if (isset($request->process)) {

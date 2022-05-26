@@ -5,7 +5,7 @@ smart view
 
 CREATE VIEW smart_view AS
 SELECT candidate_informations.last_name, endorsements.client,candidate_informations.gender,candidate_domains.domain,endorsements.saved_by,
-candidate_positions.candidate_profile,candidate_educations.educational_attain,candidate_positions.curr_salary,candidate_domains.date_shifted,endorsements.career_endo,endorsements.status,
+candidate_positions.candidate_profile,candidate_educations.educational_attain,candidate_positions.source,candidate_positions.curr_salary,candidate_domains.date_shifted,endorsements.career_endo,endorsements.status,
 endorsements.endi_date,endorsements.remarks_for_finance,endorsements.id as endorsement_id,
 finance.srp,candidate_informations.address,finance.onboardnig_date,finance.placement_fee,
 candidate_informations.email,candidate_informations.phone,endorsements.position_title,endorsements.category, candidate_informations.id as candidate_id

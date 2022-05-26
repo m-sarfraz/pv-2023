@@ -17,7 +17,10 @@
             width: fit-content;
             margin-left: auto;
         }
-
+        .hideID:first-child,
+        .hidetrID tr td:first-child {
+            display: none !important;
+        }
         #smTable_filter {
             visibility: hidden;
         }
@@ -25,10 +28,17 @@
         #smTable1_filter {
             visibility: hidden;
         }
-        .smartSearchHeight{ height: 87.5%; }
-        @media only screen and (max-width: 600px) {
-            .smartSearchHeight { height: auto !important; }
+
+        .smartSearchHeight {
+            height: 87.5%;
         }
+
+        @media only screen and (max-width: 600px) {
+            .smartSearchHeight {
+                height: auto !important;
+            }
+        }
+
     </style>
 @endsection
 
@@ -107,10 +117,8 @@
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
                                         <label class="Label">Portal</label>
-                                        <select name="portal" id="portal" class="w-100 form-control"
-                                            onchange="FilterSearch()">
-                                            <option value="1">All</option>
-
+                                        <select multiple name="portal" required="" id="portal" onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
                                         </select>
                                     </div>
                                 </div>
@@ -217,8 +225,9 @@
             </div>
             <div class="col-lg-5" id="summaryDiv">
                 <p class="C-Heading pt-3">Summary:</p>
+                <div id="loader3"></div>
                 <div class="card mb-13">
-                    <div id="loader1" style="display: block;"></div>
+                    {{-- <div id="loader1" style="display: block;"></div> --}}
                     <div class="card-body">
                         <form action="">
                             <fieldset>
@@ -389,6 +398,7 @@
                         <table id="smTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
+                                    <th class="ant-table-cell hideID">secret-id</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Client</th>
@@ -421,7 +431,7 @@
 
 
                 </div>
-            </div>    
+            </div>
         </div>
 
     </div>
@@ -492,6 +502,11 @@
                         $('#remarks').append('<option value="' + res.remarks.options[i].option_name + '">' + res
                             .remarks.options[i].option_name + '</option>')
                     }
+                    for (let i = 0; i < res.portal.options.length; i++) {
+                        $('#portal').append('<option value="' + res.portal.options[i].option_name + '">' + res
+                            .portal.options[i].option_name + '</option>')
+                    }
+
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -503,7 +518,7 @@
         // ajax call for view append
         function summaryAppendAjax(array) {
             array = array;
-            // $('#loader1').show();
+            $('#loader3').show();
             $.ajax({
                 type: "GET",
                 url: '{{ url('admin/summaryAppend') }}',
@@ -515,7 +530,7 @@
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html(data);
-                    $('#loader1').hide();
+                    $('#loader3').hide();
 
                 },
             });
@@ -525,7 +540,8 @@
 
         // function for filtering the data according to selected input starts
         function FilterSearch() {
-
+            // empty search so it can not effect result and summary 
+            $('#searchKeyword').val('')
             // get values of selected inputs of users
             domain = $('#domain').val();
             recruiter = $('#recruiter').val();
@@ -541,6 +557,7 @@
             ob_end = $('#ob_end').val();
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
+            portal = $('#portal').val();
             // $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
@@ -575,11 +592,15 @@
                         ob_end: ob_end,
                         sift_start: sift_start,
                         sift_end: sift_end,
+                        portal: portal,
                         // searchKeyword: searchKeyword,
                     },
                 },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
+                },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     summaryAppendAjax(json.array);
                     let tableID = $('#filterResult_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
@@ -590,6 +611,10 @@
                     }
                 },
                 columns: [{
+                        data: 'array',
+                        name: 'array'
+                    },
+                    {
                         data: 'recruiter',
                         name: 'recruiter'
                     },
@@ -689,10 +714,10 @@
             // summaryAppendAjax()
         }
         // close 
-
+        var option_table = "";
         //start yajra table load 
         function load_datatable() {
-            var option_table = $('#smTable').DataTable({
+            option_table = $('#smTable').DataTable({
                 destroy: true,
                 processing: true,
                 serverSide: false,
@@ -704,8 +729,11 @@
                     url: "{{ route('view-smart-search-table') }}",
                     type: "GET",
                 },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
+                },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filterResult_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -715,6 +743,9 @@
                     }
                 },
                 columns: [{
+                        data: 'array',
+                        name: 'array'
+                    }, {
                         data: 'recruiter',
                         name: 'recruiter'
                     },
@@ -823,6 +854,28 @@
 
         // oninput append value in yajra table 
         $('#searchKeyword').on('input', function() {
+            $('#loader3').show();
+            option_table.page.len(-1).draw();
+            setTimeout(() => {
+                test = document.getElementsByClassName('id');
+                var obj = {};
+                for (let item of test) {
+                    var tdValue = item.children[0].innerText;
+                    array = tdValue.split("-");
+                    value = array[0];
+                    key = array[1];
+                    obj = {
+                        ...obj,
+                        [key]: value
+                    };
+                }
+                summaryAppendAjax(obj)
+            }, 2000);
+            // console.log(obj);
+            // $('#searchKeyword').trigger('input');
+
+            // append summary after passing the curetn candidate array for calculations 
+
             $('#smTable_filter').children().children().val($('#searchKeyword').val());
             $('#smTable_filter').children().children().trigger('input');
             $('#smTable1_filter').children().children().val($('#searchKeyword').val());
