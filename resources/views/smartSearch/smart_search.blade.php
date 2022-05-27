@@ -17,10 +17,12 @@
             width: fit-content;
             margin-left: auto;
         }
+
         .hideID:first-child,
         .hidetrID tr td:first-child {
             display: none !important;
         }
+
         #smTable_filter {
             visibility: hidden;
         }
@@ -537,6 +539,7 @@
         }
 
         select2Dropdown("select2_dropdown");
+        var option_table = "";
 
         // function for filtering the data according to selected input starts
         function FilterSearch() {
@@ -564,7 +567,7 @@
             } else {
                 cip = 0;
             }
-            var option_table = $('#smTable').DataTable({
+            option_table = $('#smTable').DataTable({
                 destroy: true,
                 processing: true,
                 serverSide: false,
@@ -714,7 +717,6 @@
             // summaryAppendAjax()
         }
         // close 
-        var option_table = "";
         //start yajra table load 
         function load_datatable() {
             option_table = $('#smTable').DataTable({
@@ -853,7 +855,7 @@
         // }, 2000);
 
         // oninput append value in yajra table 
-        $('#searchKeyword').on('input', function() {
+        $('#searchKeyword').on('change', function() {
             $('#loader3').show();
             option_table.page.len(-1).draw();
             setTimeout(() => {
@@ -870,9 +872,13 @@
                     };
                 }
                 summaryAppendAjax(obj)
+                setTimeout(() => {
+                    $('#smTable_length').children().children().val('10');
+                    $('#smTable_length').children().children().change();
+                    // $('#searchKeyword').trigger('input');
+                }, 1000);
             }, 2000);
             // console.log(obj);
-            // $('#searchKeyword').trigger('input');
 
             // append summary after passing the curetn candidate array for calculations 
 

@@ -178,8 +178,9 @@
     activeSPR = {!! $activeSPR !!}
     salary = {!! $salary !!}
     spr = {!! $spr !!}
-    $('#sifted').val($('#foundRecord').val());
-    avgSalary = Math.round(salary / endo);
+    total = {!! $total !!}
+    $('#sifted').val(total);
+    avgSalary = Math.round(salary / total   );
     $('#endo').val(endo);
     $('#active').val(active);
     $('#onBoarded').val(onBoarded);

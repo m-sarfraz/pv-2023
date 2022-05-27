@@ -444,10 +444,12 @@ class SmartSearchController extends Controller
                 'spr' => 0,
                 'activeSPR' => 0,
                 'salary' => 0,
+                'total' => 0,
             ];
             return view('smartSearch.summary', $data);
         }
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        $total = count($Userdata->where('endorsements.is_deleted', '0')->get());
         $sql1 = Str::replaceArray('?', $Userdata1->getBindings(), $Userdata1->toSql());
         if (strpos($sql, 'where') !== false) {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
@@ -468,7 +470,7 @@ class SmartSearchController extends Controller
             $active_spr = DB::select($sql1);
             $sql_getActive_spr = DB::select($sql_active_spr);
         } else {
-            $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
+            $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0' group by endorsements.candidate_id ");
             $sql_active = $sql . "where endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
             $sql_enors = $sql . "where endorsements.app_status='To Be Endorsed' and endorsements.is_deleted='0'  ";
             $sql_onboarded = $sql . "where endorsements.remarks_for_finance='Onboarded'and endorsements.is_deleted='0' ";
@@ -518,6 +520,7 @@ class SmartSearchController extends Controller
             'spr' => $sql_spr_amount,
             'activeSPR' => $sql_active_spr_amount,
             'salary' => $total_salary,
+            'total' => $total,
         ];
         return view('smartSearch.summary', $data);
     }
