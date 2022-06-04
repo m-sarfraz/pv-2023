@@ -2,7 +2,8 @@
     <table id="fmtable1" class="table ">
         <thead class="bg-light w-100">
             <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                <th class="ant-table-cell hideID">id</th>
+                <th class="ant-table-cell hideIDTh">secret-id</th>
+                <th class="ant-table-cell hideIDTh">id</th>
                 <th class="ant-table-cell">Team</th>
                 <th class="ant-table-cell">Recruiter</th>
                 <th class="ant-table-cell">Client</th>
@@ -25,7 +26,7 @@
         // $(this).css('background-color','red')
         $('tr').removeClass('hover-primary1');
         $(this).addClass('hover-primary1');
-        let tdVal = $(this).children()[0];
+        let tdVal = $(this).children()[1];
         var id = tdVal.innerHTML
         // console.log('id is ' + id)
         userDetail(this, id)

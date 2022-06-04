@@ -14,8 +14,8 @@
                                     
                                     $user = Auth::user();
                                     /*if($user->image != ""){
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $image  =   $user->image;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }else{*/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        $image  =   $user->image;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }else{*/
                                     // $image = 'assets/image/profile/profile.png';
                                     //}
                                     ?>
@@ -70,254 +70,262 @@
             </div>
         </div>
     </div>
-
-    <div class="container-fluid container_FluidSheets my-5">
+    @if (\Auth::user()->type == 1)
         <div class="row">
-            <div class="col-lg-6">
-                <p class="C-Heading">Connect Sheets Standard</p>
-                <div class="card">
-                    <div class="card-body">
-                        <!-- load sheet start -->
-                        <div
-                            class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
-                            <div class="col-sm-12 col-md-6">
-                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Connect Google Sheet
-                                </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
-                                        style="color:red">*</span> </span>
-                                @if (session()->has('message-live'))
-                                    <div class="alert alert-success">
-                                        {{ session()->get('message-live') }}
-                                    </div>
-                                @endif
-                                @if (session()->has('error-live'))
-                                    <div class="alert alert-danger">
-                                        {{ session()->get('error-live') }}
-                                    </div>
-                                @endif
-                                <!-- <form class="C_To_GS"> -->
-                                {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
-                                <div style="padding: 93px;" class="pb-3">
-                                    <img style="width: 68.75px; cursor: pointer" data-toggle="modal"
-                                        data-whatever="@getbootstrap" data-target="#exampleModal"
-                                        src="{{ asset('assets/image/profile/sheetImage.png') }}" />
-                                </div>
-
-                                {{-- </a> --}}
-                                <fieldset class="ml-10 mr-10 fieldSheet d-none">
-                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                        <div class="col-lg-8">
-                                            <div class="form-group">
-                                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                    Sheet Id
-                                                </label>
-                                                <input type="text" class="form-control h-px-48 connectchecker" id="sheetId"
-                                                    name="sheetId" placeholder="Enter Sheet ID" required />
+            <div class="container-fluid container_FluidSheets my-5">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p class="C-Heading">Connect Sheets Standard</p>
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- load sheet start -->
+                                <div
+                                    class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                            Click here to Connect Google Sheet
+                                        </label>
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                            records<span style="color:red">*</span> </span>
+                                        @if (session()->has('message-live'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('message-live') }}
                                             </div>
+                                        @endif
+                                        @if (session()->has('error-live'))
+                                            <div class="alert alert-danger">
+                                                {{ session()->get('error-live') }}
+                                            </div>
+                                        @endif
+                                        <!-- <form class="C_To_GS"> -->
+                                        {{-- <a href="{{URL('https://docs.google.com/spreadsheets/d/1Fx1cXd0JMkDJ7Y_dV0FFmJP8d1f1ZOqrg6YSvOHBYLA/edit#gid=0')}}"> --}}
+                                        <div style="padding: 93px;" class="pb-3">
+                                            <img style="width: 68.75px; cursor: pointer" data-toggle="modal"
+                                                data-whatever="@getbootstrap" data-target="#exampleModal"
+                                                src="{{ asset('assets/image/profile/sheetImage.png') }}" />
                                         </div>
-                                    </div>
 
-                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                        <div class="col-lg-8">
-                                            <div class="mt-2">
-                                                <div class="form-group">
-                                                    <input type="button" value="Connect"
-                                                        class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase"
-                                                        type="submit" />
+                                        {{-- </a> --}}
+                                        <fieldset class="ml-10 mr-10 fieldSheet d-none">
+                                            <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                <div class="col-lg-8">
+                                                    <div class="form-group">
+                                                        <label
+                                                            class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                            Sheet Id
+                                                        </label>
+                                                        <input type="text" class="form-control h-px-48 connectchecker"
+                                                            id="sheetId" name="sheetId" placeholder="Enter Sheet ID"
+                                                            required />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+                                            <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                <div class="col-lg-8">
+                                                    <div class="mt-2">
+                                                        <div class="form-group">
+                                                            <input type="button" value="Connect"
+                                                                class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase"
+                                                                type="submit" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <!-- </form> -->
                                     </div>
-                                </fieldset>
-                                <!-- </form> -->
+                                    <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
+                                        <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                            Click here to Upload CSV Files
+                                        </label>
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                            records<span style="color:red">*</span> </span>
+                                        @if (session()->has('message'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('message') }}
+                                            </div>
+                                        @endif
+                                        @if (session()->has('error-local-sdb'))
+                                            <div class="alert alert-danger">
+                                                {{ session()->get('error-local-sdb') }}
+                                            </div>
+                                        @endif
+                                        <form action="{{ route('save-excel') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
+                                                data-target="#exampleModal_2">
+                                                <img style="width: 105px; cursor: pointer"
+                                                    src="{{ asset('assets/image/profile/cloud.png') }}" />
+                                            </div>
+                                            <fieldset class="ml-20 showExcelfield fieldSheet ">
+
+                                                <!-- Button trigger modal -->
+
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal_2" tabindex="-1"
+                                                    aria-labelledby="exampleModal_2" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-body">
+                                                                <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                    <div class="col-lg-12">
+                                                                        <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                                class="bi bi-file-earmark-spreadsheet-fill"></i>Upload
+                                                                            Csv File </h5>
+                                                                        <hr>
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                                Upload File
+                                                                            </label>
+                                                                            <input type="file" id="file"
+                                                                                class="form-control connectchecker"
+                                                                                accept=".csv" name="file" required />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                    <div class="col-lg-10 text-right p-0">
+                                                                        <div class="mt-2">
+                                                                            <div class="form-group">
+                                                                                <input type="submit" value="Upload"
+                                                                                    class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- load sheet end-->
+
+                                <LOADSHEET />
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN">
-                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload CSV Files
-                                </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
-                                        style="color:red">*</span> </span>
-                                @if (session()->has('message'))
-                                    <div class="alert alert-success">
-                                        {{ session()->get('message') }}
-                                    </div>
-                                @endif
-                                @if (session()->has('error-local-sdb'))
-                                    <div class="alert alert-danger">
-                                        {{ session()->get('error-local-sdb') }}
-                                    </div>
-                                @endif
-                                <form action="{{ route('save-excel') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div style="padding: 93px;" class="pb-3 Coud_icon" data-toggle="modal"
-                                        data-target="#exampleModal_2">
-                                        <img style="width: 105px; cursor: pointer"
-                                            src="{{ asset('assets/image/profile/cloud.png') }}" />
-                                    </div>
-                                    <fieldset class="ml-20 showExcelfield fieldSheet ">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <p class="C-Heading">Connect Sheets JDL</p>
+                        <div class="card">
+                            <div class="card-body">
 
-                                        <!-- Button trigger modal -->
+                                <!-- load sheetJDL start-->
+                                <div
+                                    class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
+                                    <div class="col-sm-12 col-md-6">
+                                        <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                            Click here to Connect Google Sheet
+                                        </label>
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                            records<span style="color:red">*</span> </span>
 
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal_2" tabindex="-1"
-                                            aria-labelledby="exampleModal_2" aria-hidden="true">
+                                        @if (session()->has('JDL_SHEET_IMPORTED'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('JDL_SHEET_IMPORTED') }}
+                                            </div>
+                                        @endif
+                                        @if (session()->has('error-jdl-sheet'))
+                                            <div class="alert alert-danger">
+                                                {{ session()->get('error-jdl-sheet') }}
+                                            </div>
+                                        @endif
+                                        <div style="padding: 93px;" class="pb-3">
+                                            <img style="width: 68.75px; cursor: pointer"
+                                                src="{{ asset('assets/image/profile/sheetImage.png') }}"
+                                                onclick="showFieldJDL(this)" data-toggle="modal"
+                                                data-whatever="@getbootstrap" data-target="#jdlModal" />
+                                        </div>
+                                        <div class="modal fade" id="jdlModal" tabindex="-1" aria-labelledby="jdlModal"
+                                            aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
 
                                                     <div class="modal-body">
-                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                            <div class="col-lg-12">
-                                                                <h5 class="modal-title" id="exampleModalLabel"><i
-                                                                        class="bi bi-file-earmark-spreadsheet-fill"></i>Upload
-                                                                    Csv File </h5>
-                                                                <hr>
-                                                                <div class="form-group">
-                                                                    <label
-                                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                        Upload File
-                                                                    </label>
-                                                                    <input type="file" id="file"
-                                                                        class="form-control connectchecker" accept=".csv"
-                                                                        name="file" required />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                            <div class="col-lg-10 text-right p-0">
-                                                                <div class="mt-2">
+                                                        <form action="{{ Route('connect_to_jdl_sheet') }}" method="post">
+                                                            @csrf
+                                                            @method('post')
+                                                            <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                <div class="col-lg-12">
+                                                                    <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                            class="bi bi-file-earmark-spreadsheet-fill"></i>connect
+                                                                        To JDL Sheet </h5>
+                                                                    <hr>
                                                                     <div class="form-group">
-                                                                        <input type="submit" value="Upload"
-                                                                            class="btn btn-success btn-h-40 text-white min-width-px-110 rounded-5 text-uppercase" />
+                                                                        <label
+                                                                            class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                                            GoogleSheet ID:
+                                                                        </label>
+                                                                        <input type="text" id="jdl_sheet_id"
+                                                                            class="form-control" name="jdl_sheet_id"
+                                                                            required />
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                            <div class="row mb-xl-1 mb-9 justify-content-center">
+                                                                <div class="col-lg-10 text-right p-0">
+                                                                    <div class="mt-2">
+                                                                        <div class="form-group">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close</button>
+
+                                                                            <input type="submit" value="Upload"
+                                                                                class="btn btn-primary Connect" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
 
-                        <!-- load sheet end-->
-
-                        <LOADSHEET />
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <p class="C-Heading">Connect Sheets JDL</p>
-                <div class="card">
-                    <div class="card-body">
-
-                        <!-- load sheetJDL start-->
-                        <div
-                            class=" row contact-form bg-white  pl-sm-10 pl-4 pr-sm-11 pr-4 pt-15 pb-13 d-flex justify-content-between">
-                            <div class="col-sm-12 col-md-6">
-                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Connect Google Sheet
-                                </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
-                                        style="color:red">*</span> </span>
-
-                                @if (session()->has('JDL_SHEET_IMPORTED'))
-                                    <div class="alert alert-success">
-                                        {{ session()->get('JDL_SHEET_IMPORTED') }}
                                     </div>
-                                @endif
-                                @if (session()->has('error-jdl-sheet'))
-                                    <div class="alert alert-danger">
-                                        {{ session()->get('error-jdl-sheet') }}
-                                    </div>
-                                @endif
-                                <div style="padding: 93px;" class="pb-3">
-                                    <img style="width: 68.75px; cursor: pointer"
-                                        src="{{ asset('assets/image/profile/sheetImage.png') }}"
-                                        onclick="showFieldJDL(this)" data-toggle="modal" data-whatever="@getbootstrap"
-                                        data-target="#jdlModal" />
-                                </div>
-                                <div class="modal fade" id="jdlModal" tabindex="-1" aria-labelledby="jdlModal"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-
-                                            <div class="modal-body">
-                                                <form action="{{ Route('connect_to_jdl_sheet') }}" method="post">
-                                                    @csrf
-                                                    @method("post")
-                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                        <div class="col-lg-12">
-                                                            <h5 class="modal-title" id="exampleModalLabel"><i
-                                                                    class="bi bi-file-earmark-spreadsheet-fill"></i>connect
-                                                                To JDL Sheet </h5>
-                                                            <hr>
-                                                            <div class="form-group">
-                                                                <label
-                                                                    class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                                                    GoogleSheet ID:
-                                                                </label>
-                                                                <input type="text" id="jdl_sheet_id" class="form-control"
-                                                                    name="jdl_sheet_id" required />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-xl-1 mb-9 justify-content-center">
-                                                        <div class="col-lg-10 text-right p-0">
-                                                            <div class="mt-2">
-                                                                <div class="form-group">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close</button>
-
-                                                                    <input type="submit" value="Upload"
-                                                                        class="btn btn-primary Connect" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                    <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal"
+                                        data-target="#JDLExcel">
+                                        <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                            Click here to Upload CSV File
+                                        </label>
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                            records<span style="color:red">*</span> </span>
+                                        @if (session()->has('CSV_FILE_UPLOADED_JDL'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('CSV_FILE_UPLOADED_JDL') }}
                                             </div>
-
+                                        @endif
+                                        @if (session()->has('error-jdl-sheet-local'))
+                                            <div class="alert alert-danger">
+                                                {{ session()->get('error-jdl-sheet-local') }}
+                                            </div>
+                                        @endif
+                                        <div style="padding: 93px;" class="pb-3 Coud_icon">
+                                            <img style="width: 105px; cursor: pointer"
+                                                src="{{ asset('assets/image/profile/cloud.png') }}"
+                                                onclick="showFieldJDL(this)" />
                                         </div>
+
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6  CLOUD_ICONMAIN" data-toggle="modal"
-                                data-target="#JDLExcel">
-                                <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
-                                    Click here to Upload CSV File
-                                </label>
-                                <span style="color:red; font-size:14px">Select sheet with maximum of 7000 records<span
-                                        style="color:red">*</span> </span>
-                                @if (session()->has('CSV_FILE_UPLOADED_JDL'))
-                                    <div class="alert alert-success">
-                                        {{ session()->get('CSV_FILE_UPLOADED_JDL') }}
-                                    </div>
-                                @endif
-                                @if (session()->has('error-jdl-sheet-local'))
-                                    <div class="alert alert-danger">
-                                        {{ session()->get('error-jdl-sheet-local') }}
-                                    </div>
-                                @endif
-                                <div style="padding: 93px;" class="pb-3 Coud_icon">
-                                    <img style="width: 105px; cursor: pointer"
-                                        src="{{ asset('assets/image/profile/cloud.png') }}"
-                                        onclick="showFieldJDL(this)" />
-                                </div>
-
+                                <!-- load sheetJDL end-->
                             </div>
                         </div>
-                        <!-- load sheetJDL end-->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

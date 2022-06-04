@@ -533,7 +533,7 @@
                 success: function(data) {
                     $('#summaryDiv').html(data);
                     $('#loader3').hide();
-
+                    test()
                 },
             });
         }
@@ -857,6 +857,9 @@
         // oninput append value in yajra table 
         $('#searchKeyword').on('change', function() {
             $('#loader3').show();
+            $("#loader").show();
+
+            // console.log(option_table.rows().data().toArray());
             option_table.page.len(-1).draw();
             setTimeout(() => {
                 test = document.getElementsByClassName('id');
@@ -876,8 +879,10 @@
                     $('#smTable_length').children().children().val('10');
                     $('#smTable_length').children().children().change();
                     // $('#searchKeyword').trigger('input');
-                }, 1000);
-            }, 2000);
+                    $("#loader").hide();
+
+                }, 100);
+            }, 1000);
             // console.log(obj);
 
             // append summary after passing the curetn candidate array for calculations 

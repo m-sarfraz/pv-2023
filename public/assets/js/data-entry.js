@@ -40,6 +40,7 @@ function RemarksChange(elem) {
 
     // enable and disable finance section on selected text of remarks for finance
     if (value.includes('accepted') || value.includes('Onboarded')) {
+
         $('#finance_fieldset').prop("disabled", false);
         $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
@@ -62,7 +63,7 @@ function RemarksChange(elem) {
 
         // $('#off_allowance').prop("disabled", true);
     }
-    if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard') || value.includes('Scheduled') || value.includes('Offer accepted')) {
+    if (value.includes('Offer') || value.includes('Reneged')|| value.includes('Onboarded')) {
         $('#off_allowance').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
     }
@@ -103,7 +104,6 @@ function RemarksChange(elem) {
     // on remarks for finance change shwo user input fields ends
 
 }
-
 // append selected salary and alloeance to finance portion starts
 function SalaryAppend(id) {
     var value = $('#remarks_finance').find(":selected").text().trim();

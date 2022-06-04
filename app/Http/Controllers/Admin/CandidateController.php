@@ -508,6 +508,7 @@ class CandidateController extends Controller
             $finance_detail->offered_salary = $request->OFFERED_SALARY_finance;
             $finance_detail->placementFee = $request->PLACEMENT_FEE;
             $finance_detail->allowance = $request->ALLOWANCE;
+            $finance_detail->rate_per = preg_replace('/%/', '', $request->RATE);
             $finance_detail->finance_id = $finance->id;
             $finance_detail->save();
 
@@ -1190,6 +1191,7 @@ class CandidateController extends Controller
                 'offered_salary' => $request->OFFERED_SALARY_finance,
                 'placementFee' => $request->PLACEMENT_FEE,
                 'allowance' => $request->ALLOWANCE,
+                'rate_per' =>  preg_replace('/%/', '', $request->RATE),
             ]);
             
             $array = [
@@ -1403,6 +1405,7 @@ class CandidateController extends Controller
                 $detail = null;
                 $detail_f = null;
                 $remarks_f = null;
+                $financeDetail = null;
             } else {
                 $endoID = $request->id;
                 $cid = explode(',', $request->user);
@@ -1410,11 +1413,13 @@ class CandidateController extends Controller
                     ->where(['numberOfEndo' => $endoID, 'candidate_id' => $cid[0], 'saved_by' => Auth::user()->id])->first();
                 $detail_f = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
                 $remarks_f = $detail_f->remarks;
+                $financeDetail = DB::table('finance_detail')->where('finance_id', $detail->f_id)->first();
             }
             $domainDrop = Domain::all();
             $segmentsDropDown = DB::table('segments')->get();
             $sub_segmentsDropDown = DB::table('sub_segments')->get();
             $data = [
+                'financeDetail' => $financeDetail,
                 'remarks_f' => $remarks_f,
                 'detail_f' => $detail_f,
                 'user' => $detail,

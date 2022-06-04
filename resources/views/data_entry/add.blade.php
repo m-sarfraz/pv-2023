@@ -2063,7 +2063,7 @@
                     $('#endo_date').prop("disabled", false);
                     $('#remarks_for_finance').prop("disabled", false);
                     $('#endo_type').prop("disabled", false);
-                    // $('#position').prop("disabled", false);
+                    $('#position').prop("disabled", false);
                     // $('#position').prop("disabled", false);
                     // $('#position').attr("readonly", true);
                     // $('#career').attr("readonly", true);
@@ -2246,7 +2246,7 @@
                             if ($(elem).val() == res.data[i].client) {
                                 if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
                                     $('#position').append(
-                                        `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                        `<option value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
                                     );
                                 }
                             }
@@ -2282,7 +2282,7 @@
             for (let i = 0; i < globalData.length; i++) {
                 if ($('#position').val() == globalData[i].p_title) {
                     $('#career').append(
-                        `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                        `<option value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
                     );
                 }
             }

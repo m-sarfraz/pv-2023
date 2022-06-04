@@ -257,11 +257,11 @@ class RecordController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            // $name = explode(" ", $request->first_name);
+            $name = explode(" ", $request->first_name);
             CandidateInformation::where('id', $c_id)->update([
-                'last_name' => $request->first_name,
-                // 'middle_name' => $name[1],
-                // 'last_name' => $name[2],
+                'first_name' => isset($name[0]) ? $name[0] : '',
+                'middle_name' => isset($name[1]) ? $name[1] : '',
+                'last_name' => isset($name[2]) ? $name[2] : '',
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,
@@ -386,7 +386,7 @@ class RecordController extends Controller
             ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->select('candidate_informations.id',
                 'candidate_informations.first_name', 'candidate_informations.last_name', 'candidate_informations.middle_name',
-                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),IFNULL(candidate_informations.middle_name ,'') ,IFNULL(candidate_informations.last_name,'')) as name"))
+                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,' '),' ',IFNULL(candidate_informations.middle_name ,' '),' ',IFNULL(candidate_informations.last_name,' ')) as name"))
             ->where('endorsements.is_deleted', 0)
             ->distinct()
             ->get();

@@ -19,6 +19,11 @@
             display: none !important;
         }
 
+        .hideID:first-child,
+        .hidetrID tr td:nth-child(2) {
+            display: none !important;
+        }
+
         .hidetrID tr:hover {
             background-color: rgb(159, 165, 243);
         }
@@ -29,6 +34,14 @@
 
         #fmtable1_filter {
             visibility: hidden;
+        }
+
+        .hideIDTh:nth-child(1) {
+            display: none;
+        }
+
+        .hideIDTh:nth-child(2) {
+            display: none;
         }
 
     </style>
@@ -215,7 +228,9 @@
                         <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell hideID">id</th>
+                                    <th class="ant-table-cell hideIDTh">secret-id</th>
+                                    {{-- <th class="ant-table-cell hideID">id</th> --}}
+                                    <th class="ant-table-cell hideIDTh">id</th>
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Client</th>
@@ -886,16 +901,16 @@
             // $(this).css('background-color','red')
             $('tr').removeClass('hover-primary1');
             $(this).addClass('hover-primary1');
-            let tdVal = $(this).children()[0];
+            let tdVal = $(this).children()[1];
             var id = tdVal.innerHTML
             console.log('id is ' + id)
             userDetail(this, id)
         })
         // close 
-
+        var option_table = '';
         // function for loading data in yajra on page load 
         function load_datatable() {
-            var option_table = $('#fmtable').DataTable({
+            option_table = $('#fmtable').DataTable({
                 destroy: true,
                 processing: true,
                 serverSide: false,
@@ -906,6 +921,9 @@
                 ajax: {
                     url: "{{ route('view-finance-search-table') }}",
                     type: "GET",
+                },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
@@ -918,6 +936,10 @@
                     }
                 },
                 columns: [{
+                        data: 'array',
+                        name: 'array'
+                    },
+                    {
                         data: 'id',
                         name: 'id'
                     },
@@ -975,8 +997,9 @@
                 .done(function(res) {
 
                     for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option value="' + res.candidates[i].cid + '">' + res.candidates[i]
-                            .last_name +
+                        $('#candidate').append('<option value="' + res.candidates[i].cid + '">' +
+                            res.candidates[i].first_name + ' ' + res.candidates[i].middle_name + ' ' + res
+                            .candidates[i].last_name +
                             '</option>')
                     }
                     for (let i = 0; i < res.candidates.length; i++) {
@@ -1031,7 +1054,7 @@
             client = $('#client').val();
             process = $('#process').val();
             ob_date = $('#ob_date').val();
-            var option_table = $('#fmtable1').DataTable({
+            option_table = $('#fmtable1').DataTable({
                 destroy: true,
                 processing: true,
                 serverSide: false,
@@ -1058,6 +1081,9 @@
                         process: process,
                     },
                 },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
+                },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
                     let tableID = $('#filterData_div').children().children().attr('id')
@@ -1071,6 +1097,10 @@
                     appendSummary(json.array);
                 },
                 columns: [{
+                        data: 'array',
+                        name: 'array'
+                    },
+                    {
                         data: 'id',
                         name: 'id'
                     },
@@ -1168,7 +1198,30 @@
         // close
 
         // oninput append value in yajra table 
-        $('#searchKeyword').on('input', function() {
+        $('#searchKeyword').on('change', function() {
+            option_table.page.len(-1).draw();
+            setTimeout(() => {
+                test = document.getElementsByClassName('id');
+                var obj = {};
+                for (let item of test) {
+                    var tdValue = item.children[0].innerText;
+                    array = tdValue.split("-");
+                    value = array[0];
+                    key = array[1];
+                    obj = {
+                        ...obj,
+                        [key]: value
+                    };
+                }
+                appendSummary(obj)
+                setTimeout(() => {
+                    $('#fmtable_length').children().children().val('10');
+                    $('#fmtable_length').children().children().change();
+                    // $('#searchKeyword').trigger('input');
+                    $("#loader").hide();
+
+                }, 100);
+            }, 1000);
             $('#fmtable_filter').children().children().val($('#searchKeyword').val());
             $('#fmtable_filter').children().children().trigger('input');
             $('#fmtable1_filter').children().children().val($('#searchKeyword').val());
@@ -1182,19 +1235,7 @@
             }
             // code for search only for summary //
 
-            $.ajax({
-                type: 'post',
-                url: '{{ url('admin/financeserachforsummary') }}',
-                data: {
-                    _token: token,
-                    searchKeyword: $('#searchKeyword').val()
-                },
-                success: function(res) {
-                    $('#summaryDiv').html('');
-                    $('#summaryDiv').html(res);
 
-                }
-            })
         });
 
         // count record on page load 

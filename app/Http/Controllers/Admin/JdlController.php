@@ -221,7 +221,7 @@ class JdlController extends Controller
     {
         $check = $searchCheck = false;
         // DB::enableQueryLog();
-
+        // return $request->all();
         $Userdata = DB::table('jdl');
 
         if (isset($request->client)) {
@@ -246,7 +246,8 @@ class JdlController extends Controller
             $Userdata->whereIn('jdl.location', $request->address);
         }
         if (isset($request->status)) {
-            $Userdata->where('jdl.status', $request->status);
+           $status = explode(',',$request->status);
+            $Userdata->whereIn('jdl.status', $status);
         }
         $dataJdl = $Userdata;
         return Datatables::of($dataJdl)

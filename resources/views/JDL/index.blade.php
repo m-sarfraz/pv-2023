@@ -25,9 +25,9 @@
         .hidetrID tr td:nth-child(6) ,.hidetrID tr td:nth-child(8)   {
              text-align: center !important;
         }
-        .hidetrID tr td{
+        /* .hidetrID tr td{
             white-space: nowrap !important;
-        }
+        } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td{
             width:fit-content !important;

@@ -53,7 +53,6 @@ class Helper
         // save category of arrays for finance
         if ($array != '') {
             $array = Str::lower($array);
-            // return $array;
             if (str_contains($array, Str::lower('Scheduled for Country Head Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Final Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Hiring Manager')) ||

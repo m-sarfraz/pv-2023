@@ -629,7 +629,7 @@
                                                                 disabled>Select Option</option>
                                                             @foreach ($status->options as $statusOptions)
                                                                 <option value="{{ $statusOptions->option_name }}"
-                                                                    {{ strtolower($user->status) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
+                                                                    {{ strtolower($user->endostatus) == strtolower($statusOptions->option_name) ? 'selected' : '' }}>
                                                                     {{ $statusOptions->option_name }}
                                                                 </option>
                                                             @endforeach
@@ -653,7 +653,7 @@
                                                         </label>
                                                         <div id="loader2" class="d-none"></div>
 
-                                                        <select name="POSITION_TITLE" id="position" disabled=""
+                                                        <select name="POSITION_TITLE" id="position" 
                                                             {{-- onchange="Fetch_profile()" --}}
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                             <option
@@ -1041,7 +1041,7 @@
         }
     });
 
-    $('#position').prop("disabled", true);
+    // $('#position').prop("disabled", true);
     $('#career').prop("disabled", true);
     $('#domain_endo').prop(
         "readonly", true);
@@ -1081,7 +1081,7 @@
                             if ($(`#position option[ value="${res.data[i].p_title}"]`)
                                 .length < 1) {
                                 $('#position').append(
-                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    `<option   value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
                                 );
                             }
                         }

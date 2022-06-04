@@ -57,11 +57,11 @@ WHERE endorsements.is_deleted = 0
 update query finance view
  --------------------------------
 CREATE VIEW finance_view AS select   candidate_informations.id  as  cid , 
-  candidate_informations.reprocess , e.saved_by,e.id,e.numberOfEndo,e.is_deleted,e.remarks_for_finance,e.app_status,e.remarks,e.client,e.career_endo,e.candidate_id,
- candidate_informations.last_name ,  finance.onboardnig_date ,  finance_detail.placementFee ,  finance.id as fid,finance.endorsement_id as e_id,finance_detail.process_status
+  candidate_informations.reprocess , e.saved_by,e.endorsement_id,e.numberOfEndo,e.is_deleted,e.remarks_for_finance,e.app_status,e.remarks,e.client,e.career_endo,e.candidate_id,
+ candidate_informations.first_name , candidate_informations.middle_name ,candidate_informations.last_name , finance.onboardnig_date ,  finance_detail.placementFee ,  finance.id as fid,finance.endorsement_id as e_id,finance_detail.process_status
 from  candidate_informations  
-JOIN (SELECT id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
-JOIN  finance  on  e.id  =  finance.endorsement_id  
+JOIN (SELECT id as endorsement_id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
+JOIN  finance  on  e.endorsement_id  =  finance.endorsement_id  
 JOIN  finance_detail  on  finance.id  =  finance_detail.finance_id  
 where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded');
 
@@ -134,3 +134,15 @@ SELECT endorsements.*,   finance.t_id ,  finance.endorsement_id ,  finance.remar
 FROM endorsements
 JOIN finance on endorsements.id = finance.endorsement_id
 WHERE endorsements.is_deleted = 0
+
+
+-----------------------------------------------------------------
+finance formula view_record
+-----------------------------------------------------------------
+CREATE VIEW finance_formula_view AS
+select `e`.`remarks_for_finance`, `e`.`client`, `e`.`career_endo`, `e`.`status`,`finance`.`remarks_recruiter`, `e`.`endorsement_id`, `finance`.`t_id` as team,
+`e`.`saved_by`, `e`.`numberOfEndo` , `finance`.`placement_fee`, `finance`.`srp`, `finance_detail`.* , `finance_detail`.`vcc_amount` as vcc_share
+from finance JOIN (SELECT id as endorsement_id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,status,app_status,client,
+career_endo,candidate_id FROM endorsements Where is_deleted = 0) e on `e`.`endorsement_id` = `finance`.`endorsement_id` 
+inner join `finance_detail` on `finance_detail`.`finance_id` = `finance`.`id` 
+where `e`.`remarks_for_finance` in ('Onboarded', 'Offer Accepted', 'Fallout');

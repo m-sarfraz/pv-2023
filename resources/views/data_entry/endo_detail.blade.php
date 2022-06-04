@@ -522,7 +522,7 @@
                                 </label>
                                 <input type="text" name="RATE" id="rate" maxlength="6" oninput="amountFinder(this)"
                                     class="form-control border h-px-20_custom"
-                                    value="{{ $user != null ? $user->rate : '' }}"/>
+                                    value="{{ $user != null ? $financeDetail->rate_per : '' }}"/>
                                     
                                 {{-- <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                     id="rate_finance" oninput="amountFinder(this)" >
@@ -771,7 +771,7 @@
                         if ($(elem).val() == res.data[i].client) {
                             if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
                                 $('#position').append(
-                                    `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    `<option value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
                                 );
                             }
                         }
@@ -807,7 +807,7 @@
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val() == globalData[i].p_title) {
                 $('#career').append(
-                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    `<option value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
                 );
             }
         }

@@ -60,8 +60,8 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra()
     {
-        ini_set('max_execution_time', 30000); //30000 seconds = 500 minutes
-        $allData = DB::select('select * from smart_view limit 100');
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        $allData = DB::select('select * from smart_view');
         return Datatables::of($allData)
         // ->addIndexColumn()
             ->addColumn('array', function ($allData) {
@@ -384,6 +384,10 @@ class SmartSearchController extends Controller
     public function summaryAppend(Request $request)
     {
         if ($request->array == 1) {
+            if (\Cache::get('smartSearch') != null) {
+                $data = \Cache::get('smartSearch');
+                return view('smartSearch.summary', $data);
+            }
             $Userdata = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
                 ->join('finance', 'endorsements.id', 'finance.endorsement_id')
                 ->select(
@@ -449,7 +453,7 @@ class SmartSearchController extends Controller
             return view('smartSearch.summary', $data);
         }
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
-        $total = count($Userdata->where('endorsements.is_deleted', '0')->get());
+        // $total = count($Userdata->where('endorsements.is_deleted', '0')->get());
         $sql1 = Str::replaceArray('?', $Userdata1->getBindings(), $Userdata1->toSql());
         if (strpos($sql, 'where') !== false) {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0'");
@@ -520,8 +524,12 @@ class SmartSearchController extends Controller
             'spr' => $sql_spr_amount,
             'activeSPR' => $sql_active_spr_amount,
             'salary' => $total_salary,
-            'total' => $total,
+            'total' => 0,
         ];
+        if ($request->array == 1) {
+            \Cache::put('smartSearch', $data);
+        }
+
         return view('smartSearch.summary', $data);
     }
     //close

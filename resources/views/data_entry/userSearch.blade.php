@@ -174,8 +174,10 @@
                                         <?php
                                         $course = Helper::get_dropdown('course');
                                         ?>
+                                       
                                         <select name="COURSE"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100" id="COURSE">
+                                            <option value="" {{$user->course == null ? 'selected' : '' }}></option>
                                             @foreach ($course->options as $courseOptions)
                                                 <option value="{{ $courseOptions->option_name }}"
                                                     @if ($user->course != null) {
@@ -1359,7 +1361,7 @@
                             if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
                                 if (res.data[i].p_title == existval) {
                                     $('#position').append(
-                                        `<option selected value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                        `<option   value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
                                     );
                                 } else {
                                     $('#position').append(
@@ -1371,7 +1373,7 @@
                     }
 
                     let value = $('#client').val()
-                    $('#client_finance').append(`<option selected value="${value}">
+                    $('#client_finance').append(`<option   value="${value}">
                                        ${value}
                                   </option>`)
                     $('#position').change();

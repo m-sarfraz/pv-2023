@@ -179,8 +179,12 @@
     salary = {!! $salary !!}
     spr = {!! $spr !!}
     total = {!! $total !!}
-    $('#sifted').val(total);
-    avgSalary = Math.round(salary / total   );
+
+    function test() {
+        $('#sifted').val($('#foundRecord').val());
+        avgSalary = parseInt(salary / $('#foundRecord').val().replace(/[^0-9.-]+/g, ""));
+        $('#avgsalary').val(isNaN(avgSalary) ? 0 : avgSalary);
+    }
     $('#endo').val(endo);
     $('#active').val(active);
     $('#onBoarded').val(onBoarded);
@@ -195,5 +199,4 @@
     $('#revenue').val(revenue);
     $('#spr').val(spr);
     $('#activeSPR').val(activeSPR);
-    $('#avgsalary').val(isNaN(avgSalary) ? 0 : avgSalary);
 </script>

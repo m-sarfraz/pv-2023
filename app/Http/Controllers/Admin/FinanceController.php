@@ -36,7 +36,6 @@ class FinanceController extends Controller
     public function recordDetail(Request $request)
     {
         $arr = explode('-', $request->id);
-        // return $arr;
         // return $arr[0] . '-'. $arr[1] . '-'. $arr[2] ;
         $detail =
         //  DB::select('select `endorsements`.*, `finance`.*, `finance_detail`.* from `endorsements` inner join `finance`
@@ -122,10 +121,18 @@ class FinanceController extends Controller
         }
         $user = $Userdata->get();
 
-        $this->candidate_arr = $Userdata->pluck('cid')->toArray();
-
+        // $this->candidate_arr = $Userdata->pluck('cid')->toArray();
+        $arrayOfIDS = $Userdata->select('cid', 'endorsement_id')->get();
+        foreach ($arrayOfIDS as $key => $value) {
+            $this->candidate_arr[$value->endorsement_id] = $value->cid;
+        }
+        // return $this->candidate_arr;
         return Datatables::of($user)
             ->addIndexColumn()
+            ->addColumn('array', function ($user) {
+                return $user->cid . '-' . $user->endorsement_id;
+
+            })
             ->addColumn('id', function ($user) {
                 return $user->cid . '-' . $user->numberOfEndo . '-' . $user->saved_by . '-' . $user->fid . '-' . $user->e_id;
 
@@ -145,7 +152,7 @@ class FinanceController extends Controller
                 return $user->reprocess;
             })
             ->addColumn('last_name', function ($user) {
-                return $user->last_name;
+                return $user->first_name.' '. $user->middle_name.' '. $user->last_name;
             })
             ->addColumn('career_endo', function ($user) {
                 return $user->career_endo;
@@ -188,45 +195,48 @@ class FinanceController extends Controller
         // dd($Userdata->get());
         return Datatables::of($Userdata)
             ->addIndexColumn()
-            ->addColumn('id', function ($Userdata) {
-                return $Userdata->cid . '-' . $Userdata->numberOfEndo . '-' . $Userdata->saved_by . '-' . $Userdata->fid . '-' . $Userdata->e_id;
+            ->addColumn('array', function ($user) {
+                return ($user->cid . '-' . $user->endorsement_id);
             })
-            ->addColumn('team', function ($Userdata) {
-                $userid = User::where('id', $Userdata->saved_by)->get();
+            ->addColumn('id', function ($user) {
+                return $user->cid . '-' . $user->numberOfEndo . '-' . $user->saved_by . '-' . $user->fid . '-' . $user->e_id;
+            })
+            ->addColumn('team', function ($user) {
+                $userid = User::where('id', $user->saved_by)->get();
                 $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
-            ->addColumn('recruiter', function ($Userdata) {
-                return (User::where('id', $Userdata->saved_by)->first('name'))->name;
+            ->addColumn('recruiter', function ($user) {
+                return (User::where('id', $user->saved_by)->first('name'))->name;
             })
-            ->addColumn('client', function ($Userdata) {
-                return $Userdata->client;
+            ->addColumn('client', function ($user) {
+                return $user->client;
             })
-            ->addColumn('reprocess', function ($Userdata) {
-                return $Userdata->reprocess;
+            ->addColumn('reprocess', function ($user) {
+                return $user->reprocess;
             })
-            ->addColumn('last_name', function ($Userdata) {
-                return $Userdata->last_name;
+            ->addColumn('last_name', function ($user) {
+                return $user->first_name.' '. $user->middle_name.' '. $user->last_name;
             })
-            ->addColumn('career_endo', function ($Userdata) {
-                return $Userdata->career_endo;
+            ->addColumn('career_endo', function ($user) {
+                return $user->career_endo;
             })
-            ->addColumn('onboardnig_date', function ($Userdata) {
-                if (!empty($Userdata->onboardnig_date && $Userdata->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($Userdata->onboardnig_date), "m-d-Y");
+            ->addColumn('onboardnig_date', function ($user) {
+                if (!empty($user->onboardnig_date && $user->onboardnig_date != '0000-00-00')) {
+                    $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $Userdata->onboardnig_date = '';
+                    $user->onboardnig_date = '';
                 }
             })
-            ->addColumn('placement_fee', function ($Userdata) {
-                return $Userdata->placementFee;
+            ->addColumn('placement_fee', function ($user) {
+                return $user->placementFee;
             })
-            ->addColumn('remarks_for_finance', function ($Userdata) {
-                return $Userdata->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($user) {
+                return $user->remarks_for_finance;
             })
-            ->addColumn('process_status', function ($Userdata) {
-                return $Userdata->process_status;
+            ->addColumn('process_status', function ($user) {
+                return $user->process_status;
             })
 
             ->rawColumns([
@@ -240,7 +250,9 @@ class FinanceController extends Controller
     // save the update data of candidate
     public function SavefinanceReference(Request $request)
     {
-        // return ($request->all());
+        DB::table('finance')->where('id', $request->fid)->update([
+            'remarks_recruiter' => $request->remarks,
+        ]);
         $id = Auth::user()->id;
         $user = User::find($id);
         $userRole = $user->roles->pluck('id')->all();
@@ -268,7 +280,7 @@ class FinanceController extends Controller
             "reprocess_share" => str_replace(',', '', $request->reprocess_share),
             "reprocess_share_per" => str_replace(',', '', $request->reprocess_share_per),
             "vcc_share_per" => str_replace(',', '', $request->vcc_share_per),
-            // "VSA" => $request->VSA,
+            "vcc_amount" => $request->VSA,
             "finalFee" => str_replace(',', '', $request->finalFee),
             "owner_share_per" => str_replace(',', '', $request->owner_share_per),
             "owner_share" => str_replace(',', '', $request->owner_share),
@@ -278,14 +290,19 @@ class FinanceController extends Controller
             "ind_revenue" => str_replace(',', '', $request->ind_revenue),
             "t_id" => $t_id,
         ];
-        $id = (Finance::where('id', $request->fid)->first())->endorsement_id;
-        Endorsement::where('id', $id)->update([
+
+        $eid = (Finance::where('id', $request->fid)->first())->endorsement_id;
+        Endorsement::where('id', $eid)->update([
             'remarks' => $request->remarks,
         ]);
+        Finance::where('id', $request->fid)->update([
+            'rate' => str_replace(',', '', $request->rate_per),
+            'onboardnig_date' => $request->onboardnig_date,
+        ]);
         Finance_detail::where("finance_id", $request->fid)->update($data);
-        Helper::save_log('Finance_Reference_updated');
-        return $request->candidate_id;
-        // return response()->json
+        Helper::save_log('Finance_Reference_Updated');
+        // return $request->candidate_id;
+        return response()->json(['success' => true, 'message' => 'Updated successfully']);
     }
     // close
 
@@ -300,23 +317,17 @@ class FinanceController extends Controller
         foreach ($revenue as $key => $value) {
             $revenueArray[$key] = $value->id;
         }
-        $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
+        $teamRevenueAmount = DB::table('finance_detail')
+            ->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))
+            ->whereIn('t_id', $revenueArray)->get();
         //for check team revenue close
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
-            $Userdata = Finance::join('endorsements', 'endorsements.id', 'finance.endorsement_id')
-                ->join('finance_detail', 'finance_detail.finance_id', 'finance.id')
-                ->whereIn('endorsements.remarks_for_finance', $arr)
-                ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                    'finance.placement_fee', 'finance.srp', 'finance_detail.*');
+            $Userdata = DB::table('finance_formula_view');
         } elseif (isset($request->array)) {
-            // dd($request->array);
-            $Userdata = Finance::join('endorsements', 'endorsements.id', 'finance.endorsement_id')
-                ->join('finance_detail', 'finance_detail.finance_id', 'finance.id')
-                ->whereIn('endorsements.remarks_for_finance', $arr)
-                ->whereIn('endorsements.candidate_id', $request->array)
-                ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                    'finance.placement_fee', 'finance.srp', 'finance_detail.*');
+            $Userdata = DB::table('finance_formula_view')
+                ->whereIn('candidate_id', array_values($request->array))
+                ->whereIn('endorsement_id', array_keys($request->array));
         } else {
             $data = [
                 'hires' => 0,
@@ -339,31 +350,45 @@ class FinanceController extends Controller
         }
 
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+
         //start modify  wherein()
-        foreach ($arr as $remarks) {
-            $sql = str_replace($remarks, "'$remarks'", $sql);
-        }
-
+        // foreach ($arr as $remarks) {
+        //     $sql = str_replace($remarks, "'$remarks'", $sql);
+        // }
         // end modify  wherein()
-        if (strpos($sql, 'where') !== false) {
 
-            $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%'   ";
-            $sql_billed = $sql . " and  endorsements.remarks in('fallout','Billed','replacement')";
-            $sql_unBilled = $sql . " and endorsements.remarks ='Unbilled' ";
+        if (strpos($sql, 'where') !== false) {
+            $sql_fallout = $sql . "  and remarks_recruiter LIKE '%fall out%' OR remarks_recruiter LIKE '%replacement%'";
+            $sql_billed = $sql . " and  remarks_recruiter in('fall out','Billed','replacement')";
+            $sql_unBilled = $sql . " and remarks_recruiter ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
             $sql_fallout_amount = DB::select($sql_fallout);
             // $Revenue_In_Incentive="";
-            $sql_receivables = $sql . " and finance_detail.process_status in('OVERDUE','FFUP','RCVD') ";
-            $sql_Current_receivables = $sql . " and finance_detail.process_status in('FFUP','RCVD')  ";
-            $sql_overDue_receivables = $sql . " and finance_detail.process_status ='OVERDUE' ";
-            $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
+            $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') ";
+            $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD')  ";
+            $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' ";
+            $c_share = $sql . "  and remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
 
-            $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'   ";
-            // $vcc_amount_sum_for_I_B_R=$sql." and endorsements.remarks LIKE '%collect%' OR "
-            // $sql_onboarded = $sql . " and endorsements.remarks_for_finance='Onboarded'";
-        };
+            $vcc_amount_sum = $sql . " and remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
+            // $vcc_amount_sum_for_I_B_R=$sql." and remarks_recruiter LIKE '%collect%' OR "
+            // $sql_onboarded = $sql . " and remarks_recruiter_for_finance='Onboarded'";
+        } else {
 
+            $sql_fallout = $sql . " where remarks_recruiter LIKE '%fall out%' OR remarks_recruiter LIKE '%replacement%'   ";
+            $sql_billed = $sql . "where  remarks_recruiter in('fall out','Billed','Replacement')";
+            $sql_unBilled = $sql . "where remarks_recruiter ='Unbilled' ";
+            $sql_billed_amount = DB::select($sql_billed);
+            $sql_unbilled_amount = DB::select($sql_unBilled);
+            $sql_fallout_amount = DB::select($sql_fallout);
+            // $Revenue_In_Incentive="";
+            $sql_receivables = $sql . "where process_status in('OVERDUE','FFUP','RCVD') ";
+            $sql_Current_receivables = $sql . "where process_status in('FFUP','RCVD')  ";
+            $sql_overDue_receivables = $sql . "where process_status ='OVERDUE' ";
+            $c_share = $sql . " where remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'  ";
+            $vcc_amount_sum = $sql . "where remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
+
+        }
         $sql_receivables_amount = DB::select($sql_receivables);
         $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
@@ -380,14 +405,14 @@ class FinanceController extends Controller
         $sql_c_share = 0;
         $vcc_amount_sum = 0;
         foreach ($sql_billed_amount as $total) {
-            $billedAmount = $billedAmount + $total->srp;
+            $billedAmount = $billedAmount + $total->vcc_share;
         }
         foreach ($sql_unbilled_amount as $unbill) {
-            $unbilledAmount = $unbilledAmount + $unbill->srp;
+            $unbilledAmount = $unbilledAmount + $unbill->vcc_share;
         }
 
         foreach ($sql_fallout_amount as $fallout) {
-            $falloutAmount = $falloutAmount + $fallout->srp;
+            $falloutAmount = $falloutAmount + $fallout->vcc_share;
         }
         foreach ($sql_receivables_amount as $receivable) {
             $receivablesAmount = $receivablesAmount + $receivable->finalFee;
@@ -453,7 +478,7 @@ class FinanceController extends Controller
         $arr = ['Offer accepted', 'Onboarded'];
         $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->whereIn('remarks_for_finance', $arr)
-            ->select('candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.last_name')->get();
+            ->select('candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.first_name', 'candidate_informations.middle_name', 'candidate_informations.last_name')->get();
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles");
         $appstatus = DB::select("select app_status from endorsements group by app_status");

@@ -122,7 +122,7 @@
                                     Onboarding Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
-                                    value="{{ $detail->ob_date }}" name="onboardnig_date" />
+                                    value="{{ $detail->onboardnig_date }}" name="onboardnig_date" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -246,7 +246,7 @@
                         <div class="col-lg-3 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
-                                    Special consumption:
+                                    Special Compensation:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="compensation" oninput="placementFeeCalculator()" name="compensation"
@@ -317,7 +317,8 @@
                                 <label class="Label-00">
                                     Reprocess Share Amount:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                {{-- @dd($detail->reprocess_share) --}}
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." name="reprocess_share"
                                     value="{{ number_format($detail->reprocess_share, 2) }}" id="reprocessAmount"
                                     readonly />
                             </div>
@@ -338,7 +339,7 @@
                                     VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
-                                    id="vccAmount" />
+                                    value="{{ $detail->vcc_amount }}" id="vccAmount" />
                             </div>
                         </div>
                     </div>
@@ -454,7 +455,7 @@
         var remarks_finance = '<?php echo $remarks_finance; ?>';
         remarks = remarks_finance.toLowerCase();
         if (remarks == 'offer accepted' || remarks == 'onboarded') {
-            $('#remarksFinance option[value=Unbilled').prop('selected', 'selected').change();
+            $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
         }
         // close 
 
@@ -533,7 +534,6 @@
     function remarksChange() {
         // DPDCalculate();
         individualRevenue();
-
         // change process staus according to selected options 
         var value = $('#remarksFinance').val().trim();
         if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('fall out') ||
@@ -550,13 +550,12 @@
             var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
             var today = moment();
             var dpd = dateDlvrd.diff(today, 'days');
-            // console.log('dpd is ' + dpd)
-            if (dpd > paymentTerm) {
+            if (parseInt(dpd) > parseInt(paymentTerm)) {
                 $('#processStatus').val("OVERDUE");
-            } else if (paymentTerm - dpd <= 14) {
+            } else if (parseInt(paymentTerm) - parseInt(dpd) <= 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("FFUP");
-            } else if (paymentTerm - dpd > 14) {
+            } else if (parseInt(paymentTerm) - parseInt(dpd) > 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("RCVD");
             }
@@ -664,7 +663,7 @@
                         text: "{{ __('Updated finance') }}",
                         icon: "success",
                     });
-                    location.reload();
+                    // location.reload();
                 } else if (!res) {
                     $("#loader").hide();
 

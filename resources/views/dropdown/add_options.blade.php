@@ -68,7 +68,7 @@
                                     <thead>
                                         <tr>
                                             <th>Option</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -171,12 +171,12 @@
                         data: 'option_name',
                         name: 'option_name'
                     },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        searchable: false,
-                        orderable: false
-                    }
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     searchable: false,
+                    //     orderable: false
+                    // }
                 ]
             });
 
