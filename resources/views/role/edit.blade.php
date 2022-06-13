@@ -25,14 +25,15 @@
                                         </div>
 
                                         <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0">
-                                                        <div class=" form-group">
+                                            <div class=" form-group">
 
-                                            <label class="col-md-12"> </label>
-                                            <input type="checkbox" name="revenue"
-                                                {{ $role->team_revenue == 1 ? ' checked' : '' }}> Team Revenue </input>
+                                                <label class="col-md-12"> </label>
+                                                <input type="checkbox" id="revenue" name="revenue"
+                                                    {{ $role->team_revenue == 1 ? ' checked' : '' }}> Team Revenue
+                                                </input>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="col-lg-12`">
+                                        {{-- <div class="col-lg-12`">
                                                 <label for="aboutTextarea" class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
                                                     Permission
                                                 </label>
@@ -40,243 +41,296 @@
                                                     <label class="col-md-4" ><input {{ (in_array($value->id, $rolePermissions) ? "checked" : "")  }} type="checkbox"  {{ (in_array($value->id, $rolePermissions) ? "checked" : "")  }} name="permission[]" value="{{ $value->name  }}" > {{ $value->name  }}</label>
                                                 @endforeach
                                             </div> --}}
-                                    <h5>Permissions</h5>
-                                    <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
-                                      <div class="row m-0 align-items-center">
+                                        <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0">
 
-                                     
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                        <?php
-                                            $data_entry = Helper::get_permission('data-entry');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Data Entry Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-                                                @foreach ($data_entry as $value)
-                                                    <label class="col-md-3"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="dataEntryPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('jdl');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                JDL Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('view-record');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                View Record Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="recordPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('finance');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Finance Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="financePermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-
-                                            <?php
-                                            $jdl = Helper::get_permission('logs');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Logs Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('domain');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                domain Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('smart-search');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Smart Search Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('dropdowns');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Dropdowns Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        <div class="p-3 shadow rounded">
-                                            <?php
-                                            $jdl = Helper::get_permission('company');
-                                            ?>
-                                            <label for="aboutTextarea"
-                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                Company Permissions
-                                            </label>
-                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                @foreach ($jdl as $value)
-                                                    <label class="col-md-4"><input type="checkbox"
-                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                            name="jdlPermission[]" value="{{ $value->name }}">
-                                                        {{ $value->name }}</label>
-                                                @endforeach
-                                            </div>
-                                            </div>
-                                        </div>
-                                        @if (Auth::user()->type == 1)
-                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                            <div class="p-3 shadow rounded">
-                                                <?php
-                                                $jdl = Helper::get_permission('teams');
-                                                ?>
-                                                <label for="aboutTextarea"
-                                                    class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                    Teams Permissions
-                                                </label>
-                                                <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                    @foreach ($jdl as $value)
-                                                        <label class="col-md-4"><input type="checkbox"
-                                                                {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                                name="jdlPermission[]" value="{{ $value->name }}">
-                                                            {{ $value->name }}</label>
-                                                    @endforeach
-                                                </div>
+                                            <div id="targetDiv" class="">
+                                                <h5>Target</h5>
+                                                <div class="row m-0 align-items-center">
+                                                    <div class="col-lg-12 col-md-12 mb-4 col-12 col-12">
+                                                        <div class="p-3 shadow rounded">
+                                                            <div class="row m-0">
+                                                                <div class="col-lg-4 ">
+                                                                   <label for="" class="font-weight-bolder">Quarter 1
+                                                                Target</label>
+                                                                    <input class="w-100 form-control " type="number"
+                                                                        value="{{ $target != null ? $target->q1_target : '0' }}"
+                                                                        name="q1">
+                                                                </div>
+                                                                <div class="col-lg-4 ">
+                                                                 <label for="" class="font-weight-bolder">Quarter 2
+                                                                Target</label>
+                                                                    <input class="w-100 form-control " type="number"
+                                                                        value="{{ $target != null ? $target->q2_target : '0' }}"
+                                                                        name="q2">
+                                                                </div>
+                                                                <div class="col-lg-4 ">
+                                                                <label for="" class="font-weight-bolder">Quarter 3
+                                                                Target</label>
+                                                                    <input class="w-100 form-control " type="number"
+                                                                        value="{{ $target != null ? $target->q3_target : '0' }}"
+                                                                        name="q3">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row m-0">
+                                                                <div class="col-lg-4 ">
+                                                                    <label for="" class="font-weight-bolder">Quarter 4
+                                                                Target</label>
+                                                                    <input class="w-100 form-control " type="number"
+                                                                        value="{{ $target != null ? $target->q4_target : '0' }}"
+                                                                        name="q4">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                            <div class="p-3 shadow rounded">
-                                                <?php
-                                                $jdl = Helper::get_permission('user');
-                                                ?>
-                                                <label for="aboutTextarea"
-                                                    class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
-                                                    Users Permissions
-                                                </label>
-                                                <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
-
-                                                    @foreach ($jdl as $value)
-                                                        <label class="col-md-4"><input type="checkbox"
-                                                                {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
-                                                                name="jdlPermission[]" value="{{ $value->name }}">
-                                                            {{ $value->name }}</label>
-                                                    @endforeach
-                                                </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-                                        
-                                                <div class="col-md-12 text-left">
-                                                    <input type="submit" style="background: #dc8627;" value="Update"
-                                                        class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
-                                                </div>
-                                            </div>
-                                        @endif
                                         </div>
-                                    </div>
+                                        <h5>Permissions</h5>
+                                        <div class="col-lg-12 pl-0 pl-lg-3 pl-md-3 pl-sm-0 mb-xl-1 mb-9">
+                                            <div class="row m-0 align-items-center">
+
+
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $data_entry = Helper::get_permission('data-entry');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Data Entry Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+                                                            @foreach ($data_entry as $value)
+                                                                <label class="col-md-3"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="dataEntryPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('jdl');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            JDL Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]" value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('view-record');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            View Record Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="recordPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('finance');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Finance Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="financePermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+
+                                                        <?php
+                                                        $jdl = Helper::get_permission('logs');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Logs Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('domain');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            domain Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('smart-search');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Smart Search Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('dropdowns');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Dropdowns Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                    <div class="p-3 shadow rounded">
+                                                        <?php
+                                                        $jdl = Helper::get_permission('company');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Company Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($jdl as $value)
+                                                                <label class="col-md-4"><input type="checkbox"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (Auth::user()->type == 1)
+                                                    <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                        <div class="p-3 shadow rounded">
+                                                            <?php
+                                                            $jdl = Helper::get_permission('teams');
+                                                            ?>
+                                                            <label for="aboutTextarea"
+                                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                                Teams Permissions
+                                                            </label>
+                                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                                @foreach ($jdl as $value)
+                                                                    <label class="col-md-4"><input type="checkbox"
+                                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                            name="jdlPermission[]"
+                                                                            value="{{ $value->name }}">
+                                                                        {{ $value->name }}</label>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+                                                        <div class="p-3 shadow rounded">
+                                                            <?php
+                                                            $jdl = Helper::get_permission('user');
+                                                            ?>
+                                                            <label for="aboutTextarea"
+                                                                class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                                Users Permissions
+                                                            </label>
+                                                            <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                                @foreach ($jdl as $value)
+                                                                    <label class="col-md-4"><input type="checkbox"
+                                                                            {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}
+                                                                            name="jdlPermission[]"
+                                                                            value="{{ $value->name }}">
+                                                                        {{ $value->name }}</label>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+
+                                                        <div class="col-md-12 text-left">
+                                                            <input type="submit" style="background: #dc8627;" value="Update"
+                                                                class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
                                 </fieldset>
                             </form>
                         </div>
@@ -321,6 +375,22 @@
 
                 return false;
             })
+        });
+        if ($('#revenue').is(":checked")) {
+            $('#targetDiv').addClass('d-block')
+            $('#targetDiv').removeClass('d-none')
+        } else {
+            $('#targetDiv').removeClass('d-block')
+            $('#targetDiv').addClass('d-none')
+        }
+        $('#revenue').on('change', function() {
+            if ($('#revenue').is(":checked")) {
+                $('#targetDiv').addClass('d-block')
+                $('#targetDiv').removeClass('d-none')
+            } else {
+                $('#targetDiv').removeClass('d-block')
+                $('#targetDiv').addClass('d-none')
+            }
         });
     </script>
 @endsection

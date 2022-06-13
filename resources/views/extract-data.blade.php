@@ -709,7 +709,7 @@
             $(document).ready(function() {
                 appendFilterOptions();
                 appendHistory();
-                onTimer();
+                // onTimer();
             })
             //append  dropdowns
             function appendFilterOptions() {

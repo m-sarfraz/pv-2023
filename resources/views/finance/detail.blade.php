@@ -318,9 +318,9 @@
                                     Reprocess Share Amount:
                                 </label>
                                 {{-- @dd($detail->reprocess_share) --}}
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." name="reprocess_share"
-                                    value="{{ number_format($detail->reprocess_share, 2) }}" id="reprocessAmount"
-                                    readonly />
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                    name="reprocess_share" value="{{ number_format($detail->reprocess_share, 2) }}"
+                                    id="reprocessAmount" readonly />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -453,9 +453,13 @@
 
         // select default value unbilled if remarks are offer accepted or onboarded 
         var remarks_finance = '<?php echo $remarks_finance; ?>';
+        var remarks_recruiter = '<?php echo $remarks_recruiter; ?>';
         remarks = remarks_finance.toLowerCase();
+        remarks_r = remarks_recruiter.toLowerCase();
         if (remarks == 'offer accepted' || remarks == 'onboarded') {
-            $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
+            if (remarks_r == '') {
+                $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
+            }
         }
         // close 
 
@@ -549,7 +553,7 @@
             paymentTerm = $('#paymentTerm').val();
             var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
             var today = moment();
-            var dpd = dateDlvrd.diff(today, 'days');
+            var dpd = today.diff(dateDlvrd, 'days');
             if (parseInt(dpd) > parseInt(paymentTerm)) {
                 $('#processStatus').val("OVERDUE");
             } else if (parseInt(paymentTerm) - parseInt(dpd) <= 14) {

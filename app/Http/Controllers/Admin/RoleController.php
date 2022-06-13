@@ -70,6 +70,35 @@ class RoleController extends Controller
         if (isset($request->revenue)) {
             $role = Role::create(['name' => $request->input('name'),
                 'team_revenue' => '1']);
+
+            // find monthly target by formula
+            $q1Monthly = round(($request->q1) / 3);
+            $q2Monthly = round(($request->q2) / 3);
+            $q3Monthly = round(($request->q3) / 3);
+            $q4Monthly = round(($request->q4) / 3);
+
+            // find weekly target by formula
+            $q1Weekly = round(($request->q1) / 12);
+            $q2Weekly = round(($request->q2) / 12);
+            $q3Weekly = round(($request->q3) / 12);
+            $q4Weekly = round(($request->q4) / 12);
+
+            // save data in db
+            DB::table('team_revenue')->insert([
+                'team_id' => $role->id,
+                'q1_target' => $request->q1,
+                'q2_target' => $request->q2,
+                'q3_target' => $request->q3,
+                'q4_target' => $request->q4,
+                'q1_monthly' => $q1Monthly,
+                'q2_monthly' => $q1Monthly,
+                'q3_monthly' => $q1Monthly,
+                'q4_monthly' => $q1Monthly,
+                'q1_weekly' => $q1Weekly,
+                'q2_weekly' => $q2Weekly,
+                'q3_weekly' => $q3Weekly,
+                'q4_weekly' => $q4Weekly,
+            ]);
             $role->syncPermissions($permissionArr);
         } else {
             $role = Role::create(['name' => $request->input('name')]);
@@ -111,8 +140,8 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-
-        return view('role.edit', compact('role', 'permission', 'rolePermissions'));
+        $target = DB::table('team_revenue')->where('team_id', $id)->first();
+        return view('role.edit', compact('role', 'permission', 'rolePermissions', 'target'));
     }
 
     /**
@@ -153,6 +182,51 @@ class RoleController extends Controller
         $role->name = $request->input('name');
         if (isset($request->revenue)) {
             $role->team_revenue = '1';
+            // find monthly target by formula
+            $q1Monthly = round(($request->q1) / 3);
+            $q2Monthly = round(($request->q2) / 3);
+            $q3Monthly = round(($request->q3) / 3);
+            $q4Monthly = round(($request->q4) / 3);
+
+            // find weekly target by formula
+            $q1Weekly = round(($request->q1) / 12);
+            $q2Weekly = round(($request->q2) / 12);
+            $q3Weekly = round(($request->q3) / 12);
+            $q4Weekly = round(($request->q4) / 12);
+
+            if (DB::table('team_revenue')->where('team_id', $id)->exists()) {
+                DB::table('team_revenue')->where('team_id', $id)->update([
+                    'q1_target' => $request->q1,
+                    'q2_target' => $request->q2,
+                    'q3_target' => $request->q3,
+                    'q4_target' => $request->q4,
+                    'q1_monthly' => $q1Monthly,
+                    'q2_monthly' => $q2Monthly,
+                    'q3_monthly' => $q3Monthly,
+                    'q4_monthly' => $q4Monthly,
+                    'q1_weekly' => $q1Weekly,
+                    'q2_weekly' => $q2Weekly,
+                    'q3_weekly' => $q3Weekly,
+                    'q4_weekly' => $q4Weekly,
+                ]);
+            } else {
+
+                DB::table('team_revenue')->insert([
+                    'q1_target' => $request->q1,
+                    'q2_target' => $request->q2,
+                    'q3_target' => $request->q3,
+                    'q4_target' => $request->q4,
+                    'q1_monthly' => $q1Monthly,
+                    'q2_monthly' => $q1Monthly,
+                    'q3_monthly' => $q1Monthly,
+                    'q4_monthly' => $q1Monthly,
+                    'q1_weekly' => $q1Weekly,
+                    'q2_weekly' => $q2Weekly,
+                    'q3_weekly' => $q3Weekly,
+                    'q4_weekly' => $q4Weekly,
+                    'team_id' => $id,
+                ]);
+            }
         } else {
             $role->team_revenue = '0';
         }

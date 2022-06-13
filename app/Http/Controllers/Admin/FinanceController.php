@@ -54,6 +54,7 @@ class FinanceController extends Controller
         // dd($detail);
         $fee = $detail->placementFee != null ? $detail->placementFee : 0;
         $remarks_finance = $detail->remarks_for_finance != null ? $detail->remarks_for_finance : '';
+        $remarks_recruiter = $detail->remarks != null ? $detail->remarks : '';
         // $remarks = $detail->remarks_for_finance;
         // $remarks_finance = $remarks;
         $salary1 = \App\Finance::where(['candidate_id' => $arr[0], 'endorsement_id' => $arr[4]])->first();
@@ -61,7 +62,6 @@ class FinanceController extends Controller
         $off_salary = $salary->offered_salary != null ? $salary->offered_salary : 0;
         $off_allowance = $salary->allowance != null ? $salary->allowance : 0;
         $billAmount = $salary1->Total_bilable_ammount != null ? $salary1->Total_bilable_ammount : 0;
-        // return $billAmount;
         // $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
         $user = \App\User::where('id', $arr[2])->first();
         $role = $user->roles->pluck('name');
@@ -74,6 +74,7 @@ class FinanceController extends Controller
             'off_salary' => $off_salary,
             'off_allowance' => $off_allowance,
             'remarks_finance' => $remarks_finance,
+            'remarks_recruiter' => $remarks_recruiter,
             'fid' => $arr[3],
         ];
         return view('finance.detail', $data);
@@ -152,7 +153,7 @@ class FinanceController extends Controller
                 return $user->reprocess;
             })
             ->addColumn('last_name', function ($user) {
-                return $user->first_name.' '. $user->middle_name.' '. $user->last_name;
+                return $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
             })
             ->addColumn('career_endo', function ($user) {
                 return $user->career_endo;
@@ -216,7 +217,7 @@ class FinanceController extends Controller
                 return $user->reprocess;
             })
             ->addColumn('last_name', function ($user) {
-                return $user->first_name.' '. $user->middle_name.' '. $user->last_name;
+                return $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name;
             })
             ->addColumn('career_endo', function ($user) {
                 return $user->career_endo;
@@ -259,6 +260,7 @@ class FinanceController extends Controller
         $t_id = $userRole;
         // dd($request->onboardnig_date);
         $data = [
+            'remarks' => $request->remarks,
             "ob_date" => $request->onboardnig_date,
             "term_date" => $request->term_date,
             "code" => str_replace(',', '', $request->code),
@@ -280,7 +282,7 @@ class FinanceController extends Controller
             "reprocess_share" => str_replace(',', '', $request->reprocess_share),
             "reprocess_share_per" => str_replace(',', '', $request->reprocess_share_per),
             "vcc_share_per" => str_replace(',', '', $request->vcc_share_per),
-            "vcc_amount" => $request->VSA,
+            "vcc_amount" => str_replace(',', '', $request->VSA),
             "finalFee" => str_replace(',', '', $request->finalFee),
             "owner_share_per" => str_replace(',', '', $request->owner_share_per),
             "owner_share" => str_replace(',', '', $request->owner_share),
