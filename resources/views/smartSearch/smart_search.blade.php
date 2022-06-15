@@ -8,6 +8,43 @@
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
+        button.dt-button.buttons-columnVisibility:not(.active) {
+            background-color: #e8e8e8 !important;
+            background: #e8e8e8 !important;
+            color: black !important;
+        }
+
+        button.dt-button.buttons-columnVisibility {
+            background-color: #dc8627 !important;
+            background: #dc8627 !important;
+            color: white !important;
+        }
+
+        th {
+            padding: 8px;
+            border: 1px solid silver;
+        }
+
+
+
+        pre {
+            margin: 20px;
+            padding: 10px;
+            background: #eee;
+            border: 1px solid silver;
+            border-radius: 4px;
+        }
+
+        .resizer {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            bottom: 0;
+            left: auto;
+            width: 16px;
+            cursor: col-resize;
+        }
+
         .row {
             margin: 0px !important;
         }
@@ -40,7 +77,6 @@
                 height: auto !important;
             }
         }
-
     </style>
 @endsection
 
@@ -399,8 +435,8 @@
                     <div class="">
                         <table id="smTable" class="table">
                             <thead class="bg-light w-100">
-                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell hideID">secret-id</th>
+                                <tr style="">
+                                    <th class="ant-table-cell hideID noVis">secret-id</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">Client</th>
@@ -444,7 +480,7 @@
 @section('script')
     <!-- ================= -->
     <!-- Datatable js start-->
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
     </script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
@@ -453,6 +489,25 @@
     </script>
 
     <script>
+        $("th")
+            .css({
+                /* required to allow resizer embedding */
+                position: "relative"
+            })
+            /* check .resizer CSS */
+            .prepend("<div class='resizer'></div>")
+            .resizable({
+                resizeHeight: false,
+                // we use the column as handle and filter
+                // by the contained .resizer element
+                handleSelector: "",
+                onDragStart: function(e, $el, opt) {
+                    // only drag resizer
+                    if (!$(e.target).hasClass("resizer"))
+                        return false;
+                    return true;
+                }
+            });
         // document.ready startrs
         $(document).ready(function() {
             // call ajax for values appending 
@@ -709,7 +764,17 @@
                     },
 
 
-                ]
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
             $("#loader").hide();
             // call Ajax for returning the data as view
@@ -839,7 +904,17 @@
                     },
 
 
-                ]
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
         }
         // close 

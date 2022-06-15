@@ -34,47 +34,81 @@ class JdlController extends Controller
         $jdlData = DB::table('jdl')->get();
         return Datatables::of($jdlData)
             ->addIndexColumn()
-            ->addColumn('id', function ($jdlData) {
-                return $jdlData->id;
+            ->addColumn('budget', function ($data) {
+                return $data->budget;
             })
-            ->addColumn('client', function ($jdlData) {
-                return $jdlData->client;
+            ->addColumn('c_level', function ($data) {
+                return $data->c_level;
             })
-
-            ->addColumn('segment', function ($jdlData) {
-                return $jdlData->segment;
-            })
-            ->addColumn('subsegment', function ($jdlData) {
-                return $jdlData->subsegment;
+            ->addColumn('client', function ($data) {
+                return $data->client;
             })
 
-            ->addColumn('c_level', function ($jdlData) {
-                return $jdlData->c_level;
+            ->addColumn('domain', function ($data) {
+                return $data->domain;
             })
-            ->addColumn('p_title', function ($jdlData) {
-                return $jdlData->p_title;
+            ->addColumn('jd', function ($data) {
+                return $data->jd;
             })
-            ->addColumn('maturity', function ($jdlData) {
-                return $jdlData->maturity;
+            ->addColumn('keyword', function ($data) {
+                return $data->keyword;
             })
-            ->addColumn('budget', function ($jdlData) {
-                return $jdlData->budget;
+            ->addColumn('location', function ($data) {
+                return $data->location;
             })
-            ->addColumn('location', function ($jdlData) {
-                return $jdlData->location;
+            ->addColumn('note', function ($data) {
+                return $data->note;
             })
-            ->addColumn('w_schedule', function ($jdlData) {
-                return $jdlData->w_schedule;
+
+            ->addColumn('p_title', function ($data) {
+                return $data->p_title;
             })
-            ->addColumn('status', function ($jdlData) {
-                return $jdlData->status;
+            ->addColumn('priority', function ($data) {
+                return $data->priority;
             })
-            ->addColumn('priority', function ($jdlData) {
-                return $jdlData->priority;
+            ->addColumn('segment', function ($data) {
+                return $data->segment;
             })
+            ->addColumn('sll_no', function ($data) {
+                return $data->sll_no;
+            })
+            ->addColumn('start_date', function ($data) {
+                return $data->start_date;
+            })
+            ->addColumn('status', function ($data) {
+                return $data->status;
+            })
+
+            ->addColumn('subsegment', function ($data) {
+                return $data->subsegment;
+            })
+
+            ->addColumn('w_schedule', function ($data) {
+                return $data->w_schedule;
+            })
+
+            ->addColumn('maturity', function ($data) {
+                return $data->maturity;
+            })
+
             ->rawColumns([
-                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority',
+                'budget',
+                'c_level',
+                'client',
+                'domain',
+                'jd',
+                'keyword',
+                'location',
+                'note',
+                'p_title',
+                'priority',
+                'segment',
+                'sll_no',
+                'start_date',
+                'status',
+                'subsegment',
+                'w_schedule',
+                'maturity',
             ])
             ->make(true);
     }
@@ -246,7 +280,7 @@ class JdlController extends Controller
             $Userdata->whereIn('jdl.location', $request->address);
         }
         if (isset($request->status)) {
-           $status = explode(',',$request->status);
+            $status = explode(',', $request->status);
             $Userdata->whereIn('jdl.status', $status);
         }
         $dataJdl = $Userdata;
@@ -255,44 +289,82 @@ class JdlController extends Controller
                 return $dataJdl->id;
             })
             ->addIndexColumn()
+
+            ->addColumn('budget', function ($dataJdl) {
+                return $dataJdl->budget;
+            })
+            ->addColumn('c_level', function ($dataJdl) {
+                return $dataJdl->c_level;
+            })
             ->addColumn('client', function ($dataJdl) {
                 return $dataJdl->client;
             })
 
-            ->addColumn('segment', function ($dataJdl) {
-                return $dataJdl->segment;
+            ->addColumn('domain', function ($dataJdl) {
+                return $dataJdl->domain;
             })
-            ->addColumn('subsegment', function ($dataJdl) {
-                return $dataJdl->subsegment;
+            ->addColumn('jd', function ($dataJdl) {
+                return $dataJdl->jd;
             })
-
-            ->addColumn('c_level', function ($dataJdl) {
-                return $dataJdl->c_level;
-            })
-            ->addColumn('p_title', function ($dataJdl) {
-                return $dataJdl->p_title;
-            })
-            ->addColumn('maturity', function ($dataJdl) {
-                return $dataJdl->maturity;
-            })
-            ->addColumn('budget', function ($dataJdl) {
-                return $dataJdl->budget;
+            ->addColumn('keyword', function ($dataJdl) {
+                return $dataJdl->keyword;
             })
             ->addColumn('location', function ($dataJdl) {
                 return $dataJdl->location;
             })
-            ->addColumn('w_schedule', function ($dataJdl) {
-                return $dataJdl->w_schedule;
+            ->addColumn('note', function ($dataJdl) {
+                return $dataJdl->note;
             })
-            ->addColumn('status', function ($dataJdl) {
-                return $dataJdl->status;
+
+            ->addColumn('p_title', function ($dataJdl) {
+                return $dataJdl->p_title;
             })
             ->addColumn('priority', function ($dataJdl) {
                 return $dataJdl->priority;
             })
+            ->addColumn('segment', function ($dataJdl) {
+                return $dataJdl->segment;
+            })
+            ->addColumn('sll_no', function ($dataJdl) {
+                return $dataJdl->sll_no;
+            })
+            ->addColumn('start_date', function ($dataJdl) {
+                return $dataJdl->start_date;
+            })
+            ->addColumn('status', function ($dataJdl) {
+                return $dataJdl->status;
+            })
+
+            ->addColumn('subsegment', function ($dataJdl) {
+                return $dataJdl->subsegment;
+            })
+
+            ->addColumn('w_schedule', function ($dataJdl) {
+                return $dataJdl->w_schedule;
+            })
+
+            ->addColumn('maturity', function ($dataJdl) {
+                return $dataJdl->maturity;
+            })
+
             ->rawColumns([
-                'id', 'client', 'segment', 'subsegment', 'c_level', 'p_title', 'maturity', 'budget',
-                'location', 'w_schedule', 'status', 'priority',
+                'budget',
+                'c_level',
+                'client',
+                'domain',
+                'jd',
+                'keyword',
+                'location',
+                'note',
+                'p_title',
+                'priority',
+                'segment',
+                'sll_no',
+                'start_date',
+                'status',
+                'subsegment',
+                'w_schedule',
+                'maturity',
             ])
             ->make(true);
     }

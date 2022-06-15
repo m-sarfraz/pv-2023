@@ -5,7 +5,9 @@
         .borderRed {
             border: 1px red solid !important;
         }
-
+#QrCode svg {
+    width: 100% !important;
+}
         .borderRed:focus {
             box-shadow: 0 0 0 0.05rem red !important;
         }

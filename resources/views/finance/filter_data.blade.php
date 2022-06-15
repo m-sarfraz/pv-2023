@@ -1,8 +1,8 @@
 <div class="">
     <table id="fmtable1" class="table ">
         <thead class="bg-light w-100">
-            <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                <th class="ant-table-cell hideIDTh">secret-id</th>
+            <tr style="">
+                <th class="ant-table-cell hideIDTh noVis">secret-id</th>
                 <th class="ant-table-cell hideIDTh">id</th>
                 <th class="ant-table-cell">Team</th>
                 <th class="ant-table-cell">Recruiter</th>
@@ -35,4 +35,23 @@
     $(document).ready(function() {
         load_datatable1();
     })
+    $("th")
+            .css({
+                /* required to allow resizer embedding */
+                position: "relative"
+            })
+            /* check .resizer CSS */
+            .prepend("<div class='resizer'></div>")
+            .resizable({
+                resizeHeight: false,
+                // we use the column as handle and filter
+                // by the contained .resizer element
+                handleSelector: "",
+                onDragStart: function(e, $el, opt) {
+                    // only drag resizer
+                    if (!$(e.target).hasClass("resizer"))
+                        return false;
+                    return true;
+                }
+            });
 </script>

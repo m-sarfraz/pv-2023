@@ -8,6 +8,17 @@
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
+              button.dt-button.buttons-columnVisibility:not(.active) {
+            background-color: #e8e8e8 !important;
+            background: #e8e8e8 !important;
+            color: black !important;
+        }
+
+        button.dt-button.buttons-columnVisibility {
+            background-color: #dc8627 !important;
+            background: #dc8627 !important;
+            color: white !important;
+        }
         #example1_filter label {
             display: flex;
             width: fit-content;
@@ -43,7 +54,29 @@
         .hideIDTh:nth-child(2) {
             display: none;
         }
+        th {
+            padding: 8px;
+            border: 1px solid silver;
+        }
 
+
+
+        pre {
+            margin: 20px;
+            padding: 10px;
+            background: #eee;
+            border: 1px solid silver;
+            border-radius: 4px;
+        }
+        .resizer {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            bottom: 0;
+            left: auto;
+            width: 16px;
+            cursor: col-resize;
+        }
     </style>
 @endsection
 
@@ -227,10 +260,10 @@
                     <div class="">
                         <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
-                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell hideIDTh">secret-id</th>
+                                <tr style="">
+                                    <th class="ant-table-cell hideIDTh noVis">secret-id</th>
                                     {{-- <th class="ant-table-cell hideID">id</th> --}}
-                                    <th class="ant-table-cell hideIDTh">id</th>
+                                    <th class="ant-table-cell hideIDTh noVis">id</th>
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Client</th>
@@ -840,6 +873,25 @@
 {{-- script section starts here --}}
 @section('script')
     <script>
+          $("th")
+            .css({
+                /* required to allow resizer embedding */
+                position: "relative"
+            })
+            /* check .resizer CSS */
+            .prepend("<div class='resizer'></div>")
+            .resizable({
+                resizeHeight: false,
+                // we use the column as handle and filter
+                // by the contained .resizer element
+                handleSelector: "",
+                onDragStart: function(e, $el, opt) {
+                    // only drag resizer
+                    if (!$(e.target).hasClass("resizer"))
+                        return false;
+                    return true;
+                }
+            });
         // Section for docement ready funciton starts
         $(document).ready(function() {
             load_datatable()
@@ -983,7 +1035,17 @@
                         data: 'process_status',
                         name: 'process_status'
                     },
-                ]
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
         }
         // close 
@@ -1149,7 +1211,17 @@
                     },
 
 
-                ]
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
         }
         //close 

@@ -856,8 +856,10 @@ input {
 .dataTable thead th {
     border-top: 2px solid red !important;
     border-bottom: 1px solid red !important;
+    border-right: 1px solid #838181;
     border-radius: 5px !important;
     vertical-align: bottom;
+    white-space:nowrap;
 }
 
 .dataTables_paginate .page-item.active .page-link {

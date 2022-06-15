@@ -7,6 +7,18 @@
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
+        button.dt-button.buttons-columnVisibility:not(.active) {
+            background-color: #e8e8e8 !important;
+            background: #e8e8e8 !important;
+            color: black !important;
+        }
+
+        button.dt-button.buttons-columnVisibility {
+            background-color: #dc8627 !important;
+            background: #dc8627 !important;
+            color: white !important;
+        }
+
         .row {
             margin: 0px !important;
         }
@@ -17,22 +29,30 @@
             margin-left: auto;
         }
 
+        table th.resizing {
+            cursor: col-resize;
+        }
+
         .hideID:first-child,
         .hidetrID tr td:first-child {
             display: none !important;
         }
+
         .hideID:first-child,
-        .hidetrID tr td:nth-child(6) ,.hidetrID tr td:nth-child(8)   {
-             text-align: center !important;
+        .hidetrID tr td:nth-child(6),
+        .hidetrID tr td:nth-child(8) {
+            text-align: center !important;
         }
+
         /* .hidetrID tr td{
-            white-space: nowrap !important;
-        } */
+                                                        white-space: nowrap !important;
+                                                    } */
         #jdlTable thead tr th,
-        #jdlTable tbody tr td{
-            width:fit-content !important;
+        #jdlTable tbody tr td {
+            width: fit-content;
 
         }
+
         .hidetrID tr:hover {
             background-color: rgb(159, 165, 243);
         }
@@ -53,6 +73,10 @@
             left: 20px;
         }
 
+        /* .customWidth {
+            width: 410px !important;
+        } */
+
         .tooltip1:hover span.tooltiptext {
             display: block;
         }
@@ -66,6 +90,36 @@
             z-index: 37;
         }
 
+
+        th {
+            padding: 8px;
+            border: 1px solid silver;
+        }
+
+
+
+        pre {
+            margin: 20px;
+            padding: 10px;
+            background: #eee;
+            border: 1px solid silver;
+            border-radius: 4px;
+        }
+
+        /*
+           this is important!
+           make sure you define this here
+           or in jQuery codef
+        */
+        .resizer {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            bottom: 0;
+            left: auto;
+            width: 16px;
+            cursor: col-resize;
+        }
     </style>
 @endsection
 
@@ -217,25 +271,31 @@
 
                 <!-- ================= -->
                 <!-- Datatable code start-->
-                <div class="table-responsive pt-5" id="filter_table_div">
+                <div class="table-responsive pt-3" id="filter_table_div">
                     <div class="">
-                        <table id="jdlTable" class="table">
+                        <table id="jdlTable" class="table borderd">
                             <thead class="bg-light w-100">
-                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell hideID">id</th>
+                                <tr style="whitespace-nowrap">
+                                    <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">Segment</th>
-                                    <th class="ant-table-cell">Subsegment</th>
+                                    <th class="ant-table-cell customWidth">Budget</th>
                                     <th class="ant-table-cell ">Career Level</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Domain</th>
+                                    <th class="ant-table-cell">Job Description</th>
+                                    <th class="ant-table-cell">Keyword</th>
+                                    <th class="ant-table-cell">Location</th>
+                                    <th class="ant-table-cell">Notes</th>
                                     <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell"> Priority</th>
+                                    <th class="ant-table-cell">Segment</th>
+                                    <th class="ant-table-cell">SLL. No</th>
+                                    <th class="ant-table-cell">Start Date</th>
+                                    <th class="ant-table-cell">Status</th>
+                                    <th class="ant-table-cell">Sub-Segment</th>
+                                    <th class="ant-table-cell">Work Schedule</th>
                                     <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
                                             Requirement</span></th>
-                                    <th class="ant-table-cell">Budget</th>
-                                    <th class="ant-table-cell">Location</th>
-                                    <th class="ant-table-cell">Work Schedule</th>
-                                    <th class="ant-table-cell">Status</th>
-                                    <th class="ant-table-cell"> Priority</th>
                                     {{-- <th class="ant-table-cell ant-table-cell-scrollbar"></th> --}}
                                 </tr>
                             </thead>
@@ -255,41 +315,62 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog m-auto" style='max-width:80%'>
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Record Details:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Record Details:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="record_detail"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        style="background: rgb(220 134 39);color: rgb(255 255 255);border:none"
+                        data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body" id="record_detail"></div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" style="background: rgb(220 134 39);color: rgb(255 255 255);border:none" data-dismiss="modal">Close</button>
-            </div>
-        </div>
         </div>
     </div>
-
 @endsection
 
 
 @section('script')
     <!-- ================= -->
     <!-- Datatable js start-->
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script> --}}
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
     </script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
     </script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
     </script>
+
     <script>
         $(document).ready(function() {
             load_datatable()
             appendJdlOptions()
             $('#jdlTable_filter').hide('div');
-            
+
         })
+
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                if (settings.oPreviousSearch.sSearch === "")
+                    return true; // Always return true if search is blank (save processing)
+
+                var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
+                var newFilter = data.slice();
+
+                for (var i = 0; i < settings.aoColumns.length; i++) {
+                    if (!settings.aoColumns[i].bVisible) {
+                        newFilter.splice(i, 1);
+                    }
+                }
+
+                var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
+                return regex.test(newFilter.join(" "));
+            }
+        );
         select2Dropdown("select2_dropdown");
         // count total number of records coming from data table with interval starts
         function appendJdlOptions() {
@@ -379,9 +460,30 @@
             let tdVal = $(this).children()[0];
             var id = tdVal.innerHTML
             Filter(this, id)
-            $('#exampleModal').modal('show'); 
+            $('#exampleModal').modal('show');
             // alert($(this).val())
         })
+
+        //$("td,th")
+        $("th")
+            .css({
+                /* required to allow resizer embedding */
+                position: "relative"
+            })
+            /* check .resizer CSS */
+            .prepend("<div class='resizer'></div>")
+            .resizable({
+                resizeHeight: false,
+                // we use the column as handle and filter
+                // by the contained .resizer element
+                handleSelector: "",
+                onDragStart: function(e, $el, opt) {
+                    // only drag resizer
+                    if (!$(e.target).hasClass("resizer"))
+                        return false;
+                    return true;
+                }
+            });
 
         function load_datatable() {
             var option_table = $('#jdlTable').DataTable({
@@ -417,52 +519,101 @@
                         searchable: false
                     },
                     {
+                        data: 'budget',
+                        name: 'budget',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level',
+                        "bSortable": false,
+                    },
+                    {
                         data: 'client',
-                        name: 'client'
+                        name: 'client',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'jd',
+                        name: 'jd',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'keyword',
+                        name: 'keyword',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'location',
+                        name: 'location',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'note',
+                        name: 'note',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'p_title',
+                        name: 'p_title',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority',
+                        "bSortable": false,
                     },
                     {
                         data: 'segment',
                         name: 'segment',
-                        // searchable: false,
-                        // orderable: false
+                        "bSortable": false,
                     },
                     {
-                        data: 'subsegment',
-                        name: 'subsegment'
+                        data: 'sll_no',
+                        name: 'sll_no',
+                        "bSortable": false,
                     },
                     {
-                        data: 'c_level',
-                        name: 'c_level'
-                    },
-                    {
-                        data: 'p_title',
-                        name: 'p_title'
-                    },
-                    {
-                        data: 'maturity',
-                        name: 'maturity'
-                    },
-                    {
-                        data: 'budget',
-                        name: 'budget'
-                    },
-                    {
-                        data: 'location',
-                        name: 'location'
-                    },
-                    {
-                        data: 'w_schedule',
-                        name: 'w_schedule'
+                        data: 'start_date',
+                        name: 'start_date',
+                        "bSortable": false,
                     },
                     {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
+                        "bSortable": false,
                     },
                     {
-                        data: 'priority',
-                        name: 'priority'
+                        data: 'subsegment',
+                        name: 'subsegment',
+                        "bSortable": false,
                     },
-                ]
+                    {
+                        data: 'w_schedule',
+                        name: 'w_schedule',
+                        "bSortable": false,
+                    },
+                    {
+                        data: 'maturity',
+                        name: 'maturity',
+                        "bSortable": false,
+                    }
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
         }
 
@@ -520,52 +671,84 @@
                         searchable: false
                     },
                     {
+                        data: 'budget',
+                        name: 'budget',
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level',
+                    },
+                    {
                         data: 'client',
-                        name: 'client'
+                        name: 'client',
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain',
+                    },
+                    {
+                        data: 'jd',
+                        name: 'jd',
+                    },
+                    {
+                        data: 'keyword',
+                        name: 'keyword',
+                    },
+                    {
+                        data: 'location',
+                        name: 'location',
+                    },
+                    {
+                        data: 'note',
+                        name: 'note',
+                    },
+                    {
+                        data: 'p_title',
+                        name: 'p_title',
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority',
                     },
                     {
                         data: 'segment',
                         name: 'segment',
-                        // searchable: false,
-                        // orderable: false
                     },
                     {
-                        data: 'subsegment',
-                        name: 'subsegment'
+                        data: 'sll_no',
+                        name: 'sll_no',
                     },
                     {
-                        data: 'c_level',
-                        name: 'c_level'
-                    },
-                    {
-                        data: 'p_title',
-                        name: 'p_title'
-                    },
-                    {
-                        data: 'maturity',
-                        name: 'maturity'
-                    },
-                    {
-                        data: 'budget',
-                        name: 'budget'
-                    },
-                    {
-                        data: 'location',
-                        name: 'location'
-                    },
-                    {
-                        data: 'w_schedule',
-                        name: 'w_schedule'
+                        data: 'start_date',
+                        name: 'start_date',
                     },
                     {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
                     },
                     {
-                        data: 'priority',
-                        name: 'priority'
+                        data: 'subsegment',
+                        name: 'subsegment',
                     },
-                ]
+                    {
+                        data: 'w_schedule',
+                        name: 'w_schedule',
+                    },
+                    {
+                        data: 'maturity',
+                        name: 'maturity',
+                    }
+                ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
             });
         }
         $('#searchKeyword').on("input", function() {

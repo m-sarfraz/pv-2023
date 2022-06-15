@@ -379,7 +379,7 @@
                                 <label class="Label-00">
                                     C. Take Amount:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" readonly id="cTake"
+                                <input type="text" class="form-control users-input-S-C"   id="cTake"
                                     value="{{ number_format($detail->c_take, 2) }}" name="c_take" />
                             </div>
                         </div>

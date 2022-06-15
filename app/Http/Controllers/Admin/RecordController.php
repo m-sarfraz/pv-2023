@@ -57,35 +57,36 @@ class RecordController extends Controller
     {
         $check = $searchCheck = false;
 
-        $Userdata = DB::table('view_record')->orderBy('timestamp', 'desc');
+        // $Userdata = DB::table('updated_view_record')->orderBy('timestamp', 'desc');
+        $Userdata = DB::table('updated_view_record');
 
         // condition for checking first to end not null starts here
 
         if (isset($request->user_id)) {
-            $Userdata->whereIn('view_record.saved_by', $request->user_id);
+            $Userdata->whereIn('updated_view_record.saved_by', $request->user_id);
         }
         if (isset($request->candidate)) {
-            $Userdata->whereIn('view_record.cid', $request->candidate);
+            $Userdata->whereIn('updated_view_record.cid', $request->candidate);
         }
         if (isset($request->profile)) {
-            $Userdata->whereIn('view_record.candidate_profile', $request->profile);
+            $Userdata->whereIn('updated_view_record.candidate_profile', $request->profile);
         }
         if (isset($request->sub_segment)) {
-            $Userdata->whereIn('view_record.sub_segment', $request->sub_segment);
+            $Userdata->whereIn('updated_view_record.sub_segment', $request->sub_segment);
         }
         if (isset($request->app_status)) {
-            $Userdata->whereIn('view_record.app_status', $request->app_status);
+            $Userdata->whereIn('updated_view_record.app_status', $request->app_status);
         }
         if (isset($request->client)) {
-            $Userdata->whereIn('view_record.client', $request->client);
+            $Userdata->whereIn('updated_view_record.client', $request->client);
         }
         if (isset($request->career_level)) {
             // return $request->career_level;
-            $Userdata->whereIn('view_record.career_endo', $request->career_level);
+            $Userdata->whereIn('updated_view_record.career_endo', $request->career_level);
         }
         if (isset($request->date)) {
 
-            $Userdata->where('view_record.endi_date', $request->date);
+            $Userdata->where('updated_view_record.endi_date', $request->date);
         }
         $Alldata = $Userdata->get();
         // return $Alldata;
@@ -98,81 +99,35 @@ class RecordController extends Controller
                 return $Alldata->recruiter;
             })
 
-            ->addColumn('Candidate', function ($Alldata) {
-                return $Alldata->first_name . ' ' . $Alldata->middle_name . ' ' . $Alldata->last_name;
-
+            ->addColumn('team', function ($record) {
+                $userid = User::where('id', $record->saved_by)->get();
+                $team = $userid[0]->roles->pluck('name');
+                return json_decode($team);
             })
-            ->addColumn('profile', function ($Alldata) {
-                return $Alldata->candidate_profile;
-            })
-            ->addColumn('subSegment', function ($Alldata) {
-                return $Alldata->sub_segment;
-            })
-            ->addColumn('cSalary', function ($Alldata) {
-                return $Alldata->curr_salary;
-            })
-            ->addColumn('eSalary', function ($Alldata) {
-                return $Alldata->exp_salary;
-            })
-            ->addColumn('appStatus', function ($Alldata) {
-                return $Alldata->app_status;
-            })
-            ->addColumn('client', function ($Alldata) {
-                return $Alldata->client;
-            })
-            ->addColumn('career_level', function ($Alldata) {
-                return $Alldata->career_endo;
-            })
-            ->addColumn('endi_date', function ($Alldata) {
-                if (!empty($Alldata->endi_date && $Alldata->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($Alldata->endi_date), "m-d-Y");
-                    return $endi_date;
-                } else {
-                    $Alldata->endi_date = '';
-                }
-            })
-            ->rawColumns([
-                'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date',
-            ])
-            ->make(true);
-    }
-    public function view_record_table()
-    {
-        $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
-        return Datatables::of($record)
-            ->addIndexColumn()
-            ->addColumn('id', function ($record) {
-                return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
-            })
-            ->addColumn('recruiter', function ($record) {
-                return $record->recruiter;
-            })
-
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
 
             })
+            ->addColumn('appStatus', function ($record) {
+                return $record->app_status;
+            })
             ->addColumn('profile', function ($record) {
                 return $record->candidate_profile;
             })
-            ->addColumn('subSegment', function ($record) {
-                return $record->sub_segment;
+            ->addColumn('career_level', function ($record) {
+                return $record->career_endo;
             })
-            ->addColumn('cSalary', function ($record) {
-                return $record->curr_salary;
-            })
-            ->addColumn('eSalary', function ($record) {
-                return $record->exp_salary;
-            })
-            ->addColumn('appStatus', function ($record) {
-                return $record->app_status;
+            ->addColumn('certification', function ($record) {
+                return $record->certification;
             })
             ->addColumn('client', function ($record) {
                 return $record->client;
             })
-            ->addColumn('career_level', function ($record) {
-                return $record->career_endo;
+            ->addColumn('phone', function ($record) {
+                return $record->phone;
+            })
+            ->addColumn('course', function ($record) {
+                return $record->course;
             })
             ->addColumn('endi_date', function ($record) {
                 if (!empty($record->endi_date && $record->endi_date != '0000-00-00')) {
@@ -182,11 +137,234 @@ class RecordController extends Controller
                     $record->endi_date = '';
                 }
             })
+            ->addColumn('date_invited', function ($record) {
+                return $record->date_invited;
+            })
+            ->addColumn('date_shifted', function ($record) {
+                return $record->date_shifted;
+            })
+            ->addColumn('educational_attain', function ($record) {
+                return $record->educational_attain;
+            })
+            ->addColumn('emp_history', function ($record) {
+                return $record->emp_history;
+            })
+            ->addColumn('type', function ($record) {
+                return $record->type;
+            })
+            ->addColumn('exp_salary', function ($record) {
+                return $record->exp_salary;
+            })
+            ->addColumn('gender', function ($record) {
+                return $record->gender;
+            })
+            ->addColumn('interview_note', function ($record) {
+                return $record->interview_note;
+            })
+            ->addColumn('invoice_number', function ($record) {
+                return $record->invoice_number;
+            })
+            ->addColumn('onboardnig_date', function ($record) {
+                return $record->onboardnig_date;
+            })
+            ->addColumn('position_title', function ($record) {
+                return $record->position_title;
+            })
+            ->addColumn('remarks', function ($record) {
+                return $record->remarks;
+            })
+            ->addColumn('remarks_for_finance', function ($record) {
+                return $record->remarks_for_finance;
+            })
+            ->addColumn('address', function ($record) {
+                return $record->address;
+            })
+            ->addColumn('segment', function ($record) {
+                return $record->segment;
+            })
+            ->addColumn('site', function ($record) {
+                return $record->site;
+            })
+            ->addColumn('endostatus', function ($record) {
+                return $record->endostatus;
+            })
+            ->addColumn('sub_segment', function ($record) {
+                return $record->sub_segment;
+            })
+
             ->rawColumns([
-                'id', 'recruiter', 'Candidate', 'profile', 'subSegment', 'cSalary', 'eSalary', 'appStatus', 'client',
-                'career_level', 'endi_date',
+                'id',
+                'recruiter',
+                'team',
+                'Candidate',
+                'appStatus',
+                'profile',
+                'career_level',
+                'certification',
+                'client',
+                'phone',
+                'course',
+                'endi_date',
+                'date_invited',
+                'date_shifted',
+                'educational_attain',
+                'emp_history',
+                'type',
+                'exp_salary',
+                'gender',
+                'interview_note',
+                'invoice_number',
+                'onboardnig_date',
+                'position_title',
+                'remarks',
+                'remarks_for_finance',
+                'address',
+                'segment',
+                'site',
+                'endostatus',
+                'sub_segment',
             ])
             ->make(true);
+    }
+    public function view_record_table()
+    {
+        // $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
+        $record = DB::table('updated_view_record')->get();
+        return Datatables::of($record)
+            ->addIndexColumn()
+            ->addColumn('id', function ($record) {
+                return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
+            })
+            ->addColumn('recruiter', function ($record) {
+                return $record->recruiter;
+            })
+            ->addColumn('team', function ($record) {
+                $userid = User::where('id', $record->saved_by)->get();
+                $team = $userid[0]->roles->pluck('name');
+                return json_decode($team);
+            })
+            ->addColumn('Candidate', function ($record) {
+                return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
+
+            })
+            ->addColumn('appStatus', function ($record) {
+                return $record->app_status;
+            })
+            ->addColumn('profile', function ($record) {
+                return $record->candidate_profile;
+            })
+            ->addColumn('career_level', function ($record) {
+                return $record->career_endo;
+            })
+            ->addColumn('certification', function ($record) {
+                return $record->certification;
+            })
+            ->addColumn('client', function ($record) {
+                return $record->client;
+            })
+            ->addColumn('phone', function ($record) {
+                return $record->phone;
+            })
+            ->addColumn('course', function ($record) {
+                return $record->course;
+            })
+            ->addColumn('endi_date', function ($record) {
+                if (!empty($record->endi_date && $record->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($record->endi_date), "m-d-Y");
+                    return $endi_date;
+                } else {
+                    $record->endi_date = '';
+                }
+            })
+            ->addColumn('date_invited', function ($record) {
+                return $record->date_invited;
+            })
+            ->addColumn('date_shifted', function ($record) {
+                return $record->date_shifted;
+            })
+            ->addColumn('educational_attain', function ($record) {
+                return $record->educational_attain;
+            })
+            ->addColumn('emp_history', function ($record) {
+                return $record->emp_history;
+            })
+            ->addColumn('type', function ($record) {
+                return $record->type;
+            })
+            ->addColumn('exp_salary', function ($record) {
+                return $record->exp_salary;
+            })
+            ->addColumn('gender', function ($record) {
+                return $record->gender;
+            })
+            ->addColumn('interview_note', function ($record) {
+                return $record->interview_note;
+            })
+            ->addColumn('invoice_number', function ($record) {
+                return $record->invoice_number;
+            })
+            ->addColumn('onboardnig_date', function ($record) {
+                return $record->onboardnig_date;
+            })
+            ->addColumn('position_title', function ($record) {
+                return $record->position_title;
+            })
+            ->addColumn('remarks', function ($record) {
+                return $record->remarks;
+            })
+            ->addColumn('remarks_for_finance', function ($record) {
+                return $record->remarks_for_finance;
+            })
+            ->addColumn('address', function ($record) {
+                return $record->address;
+            })
+            ->addColumn('segment', function ($record) {
+                return $record->segment;
+            })
+            ->addColumn('site', function ($record) {
+                return $record->site;
+            })
+            ->addColumn('endostatus', function ($record) {
+                return $record->endostatus;
+            })
+            ->addColumn('sub_segment', function ($record) {
+                return $record->sub_segment;
+            })
+
+            ->rawColumns([
+                'id',
+                'recruiter',
+                'team',
+                'Candidate',
+                'appStatus',
+                'profile',
+                'career_level',
+                'certification',
+                'client',
+                'phone',
+                'course',
+                'endi_date',
+                'date_invited',
+                'date_shifted',
+                'educational_attain',
+                'emp_history',
+                'type',
+                'exp_salary',
+                'gender',
+                'interview_note',
+                'invoice_number',
+                'onboardnig_date',
+                'position_title',
+                'remarks',
+                'remarks_for_finance',
+                'address',
+                'segment',
+                'site',
+                'endostatus',
+                'sub_segment',
+            ])
+            ->make(true);
+            
     }
     // show data table for view record page ends
 
@@ -200,7 +378,6 @@ class RecordController extends Controller
     // function for appending the data of selected row candidate starts
     public function UserDetails(Request $request)
     {
-
         $arrayofID = explode('-', $request->id);
         $user = DB::table('six_table_view')
             ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0] == '' ? 0 : $arrayofID[0], 'recruiter_id' => $arrayofID[2]])

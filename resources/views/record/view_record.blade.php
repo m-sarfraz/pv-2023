@@ -23,6 +23,40 @@
             background-color: rgb(159, 165, 243);
         }
 
+        button.dt-button.buttons-columnVisibility:not(.active) {
+            background-color: #e8e8e8 !important;
+            background: #e8e8e8 !important;
+            color: black !important;
+        }
+
+        button.dt-button.buttons-columnVisibility {
+            background-color: #dc8627 !important;
+            background: #dc8627 !important;
+            color: white !important;
+        }
+        th {
+            padding: 8px;
+            border: 1px solid silver;
+        }
+
+
+
+        pre {
+            margin: 20px;
+            padding: 10px;
+            background: #eee;
+            border: 1px solid silver;
+            border-radius: 4px;
+        }
+        .resizer {
+            position: absolute;
+            top: 0;
+            right: -8px;
+            bottom: 0;
+            left: auto;
+            width: 16px;
+            cursor: col-resize;
+        }
     </style>
 @endsection
 
@@ -170,19 +204,38 @@
                     <div class="">
                         <table id="recordTable" class="table">
                             <thead class="bg-light w-100">
-                                <tr style="border-bottom: 3px solid white;border-top: 3px solid white; white-space:nowrap">
-                                    <th class="ant-table-cell hideID">id</th>
+                                <tr style="">
+                                    <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Application Status</th>
                                     <th class="ant-table-cell">Candidate’s Profile</th>
-                                    <th class="ant-table-cell">S-Segment</th>
-                                    <th class="ant-table-cell">C.Salary</th>
-                                    <th class="ant-table-cell">E.Salary</th>
-                                    <th class="ant-table-cell">App.Status</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">CL</th>
+                                    <th class="ant-table-cell">Career</th>
+                                    <th class="ant-table-cell">certificate</th>
+                                    <th class="ant-table-cell">client</th>
+                                    <th class="ant-table-cell">phone</th>
+                                    <th class="ant-table-cell">course</th>
                                     <th class="ant-table-cell">Endorsement Date</th>
+                                    <th class="ant-table-cell">date invited</th>
+                                    <th class="ant-table-cell">date sifted</th>
+                                    <th class="ant-table-cell">educational attainment</th>
+                                    <th class="ant-table-cell">emp history</th>
+                                    <th class="ant-table-cell">type</th>
+                                    <th class="ant-table-cell">exp salary</th>
+                                    <th class="ant-table-cell">Gender</th>
+                                    <th class="ant-table-cell">interview note</th>
+                                    <th class="ant-table-cell">invoice number</th>
+                                    <th class="ant-table-cell">onboarding date </th>
+                                    <th class="ant-table-cell">position title </th>
+                                    <th class="ant-table-cell">remarks </th>
+                                    <th class="ant-table-cell">remarks_for_finance </th>
+                                    <th class="ant-table-cell">address </th>
+                                    <th class="ant-table-cell">segment </th>
+                                    <th class="ant-table-cell">site</th>
+                                    <th class="ant-table-cell">endostatus</th>
+                                    <th class="ant-table-cell">sub_segment</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
@@ -737,7 +790,8 @@
                                                                     <label class="Label-00">
                                                                         Reason for not progressing:
                                                                     </label>
-                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp" disabled
+                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
+                                                                        disabled
                                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                                         <option selected disabled>Select Option</option>
 
@@ -877,8 +931,28 @@
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
+ 
 
     <script>
+                $("th")
+            .css({
+                /* required to allow resizer embedding */
+                position: "relative"
+            })
+            /* check .resizer CSS */
+            .prepend("<div class='resizer'></div>")
+            .resizable({
+                resizeHeight: false,
+                // we use the column as handle and filter
+                // by the contained .resizer element
+                handleSelector: "",
+                onDragStart: function(e, $el, opt) {
+                    // only drag resizer
+                    if (!$(e.target).hasClass("resizer"))
+                        return false;
+                    return true;
+                }
+            });
         // Section for docement ready funciton starts
         $(document).ready(function() {
             var recordExist = {!! $recordExist !!};
@@ -922,7 +996,7 @@
                         }
                     }
                     for (let i = 0; i < res.candidates.length; i++) {
-                        if (res.candidates[i].name != null || res.candidates[i].name != ' ' ) {
+                        if (res.candidates[i].name != null || res.candidates[i].name != ' ') {
                             $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res.candidates[i]
                                 .name + '</option>')
                         }
@@ -972,7 +1046,24 @@
         })
         // close 
 
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                if (settings.oPreviousSearch.sSearch === "")
+            return true; // Always return true if search is blank (save processing)
 
+                var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
+                var newFilter = data.slice();
+
+                for (var i = 0; i < settings.aoColumns.length; i++) {
+                    if (!settings.aoColumns[i].bVisible) {
+                        newFilter.splice(i, 1);
+                    }
+                }
+
+                var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
+                return regex.test(newFilter.join(" "));
+            }
+        );
         // load main table data on page load using ajax(Yajra datatable) 
         function load_datatable() {
             var option_table = $('#recordTable').DataTable({
@@ -1016,45 +1107,110 @@
                         name: 'recruiter'
                     },
                     {
+                        data: 'team',
+                        name: 'team',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    },
-                    {
-                        data: 'profile',
-                        name: 'profile'
-                    },
-                    {
-                        data: 'subSegment',
-                        name: 'subSegment'
-                    },
-                    {
-                        data: 'cSalary',
-                        name: 'cSalary'
-                    },
-                    {
-                        data: 'eSalary',
-                        name: 'eSalary'
-                    },
-                    {
+                    }, {
                         data: 'appStatus',
-                        name: 'appStatus'
-                    },
-                    {
-                        data: 'client',
-                        name: 'client'
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
+                        data: 'profile',
+                        name: 'profile',
+                        // searchable: false,
+                        // orderable: false
                     },
                     {
                         data: 'career_level',
                         name: 'career_level'
-                    },
-                    {
+                    }, {
+                        data: 'certification',
+                        name: 'certification'
+                    }, {
+                        data: 'client',
+                        name: 'client'
+                    }, {
+                        data: 'phone',
+                        name: 'phone'
+                    }, {
+                        data: 'course',
+                        name: 'course'
+                    }, {
                         data: 'endi_date',
-                        name: 'endi_date',
-                        searchable: false
+                        name: 'endi_date'
+                    }, {
+                        data: 'date_invited',
+                        name: 'date_invited'
+                    }, {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    }, {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    }, {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    }, {
+                        data: 'type',
+                        name: 'type'
+                    }, {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    }, {
+                        data: 'gender',
+                        name: 'gender'
+                    }, {
+                        data: 'interview_note',
+                        name: 'interview_note'
+                    }, {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    }, {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    }, {
+                        data: 'position_title',
+                        name: 'position_title'
+                    }, {
+                        data: 'remarks',
+                        name: 'remarks'
+                    }, {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    }, {
+                        data: 'address',
+                        name: 'address'
+                    }, {
+                        data: 'segment',
+                        name: 'segment'
+                    }, {
+                        data: 'site',
+                        name: 'site'
+                    }, {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    }, {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
                     },
                 ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
                 // dom: 'Bfrtlp',
                 // buttons: [
                 //     'csv',
@@ -1116,7 +1272,8 @@
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
@@ -1128,44 +1285,110 @@
                         name: 'recruiter'
                     },
                     {
+                        data: 'team',
+                        name: 'team',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    },
-                    {
-                        data: 'profile',
-                        name: 'profile'
-                    },
-                    {
-                        data: 'subSegment',
-                        name: 'subSegment'
-                    },
-                    {
-                        data: 'cSalary',
-                        name: 'cSalary'
-                    },
-                    {
-                        data: 'eSalary',
-                        name: 'eSalary'
-                    },
-                    {
+                    }, {
                         data: 'appStatus',
-                        name: 'appStatus'
-                    },
-                    {
-                        data: 'client',
-                        name: 'client'
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
+                        data: 'profile',
+                        name: 'profile',
+                        // searchable: false,
+                        // orderable: false
                     },
                     {
                         data: 'career_level',
                         name: 'career_level'
-                    },
-                    {
+                    }, {
+                        data: 'certification',
+                        name: 'certification'
+                    }, {
+                        data: 'client',
+                        name: 'client'
+                    }, {
+                        data: 'phone',
+                        name: 'phone'
+                    }, {
+                        data: 'course',
+                        name: 'course'
+                    }, {
                         data: 'endi_date',
                         name: 'endi_date'
+                    }, {
+                        data: 'date_invited',
+                        name: 'date_invited'
+                    }, {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    }, {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    }, {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    }, {
+                        data: 'type',
+                        name: 'type'
+                    }, {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    }, {
+                        data: 'gender',
+                        name: 'gender'
+                    }, {
+                        data: 'interview_note',
+                        name: 'interview_note'
+                    }, {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    }, {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    }, {
+                        data: 'position_title',
+                        name: 'position_title'
+                    }, {
+                        data: 'remarks',
+                        name: 'remarks'
+                    }, {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    }, {
+                        data: 'address',
+                        name: 'address'
+                    }, {
+                        data: 'segment',
+                        name: 'segment'
+                    }, {
+                        data: 'site',
+                        name: 'site'
+                    }, {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    }, {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
                     },
                 ],
+                dom: 'Bfrtip',
+                columnDefs: [{
+                    targets: 1,
+                    className: 'noVis'
+                }],
+                buttons: [{
+                    extend: 'colvis',
+                    text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
+                    columns: ':not(.noVis)'
+                }]
                 // dom: 'Bfrtlp',
                 // buttons: [
                 //     'csv',
@@ -1306,13 +1529,13 @@
                         // $('#new').prop("disabled", false);
                         // swal("success", res.message, "success").then((value) => {});
                         Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: res.message,
-                                showConfirmButton: false,
-                                timer: 1000
-                            })
-                            location.reload();
+                            position: 'center',
+                            icon: 'success',
+                            title: res.message,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                        location.reload();
                     } else if (res.success == false) {
 
                         // show validation error on scree with border color changed and text
