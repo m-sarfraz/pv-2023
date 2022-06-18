@@ -597,6 +597,17 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
+                                                                <div class="form-group mb-0">
+                                                                    <label class="Label labelFontSize"
+                                                                        name="CURRENT_ALLOWANCE">
+                                                                        Current Allowance:
+                                                                    </label>
+                                                                    <input type="number" class="form-control users-input-S-C"
+                                                                        value="{{ $candidateDetail != null ? $candidateDetail->curr_allowance : '' }}"
+                                                                        name="CURRENT_ALLOWANCE" />
+                                                                </div>
+                                                            </div>
                                                             <div class="form-group mb-0">
                                                                 <label class="Label labelFontSize">
                                                                     Expected Salary:
@@ -608,17 +619,6 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
-                                                            <div class="form-group mb-0">
-                                                                <label class="Label labelFontSize"
-                                                                    name="CURRENT_ALLOWANCE">
-                                                                    Current Allowance:
-                                                                </label>
-                                                                <input type="number" class="form-control users-input-S-C"
-                                                                    value="{{ $candidateDetail != null ? $candidateDetail->curr_allowance : '' }}"
-                                                                    name="CURRENT_ALLOWANCE" />
-                                                            </div>
-                                                        </div>
 
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <div class="form-group mb-0">

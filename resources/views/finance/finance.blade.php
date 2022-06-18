@@ -1078,7 +1078,7 @@
                             .remarks_for_finance + '</option>')
                     }
                     for (let i = 0; i < res.teams.length; i++) {
-                        $('#team_id').append('<option value="' + res.teams[i].name + '">' + res.teams[i]
+                        $('#team_id').append('<option value="' + res.teams[i].id + '">' + res.teams[i]
                             .name + '</option>')
                     }
                     for (let i = 0; i < res.client.length; i++) {

@@ -667,7 +667,7 @@
                         text: "{{ __('Updated finance') }}",
                         icon: "success",
                     });
-                    // location.reload();
+                    location.reload();
                 } else if (!res) {
                     $("#loader").hide();
 
