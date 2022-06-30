@@ -397,7 +397,7 @@
                                     </option>
                                     @foreach ($remarkss->options as $remarksOptions)
                                         <option value="{{ $remarksOptions->option_name }}"
-                                            {{ $remarks_f != null ? ( strtolower($remarksOptions->option_name) == strtolower( $remarks_f)? 'selected' : '') : '' }}>
+                                            {{ $remarks_f != null ? (strtolower($remarksOptions->option_name) == strtolower($remarks_f) ? 'selected' : '') : '' }}>
                                             {{ $remarksOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -520,10 +520,10 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Rate
                                 </label>
-                                <input type="text" name="RATE" id="rate" maxlength="6" oninput="amountFinder(this)"
-                                    class="form-control border h-px-20_custom"
-                                    value="{{ $user != null ? $financeDetail->rate_per : '' }}"/>
-                                    
+                                <input type="text" name="RATE" id="rate" maxlength="6"
+                                    oninput="amountFinder(this)" class="form-control border h-px-20_custom"
+                                    value="{{ $user != null ? $financeDetail->rate_per : '' }}" />
+
                                 {{-- <select name="RATE" class="form-control border h-px-20_custom" id="rate"
                                     id="rate_finance" oninput="amountFinder(this)" >
                                     <option Disabled {{ $user != null ? ($user->rate == 0 ? 'selected' : '') : '' }}>
@@ -655,7 +655,9 @@
         $('#endo_type').prop("disabled", false);
     }
     // close 
+    var title = "<?php echo $user !=null ?  $user->position_title : ''; ?>";
 
+    var career_endo = "<?php echo $user != null ? $user->career_endo : ''; ?>";
     // on finance load enable disable fields according to finance remarks 
     // get value of seleted field 
     var value = $('#remarks_for_finance').find(":selected").text().trim();
@@ -739,9 +741,10 @@
     $("form#data_entry select").each(function() {
         $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
     });
-
+ 
     function clientChanged(dropDown, elem) {
         // console.log('helllo');
+
         $('#loader2').addClass('d-block')
         $('#loader2').removeClass('d-none')
         $('#position').prop("disabled", false);
@@ -769,13 +772,22 @@
                     $('#position').empty();
                     for (let i = 0; i < res.data.length; i++) {
                         if ($(elem).val() == res.data[i].client) {
-                            if ($(`#position option[ value="${res.data[i].p_title}"]`).length < 1) {
-                                $('#position').append(
-                                    `<option value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
-                                );
+                            if ($(`#position option[ value="${res.data[i].p_title}"]`)
+                                .length < 1) {
+                                if (title == res.data[i].p_title) {
+                                    $('#position').append(
+                                        `<option selected  value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                } else {
+
+                                    $('#position').append(
+                                        `<option  value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                }
                             }
                         }
                     }
+
                     let value = $('#client').val()
                     console.log(value)
                     $('#client_finance').append(`<option selected value="${value}">
@@ -806,17 +818,24 @@
         $('#career').empty();
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val() == globalData[i].p_title) {
-                $('#career').append(
-                    `<option value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
-                );
+                if (career_endo == globalData[i].c_level) {
+                    $('#career').append(
+                        `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                } else {
+
+                    $('#career').append(
+                        `<option   value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                }
             }
         }
-        let value = $('#career').val()
-        $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+        // let value = $('#career').val()
+        // $('#career_finance').append(`<option selected value="${value}">
+        //                                ${value}
+        //                           </option>`)
         DomainSegmentAppend()
-        SPRCalculator()
+        
 
     })
 

@@ -179,24 +179,25 @@
     salary = {!! $salary !!}
     spr = {!! $spr !!}
     total = {!! $total !!}
+    var currency = Intl.NumberFormat('en-IN');
 
     function test() {
         $('#sifted').val($('#foundRecord').val());
         avgSalary = parseInt(salary / $('#foundRecord').val().replace(/[^0-9.-]+/g, ""));
         $('#avgsalary').val(isNaN(avgSalary) ? 0 : avgSalary);
     }
-    $('#endo').val(endo);
-    $('#active').val(active);
-    $('#onBoarded').val(onBoarded);
-    $('#failed').val(failed);
-    $('#accepted').val(accepted);
-    $('#rejected').val(rejected);
-    $('#mid').val(mid);
-    $('#initial').val(initial);
-    $('#final').val(final);
-    $('#withdrawn').val(withdrawn);
-    $('#fallout').val(fallout);
-    $('#revenue').val(revenue);
-    $('#spr').val(spr);
-    $('#activeSPR').val(activeSPR);
+    $('#endo').val(currency.format(endo));
+    $('#active').val(currency.format(active));
+    $('#onBoarded').val(currency.format(onBoarded));
+    $('#failed').val(currency.format(failed));
+    $('#accepted').val(currency.format(accepted));
+    $('#rejected').val(currency.format(rejected));
+    $('#mid').val(currency.format(mid));
+    $('#initial').val(currency.format(initial));
+    $('#final').val(currency.format(final));
+    $('#withdrawn').val(currency.format(withdrawn));
+    $('#fallout').val(currency.format(fallout));
+    $('#revenue').val(currency.format(revenue));
+    $('#spr').val(currency.format(spr));
+    $('#activeSPR').val(currency.format(activeSPR));
 </script>

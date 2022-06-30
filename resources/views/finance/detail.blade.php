@@ -339,7 +339,7 @@
                                     VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
-                                    value="{{ $detail->vcc_amount }}" id="vccAmount" />
+                                    value="{{ number_format($detail->vcc_amount, 2) }}" id="vccAmount" />
                             </div>
                         </div>
                     </div>
@@ -456,6 +456,7 @@
         var remarks_recruiter = '<?php echo $remarks_recruiter; ?>';
         remarks = remarks_finance.toLowerCase();
         remarks_r = remarks_recruiter.toLowerCase();
+        console.log(remarks_r);
         if (remarks == 'offer accepted' || remarks == 'onboarded') {
             if (remarks_r == '') {
                 $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
@@ -537,10 +538,10 @@
     // function for remarks change starts 
     function remarksChange() {
         // DPDCalculate();
-        individualRevenue();
         // change process staus according to selected options 
         var value = $('#remarksFinance').val().trim();
-        if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('fall out') ||
+        console.log(value);
+        if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('Fall out') ||
             value.includes('Collected') || value.includes('Replacement')) {
             $('#processStatus').val("");
             $('#processStatus').val("DONE");
@@ -564,6 +565,8 @@
                 $('#processStatus').val("RCVD");
             }
         }
+        individualRevenue();
+
     }
     // close 
 
@@ -660,7 +663,7 @@
             // Ajax success function
             success: function(res) {
                 // console.log("updated candidate_id", res)
-                if (res) {
+                if (res.success == true) {
                     // show success sweet alert and enable entering new record button
                     swal({
                         icon: "success",

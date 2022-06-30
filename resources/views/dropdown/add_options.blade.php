@@ -4,7 +4,6 @@
         .select2-container {
             width: 100% !important;
         }
-
     </style>
     <div class="container-fluid mt-8 mt-lg-11" id="dashboard-body">
         <div class="">
@@ -28,18 +27,22 @@
                                                         <div class="col-md-6">
                                                             <select onchange="get_dropdown_value();" name="drop_down_id"
                                                                 class="select2_dropdown h-100">
-                                                                <option value="" disabled="disabled">Choose options</option>
+                                                                <option value="" disabled="disabled">Choose options
+                                                                </option>
                                                                 @foreach ($dropdowns as $dropdown)
-                                                                    <option data-type="{{ $dropdown->type }}"
-                                                                        value="{{ $dropdown->id }}">
-                                                                        {{ $dropdown->name }}</option>
+                                                                    {{-- @if ($dropdown->type =! 'candidates_profile') --}}
+                                                                        <option data-type="{{ $dropdown->type }}"
+                                                                            value="{{ $dropdown->id }}">
+                                                                            {{ $dropdown->name }}</option>
+                                                                    {{-- @endif --}}
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         @can('add-dropdown')
                                                             <div class="col-md-3">
-                                                                <button onclick="AddOption();" type="button" id="add_option_btn"
-                                                                    class="btn btn-warning px-5 text-white">Add</button> &nbsp;
+                                                                {{-- <button onclick="AddOption();" type="button"
+                                                                    id="add_option_btn"
+                                                                    class="btn btn-warning px-5 text-white">Add</button> &nbsp; --}}
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <button
@@ -51,7 +54,8 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <select name="sec_dropdown_id" class="2nd_dropdown_id form-control">
-                                                            <option value="" disabled="disabled">Choose options</option>
+                                                            <option value="" disabled="disabled">Choose options
+                                                            </option>
                                                             <option value="1">Intial Stages</option>
                                                             <option value="2">Mid Stages</option>
                                                             <option value="3">Final Stages</option>

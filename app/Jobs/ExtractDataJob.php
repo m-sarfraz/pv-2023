@@ -78,7 +78,7 @@ class ExtractDataJob implements ShouldQueue
             ->setShouldWrapText(false)
             ->setBackgroundColor("FFFFFF")
             ->build();
-
+        
         if ($Userdata) {
             $fileName = time();
             $report = new Report();

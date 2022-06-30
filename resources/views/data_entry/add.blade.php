@@ -5,9 +5,11 @@
         .borderRed {
             border: 1px red solid !important;
         }
-#QrCode svg {
-    width: 100% !important;
-}
+
+        #QrCode svg {
+            width: 100% !important;
+        }
+
         .borderRed:focus {
             box-shadow: 0 0 0 0.05rem red !important;
         }
@@ -66,7 +68,6 @@
             height: 100vh;
             top: 0;
         }
-
     </style>
 @endsection
 
@@ -115,7 +116,8 @@
                             <div class="d-grid gap-2 mb-4  form-group col-md-12 px-0">
                                 <Select name="USERS" class="mb-4 select2_dropdown w-100" id="user"
                                     onchange="enableSearch('#searchRecord')">
-                                    <option value="" {{ $candidateDetail == null ? 'selected' : '' }} disabled selected>
+                                    <option value="" {{ $candidateDetail == null ? 'selected' : '' }} disabled
+                                        selected>
                                     </option>
                                     {{-- @foreach ($user as $key => $value)
                                         <option value="{{ $value->id }}">
@@ -129,7 +131,7 @@
                                 </div>
                                 @can('search-data')
                                     <button class="btn btn_Group mb-4 mt-1 btn-sm" type="button" id="searchRecord"
-                                        onclick="SearchUserData(this,'#UserData_div')" disabled="">
+                                        onclick="SearchUserData('{{url('admin/SearchUserData')}}' , this,'#UserData_div')" disabled="">
                                         Search Record
                                     </button>
                                 @endcan
@@ -234,7 +236,8 @@
                                                             <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                 DOB
                                                             </label>
-                                                            <input type="date" name="DATE_OF_BIRTH" placeholder="mm-dd-yyyy"
+                                                            <input type="date" name="DATE_OF_BIRTH"
+                                                                placeholder="mm-dd-yyyy"
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->dob : '' }}"
                                                                 class="form-control border h-px-20_custom" />
                                                         </div>
@@ -374,7 +377,8 @@
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}">
                                                                 {{-- <option value="" {{ $candidateDetail == null ? 'selected' : ''}} selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
-                                                                    <option value="{{ $certificateOption->option_name }}"
+                                                                    <option
+                                                                        value="{{ $certificateOption->option_name }}"
                                                                         @if ($candidateDetail != null) {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }} @endif>
                                                                         {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
@@ -401,7 +405,8 @@
                                                         </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">Domain</label>
-                                                            <select name="DOMAIN" id="domain" onchange="DomainChange(this)"
+                                                            <select name="DOMAIN" id="domain"
+                                                                onchange="DomainChange(this)"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
@@ -477,7 +482,8 @@
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($profile->options as $profileOption)
-                                                                        <option value="{{ $profileOption->option_name }}"
+                                                                        <option
+                                                                            value="{{ $profileOption->option_name }}"
                                                                             {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
                                                                             {{ $profileOption->option_name }}
                                                                         </option>
@@ -512,7 +518,8 @@
                                                                 <select name="MANNER_OF_INVITE"
                                                                     onchange="mannerChange(this)"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->manner_of_invite : '' }}"
-                                                                    id="manners" class="form-control p-0 users-input-S-C">
+                                                                    id="manners"
+                                                                    class="form-control p-0 users-input-S-C">
                                                                     <option value=""
                                                                         {{ $candidateDetail == null ? 'selected' : '' }}
                                                                         disabled>Select Option
@@ -561,8 +568,7 @@
                                                             <label
                                                                 class="text-black-2 font-size-3 labelFontSize font-weight-semibold mb-0">
                                                                 Employment History</label>
-                                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                                                class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
+                                                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_HCDataEntry">{{ $candidateDetail != null ? $candidateDetail->emp_history : '' }}</textarea>
                                                             <div></div>
                                                         </div>
                                                     </div>
@@ -603,7 +609,8 @@
                                                                         name="CURRENT_ALLOWANCE">
                                                                         Current Allowance:
                                                                     </label>
-                                                                    <input type="number" class="form-control users-input-S-C"
+                                                                    <input type="number"
+                                                                        class="form-control users-input-S-C"
                                                                         value="{{ $candidateDetail != null ? $candidateDetail->curr_allowance : '' }}"
                                                                         name="CURRENT_ALLOWANCE" />
                                                                 </div>
@@ -625,7 +632,8 @@
                                                                 <label class="Label labelFontSize" name="OFFERED_SALARY">
                                                                     Offered Salary:
                                                                 </label>
-                                                                <input type="number" name="OFFERED_SALARY" id="off_salary"
+                                                                <input type="number" name="OFFERED_SALARY"
+                                                                    id="off_salary"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
                                                                     disabled="" oninput="SalaryAppend('#remarks')"
                                                                     class="form-control users-input-S-C" />
@@ -653,8 +661,8 @@
                                                                         <span id="append-cv" class="text-merge-input">No
                                                                             Uploaded CV</span>
                                                                         <label class="labeled"> Upload
-                                                                            <input type="file" id="sheetFile" name="file"
-                                                                                oninput="uploadFile(this)"
+                                                                            <input type="file" id="sheetFile"
+                                                                                name="file" oninput="uploadFile(this)"
                                                                                 accept="application/pdf"
                                                                                 class="uploadcv  demo-css  w-100">
                                                                         </label>
@@ -691,8 +699,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -718,10 +724,11 @@
                                                 </label>
                                             </div>
                                             <div>
-                                                <select name="endo_number" id="no_endo" onchange="selectEndoDetails(this)"
+                                                <select name="endo_number" id="no_endo"
+                                                    onchange="selectEndoDetails(this)"
                                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                     @foreach ($number_of_endorsements as $value)
-                                                        <option   value="{{ $value->numberOfEndo }}"
+                                                        <option value="{{ $value->numberOfEndo }}" selected
                                                             {{-- {{ $i == $number ? 'selected' : '' }} --}}>
                                                             {{ $value->numberOfEndo }}
                                                         </option>
@@ -770,11 +777,12 @@
                                                     </label>
                                                     <div id="loader2" class="d-none"></div>
                                                     <select name="POSITION_TITLE" disabled id="position" readonly
-                                                        class="select2_dropdown  w-100"
-                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                        
+                                                        class="form-control border select2_dropdown  w-100 pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         {{-- <option value="" class="selectedOption" selected  disabled> Select Option
                                                         </option> --}}
-                                                        <option value="" style="color:red !important" selected disabled>
+                                                        <option value="" style="color:red !important" selected
+                                                            disabled>
                                                             Select a Client First
                                                         </option>
 
@@ -798,7 +806,8 @@
                                                     </label>
                                                     <select name="ENDORSEMENT_TYPE" id="endo_type" disabled=""
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($endoType->options as $endoTypeOptions)
@@ -823,7 +832,8 @@
                                                     <select name="CAREER_LEVEL" disabled="" id="career"
                                                         onchange="DomainSegmentAppend()"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" style="color:red !important" selected disabled>
+                                                        <option value="" style="color:red !important" selected
+                                                            disabled>
                                                             Select a Position Title First
                                                         </option>
                                                         {{-- @foreach ($CareerLevel->options as $CareerLevelOptions)
@@ -846,8 +856,9 @@
                                                         <label class="d-block font-size-3 mb-0 labelFontSize">
                                                             Date Processed:
                                                         </label>
-                                                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                                                            placeholder="mm-dd-yyyy" onchange="changeOnboardingDate()"
+                                                        <input type="date" name="DATE_ENDORSED" disabled=""
+                                                            id="endo_date" placeholder="mm-dd-yyyy"
+                                                            onchange="changeOnboardingDate()"
                                                             class="form-control border h-px-20_custom" />
                                                     </div>
                                                 </div>
@@ -870,7 +881,7 @@
                                                             </option>
                                                         @endforeach
                                                         &quot;item&quot;
-                                                        </option>
+                                                       
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -889,7 +900,8 @@
                                                     <select name="CLIENT" disabled="" id="client"
                                                         onchange="clientChanged('position-title',this)"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($client->options as $clientOptions)
@@ -911,13 +923,13 @@
                                                     <label class="Label labelFontSize">
                                                         Remarks (For Finance):
                                                     </label>
-                                                    <select name="REMARKS_FOR_FINANCE" disabled="" id="remarks_for_finance"
-                                                        onchange="RemarksChange(this)" class="select2_dropdown  w-100"
-                                                        class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        {{-- @php
-                                                            $remarks = Helper::get_dropdown('remarks_for_finance');
-                                                        @endphp --}}
-                                                        <option value="" selected id="selectedOption" disabled>Select Option
+                                                    <select name="REMARKS_FOR_FINANCE" disabled=""
+                                                        id="remarks_for_finance" onchange="RemarksChange(this)"
+                                                        
+                                                        class="form-control border pl-0 select2_dropdown  w-100 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                                   
+                                                        <option value="" selected id="selectedOption" disabled>
+                                                            Select Option
                                                         </option>
                                                         {{-- @foreach ($remarks->options as $remarksOptions)
                                                             <option value="{{ $remarksOptions->option_name }}">
@@ -942,7 +954,8 @@
                                                     </label>
                                                     <select name="SITE" disabled="" id="site"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom   font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($site->options as $siteOptions)
@@ -965,9 +978,11 @@
                                                     <label class="Label labelFontSize">
                                                         Reason for not progressing:
                                                     </label>
-                                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled="" id="rfp"
+                                                    <select name="REASONS_FOR_NOT_PROGRESSING" disabled=""
+                                                        id="rfp"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
@@ -992,7 +1007,8 @@
                                                     </label>
                                                     <select disabled="" name="REMARKS_FROM_FINANCE" id="remarks"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($remarks->options as $remarksOptions)
@@ -1081,7 +1097,8 @@
                                                     <label class="Label labelFontSize">sub-segment</label>
                                                     <select readonly id="sub_segment" name="Endo_SUB_SEGMENT"
                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                        <option value="" class="selectedOption" selected disabled>Select
+                                                        <option value="" class="selectedOption" selected disabled>
+                                                            Select
                                                             Option
                                                         </option>
                                                         @foreach ($sub_segment->options as $sub_segmentOptions)
@@ -1096,10 +1113,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </fieldset>
+
                                     </div>
                                 </div>
-                                {{-- </fieldset> --}}
+                            
 
                                 <!-- ENDORSMENT section end -->
                                 <!-- ================== -->
@@ -1143,8 +1160,8 @@
                                                                 <label class="d-block labelFontSize font-size-3 mb-0">
                                                                     Onboarding Date
                                                                 </label>
-                                                                <input type="date" name="ONBOARDING_DATE" id="onboard_date"
-                                                                    placeholder="mm-dd-yyyy"
+                                                                <input type="date" name="ONBOARDING_DATE"
+                                                                    id="onboard_date" placeholder="mm-dd-yyyy"
                                                                     class="form-control border h-px-20_custom" />
                                                             </div>
                                                         </div>
@@ -1218,8 +1235,9 @@
                                                                 <label class="d-block labelFontSize font-size-3 mb-0">
                                                                     Career level
                                                                 </label>
-                                                                <select name="CAREER_LEVEL_FINANCE" disabled="" readonly
-                                                                    id="career_finance" onchange="SPRCalculator(this)"
+                                                                <select name="CAREER_LEVEL_FINANCE" disabled=""
+                                                                    readonly id="career_finance"
+                                                                    onchange="SPRCalculator(this)"
                                                                     class="form-control border h-px-20_custom">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
@@ -1243,12 +1261,12 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Rate
                                                                 </label>
-                                                                <input type="text" name="RATE" id="rate" maxlength="6"
-                                                                    oninput="amountFinder(this)"
+                                                                <input type="text" name="RATE" id="rate"
+                                                                    maxlength="6" oninput="amountFinder(this)"
                                                                     class="form-control border h-px-20_custom" />
                                                                 {{-- <select name="RATE"
                                                                     class="form-control border h-px-20_custom" id="rate"
-                                                                    id="rate_finance" oninput="amountFinder(this)">
+                                                                     oninput="amountFinder(this)">
                                                                     <option value="" class="selectedOption" selected
                                                                         disabled>
                                                                         Select Option</option>
@@ -1286,7 +1304,8 @@
                                                                 <label class="d-block font-size-3 mb-0 labelFontSize">
                                                                     Placement Fee
                                                                 </label>
-                                                                <input type="text" name="PLACEMENT_FEE" id="placement_fee"
+                                                                <input type="text" name="PLACEMENT_FEE"
+                                                                    id="placement_fee"
                                                                     class="form-control border h-px-20_custom" readonly />
                                                             </div>
                                                         </div>
@@ -1312,12 +1331,13 @@
                                 <!-- FINANCE section end -->
                                 <!-- ================== -->
                             </div>
+                                
 
-                        </div>
                     </div>
                 </div>
             </div>
-        </form>
+    </div>
+    </form>
     </div>
 
 @endsection
@@ -2288,12 +2308,9 @@
                     );
                 }
             }
-            let value = $('#career').val()
-            $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+           
             DomainSegmentAppend()
-            SPRCalculator()
+            
         })
 
         function DomainSegmentAppend() {

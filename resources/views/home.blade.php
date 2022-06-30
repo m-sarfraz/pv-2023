@@ -200,13 +200,13 @@
                     ->where('team_id', $data[$i]->id)
                     ->first();
                 if ($Quartile == 1) {
-                    $teamtarget = $team != null ? $team->q1_target : '0';
+                    $teamtarget = $team != null ? $team->q1_target : '1';
                 } elseif ($Quartile == 2) {
-                    $teamtarget = $team != null ? $team->q2_target : '0';
+                    $teamtarget = $team != null ? $team->q2_target : '1';
                 } elseif ($Quartile == 3) {
-                    $teamtarget = $team != null ? $team->q3_target : '0';
+                    $teamtarget = $team != null ? $team->q3_target : '1';
                 } else {
-                    $teamtarget = $team != null ? $team->q4_target : '0';
+                    $teamtarget = $team != null ? $team->q4_target : '1';
                 }
                 // $teamtarget = $team != null ? $team->m_target : '0';
                 // $q_target = $team != null ? $team->q_target : '0';

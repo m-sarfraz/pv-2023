@@ -36,7 +36,9 @@
         }
 
         .hidetrID tr:hover {
-            background-color: rgb(159, 165, 243);
+            background-color: rgb(220 134 39) !important;
+            color: white;
+
         }
 
         #fmtable_filter {
@@ -538,20 +540,25 @@
                         <div class="card-body">
                             <form action="">
                                 <fieldset>
+                                    @php
+                                    $remarkss = Helper::get_dropdown('remarks_from_finance');
+                                @endphp
                                     <div class="row mb-1">
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
                                                 <label class="Label-00">
                                                     Remarks:
                                                 </label>
-                                                <select name="" id="" class="w-100 form-control">
-                                                    <option selected disabled>Select Option </option>
-                                                    <option value="1">Billed</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                    <option value="4">Four</option>
-                                                    <option value="5">Five</option>
-                                                </select>
+                                                <select name="remarks" id="remarksFinance" onchange="remarksChange()"
+                                    class="w-100 form-control">
+                                    <option value="" selected disabled>Select Option</option>
+                                    @foreach ($remarkss->options as $remarksOptions)
+                                        <option value="{{ $remarksOptions->option_name }}"
+                                          >
+                                            {{ $remarksOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 p-1">

@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
     //Search User data route
-    Route::get('SearchUserData/{id}', 'CandidateController@SearchUserData')->name('searchUser');
+    Route::get('SearchUserData', 'CandidateController@SearchUserData')->name('searchUser');
     Route::get('QRCode/{id}', 'CandidateController@QRCodeGenerator')->name('QRCode');
     // Route::get('redirectQrCode/{cid}/{uid}', 'UserController@redirectQrCode')->name('redirectQrCode');
     Route::get('checkIfQRScanned', 'UserController@checkIfQRScanned')->name('checkIfQRScanned');
@@ -155,7 +155,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
     Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
-    Route::post('view-options', 'DropDownController@view_options')->name('view-options');
+    Route::match(['get', 'post'],'view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('update-option', 'DropDownController@update_option')->name('update-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');

@@ -703,7 +703,9 @@
     @endsection
 
 
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     @section('script')
+
         <script>
             select2Dropdown("select2_dropdown");
             $(document).ready(function() {
@@ -800,7 +802,7 @@
                 client = $('#client').val();
                 career_level = $('#career').val();
                 category = $('#category').val();
-                status = $('#status').val();
+                status = $('#app_status').val();
                 remarks = $('#remarks').val();
                 sift_start = $('#sifted_start').val();
                 sift_end = $('#sifted_end').val();
@@ -826,10 +828,14 @@
                         }
                     })
                     .done(function(res) {
-                        swal("Info", res.message, "warning").then((value) => {
-
-                            location.reload();
-                        });
+                    //     Swal.fire({
+                    //     position: 'center',
+                    //     icon: 'success',
+                    //     title: res.message,
+                    //     showConfirmButton: false,
+                    //     timer: 4000
+                    // })
+                    location.reload();  
                         $("#loader").hide();
                     })
                     .fail(function(err) {

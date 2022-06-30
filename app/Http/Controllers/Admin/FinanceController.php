@@ -168,7 +168,7 @@ class FinanceController extends Controller
                     $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $user->onboardnig_date = '';
+                    return $user->onboardnig_date = '';
                 }
             })
             ->addColumn('placement_fee', function ($user) {
@@ -232,7 +232,7 @@ class FinanceController extends Controller
                     $onboardnig_date = date_format(date_create($user->onboardnig_date), "m-d-Y");
                     return $onboardnig_date;
                 } else {
-                    $user->onboardnig_date = '';
+                    return $user->onboardnig_date = '';
                 }
             })
             ->addColumn('placement_fee', function ($user) {
@@ -254,8 +254,9 @@ class FinanceController extends Controller
     // close
 
     // save the update data of candidate
-    public function SavefinanceReference(Request $request)
+    public function SavefinanceReference (Request $request)
     {
+ 
         DB::table('finance')->where('id', $request->fid)->update([
             'remarks_recruiter' => $request->remarks,
         ]);
@@ -297,7 +298,7 @@ class FinanceController extends Controller
             "ind_revenue" => str_replace(',', '', $request->ind_revenue),
             "t_id" => $t_id,
         ];
-
+       
         $eid = (Finance::where('id', $request->fid)->first())->endorsement_id;
         Endorsement::where('id', $eid)->update([
             'remarks' => $request->remarks,
@@ -319,14 +320,17 @@ class FinanceController extends Controller
         //for check team revenue
         // $recruiter = Auth::user()->roles()->pluck('name');
         $revenueArray = [];
-        $revenue = DB::table('roles')->where('team_revenue', 1)->get('id');
+        $revenue = DB::select('select id from roles where team_revenue = 1 and id != 3 and id != 24');
+        //  DB::table('roles')->where('team_revenue', 1)->whereNotIn('id',)->get('id');
         // dd($revenue);
         foreach ($revenue as $key => $value) {
             $revenueArray[$key] = $value->id;
         }
+        // dd($revenueArray);
         $teamRevenueAmount = DB::table('finance_detail')
             ->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))
             ->whereIn('t_id', $revenueArray)->get();
+            
         //for check team revenue close
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
@@ -365,8 +369,8 @@ class FinanceController extends Controller
         // end modify  wherein()
 
         if (strpos($sql, 'where') !== false) {
-            $sql_fallout = $sql . "  and remarks_recruiter LIKE '%fall out%' OR remarks_recruiter LIKE '%replacement%'";
-            $sql_billed = $sql . " and  remarks_recruiter in('fall out','Billed','replacement')";
+            $sql_fallout = $sql . " and  remarks_recruiter in('fall out' , 'Replacement')";
+            $sql_billed = $sql . " and  remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')";
             $sql_unBilled = $sql . " and remarks_recruiter ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
@@ -375,15 +379,16 @@ class FinanceController extends Controller
             $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' ";
-            $c_share = $sql . "  and remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
-
-            $vcc_amount_sum = $sql . " and remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
+            $c_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 "; 
+            $bod_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id = 24 "; 
+            $c_take = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') "; 
+            $vcc_amount_sum = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
             // $vcc_amount_sum_for_I_B_R=$sql." and remarks_recruiter LIKE '%collect%' OR "
             // $sql_onboarded = $sql . " and remarks_recruiter_for_finance='Onboarded'";
         } else {
 
-            $sql_fallout = $sql . " where remarks_recruiter LIKE '%fall out%' OR remarks_recruiter LIKE '%replacement%'   ";
-            $sql_billed = $sql . "where  remarks_recruiter in('fall out','Billed','Replacement')";
+            $sql_fallout = $sql . " where  remarks_recruiter in('fall out' , 'Replacement')";
+            $sql_billed = $sql . "where  remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')";
             $sql_unBilled = $sql . "where remarks_recruiter ='Unbilled' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
@@ -392,15 +397,18 @@ class FinanceController extends Controller
             $sql_receivables = $sql . "where process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . "where process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . "where process_status ='OVERDUE' ";
-            $c_share = $sql . " where remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'  ";
-            $vcc_amount_sum = $sql . "where remarks_recruiter LIKE '%collect%' OR remarks_recruiter LIKE '%replace%'OR remarks_recruiter LIKE 'billed%'   ";
-
+            $c_share = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 "; 
+            $bod_share = $sql . " where   remarks_recruiter in('Billed' , 'Collected' , 'Replaced') and t_id = 24 "; 
+            $c_take = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') "; 
+            $vcc_amount_sum = $sql . "where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
+ 
         }
         $sql_receivables_amount = DB::select($sql_receivables);
         $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
-        $sql_ctake_amount = DB::select($sql_billed);
+        $sql_ctake_amount = DB::select($c_take); 
         $sql_c_share_db = DB::select($c_share);
+        $sql_bod_share_db = DB::select($bod_share);
         $sql_vcc_amount_sum = DB::select($vcc_amount_sum);
         $billedAmount = 0;
         $unbilledAmount = 0;
@@ -410,6 +418,7 @@ class FinanceController extends Controller
         $overDue_receivablesAmount = 0;
         $ctakeAmount = 0;
         $sql_c_share = 0;
+        $sql_bod_share = 0;
         $vcc_amount_sum = 0;
         foreach ($sql_billed_amount as $total) {
             $billedAmount = $billedAmount + $total->vcc_share;
@@ -434,10 +443,16 @@ class FinanceController extends Controller
             //unknown vlaue for some
             $ctakeAmount = $ctakeAmount + $ctake->c_take;
         }
+       
         foreach ($sql_c_share_db as $cftake) {
             //unknown vlaue for some
             $sql_c_share = $sql_c_share + $cftake->c_take;
         }
+        foreach ($sql_bod_share_db as $bod) {
+            //unknown vlaue for some
+            $sql_bod_share = $sql_bod_share + $bod->vcc_share;
+        }
+        
         foreach ($sql_vcc_amount_sum as $cftake) {
             //unknown vlaue for some
             $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
@@ -452,11 +467,12 @@ class FinanceController extends Controller
 
         $teamRevenueAmountFinance = 0;
         foreach ($teamRevenueAmount as $value) {
-            # code...
+ 
             $teamRevenueAmountFinance += $value->totoalRevenue;
         }
-
-        $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
+ 
+        // $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
+        // return $traf ;
         $data = [
             'hires' => count($Userdata->get()),
             'fallout' => count(DB::Select($sql_fallout)),
@@ -470,11 +486,10 @@ class FinanceController extends Controller
             'overDue_receivablesAmount' => $overDue_receivablesAmount,
             'ctakeAmount' => $ctakeAmount,
             'sql_c_share' => $sql_c_share,
+            'sql_bod_share' => $sql_bod_share,
             'vcc_amount_sum' => $vcc_amount_sum,
-            'teamRevenueAmount' => $traf,
-
-        ];
-
+            'teamRevenueAmount' => $teamRevenueAmountFinance, 
+        ]; 
         return view('finance.summary', $data);
     }
     // close
@@ -487,7 +502,7 @@ class FinanceController extends Controller
             ->whereIn('remarks_for_finance', $arr)
             ->select('candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.first_name', 'candidate_informations.middle_name', 'candidate_informations.last_name')->get();
         $recruiter = User::where("type", 3)->get();
-        $teams = DB::select("select * from roles");
+        $teams = DB::select("select * from roles order by name");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
         $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');
@@ -502,188 +517,188 @@ class FinanceController extends Controller
         ]);
     }
     // close
-    public function FinanceSearchForSummary(Request $request)
-    {
-        $revenueArray = [];
-        $revenue = DB::table('roles')->where('team_revenue', 1)->get('id');
-        // dd($revenue);
-        foreach ($revenue as $key => $value) {
-            $revenueArray[$key] = $value->id;
-        }
-        $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
+    // public function FinanceSearchForSummary(Request $request)
+    // {
+    //     $revenueArray = [];
+    //     $revenue = DB::table('roles')->where('team_revenue', 1)->get('id');
+    //     // dd($revenue);
+    //     foreach ($revenue as $key => $value) {
+    //         $revenueArray[$key] = $value->id;
+    //     }
+    //     $teamRevenueAmount = DB::table('finance_detail')->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))->whereIn('t_id', $revenueArray)->get();
 
-        $check = $searchCheck = false;
-        if ($request->searchKeyword == null) {
-            $request->searchKeyword = 1;
-            $objetoRequest = new \Illuminate\Http\Request();
-            $objetoRequest->setMethod('POST');
-            $objetoRequest->request->add([
-                'array' => '1',
-            ]);
-            return $this->summaryAppend($objetoRequest);
-            // return $this->summaryAppend($request->searchKeyword);
-        }
-        // dd($request->all());
-        $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
-        $Userdata = DB::table('finance')
-            ->join('candidate_informations', 'finance.candidate_id', 'candidate_informations.id', )->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-            ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
-            ->whereIn('endorsements.remarks_for_finance', $arr)
-            ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*');
+    //     $check = $searchCheck = false;
+    //     if ($request->searchKeyword == null) {
+    //         $request->searchKeyword = 1;
+    //         $objetoRequest = new \Illuminate\Http\Request();
+    //         $objetoRequest->setMethod('POST');
+    //         $objetoRequest->request->add([
+    //             'array' => '1',
+    //         ]);
+    //         return $this->summaryAppend($objetoRequest);
+    //         // return $this->summaryAppend($request->searchKeyword);
+    //     }
+    //     // dd($request->all());
+    //     $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
+    //     $Userdata = DB::table('finance')
+    //         ->join('candidate_informations', 'finance.candidate_id', 'candidate_informations.id', )->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+    //         ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+    //         ->whereIn('endorsements.remarks_for_finance', $arr)
+    //         ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
+    //             'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*');
 
-        //start search
-        if (isset($request->searchKeyword)) {
-            $perfect_match = DB::table('finance')
-                ->join('candidate_informations', 'finance.candidate_id', 'candidate_informations.id', )->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
-                ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
-                ->whereIn('endorsements.remarks_for_finance', $arr)
-                ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
-                    'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*')->get();
-            foreach ($perfect_match as $match) {
-                if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('candidate_informations.last_name', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('endorsements.saved_by', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('endorsements.client', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('endorsements.remarks_for_finance', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('endorsements.career_endo', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('endorsements.status', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-                if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
-                    $check = true;
-                    $Userdata->where('finance.placement_fee', 'like', '"%' . $request->searchKeyword . '%"');
-                }
-            }
-        }
-        if ($check) {
-            $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
-            foreach ($arr as $remarks) {
-                $sql = str_replace($remarks, "'$remarks'", $sql);
-            }
-        } else {
-            if (!$check) {
-                $data = [
-                    'hires' => 0,
-                    'fallout' => 0,
-                    'billed' => 0,
-                    'unbilled' => 0,
-                    'billedAmount' => 0,
-                    'unbilledAmount' => 0,
-                    'falloutAmount' => 0,
-                    'receivablesAmount' => 0,
-                    'Current_receivablesAmount' => 0,
-                    'overDue_receivablesAmount' => 0,
-                    'ctakeAmount' => 0,
-                    'sql_c_share' => 0,
-                    'vcc_amount_sum' => 0,
-                    'teamRevenueAmount' => 0,
+    //     //start search
+    //     if (isset($request->searchKeyword)) {
+    //         $perfect_match = DB::table('finance')
+    //             ->join('candidate_informations', 'finance.candidate_id', 'candidate_informations.id', )->join('endorsements', 'endorsements.candidate_id', 'finance.candidate_id')
+    //             ->join('finance_detail', 'finance_detail.candidate_id', 'finance.candidate_id')
+    //             ->whereIn('endorsements.remarks_for_finance', $arr)
+    //             ->select('endorsements.remarks_for_finance', 'endorsements.client', 'endorsements.career_endo', 'endorsements.status',
+    //                 'candidate_informations.last_name', 'endorsements.saved_by', 'finance.placement_fee', 'finance.srp', 'finance_detail.*')->get();
+    //         foreach ($perfect_match as $match) {
+    //             if (strpos(strtolower($match->last_name), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('candidate_informations.last_name', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->saved_by), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('endorsements.saved_by', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->client), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('endorsements.client', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->remarks_for_finance), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('endorsements.remarks_for_finance', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->career_endo), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('endorsements.career_endo', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->status), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('endorsements.status', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //             if (strpos(strtolower($match->placement_fee), strtolower($request->searchKeyword)) !== false) {
+    //                 $check = true;
+    //                 $Userdata->where('finance.placement_fee', 'like', '"%' . $request->searchKeyword . '%"');
+    //             }
+    //         }
+    //     }
+    //     if ($check) {
+    //         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+    //         foreach ($arr as $remarks) {
+    //             $sql = str_replace($remarks, "'$remarks'", $sql);
+    //         }
+    //     } else {
+    //         if (!$check) {
+    //             $data = [
+    //                 'hires' => 0,
+    //                 'fallout' => 0,
+    //                 'billed' => 0,
+    //                 'unbilled' => 0,
+    //                 'billedAmount' => 0,
+    //                 'unbilledAmount' => 0,
+    //                 'falloutAmount' => 0,
+    //                 'receivablesAmount' => 0,
+    //                 'Current_receivablesAmount' => 0,
+    //                 'overDue_receivablesAmount' => 0,
+    //                 'ctakeAmount' => 0,
+    //                 'sql_c_share' => 0,
+    //                 'vcc_amount_sum' => 0,
+    //                 'teamRevenueAmount' => 0,
 
-                ];
+    //             ];
 
-                return view('finance.summary', $data);
-            }
-        }
+    //             return view('finance.summary', $data);
+    //         }
+    //     }
 
-        if (strpos($sql, 'where') !== false) {
-            $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%'   ";
-            $sql_billed = $sql . " and  endorsements.remarks in('fallout','Billed','replacement')";
-            $sql_unBilled = $sql . " and endorsements.remarks ='Unbilled' ";
-            $sql_billed_amount = DB::select($sql_billed);
-            $sql_unbilled_amount = DB::select($sql_unBilled);
-            $sql_fallout_amount = DB::select($sql_fallout);
-            $sql_receivables = $sql . " and finance_detail.process_status in('OVERDUE','FFUP','RCVD') ";
-            $sql_Current_receivables = $sql . " and finance_detail.process_status in('FFUP','RCVD')  ";
-            $sql_overDue_receivables = $sql . " and finance_detail.process_status ='OVERDUE' ";
-            $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'  ";
-            $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'  ";
-        };
+    //     if (strpos($sql, 'where') !== false) {
+    //         $sql_fallout = $sql . "  and endorsements.remarks LIKE '%fallout%' OR endorsements.remarks LIKE '%replacement%'   ";
+    //         $sql_billed = $sql . " and  endorsements.remarks in('fallout','Billed','replacement')";
+    //         $sql_unBilled = $sql . " and endorsements.remarks ='Unbilled' ";
+    //         $sql_billed_amount = DB::select($sql_billed);
+    //         $sql_unbilled_amount = DB::select($sql_unBilled);
+    //         $sql_fallout_amount = DB::select($sql_fallout);
+    //         $sql_receivables = $sql . " and finance_detail.process_status in('OVERDUE','FFUP','RCVD') ";
+    //         $sql_Current_receivables = $sql . " and finance_detail.process_status in('FFUP','RCVD')  ";
+    //         $sql_overDue_receivables = $sql . " and finance_detail.process_status ='OVERDUE' ";
+    //         $c_share = $sql . "  and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%' and t_id =3  ";
+    //         $vcc_amount_sum = $sql . " and endorsements.remarks LIKE '%collect%' OR endorsements.remarks LIKE '%replace%'OR endorsements.remarks LIKE 'billed%'  ";
+    //     };
 
-        $sql_receivables_amount = DB::select($sql_receivables);
-        $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
-        $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
-        $sql_ctake_amount = DB::select($sql_billed);
-        $sql_c_share_db = DB::select($c_share);
-        $sql_vcc_amount_sum = DB::select($vcc_amount_sum);
-        $billedAmount = 0;
-        $unbilledAmount = 0;
-        $falloutAmount = 0;
-        $receivablesAmount = 0;
-        $Current_receivablesAmount = 0;
-        $overDue_receivablesAmount = 0;
-        $ctakeAmount = 0;
-        $sql_c_share = 0;
-        $vcc_amount_sum = 0;
-        foreach ($sql_billed_amount as $total) {
-            $billedAmount = $billedAmount + $total->srp;
-        }
-        foreach ($sql_unbilled_amount as $unbill) {
-            $unbilledAmount = $unbilledAmount + $unbill->srp;
-        }
+    //     $sql_receivables_amount = DB::select($sql_receivables);
+    //     $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
+    //     $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
+    //     $sql_ctake_amount = DB::select($sql_billed);
+    //     $sql_c_share_db = DB::select($c_share);
+    //     $sql_vcc_amount_sum = DB::select($vcc_amount_sum);
+    //     $billedAmount = 0;
+    //     $unbilledAmount = 0;
+    //     $falloutAmount = 0;
+    //     $receivablesAmount = 0;
+    //     $Current_receivablesAmount = 0;
+    //     $overDue_receivablesAmount = 0;
+    //     $ctakeAmount = 0;
+    //     $sql_c_share = 0;
+    //     $vcc_amount_sum = 0;
+    //     foreach ($sql_billed_amount as $total) {
+    //         $billedAmount = $billedAmount + $total->srp;
+    //     }
+    //     foreach ($sql_unbilled_amount as $unbill) {
+    //         $unbilledAmount = $unbilledAmount + $unbill->srp;
+    //     }
 
-        foreach ($sql_fallout_amount as $fallout) {
-            $falloutAmount = $falloutAmount + $fallout->srp;
-        }
-        foreach ($sql_receivables_amount as $receivable) {
-            $receivablesAmount = $receivablesAmount+isset($receivable->finalFee) ? $receivable->finalFee : 0;
-        }
-        foreach ($sql_Current_receivables_amount as $Curr_receivable) {
-            $Current_receivablesAmount = $Current_receivablesAmount+isset($Curr_receivable->finalFee) ? $Curr_receivable->finalFee : 0;
-        }
-        foreach ($sql_overDue_receivables_amount as $over_receivable) {
-            $overDue_receivablesAmount = $overDue_receivablesAmount+isset($over_receivable->finalFee) ? $over_receivable->finalFee : 0;
-        }
-        foreach ($sql_ctake_amount as $ctake) {
-            //unknown vlaue for some
-            $ctakeAmount = $ctakeAmount + $ctake->c_take;
-        }
-        foreach ($sql_c_share_db as $cftake) {
-            //unknown vlaue for some
-            $sql_c_share = $sql_c_share + $cftake->c_take;
-        }
-        foreach ($sql_vcc_amount_sum as $cftake) {
-            //unknown vlaue for some
-            $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
-        }
-        $teamRevenueAmountFinance = 0;
-        foreach ($teamRevenueAmount as $value) {
-            # code...
-            $teamRevenueAmountFinance += $value->totoalRevenue;
-        }
+    //     foreach ($sql_fallout_amount as $fallout) {
+    //         $falloutAmount = $falloutAmount + $fallout->srp;
+    //     }
+    //     foreach ($sql_receivables_amount as $receivable) {
+    //         $receivablesAmount = $receivablesAmount+isset($receivable->finalFee) ? $receivable->finalFee : 0;
+    //     }
+    //     foreach ($sql_Current_receivables_amount as $Curr_receivable) {
+    //         $Current_receivablesAmount = $Current_receivablesAmount+isset($Curr_receivable->finalFee) ? $Curr_receivable->finalFee : 0;
+    //     }
+    //     foreach ($sql_overDue_receivables_amount as $over_receivable) {
+    //         $overDue_receivablesAmount = $overDue_receivablesAmount+isset($over_receivable->finalFee) ? $over_receivable->finalFee : 0;
+    //     }
+    //     foreach ($sql_ctake_amount as $ctake) {
+    //         //unknown vlaue for some
+    //         $ctakeAmount = $ctakeAmount + $ctake->c_take;
+    //     }
+    //     foreach ($sql_c_share_db as $cftake) {
+    //         //unknown vlaue for some
+    //         $sql_c_share = $sql_c_share + $cftake->c_take;
+    //     }
+    //     foreach ($sql_vcc_amount_sum as $cftake) {
+    //         //unknown vlaue for some
+    //         $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
+    //     }
+    //     $teamRevenueAmountFinance = 0;
+    //     foreach ($teamRevenueAmount as $value) {
+    //         # code...
+    //         $teamRevenueAmountFinance += $value->totoalRevenue;
+    //     }
 
-        $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
-        $data = [
-            'hires' => count(DB::select($sql)),
-            'fallout' => count(DB::Select($sql_fallout)),
-            'billed' => count(DB::select($sql_billed)),
-            'unbilled' => count(DB::select($sql_unBilled)),
-            'billedAmount' => $billedAmount,
-            'unbilledAmount' => $unbilledAmount,
-            'falloutAmount' => $falloutAmount,
-            'receivablesAmount' => $receivablesAmount,
-            'Current_receivablesAmount' => $Current_receivablesAmount,
-            'overDue_receivablesAmount' => $overDue_receivablesAmount,
-            'ctakeAmount' => $ctakeAmount,
-            'sql_c_share' => $sql_c_share,
-            'vcc_amount_sum' => $vcc_amount_sum,
-            'teamRevenueAmount' => $traf,
+    //     $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
+    //     $data = [
+    //         'hires' => count(DB::select($sql)),
+    //         'fallout' => count(DB::Select($sql_fallout)),
+    //         'billed' => count(DB::select($sql_billed)),
+    //         'unbilled' => count(DB::select($sql_unBilled)),
+    //         'billedAmount' => $billedAmount,
+    //         'unbilledAmount' => $unbilledAmount,
+    //         'falloutAmount' => $falloutAmount,
+    //         'receivablesAmount' => $receivablesAmount,
+    //         'Current_receivablesAmount' => $Current_receivablesAmount,
+    //         'overDue_receivablesAmount' => $overDue_receivablesAmount,
+    //         'ctakeAmount' => $ctakeAmount,
+    //         'sql_c_share' => $sql_c_share,
+    //         'vcc_amount_sum' => $vcc_amount_sum,
+    //         'teamRevenueAmount' => $traf,
 
-        ];
-        return view('finance.summary', $data);
-    }
+    //     ];
+    //     return view('finance.summary', $data);
+    // }
 }

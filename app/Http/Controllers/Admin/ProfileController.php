@@ -22,6 +22,7 @@ use File;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Response;
 use Str;
 
@@ -153,7 +154,7 @@ class ProfileController extends Controller
                         // $store_by_google_sheet->first_name = isset($name[0]) ? $name[0] : "";
                         // $store_by_google_sheet->middle_name = isset($name[1]) ? $name[1] : "";
                         // $store_by_google_sheet->last_name = isset($name[2]) ? $name[2] : "";
-                        $store_by_google_sheet->last_name =$candidate_name;
+                        $store_by_google_sheet->last_name = $candidate_name;
 
                         if (strpos(isset($render['17']) ? $render['17'] : '', 'F') !== false) {
                             $store_by_google_sheet->gender = 'FEMALE';
@@ -339,7 +340,7 @@ class ProfileController extends Controller
                         $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
                         $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                         $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
-
+                        $finance->remarks_recruiter = 'Unbilled';
                         $finance->t_id = $recruiter->id;
                         $finance->save();
 
@@ -517,36 +518,125 @@ class ProfileController extends Controller
             return redirect()->back()->with('error-live', 'Uploading Failed');
         }
     }
-    public function readLocalAcceess()
+    public function readLocalAcceess(Request $request)
     {
+
+        $image_changed_name = time() . '.' . $request->file->getClientOriginalExtension();
+
+        $request->file("file")->move(public_path("uploads"), $image_changed_name);
+        $path = public_path("uploads") . "/" . $image_changed_name;
+        $data = Excel::toArray([], $path)[0];
+
+        // check if file is existng and system can open it
+        if ($_FILES["file"]['type'] != 'text/csv') {
+            return redirect()->back()->with('error-local-sdb', 'Cannot open file for reading');
+        }
+        // close
+
+        // check if file size is according to requirement
+
+        // close
+
+        // check if format is according to requirement
+        if ($data[0][0] != "CATEGORY" ||
+            $data[0][1] != "TEAM" ||
+            $data[0][2] != "REPROCESS" ||
+            $data[0][3] != "ORIGINAL RECRUITER" ||
+            $data[0][4] != "DATE SIFTED" ||
+            $data[0][5] != "SOURCE" ||
+            $data[0][6] != "POSITION TITLE APPLIED" ||
+            $data[0][7] != "CANDIDATES PROFILE" ||
+            $data[0][8] != "DOMAIN" ||
+            $data[0][9] != "SEGMENT" ||
+            $data[0][10] != "SUB SEGMENT" ||
+            $data[0][11] != "MANNER OF INVITE" ||
+            $data[0][12] != "DATE INVITED" ||
+            $data[0][13] != "CANDIDATE'S NAME" ||
+            $data[0][14] != "First Name" ||
+            $data[0][15] != "M.I." ||
+            $data[0][16] != "Last Name" ||
+            $data[0][17] != "GENDER" ||
+            $data[0][18] != "DATE OF BIRTH" ||
+            $data[0][19] != "CONTACT NUMBER" ||
+            $data[0][20] != "EMAIL ADDRESS" ||
+            $data[0][21] != "RESIDENCE" ||
+            $data[0][22] != "COURSE" ||
+            $data[0][23] != "EDUCATIONAL ATTAINMENT" ||
+            $data[0][24] != "CERTIFICATIONS" ||
+            $data[0][25] != "EMPLOYMENT HISTORY" ||
+            $data[0][26] != "INTERVIEW NOTES" ||
+            $data[0][27] != "CURRENT SALARY" ||
+            $data[0][28] != "CURRENT ALLOWANCE" ||
+            $data[0][29] != "EXPECTED SALARY" ||
+            $data[0][30] != "OFFERED SALARY" ||
+            $data[0][31] != "OFFERED ALLOWANCE" ||
+            $data[0][32] != "APPLICATION STATUS" ||
+            $data[0][33] != "ENDORSEMENT TYPE" ||
+            $data[0][34] != "DATE ENDORSED" ||
+            $data[0][35] != "CLIENT" ||
+            $data[0][36] != "SITE" ||
+            $data[0][37] != "POSITION TITLE" ||
+            $data[0][38] != "CAREER LEVEL" ||
+            $data[0][39] != "DOMAIN" ||
+            $data[0][40] != "SEGMENT" ||
+            $data[0][41] != "SUBSEGMENT" ||
+            $data[0][42] != "STATUS" ||
+            $data[0][43] != "REMARKS (For Finance)" ||
+            $data[0][44] != "REASONS FOR NOT PROGRESSING" ||
+            $data[0][45] != "INTERVIEW SCHEDULE" ||
+            $data[0][46] != "CANDIDATE'S SURVEY" ||
+            $data[0][47] != "STANDARD PROJECTED REVENUE" ||
+            $data[0][48] != "CLIENT" ||
+            $data[0][49] != "CAREER LEVEL" ||
+            $data[0][50] != "OFFERED SALARY" ||
+            $data[0][51] != "ALLOWANCE" ||
+            $data[0][52] != "SPECIAL COMPENSATION" ||
+            $data[0][53] != "RATE(%)" ||
+            $data[0][54] != "VAT(%)" ||
+            $data[0][55] != "PLACEMENT FEE" ||
+            $data[0][56] != "FINAL FEE" ||
+            $data[0][57] != "ADJUSTMENT" ||
+            $data[0][58] != "CREDIT MEMO" ||
+            $data[0][59] != "ONBOARDING DATE" ||
+            $data[0][60] != "INVOICE DATE" ||
+            $data[0][61] != "INVOICE NUMBER" ||
+            $data[0][62] != "DATE DELIVERED" ||
+            $data[0][63] != "DPD" ||
+            $data[0][64] != "PAYMENT TERMS" ||
+            $data[0][65] != "DATE COLLECTED" ||
+            $data[0][66] != "OR NUMBER" ||
+            $data[0][67] != "CODE" ||
+            $data[0][68] != "TERMINATION DATE" ||
+            $data[0][69] != "REPLACEMENT FOR" ||
+            $data[0][70] != "REMARKS" ||
+            $data[0][71] != "PROCESS STATUS" ||
+            $data[0][72] != "VCC SHARE(%)" ||
+            $data[0][73] != "VCC SHARE AMOUNT" ||
+            $data[0][74] != "CONSULTANTS TAKE (%)" ||
+            $data[0][75] != "CONSULTANTS TAKE" ||
+            $data[0][76] != "OWNER SHARE(%)" ||
+            $data[0][77] != "OWNER SHARE AMOUNT" ||
+            $data[0][78] != "REPROCESS SHARE(%)" ||
+            $data[0][79] != "REPROCESS SHARE AMOUNT" ||
+            $data[0][80] != "INDIVIDUAL REVENUE") {
+            return redirect()->back()->with('error-local-sdb', 'Data is not correct');
+        }
+        // close
+
+        // unset first row after checking
+        unset($data[0]);
+
         $recruiter = Auth::user()->roles->first();
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         $recruiter = Auth::user()->roles->first();
-        $filename = $_FILES["file"]["tmp_name"];
-        if ($_FILES["file"]["size"] > 0) {
-            $file = fopen($filename, "r");
+        if (count($data) > 0) {
+            foreach ($data as $key => $render) {
+                $num = count($render);
+                if ($num > 6000) {
+                    return redirect()->back()->with('error-local-sdb', 'Number of rows exceeds than 6000');
+                } else {
 
-            if (!$file) {
-                // die('Cannot open file for reading');
-                return redirect()->back()->with('error-local-sdb', 'Cannot open file for reading');
-
-            }
-            $render = fgetcsv($file, 1000, ",");
-            if ($render[0] != 'CATEGORY' && $render[0] != 'TEAM') {
-                return redirect()->back()->with('error-local-sdb', 'Data is not correct');
-
-            } else {
-
-                $row = 1;
-                // unset($render[0]);
-                while (($render = fgetcsv($file, 1000, ",")) !== false) {
-                    // dd($render[1]);
-
-                    $num = count($render);
-                    if ($row > 6002) {
-                        return response()->json(['success' => false, 'message' => 'Number of rows exceeds than 6000']);
-                    }
-
+                    $row = 1;
                     $candidate_name = isset($render[13]) ? $render[13] : "";
                     $candidate_phone = isset($render[19]) ? $render[19] : "";
                     // query for checking the exisitng /duplicate record
@@ -673,7 +763,6 @@ class ProfileController extends Controller
                     $offera_s_combune_1 = isset($off_allowance_divide[1]) ? $off_allowance_divide[1] : '';
                     $candidatePosition->off_allowance = floatval($offera_s_combune_0 . $offera_s_combune_1);
                     $candidatePosition->save();
-
                     // end store data in candidate_position
 
                     // endoresment startgit
@@ -688,13 +777,42 @@ class ProfileController extends Controller
                             $numberOfEndo = 1;
                         } else {
                             $numberOfEndo = $lastEndo + 1;
+
                         }
-                        $endorsement = new Endorsement();
-                        // $endorsement = Endorsement::find($query->id);
+                        // $endorsement = new Endorsement();
+                        $check = Endorsement::where(['saved_by' => isset($render[3]) ? $render[3] : Auth::user()->id,
+                            'candidate_id' => $query->id,
+                            'client' => isset($render[35]) ? $render[35] : "",
+                            'position_title' => isset($render[37]) ? $render[37] : "",
+                            'endi_date' => isset($render[34]) ? date('y-m-d', strtotime($render[34])) : "",
+                        ])->first();
+                        if ($check != null) {
+
+                            // update existing record
+                            $endorsement = Endorsement::find($check->id);
+                            $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
+                            $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
+                            $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
+                        } else {
+
+                            // insert new record
+                            $numberOfEndo = 1;
+                            $endorsement = new Endorsement();
+                            $finance = new Finance();
+                            $finance_detail = new Finance_detail();
+                            $Cipprogress = new Cipprogress();
+
+                        }
+
                     } else {
-                        // insert record
+
+                        // insert new record
                         $numberOfEndo = 1;
                         $endorsement = new Endorsement();
+                        $finance = new Finance();
+                        $finance_detail = new Finance_detail();
+                        $Cipprogress = new Cipprogress();
+
                     }
                     $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                     $endorsement->client = isset($render[35]) ? $render[35] : "";
@@ -720,14 +838,14 @@ class ProfileController extends Controller
                     $query = DB::table("finance")
                         ->where("candidate_id", $store_by_Ecxel->id)
                         ->first();
-                    if (isset($query->id)) {
-                        // update record
-                        $finance = new Finance();
-                        // $finance = Finance::find($query->id);
-                    } else {
-                        // insert record
-                        $finance = new Finance();
-                    }
+                    // if (isset($query->id)) {
+                    //     // update record
+                    //     $finance = new Finance();
+                    //     // $finance = Finance::find($query->id);
+                    // } else {
+                    //     // insert record
+                    //     $finance = new Finance();
+                    // }
                     $finance->candidate_id = $store_by_Ecxel->id;
                     $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
                     $finance->endorsement_id = $endorsement->id;
@@ -761,20 +879,22 @@ class ProfileController extends Controller
                     $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                     $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                     $finance->t_id = $recruiter->id;
+                    $finance->remarks_recruiter = 'Unbilled';
+
                     $finance->save();
                     //finance detail start
 
                     $query = DB::table("finance_detail")
                         ->where("candidate_id", $store_by_Ecxel->id)
                         ->first();
-                    if (isset($query->id)) {
-                        // update record
-                        $finance_detail = new Finance_detail();
-                        // $finance_detail = Finance_detail::find($query->id);
-                    } else {
-                        // insert record
-                        $finance_detail = new Finance_detail();
-                    }
+                    // if (isset($query->id)) {
+                    //     // update record
+                    //     $finance_detail = new Finance_detail();
+                    //     // $finance_detail = Finance_detail::find($query->id);
+                    // } else {
+                    //     // insert record
+                    //     $finance_detail = new Finance_detail();
+                    // }
 
                     $finance_detail->finance_id = $finance->id;
                     $finance_detail->candidate_id = $store_by_Ecxel->id;
@@ -888,14 +1008,14 @@ class ProfileController extends Controller
                     $query = DB::table("cip_progress")
                         ->where("candidate_id", $store_by_Ecxel->id)
                         ->first();
-                    if (isset($query->id)) {
-                        // update record
-                        $Cipprogress = new Cipprogress();
-                        // $Cipprogress = Cipprogress::find($query->id);
-                    } else {
-                        // insert record
-                        $Cipprogress = new Cipprogress();
-                    }
+                    // if (isset($query->id)) {
+                    //     // update record
+                    // $Cipprogress = new Cipprogress();
+                    //     // $Cipprogress = Cipprogress::find($query->id);
+                    // } else {
+                    //     // insert record
+                    //     $Cipprogress = new Cipprogress();
+                    // }
                     // find in array
                     if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
                         $Cipprogress->final_stage = 1;
@@ -918,18 +1038,19 @@ class ProfileController extends Controller
                     $Cipprogress->candidate_id = $store_by_Ecxel->id;
                     $Cipprogress->team = $recruiter->name;
                     $Cipprogress->t_id = $recruiter->id;
+                    $Cipprogress->finance_id = $finance->id;
+                    $Cipprogress->endorsement_id = $endorsement->id;
                     $Cipprogress->save();
                     //close cip
 
                     $row++;
-                }
 
-                // fclose($file);
-                return redirect()->back()->with('message', 'data Imported successfully');
+                    // fclose($file);
+                    return redirect()->back()->with('message', 'data Imported successfully');
+                }
             }
-        } else {
-            return redirect()->back()->with('error-local-sdb', 'Uploading Failed');
         }
+
     }
 
     public function verifySheet(Request $request)
@@ -1083,7 +1204,7 @@ class ProfileController extends Controller
                         $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
                         $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
                         $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
-                        $JDL_local_sheet->jd =isset($render[17]) ? $render[17] : "";
+                        $JDL_local_sheet->jd = isset($render[17]) ? $render[17] : "";
                         $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
                         $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
                         $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
@@ -1101,5 +1222,52 @@ class ProfileController extends Controller
         }
 
         return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');
+    }
+
+    //test function for import
+    // import data from excel
+    public function importUnitDetail(Request $request)
+    {
+
+        $validations = Validator::make($request->all(), [
+            'phase_detail_id' => "required",
+            'excel_file' => 'required|mimes:xls,xlsx',
+        ]);
+
+        if ($validations->fails()) {
+            return response()->json(['success' => false, 'message' => $validations->errors()]);
+        }
+
+        $image_changed_name = time() . '.' . $request->excel_file->getClientOriginalExtension();
+        $request->file("excel_file")->move(public_path("uploads/projects/sheets"), $image_changed_name);
+        $path = public_path("uploads/projects/sheets") . "/" . $image_changed_name;
+        $data = Excel::toArray([], $path)[0];
+        unset($data[0]);
+        if (count($data) > 0) {
+            foreach ($data as $key => $row) {
+
+                $insert_data = [
+                    "phase_detail_id" => $request->phase_detail_id,
+                    'unit_no' => $row[0],
+                    // "title"=>$row[1],
+                    "factor" => $row[6],
+                    "type" => $row[4],
+                    "sub_type" => $row[5],
+                    'floor' => $row[7],
+                    "area" => $row[10],
+                    // "area_unit" => $row[11],
+                    'status' => $row[14],
+                ];
+
+                UnitDetail::updateOrCreate(['phase_detail_id' => $request->phase_detail_id, "unit_no" => $row[0]], $insert_data);
+
+                // DB::table('unit_details')->insert($insert_data);
+            }
+            $unitDetails = UnitDetail::where("phase_detail_id", $request->phase_detail_id)->get();
+            return response()->json(["DataTable" => true, "dataTableArray" => getUnitDetails($unitDetails), 'success' => true, 'message' => "Units detail has been added successfully", "prev" => "#uiCollapseBtn", "next" => "#udCollapseBtn"]);
+
+            // return DB::table('unit_details')->insert($insert_data);
+        }
+        return response()->json(['success' => false, "error" => true, 'message' => "Excel sheet does not having any record"]);
     }
 }

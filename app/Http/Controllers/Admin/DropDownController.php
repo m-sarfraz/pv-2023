@@ -90,7 +90,7 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns = DropDown::all();
+        $dropdowns = DropDown::all(); 
         return view('dropdown.add_options', compact('dropdowns'));
     }
     public function ajax_view_dropdown(Request $request)

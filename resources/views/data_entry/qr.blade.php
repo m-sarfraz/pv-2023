@@ -54,15 +54,14 @@
                 </div>
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label">Employment History</label>
-                    <textarea readonly class="form-control" id="formGroupExampleInput2" rows="10" cols="">
-                        <?php
+                    <textarea readonly class="form-control" id="formGroupExampleInput2" rows="10" cols=""><?php
                         if (isset($user->emp_history)) {
-                            echo implode(' ', array_slice(explode(' ', $user->emp_history), 0, 20)) . "\n";
+                            echo $user->emp_history;
+                            //  implode(' ', array_slice(explode(' ', $user->emp_history), 0, 20)) . "\n"
                         } else {
                             echo 'No Employment History Found';
                         }
-                        ?>;
-                    </textarea>
+                        ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label">Application Status</label>

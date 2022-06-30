@@ -3,7 +3,7 @@
     <style>
         .select2-container{
             width: 100% !important;
-        }
+        }  
     </style>
     <div class="container-fluid mt-8 mt-lg-11" id="dashboard-body">
         <div class="">

@@ -85,7 +85,7 @@
                                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                             Click here to Connect Google Sheet
                                         </label>
-                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 6000
                                             records<span style="color:red">*</span> </span>
                                         @if (session()->has('message-live'))
                                             <div class="alert alert-success">
@@ -139,7 +139,7 @@
                                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                             Click here to Upload CSV Files
                                         </label>
-                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 6000
                                             records<span style="color:red">*</span> </span>
                                         @if (session()->has('message'))
                                             <div class="alert alert-success">
@@ -226,7 +226,7 @@
                                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                             Click here to Connect Google Sheet
                                         </label>
-                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 6000
                                             records<span style="color:red">*</span> </span>
 
                                         @if (session()->has('JDL_SHEET_IMPORTED'))
@@ -297,7 +297,7 @@
                                         <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
                                             Click here to Upload CSV File
                                         </label>
-                                        <span style="color:red; font-size:14px">Select sheet with maximum of 7000
+                                        <span style="color:red; font-size:14px">Select sheet with maximum of 6000
                                             records<span style="color:red">*</span> </span>
                                         @if (session()->has('CSV_FILE_UPLOADED_JDL'))
                                             <div class="alert alert-success">

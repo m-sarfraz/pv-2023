@@ -4,7 +4,6 @@
         pointer-events: none;
         touch-action: none;
     }
-
 </style>
 <p class="C-Heading pt-3">Record Details:</p>
 <div class="card mb-13">
@@ -29,7 +28,8 @@
                             @endphp
                             <label class="Label">Gender:</label>
                             <select class="w-100 form-control" name="gender">
-                                <option value="" {{ $user->gender == null ? 'selected' : '' }} disabled>select option
+                                <option value="" {{ $user->gender == null ? 'selected' : '' }} disabled>select
+                                    option
                                 </option>
                                 @foreach ($gender->options as $genderOptions)
                                     <option value="{{ $genderOptions->option_name }}"
@@ -108,7 +108,8 @@
                                 Source
                             </label>
                             <select name="SOURCE" class=" form-control p-0 EmailInput-F" id="SOURCE">
-                                <option value="" {{ $user->source == null ? 'selected' : '' }} disabled>Select Option
+                                <option value="" {{ $user->source == null ? 'selected' : '' }} disabled>Select
+                                    Option
                                 </option>
                                 @foreach ($source->options as $sourceOptions)
                                     <option value="{{ $sourceOptions->option_name }}"
@@ -134,7 +135,8 @@
 
                             <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
-                                <option value="" {{ $user->educational_attain == null ? 'selected' : '' }} disabled>
+                                <option value="" {{ $user->educational_attain == null ? 'selected' : '' }}
+                                    disabled>
                                     Select Option</option>
                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                     <option value="{{ $eduAttainmentOptions->option_name }}"
@@ -187,7 +189,8 @@
                             $course = Helper::get_dropdown('course');
                             ?>
                             <label class="Label">Course:</label>
-                            <input type="text" name="COURSE" class="form-control" value="{{ $user->course }}">
+                            <input type="text" name="COURSE" class="form-control"
+                                value="{{ $user->course }}">
                             {{-- <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
                                 <option {{ $user->course == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
@@ -281,18 +284,17 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             @php
-                                $segments = Helper::get_dropdown('segments');
+                                $segments = App\Segment::get();
                             @endphp
                             <label class="Label">Segment:</label>
                             <select name="segment" id="segment" class="form-control p-0 users-input-S-C" readonly
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                                     @foreach ($segments->options as
-                                $segmentsOptions)
-                                <option value="{{ $segmentsOptions->option_name }}"
-                                    {{ strtolower($user->segment) == strtolower($segmentsOptions->option_name) ? 'selected' : '' }}>
-                                    {{ $segmentsOptions->option_name }}
+                             @foreach ($segments   as $segmentsOptions)
+                                <option value="{{ $segmentsOptions->segment_name }}"
+                                    {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
+                                    {{ $segmentsOptions->segment_name }}
                                 </option>
                                 @endforeach
                             </select>
@@ -304,21 +306,20 @@
                     <div class="col-lg-3">
                         <div class="form-group mb-0">
                             @php
-                                $sub_segments = Helper::get_dropdown('sub_segment');
+                                $sub_segments = App\SubSegment::get();
                             @endphp
-                            {{-- @dd($user->sub_segment) --}}
                             <label class="Label">
                                 Sub-Segment:
                             </label>
-
                             <select name="sub_segment" id="Domain_sub_segment" readonly
                                 class="form-control p-0 users-input-S-C">
                                 <option {{ $user->sub_segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                @foreach ($sub_segments->options as $Options)
-                                    <option value="{{ $Options->option_name }}"
-                                        {{ str_replace(' ', '', strtolower($user->sub_segment)) == str_replace(' ', '', strtolower($Options->option_name)) ? 'selected' : '' }}>
-                                        {{ $Options->option_name }}
+
+                                @foreach ($sub_segments as $Options)
+                                    <option value="{{ $Options->sub_segment_name }}"
+                                        {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
+                                        {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -431,8 +432,8 @@
                             <label class="d-block font-size-3 mb-0">
                                 Interview Notes:
                             </label>
-                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom" value=""
-                                placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
+                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
+                                value="" placeholder="Enter Interview Notes">{{ $user->interview_note }}</textarea>
                         </div>
                         <div class="pt-3">
                             <div class="form-group mb-0">
@@ -517,7 +518,8 @@
                                                         <label class="Label-00">
                                                             Career Level:
                                                         </label>
-                                                        <select name="CAREER_LEVEL" id="career" {{-- onchange="DomainSegmentAppend()" --}}
+                                                        <select name="CAREER_LEVEL" id="career"
+                                                            {{-- onchange="DomainSegmentAppend()" --}}
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                             <option
                                                                 {{ $user->career_endo == null ? 'selected' : '' }}
@@ -566,7 +568,7 @@
                                                             Remarks (For Finance)
                                                         </label>
                                                         <select name="REMARKS_FOR_FINANCE" id="remarks_for_finance"
-                                                            disabled="" onchange="RemarksChange(this)"
+                                                            disabled="" onchange="RemarksChanges(this)"
                                                             class="form-control select2_dropdown border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                             @php
                                                                 $remarks = Helper::get_dropdown('remarks_for_finance');
@@ -623,9 +625,10 @@
                                                         <label class="Label-00">
                                                             Status:
                                                         </label>
+
                                                         <select name="STATUS" id="status"
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                            <option {{ $user->status == null ? 'selected' : '' }}
+                                                            <option {{ $user->endostatus == null ? 'selected' : '' }}
                                                                 disabled>Select Option</option>
                                                             @foreach ($status->options as $statusOptions)
                                                                 <option value="{{ $statusOptions->option_name }}"
@@ -633,7 +636,7 @@
                                                                     {{ $statusOptions->option_name }}
                                                                 </option>
                                                             @endforeach
-                                                            &quot;item&quot;
+
                                                             </option>
                                                         </select>
                                                         <div>
@@ -653,7 +656,7 @@
                                                         </label>
                                                         <div id="loader2" class="d-none"></div>
 
-                                                        <select name="POSITION_TITLE" id="position" 
+                                                        <select name="POSITION_TITLE" id="position"
                                                             {{-- onchange="Fetch_profile()" --}}
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                             <option
@@ -680,7 +683,8 @@
                                                         <label class="Label-00">
                                                             Reason for not progressing:
                                                         </label>
-                                                        <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp" disabled=""
+                                                        <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
+                                                            disabled=""
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                             <option {{ $user->rfp == null ? 'selected' : '' }}
                                                                 disabled>
@@ -723,11 +727,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
+                                                
                                                     <div class="form-group mb-0">
                                                         <label class="Label">Interview Schedule:</label>
                                                         <input type="date" name="INTERVIEW_SCHEDULE"
                                                             id="interview_schedule"
-                                                            value="{{ Carbon\Carbon::parse($user->interview_date)->format('Y-m-d') }}"
+                                                            value="{{$user->interview_date !=null ? Carbon\Carbon::parse($user->interview_date)->format('Y-m-d') : '' }}"
                                                             class="form-control users-input-S-C" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -788,7 +793,7 @@
                                                     <div class="form-group mb-0">
                                                         <label class="Label">Endo Date:</label>
                                                         <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                            value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
+                                                            value="{{$user->endi_date !=null ? Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') : '' }}"
                                                             class="form-control border h-px-20_custom" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -829,8 +834,9 @@
                                                         <label class="Label-00">
                                                             Date Updated:
                                                         </label>
+                                                 
                                                         <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
-                                                            value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}"
+                                                            value="{{ $user->updated_at !=null ? Carbon\Carbon::parse($user->updated_at)->format('Y-m-d') : ''}}"
                                                             class="form-control border h-px-20_custom" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -899,6 +905,7 @@
                 }
             })
     }
+    $('#client_finance').change();
 
     function DeleteRecord(id) {
         $.ajax({
@@ -1049,8 +1056,13 @@
     $('#endo_sub_segment').prop(
         "readonly", true);
     var globalData = [];
+    var title = "<?php echo $user->position_title; ?>";
+
+    var career_endo = "<?php echo $user->career_endo; ?>";
 
     function clientChanged(dropDown, elem) {
+
+
         $('#loader2').addClass('d-block')
         $('#loader2').removeClass('d-none')
         $('#position').prop("disabled", false);
@@ -1063,7 +1075,6 @@
                 client_dropdown: $('#client_finance').val(),
                 _token: token
             },
-
             // Ajax success function
             success: function(res) {
                 if (res.data.length > 0) {
@@ -1080,12 +1091,20 @@
                         if ($(elem).val() == res.data[i].client) {
                             if ($(`#position option[ value="${res.data[i].p_title}"]`)
                                 .length < 1) {
-                                $('#position').append(
-                                    `<option   value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
-                                );
+                                if (title == res.data[i].p_title) {
+                                    $('#position').append(
+                                        `<option selected  value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                } else {
+
+                                    $('#position').append(
+                                        `<option  value="${res.data[i].p_title}">${res.data[i].p_title}</option>`
+                                    );
+                                }
                             }
                         }
                     }
+
                     $('#position').change();
                     // $('#client_finance').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -1107,11 +1126,19 @@
     }
     $('#position').change(function() {
         $('#career').empty();
+    
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val() == globalData[i].p_title) {
-                $('#career').append(
-                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
-                );
+                if (career_endo == globalData[i].c_level) {
+                    $('#career').append(
+                        `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                } else {
+
+                    $('#career').append(
+                        `<option   value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                }
             }
         }
         DomainSegmentAppend()
@@ -1132,6 +1159,22 @@
                     `<option selected value="${globalData[i].subsegment}">${globalData[i].subsegment}</option>`
                 );
             }
+        }
+    }
+
+    function RemarksChanges(elem) {
+        // get value of seleted field 
+        var value = $(elem).find(":selected").text().trim();
+        // enable and disalbe reason for not processing input fields
+        if (value.includes('Failed') || value.includes('Withdraw')) {
+            $('#rfp').prop("disabled", false);
+        } else {
+            $('#rfp').prop("disabled", true);
+        }
+        if (value.includes('Scheduled')) {
+            $('#interview_schedule').prop("disabled", false);
+        } else {
+            $('#interview_schedule').prop("disabled", true);
         }
     }
 </script>

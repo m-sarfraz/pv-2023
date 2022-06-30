@@ -404,7 +404,6 @@ class CandidateController extends Controller
                 $e_domain = $request->DOMAIN_ENDORSEMENT;
 
             }
-            // return  $e_name;
             // insert data in endorsement table
             $endorsement = new Endorsement();
             $endorsement->candidate_id = $CandidateInformation->id;
@@ -500,6 +499,7 @@ class CandidateController extends Controller
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $recruiter = Auth::user()->roles->pluck('id');
             $finance->t_id = $recruiter[0];
+            $finance->remarks_recruiter= 'Unbilled';
             $finance->save();
 
             // insert data to finance detail
@@ -797,8 +797,9 @@ class CandidateController extends Controller
     // close
 
     // search user data and append the new view after ajax call function
-    public function SearchUserData(Request $request, $id)
+    public function SearchUserData(Request $request)
     {
+ 
         // exploding string for endorsement number and candidate id to get selected data
         $str_arr = explode('-', $request->id);
         // return $str_arr[1] ;
@@ -1067,40 +1068,46 @@ class CandidateController extends Controller
             // update candidae domain data
             // $domain_name = Domain::where('id', $request->DOMAIN)->first();
             // return $request->Domainsub;
+ 
             if (is_numeric(isset($request->Domainsegment))) {
                 $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
             } else {
                 $name = $request->Domainsegment;
             }
-            if (is_numeric(isset($request->Domainsub))) {
+
+            if (is_numeric($request->Domainsub)) {
                 $Sub_name = (DropDownOption::where('id', $request->Domainsub)->first())->option_name;
             } else {
                 $Sub_name = $request->Domainsub;
             }
-            if (is_numeric(isset($request->DOMAIN))) {
+ 
+            if (is_numeric($request->DOMAIN)) {
                 $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
             } else {
                 $domain = $request->DOMAIN;
             }
-            if (is_numeric(isset($request->SEGMENT))) {
+
+            if (is_numeric($request->SEGMENT)) {
                 $e_name = (DropDownOption::where('id', $request->SEGMENT)->first())->option_name;
             } else {
                 $e_name = $request->SEGMENT;
 
             }
-            if (is_numeric(isset($request->SUB_SEGMENT))) {
+                    
+            if (is_numeric($request->SUB_SEGMENT)) {
 
                 $e_sub_name = (DropDownOption::where('id', $request->SUB_SEGMENT)->first())->option_name;
             } else {
                 $e_sub_name = $request->SUB_SEGMENT;
             }
-            if (is_numeric(isset($request->DOMAIN_ENDORSEMENT))) {
+
+            if (is_numeric($request->DOMAIN_ENDORSEMENT)) {
                 $e_domain = (Domain::where('id', $request->DOMAIN_ENDORSEMENT)->first())->domain_name;
 
             } else {
                 $e_domain = $request->DOMAIN_ENDORSEMENT;
-
             }
+
 
             CandidateDomain::where('candidate_id', $candidate_id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
@@ -1401,7 +1408,7 @@ class CandidateController extends Controller
     public function endorsementDetailView(Request $request)
     {
         try {
-            if ($request->id == '') {
+            if ($request->id == '' ||   $request->id == null) {
                 $detail = null;
                 $detail_f = null;
                 $remarks_f = null;

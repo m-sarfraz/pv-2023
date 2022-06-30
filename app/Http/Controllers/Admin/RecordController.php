@@ -32,6 +32,7 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
+        ini_set('memory_limit', '-1'); 
         $recordExist = 0;
         $cid = 0;
         if (isset($_GET['id'])) {
@@ -55,6 +56,7 @@ class RecordController extends Controller
     // show data table for view record page starts
     public function view_record_filter_table(Request $request)
     {
+        ini_set('memory_limit', '-1'); 
         $check = $searchCheck = false;
 
         // $Userdata = DB::table('updated_view_record')->orderBy('timestamp', 'desc');
@@ -95,101 +97,104 @@ class RecordController extends Controller
             ->addColumn('id', function ($Alldata) {
                 return $Alldata->cid . '-' . $Alldata->numberOfEndo . '-' . $Alldata->saved_by;
             })
+ 
             ->addColumn('recruiter', function ($Alldata) {
-                return $Alldata->recruiter;
+                $recr = (User::where('id', $Alldata->saved_by)->first())->name;
+                return $recr;
+              
             })
-
-            ->addColumn('team', function ($record) {
-                $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
+            ->addColumn('team', function ($Alldata) {
+                $userid = User::where('id', $Alldata->saved_by)->get();
+                $team = $userid[0]->roles->pluck('name'); 
                 return json_decode($team);
             })
-            ->addColumn('Candidate', function ($record) {
-                return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
+  
+            ->addColumn('Candidate', function ($Alldata) {
+                return $Alldata->first_name . ' ' . $Alldata->middle_name . ' ' . $Alldata->last_name;
 
             })
-            ->addColumn('appStatus', function ($record) {
-                return $record->app_status;
+            ->addColumn('appStatus', function ($Alldata) {
+                return $Alldata->app_status;
             })
-            ->addColumn('profile', function ($record) {
-                return $record->candidate_profile;
+            ->addColumn('profile', function ($Alldata) {
+                return $Alldata->candidate_profile;
             })
-            ->addColumn('career_level', function ($record) {
-                return $record->career_endo;
+            ->addColumn('career_level', function ($Alldata) {
+                return $Alldata->career_endo;
             })
-            ->addColumn('certification', function ($record) {
-                return $record->certification;
+            ->addColumn('certification', function ($Alldata) {
+                return $Alldata->certification;
             })
-            ->addColumn('client', function ($record) {
-                return $record->client;
+            ->addColumn('client', function ($Alldata) {
+                return $Alldata->client;
             })
-            ->addColumn('phone', function ($record) {
-                return $record->phone;
+            ->addColumn('phone', function ($Alldata) {
+                return $Alldata->phone;
             })
-            ->addColumn('course', function ($record) {
-                return $record->course;
+            ->addColumn('course', function ($Alldata) {
+                return $Alldata->course;
             })
-            ->addColumn('endi_date', function ($record) {
-                if (!empty($record->endi_date && $record->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($record->endi_date), "m-d-Y");
+            ->addColumn('endi_date', function ($Alldata) {
+                if (!empty($Alldata->endi_date && $Alldata->endi_date != '0000-00-00')) {
+                    $endi_date = date_format(date_create($Alldata->endi_date), "m-d-Y");
                     return $endi_date;
                 } else {
-                    $record->endi_date = '';
+                    $Alldata->endi_date = '';
                 }
             })
-            ->addColumn('date_invited', function ($record) {
-                return $record->date_invited;
+            ->addColumn('date_invited', function ($Alldata) {
+                return $Alldata->date_invited;
             })
-            ->addColumn('date_shifted', function ($record) {
-                return $record->date_shifted;
+            ->addColumn('date_shifted', function ($Alldata) {
+                return $Alldata->date_shifted;
             })
-            ->addColumn('educational_attain', function ($record) {
-                return $record->educational_attain;
+            ->addColumn('educational_attain', function ($Alldata) {
+                return $Alldata->educational_attain;
             })
-            ->addColumn('emp_history', function ($record) {
-                return $record->emp_history;
+            ->addColumn('emp_history', function ($Alldata) {
+                return $Alldata->emp_history;
             })
-            ->addColumn('type', function ($record) {
-                return $record->type;
+            ->addColumn('type', function ($Alldata) {
+                return $Alldata->type;
             })
-            ->addColumn('exp_salary', function ($record) {
-                return $record->exp_salary;
+            ->addColumn('exp_salary', function ($Alldata) {
+                return $Alldata->exp_salary;
             })
-            ->addColumn('gender', function ($record) {
-                return $record->gender;
+            ->addColumn('gender', function ($Alldata) {
+                return $Alldata->gender;
             })
-            ->addColumn('interview_note', function ($record) {
-                return $record->interview_note;
+            ->addColumn('interview_note', function ($Alldata) {
+                return $Alldata->interview_note;
             })
-            ->addColumn('invoice_number', function ($record) {
-                return $record->invoice_number;
+            ->addColumn('invoice_number', function ($Alldata) {
+                return $Alldata->invoice_number;
             })
-            ->addColumn('onboardnig_date', function ($record) {
-                return $record->onboardnig_date;
+            ->addColumn('onboardnig_date', function ($Alldata) {
+                return $Alldata->onboardnig_date;
             })
-            ->addColumn('position_title', function ($record) {
-                return $record->position_title;
+            ->addColumn('position_title', function ($Alldata) {
+                return $Alldata->position_title;
             })
-            ->addColumn('remarks', function ($record) {
-                return $record->remarks;
+            ->addColumn('remarks', function ($Alldata) {
+                return $Alldata->remarks;
             })
-            ->addColumn('remarks_for_finance', function ($record) {
-                return $record->remarks_for_finance;
+            ->addColumn('remarks_for_finance', function ($Alldata) {
+                return $Alldata->remarks_for_finance;
             })
-            ->addColumn('address', function ($record) {
-                return $record->address;
+            ->addColumn('address', function ($Alldata) {
+                return $Alldata->address;
             })
-            ->addColumn('segment', function ($record) {
-                return $record->segment;
+            ->addColumn('segment', function ($Alldata) {
+                return $Alldata->segment;
             })
-            ->addColumn('site', function ($record) {
-                return $record->site;
+            ->addColumn('site', function ($Alldata) {
+                return $Alldata->site;
             })
-            ->addColumn('endostatus', function ($record) {
-                return $record->endostatus;
+            ->addColumn('endostatus', function ($Alldata) {
+                return $Alldata->endostatus;
             })
-            ->addColumn('sub_segment', function ($record) {
-                return $record->sub_segment;
+            ->addColumn('sub_segment', function ($Alldata) {
+                return $Alldata->sub_segment;
             })
 
             ->rawColumns([
@@ -228,6 +233,7 @@ class RecordController extends Controller
     }
     public function view_record_table()
     {
+        ini_set('memory_limit', '-1'); 
         // $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
         $record = DB::table('updated_view_record')->get();
         return Datatables::of($record)
@@ -236,11 +242,13 @@ class RecordController extends Controller
                 return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
             })
             ->addColumn('recruiter', function ($record) {
-                return $record->recruiter;
+                $recr = (User::where('id', $record->saved_by)->first())->name;
+                return $recr;
+              
             })
             ->addColumn('team', function ($record) {
                 $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
+                $team = $userid[0]->roles->pluck('name'); 
                 return json_decode($team);
             })
             ->addColumn('Candidate', function ($record) {
@@ -434,7 +442,8 @@ class RecordController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            $name = explode(" ", $request->first_name);
+            $name = explode(" ", $request->first_name,3);
+            
             CandidateInformation::where('id', $c_id)->update([
                 'first_name' => isset($name[0]) ? $name[0] : '',
                 'middle_name' => isset($name[1]) ? $name[1] : '',
@@ -502,7 +511,7 @@ class RecordController extends Controller
                 $e_domain = $request->DOMAIN_endo;
 
             }
-            // return $e_sub_name ;
+ 
             CandidateDomain::where('candidate_id', $c_id)->update([
                 'date_shifted' => $request->date_shifted,
                 'domain' => $domain,

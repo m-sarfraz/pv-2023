@@ -54,7 +54,9 @@
         }
 
         .hidetrID tr:hover {
-            background-color: rgb(159, 165, 243);
+            background-color: rgb(220 134 39) !important;
+            color: white;
+
         }
 
         .tooltiptext {

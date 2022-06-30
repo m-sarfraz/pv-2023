@@ -76,7 +76,8 @@ class SmartSearchController extends Controller
             })
             ->addColumn('candidate', function ($allData) {
                 // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
-                return $allData->last_name;
+                // return $allData->last_name;
+                return $allData->first_name . ' ' . $allData->middle_name . ' ' . $allData->last_name;
             })
             ->addColumn('client', function ($allData) {
                 return $allData->client;
@@ -286,7 +287,9 @@ class SmartSearchController extends Controller
 
             })
             ->addColumn('candidate', function ($allData) {
-                return $allData->last_name;
+               
+                return $allData->first_name . ' ' . $allData->middle_name . ' ' . $allData->last_name;
+
             })
             ->addColumn('client', function ($user) {
                 return $user->client;

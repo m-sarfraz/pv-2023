@@ -30,7 +30,6 @@ function RemarksChange(elem) {
 
     // get value of seleted field 
     var value = $(elem).find(":selected").text().trim();
-
     // enable and disalbe reason for not processing input fields
     if (value.includes('Failed') || value.includes('Withdraw')) {
         $('#rfp').prop("disabled", false);
@@ -40,7 +39,11 @@ function RemarksChange(elem) {
 
     // enable and disable finance section on selected text of remarks for finance
     if (value.includes('accepted') || value.includes('Onboarded')) {
-
+        SPRCalculator()
+        let value = $('#career').val()
+        $('#career_finance').append(`<option selected value="${value}">
+                                   ${value}
+                              </option>`)
         $('#finance_fieldset').prop("disabled", false);
         $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
@@ -57,13 +60,28 @@ function RemarksChange(elem) {
         // $('#onboard_date').attr("readonly", true);
         // $('#off_allowance').prop("disabled", false);
     } else {
-
-        // else disable the finance section and disable salray fields
+ 
+        $('#career_finance').val('');
+        $('#srp').val('');
+        // $('#remarks_finance').val('');
+        $('#remarks_finance').attr("readonly", true);
+        $('#invoice_number').val('');
+        
+        $('#bilable_amount').val('');
+        $('#rate').val('');
+        $('#off_allowance_finance').val('');
+        $('#placement_fee').val('');
+        $('#off_salary_fianance').val('');
+        $('#onboard_date').val('');
+        $('#client_finance').val('');
+        
+         
+    // else disable the finance section and disable salray fields
         $('#finance_fieldset').prop("disabled", true);
 
         // $('#off_allowance').prop("disabled", true);
     }
-    if (value.includes('Offer') || value.includes('Reneged')|| value.includes('Onboarded')) {
+    if (value.includes('Offer') || value.includes('Reneged') || value.includes('Onboarded')) {
         $('#off_allowance').prop("disabled", false);
         $('#off_salary').prop("disabled", false);
     }
@@ -156,7 +174,7 @@ function amountFinder(id) {
 // find the total bilable amount according to rate and append in SPR ends
 
 // search user data and append in data entry fields starts
-function SearchUserData(e, div) {
+function SearchUserData(path, e, div) {
     $('#userDetailInput').removeClass('d-none')
     $('#searchRecord').prop("disabled", true)
     $('#saveRecord').prop("disabled", false)
@@ -164,16 +182,18 @@ function SearchUserData(e, div) {
     $('#editRecord').prop("disabled", false)
     $("#loader").show();
     var id = $('#user').val();
+
     // ajax call for user data fetching starts
     $.ajax({
         type: "GET",
-        url: url + "/admin/SearchUserData" + '/' + id,
+        url: path,
         data: {
             _token: token,
             id: id
         },
         // success function after ajax call starts
         success: function (data) {
+            $('#UserData_div').html('');
             $('#UserData_div').html(data);
             $("#loader").hide();
         },
@@ -198,8 +218,8 @@ function SPRCalculator() {
     var domain = $('#domain_endo').find(":selected").text().trim();
     var CLi = $('#career').find(":selected").text().trim();
     // console.log('hi')
-    // console.log(domain)
-    // console.log(CLi)
+    console.log(domain)
+    console.log(CLi)
 
     // create object of data for technology/CPI and price
     let data = [
