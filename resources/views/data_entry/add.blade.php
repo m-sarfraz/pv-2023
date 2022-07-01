@@ -151,11 +151,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group position-relative d-none" id = "mainQRdiv">
+                        <div id="loader5"></div>
                         <p class="C-Heading mt-5">QR Code:</p>
-                        <div style="width: 100%;" class="pl-sm-15">
-                        </div>
-                        <a href="" download="user" id=QrCode>
+                         
+                        <a href="" class="position-relative" download="user" id=QrCode>
                             <img style=" " class="pl-sm-15" alt="" />
                         </a>
                     </div>

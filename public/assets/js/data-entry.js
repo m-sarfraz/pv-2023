@@ -182,7 +182,9 @@ function SearchUserData(path, e, div) {
     $('#editRecord').prop("disabled", false)
     $("#loader").show();
     var id = $('#user').val();
-
+    $('#mainQRdiv').removeClass('d-none')
+    $('#loader5').show()
+    $('#QrCode').html('');
     // ajax call for user data fetching starts
     $.ajax({
         type: "GET",

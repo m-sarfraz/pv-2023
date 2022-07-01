@@ -571,7 +571,7 @@
                             <option value="" disabled>Select Endorsement</option>
                             @foreach ($number_of_endorsements as $value)
                                 <option selected value="{{ $value->numberOfEndo }}" {{-- {{ $i == $number ? 'selected' : '' }} --}}>
-                                    {{ $value->numberOfEndo }} 
+                                    {{ $value->numberOfEndo }}
                                 </option>
                             @endforeach
                             {{-- @for ($i = 1; $i <= $number_of_endorsements; $i++)
@@ -1276,7 +1276,11 @@
             // success function after ajax call starts
             success: function(data) {
                 // console.log('hi')
-                $('#QrCode').html(data);
+
+                setTimeout(() => {
+                    $('#loader5').hide()
+                    $('#QrCode').html(data);
+                }, 2000);
             },
             // success function after ajax call ends
 
@@ -1425,7 +1429,7 @@
         console.log(globalData)
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val().toLowerCase() == (globalData[i].p_title).toLowerCase()) {
-              
+
                 $('#career').append(
                     `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
                 );
@@ -1436,7 +1440,7 @@
         //                                ${value}
         //                           </option>`)
         DomainSegmentAppend()
-       
+
 
     })
 
