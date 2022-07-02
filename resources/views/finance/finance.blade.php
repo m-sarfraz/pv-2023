@@ -1071,9 +1071,9 @@
                             .candidates[i].last_name +
                             '</option>')
                     }
-                    for (let i = 0; i < res.candidates.length; i++) {
-                        $('#process').append('<option value="' + res.candidates[i].reprocess + '">' + res.candidates[i]
-                            .reprocess + '</option>')
+                    for (let i = 0; i < res.recruiter.length; i++) {
+                        $('#process').append('<option value="' + res.recruiter[i].id + '">' + res.recruiter[i]
+                            .name + '</option>')
                     }
                     for (let i = 0; i < res.recruiter.length; i++) {
                         $('#recruiter').append('<option value="' + res.recruiter[i].id + '">' + res.recruiter[i]

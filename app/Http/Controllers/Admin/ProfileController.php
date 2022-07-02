@@ -259,20 +259,48 @@ class ProfileController extends Controller
                             ->where("candidate_id", $store_by_google_sheet->id)
                             ->first();
                         if (isset($query->id)) {
-                            // update record
-                            $endorsement = new Endorsement();
-                            // $endorsement = Endorsement::find($query->id);
-                            $lastEndo = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $query->id])->count();
+                            $lastEndo = Endorsement::where(['saved_by' => isset($render[3]) ? $render[3] : Auth::user()->id, 'candidate_id' => $query->id])->count();
                             // return $lastEndo;
                             if ($lastEndo == 0) {
                                 $numberOfEndo = 1;
                             } else {
                                 $numberOfEndo = $lastEndo + 1;
+
+                            }
+                            // $endorsement = new Endorsement();
+                            $check = Endorsement::where(['saved_by' => isset($render[3]) ? $render[3] : Auth::user()->id,
+                                'candidate_id' => $query->id,
+                                'client' => isset($render[35]) ? $render[35] : "",
+                                'position_title' => isset($render[37]) ? $render[37] : "",
+                                'endi_date' => isset($render[34]) ? date('y-m-d', strtotime($render[34])) : "",
+                            ])->first();
+                            if ($check != null) {
+
+                                // update existing record
+                                $endorsement = Endorsement::find($check->id);
+                                $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
+                                $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
+                                $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
+                            } else {
+
+                                // insert new record
+                                $numberOfEndo = 1;
+                                $endorsement = new Endorsement();
+                                $finance = new Finance();
+                                $finance_detail = new Finance_detail();
+                                $Cipprogress = new Cipprogress();
+                                $origionalRecruiter = 0;
+                                $tap = Auth::user()->id;
                             }
                         } else {
-                            // insert record
+                            // insert new record
                             $numberOfEndo = 1;
                             $endorsement = new Endorsement();
+                            $finance = new Finance();
+                            $finance_detail = new Finance_detail();
+                            $Cipprogress = new Cipprogress();
+                            $origionalRecruiter = Auth::user()->id;
+                            $tap = 0;
                         }
                         $array = Str::lower(isset($render[43]) ? $render[43] : "");
                         $category = Helper::getCategory($array);
@@ -298,17 +326,17 @@ class ProfileController extends Controller
                         //close
 
                         //finance start
-                        $query = DB::table("finance")
-                            ->where("candidate_id", $store_by_google_sheet->id)
-                            ->first();
-                        if (isset($query->id)) {
-                            // update record
-                            $finance = new Finance();
-                            // $finance = Finance::find($query->id);
-                        } else {
-                            // insert record
-                            $finance = new Finance();
-                        }
+                        // $query = DB::table("finance")
+                        //     ->where("candidate_id", $store_by_google_sheet->id)
+                        //     ->first();
+                        // if (isset($query->id)) {
+                        //     // update record
+                        //     $finance = new Finance();
+                        //     // $finance = Finance::find($query->id);
+                        // } else {
+                        //     // insert record
+                        //     $finance = new Finance();
+                        // }
                         $finance->candidate_id = $store_by_google_sheet->id;
                         $finance->endorsement_id = $endorsement->id;
                         $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
@@ -346,17 +374,17 @@ class ProfileController extends Controller
 
                         //finance close
                         //finance start
-                        $query = DB::table("finance_detail")
-                            ->where("candidate_id", $store_by_google_sheet->id)
-                            ->first();
-                        if (isset($query->id)) {
-                            // update record
-                            $finance_detail = new Finance_detail();
-                            // $finance_detail = Finance_detail::find($query->id);
-                        } else {
-                            // insert record
-                            $finance_detail = new Finance_detail();
-                        }
+                        // $query = DB::table("finance_detail")
+                        //     ->where("candidate_id", $store_by_google_sheet->id)
+                        //     ->first();
+                        // if (isset($query->id)) {
+                        //     // update record
+                        //     $finance_detail = new Finance_detail();
+                        //     // $finance_detail = Finance_detail::find($query->id);
+                        // } else {
+                        //     // insert record
+                        //     $finance_detail = new Finance_detail();
+                        // }
                         $finance_detail->finance_id = $finance->id;
                         $finance_detail->candidate_id = $store_by_google_sheet->id;
                         $offered_salary = isset($render[50]) ? $render[50] : "";
@@ -464,29 +492,15 @@ class ProfileController extends Controller
                             ],
                         ];
                         $user = User::find($recruiter->id);
-                        $query = DB::table("cip_progress")
-                            ->where("candidate_id", $store_by_google_sheet->id)
-                            ->first();
-                        if (isset($query->id)) {
-                            // update record
-                            $Cipprogress = Cipprogress::find($query->id);
-                        } else {
-                            // insert record
-                            if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
-                                $final_stage = 1;
-                            }
-                            if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
-                                $mid_stage = 1;
-                            }
+                        if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
+                            $Cipprogress->final_stage = 1;
+                            $Cipprogress->cip = 1;
                         }
-                        // find in array
-
+                        if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
+                            $Cipprogress->mid_stage = 1;
+                            $Cipprogress->cip = 1;
+                        }
                         //check
-                        $Cipprogress = new Cipprogress();
-                        $Cipprogress->cip = 1;
-                        $Cipprogress->final_stage = isset($final_stage) ? $final_stage : 0;
-                        $Cipprogress->mid_stage = isset($mid_stage) ? $mid_stage : 0;
-
                         $word_1 = "Offer";
                         $word_2 = "Onboarded";
                         $mystring = isset($render[43]) ? $render[43] : "";
@@ -496,9 +510,44 @@ class ProfileController extends Controller
                         if (strpos($mystring, $word_2) !== false) {
                             $Cipprogress->onboarded = 1;
                         }
+
+                        // $query = DB::table("cip_progress")
+                        //     ->where("candidate_id", $store_by_google_sheet->id)
+                        //     ->first();
+                        // if (isset($query->id)) {
+                        //     // update record
+                        //     $Cipprogress = Cipprogress::find($query->id);
+                        // } else {
+                        //     // insert record
+                        //     if (in_array(isset($render[43]) ? $render[43] : "", $array['Final Stage'])) {
+                        //         $final_stage = 1;
+                        //     }
+                        //     if (in_array(isset($render[43]) ? $render[43] : "", $array['Mid Stage'])) {
+                        //         $mid_stage = 1;
+                        //     }
+                        // }
+                        // // find in array
+
+                        // //check
+                        // $Cipprogress = new Cipprogress();
+                        // $Cipprogress->cip = 1;
+                        // $Cipprogress->final_stage = isset($final_stage) ? $final_stage : 0;
+                        // $Cipprogress->mid_stage = isset($mid_stage) ? $mid_stage : 0;
+
+                        // $word_1 = "Offer";
+                        // $word_2 = "Onboarded";
+                        // $mystring = isset($render[43]) ? $render[43] : "";
+                        // if (strpos($mystring, $word_1) !== false) {
+                        //     $Cipprogress->offered = 1;
+                        // }
+                        // if (strpos($mystring, $word_2) !== false) {
+                        //     $Cipprogress->onboarded = 1;
+                        // }
                         $Cipprogress->candidate_id = $store_by_google_sheet->id;
                         $Cipprogress->team = $recruiter->name;
                         $Cipprogress->t_id = $recruiter->id;
+                        $Cipprogress->finance_id = $finance->id;
+                        $Cipprogress->endorsement_id = $endorsement->id;
                         $Cipprogress->save();
                         //close cip
 
@@ -801,7 +850,8 @@ class ProfileController extends Controller
                             $finance = new Finance();
                             $finance_detail = new Finance_detail();
                             $Cipprogress = new Cipprogress();
-
+                            $origionalRecruiter = 0;
+                            $tap = Auth::user()->id;
                         }
 
                     } else {
@@ -812,7 +862,8 @@ class ProfileController extends Controller
                         $finance = new Finance();
                         $finance_detail = new Finance_detail();
                         $Cipprogress = new Cipprogress();
-
+                        $origionalRecruiter = Auth::user()->id;
+                        $tap = 0;
                     }
                     $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                     $endorsement->client = isset($render[35]) ? $render[35] : "";
@@ -829,6 +880,8 @@ class ProfileController extends Controller
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_Ecxel->id;
                     $endorsement->numberOfEndo = $numberOfEndo;
+                    $endorsement->origionalRecruiter = $origionalRecruiter;
+                    $endorsement->tap = $tap;
                     $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
 
                     $endorsement->save();
@@ -1005,9 +1058,9 @@ class ProfileController extends Controller
 
                     $user = User::find($recruiter->id);
 
-                    $query = DB::table("cip_progress")
-                        ->where("candidate_id", $store_by_Ecxel->id)
-                        ->first();
+                    // $query = DB::table("cip_progress")
+                    //     ->where("candidate_id", $store_by_Ecxel->id)
+                    //     ->first();
                     // if (isset($query->id)) {
                     //     // update record
                     // $Cipprogress = new Cipprogress();

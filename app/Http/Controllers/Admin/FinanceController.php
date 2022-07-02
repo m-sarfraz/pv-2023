@@ -96,7 +96,7 @@ class FinanceController extends Controller
         $Userdata = DB::table('finance_view');
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
-            $Userdata->whereIn('finance_view.saved_by', $request->recruiter);
+            $Userdata->whereIn('finance_view.origionalRecruiter', $request->recruiter);
         }
         if (isset($request->team_id)) {
 
@@ -120,11 +120,17 @@ class FinanceController extends Controller
         }
 
         if (isset($request->process)) {
-            $Userdata->whereIn('finance_view.reprocess', $request->process);
+            if (isset($request->recruiter)) {
+                $Userdata->orWhereIn('finance_view.tap', $request->process);
+            } else {
+                $Userdata->whereIn('finance_view.tap', $request->process);
+            }
         }
         if (isset($request->appstatus)) {
             $Userdata->whereIn('finance_view.process_status', $request->appstatus);
         }
+        // $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
+        // return $sql;
         $user = $Userdata->get();
 
         // $this->candidate_arr = $Userdata->pluck('cid')->toArray();
@@ -254,9 +260,9 @@ class FinanceController extends Controller
     // close
 
     // save the update data of candidate
-    public function SavefinanceReference (Request $request)
+    public function SavefinanceReference(Request $request)
     {
- 
+
         DB::table('finance')->where('id', $request->fid)->update([
             'remarks_recruiter' => $request->remarks,
         ]);
@@ -298,7 +304,7 @@ class FinanceController extends Controller
             "ind_revenue" => str_replace(',', '', $request->ind_revenue),
             "t_id" => $t_id,
         ];
-       
+
         $eid = (Finance::where('id', $request->fid)->first())->endorsement_id;
         Endorsement::where('id', $eid)->update([
             'remarks' => $request->remarks,
@@ -330,7 +336,7 @@ class FinanceController extends Controller
         $teamRevenueAmount = DB::table('finance_detail')
             ->select(DB::raw('Sum(vcc_amount) as totoalRevenue'))
             ->whereIn('t_id', $revenueArray)->get();
-            
+
         //for check team revenue close
         $arr = ['Onboarded', 'Offer Accepted', 'Fallout'];
         if ($request->array == 1) {
@@ -379,9 +385,9 @@ class FinanceController extends Controller
             $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' ";
-            $c_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 "; 
-            $bod_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id = 24 "; 
-            $c_take = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') "; 
+            $c_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 ";
+            $bod_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id = 24 ";
+            $c_take = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') ";
             $vcc_amount_sum = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
             // $vcc_amount_sum_for_I_B_R=$sql." and remarks_recruiter LIKE '%collect%' OR "
             // $sql_onboarded = $sql . " and remarks_recruiter_for_finance='Onboarded'";
@@ -397,16 +403,16 @@ class FinanceController extends Controller
             $sql_receivables = $sql . "where process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . "where process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . "where process_status ='OVERDUE' ";
-            $c_share = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 "; 
-            $bod_share = $sql . " where   remarks_recruiter in('Billed' , 'Collected' , 'Replaced') and t_id = 24 "; 
-            $c_take = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') "; 
+            $c_share = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 ";
+            $bod_share = $sql . " where   remarks_recruiter in('Billed' , 'Collected' , 'Replaced') and t_id = 24 ";
+            $c_take = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') ";
             $vcc_amount_sum = $sql . "where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
- 
+
         }
         $sql_receivables_amount = DB::select($sql_receivables);
         $sql_Current_receivables_amount = DB::select($sql_Current_receivables);
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
-        $sql_ctake_amount = DB::select($c_take); 
+        $sql_ctake_amount = DB::select($c_take);
         $sql_c_share_db = DB::select($c_share);
         $sql_bod_share_db = DB::select($bod_share);
         $sql_vcc_amount_sum = DB::select($vcc_amount_sum);
@@ -443,7 +449,7 @@ class FinanceController extends Controller
             //unknown vlaue for some
             $ctakeAmount = $ctakeAmount + $ctake->c_take;
         }
-       
+
         foreach ($sql_c_share_db as $cftake) {
             //unknown vlaue for some
             $sql_c_share = $sql_c_share + $cftake->c_take;
@@ -452,7 +458,7 @@ class FinanceController extends Controller
             //unknown vlaue for some
             $sql_bod_share = $sql_bod_share + $bod->vcc_share;
         }
-        
+
         foreach ($sql_vcc_amount_sum as $cftake) {
             //unknown vlaue for some
             $vcc_amount_sum = $vcc_amount_sum + $cftake->c_take;
@@ -467,10 +473,10 @@ class FinanceController extends Controller
 
         $teamRevenueAmountFinance = 0;
         foreach ($teamRevenueAmount as $value) {
- 
+
             $teamRevenueAmountFinance += $value->totoalRevenue;
         }
- 
+
         // $traf = $teamRevenueAmountFinance + $vcc_amount_sum + $sql_c_share;
         // return $traf ;
         $data = [
@@ -488,8 +494,8 @@ class FinanceController extends Controller
             'sql_c_share' => $sql_c_share,
             'sql_bod_share' => $sql_bod_share,
             'vcc_amount_sum' => $vcc_amount_sum,
-            'teamRevenueAmount' => $teamRevenueAmountFinance, 
-        ]; 
+            'teamRevenueAmount' => $teamRevenueAmountFinance,
+        ];
         return view('finance.summary', $data);
     }
     // close

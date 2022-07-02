@@ -264,6 +264,8 @@ class CandidateController extends Controller
                 $CandidiatePosition = new CandidatePosition();
                 $CandidiateDomain = new CandidateDomain();
                 $numberOfEndo = 1;
+                $origionalRecruiter = Auth::user()->id;
+                $tap = 0;
             } else {
                 $candidate_id = trim($request->candidate_id, "id=");
                 $CandidateInformation = CandidateInformation::find($candidate_id);
@@ -271,6 +273,8 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
                 $numberOfEndo = 0;
+                $origionalRecruiter = 0;
+                $tap = Auth::user()->id;
             }
             $id = explode('-', $request->candidate_id);
             if ($request->tap == 0 && $id[0] != 'null') {
@@ -280,6 +284,8 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $id[0])->firstOrFail();
                 $numberOfEndo = $id[1] + 1;
+                $origionalRecruiter = 0; 
+                $tap = Auth::user()->id;
             }
 
             // return $candidate_id;
@@ -426,6 +432,8 @@ class CandidateController extends Controller
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
             $endorsement->saved_by = Auth::user()->id;
             $endorsement->category = $category;
+            $endorsement->origionalRecruiter = $origionalRecruiter;
+            $endorsement->tap = $tap;
             $endorsement->save();
             //start logic for cip
 
@@ -481,7 +489,6 @@ class CandidateController extends Controller
 
             // $user = User::find($recruiter);
 
-
             // save data to finance tables
             $finance = new Finance();
             $finance->candidate_id = $CandidateInformation->id;
@@ -499,7 +506,7 @@ class CandidateController extends Controller
             $finance->placement_fee = $request->PLACEMENT_FEE;
             $recruiter = Auth::user()->roles->pluck('id');
             $finance->t_id = $recruiter[0];
-            $finance->remarks_recruiter= 'Unbilled';
+            $finance->remarks_recruiter = 'Unbilled';
             $finance->save();
 
             // insert data to finance detail
@@ -546,7 +553,7 @@ class CandidateController extends Controller
             $Cipprogress->finance_id = $finance->id;
             $Cipprogress->save();
             //close cip
-            
+
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
@@ -799,7 +806,7 @@ class CandidateController extends Controller
     // search user data and append the new view after ajax call function
     public function SearchUserData(Request $request)
     {
- 
+
         // exploding string for endorsement number and candidate id to get selected data
         $str_arr = explode('-', $request->id);
         // return $str_arr[1] ;
@@ -1068,7 +1075,7 @@ class CandidateController extends Controller
             // update candidae domain data
             // $domain_name = Domain::where('id', $request->DOMAIN)->first();
             // return $request->Domainsub;
- 
+
             if (is_numeric(isset($request->Domainsegment))) {
                 $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
             } else {
@@ -1080,7 +1087,7 @@ class CandidateController extends Controller
             } else {
                 $Sub_name = $request->Domainsub;
             }
- 
+
             if (is_numeric($request->DOMAIN)) {
                 $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
             } else {
@@ -1093,7 +1100,7 @@ class CandidateController extends Controller
                 $e_name = $request->SEGMENT;
 
             }
-                    
+
             if (is_numeric($request->SUB_SEGMENT)) {
 
                 $e_sub_name = (DropDownOption::where('id', $request->SUB_SEGMENT)->first())->option_name;
@@ -1107,7 +1114,6 @@ class CandidateController extends Controller
             } else {
                 $e_domain = $request->DOMAIN_ENDORSEMENT;
             }
-
 
             CandidateDomain::where('candidate_id', $candidate_id)->update([
                 'date_shifted' => $request->DATE_SIFTED,
@@ -1198,9 +1204,9 @@ class CandidateController extends Controller
                 'offered_salary' => $request->OFFERED_SALARY_finance,
                 'placementFee' => $request->PLACEMENT_FEE,
                 'allowance' => $request->ALLOWANCE,
-                'rate_per' =>  preg_replace('/%/', '', $request->RATE),
+                'rate_per' => preg_replace('/%/', '', $request->RATE),
             ]);
-            
+
             $array = [
                 'Final Stage' => [
                     0 => 'Scheduled for Country Head Interview',
@@ -1408,7 +1414,7 @@ class CandidateController extends Controller
     public function endorsementDetailView(Request $request)
     {
         try {
-            if ($request->id == '' ||   $request->id == null) {
+            if ($request->id == '' || $request->id == null) {
                 $detail = null;
                 $detail_f = null;
                 $remarks_f = null;

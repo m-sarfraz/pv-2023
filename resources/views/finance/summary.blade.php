@@ -187,10 +187,10 @@
     $('#overDue_receivablesAmount').val(currency.format(overDue_receivablesAmount));
     $('#ctakeAmount').val(currency.format(ctakeAmount));
     $('#c_take').val(currency.format(sql_c_share));
-    // $('#vcc_share').val(currency.format(vcc_amount_sum)); 
+ 
     $('#vcc_share').val(currency.format(teamRevenueAmount - sql_bod_share))
     $('#BOD_share').val(currency.format(sql_bod_share));
-    // $('#Revenue_In_Incentive').val(currency.format(teamRevenueAmount));
+ 
     bodChange();
 
     function bodChange() {

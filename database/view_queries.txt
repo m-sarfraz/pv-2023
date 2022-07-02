@@ -57,10 +57,10 @@ WHERE endorsements.is_deleted = 0
 update query finance view
  --------------------------------
 CREATE VIEW finance_view AS select   candidate_informations.id  as  cid ,  finance.t_id,
-  candidate_informations.reprocess , e.saved_by,e.endorsement_id,e.numberOfEndo,e.is_deleted,e.remarks_for_finance,e.app_status,e.remarks,e.client,e.career_endo,e.candidate_id,
- candidate_informations.first_name , candidate_informations.middle_name ,candidate_informations.last_name , finance.onboardnig_date ,  finance_detail.placementFee ,  finance.id as fid,finance.endorsement_id as e_id,finance_detail.process_status
+candidate_informations.reprocess,e.origionalRecruiter , e.tap, e.saved_by,e.endorsement_id,e.numberOfEndo,e.is_deleted,e.remarks_for_finance,e.app_status,e.remarks,e.client,e.career_endo,e.candidate_id,
+candidate_informations.first_name , candidate_informations.middle_name ,candidate_informations.last_name , finance.onboardnig_date ,  finance_detail.placementFee ,  finance.id as fid,finance.endorsement_id as e_id,finance_detail.process_status
 from  candidate_informations  
-JOIN (SELECT id as endorsement_id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
+JOIN (SELECT id as endorsement_id,origionalRecruiter,tap, saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
 JOIN  finance  on  e.endorsement_id  =  finance.endorsement_id  
 JOIN  finance_detail  on  finance.id  =  finance_detail.finance_id  
 where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded');
@@ -171,7 +171,7 @@ candidate_educations.course,candidate_educations.certification,finance.endorseme
 finance.onboardnig_date,finance.invoice_number,finance.client_finance,finance.career_finance,finance.rate,
 finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance_detail.placementFee,finance.allowance,
 finance_detail.c_take,finance_detail.vcc_amount,finance_detail.finalFee,finance_detail.process_status, 
-candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id
+candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id , endorsements.origionalRecruiter
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
 JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
