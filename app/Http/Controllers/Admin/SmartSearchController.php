@@ -61,108 +61,155 @@ class SmartSearchController extends Controller
     public function smartTOYajra()
     {
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
-        $allData = DB::select('select * from smart_view');
-        return Datatables::of($allData)
-        // ->addIndexColumn()
-            ->addColumn('array', function ($allData) {
+        $record = DB::select('select * from updated_view_record');
+        return Datatables::of($record)
+        ->addIndexColumn()
+        ->addColumn('id', function ($record) {
+            return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
+        })
+        ->addColumn('recruiter', function ($record) {
+            $recr = (User::where('id', $record->saved_by)->first())->name;
+            return $recr;
+          
+        })
+        ->addColumn('team', function ($record) {
+            $userid = User::where('id', $record->saved_by)->get();
+            $team = $userid[0]->roles->pluck('name'); 
+            return json_decode($team);
+        })
+        ->addColumn('Candidate', function ($record) {
+            return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
 
-                return $allData->candidate_id . '-' . $allData->endorsement_id;
-                // return $allData->recruiter;
-            })
-            ->addColumn('recruiter', function ($allData) {
-                $name = User::where('id', $allData->saved_by)->first();
-                return isset($name->name) ? $name->name : '';
-                // return $allData->recruiter;
-            })
-            ->addColumn('candidate', function ($allData) {
-                // $name = DB::select('select last_name from  candidate_informations where id=' . $allData->id);
-                // return $allData->last_name;
-                return $allData->first_name . ' ' . $allData->middle_name . ' ' . $allData->last_name;
-            })
-            ->addColumn('client', function ($allData) {
-                return $allData->client;
-            })
-            ->addColumn('position_title', function ($allData) {
-                return $allData->position_title;
-            })
-            ->addColumn('email', function ($allData) {
-                return $allData->email;
-            })
-            ->addColumn('phone', function ($allData) {
-                return $allData->phone;
-            })
-            ->addColumn('gender', function ($allData) {
-                return $allData->gender;
-            })
-            ->addColumn('domain', function ($allData) {
-                return $allData->domain;
-            })
-            ->addColumn('candidate_profile', function ($allData) {
+        })
+        ->addColumn('Email', function ($Alldata) {
+            return $Alldata->email;
 
-                return $allData->candidate_profile;
-            })
-            ->addColumn('educational_attain', function ($allData) {
-                return $allData->educational_attain;
-            })
-            ->addColumn('curr_salary', function ($allData) {
-                return $allData->curr_salary;
-            })
-            ->addColumn('portal', function ($allData) {
-                return $allData->source;
-            })
-            ->addColumn('date_shifted', function ($allData) {
-                if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
-                    $date_shifted = date_format(date_create($allData->date_shifted), "m-d-Y");
-                    return $date_shifted;
-                } else {
-                    $allData->date_shifted = '';
-                }
-            })
+        })
+        ->addColumn('Replacement_For', function ($Alldata) {
+            return $Alldata->replacement_for;
+        })
+        ->addColumn('OR_Number', function ($Alldata) {
+            return $Alldata->or_number;
 
-            ->addColumn('career_endo', function ($allData) {
-                return $allData->career_endo;
-            })
-            ->addColumn('app_status', function ($allData) {
-                return $allData->status;
-            })
-            ->addColumn('endi_date', function ($allData) {
-                if (!empty($allData->endi_date && $allData->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($allData->endi_date), "m-d-Y");
-                    return $endi_date;
-                } else {
-                    $allData->endi_date = '';
-                }
-            })
-            ->addColumn('remarks_for_finance', function ($allData) {
-                return $allData->remarks_for_finance;
-            })
-            ->addColumn('category', function ($allData) {
-                return $allData->category;
+        })
+        ->addColumn('appStatus', function ($record) {
+            return $record->app_status;
+        })
+        ->addColumn('profile', function ($record) {
+            return $record->candidate_profile;
+        })
+        ->addColumn('career_level', function ($record) {
+            return $record->career_endo;
+        })
+        ->addColumn('certification', function ($record) {
+            return $record->certification;
+        })
+        ->addColumn('client', function ($record) {
+            return $record->client;
+        })
+        ->addColumn('phone', function ($record) {
+            return $record->phone;
+        })
+        ->addColumn('course', function ($record) {
+            return $record->course;
+        })
+        ->addColumn('endi_date', function ($record) {
+            if (!empty($record->endi_date && $record->endi_date != '0000-00-00')) {
+                $endi_date = date_format(date_create($record->endi_date), "m-d-Y");
+                return $endi_date;
+            } else {
+                $record->endi_date = '';
+            }
+        })
+        ->addColumn('date_invited', function ($record) {
+            return $record->date_invited;
+        })
+        ->addColumn('date_shifted', function ($record) {
+            return $record->date_shifted;
+        })
+        ->addColumn('educational_attain', function ($record) {
+            return $record->educational_attain;
+        })
+        ->addColumn('emp_history', function ($record) {
+            return $record->emp_history;
+        })
+        ->addColumn('type', function ($record) {
+            return $record->type;
+        })
+        ->addColumn('exp_salary', function ($record) {
+            return $record->exp_salary;
+        })
+        ->addColumn('gender', function ($record) {
+            return $record->gender;
+        })
+        ->addColumn('interview_note', function ($record) {
+            return $record->interview_note;
+        })
+        ->addColumn('invoice_number', function ($record) {
+            return $record->invoice_number;
+        })
+        ->addColumn('onboardnig_date', function ($record) {
+            return $record->onboardnig_date;
+        })
+        ->addColumn('position_title', function ($record) {
+            return $record->position_title;
+        })
+        ->addColumn('remarks', function ($record) {
+            return $record->remarks;
+        })
+        ->addColumn('remarks_for_finance', function ($record) {
+            return $record->remarks_for_finance;
+        })
+        ->addColumn('address', function ($record) {
+            return $record->address;
+        })
+        ->addColumn('segment', function ($record) {
+            return $record->segment;
+        })
+        ->addColumn('site', function ($record) {
+            return $record->site;
+        })
+        ->addColumn('endostatus', function ($record) {
+            return $record->endostatus;
+        })
+        ->addColumn('sub_segment', function ($record) {
+            return $record->sub_segment;
+        })
 
-            })
-            ->addColumn('srp', function ($allData) {
-                return $allData->srp;
-            })
-            ->addColumn('onboardnig_date', function ($allData) {
-                if (!empty($allData->onboardnig_date && $allData->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($allData->onboardnig_date), "m-d-Y");
-                    return $onboardnig_date;
-                } else {
-                    $allData->onboardnig_date = '';
-                }
-            })
-            ->addColumn('placement_fee', function ($allData) {
-                return $allData->placement_fee;
-            })
-            ->addColumn('address', function ($allData) {
-                return $allData->address;
-            })
-
-            ->rawColumns(['recruiter', 'candidate', 'client', 'position_title', 'email', 'phone', 'gender',
-                'domain', 'educational_attain', 'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance'
-                , 'category', 'srp', 'onboardnig_date', 'placement_fee', 'address'])
-            ->make(true);
-
+        ->rawColumns([
+            'id',
+            'recruiter',
+            'team',
+            'Candidate',
+            'appStatus',
+            'profile',
+            'career_level',
+            'certification',
+            'client',
+            'phone',
+            'course',
+            'endi_date',
+            'date_invited',
+            'date_shifted',
+            'educational_attain',
+            'emp_history',
+            'type',
+            'exp_salary',
+            'gender',
+            'interview_note',
+            'invoice_number',
+            'onboardnig_date',
+            'position_title',
+            'remarks',
+            'remarks_for_finance',
+            'address',
+            'segment',
+            'site',
+            'endostatus',
+            'sub_segment',
+        ])
+        ->make(true);
+ 
     }
     //close
 
@@ -172,20 +219,20 @@ class SmartSearchController extends Controller
         $data = [];
         $check = $searchCheck = false;
         // return $request->all();
-        $Userdata = DB::table('smart_view');
+        $Userdata = DB::table('updated_view_record');
         //    check null values coming form selected options
         if (isset($request->domain)) {
-            $Userdata->whereIn('smart_view.domain', $request->domain);
+            $Userdata->whereIn('updated_view_record.domain', $request->domain);
         }
         if (isset($request->recruiter)) {
-            $Userdata->whereIn('smart_view.saved_by', $request->recruiter);
+            $Userdata->whereIn('updated_view_record.saved_by', $request->recruiter);
         }
         if (isset($request->status)) {
-            $Userdata->whereIn('smart_view.status', array($request->status));
+            $Userdata->whereIn('updated_view_record.status', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
-            $Userdata->whereIn('smart_view.client', $request->client);
+            $Userdata->whereIn('updated_view_record.client', $request->client);
         }
         if ($request->cip == 1) {
             $stageArray = [
@@ -234,153 +281,199 @@ class SmartSearchController extends Controller
                 'Position On Hold (Final Stage)',
                 'Shortlisted',
             ];
-            $Userdata->whereIn('smart_view.remarks_for_finance', $stageArray);
+            $Userdata->whereIn('updated_view_record.remarks_for_finance', $stageArray);
         }
         if (isset($request->residence)) {
-            $Userdata->whereIn('smart_view.address', $request->residence);
+            $Userdata->whereIn('updated_view_record.address', $request->residence);
         }
         if (isset($request->career_level)) {
-            $Userdata->whereIn('smart_view.career_endo', $request->career_level);
+            $Userdata->whereIn('updated_view_record.career_endo', $request->career_level);
         }
         if (isset($request->category)) {
-            $Userdata->whereIn('smart_view.category', $request->category);
+            $Userdata->whereIn('updated_view_record.category', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('smart_view.remarks_for_finance', $request->remarks);
+            $Userdata->whereIn('updated_view_record.remarks_for_finance', $request->remarks);
         }
         if (isset($request->portal)) {
-            $Userdata->whereIn('smart_view.source', $request->portal);
+            $Userdata->whereIn('updated_view_record.source', $request->portal);
         }
         if (isset($request->ob_start)) {
-            $Userdata->whereDate('smart_view.onboardnig_date', '>=', $request->ob_start);
+            $Userdata->whereDate('updated_view_record.onboardnig_date', '>=', $request->ob_start);
         }
         if (isset($request->ob_end)) {
-            $Userdata->whereDate('smart_view.onboardnig_date', '<=', $request->ob_end);
+            $Userdata->whereDate('updated_view_record.onboardnig_date', '<=', $request->ob_end);
         }
         if (isset($request->sift_start)) {
-            $Userdata->whereDate('smart_view.date_shifted', '>=', $request->sift_start);
+            $Userdata->whereDate('updated_view_record.date_shifted', '>=', $request->sift_start);
         }
         if (isset($request->sift_end)) {
-            $Userdata->whereDate('smart_view.date_shifted', '<=', $request->sift_end);
+            $Userdata->whereDate('updated_view_record.date_shifted', '<=', $request->sift_end);
         }
         if (isset($request->endo_start)) {
-            $Userdata->whereDate('smart_view.endi_date', '>=', $request->endo_start);
+            $Userdata->whereDate('updated_view_record.endi_date', '>=', $request->endo_start);
         }
         if (isset($request->endo_end)) {
-            $Userdata->whereDate('smart_view.endi_date', '<=', $request->endo_end);
+            $Userdata->whereDate('updated_view_record.endi_date', '<=', $request->endo_end);
         }
-        $user = $Userdata->get();
-        $arrayOfIDS = $Userdata->select('candidate_id', 'endorsement_id')->get();
+        $record = $Userdata->get();
+        $arrayOfIDS = $Userdata->select('cid', 'endorsement_id')->get();
         // return $arrayOfIDS;
         // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
         foreach ($arrayOfIDS as $key => $value) {
-            $this->candidate_arr[$value->endorsement_id] = $value->candidate_id;
+            $this->candidate_arr[$value->endorsement_id] = $value->cid;
         }
         //    return $this->candidate_arr;
-        return Datatables::of($user)
-            ->addColumn('array', function ($allData) {
-                return $allData->candidate_id . '-' . $allData->endorsement_id;
-            })
-            ->addColumn('recruiter', function ($allData) {
-                $name = User::where('id', $allData->saved_by)->first();
-                return isset($name->name) ? $name->name : '';
+        return Datatables::of($record)
+        ->addIndexColumn()
+        ->addColumn('id', function ($record) {
+            return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
+        })
+        ->addColumn('recruiter', function ($record) {
+            $recr = (User::where('id', $record->saved_by)->first())->name;
+            return $recr;
+          
+        })
+        ->addColumn('team', function ($record) {
+            $userid = User::where('id', $record->saved_by)->get();
+            $team = $userid[0]->roles->pluck('name'); 
+            return json_decode($team);
+        })
+        ->addColumn('Candidate', function ($record) {
+            return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
+    
+        })
+        ->addColumn('Email', function ($Alldata) {
+            return $Alldata->email;
 
-            })
-            ->addColumn('candidate', function ($allData) {
-               
-                return $allData->first_name . ' ' . $allData->middle_name . ' ' . $allData->last_name;
+        })
+        ->addColumn('Replacement_For', function ($Alldata) {
+            return $Alldata->replacement_for;
+        })
+        ->addColumn('OR_Number', function ($Alldata) {
+            return $Alldata->or_number;
 
-            })
-            ->addColumn('client', function ($user) {
-                return $user->client;
-            })
-            ->addColumn('position_title', function ($allData) {
-                return $allData->position_title;
-            })
-            ->addColumn('email', function ($allData) {
-                return $allData->email;
-            })
-            ->addColumn('phone', function ($allData) {
-                return $allData->phone;
-            })
-            ->addColumn('gender', function ($allData) {
-                return $allData->gender;
-            })
-            ->addColumn('domain', function ($allData) {
-                return $allData->domain;
-            })
-            ->addColumn('candidate_profile', function ($allData) {
-                return $allData->candidate_profile;
-            })
-            ->addColumn('educational_attain', function ($allData) {
-                return $allData->educational_attain;
-            })
-            ->addColumn('curr_salary', function ($allData) {
-                return $allData->curr_salary;
-            })
-            ->addColumn('portal', function ($allData) {
-                return $allData->source;
-            })
-            ->addColumn('date_shifted', function ($allData) {
-                if (!empty($allData->date_shifted && $allData->date_shifted != '0000-00-00')) {
-                    $date_shifted = date_format(date_create($allData->date_shifted), "m-d-Y");
-                    return $date_shifted;
-                } else {
-                    $allData->date_shifted = '';
-                }
-            })
-            ->addColumn('career_endo', function ($allData) {
-                return $allData->career_endo;
-            })
-            ->addColumn('app_status', function ($allData) {
-                return $allData->status;
-            })
-            ->addColumn('endi_date', function ($allData) {
-                if (!empty($allData->endi_date && $allData->endi_date != '0000-00-00')) {
-                    $endi_date = date_format(date_create($allData->endi_date), "m-d-Y");
-                    return $endi_date;
-                } else {
-                    $allData->endi_date = '';
-                }
-            })
-            ->addColumn('remarks_for_finance', function ($allData) {
-                return $allData->remarks_for_finance;
-            })
-            ->addColumn('category', function ($allData) {
-                return $allData->category;
-
-            })
-            ->addColumn('srp', function ($allData) {
-                return $allData->srp;
-            })
-            ->addColumn('onboardnig_date', function ($allData) {
-                if (!empty($allData->onboardnig_date && $allData->onboardnig_date != '0000-00-00')) {
-                    $onboardnig_date = date_format(date_create($allData->onboardnig_date), "m-d-Y");
-                    return $onboardnig_date;
-                } else {
-                    $allData->onboardnig_date = '';
-                }
-            })
-            ->addColumn('placement_fee', function ($allData) {
-                return $allData->placement_fee;
-            })
-            ->addColumn('address', function ($allData) {
-                return $allData->address;
-            })
-            ->addColumn('saved_by', function ($allData) {
-                $name = DB::select('select name from  users where id=' . $allData->saved_by);
-                return isset($name[0]->name) ? $name[0]->name : '';
-            })
-            ->with([
-                'array' => $this->candidate_arr,
-            ])
-            ->rawColumns(['id', 'client', 'gender', 'domain', 'candidate_profile', 'educational_attain',
-                'curr_salary', 'portal', 'date_shifted', 'career_endo', 'app_status', 'endi_date', 'remarks_for_finance', 'category',
-                'srp', 'onboardnig_date', 'placement_fee', 'address'])
-            ->make(true);
-
-        // close
-    }
+        })
+        ->addColumn('appStatus', function ($record) {
+            return $record->app_status;
+        })
+        ->addColumn('profile', function ($record) {
+            return $record->candidate_profile;
+        })
+        ->addColumn('career_level', function ($record) {
+            return $record->career_endo;
+        })
+        ->addColumn('certification', function ($record) {
+            return $record->certification;
+        })
+        ->addColumn('client', function ($record) {
+            return $record->client;
+        })
+        ->addColumn('phone', function ($record) {
+            return $record->phone;
+        })
+        ->addColumn('course', function ($record) {
+            return $record->course;
+        })
+        ->addColumn('endi_date', function ($record) {
+            if (!empty($record->endi_date && $record->endi_date != '0000-00-00')) {
+                $endi_date = date_format(date_create($record->endi_date), "m-d-Y");
+                return $endi_date;
+            } else {
+                $record->endi_date = '';
+            }
+        })
+        ->addColumn('date_invited', function ($record) {
+            return $record->date_invited;
+        })
+        ->addColumn('date_shifted', function ($record) {
+            return $record->date_shifted;
+        })
+        ->addColumn('educational_attain', function ($record) {
+            return $record->educational_attain;
+        })
+        ->addColumn('emp_history', function ($record) {
+            return $record->emp_history;
+        })
+        ->addColumn('type', function ($record) {
+            return $record->type;
+        })
+        ->addColumn('exp_salary', function ($record) {
+            return $record->exp_salary;
+        })
+        ->addColumn('gender', function ($record) {
+            return $record->gender;
+        })
+        ->addColumn('interview_note', function ($record) {
+            return $record->interview_note;
+        })
+        ->addColumn('invoice_number', function ($record) {
+            return $record->invoice_number;
+        })
+        ->addColumn('onboardnig_date', function ($record) {
+            return $record->onboardnig_date;
+        })
+        ->addColumn('position_title', function ($record) {
+            return $record->position_title;
+        })
+        ->addColumn('remarks', function ($record) {
+            return $record->remarks;
+        })
+        ->addColumn('remarks_for_finance', function ($record) {
+            return $record->remarks_for_finance;
+        })
+        ->addColumn('address', function ($record) {
+            return $record->address;
+        })
+        ->addColumn('segment', function ($record) {
+            return $record->segment;
+        })
+        ->addColumn('site', function ($record) {
+            return $record->site;
+        })
+        ->addColumn('endostatus', function ($record) {
+            return $record->endostatus;
+        })
+        ->addColumn('sub_segment', function ($record) {
+            return $record->sub_segment;
+        })
+        ->with([
+                    'array' => $this->candidate_arr,
+                ])
+        ->rawColumns([
+            'id',
+            'recruiter',
+            'team',
+            'Candidate',
+            'appStatus',
+            'profile',
+            'career_level',
+            'certification',
+            'client',
+            'phone',
+            'course',
+            'endi_date',
+            'date_invited',
+            'date_shifted',
+            'educational_attain',
+            'emp_history',
+            'type',
+            'exp_salary',
+            'gender',
+            'interview_note',
+            'invoice_number',
+            'onboardnig_date',
+            'position_title',
+            'remarks',
+            'remarks_for_finance',
+            'address',
+            'segment',
+            'site',
+            'endostatus',
+            'sub_segment',
+        ])
+        ->make(true);
+        }    
     // close
 
     // append summary on page load or filter change

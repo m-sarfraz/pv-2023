@@ -436,33 +436,45 @@
                         <table id="smTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="">
-                                    <th class="ant-table-cell hideID noVis">secret-id</th>
+                                    <th class="ant-table-cell hideID noVis">id</th>
+                                    <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell">Recruiter</th>
+                                    <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Candidate</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">Position Title</th>
                                     <th class="ant-table-cell">Email</th>
-                                    <th class="ant-table-cell">Contact No.</th>
-                                    <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">Domain</th>
-                                    <th class="ant-table-cell">Profile</th>
-                                    <th class="ant-table-cell">Educational Attainment</th>
-                                    <th class="ant-table-cell">Salary</th>
-                                    <th class="ant-table-cell">Portal</th>
+                                    <th class="ant-table-cell">OR Number</th>
+                                    <th class="ant-table-cell">Replacement For</th>
+                                    <th class="ant-table-cell">Application Status</th>
+                                    <th class="ant-table-cell">Candidate’s Profile</th>
+                                    <th class="ant-table-cell">Career</th>
+                                    <th class="ant-table-cell">Certificate</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Phone</th>
+                                    <th class="ant-table-cell">Course</th>
+                                    <th class="ant-table-cell">Endorsement Date</th>
+                                    <th class="ant-table-cell">Date Invited</th>
                                     <th class="ant-table-cell">Date Sifted</th>
-                                    <th class="ant-table-cell">CL</th>
-                                    <th class="ant-table-cell">Status</th>
-                                    <th class="ant-table-cell">Endo Date</th>
-                                    <th class="ant-table-cell">Remarks</th>
-                                    <th class="ant-table-cell">Category</th>
-                                    <th class="ant-table-cell">SPR</th>
-                                    <th class="ant-table-cell">Date Onboarded</th>
-                                    <th class="ant-table-cell">Placement fee</th>
-                                    <th class="ant-table-cell">Location</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
+                                    <th class="ant-table-cell">Emp History</th>
+                                    <th class="ant-table-cell">Type</th>
+                                    <th class="ant-table-cell">Exp Salary</th>
+                                    <th class="ant-table-cell">Gender</th>
+                                    <th class="ant-table-cell">Interview note</th>
+                                    <th class="ant-table-cell">Invoice number</th>
+                                    <th class="ant-table-cell">Onboarding date </th>
+                                    <th class="ant-table-cell">Position Title </th>
+                                    <th class="ant-table-cell">Remarks </th>
+                                    <th class="ant-table-cell">Remarks_For Finance </th>
+                                    <th class="ant-table-cell">Address </th>
+                                    <th class="ant-table-cell">Segment </th>
+                                    <th class="ant-table-cell">Site</th>
+                                    <th class="ant-table-cell">Endorsement Status</th>
+                                    <th class="ant-table-cell">Sub Segment</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
                             <tbody class="hidetrID" style="height:100px">
+
                             </tbody>
                         </table>
                     </div>
@@ -624,6 +636,9 @@
             }
             option_table = $('#smTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -669,101 +684,134 @@
                     }
                 },
                 columns: [{
-                        data: 'array',
-                        name: 'array'
+                        data: 'id',
+                        name: 'id',
+                        searchable: false
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false
                     },
                     {
                         data: 'recruiter',
                         name: 'recruiter'
                     },
                     {
-                        data: 'candidate',
-                        name: 'candidate'
+                        data: 'team',
+                        name: 'team',
+                        // searchable: false,
+                        // orderable: false
                     },
-
+                     {
+                        data: 'Candidate',
+                        name: 'Candidate',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
                     {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
+                        data: 'profile',
+                        name: 'profile',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    }, {
+                        data: 'certification',
+                        name: 'certification'
+                    }, {
                         data: 'client',
                         name: 'client'
-                    },
-                    {
-                        data: 'position_title',
-                        name: 'position_title'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
+                    }, {
                         data: 'phone',
                         name: 'phone'
-                    },
-                    {
-                        data: 'gender',
-                        name: 'gender'
-                    },
-                    {
-                        data: 'domain',
-                        name: 'domain'
-                    },
-
-                    {
-                        data: 'candidate_profile',
-                        name: 'candidate_profile'
-                    },
-                    {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    },
-                    {
-                        data: 'curr_salary',
-                        name: 'curr_salary'
-                    },
-                    {
-                        data: 'portal',
-                        name: 'portal'
-                    },
-                    {
-                        data: 'date_shifted',
-                        name: 'date_shifted'
-                    },
-                    {
-                        data: 'career_endo',
-                        name: 'career_endo'
-                    },
-                    {
-                        data: 'app_status',
-                        name: 'app_status'
-                    },
-                    {
+                    }, {
+                        data: 'course',
+                        name: 'course'
+                    }, {
                         data: 'endi_date',
                         name: 'endi_date'
-                    },
-                    {
-                        data: 'remarks_for_finance',
-                        name: 'remarks_for_finance'
-                    },
-                    {
-                        data: 'category',
-                        name: 'category'
-                    },
-                    {
-                        data: 'srp',
-                        name: 'srp'
-                    },
-                    {
+                    }, {
+                        data: 'date_invited',
+                        name: 'date_invited'
+                    }, {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    }, {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    }, {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    }, {
+                        data: 'type',
+                        name: 'type'
+                    }, {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    }, {
+                        data: 'gender',
+                        name: 'gender'
+                    }, {
+                        data: 'interview_note',
+                        name: 'interview_note'
+                    }, {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    }, {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date'
-                    },
-                    {
-                        data: 'placement_fee',
-                        name: 'placement_fee'
-                    },
-                    {
+                    }, {
+                        data: 'position_title',
+                        name: 'position_title'
+                    }, {
+                        data: 'remarks',
+                        name: 'remarks'
+                    }, {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    }, {
                         data: 'address',
                         name: 'address'
+                    }, {
+                        data: 'segment',
+                        name: 'segment'
+                    }, {
+                        data: 'site',
+                        name: 'site'
+                    }, {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    }, {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
                     },
-
-
                 ],
                 dom: 'Bfrtip',
                 columnDefs: [{
@@ -786,6 +834,9 @@
         function load_datatable() {
             option_table = $('#smTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -810,100 +861,134 @@
                     }
                 },
                 columns: [{
-                        data: 'array',
-                        name: 'array'
-                    }, {
+                        data: 'id',
+                        name: 'id',
+                        searchable: false
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false
+                    },
+                    {
                         data: 'recruiter',
                         name: 'recruiter'
                     },
                     {
-                        data: 'candidate',
-                        name: 'candidate'
+                        data: 'team',
+                        name: 'team',
+                        // searchable: false,
+                        // orderable: false
                     },
-
+                     {
+                        data: 'Candidate',
+                        name: 'Candidate',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
                     {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                  
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    }, {
+                        data: 'profile',
+                        name: 'profile',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    }, {
+                        data: 'certification',
+                        name: 'certification'
+                    }, {
                         data: 'client',
                         name: 'client'
-                    },
-                    {
-                        data: 'position_title',
-                        name: 'position_title'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
+                    }, {
                         data: 'phone',
                         name: 'phone'
-                    },
-                    {
-                        data: 'gender',
-                        name: 'gender'
-                    },
-                    {
-                        data: 'domain',
-                        name: 'domain'
-                    },
-
-                    {
-                        data: 'candidate_profile',
-                        name: 'candidate_profile'
-                    },
-                    {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    },
-                    {
-                        data: 'curr_salary',
-                        name: 'curr_salary'
-                    },
-                    {
-                        data: 'portal',
-                        name: 'portal'
-                    },
-                    {
-                        data: 'date_shifted',
-                        name: 'date_shifted'
-                    },
-                    {
-                        data: 'career_endo',
-                        name: 'career_endo'
-                    },
-                    {
-                        data: 'app_status',
-                        name: 'app_status'
-                    },
-                    {
+                    }, {
+                        data: 'course',
+                        name: 'course'
+                    }, {
                         data: 'endi_date',
                         name: 'endi_date'
-                    },
-                    {
-                        data: 'remarks_for_finance',
-                        name: 'remarks_for_finance'
-                    },
-                    {
-                        data: 'category',
-                        name: 'category'
-                    },
-                    {
-                        data: 'srp',
-                        name: 'srp'
-                    },
-                    {
+                    }, {
+                        data: 'date_invited',
+                        name: 'date_invited'
+                    }, {
+                        data: 'date_shifted',
+                        name: 'date_shifted'
+                    }, {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    }, {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    }, {
+                        data: 'type',
+                        name: 'type'
+                    }, {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    }, {
+                        data: 'gender',
+                        name: 'gender'
+                    }, {
+                        data: 'interview_note',
+                        name: 'interview_note'
+                    }, {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    }, {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date'
-                    },
-                    {
-                        data: 'placement_fee',
-                        name: 'placement_fee'
-                    },
-                    {
+                    }, {
+                        data: 'position_title',
+                        name: 'position_title'
+                    }, {
+                        data: 'remarks',
+                        name: 'remarks'
+                    }, {
+                        data: 'remarks_for_finance',
+                        name: 'remarks_for_finance'
+                    }, {
                         data: 'address',
                         name: 'address'
+                    }, {
+                        data: 'segment',
+                        name: 'segment'
+                    }, {
+                        data: 'site',
+                        name: 'site'
+                    }, {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    }, {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
                     },
-
-
                 ],
                 dom: 'Bfrtip',
                 columnDefs: [{

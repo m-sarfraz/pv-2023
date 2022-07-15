@@ -155,9 +155,21 @@ class FinanceController extends Controller
                 return json_decode($team);
             })
             ->addColumn('recruiter', function ($user) {
-                return (User::where('id', $user->saved_by)->first('name'))->name;
+                $id = Endorsement::where('candidate_id', $user->cid)->where('origionalRecruiter', '!=', '0')->first();
+                return (User::where('id', $id->saved_by)->first('name'))->name;
+            })
+            ->addColumn('tapped', function ($user) {
+                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter; 
+                if ( $user->origionalRecruiter != '0') {
+                    return '';
+                }
+                else{
+
+                    return (User::where('id', $id)->first('name'))->name;
+                }
             })
             ->addColumn('client', function ($user) {
+            
                 return $user->client;
             })
             ->addColumn('reprocess', function ($user) {
@@ -219,7 +231,19 @@ class FinanceController extends Controller
                 return json_decode($team);
             })
             ->addColumn('recruiter', function ($user) {
-                return (User::where('id', $user->saved_by)->first('name'))->name;
+                $id = Endorsement::where('candidate_id', $user->cid)->where('origionalRecruiter', '!=', '0')->first();
+                return (User::where('id', $id->saved_by)->first('name'))->name;
+            })
+            ->addColumn('tapped', function ($user) {
+                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter; 
+                if ( $user->origionalRecruiter != '0') {
+                    return '';
+                }
+                else{
+
+                    return (User::where('id', $id)->first('name'))->name;
+                }
+                // $id = Endorsement::where('candidate_id' ,$user->cid)->where('origionalRecruiter', '!=', '0')->first();
             })
             ->addColumn('client', function ($user) {
                 return $user->client;

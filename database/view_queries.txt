@@ -92,7 +92,7 @@ JOIN endorsements on candidate_domains.candidate_id = endorsements.candidate_id
 JOIN candidate_educations on endorsements.candidate_id = candidate_educations.candidate_id
 JOIN finance on candidate_educations.candidate_id = finance.candidate_id
 JOIN finance_detail on finance.candidate_id = finance_detail.candidate_id
-JOIN users on endorsements.saved_by = users.id;
+JOIN users on endorsements.saved_by = users.id 
 WHERE endorsements.is_deleted = 0
 
 -----------------------
@@ -157,20 +157,20 @@ where `e`.`remarks_for_finance` in ('Onboarded', 'Offer Accepted', 'Fallout');
 view record updated view 
 -------------------------------
 
-CREATE VIEW updated_view_record AS
+ CREATE VIEW updated_view_record AS
 SELECT candidate_informations.*,candidate_informations.id as cid,endorsements.saved_by,
 candidate_positions.candidate_profile,candidate_positions.position_applied,candidate_positions.date_invited,
 candidate_positions.manner_of_invite,candidate_positions.curr_salary,candidate_positions.exp_salary,
 candidate_positions.off_salary,candidate_positions.curr_allowance,candidate_positions.cv,candidate_positions.off_allowance,
 candidate_domains.date_shifted,candidate_domains.domain,candidate_domains.emp_history,candidate_domains.interview_note,
-candidate_domains.segment,candidate_domains.sub_segment,endorsements.app_status,endorsements.remarks,endorsements.client,
+candidate_domains.segment,candidate_domains.sub_segment,endorsements.app_status,endorsements.remarks,endorsements.client,endorsements.category,
 endorsements.type,endorsements.site,endorsements.position_title,endorsements.domain_endo,endorsements.interview_date,
 endorsements.career_endo,endorsements.rfp,endorsements.segment_endo,endorsements.sub_segment_endo,endorsements.endi_date,
 endorsements.remarks_for_finance,endorsements.status as endostatus,candidate_educations.educational_attain,
 candidate_educations.course,candidate_educations.certification,finance.endorsement_id,finance.remarks_recruiter,
 finance.onboardnig_date,finance.invoice_number,finance.client_finance,finance.career_finance,finance.rate,
-finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance_detail.placementFee,finance.allowance,
-finance_detail.c_take,finance_detail.vcc_amount,finance_detail.finalFee,finance_detail.process_status, 
+finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance_detail.placementFee,finance.allowance, candidate_informations.email,
+finance_detail.c_take,finance_detail.vcc_amount,finance_detail.finalFee,finance_detail.process_status, finance_detail.or_number , finance_detail.replacement_for,
 candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id , endorsements.origionalRecruiter
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id

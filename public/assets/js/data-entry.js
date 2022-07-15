@@ -292,7 +292,7 @@ function clientChanged(elem) {
 // }
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
-function EnableUserEdit(elem) {
+function EnableUserEdit(elem,role_id) {
 
     $('#certificate').prop('disabled', false)
     // enabling th fieldset value
@@ -384,6 +384,33 @@ function EnableUserEdit(elem) {
         $('#placement_fee').prop("disabled", true);
         $('#off_salary_fianance').prop("disabled", true);
         $('#onboard_date').prop("disabled", true);
+    }
+    var edu_attain = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+    console.log(edu_attain);
+  
+    if (role_id == 1) {
+        if (edu_attain == 'HIGH SCHOOL GRADUATE') {
+
+            // if selected text is gradute disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+    } else {
+        if (edu_attain == 'HIGH SCHOOL GRADUATE' || edu_attain == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+            // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+
     }
 }
         // function for enabling the edit of searched user ends

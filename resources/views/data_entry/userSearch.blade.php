@@ -177,19 +177,18 @@
                                         $course = Helper::get_dropdown('course');
                                         ?>
 
+
                                         <select name="COURSE"
-                                            class="form-control p-0 users-input-S-C select2_dropdown w-100"
+                                            class="form-control p-0 users-input-S-C select2_dropdown w-100" disabled
                                             id="COURSE">
                                             <option value="" {{ $user->course == null ? 'selected' : '' }}>
                                             </option>
                                             @foreach ($course->options as $courseOptions)
-                                                <option value="{{ $courseOptions->option_name }}"
-                                                    @if ($user->course != null) {
-                                                    {{ $user->course == $courseOptions->option_name ? 'selected' : '' }}
-                                                    } @endif>
-                                                    {{ $courseOptions->option_name }}
-                                                </option>
-                                            @endforeach
+                                            <option value="{{ strtoupper($courseOptions->option_name) }}"
+                                                @if ($user->course != null) {{ strtoupper($courseOptions->option_name) == strtoupper($user->course) ? 'selected' : '' }} @endif>
+                                                {{ strtoupper($courseOptions->option_name) }}
+                                            </option>
+                                        @endforeach
                                         </select>
                                         <div>
                                             <small class="text-danger"></small>
@@ -256,7 +255,7 @@
                                     </div>
                                     <div class="col-lg-12 p-0">
                                         <?php
-                                        $segmentss = Helper::get_dropdown('segments');
+                                        $segmentss = App\Segment::all();
                                         ?>
                                         <label class="Label">Segment</label>
                                         <select name="Domainsegment" id="Domainsegment"
@@ -264,10 +263,10 @@
                                             <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select
                                                 Option
                                             </option>
-                                            @foreach ($segmentss->options as $segmentOption)
+                                            @foreach ($segmentss as $segmentOption)
                                                 <option value="{{ $segmentOption->id }}"
-                                                    {{ strtolower($user->segment) == strtolower($segmentOption->option_name) ? 'selected' : '' }}>
-                                                    {{ $segmentOption->option_name }}</option>
+                                                    {{ strtolower($user->segment) == strtolower($segmentOption->segment_name) ? 'selected' : '' }}>
+                                                    {{ $segmentOption->segment_name }}</option>
                                             @endforeach
 
                                         </select>
@@ -306,7 +305,7 @@
                                             </label>
                                             <select name="CANDIDATES_PROFILE" id="candidate_profile"
                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100"
-                                                onchange="traverseData(this)">
+                                                onchange="traverseData()">
                                                 <option disabled></option>
                                                 @foreach ($profile->options as $profileOption)
                                                     <option value="{{ $profileOption->option_name }}"
@@ -1288,32 +1287,7 @@
         // ajax call for user data fetching ends
     });
     // enable and disable course fields on selected educational attainment
-    var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-    var role_id = {!! Auth::user()->agent !!}
-    if (role_id == 1) {
-        if (value == 'HIGH SCHOOL GRADUATE') {
 
-            // if selected text is gradute disable course field for user
-            $('#COURSE').prop("disabled", true);
-        } else {
-            //enable course field
-            $('#COURSE').prop("disabled", false);
-            $('#COURSE').children().removeAttr('disabled');
-
-        }
-    } else {
-        if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
-
-            // if selected text is HIGH SCHOOL GRADUATE disable course field for user
-            $('#COURSE').prop("disabled", true);
-        } else {
-            //enable course field
-            $('#COURSE').prop("disabled", false);
-            $('#COURSE').children().removeAttr('disabled');
-
-        }
-
-    }
     // //  On application status changed function starts 
     // if ($('#ap_status').find(":selected").text().trim() == 'To Be Endorsed') {
     //     // disable and enable input fields for user data in endorsement section
@@ -1540,4 +1514,6 @@
             }
         });
     }
+    traverseData()
+
 </script>

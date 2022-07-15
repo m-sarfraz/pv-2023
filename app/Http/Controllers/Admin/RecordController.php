@@ -32,7 +32,7 @@ class RecordController extends Controller
     // index function for showing the record of users with filters starts
     public function index(Request $request)
     {
-        ini_set('memory_limit', '-1'); 
+        ini_set('memory_limit', '-1');
         $recordExist = 0;
         $cid = 0;
         if (isset($_GET['id'])) {
@@ -56,7 +56,7 @@ class RecordController extends Controller
     // show data table for view record page starts
     public function view_record_filter_table(Request $request)
     {
-        ini_set('memory_limit', '-1'); 
+        ini_set('memory_limit', '-1');
         $check = $searchCheck = false;
 
         // $Userdata = DB::table('updated_view_record')->orderBy('timestamp', 'desc');
@@ -97,20 +97,31 @@ class RecordController extends Controller
             ->addColumn('id', function ($Alldata) {
                 return $Alldata->cid . '-' . $Alldata->numberOfEndo . '-' . $Alldata->saved_by;
             })
- 
+
             ->addColumn('recruiter', function ($Alldata) {
                 $recr = (User::where('id', $Alldata->saved_by)->first())->name;
                 return $recr;
-              
+
             })
             ->addColumn('team', function ($Alldata) {
                 $userid = User::where('id', $Alldata->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name'); 
+                $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
-  
+
             ->addColumn('Candidate', function ($Alldata) {
                 return $Alldata->first_name . ' ' . $Alldata->middle_name . ' ' . $Alldata->last_name;
+
+            })
+            ->addColumn('Email', function ($Alldata) {
+                return $Alldata->email;
+
+            })
+            ->addColumn('Replacement_For', function ($Alldata) {
+                return $Alldata->replacement_for;
+            })
+            ->addColumn('OR_Number', function ($Alldata) {
+                return $Alldata->or_number;
 
             })
             ->addColumn('appStatus', function ($Alldata) {
@@ -202,6 +213,9 @@ class RecordController extends Controller
                 'recruiter',
                 'team',
                 'Candidate',
+                'Email',
+                'OR_Number',
+                'Replacement_For',
                 'appStatus',
                 'profile',
                 'career_level',
@@ -233,7 +247,7 @@ class RecordController extends Controller
     }
     public function view_record_table()
     {
-        ini_set('memory_limit', '-1'); 
+        ini_set('memory_limit', '-1');
         // $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
         $record = DB::table('updated_view_record')->get();
         return Datatables::of($record)
@@ -244,15 +258,26 @@ class RecordController extends Controller
             ->addColumn('recruiter', function ($record) {
                 $recr = (User::where('id', $record->saved_by)->first())->name;
                 return $recr;
-              
+
             })
             ->addColumn('team', function ($record) {
                 $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name'); 
+                $team = $userid[0]->roles->pluck('name');
                 return json_decode($team);
             })
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
+
+            })
+            ->addColumn('Email', function ($Alldata) {
+                return $Alldata->email;
+
+            })
+            ->addColumn('Replacement_For', function ($Alldata) {
+                return $Alldata->replacement_for;
+            })
+            ->addColumn('OR_Number', function ($Alldata) {
+                return $Alldata->or_number;
 
             })
             ->addColumn('appStatus', function ($record) {
@@ -344,6 +369,9 @@ class RecordController extends Controller
                 'recruiter',
                 'team',
                 'Candidate',
+                'Email',
+                'OR_Number',
+                'Replacement_For',
                 'appStatus',
                 'profile',
                 'career_level',
@@ -372,7 +400,7 @@ class RecordController extends Controller
                 'sub_segment',
             ])
             ->make(true);
-            
+
     }
     // show data table for view record page ends
 
@@ -442,8 +470,8 @@ class RecordController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            $name = explode(" ", $request->first_name,3);
-            
+            $name = explode(" ", $request->first_name, 3);
+
             CandidateInformation::where('id', $c_id)->update([
                 'first_name' => isset($name[0]) ? $name[0] : '',
                 'middle_name' => isset($name[1]) ? $name[1] : '',
@@ -511,7 +539,7 @@ class RecordController extends Controller
                 $e_domain = $request->DOMAIN_endo;
 
             }
- 
+
             CandidateDomain::where('candidate_id', $c_id)->update([
                 'date_shifted' => $request->date_shifted,
                 'domain' => $domain,

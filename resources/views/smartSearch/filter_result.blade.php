@@ -5,6 +5,9 @@
                 <th class="ant-table-cell noVis">secret-id</th>
                 <th class="ant-table-cell">Recruiter</th>
                 <th class="ant-table-cell">Candidate</th>
+                <th class="ant-table-cell">Email</th>
+                <th class="ant-table-cell">OR Number</th>
+                <th class="ant-table-cell">Replacement For</th>
                 <th class="ant-table-cell">Client</th>
                 <th class="ant-table-cell">Gender</th>
                 <th class="ant-table-cell">Domain</th>

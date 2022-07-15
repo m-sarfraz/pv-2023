@@ -677,4 +677,12 @@ class HomeController extends Controller
         }
         return redirect()->back()->with('success', 'your data is save');
     }
+    public function uploadSegments(){
+        $data = DB::table('gettravesels')->select('segment')->distinct()->get();
+        $arr = [];
+        foreach($data as $key=>$value){
+            array_push($arr , $value->segment);
+        }
+        return $arr;
+    }
 }

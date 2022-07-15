@@ -7,6 +7,9 @@
                 <th class="ant-table-cell">Recruiter</th>
                 <th class="ant-table-cell">Team</th>
                 <th class="ant-table-cell">Candidate</th>
+                <th class="ant-table-cell">Email</th>
+                <th class="ant-table-cell">OR Number</th>
+                <th class="ant-table-cell">Replacement For</th>
                 <th class="ant-table-cell">Application Status</th>
                 <th class="ant-table-cell">Candidate’s Profile</th>
                 <th class="ant-table-cell">Career</th>

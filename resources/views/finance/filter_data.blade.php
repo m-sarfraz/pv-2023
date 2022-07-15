@@ -5,9 +5,9 @@
                 <th class="ant-table-cell hideIDTh noVis">secret-id</th>
                 <th class="ant-table-cell hideIDTh">id</th>
                 <th class="ant-table-cell">Team</th>
-                <th class="ant-table-cell">Recruiter</th>
+                <th class="ant-table-cell">Original Recruiter</th>
+                <th class="ant-table-cell">Reprocessed</th>
                 <th class="ant-table-cell">Client</th>
-                <th class="ant-table-cell">Reprocess</th>
                 <th class="ant-table-cell">Candidate</th>
                 <th class="ant-table-cell">CL</th>
                 <th class="ant-table-cell">OB Date</th>

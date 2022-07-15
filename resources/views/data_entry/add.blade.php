@@ -138,7 +138,7 @@
 
                                 @can('edit-data')
                                     <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
-                                        onclick="EnableUserEdit(this)">
+                                        onclick="EnableUserEdit(this,'{{Auth::user()->agent}}')">
                                         Edit Record
                                     </button>
                                     <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
@@ -474,7 +474,7 @@
                                                                     Candidate’s Profile
                                                                 </label>
                                                                 <select name="CANDIDATES_PROFILE" id="candidate_profile"
-                                                                    onchange="traverseData(this)"
+                                                                    onchange="traverseData()"
                                                                     class="select2_dropdown w-100"
                                                                     class="form-control p-0 users-input-S-C">
                                                                     <option value=""
@@ -2178,11 +2178,9 @@
                                     </option>`);
         });
         // close 
-
         //  On application status changed function ends
         // client change and get domain segment and subsegment
-        function traverseData(request) {
-
+        function traverseData() {
             $('#domain').empty();
             $('#Domainsub').empty();
             $('#Domainsegment').empty();
@@ -2221,11 +2219,11 @@
                         $('#Domainsub').attr('readonly', true);
 
                     } else {
-                        $('#domain').append(`<option >no data found</option>`);
+                        $('#domain').append(`<option >Select Option</option>`);
                         $('#Domainsegment').append(
-                            `<option >no data found</option>`);
+                            `<option >Select Option</option>`);
                         $('#Domainsub').append(
-                            `<option >no data found</option>`);
+                            `<option >Select Option</option>`);
 
                     }
                 }

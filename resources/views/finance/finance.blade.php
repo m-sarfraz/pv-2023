@@ -8,7 +8,7 @@
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
-              button.dt-button.buttons-columnVisibility:not(.active) {
+        button.dt-button.buttons-columnVisibility:not(.active) {
             background-color: #e8e8e8 !important;
             background: #e8e8e8 !important;
             color: black !important;
@@ -19,6 +19,7 @@
             background: #dc8627 !important;
             color: white !important;
         }
+
         #example1_filter label {
             display: flex;
             width: fit-content;
@@ -56,6 +57,7 @@
         .hideIDTh:nth-child(2) {
             display: none;
         }
+
         th {
             padding: 8px;
             border: 1px solid silver;
@@ -70,6 +72,7 @@
             border: 1px solid silver;
             border-radius: 4px;
         }
+
         .resizer {
             position: absolute;
             top: 0;
@@ -108,8 +111,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="" disabled="" required="" id="record"
-                                            class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
+                                            id="record" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +127,7 @@
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-6">
                                     <div class="form-group mb-0">
-                                        <label class="Label">Recruiter</label>
+                                        <label class="Label">Original Recruiter</label>
                                         <select multiple name="recruiter" id="recruiter"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             {{-- @foreach ($recruiter as $key => $user)
@@ -139,8 +142,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Candidate's Name:
                                         </label>
-                                        <select multiple name="" id="candidate" class="w-100 form-control select2_dropdown"
-                                            onchange="filterUserData()">
+                                        <select multiple name="" id="candidate"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             {{-- @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
                                                     {{ $candidate->last_name }}</option>
@@ -214,8 +217,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Client:
                                         </label>
-                                        <select multiple name="" id="client" class="w-100 form-control select2_dropdown"
-                                            onchange="filterUserData()">
+                                        <select multiple name="" id="client"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
                                             {{-- <option value="" disabled>Select Option</option> --}}
                                             {{-- @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
@@ -267,9 +270,9 @@
                                     {{-- <th class="ant-table-cell hideID">id</th> --}}
                                     <th class="ant-table-cell hideIDTh noVis">id</th>
                                     <th class="ant-table-cell">Team</th>
-                                    <th class="ant-table-cell">Recruiter</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">Reprocess</th>
+                                    <th class="ant-table-cell"> Original Recruiter</th>
+                                    <th class="ant-table-cell"> Reprocessed </th>
+                                    <th class="ant-table-cell">Client</th> 
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">CL</th>
                                     <th class="ant-table-cell">OB Date</th>
@@ -302,8 +305,8 @@
                                             <label class="Label">
                                                 Number of Hires:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                                id="hires" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="hires.." id="hires" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -311,8 +314,8 @@
                                             <label class="Label">
                                                 Company Revenue:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                                id="revenue" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." id="revenue" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -329,7 +332,8 @@
                                             <label class="Label">
                                                 Total Receivables:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="total.." />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="total.." />
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +352,8 @@
                                             <label class="Label">
                                                 Billed Amount:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -385,7 +390,8 @@
                                             <label class="Label">
                                                 Unbilled Amount:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -393,7 +399,8 @@
                                             <label class="Label">
                                                 BOD Share:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -421,7 +428,8 @@
                                             <label class="Label">
                                                 Fallout Amount:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Rev.." />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -541,8 +549,8 @@
                             <form action="">
                                 <fieldset>
                                     @php
-                                    $remarkss = Helper::get_dropdown('remarks_from_finance');
-                                @endphp
+                                        $remarkss = Helper::get_dropdown('remarks_from_finance');
+                                    @endphp
                                     <div class="row mb-1">
                                         <div class="col-lg-3 p-1">
                                             <div class="form-group mb-0">
@@ -550,15 +558,14 @@
                                                     Remarks:
                                                 </label>
                                                 <select name="remarks" id="remarksFinance" onchange="remarksChange()"
-                                    class="w-100 form-control">
-                                    <option value="" selected disabled>Select Option</option>
-                                    @foreach ($remarkss->options as $remarksOptions)
-                                        <option value="{{ $remarksOptions->option_name }}"
-                                          >
-                                            {{ $remarksOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                                    class="w-100 form-control">
+                                                    <option value="" selected disabled>Select Option</option>
+                                                    @foreach ($remarkss->options as $remarksOptions)
+                                                        <option value="{{ $remarksOptions->option_name }}">
+                                                            {{ $remarksOptions->option_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 p-1">
@@ -705,8 +712,8 @@
                                                 <label class="Label-00">
                                                     Placement Fee:
                                                 </label>
-                                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                                    disabled />
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="Rev.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 p-1">
@@ -751,8 +758,8 @@
                                                 <label class="Label-00">
                                                     Reprocess Share Amount:
                                                 </label>
-                                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                                    disabled />
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="Rev.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 p-1">
@@ -788,8 +795,8 @@
                                                 <label class="Label-00">
                                                     O.Share(%):
                                                 </label>
-                                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                                    disabled />
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="Rev.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 p-1">
@@ -797,8 +804,8 @@
                                                 <label class="Label-00">
                                                     Owner Share Amount:
                                                 </label>
-                                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                                    disabled />
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    placeholder="Rev.." disabled />
                                             </div>
                                         </div>
                                         <div class="col-lg-3 p-1">
@@ -880,7 +887,7 @@
 {{-- script section starts here --}}
 @section('script')
     <script>
-          $("th")
+        $("th")
             .css({
                 /* required to allow resizer embedding */
                 position: "relative"
@@ -971,6 +978,9 @@
         function load_datatable() {
             option_table = $('#fmtable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -1011,13 +1021,14 @@
                         name: 'recruiter'
                     },
                     {
+                        data: 'tapped',
+                        name: 'tapped'
+                    },
+                    {
                         data: 'client',
                         name: 'client'
                     },
-                    {
-                        data: 'reprocess',
-                        name: 'reprocess'
-                    },
+                 
                     {
                         data: 'last_name',
                         name: 'last_name'
@@ -1182,13 +1193,15 @@
                         name: 'recruiter'
                     },
                     {
+                        data: 'tapped',
+                        name: 'tapped'
+                    },
+                    {
                         data: 'client',
                         name: 'client'
                     },
-                    {
-                        data: 'reprocess',
-                        name: 'reprocess'
-                    },
+              
+                 
                     {
                         data: 'last_name',
                         name: 'last_name'

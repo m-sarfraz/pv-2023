@@ -544,6 +544,9 @@
             }
             var option_table = $('#smTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -691,6 +694,9 @@
                 destroy: true,
                 processing: true,
                 serverSide: false,
+                // search: {
+                //     smart: false
+                // },
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },

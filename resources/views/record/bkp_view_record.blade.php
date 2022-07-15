@@ -966,6 +966,9 @@
         function load_datatable() {
             var option_table = $('#recordTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 pageLength: 10,
                 processing: true,
                 serverSide: false,
@@ -1055,6 +1058,9 @@
             var option_table = $('#filteredTable').DataTable({
                 destroy: true,
                 pageLength: 20,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {

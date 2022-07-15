@@ -159,7 +159,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('update-option', 'DropDownController@update_option')->name('update-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
-
+    
     // domain/segmnet routes
     Route::get('domain', 'DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
@@ -170,6 +170,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     // testing link fro entring or testing data
     Route::get('testinglink', 'DomainController@testinglink')->name('testinglink');
 });
+Route::get('uploadSegments', 'HomeController@uploadSegments')->name('uploadSegments');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'HomeController@addtest')->name('addtest');

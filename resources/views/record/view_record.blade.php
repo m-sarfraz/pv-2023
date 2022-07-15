@@ -36,6 +36,7 @@
             background: #dc8627 !important;
             color: white !important;
         }
+
         th {
             padding: 8px;
             border: 1px solid silver;
@@ -50,6 +51,7 @@
             border: 1px solid silver;
             border-radius: 4px;
         }
+
         .resizer {
             position: absolute;
             top: 0;
@@ -187,7 +189,8 @@
                                     <div class="form-group mb-1">
                                         <label class="Label">Endo Date:</label>
                                         <div class="d-flex align-items-center"> <input type="date"
-                                                class="w-100 form-control" name="date" id="date" oninput="filterUserData()">
+                                                class="w-100 form-control" name="date" id="date"
+                                                oninput="filterUserData()">
                                             <span class="pl-2" id="reset"> <i class="bi bi-arrow-repeat"></i>
                                             </span>
                                         </div>
@@ -212,32 +215,35 @@
                                     <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Email</th>
+                                    <th class="ant-table-cell">OR Number</th>
+                                    <th class="ant-table-cell">Replacement For</th>
                                     <th class="ant-table-cell">Application Status</th>
                                     <th class="ant-table-cell">Candidate’s Profile</th>
                                     <th class="ant-table-cell">Career</th>
-                                    <th class="ant-table-cell">certificate</th>
-                                    <th class="ant-table-cell">client</th>
-                                    <th class="ant-table-cell">phone</th>
-                                    <th class="ant-table-cell">course</th>
+                                    <th class="ant-table-cell">Certificate</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Phone</th>
+                                    <th class="ant-table-cell">Course</th>
                                     <th class="ant-table-cell">Endorsement Date</th>
-                                    <th class="ant-table-cell">date invited</th>
-                                    <th class="ant-table-cell">date sifted</th>
-                                    <th class="ant-table-cell">educational attainment</th>
-                                    <th class="ant-table-cell">emp history</th>
-                                    <th class="ant-table-cell">type</th>
-                                    <th class="ant-table-cell">exp salary</th>
+                                    <th class="ant-table-cell">Date Invited</th>
+                                    <th class="ant-table-cell">Date Sifted</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
+                                    <th class="ant-table-cell">Emp History</th>
+                                    <th class="ant-table-cell">Type</th>
+                                    <th class="ant-table-cell">Exp Salary</th>
                                     <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">interview note</th>
-                                    <th class="ant-table-cell">invoice number</th>
-                                    <th class="ant-table-cell">onboarding date </th>
-                                    <th class="ant-table-cell">position title </th>
-                                    <th class="ant-table-cell">remarks </th>
-                                    <th class="ant-table-cell">remarks_for_finance </th>
-                                    <th class="ant-table-cell">address </th>
-                                    <th class="ant-table-cell">segment </th>
-                                    <th class="ant-table-cell">site</th>
-                                    <th class="ant-table-cell">endostatus</th>
-                                    <th class="ant-table-cell">sub_segment</th>
+                                    <th class="ant-table-cell">Interview note</th>
+                                    <th class="ant-table-cell">Invoice number</th>
+                                    <th class="ant-table-cell">Onboarding date </th>
+                                    <th class="ant-table-cell">Position Title </th>
+                                    <th class="ant-table-cell">Remarks </th>
+                                    <th class="ant-table-cell">Remarks_For Finance </th>
+                                    <th class="ant-table-cell">Address </th>
+                                    <th class="ant-table-cell">Segment </th>
+                                    <th class="ant-table-cell">Site</th>
+                                    <th class="ant-table-cell">Endorsement Status</th>
+                                    <th class="ant-table-cell">Sub Segment</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
@@ -310,8 +316,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Contact:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" placeholder="Contact #"
-                                                name="phone" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Contact #" name="phone" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -336,7 +342,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Date Sifted:
                                             </label>
-                                            <input type="date" class="form-control users-input-S-C" name="date_shifted" />
+                                            <input type="date" class="form-control users-input-S-C"
+                                                name="date_shifted" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -372,7 +379,8 @@
                                             $eduAttainment = Helper::get_dropdown('educational_attainment');
                                             ?>
 
-                                            <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
+                                            <select name="EDUCATIONAL_ATTAINTMENT"
+                                                onchange="EducationalAttainChange(this)"
                                                 class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
                                                 <option selected disabled>Select Option</option>
                                             </select>
@@ -384,7 +392,8 @@
                                     <div class="col-lg-3">
                                         <div class="form-group mb-0">
                                             <label class="Label">Date Invited:</label>
-                                            <input type="date" class="form-control users-input-S-C" name="date_invited" />
+                                            <input type="date" class="form-control users-input-S-C"
+                                                name="date_invited" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -398,7 +407,8 @@
                                             <label class="Label">
                                                 Manner of Invite:
                                             </label>
-                                            <select name="manner_of_invite" id="" class="form-control p-0 users-input-S-C">
+                                            <select name="manner_of_invite" id=""
+                                                class="form-control p-0 users-input-S-C">
                                                 <option selected disabled>Select Option</option>
 
                                             </select>
@@ -415,7 +425,8 @@
                                             $course = Helper::get_dropdown('course');
                                             ?>
                                             <label class="Label">Course:</label>
-                                            <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+                                            <select name="COURSE" class="form-control p-0 users-input-S-C"
+                                                id="COURSE">
                                                 <option selected disabled>Select Option</option>
 
                                             </select>
@@ -430,7 +441,8 @@
                                             <label class="Label">
                                                 Current Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="curr_salary" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="curr_salary" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -453,8 +465,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group mb-0">
                                             <label class="Label">Domain</label>
-                                            <select name="DOMAIN" id="domain" class="form-control p-0 users-input-S-C"
-                                                onchange="DomainChange(this)">
+                                            <select name="DOMAIN" id="domain"
+                                                class="form-control p-0 users-input-S-C" onchange="DomainChange(this)">
                                                 <option selected disabled>Select Option</option>
 
                                             </select>
@@ -468,7 +480,8 @@
                                             <label class="Label">
                                                 Expected Salary:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="expec_salary" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="expec_salary" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -494,8 +507,8 @@
                                                 $segments = Helper::get_dropdown('segments');
                                             @endphp
                                             <label class="Label">Segment:</label>
-                                            <select name="segment" id="segment" class="form-control p-0 users-input-S-C"
-                                                onchange="SegmentChange(this)">
+                                            <select name="segment" id="segment"
+                                                class="form-control p-0 users-input-S-C" onchange="SegmentChange(this)">
                                                 <option selected disabled>Select Option</option>
 
                                             </select>
@@ -600,7 +613,8 @@
                                             <label class="Label">
                                                 Sifted By:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C" name="shifted_by" />
+                                            <input type="text" class="form-control users-input-S-C"
+                                                name="shifted_by" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -613,8 +627,8 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Interview Notes:
                                             </label>
-                                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom" value=""
-                                                placeholder="Enter Interview Notes"> </textarea>
+                                            <textarea name="notes" rows="3" type="text" class="form-control border E_H h-px-20_custom"
+                                                value="" placeholder="Enter Interview Notes"> </textarea>
                                         </div>
                                         <div class="pt-3">
                                             <div class="form-group mb-0">
@@ -792,8 +806,8 @@
                                                                     <label class="Label-00">
                                                                         Reason for not progressing:
                                                                     </label>
-                                                                    <select name="REASONS_FOR_NOT_PROGRESSING" id="rfp"
-                                                                        disabled
+                                                                    <select name="REASONS_FOR_NOT_PROGRESSING"
+                                                                        id="rfp" disabled
                                                                         class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
                                                                         <option selected disabled>Select Option</option>
 
@@ -874,7 +888,8 @@
                                                             <div class="col-lg-6">
                                                                 <div class="form-group mb-0">
                                                                     <label class="Label">Endo Date:</label>
-                                                                    <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                                    <input type="date" name="DATE_ENDORSED"
+                                                                        id="endo_date"
                                                                         class="form-control border h-px-20_custom" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
@@ -906,7 +921,8 @@
                                                                     <label class="Label-00">
                                                                         Date Updated:
                                                                     </label>
-                                                                    <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
+                                                                    <input type="date" name="DATE_UNDATED"
+                                                                        id="DATE_UNDATED"
                                                                         class="form-control border h-px-20_custom" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
@@ -933,10 +949,10 @@
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/data-entry.js') }}"></script>
- 
+
 
     <script>
-                $("th")
+        $("th")
             .css({
                 /* required to allow resizer embedding */
                 position: "relative"
@@ -1051,7 +1067,7 @@
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 if (settings.oPreviousSearch.sSearch === "")
-            return true; // Always return true if search is blank (save processing)
+                    return true; // Always return true if search is blank (save processing)
 
                 var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
                 var newFilter = data.slice();
@@ -1070,10 +1086,16 @@
         function load_datatable() {
             var option_table = $('#recordTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 pageLength: 10,
                 processing: true,
                 serverSide: false,
                 searchHighlight: true,
+                // search: {
+                //     smart: false
+                // },
                 language: {
                     processing: '<div class="spinner-border mr-3" role="status"></div>' +
                         ' <span>Loading Records Please wait </span>' +
@@ -1113,12 +1135,32 @@
                         name: 'team',
                         // searchable: false,
                         // orderable: false
-                    }, {
+                    },
+                     {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, {
+                    }, 
+                    {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
                         data: 'appStatus',
                         name: 'appStatus',
                         // searchable: false,
@@ -1239,6 +1281,9 @@
             var option_table = $('#filteredTable').DataTable({
                 destroy: true,
                 pageLength: 20,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -1291,12 +1336,32 @@
                         name: 'team',
                         // searchable: false,
                         // orderable: false
-                    }, {
+                    },
+                     {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, {
+                    }, 
+                    {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
+                    }, 
+                    {
                         data: 'appStatus',
                         name: 'appStatus',
                         // searchable: false,
@@ -1624,5 +1689,15 @@
             }
         });
         // close
+        $('#recordTable').dataTable({
+            "search": {
+                "smart": false
+            }
+        });
+        $('#filteredTable').dataTable({
+            "search": {
+                "smart": false
+            }
+        });
     </script>
 @endsection

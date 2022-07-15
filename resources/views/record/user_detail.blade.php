@@ -189,20 +189,16 @@
                             $course = Helper::get_dropdown('course');
                             ?>
                             <label class="Label">Course:</label>
-                            <input type="text" name="COURSE" class="form-control"
-                                value="{{ $user->course }}">
-                            {{-- <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
+
+                            <select name="COURSE" class="form-control p-0 users-input-S-C" id="COURSE">
                                 <option {{ $user->course == null ? 'selected' : '' }} disabled>Select Option</option>
                                 @foreach ($course->options as $courseOptions)
-                                <option value="{{ strtoupper($courseOptions->option_name) }}" @if ($user->course != null)
-                                        {{ strtoupper($courseOptions->option_name)==strtoupper($user->course) ? 'selected' : '' }}
-
-                                @endif
-                                >
-                                {{ strtoupper($courseOptions->option_name) }}
-                                </option>
+                                    <option value="{{ strtoupper($courseOptions->option_name) }}"
+                                        @if ($user->course != null) {{ strtoupper($courseOptions->option_name) == strtoupper($user->course) ? 'selected' : '' }} @endif>
+                                        {{ strtoupper($courseOptions->option_name) }}
+                                    </option>
                                 @endforeach
-                            </select> --}}
+                            </select>
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -214,7 +210,7 @@
                             <label class="Label">
                                 Current Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="curr_salary"
+                            <input type="number" class="form-control users-input-S-C" name="curr_salary"
                                 value="{{ $user->curr_salary }}" />
                             <div>
                                 <small class="text-danger"></small>
@@ -226,7 +222,7 @@
                             <label class="Label">
                                 Current Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="curr_allowance"
+                            <input type="number" class="form-control users-input-S-C" name="curr_allowance"
                                 value="{{ $user->curr_allowance }}" />
                             <div>
                                 <small class="text-danger"></small>
@@ -260,7 +256,7 @@
                             <label class="Label">
                                 Expected Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="expec_salary"
+                            <input type="number" class="form-control users-input-S-C" name="expec_salary"
                                 value="{{ $user->exp_salary }}" />
                             <div>
                                 <small class="text-danger"></small>
@@ -272,7 +268,7 @@
                             <label class="Label">
                                 Offered Salary:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="offered_salary"
+                            <input type="number" class="form-control users-input-S-C" name="offered_salary"
                                 value="{{ $user->off_salary }}" />
                             <div>
                                 <small class="text-danger"></small>
@@ -291,7 +287,7 @@
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                             @foreach ($segments   as $segmentsOptions)
+                               @foreach ($segments as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->segment_name }}"
                                     {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                     {{ $segmentsOptions->segment_name }}
@@ -333,7 +329,7 @@
                             <label class="Label">
                                 Offered Allowance:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" name="offered_allowance"
+                            <input type="number" class="form-control users-input-S-C" name="offered_allowance"
                                 value="{{ $user->off_allowance }}" />
                             <div>
                                 <small class="text-danger"></small>
@@ -727,12 +723,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                
+
                                                     <div class="form-group mb-0">
                                                         <label class="Label">Interview Schedule:</label>
                                                         <input type="date" name="INTERVIEW_SCHEDULE"
                                                             id="interview_schedule"
-                                                            value="{{$user->interview_date !=null ? Carbon\Carbon::parse($user->interview_date)->format('Y-m-d') : '' }}"
+                                                            value="{{ $user->interview_date != null ? Carbon\Carbon::parse($user->interview_date)->format('Y-m-d') : '' }}"
                                                             class="form-control users-input-S-C" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -793,7 +789,7 @@
                                                     <div class="form-group mb-0">
                                                         <label class="Label">Endo Date:</label>
                                                         <input type="date" name="DATE_ENDORSED" id="endo_date"
-                                                            value="{{$user->endi_date !=null ? Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') : '' }}"
+                                                            value="{{ $user->endi_date != null ? Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') : '' }}"
                                                             class="form-control border h-px-20_custom" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -834,9 +830,9 @@
                                                         <label class="Label-00">
                                                             Date Updated:
                                                         </label>
-                                                 
+
                                                         <input type="date" name="DATE_UNDATED" id="DATE_UNDATED"
-                                                            value="{{ $user->updated_at !=null ? Carbon\Carbon::parse($user->updated_at)->format('Y-m-d') : ''}}"
+                                                            value="{{ $user->updated_at != null ? Carbon\Carbon::parse($user->updated_at)->format('Y-m-d') : '' }}"
                                                             class="form-control border h-px-20_custom" />
                                                         <div>
                                                             <small class="text-danger"></small>
@@ -1126,7 +1122,7 @@
     }
     $('#position').change(function() {
         $('#career').empty();
-    
+
         for (let i = 0; i < globalData.length; i++) {
             if ($('#position').val() == globalData[i].p_title) {
                 if (career_endo == globalData[i].c_level) {
@@ -1176,5 +1172,63 @@
         } else {
             $('#interview_schedule').prop("disabled", true);
         }
+    }
+
+    function EducationalAttainChange() {
+
+        // enable and disable course fields on selected educational attainment
+        var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+        var role_id = {!! Auth::user()->agent !!}
+        if (role_id == 1) {
+            if (value == 'HIGH SCHOOL GRADUATE') {
+
+                // if selected text is gradute disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+        } else {
+            if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+                // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+                $('#COURSE').prop("disabled", true);
+            } else {
+                //enable course field
+                $('#COURSE').prop("disabled", false);
+                $('#COURSE').children().removeAttr('disabled');
+
+            }
+
+        }
+    }
+    var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
+    console.log(value);
+    var role_id = {!! Auth::user()->agent !!}
+    if (role_id == 1) {
+        if (value == 'HIGH SCHOOL GRADUATE') {
+
+            // if selected text is gradute disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+    } else {
+        if (value == 'HIGH SCHOOL GRADUATE' || value == 'SENIOR HIGH SCHOOL GRADUATE') {
+
+            // if selected text is HIGH SCHOOL GRADUATE disable course field for user
+            $('#COURSE').prop("disabled", true);
+        } else {
+            //enable course field
+            $('#COURSE').prop("disabled", false);
+            $('#COURSE').children().removeAttr('disabled');
+
+        }
+
     }
 </script>

@@ -188,8 +188,9 @@
                                 <label class="Label-00">
                                     Process Status:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="total.." readonly
-                                    id="processStatus" value="{{ $detail->process_status }}" name="process_status" />
+                                <input type="text" class="form-control users-input-S-C" placeholder="total.."
+                                    readonly id="processStatus" value="{{ $detail->process_status }}"
+                                    name="process_status" />
                             </div>
                         </div>
                     </div>
@@ -208,9 +209,9 @@
                                 <label class="Label-00">
                                     VAT (%):
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." id="vat"
-                                    oninput="placementFeeCalculator()" value="{{ $detail->vat_per }}"
-                                    name="vat_per" />
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                    id="vat" oninput="placementFeeCalculator()"
+                                    value="{{ $detail->vat_per }}" name="vat_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -237,8 +238,9 @@
                                 <label class="Label-00">
                                     Invoice Date:
                                 </label>
-                                <input type="date" class="w-100 form-control users-input-S-C" placeholder="hires.."
-                                    value="{{ $detail->invoice_date }}" name="invoice_date" />
+                                <input type="date" class="w-100 form-control users-input-S-C"
+                                    placeholder="hires.." value="{{ $detail->invoice_date }}"
+                                    name="invoice_date" />
                             </div>
                         </div>
                     </div>
@@ -268,9 +270,9 @@
                                 <label class="Label-00">
                                     Placement Fee:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.." readonly
-                                    value="{{ number_format($detail->placement_fee, 2) }}" name="placement_fee"
-                                    id="placementfee" />
+                                <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
+                                    readonly value="{{ number_format($detail->placement_fee, 2) }}"
+                                    name="placement_fee" id="placementfee" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -329,8 +331,8 @@
                                     VCC Share(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    id="vccShare" oninput="vccShareCalcualte()" value="{{ $detail->vcc_share_per }}"
-                                    name="vcc_share_per" />
+                                    id="vccShare" oninput="vccShareCalcualte()"
+                                    value="{{ $detail->vcc_share_per }}" name="vcc_share_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -371,7 +373,8 @@
                                     C.Take(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    value="{{ $detail->c_take_per }}" name="c_take_per" />
+                                    oninput="ctakeCalcualte()" value="{{ $detail->c_take_per }}" name="c_take_per"
+                                    id="c_take_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -379,7 +382,7 @@
                                 <label class="Label-00">
                                     C. Take Amount:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C"   id="cTake"
+                                <input type="text" class="form-control users-input-S-C" id="cTake"
                                     value="{{ number_format($detail->c_take, 2) }}" name="c_take" />
                             </div>
                         </div>
@@ -576,9 +579,10 @@
         placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g, "")
         vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g, "")
         VCCamount = (finalFee * (vccShare * 1 / 100));
-        cTake = (placementfee * (vccShare * 1 / 100));
+        c_take_per = $('#c_take_per').val().replace(/[^0-9.-]+/g, "")
+        cTake = (placementfee * (c_take_per * 1 / 100));
         (isNaN(VCCamount)) ? $('#vccAmount').val(0): $('#vccAmount').val(currency.format(VCCamount));
-        (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
+        // (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
         // $('#vccAmount').val(currency.format(VCCamount))
         // $('#cTake').val(currency.format(cTake))
@@ -586,7 +590,13 @@
         individualRevenue()
     }
     // close 
+    function ctakeCalcualte() {
+        c_take_per = $('#c_take_per').val().replace(/[^0-9.-]+/g, "")
+        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g, "")
+        cTake = (placementfee * (c_take_per * 1 / 100));
+        (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
+    }
     // owner share calculator funciton starts 
     function ownerShareCalculate() {
         var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "");

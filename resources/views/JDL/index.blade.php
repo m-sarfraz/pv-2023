@@ -490,6 +490,9 @@
         function load_datatable() {
             var option_table = $('#jdlTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -631,6 +634,9 @@
             address = $('#location').val();
             var option_table = $('#filteredJdlTable').DataTable({
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
                 "language": {
@@ -753,7 +759,7 @@
                 }]
             });
         }
-        $('#searchKeyword').on("input", function() {
+        $('#searchKeyword').on("change", function() {
             $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
             $('#filteredJdlTable_filter').children().children().val($('#searchKeyword').val());
             $('#jdlTable_filter').children().children().focus();
