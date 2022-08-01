@@ -354,7 +354,7 @@
             $('#jdlTable_filter').hide('div');
 
         })
-
+        var option_table = "";
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 if (settings.oPreviousSearch.sSearch === "")
@@ -488,7 +488,7 @@
             });
 
         function load_datatable() {
-            var option_table = $('#jdlTable').DataTable({
+             option_table = $('#jdlTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
@@ -504,7 +504,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'jdlTable_wrapper') {
                         countRecord()
@@ -526,87 +526,87 @@
                     {
                         data: 'budget',
                         name: 'budget',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'c_level',
                         name: 'c_level',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'client',
                         name: 'client',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'domain',
                         name: 'domain',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'jd',
                         name: 'jd',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'keyword',
                         name: 'keyword',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'location',
                         name: 'location',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'note',
                         name: 'note',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'p_title',
                         name: 'p_title',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'priority',
                         name: 'priority',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'segment',
                         name: 'segment',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'sll_no',
                         name: 'sll_no',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'start_date',
                         name: 'start_date',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'subsegment',
                         name: 'subsegment',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'w_schedule',
                         name: 'w_schedule',
-                        "bSortable": false,
+                        
                     },
                     {
                         data: 'maturity',
                         name: 'maturity',
-                        "bSortable": false,
+                        
                     }
                 ],
                 dom: 'Bfrtip',
@@ -632,7 +632,7 @@
             career_level = $('#career_level').val();
             status = $('#status').val();
             address = $('#location').val();
-            var option_table = $('#filteredJdlTable').DataTable({
+            option_table = $('#filteredJdlTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
@@ -658,6 +658,9 @@
                         address: address,
                         status: status,
                     },
+                },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
                     $('#searchKeyword').trigger('input');

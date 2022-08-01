@@ -10,7 +10,7 @@ use App\SubSegment;
 use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Facades\Cache;
 class JdlController extends Controller
 {
     public function __construct()
@@ -31,64 +31,73 @@ class JdlController extends Controller
     }
     public function view_jdl_table()
     {
-        $jdlData = DB::table('jdl')->get();
+        $now = \Carbon\Carbon::now();
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+        if (Cache::has('jdl')) { 
+            $jdlData = Cache::get('jdl');
+        }
+        else{
+            $jdlData = DB::table('jdl')->get();
+            Cache::put('jdl', $jdlData, $now->addMonth(1));
+        }
         return Datatables::of($jdlData)
             ->addIndexColumn()
-            ->addColumn('budget', function ($data) {
-                return $data->budget;
+            ->addColumn('budget', function ($jdlData) {
+                return $jdlData->budget;
             })
-            ->addColumn('c_level', function ($data) {
-                return $data->c_level;
+            ->addColumn('c_level', function ($jdlData) {
+                return $jdlData->c_level;
             })
-            ->addColumn('client', function ($data) {
-                return $data->client;
-            })
-
-            ->addColumn('domain', function ($data) {
-                return $data->domain;
-            })
-            ->addColumn('jd', function ($data) {
-                return $data->jd;
-            })
-            ->addColumn('keyword', function ($data) {
-                return $data->keyword;
-            })
-            ->addColumn('location', function ($data) {
-                return $data->location;
-            })
-            ->addColumn('note', function ($data) {
-                return $data->note;
+            ->addColumn('client', function ($jdlData) {
+                return $jdlData->client;
             })
 
-            ->addColumn('p_title', function ($data) {
-                return $data->p_title;
+            ->addColumn('domain', function ($jdlData) {
+                return $jdlData->domain;
             })
-            ->addColumn('priority', function ($data) {
-                return $data->priority;
+            ->addColumn('jd', function ($jdlData) {
+                return $jdlData->jd;
             })
-            ->addColumn('segment', function ($data) {
-                return $data->segment;
+            ->addColumn('keyword', function ($jdlData) {
+                return $jdlData->keyword;
             })
-            ->addColumn('sll_no', function ($data) {
-                return $data->sll_no;
+            ->addColumn('location', function ($jdlData) {
+                return $jdlData->location;
             })
-            ->addColumn('start_date', function ($data) {
-                return $data->start_date;
-            })
-            ->addColumn('status', function ($data) {
-                return $data->status;
+            ->addColumn('note', function ($jdlData) {
+                return $jdlData->note;
             })
 
-            ->addColumn('subsegment', function ($data) {
-                return $data->subsegment;
+            ->addColumn('p_title', function ($jdlData) {
+                return $jdlData->p_title;
+            })
+            ->addColumn('priority', function ($jdlData) {
+                return $jdlData->priority;
+            })
+            ->addColumn('segment', function ($jdlData) {
+                return $jdlData->segment;
+            })
+            ->addColumn('sll_no', function ($jdlData) {
+                return $jdlData->sll_no;
+            })
+            ->addColumn('start_date', function ($jdlData) {
+                return $jdlData->start_date;
+            })
+            ->addColumn('status', function ($jdlData) {
+                return $jdlData->status;
             })
 
-            ->addColumn('w_schedule', function ($data) {
-                return $data->w_schedule;
+            ->addColumn('subsegment', function ($jdlData) {
+                return $jdlData->subsegment;
             })
 
-            ->addColumn('maturity', function ($data) {
-                return $data->maturity;
+            ->addColumn('w_schedule', function ($jdlData) {
+                return $jdlData->w_schedule;
+            })
+
+            ->addColumn('maturity', function ($jdlData) {
+                return $jdlData->maturity;
             })
 
             ->rawColumns([
@@ -256,6 +265,9 @@ class JdlController extends Controller
         $check = $searchCheck = false;
         // DB::enableQueryLog();
         // return $request->all();
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+
         $Userdata = DB::table('jdl');
 
         if (isset($request->client)) {

@@ -228,7 +228,7 @@ class SmartSearchController extends Controller
             $Userdata->whereIn('updated_view_record.saved_by', $request->recruiter);
         }
         if (isset($request->status)) {
-            $Userdata->whereIn('updated_view_record.status', array($request->status));
+            $Userdata->whereIn('updated_view_record.endostatus', array($request->status));
         }
         if (isset($request->client)) {
             // return $request->client;
@@ -479,6 +479,7 @@ class SmartSearchController extends Controller
     // append summary on page load or filter change
     public function summaryAppend(Request $request)
     {
+        // \Cache::forget('smartSearch');
         if ($request->array == 1) {
             if (\Cache::get('smartSearch') != null) {
                 $data = \Cache::get('smartSearch');
@@ -593,16 +594,16 @@ class SmartSearchController extends Controller
         $sql_revenue_amount = 0;
         $total_salary = 0;
         foreach ($sql_spr as $spr) {
-            $sql_spr_amount = ceil($sql_spr_amount + $spr->t_srp);
+            $sql_spr_amount =  ($sql_spr_amount + $spr->t_srp);
         }
         foreach ($sql_getActive_spr as $active) {
-            $sql_active_spr_amount = ceil($sql_active_spr_amount + $active->t_srp);
+            $sql_active_spr_amount =  ($sql_active_spr_amount + $active->t_srp);
         }
         foreach ($sql_revenue as $revenue) {
-            $sql_revenue_amount = ceil($sql_revenue_amount + $revenue->t_placement_fee);
+            $sql_revenue_amount =  ($sql_revenue_amount + $revenue->t_placement_fee);
         }
         foreach ($sql_salary as $salary) {
-            $total_salary = ceil($total_salary + $salary->t_salary);
+            $total_salary =  ($total_salary + $salary->t_salary);
         }
         $data = [
             'endo' => count(DB::select($sql_enors)),

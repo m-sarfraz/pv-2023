@@ -106,8 +106,8 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="REF_CODE" value="" disabled="" required="" id="foundRecord"
-                                            class="form-control h-px-20_custom border" />
+                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
+                                            id="foundRecord" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,8 @@
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
                                         <label class="Label-00">Domain:</label>
-                                        <select multiple name="DOMAIN" id="domain" required="" onchange="FilterSearch()"
+                                        <select multiple name="DOMAIN" id="domain" required=""
+                                            onchange="FilterSearch()"
                                             class="form-control p-0 users-input-S-C select2_dropdown w-100">
                                         </select>
                                     </div>
@@ -155,7 +156,8 @@
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
                                         <label class="Label">Portal</label>
-                                        <select multiple name="portal" required="" id="portal" onchange="FilterSearch()"
+                                        <select multiple name="portal" required="" id="portal"
+                                            onchange="FilterSearch()"
                                             class="form-control border h-px-20_custom select2_dropdown w-100">
                                         </select>
                                     </div>
@@ -191,8 +193,8 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label">Start Date (Sifted):</label>
-                                        <input type="date" id="Shifted_start" class="w-100 users-input-S-C form-control"
-                                            onchange="FilterSearch()" />
+                                        <input type="date" id="Shifted_start"
+                                            class="w-100 users-input-S-C form-control" onchange="FilterSearch()" />
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -207,7 +209,8 @@
                                 <div class="col-lg-2">
                                     <div class="form-group mb-0">
                                         <label class="Label-00">Category:</label>
-                                        <select multiple name="REMARKS_FOR_FINANCE" id="category" onchange="FilterSearch()"
+                                        <select multiple name="REMARKS_FOR_FINANCE" id="category"
+                                            onchange="FilterSearch()"
                                             class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                             <option value="Active - Initial Stage"> Active - Initial Stage</option>
                                             <option value="Active - Mid Stage">Active - Mid Stage</option>
@@ -302,8 +305,8 @@
                                             <label class="Label-00">
                                                 Number of Accepted:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="accepted"
-                                                placeholder="total.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="accepted" placeholder="total.." />
                                         </div>
                                     </div>
 
@@ -313,8 +316,8 @@
                                             <label class="Label-00">
                                                 Number of Sifted:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="sifted"
-                                                placeholder="hires.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="sifted" placeholder="hires.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -322,8 +325,8 @@
                                             <label class="Label-00">
                                                 Initial Stage.
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="initial"
-                                                placeholder="Rev.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="initial" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -340,8 +343,8 @@
                                             <label class="Label-00">
                                                 Number of Failed:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="failed"
-                                                placeholder="total.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="failed" placeholder="total.." />
                                         </div>
                                     </div>
                                     <!-- </div> -->
@@ -351,8 +354,8 @@
                                             <label class="Label-00">
                                                 Number of Active File:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="active"
-                                                {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}} placeholder="hires.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="active" {{-- value="{{ $Userdata->where('endorsements.app_status', 'Active File')->count() }}" --}} placeholder="hires.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -360,8 +363,8 @@
                                             <label class="Label-00">
                                                 Mid Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="mid"
-                                                placeholder="Rev.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="mid" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -378,8 +381,8 @@
                                             <label class="Label-00">
                                                 Number of Withdrawn:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="withdrawn"
-                                                placeholder="total.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="withdrawn" placeholder="total.." />
                                         </div>
                                     </div>
                                     <!-- </div> -->
@@ -398,8 +401,8 @@
                                             <label class="Label-00">
                                                 Final Stage:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="final"
-                                                placeholder="Rev.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="final" placeholder="Rev.." />
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -416,8 +419,8 @@
                                             <label class="Label-00">
                                                 Number of Rejected:
                                             </label>
-                                            <input readonly type="text" class="form-control users-input-S-C" id="rejected"
-                                                placeholder="total.." />
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="rejected" placeholder="total.." />
                                         </div>
                                     </div>
                                 </div>
@@ -493,8 +496,7 @@
     <!-- ================= -->
     <!-- Datatable js start-->
     {{-- <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-    </script>
+    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
     </script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
@@ -703,31 +705,31 @@
                         // searchable: false,
                         // orderable: false
                     },
-                     {
+                    {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'OR_Number',
                         name: 'OR_Number',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Replacement_For',
                         name: 'Replacement_For',
                         // searchable: false,
                         // orderable: false
-                    }, 
-                
+                    },
+
                     {
                         data: 'appStatus',
                         name: 'appStatus',
@@ -880,18 +882,18 @@
                         // searchable: false,
                         // orderable: false
                     },
-                     {
+                    {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'OR_Number',
                         name: 'OR_Number',
@@ -903,8 +905,8 @@
                         name: 'Replacement_For',
                         // searchable: false,
                         // orderable: false
-                    }, 
-                  
+                    },
+
                     {
                         data: 'appStatus',
                         name: 'appStatus',
@@ -1013,14 +1015,7 @@
         //         countRecord()
         //     }
         // }, 2000);
-
-        // oninput append value in yajra table 
-        $('#searchKeyword').on('change', function() {
-            $('#loader3').show();
-            $("#loader").show();
-
-            // console.log(option_table.rows().data().toArray());
-            option_table.page.len(-1).draw();
+        function passIDToSummaryAppend() {
             setTimeout(() => {
                 test = document.getElementsByClassName('id');
                 var obj = {};
@@ -1043,6 +1038,15 @@
 
                 }, 100);
             }, 1000);
+        }
+        // oninput append value in yajra table 
+        $('#searchKeyword').on('change', function() {
+            $('#loader3').show();
+            $("#loader").show();
+
+            // console.log(option_table.rows().data().toArray());
+            option_table.page.len(-1).draw();
+            passIDToSummaryAppend();
             // console.log(obj);
 
             // append summary after passing the curetn candidate array for calculations 

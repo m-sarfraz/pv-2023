@@ -236,7 +236,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-1 align-items-center">
+                            <div class="row mb-1 align-items-center"> 
                                 <div class="col-lg-8">
                                     <div class="form-group mb-0 pt-lg-1 pt-m-0 pt-0">
                                         <label class="d-block font-size-3 mb-0">
@@ -244,11 +244,11 @@
                                         </label>
                                         <select multiple name="appstatus" id="appstatus"
                                             class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                            <option value="FB">FB</option>
+                                            {{-- <option value="FB">FB</option>
                                             <option value="DONE">DONE</option>
                                             <option value="RCVD">RCVD</option>
                                             <option value="FFUP">FFUP</option>
-                                            <option value="OVERDUE">OVERDUE</option>
+                                            <option value="OVERDUE">OVERDUE</option> --}}
 
                                         </select>
                                     </div>
@@ -272,7 +272,7 @@
                                     <th class="ant-table-cell">Team</th>
                                     <th class="ant-table-cell"> Original Recruiter</th>
                                     <th class="ant-table-cell"> Reprocessed </th>
-                                    <th class="ant-table-cell">Client</th> 
+                                    <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Candidate</th>
                                     <th class="ant-table-cell">CL</th>
                                     <th class="ant-table-cell">OB Date</th>
@@ -969,7 +969,7 @@
             $(this).addClass('hover-primary1');
             let tdVal = $(this).children()[1];
             var id = tdVal.innerHTML
-            console.log('id is ' + id)
+            // console.log('id is ' + id)
             userDetail(this, id)
         })
         // close 
@@ -1028,7 +1028,7 @@
                         data: 'client',
                         name: 'client'
                     },
-                 
+
                     {
                         data: 'last_name',
                         name: 'last_name'
@@ -1075,9 +1075,16 @@
                     url: '{{ url('admin/appendFinanceOptions') }}',
                 })
                 .done(function(res) {
+                    recruiter_dp = JSON.parse(localStorage.getItem('recruiter'));
+                    candidate_dp = JSON.parse(localStorage.getItem('candidate'));
+                    process_dp = JSON.parse(localStorage.getItem('process'));
+                    team_id_dp = JSON.parse(localStorage.getItem('team_id'));
+                    client_dp = JSON.parse(localStorage.getItem('client'));
+                    remarks_dp = JSON.parse(localStorage.getItem('remarks'));
+                    appstatus_dp = JSON.parse(localStorage.getItem('appstatus'));
 
                     for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option value="' + res.candidates[i].cid + '">' +
+                        $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
                             res.candidates[i].first_name + ' ' + res.candidates[i].middle_name + ' ' + res
                             .candidates[i].last_name +
                             '</option>')
@@ -1104,6 +1111,10 @@
                         $('#client').append('<option value="' + res.client[i].client + '">' + res.client[i].client +
                             '</option>')
                     }
+                    for (let i = 0; i < res.process.options.length; i++) {
+                        $('#appstatus').append('<option value="' + res.process.options[i].option_name + '">' +
+                            res.process.options[i].option_name + '</option>')
+                    }
                     // for (let i = 0; i < res.appstatus.length; i++) {
                     //     if (res.appstatus[i].app_status != '') {
                     //         $('#appstatus').append('<option value="' + res.appstatus[i].app_status + '">' + res
@@ -1112,6 +1123,15 @@
                     //     }
                     // }
                     $('#loader1').hide()
+
+                    $('#recruiter').val(recruiter_dp).trigger('change');
+                    $('#candidate').val(candidate_dp);
+                    $('#process').val(process_dp);
+                    $('#team_id').val(team_id_dp);
+                    $('#client').val(client_dp);
+                    $('#remarks').val(remarks_dp);
+                    $('#appstatus').val(appstatus_dp);
+
                 })
                 .fail(function(err) {
                     console.log(err);
@@ -1200,8 +1220,8 @@
                         data: 'client',
                         name: 'client'
                     },
-              
-                 
+
+
                     {
                         data: 'last_name',
                         name: 'last_name'
@@ -1343,6 +1363,28 @@
             var count = $('#fmtable1_info').text().split(' ');
             $('#record').val(count[5])
         }
+        // setInterval(() => {
+        window.onbeforeunload = function(event) {
+            // localStorage.clear();
+            var recruiter = $('#recruiter').val();
+            var candidate = $('#candidate').val();
+            var remarks = $('#remarks').val();
+            var team_id = $('#team_id').val();
+            var process = $('#process').val();
+            var client = $('#client').val();
+            var appstatus = $('#appstatus').val();
+
+            localStorage.setItem('recruiter', JSON.stringify(recruiter));
+            localStorage.setItem('candidate', JSON.stringify(candidate));
+            localStorage.setItem('remarks', JSON.stringify(remarks));
+            localStorage.setItem('team_id', JSON.stringify(team_id));
+            localStorage.setItem('process', JSON.stringify(process));
+            localStorage.setItem('client', JSON.stringify(client));
+            localStorage.setItem('appstatus', JSON.stringify(appstatus));
+
+        };
+
+        // }, 3000);
     </script>
 @endsection
 {{-- script seciton ends here --}}

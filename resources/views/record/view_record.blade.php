@@ -999,6 +999,8 @@
             // show and hide loader after time set ends
             $('#recordTable_filter').hide('div');
         });
+
+        var option_table = "";
         //append all uiser to dropdown for of candidate list 
         function appendFilterOptions() {
             $.ajax({
@@ -1006,6 +1008,15 @@
                     url: '{{ url('admin/appendFilterOptions') }}',
                 })
                 .done(function(res) {
+                    // get dropdowns values from storage 
+                    var recruiter_view = JSON.parse(localStorage.getItem('recruiter_view'));
+                    var candidate_view = JSON.parse(localStorage.getItem('candidate_view'));
+                    var profile_view = JSON.parse(localStorage.getItem('profile_view'));
+                    var sub_segment_view = JSON.parse(localStorage.getItem('sub_segment_view'));
+                    var app_status_view = JSON.parse(localStorage.getItem('app_status_view'));
+                    var client_view = JSON.parse(localStorage.getItem('client_view'));
+                    var career_level_view = JSON.parse(localStorage.getItem('career_level_view'));
+
                     for (let i = 0; i < res.user.length; i++) {
                         if (res.user[i].name != 'null') {
 
@@ -1028,8 +1039,11 @@
                             .sub_segment.options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.clients.options.length; i++) {
-                        $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients
-                            .options[i].option_name + '</option>')
+                        if (res.clients.options[i].option_name != '') {
+                            
+                            $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients
+                                .options[i].option_name + '</option>')
+                        }
                     }
                     for (let i = 0; i < res.career_level.options.length; i++) {
                         $('#career_level').append('<option value="' + res.career_level.options[i].option_name + '">' +
@@ -1039,6 +1053,16 @@
                         $('#app_status').append('<option value="' + res.application_status.options[i].option_name +
                             '">' + res.application_status.options[i].option_name + '</option>')
                     }
+
+                    // append values to storage 
+                    $('#recruiter').val(recruiter_view).trigger('change');
+                    $('#candidate').val(candidate_view);
+                    $('#sub_segment').val(sub_segment_view);
+                    $('#app_status').val(app_status_view);
+                    $('#client').val(client_view);
+                    $('#career_level').val(career_level_view);
+                    $('#profile').val(profile_view);
+
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -1084,7 +1108,7 @@
         );
         // load main table data on page load using ajax(Yajra datatable) 
         function load_datatable() {
-            var option_table = $('#recordTable').DataTable({
+         option_table = $('#recordTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
@@ -1107,7 +1131,7 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1136,30 +1160,30 @@
                         // searchable: false,
                         // orderable: false
                     },
-                     {
+                    {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'OR_Number',
                         name: 'OR_Number',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Replacement_For',
                         name: 'Replacement_For',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'appStatus',
                         name: 'appStatus',
@@ -1278,7 +1302,7 @@
             career_level = $('#career_level').val();
             client = $('#client').val();
             date = $('#date').val();
-            var option_table = $('#filteredTable').DataTable({
+             option_table = $('#filteredTable').DataTable({
                 destroy: true,
                 pageLength: 20,
                 // search: {
@@ -1308,7 +1332,7 @@
                     },
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1337,30 +1361,30 @@
                         // searchable: false,
                         // orderable: false
                     },
-                     {
+                    {
                         data: 'Candidate',
                         name: 'Candidate',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'OR_Number',
                         name: 'OR_Number',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'Replacement_For',
                         name: 'Replacement_For',
                         // searchable: false,
                         // orderable: false
-                    }, 
+                    },
                     {
                         data: 'appStatus',
                         name: 'appStatus',
@@ -1481,6 +1505,7 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
+       
             $("#loader").show();
             // get values of selected inputs of users
             // $('#searchKeyword').val('');
@@ -1670,7 +1695,7 @@
         // close 
 
         // make custom search data table search starts
-        $('#searchKeyword').on("input", function() {
+        $('#searchKeyword').on("change", function() {
             $('#recordTable_filter').children().children().val($('#searchKeyword').val());
             $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
             $('#recordTable_filter').children().children().focus();
@@ -1689,15 +1714,35 @@
             }
         });
         // close
-        $('#recordTable').dataTable({
-            "search": {
-                "smart": false
-            }
-        });
-        $('#filteredTable').dataTable({
-            "search": {
-                "smart": false
-            }
-        });
+        // $('#recordTable').dataTable({
+        //     "search": {
+        //         "smart": false
+        //     }
+        // });
+        // $('#filteredTable').dataTable({
+        //     "search": {
+        //         "smart": false
+        //     }
+        // });
+
+
+        window.onbeforeunload = function(event) {
+            // localStorage.clear();
+            var recruiter_view = $('#recruiter').val();
+            var candidate_view = $('#candidate').val();
+            var profile_view = $('#profile').val();
+            var sub_segment_view = $('#sub_segment').val();
+            var app_status_view = $('#app_status').val();
+            var client_view = $('#client').val();
+            var career_level_view = $('#career_level').val();
+
+            localStorage.setItem('recruiter_view', JSON.stringify(recruiter_view));
+            localStorage.setItem('candidate_view', JSON.stringify(candidate_view));
+            localStorage.setItem('profile_view', JSON.stringify(profile_view));
+            localStorage.setItem('sub_segment_view', JSON.stringify(sub_segment_view));
+            localStorage.setItem('app_status_view', JSON.stringify(app_status_view));
+            localStorage.setItem('client_view', JSON.stringify(client_view));
+            localStorage.setItem('career_level_view', JSON.stringify(career_level_view));
+        };
     </script>
 @endsection

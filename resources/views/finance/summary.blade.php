@@ -150,6 +150,8 @@
                     </label>
                     <input type="text" class="form-control users-input-S-C" id="ctakeAmount"
                         placeholder="total.." readonly />
+                    <input type="hidden" class="form-control users-input-S-C" id="hidden1" placeholder="total.."
+                        readonly />
                 </div>
             </div>
         </div>
@@ -157,7 +159,7 @@
     </form>
 </div>
 <script>
-    var currency = Intl.NumberFormat('en-IN');
+    var currency = Intl.NumberFormat('ja-JP');
 
     fallout = {!! $fallout !!}
     billed = {!! $billed !!}
@@ -187,19 +189,21 @@
     $('#overDue_receivablesAmount').val(currency.format(overDue_receivablesAmount));
     $('#ctakeAmount').val(currency.format(ctakeAmount));
     $('#c_take').val(currency.format(sql_c_share));
- 
+
     $('#vcc_share').val(currency.format(teamRevenueAmount - sql_bod_share))
-    $('#BOD_share').val(currency.format(sql_bod_share));
- 
+    $('#hidden1').val(currency.format(sql_bod_share));
+    $('#BOD_share').val(0);
     bodChange();
+    // bodChange();
 
     function bodChange() {
 
-        bod = parseInt($('#BOD_share').val().replace(/[^0-9.-]+/g, ""));
+        bod = parseInt($('#hidden1').val().replace(/[^0-9.-]+/g, ""));
         c_share = parseInt(sql_c_share);
         $('#Revenue_In_Incentive').val(currency.format(bod + c_share + teamRevenueAmount))
+        val = $('#hidden1').val().replace(/[^0-9.-]+/g, "");
         bod_amount = $('#BOD_share').val().replace(/[^0-9.-]+/g, "");
-        $('#vcc_share').val(currency.format(teamRevenueAmount - bod_amount))
+        bodlessshare =  parseInt(val - bod_amount);
+        $('#vcc_share').val(currency.format(bodlessshare))
     }
- 
 </script>

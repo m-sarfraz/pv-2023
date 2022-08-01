@@ -131,14 +131,15 @@
                                 </div>
                                 @can('search-data')
                                     <button class="btn btn_Group mb-4 mt-1 btn-sm" type="button" id="searchRecord"
-                                        onclick="SearchUserData('{{url('admin/SearchUserData')}}' , this,'#UserData_div')" disabled="">
+                                        onclick="SearchUserData('{{ url('admin/SearchUserData') }}' , this,'#UserData_div')"
+                                        disabled="">
                                         Search Record
                                     </button>
                                 @endcan
 
                                 @can('edit-data')
                                     <button disabled="" class="btn btn_Group mb-4 btn-sm" type="button" id="editRecord"
-                                        onclick="EnableUserEdit(this,'{{Auth::user()->agent}}')">
+                                        onclick="EnableUserEdit(this,'{{ Auth::user()->agent }}')">
                                         Edit Record
                                     </button>
                                     <button disabled="" class="btn btn_Group mb-4 btn-sm" type="submit" id="saveRecord">Save
@@ -151,10 +152,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group position-relative d-none" id = "mainQRdiv">
+                    <div class="form-group position-relative d-none" id="mainQRdiv">
                         <div id="loader5"></div>
                         <p class="C-Heading mt-5">QR Code:</p>
-                         
+
                         <a href="" class="position-relative" download="user" id=QrCode>
                             <img style=" " class="pl-sm-15" alt="" />
                         </a>
@@ -777,7 +778,6 @@
                                                     </label>
                                                     <div id="loader2" class="d-none"></div>
                                                     <select name="POSITION_TITLE" disabled id="position" readonly
-                                                        
                                                         class="form-control border select2_dropdown  w-100 pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                                         {{-- <option value="" class="selectedOption" selected  disabled> Select Option
                                                         </option> --}}
@@ -881,7 +881,7 @@
                                                             </option>
                                                         @endforeach
                                                         &quot;item&quot;
-                                                       
+
                                                     </select>
                                                     <div>
                                                         <small class="text-danger"></small>
@@ -925,9 +925,8 @@
                                                     </label>
                                                     <select name="REMARKS_FOR_FINANCE" disabled=""
                                                         id="remarks_for_finance" onchange="RemarksChange(this)"
-                                                        
                                                         class="form-control border pl-0 select2_dropdown  w-100 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                   
+
                                                         <option value="" selected id="selectedOption" disabled>
                                                             Select Option
                                                         </option>
@@ -1116,7 +1115,7 @@
 
                                     </div>
                                 </div>
-                            
+
 
                                 <!-- ENDORSMENT section end -->
                                 <!-- ================== -->
@@ -1331,13 +1330,13 @@
                                 <!-- FINANCE section end -->
                                 <!-- ================== -->
                             </div>
-                                
 
+
+                        </div>
                     </div>
                 </div>
             </div>
-    </div>
-    </form>
+        </form>
     </div>
 
 @endsection
@@ -1503,38 +1502,51 @@
 
 
         function saveAsNewRecord(targetURL) {
-            Swal.fire({
-                    icon: 'warning',
-                    text: "Would you like to save a new endorsement record?",
-                    type: 'warning',
-                    showCancelButton: true,
-                    showconfirmButton: true,
-                    cancelButtonText: 'No',
-                    confirmButtonText: 'Yes',
-                })
+            if ($('#last_name').is(":disabled")) {
+                Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: `Please Click 'Save Edit' Button to Enable Fields`,
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                return false;
+            } else {
 
-                .then((isConfirm) => {
-                    if (isConfirm.value) {
-                        CreateUpdateData(targetURL);
-                    } else if (isConfirm.dismiss == 'cancel') {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: 'Record has not been Saved!',
-                            showConfirmButton: false,
-                            timer: 1000
-                        })
-                    } else if (isConfirm.dismiss == 'esc') {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: 'Record has not been Saved!',
-                            showConfirmButton: false,
-                            timer: 1000
-                        })
-                    }
+                Swal.fire({
+                        icon: 'warning',
+                        text: "Would you like to save a new endorsement record?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        showconfirmButton: true,
+                        cancelButtonText: 'No',
+                        confirmButtonText: 'Yes',
+                    })
 
-                });
+                    .then((isConfirm) => {
+                        if (isConfirm.value) {
+                            CreateUpdateData(targetURL);
+                        } else if (isConfirm.dismiss == 'cancel') {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Record has not been Saved!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        } else if (isConfirm.dismiss == 'esc') {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Record has not been Saved!',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
+
+                    });
+            }
+
         }
 
         function CreateUpdateData(targetURL) {
@@ -2306,9 +2318,9 @@
                     );
                 }
             }
-           
+
             DomainSegmentAppend()
-            
+
         })
 
         function DomainSegmentAppend() {

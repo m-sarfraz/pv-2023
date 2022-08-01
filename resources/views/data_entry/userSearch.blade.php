@@ -12,7 +12,7 @@
                                 <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="Label">*Last Name:</label>
-                                        <input type="text" class="form-control users-input-S-C"
+                                        <input type="text" class="form-control users-input-S-C" id="last_name"
                                             value="{{ $user->last_name }}" name="LAST_NAME" />
                                         <div>
                                             <small class="text-danger"></small>

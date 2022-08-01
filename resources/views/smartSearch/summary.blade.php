@@ -179,7 +179,7 @@
     salary = {!! $salary !!}
     spr = {!! $spr !!}
     total = {!! $total !!}
-    var currency = Intl.NumberFormat('en-IN');
+    var currency = Intl.NumberFormat('ja-JP');
 
     function test() {
         $('#sifted').val($('#foundRecord').val());

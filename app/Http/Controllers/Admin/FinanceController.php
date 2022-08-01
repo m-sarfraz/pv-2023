@@ -409,8 +409,8 @@ class FinanceController extends Controller
             $sql_receivables = $sql . " and process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . " and process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . " and process_status ='OVERDUE' ";
-            $c_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 ";
-            $bod_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id = 24 ";
+            $c_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and team =3 ";
+            $bod_share = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and team = 24 ";
             $c_take = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') ";
             $vcc_amount_sum = $sql . " and remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
             // $vcc_amount_sum_for_I_B_R=$sql." and remarks_recruiter LIKE '%collect%' OR "
@@ -427,8 +427,8 @@ class FinanceController extends Controller
             $sql_receivables = $sql . "where process_status in('OVERDUE','FFUP','RCVD') ";
             $sql_Current_receivables = $sql . "where process_status in('FFUP','RCVD')  ";
             $sql_overDue_receivables = $sql . "where process_status ='OVERDUE' ";
-            $c_share = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and t_id =3 ";
-            $bod_share = $sql . " where   remarks_recruiter in('Billed' , 'Collected' , 'Replaced') and t_id = 24 ";
+            $c_share = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') and team =3 ";
+            $bod_share = $sql . " where   remarks_recruiter in('Billed' , 'Collected' , 'Replaced') and team = 24 ";
             $c_take = $sql . " where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced') ";
             $vcc_amount_sum = $sql . "where remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')   ";
 
@@ -536,7 +536,7 @@ class FinanceController extends Controller
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
         $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');
-
+        $process =  Helper::get_dropdown('process_status'); 
         return response()->json([
             'candidates' => $candidates,
             'recruiter' => $recruiter,
@@ -544,6 +544,7 @@ class FinanceController extends Controller
             "appstatus" => $appstatus,
             'remarks_finance' => $remarks_finance,
             'client' => $client,
+            'process' => $process,
         ]);
     }
     // close

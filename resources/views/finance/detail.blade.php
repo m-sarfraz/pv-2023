@@ -149,7 +149,8 @@
                                     Payment terms:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    oninput="remarksChange()" id="paymentTerm" value="{{ $detail->payment_term }}"
+                                    oninput="remarksChange()" id="paymentTerm"
+                                    value="{{ $detail->payment_term != '' ? $detail->payment_term : 0 }}"
                                     name="payment_term" />
                             </div>
                         </div>
@@ -161,7 +162,8 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $off_salary }}" name="offered_salary" />
+                                    placeholder="hires.." value="{{ $off_salary != '' ? $off_salary : 0 }}"
+                                    name="offered_salary" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -201,7 +203,8 @@
                                     Allowance:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="allowance" name="allowance" value="{{ $detail->allowance }}" />
+                                    id="allowance" name="allowance"
+                                    value="{{ $detail->allowance != '' ? $detail->allowance : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -211,7 +214,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="vat" oninput="placementFeeCalculator()"
-                                    value="{{ $detail->vat_per }}" name="vat_per" />
+                                    value="{{ $detail->vat_per != '' ? $detail->vat_per : 0 }}" name="vat_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -221,7 +224,8 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="credit_memo" oninput="placementFeeCalculator()"
-                                    value="{{ $detail->credit_memo }}" name="credit_memo" />
+                                    value="{{ $detail->credit_memo != '' ? $detail->credit_memo : 0 }}"
+                                    name="credit_memo" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -230,7 +234,8 @@
                                     Invoice Number:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    value="{{ $detail->invoice_number }}" name="invoice_number" />
+                                    value="{{ $detail->invoice_number != '' ? $detail->invoice_number : 0 }}"
+                                    name="invoice_number" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -252,7 +257,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="compensation" oninput="placementFeeCalculator()" name="compensation"
-                                    value="{{ number_format($detail->compensation, 2) }}" />
+                                    value="{{ $detail->compensation != '' ? number_format($detail->compensation, 2) : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -262,7 +267,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     oninput="placementFeeCalculator()" id="rate" name="rate_per"
-                                    value="{{ $detail->rate_per }}" />
+                                    value="{{ $detail->rate_per != '' ? $detail->rate_per : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -271,7 +276,8 @@
                                     Placement Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    readonly value="{{ number_format($detail->placement_fee, 2) }}"
+                                    readonly
+                                    value="{{ $detail->placement_fee != '' ? number_format($detail->placement_fee, 2) : 0 }}"
                                     name="placement_fee" id="placementfee" />
                             </div>
                         </div>
@@ -311,7 +317,8 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="reprocessShare" oninput="reprocessAmountCalculate()"
-                                    value="{{ $detail->reprocess_share_per }}" name="reprocess_share_per" />
+                                    value="{{ $detail->reprocess_share_per != '' ? $detail->reprocess_share_per : 0 }}"
+                                    name="reprocess_share_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -321,7 +328,8 @@
                                 </label>
                                 {{-- @dd($detail->reprocess_share) --}}
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    name="reprocess_share" value="{{ number_format($detail->reprocess_share, 2) }}"
+                                    name="reprocess_share"
+                                    value="{{ $detail->reprocess_share != '' ? number_format($detail->reprocess_share, 2) : 0 }}"
                                     id="reprocessAmount" readonly />
                             </div>
                         </div>
@@ -332,7 +340,8 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     id="vccShare" oninput="vccShareCalcualte()"
-                                    value="{{ $detail->vcc_share_per }}" name="vcc_share_per" />
+                                    value="{{ $detail->vcc_share_per != '' ? $detail->vcc_share_per : 0 }}"
+                                    name="vcc_share_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -341,7 +350,8 @@
                                     VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
-                                    value="{{ number_format($detail->vcc_amount, 2) }}" id="vccAmount" />
+                                    value="{{ $detail->vcc_amount != '' ? number_format($detail->vcc_amount, 2) : 0 }}"
+                                    id="vccAmount" />
                             </div>
                         </div>
                     </div>
@@ -354,7 +364,8 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="ownerSharePercentage" oninput="ownerShareCalculate()"
-                                    value="{{ $detail->owner_share_per }}" name="owner_share_per" />
+                                    value="{{ $detail->owner_share_per != '' ? $detail->owner_share_per : 0 }}"
+                                    name="owner_share_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -363,7 +374,8 @@
                                     Owner Share Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    id="ownerAmount" readonly value="{{ number_format($detail->owner_share, 2) }}"
+                                    id="ownerAmount" readonly
+                                    value="{{ $detail->owner_share != '' ? number_format($detail->owner_share, 2) : 0 }}"
                                     name="owner_share" />
                             </div>
                         </div>
@@ -373,8 +385,9 @@
                                     C.Take(%):
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
-                                    oninput="ctakeCalcualte()" value="{{ $detail->c_take_per }}" name="c_take_per"
-                                    id="c_take_per" />
+                                    oninput="ctakeCalcualte()"
+                                    value="{{ $detail->c_take_per != '' ? $detail->c_take_per : 0 }}"
+                                    name="c_take_per" id="c_take_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -383,7 +396,8 @@
                                     C. Take Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" id="cTake"
-                                    value="{{ number_format($detail->c_take, 2) }}" name="c_take" />
+                                    value="{{ $detail->c_take != '' ? number_format($detail->c_take, 2) : 0 }}"
+                                    name="c_take" />
                             </div>
                         </div>
                     </div>
@@ -395,7 +409,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="adjustment" oninput="adjustmentCalculator()" name="adjustment"
-                                    value="{{ $detail->adjustment }}" />
+                                    value="{{ $detail->adjustment != '' ? $detail->adjustment : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -404,7 +418,8 @@
                                     Final Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
-                                    id="finalFee" readonly value="{{ number_format($detail->finalFee, 2) }}"
+                                    id="finalFee" readonly
+                                    value="{{ $detail->finalFee != '' ? number_format($detail->finalFee, 2) : 0 }}"
                                     name="finalFee" />
                             </div>
                         </div>
@@ -419,7 +434,8 @@
                             </div>
                         </div> --}}
                         <input type="text" class="form-control users-input-S-C d-none" placeholder="Rev.."
-                            id="individualRevenue" name="ind_revenue" value="{{ $detail->ind_revenue }}" />
+                            id="individualRevenue" name="ind_revenue"
+                            value="{{ $detail->ind_revenue != '' ? $detail->ind_revenue : 0 }}" />
                         <div class="col-lg-2 p-1">
                             <div class="form-group mb-0">
                                 <label class="Label-00">
@@ -441,7 +457,7 @@
 <script src="{{ asset('assets/js/moment.js') }}"></script>
 
 <script>
-    var currency = Intl.NumberFormat('en-IN');
+    var currency = Intl.NumberFormat('ja-JP');
     // section loads on ready start
     $(document).ready(function() {
 
@@ -452,6 +468,14 @@
         $('#placementfee').val(currency.format(fee))
         $('#allowance').val(currency.format($('#allowance').val()))
         $('#offered_salary').val(currency.format($('#offered_salary').val()))
+        $('#adjustment').val(currency.format($('#adjustment').val()))
+        $('#ownerSharePercentage').val(currency.format($('#ownerSharePercentage').val()))
+        $('#rate').val(currency.format($('#rate').val()))
+        $('#vat').val(currency.format($('#vat').val()))
+        $('#c_take_per').val(currency.format($('#c_take_per').val()))
+        $('#reprocessShare').val(currency.format($('#reprocessShare').val()))
+        $('#vccShare').val(currency.format($('#vccShare').val()))
+
         // offered_salary = $('#offered_salary').val(currency.format(off_salary))
 
         // select default value unbilled if remarks are offer accepted or onboarded 
@@ -460,13 +484,17 @@
         remarks = remarks_finance.toLowerCase();
         remarks_r = remarks_recruiter.toLowerCase();
         console.log(remarks_r);
-        if (remarks == 'offer accepted' || remarks == 'onboarded') {
+
+        // if (remarks == 'offer accepted' || remarks == 'onboarded') {
             if (remarks_r == '') {
+                ('#processStatus').val('FB')
                 $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
             }
-        }
+            else if( remarks_r == 'unbilled') {
+                ('#processStatus').val('FB')
+            }
+        // }
         // close 
-
     });
     // close 
 
@@ -487,12 +515,12 @@
         var billAmount = {!! $billAmount !!};
 
         // get inputs values by removing space or comma in it 
-        salray = parseInt($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
-        credit_memo = parseInt($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
-        vat = parseInt($('#vat').val().replace(/[^0-9.-]+/g, ""));
-        compensation = parseInt($('#compensation').val().replace(/[^0-9.-]+/g, ""));
-        allowance = parseInt($('#allowance').val().replace(/[^0-9.-]+/g, ""));
-        rate = parseInt($('#rate').val().replace(/[^0-9.-]+/g, ""));
+        salray = parseFloat($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
+        credit_memo = parseFloat($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
+        vat = parseFloat($('#vat').val().replace(/[^0-9.-]+/g, ""));
+        compensation = parseFloat($('#compensation').val().replace(/[^0-9.-]+/g, ""));
+        allowance = parseFloat($('#allowance').val().replace(/[^0-9.-]+/g, ""));
+        rate = parseFloat($('#rate').val().replace(/[^0-9.-]+/g, ""));
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
@@ -524,8 +552,8 @@
 
     // function for adjustment fee calculator starts
     function adjustmentCalculator() {
-        adjustment = parseInt($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
-        placement = parseInt($('#placementfee').val().replace(/[^0-9.-]+/g, ""));
+        adjustment = parseFloat($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
+        placement = parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, ""));
         // console.log(placement)
         finalFee = adjustment + placement;
         // $('#finalFee').val(currency.format(finalFee))
@@ -558,12 +586,12 @@
             var dateDlvrd = moment(new Date($('#dateDlvrd').val()), 'DD-MM-YYYY');
             var today = moment();
             var dpd = today.diff(dateDlvrd, 'days');
-            if (parseInt(dpd) > parseInt(paymentTerm)) {
+            if (parseFloat(dpd) > parseFloat(paymentTerm)) {
                 $('#processStatus').val("OVERDUE");
-            } else if (parseInt(paymentTerm) - parseInt(dpd) <= 14) {
+            } else if (parseFloat(paymentTerm) - parseFloat(dpd) <= 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("FFUP");
-            } else if (parseInt(paymentTerm) - parseInt(dpd) > 14) {
+            } else if (parseFloat(paymentTerm) - parseFloat(dpd) > 14) {
                 $('#processStatus').val("");
                 $('#processStatus').val("RCVD");
             }
@@ -710,5 +738,15 @@
 
     // })
     //close
+    $("#financeReferenceForm").on("input", "input[type='text']", function() {
+        if ($(this).val() == '') {
+            $(this).val(0)
+        } 
+        // else {
+
+        //     $(this).val(parseFloat($(this).val().replace(/[^0-9.-]+/g, "")));
+        //     $(this).val(currency.format($(this).val()))
+        // }
+    });
 </script>
 {{-- section script ends --}}
