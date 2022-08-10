@@ -476,7 +476,7 @@ class FinanceController extends Controller
 
         foreach ($sql_c_share_db as $cftake) {
             //unknown vlaue for some
-            $sql_c_share = $sql_c_share + $cftake->c_take;
+            $sql_c_share = $sql_c_share + $cftake->vcc_share;
         }
         foreach ($sql_bod_share_db as $bod) {
             //unknown vlaue for some

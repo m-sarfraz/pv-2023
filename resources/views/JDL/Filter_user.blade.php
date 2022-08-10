@@ -1,4 +1,4 @@
-<div class="">
+<div class="tableFixHead">
     <table id="filteredJdlTable" class="table">
         <thead class="bg-light w-100">
             <tr style="">

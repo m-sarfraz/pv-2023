@@ -33,6 +33,20 @@
             cursor: col-resize;
         }
 
+        /* overflow: hidden;
+        text-overflow: ellipsis;
+        /* height: 113px; */
+        .hidetrID tr td:nth-child(7) , 
+        .hidetrID tr td:nth-child(3), 
+        .hidetrID tr td:nth-child(18) {
+            white-space: nowrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            width: 264px !important;
+            overflow:  hidden;
+        }
+
         .hideID:first-child,
         .hidetrID tr td:first-child {
             display: none !important;
@@ -44,9 +58,29 @@
             text-align: center !important;
         }
 
+        option_table.fixedHeader-floating {
+            position: fixed !important;
+            background-color: white
+        }
+
+        option_table.fixedHeader-floating.no-footer {
+            border-bottom-width: 0
+        }
+
+        option_table.fixedHeader-locked {
+            position: absolute !important;
+            background-color: white
+        }
+
+        @media print {
+            option_table.fixedHeader-floating {
+                display: none
+            }
+        }
+
         /* .hidetrID tr td{
-                                                        white-space: nowrap !important;
-                                                    } */
+                                                                white-space: nowrap !important;
+                                                            } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -76,8 +110,8 @@
         }
 
         /* .customWidth {
-            width: 410px !important;
-        } */
+                    width: 410px !important;
+                } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -109,10 +143,10 @@
         }
 
         /*
-           this is important!
-           make sure you define this here
-           or in jQuery codef
-        */
+                   this is important!
+                   make sure you define this here
+                   or in jQuery codef
+                */
         .resizer {
             position: absolute;
             top: 0;
@@ -122,6 +156,15 @@
             width: 16px;
             cursor: col-resize;
         }
+        .tableFixHead {
+        overflow-y: auto;
+        height: 600px;
+      }
+      .tableFixHead thead th {
+        position: sticky;
+        top: -10px;
+      }
+ 
     </style>
 @endsection
 
@@ -153,8 +196,8 @@
 
                                             Number Of Records Found:
                                         </label>
-                                        <input type="text" name="No_of_count" id="No_of_count" disabled="" required=""
-                                            class="form-control h-px-20_custom border" value="" />
+                                        <input type="text" name="No_of_count" id="No_of_count" disabled=""
+                                            required="" class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +317,7 @@
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive pt-3" id="filter_table_div">
-                    <div class="">
+                    <div class="tableFixHead">
                         <table id="jdlTable" class="table borderd">
                             <thead class="bg-light w-100">
                                 <tr style="whitespace-nowrap">
@@ -340,8 +383,7 @@
     <!-- ================= -->
     <!-- Datatable js start-->
     {{-- <script src="{{ asset('assets/plugins/data-tables/script/datatables/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-    </script>
+    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
     </script>
     <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
@@ -488,7 +530,7 @@
             });
 
         function load_datatable() {
-             option_table = $('#jdlTable').DataTable({
+            option_table = $('#jdlTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
@@ -526,87 +568,87 @@
                     {
                         data: 'budget',
                         name: 'budget',
-                        
+
                     },
                     {
                         data: 'c_level',
                         name: 'c_level',
-                        
+
                     },
                     {
                         data: 'client',
                         name: 'client',
-                        
+
                     },
                     {
                         data: 'domain',
                         name: 'domain',
-                        
+
                     },
                     {
                         data: 'jd',
                         name: 'jd',
-                        
+
                     },
                     {
                         data: 'keyword',
                         name: 'keyword',
-                        
+
                     },
                     {
                         data: 'location',
                         name: 'location',
-                        
+
                     },
                     {
                         data: 'note',
                         name: 'note',
-                        
+
                     },
                     {
                         data: 'p_title',
                         name: 'p_title',
-                        
+
                     },
                     {
                         data: 'priority',
                         name: 'priority',
-                        
+
                     },
                     {
                         data: 'segment',
                         name: 'segment',
-                        
+
                     },
                     {
                         data: 'sll_no',
                         name: 'sll_no',
-                        
+
                     },
                     {
                         data: 'start_date',
                         name: 'start_date',
-                        
+
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        
+
                     },
                     {
                         data: 'subsegment',
                         name: 'subsegment',
-                        
+
                     },
                     {
                         data: 'w_schedule',
                         name: 'w_schedule',
-                        
+
                     },
                     {
                         data: 'maturity',
                         name: 'maturity',
-                        
+
                     }
                 ],
                 dom: 'Bfrtip',

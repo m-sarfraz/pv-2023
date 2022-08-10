@@ -470,12 +470,12 @@ class RecordController extends Controller
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            $name = explode(" ", $request->first_name, 3);
+            // $name = explode(" ", $request->first_name, 3);
 
             CandidateInformation::where('id', $c_id)->update([
-                'first_name' => isset($name[0]) ? $name[0] : '',
-                'middle_name' => isset($name[1]) ? $name[1] : '',
-                'last_name' => isset($name[2]) ? $name[2] : '',
+                // 'first_name' => isset($name[0]) ? $name[0] : '',
+                // 'middle_name' => isset($name[1]) ? $name[1] : '',
+                // 'last_name' => isset($name[2]) ? $name[2] : '',
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,

@@ -77,6 +77,24 @@
                 height: auto !important;
             }
         }
+        .tableFixHead {
+            overflow-y: auto;
+            height: 670px;
+            
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: -10px;
+        }
+        /* .hidetrID tr td:nth-child(12)  {
+            white-space: nowrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            width: 164px !important;
+            overflow:  hidden;
+        } */
     </style>
 @endsection
 
@@ -433,11 +451,11 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12"  >
                 <div class="table-responsive border-right pt-3" id="filterResult_div">
-                    <div class="">
+                    <div class="tableFixHead" >
                         <table id="smTable" class="table">
-                            <thead class="bg-light w-100">
+                            <thead class="bg-light w-100"  style="">
                                 <tr style="">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>

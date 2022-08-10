@@ -61,6 +61,29 @@
             width: 16px;
             cursor: col-resize;
         }
+        .tableFixHead {
+        overflow-y: auto;
+        height: 750px;
+    }
+    .tableFixHead thead th {
+        position: sticky;
+    }
+    .tableFixHead thead {
+        top: -10px !important;
+    }
+     
+        .hidetrID tr td:nth-child(12),
+        .hidetrID tr td:nth-child(20),
+        .hidetrID tr td:nth-child(24)
+         {
+            white-space: nowrap;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            width: 164px !important;
+            overflow:  hidden;
+        }
+
     </style>
 @endsection
 
@@ -206,7 +229,7 @@
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filter_table_div">
-                    <div class="">
+                    <div class="tableFixHead">
                         <table id="recordTable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="">

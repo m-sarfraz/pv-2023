@@ -47,7 +47,8 @@
         }
 
         #fmtable1_filter {
-            visibility: hidden;
+            /* visibility: hidden; */
+            display: none;
         }
 
         .hideIDTh:nth-child(1) {
@@ -81,6 +82,16 @@
             left: auto;
             width: 16px;
             cursor: col-resize;
+        }
+
+        .tableFixHead {
+            overflow-y: auto;
+            height: 670px;
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: -10px;
         }
     </style>
 @endsection
@@ -262,7 +273,7 @@
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterData_div">
-                    <div class="">
+                    <div class="tableFixHead">
                         <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
                                 <tr style="">

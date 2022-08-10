@@ -18,7 +18,7 @@
                                 Candidate's Name:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name }}">
+                                value="{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name }}" readonly>
                         </div>
                     </div>
                     <div class="col-lg-3">
