@@ -30,6 +30,8 @@ class Kernel extends ConsoleKernel
             $schedule->command('queue:work --stop-when-empty')
              ->everyMinute()
              ->withoutOverlapping();
+            //  cron job path 
+            // /usr/local/bin/php /home/vcclink/public_html/artisan schedule:run	
     }
 
     /**
