@@ -222,7 +222,7 @@ class SmartSearchController extends Controller
         $Userdata = DB::table('updated_view_record');
         //    check null values coming form selected options
         if (isset($request->domain)) {
-            $Userdata->whereIn('updated_view_record.domain', $request->domain);
+            $Userdata->whereIn('updated_view_record.domain_endo', $request->domain);
         }
         if (isset($request->recruiter)) {
             $Userdata->whereIn('updated_view_record.saved_by', $request->recruiter);

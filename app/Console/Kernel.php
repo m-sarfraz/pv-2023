@@ -24,9 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('run:jobs')
-            ->everyMinute();
-            sleep(60);
+        // $schedule->command('run:jobs')
+        //     ->everyMinute();
+        //     sleep(60);
+            $schedule->command('queue:work --stop-when-empty')
+             ->everyMinute()
+             ->withoutOverlapping();
     }
 
     /**

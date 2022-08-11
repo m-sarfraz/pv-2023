@@ -378,8 +378,7 @@
                                                                 value="{{ $candidateDetail != null ? $candidateDetail->certification : '' }}">
                                                                 {{-- <option value="" {{ $candidateDetail == null ? 'selected' : ''}} selected disabled>Select Option</option> --}}
                                                                 @foreach ($certificate->options as $certificateOption)
-                                                                    <option
-                                                                        value="{{ $certificateOption->option_name }}"
+                                                                    <option value="{{ $certificateOption->option_name }}"
                                                                         @if ($candidateDetail != null) {{ in_array($certificateOption->option_name, $arr) ? 'selected' : '' }} @endif>
                                                                         {{ $certificateOption->option_name }}</option>
                                                                 @endforeach
@@ -483,8 +482,7 @@
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($profile->options as $profileOption)
-                                                                        <option
-                                                                            value="{{ $profileOption->option_name }}"
+                                                                        <option value="{{ $profileOption->option_name }}"
                                                                             {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
                                                                             {{ $profileOption->option_name }}
                                                                         </option>
@@ -1203,8 +1201,7 @@
                                                                         disabled>
                                                                         Select Option</option>
                                                                     @foreach ($client->options as $clientOptions)
-                                                                        <option
-                                                                            value="{{ $clientOptions->option_name }}">
+                                                                        <option value="{{ $clientOptions->option_name }}">
                                                                             {{ $clientOptions->option_name }}
                                                                         </option>
                                                                     @endforeach
@@ -1504,12 +1501,12 @@
         function saveAsNewRecord(targetURL) {
             if ($('#last_name').is(":disabled")) {
                 Swal.fire({
-                                position: 'center',
-                                icon: 'error',
-                                title: `Please Click 'Save Edit' Button to Enable Fields`,
-                                showConfirmButton: false,
-                                timer: 1000
-                            })
+                    position: 'center',
+                    icon: 'error',
+                    title: `Please Click 'Save Edit' Button to Enable Fields`,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
                 return false;
             } else {
 
@@ -2324,6 +2321,17 @@
         })
 
         function DomainSegmentAppend() {
+         
+            var value = $("#remarks_for_finance").find(":selected").text().trim();
+            // enable and disable finance section on selected text of remarks for finance
+            if (value.includes('accepted') || value.includes('Onboarded')) {
+             
+                SPRCalculator()
+                let value = $('#career').val()
+                $('#career_finance').append(`<option selected value="${value}">
+                                   ${value}
+                              </option>`)
+            }
             for (let i = 0; i < globalData.length; i++) {
                 if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
                     $('#client').val() == globalData[i].client) {

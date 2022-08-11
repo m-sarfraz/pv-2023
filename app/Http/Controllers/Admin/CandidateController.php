@@ -1322,7 +1322,7 @@ class CandidateController extends Controller
     // get candidate profile data from ajax call
     public function traveseDataByClientProfile(Request $request)
     {
-
+        $status = ['OPEN','REOPEN'];
         if ($request->c_profile) {
             $request->position == null;
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
@@ -1333,7 +1333,7 @@ class CandidateController extends Controller
         }
         if ($request->position) {
             $request->c_profile == null;
-            $response = DB::table('jdl')->where("p_title", $request->position)->where('status', 'like', 'open')
+            $response = DB::table('jdl')->where("p_title", $request->position)->whereIn('status',  $status)
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
             if ($response) {
 
@@ -1341,7 +1341,7 @@ class CandidateController extends Controller
             }
         }
         if ($request->client_dropdown) {
-            $response = DB::table('jdl')->where("client", $request->client_dropdown)->where('status', 'like', 'open')
+            $response = DB::table('jdl')->where("client", $request->client_dropdown)->whereIntegerInRaw('status',  $status)
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
             if ($response) {
                 return response()->json(['data' => $response]);
