@@ -421,12 +421,13 @@ class RecordController extends Controller
         $domainDrop = Domain::all();
         $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
         $client = DB::table('taverse2')->distinct()->select('client')->get();
-
+        $remarks = $user->remarks_for_finance;
         $data = [
             'user' => $user,
             'client' => $client,
             'pos_title' => $pos_title,
             'domainDrop' => $domainDrop,
+            'remarks' => $remarks,
         ];
         return view('record.user_detail', $data);
     }

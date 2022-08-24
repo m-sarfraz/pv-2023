@@ -487,11 +487,11 @@
 
         // if (remarks == 'offer accepted' || remarks == 'onboarded') {
             if (remarks_r == '') {
-                ('#processStatus').val('FB')
+                $('#processStatus').val('FB')
                 $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
             }
             else if( remarks_r == 'unbilled') {
-                ('#processStatus').val('FB')
+                $('#processStatus').val('FB')
             }
         // }
         // close 
@@ -515,12 +515,12 @@
         var billAmount = {!! $billAmount !!};
 
         // get inputs values by removing space or comma in it 
-        salray = parseFloat($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
-        credit_memo = parseFloat($('#credit_memo').val().replace(/[^0-9.-]+/g, ""));
-        vat = parseFloat($('#vat').val().replace(/[^0-9.-]+/g, ""));
-        compensation = parseFloat($('#compensation').val().replace(/[^0-9.-]+/g, ""));
-        allowance = parseFloat($('#allowance').val().replace(/[^0-9.-]+/g, ""));
-        rate = parseFloat($('#rate').val().replace(/[^0-9.-]+/g, ""));
+        salray = isNaN(parseFloat($('#offered_salary').val())) ? 0 : parseFloat($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
+        vat = isNaN(parseFloat($('#vat').val())) ? 0 :parseFloat($('#vat').val().replace(/[^0-9.-]+/g, "")) ;
+        compensation = isNaN(parseFloat($('#compensation').val())) ? 0 :parseFloat($('#compensation').val().replace(/[^0-9.-]+/g, "")) ;
+        allowance = isNaN(parseFloat($('#allowance').val())) ? 0 :parseFloat($('#allowance').val().replace(/[^0-9.-]+/g, "")) ;
+        rate = isNaN(parseFloat($('#rate').val())) ? 0 :parseFloat($('#rate').val().replace(/[^0-9.-]+/g, "")) ;
+        credit_memo = isNaN(parseFloat($('#credit_memo').val())) ? 0 :parseFloat($('#credit_memo').val().replace(/[^0-9.-]+/g, "")) ;
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
@@ -528,8 +528,7 @@
             ratePercentage = fee1 * (rate / 100);
             findVatpercent = (1 + vat / 100)
             multiplyVatandRate = findVatpercent * ratePercentage;
-            placementFee = multiplyVatandRate - credit_memo;
-
+            placementFee = multiplyVatandRate - credit_memo; 
             // append value of placement fee  
             (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
         } else {
@@ -552,10 +551,11 @@
 
     // function for adjustment fee calculator starts
     function adjustmentCalculator() {
-        adjustment = parseFloat($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
-        placement = parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, ""));
+        adjustment = isNaN(parseFloat($('#adjustment').val())) ? 0 : parseFloat($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
+        placement = isNaN(parseFloat($('#placement').val())) ? 0 :parseFloat($('#placement').val().replace(/[^0-9.-]+/g, "")) ;
+
         // console.log(placement)
-        finalFee = adjustment + placement;
+        finalFee = parseFloat(adjustment + placement);
         // $('#finalFee').val(currency.format(finalFee))
         (isNaN(finalFee)) ? $('#finalFee').val(0): $('#finalFee').val(currency.format(finalFee));
 
@@ -570,8 +570,7 @@
     function remarksChange() {
         // DPDCalculate();
         // change process staus according to selected options 
-        var value = $('#remarksFinance').val().trim();
-        console.log(value);
+        var value = $('#remarksFinance').val().trim(); 
         if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('Fall out') ||
             value.includes('Collected') || value.includes('Replacement')) {
             $('#processStatus').val("");
@@ -603,12 +602,14 @@
 
     // vcc share calculator starts 
     function vccShareCalcualte() {
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g, "")
-        vccShare = $('#vccShare').val().replace(/[^0-9.-]+/g, "")
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 : parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, ""));
+        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 :parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, "")) ;
+        vccShare = isNaN(parseFloat($('#vccShare').val())) ? 0 :parseFloat($('#vccShare').val().replace(/[^0-9.-]+/g, "")) ;
+ 
+ 
         VCCamount = (finalFee * (vccShare * 1 / 100));
-        c_take_per = $('#c_take_per').val().replace(/[^0-9.-]+/g, "")
-        cTake = (placementfee * (c_take_per * 1 / 100));
+        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 :parseFloat($('#c_take_per').val().replace(/[^0-9.-]+/g, "")) ;
+        cTake = parseFloat(placementfee * (c_take_per * 1 / 100));
         (isNaN(VCCamount)) ? $('#vccAmount').val(0): $('#vccAmount').val(currency.format(VCCamount));
         // (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
@@ -619,17 +620,18 @@
     }
     // close 
     function ctakeCalcualte() {
-        c_take_per = $('#c_take_per').val().replace(/[^0-9.-]+/g, "")
-        placementfee = $('#placementfee').val().replace(/[^0-9.-]+/g, "")
-        cTake = (placementfee * (c_take_per * 1 / 100));
+
+        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 :parseFloat($('#c_take_per').val().replace(/[^0-9.-]+/g, "")) ;
+        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 :parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, "")) ;
+        cTake = parseFloat(placementfee * (c_take_per * 1 / 100));
         (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
     }
     // owner share calculator funciton starts 
     function ownerShareCalculate() {
-        var owsP = $('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "");
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        ownerAmount = finalFee * ((owsP * 1) / 100);
+        owsP = isNaN(parseFloat($('#ownerSharePercentage').val())) ? 0 :parseFloat($('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "")) ;
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 :parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, "")) ;
+        ownerAmount = parseFloat(finalFee * ((owsP * 1) / 100));
         (isNaN(ownerAmount)) ? $('#ownerAmount').val(0): $('#ownerAmount').val(currency.format(ownerAmount));
 
         // $('#ownerAmount').val(currency.format(ownerAmount))
@@ -638,11 +640,11 @@
 
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
-        var share = $('#reprocessShare').val().replace(/[^0-9.-]+/g, "");
-        // console.log(share)
-        // console.log(finalFee)
-        finalFee = $('#finalFee').val().replace(/[^0-9.-]+/g, "")
-        reprocessAmount = finalFee * ((share * 1) / 100);
+ 
+        var share = isNaN(parseFloat($('#reprocessShare').val())) ? 0 :parseFloat($('#reprocessShare').val().replace(/[^0-9.-]+/g, "")) ;
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 :parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, "")) ;
+
+        reprocessAmount = parseFloat(finalFee * ((share * 1) / 100));
 
         // append value
         (isNaN(reprocessAmount)) ? $('#reprocessAmount').val(0): $('#reprocessAmount').val(currency.format(
@@ -738,15 +740,15 @@
 
     // })
     //close
-    $("#financeReferenceForm").on("input", "input[type='text']", function() {
-        if ($(this).val() == '') {
-            $(this).val(0)
-        } 
+    // $("#financeReferenceForm").on("input", "input[type='text']", function() {
+        // if ($(this).val() == '') {
+        //     $(this).val(0)
+        // } 
         // else {
 
         //     $(this).val(parseFloat($(this).val().replace(/[^0-9.-]+/g, "")));
         //     $(this).val(currency.format($(this).val()))
         // }
-    });
+    // });
 </script>
 {{-- section script ends --}}

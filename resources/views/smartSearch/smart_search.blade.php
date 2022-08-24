@@ -87,14 +87,18 @@
             position: sticky;
             top: -10px;
         }
-        /* .hidetrID tr td:nth-child(12)  {
+        .hidetrID tr td:nth-child(12),
+        .hidetrID tr td:nth-child(20),
+        .hidetrID tr td:nth-child(24),
+        .hidetrID tr td:nth-child(15)
+          {
             white-space: nowrap;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             width: 164px !important;
             overflow:  hidden;
-        } */
+        }
     </style>
 @endsection
 

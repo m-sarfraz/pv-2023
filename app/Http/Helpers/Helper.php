@@ -74,7 +74,8 @@ class Helper
                 str_contains($array, Str::lower('Offer Rejected')) ||
                 str_contains($array, Str::lower('position closed (final stage)')) ||
                 str_contains($array, Str::lower('Withdraw / CNI - Final')) ||
-                str_contains($array, Str::lower('Fallout')) ||
+                str_contains($array, Str::lower('Fallout')) ||  
+                str_contains($array, Str::lower('Reneged')) || 
                 str_contains($array, Str::lower('Position On Hold (Final Stage)'))) {
 
                 $category = 'Inactive - Final Stage';

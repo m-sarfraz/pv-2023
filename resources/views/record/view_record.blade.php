@@ -73,6 +73,7 @@
     }
      
         .hidetrID tr td:nth-child(12),
+        .hidetrID tr td:nth-child(15),
         .hidetrID tr td:nth-child(20),
         .hidetrID tr td:nth-child(24)
          {

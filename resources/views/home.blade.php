@@ -6,13 +6,15 @@
             <div class="col-lg-12">
                 <form action="{{ URL('filter-dashboard-by-date') }}" method="post">
                     @csrf
-                        <label class="text-danger font-weight-bolder"> Select Date :</label>
-                        <input type="date" name="date" id="date" />
-                            <button type="submit" style="    display: inline-flex;
+                    <label class="text-danger font-weight-bolder"> Select Date :</label>
+                    <input type="date" name="date" id="date" />
+                    <button type="submit"
+                        style="    display: inline-flex;
                             padding: 2px;
                             margin: 3px;
                             color: white;
-                            background-color: #ff9900;" class="btn btn-outline-default">Search</button>
+                            background-color: #ff9900;"
+                        class="btn btn-outline-default">Search</button>
                 </form>
 
             </div>
@@ -78,8 +80,8 @@
                                 {!! $count_user_pie->container() !!}
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="pills-profile1" role="tabpanel"
-                            aria-labelledby="pills-profile-tab1">B
+                        <div class="tab-pane fade" id="pills-profile1" role="tabpanel" aria-labelledby="pills-profile-tab1">
+                            B
                         </div>
                     </div>
 
@@ -200,13 +202,13 @@
                     ->where('team_id', $data[$i]->id)
                     ->first();
                 if ($Quartile == 1) {
-                    $teamtarget = $team != null ? $team->q1_target : '1';
+                    $teamtarget = $team != null ? ($team->q1_target == 0 ? '1' : $team->q1_target) : '1';
                 } elseif ($Quartile == 2) {
-                    $teamtarget = $team != null ? $team->q2_target : '1';
+                    $teamtarget = $team != null ? ($team->q2_target == 0 ? '1' : $team->q2_target) : '1';
                 } elseif ($Quartile == 3) {
-                    $teamtarget = $team != null ? $team->q3_target : '1';
+                    $teamtarget = $team != null ? ($team->q3_target == 0 ? '1' : $team->q3_target) : '1';
                 } else {
-                    $teamtarget = $team != null ? $team->q4_target : '1';
+                    $teamtarget = $team != null ? ($team->q4_target == 0 ? '1' : $team->q4_target) : '1';
                 }
                 // $teamtarget = $team != null ? $team->m_target : '0';
                 // $q_target = $team != null ? $team->q_target : '0';
@@ -306,24 +308,24 @@
 
 
     <!-- <div class="container">
-                                            <div class="row justify-content-center">
-                                                <div class="col-md-8">
-                                                    <div class="card">
-                                                        <div class="card-header">Dashboard</div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-8">
+                                                        <div class="card">
+                                                            <div class="card-header">Dashboard</div>
 
-                                                        <div class="card-body">
-                                                            @if (session('status'))
+                                                            <div class="card-body">
+                                                                @if (session('status'))
     <div class="alert alert-success" role="alert">
-                                                                    {{ session('status') }}
-                                                                </div>
+                                                                        {{ session('status') }}
+                                                                    </div>
     @endif
 
-                                                            You are logged in!
+                                                                You are logged in!
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div> -->
+                                            </div> -->
     <!-- Charting library -->
     <script src="https://unpkg.com/chart.js@^2.9.3/dist/Chart.min.js"></script>
     <!-- Chartisan -->

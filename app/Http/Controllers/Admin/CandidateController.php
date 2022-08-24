@@ -162,7 +162,7 @@ class CandidateController extends Controller
             }
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
-            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
+            if (str_contains($array, 'onboarded') || str_contains($array, 'accepted')) {
                 // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
@@ -175,7 +175,7 @@ class CandidateController extends Controller
                 "FIRST_NAME" => "required",
                 "EMAIL_ADDRESS" => "required|email",
                 "SOURCE" => 'required ',
-                // "CONTACT_NUMBER" => "required",
+                "CONTACT_NUMBER" => "required",
                 "GENDER" => "required",
                 "RESIDENCE" => 'required ',
                 "EDUCATIONAL_ATTAINTMENT" => 'required ',
@@ -517,6 +517,7 @@ class CandidateController extends Controller
             $finance_detail->allowance = $request->ALLOWANCE;
             $finance_detail->rate_per = preg_replace('/%/', '', $request->RATE);
             $finance_detail->finance_id = $finance->id;
+            $finance_detail->process_status = "FB";
             $finance_detail->save();
 
             // return response success if data is entered
@@ -931,7 +932,7 @@ class CandidateController extends Controller
             }
             $array = Str::lower($request->REMARKS_FOR_FINANCE);
 
-            if (str_contains($array, 'onboarder') || str_contains($array, 'accepted')) {
+            if (str_contains($array, 'onboarded') || str_contains($array, 'accepted')) {
                 // $arrayCheck["REMARKS"] = "required";
                 // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
                 $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";

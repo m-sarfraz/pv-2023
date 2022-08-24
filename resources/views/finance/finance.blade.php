@@ -989,11 +989,14 @@
         function load_datatable() {
             option_table = $('#fmtable').DataTable({
                 destroy: true,
+                
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
+                // order: [[ 8, "asc" ]], // Sort by first column descending
+                // columnDefs : [{targets:8, type:"date-eu"}],
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },
@@ -1169,6 +1172,9 @@
                 destroy: true,
                 processing: true,
                 serverSide: false,
+                // order: [[ 8, "asc" ]], // Sort by first column descending
+                // columnDefs : [{targets:8, type:"date-eu"}],
+                
                 "language": {
                     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 },

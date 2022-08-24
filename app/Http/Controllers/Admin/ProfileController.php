@@ -321,7 +321,8 @@ class ProfileController extends Controller
                         $endorsement->category = $category;
                         $endorsement->numberOfEndo = $numberOfEndo;
                         $endorsement->saved_by = isset($render[3]) ? $render[3] : "";
-
+                        $endorsement->origionalRecruiter = $origionalRecruiter;
+                        $endorsement->tap = $tap;
                         $endorsement->save();
                         //close
 
@@ -428,7 +429,7 @@ class ProfileController extends Controller
                         $finance_detail->term_date = isset($render[68]) ? date('y-m-d', strtotime($render[68])) : "";
                         $finance_detail->replacement_for = isset($render[69]) ? $render[69] : "";
                         $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
-                        $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
+                        $finance_detail->process_status = isset($render[71]) ? ($render[71] == '' ? 'FB' : $render[71]) : "";
                         $finance_detail->vcc_share_per = isset($render[72]) ? intval($render[72]) : intval(0);
                         $finance_detail->vcc_amount = isset($render[73]) ? intval($render[73]) : intval(0);
                         $finance_detail->c_take_per = isset($render[74]) ? intval($render[74]) : intval(0);
@@ -1193,6 +1194,8 @@ class ProfileController extends Controller
                     //save Google sheet addeed log to table starts
                     Helper::save_log('JDL_SHEET_IMPORTED');
                     // save Google sheet added to log table ends
+                    Cache::forget('jdl');
+
                     return redirect()->back()->with('JDL_SHEET_IMPORTED', 'data Import successfully');
                 }
             }

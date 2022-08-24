@@ -215,7 +215,7 @@ class FinanceController extends Controller
     {
         // user, information ,endo , finance
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
-        $Userdata = DB::table('finance_view')->get();
+        $Userdata = DB::select('SELECT * FROM `finance_view`');
         // dd($Userdata->get());
         return Datatables::of($Userdata)
             ->addIndexColumn()
@@ -232,6 +232,7 @@ class FinanceController extends Controller
             })
             ->addColumn('recruiter', function ($user) {
                 $id = Endorsement::where('candidate_id', $user->cid)->where('origionalRecruiter', '!=', '0')->first();
+                
                 return (User::where('id', $id->saved_by)->first('name'))->name;
             })
             ->addColumn('tapped', function ($user) {
