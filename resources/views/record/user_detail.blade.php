@@ -18,7 +18,8 @@
                                 Candidate's Name:
                             </label>
                             <input type="text" class="form-control" placeholder="enter first name" name="first_name"
-                                value="{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name }}" readonly>
+                                value="{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name }}"
+                                readonly>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -287,7 +288,7 @@
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                               @foreach ($segments as $segmentsOptions)
+                                @foreach ($segments as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->segment_name }}"
                                     {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                     {{ $segmentsOptions->segment_name }}
@@ -876,6 +877,12 @@
 <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
 
 <script>
+    var apendtoOption = '';
+    $(document).ready(function() { 
+         apendtoOption = <?php echo json_encode($user->remarks_for_finance); ?>; 
+         appendRemarksForFinance(1) 
+        $('#status').change();
+    });
     function verifyDeleteRecord(id) {
         Swal.fire({
                 icon: 'warning',
@@ -1205,7 +1212,7 @@
         }
     }
     var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-    console.log(value);
+    
     var role_id = {!! Auth::user()->agent !!}
     if (role_id == 1) {
         if (value == 'HIGH SCHOOL GRADUATE') {
@@ -1231,4 +1238,51 @@
         }
 
     }
+    $('#status').on('change', function() {
+        console.log('hello');
+        if ($(this).val().toLowerCase() == 'invalid') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("In Client's DB/Portal", "In Client's DB/Portal", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else if ($(this).val().toLowerCase() == 'pending validation') {
+            $('#remarks_for_finance').empty().trigger('change');
+            var option = new Option("Pending DB Validation", "Pending DB Validation", true, true);
+            $('#remarks_for_finance').append(option).trigger('change');
+        } else {
+            appendRemarksForFinance(0)
+        }
+
+    });
+    // ajax to append remarks for finance options 
+    function appendRemarksForFinance(bol) {
+        console.log('remarks are' +apendtoOption);
+
+        $.ajax({
+            url: "{{ route('get_remarksForFinance_options') }}",
+            type: 'get',
+            success: function(res) {
+                if (bol == 0) {
+                    $('#remarks_for_finance').empty().trigger('change');
+                }
+                console.log('status is ' + $('#status').val().toLowerCase() );
+                if( $('#status').val().toLowerCase() != 'invalid' &&
+                 $('#status').val().toLowerCase() != 'pending validation' ){
+                console.log('no');
+                optionArray = ["pending db validation", "in client's db/portal"];
+                for (var i = 0; i < res.options.length; i++) {
+                    if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
+                        var option = new Option(res.options[i].option_name, res.options[i].option_name,
+                            true, false);
+                        $('#remarks_for_finance').append(option).trigger('change');
+                        $('#remarks_for_finance').val(apendtoOption).trigger('change');
+
+                    }
+                }
+
+            }
+            }
+        });
+    }
+
+    // close
 </script>

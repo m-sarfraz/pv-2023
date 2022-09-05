@@ -480,21 +480,21 @@
                                     <th class="ant-table-cell">Date Invited</th>
                                     <th class="ant-table-cell">Date Sifted</th>
                                     <th class="ant-table-cell">Educational Attainment</th>
-                                    <th class="ant-table-cell">Emp History</th>
+                                    <th class="ant-table-cell">Employment History</th>
                                     <th class="ant-table-cell">Type</th>
                                     <th class="ant-table-cell">Exp Salary</th>
                                     <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">Interview note</th>
-                                    <th class="ant-table-cell">Invoice number</th>
-                                    <th class="ant-table-cell">Onboarding date </th>
+                                    <th class="ant-table-cell">Interview Note</th>
+                                    <th class="ant-table-cell">Invoice Number</th>
+                                    <th class="ant-table-cell">Onboarding Date </th>
                                     <th class="ant-table-cell">Position Title </th>
                                     <th class="ant-table-cell">Remarks </th>
-                                    <th class="ant-table-cell">Remarks_For Finance </th>
+                                    <th class="ant-table-cell">Remarks For Finance </th>
                                     <th class="ant-table-cell">Address </th>
                                     <th class="ant-table-cell">Segment </th>
                                     <th class="ant-table-cell">Site</th>
                                     <th class="ant-table-cell">Endorsement Status</th>
-                                    <th class="ant-table-cell">Sub Segment</th>
+                                    <th class="ant-table-cell">Sub-Segment</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
@@ -635,9 +635,10 @@
         // function for filtering the data according to selected input starts
         function FilterSearch() {
             // empty search so it can not effect result and summary 
-            $('#searchKeyword').val('')
+            // $('#searchKeyword').val('')
             // get values of selected inputs of users
             domain = $('#domain').val();
+            search = $('#searchKeyword').val();
             recruiter = $('#recruiter').val();
             client = $('#client').val();
             residence = $('#residence').val();
@@ -690,6 +691,7 @@
                         sift_start: sift_start,
                         sift_end: sift_end,
                         portal: portal,
+                        search: search,
                         // searchKeyword: searchKeyword,
                     },
                 },
@@ -697,8 +699,11 @@
                     $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
-                    // $('#searchKeyword').trigger('input');
+                    // console.log(json);
                     summaryAppendAjax(json.array);
+                    // console.log(json.search);
+                    $('#searchKeyword').val(json.search)
+                    $('#searchKeyword').change()
                     let tableID = $('#filterResult_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()

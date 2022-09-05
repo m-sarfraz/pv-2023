@@ -99,7 +99,7 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.origionalRecruiter', $request->recruiter);
         }
         if (isset($request->team_id)) {
-
+            // return $request->team_id;
             $Userdata->whereIn('finance_view.t_id', $request->team_id);
         }
         if (isset($request->client)) {
@@ -150,8 +150,8 @@ class FinanceController extends Controller
 
             })
             ->addColumn('team', function ($user) {
-                $userid = User::where('id', $user->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
+                $userid = User::where('id', $user->saved_by)->first(); 
+                $team = $userid->roles->pluck('name');
                 return json_decode($team);
             })
             ->addColumn('recruiter', function ($user) {

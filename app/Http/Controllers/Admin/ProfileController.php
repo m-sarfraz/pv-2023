@@ -325,7 +325,8 @@ class ProfileController extends Controller
                         $endorsement->tap = $tap;
                         $endorsement->save();
                         //close
-
+                        $userid = User::where('id',$render[3])->first(); 
+                        $team = $userid->roles->pluck('name');
                         //finance start
                         // $query = DB::table("finance")
                         //     ->where("candidate_id", $store_by_google_sheet->id)
@@ -370,7 +371,7 @@ class ProfileController extends Controller
                         $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                         $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                         $finance->remarks_recruiter = 'Unbilled';
-                        $finance->t_id = $recruiter->id;
+                        $finance->t_id = $team;
                         $finance->save();
 
                         //finance close
@@ -887,7 +888,8 @@ class ProfileController extends Controller
 
                     $endorsement->save();
                     //close
-
+                    $userid = User::where('id',$render[3])->first(); 
+                    $team = $userid->roles->pluck('name');
                     //finance start
                     $query = DB::table("finance")
                         ->where("candidate_id", $store_by_Ecxel->id)
@@ -932,7 +934,7 @@ class ProfileController extends Controller
                     $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
                     $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                     $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
-                    $finance->t_id = $recruiter->id;
+                    $finance->t_id = $team;
                     $finance->remarks_recruiter = 'Unbilled';
 
                     $finance->save();

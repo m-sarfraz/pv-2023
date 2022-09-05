@@ -527,7 +527,7 @@
                                             <span class=" mr-3"><i
                                                     class="bi bi-paperclip"></i>{{ $user->first_name }}'s
                                                 Resume</span>
-                                            <a class="btn btn-success" type="button" target="blank"
+                                            <a class="btn btn-success checkTest" type="button" target="blank"
                                                 href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}' --}}
                                                 {{-- )" --}}>Download
                                                 CV</a>

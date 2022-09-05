@@ -995,6 +995,7 @@
                 // },
                 processing: true,
                 serverSide: false,
+                // stateSave: true, 
                 // order: [[ 8, "asc" ]], // Sort by first column descending
                 // columnDefs : [{targets:8, type:"date-eu"}],
                 "language": {
@@ -1172,6 +1173,7 @@
                 destroy: true,
                 processing: true,
                 serverSide: false,
+                stateSave: true,
                 // order: [[ 8, "asc" ]], // Sort by first column descending
                 // columnDefs : [{targets:8, type:"date-eu"}],
                 

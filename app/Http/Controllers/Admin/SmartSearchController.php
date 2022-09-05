@@ -219,6 +219,7 @@ class SmartSearchController extends Controller
         $data = [];
         $check = $searchCheck = false;
         // return $request->all();
+        // $search = $request->search;
         $Userdata = DB::table('updated_view_record');
         //    check null values coming form selected options
         if (isset($request->domain)) {
@@ -439,6 +440,7 @@ class SmartSearchController extends Controller
         })
         ->with([
                     'array' => $this->candidate_arr,
+                    'search' => $request->search
                 ])
         ->rawColumns([
             'id',

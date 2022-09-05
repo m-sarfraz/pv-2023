@@ -932,7 +932,9 @@ input {
     z-index: 999;
     background-color: #fff;
 }
-
+.checkTest{
+    pointer-events: painted !important; 
+}
 .tableFixHead thead th {
     /* position: sticky;
   top: 0;
