@@ -36,18 +36,6 @@
         $('#filteredJdlTable_filter').hide('div');
 
     })
-    // $('#searchKeyword').on("input", function() {
-    //     alert('yes')
-    //         $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
-    //         $('#filteredJdlTable').children().children().val($('#searchKeyword').val());
-    //         $('#jdlTable_filter').children().children().focus();
-    //         $('#filteredJdlTable').children().children().focus();
-    //         $('#searchKeyword').focus();
-    //         $('#jdlTable_filter').children().children().trigger('input');
-    //         $('#filteredJdlTable').children().children().trigger('input');
-    //         // $('#jdlTable_filter').hide('div');
-    //         // $('#filteredJdlTable').hide('div');
-    //     });
     $('#filteredJdlTable').on('click', 'tbody tr', function() {
         $('tr').removeClass('hover-primary1');
         $(this).addClass('hover-primary1');

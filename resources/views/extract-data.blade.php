@@ -795,7 +795,7 @@
                     //content: wrapper,
                     icon: "success",
                 });
-                appendHistory();
+                // appendHistory();
                 // elem.preventDefault();
                 // get values of selected inputs of users
                 domain = $('#domain').val();
@@ -835,7 +835,7 @@
                     //     showConfirmButton: false,
                     //     timer: 4000
                     // })
-                    location.reload();  
+                    // location.reload();  
                         $("#loader").hide();
                     })
                     .fail(function(err) {

@@ -989,19 +989,12 @@
         function load_datatable() {
             option_table = $('#fmtable').DataTable({
                 destroy: true,
-                
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
-                // stateSave: true, 
-                // order: [[ 8, "asc" ]], // Sort by first column descending
-                // columnDefs : [{targets:8, type:"date-eu"}],
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
-
+               
                 ajax: {
                     url: "{{ route('view-finance-search-table') }}",
                     type: "GET",
@@ -1069,7 +1062,7 @@
                         name: 'process_status'
                     },
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -1100,8 +1093,7 @@
 
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
-                            res.candidates[i].first_name + ' ' + res.candidates[i].middle_name + ' ' + res
-                            .candidates[i].last_name +
+                            res.candidates[i].name +   
                             '</option>')
                     }
                     for (let i = 0; i < res.recruiter.length; i++) {
@@ -1170,23 +1162,32 @@
             process = $('#process').val();
             ob_date = $('#ob_date').val();
             option_table = $('#fmtable1').DataTable({
+                // destroy: false,
+                // // search: {
+                // //     smart: false
+                // // },
+                // processing: true,
+                // serverSide: true,
+                // // stateSave: true,
+                // // order: [[ 8, "asc" ]], // Sort by first column descending
+                // // columnDefs : [{targets:8, type:"date-eu"}],
+                
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // },
                 destroy: true,
+                // search: {
+                //     smart: false
+                // },
                 processing: true,
                 serverSide: false,
-                stateSave: true,
-                // order: [[ 8, "asc" ]], // Sort by first column descending
-                // columnDefs : [{targets:8, type:"date-eu"}],
-                
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
-
+               
                 ajax: {
                     url: "{{ route('financeRecordFilter') }}",
                     type: "POST",
                     data: {
                         _token: token,
-                        // searchKeyword: searchKeyword,
+                        searchKeyword: searchKeyword,
                         recruiter: recruiter,
                         candidate: candidate,
                         remarks: remarks,
@@ -1205,6 +1206,8 @@
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
+                    $('#searchKeyword').val(json.searchKeyword);
+                    $('#searchKeyword').change();
                     let tableID = $('#filterData_div').children().children().attr('id')
 
                     if (tableID == 'fmtable_wrapper') {
@@ -1214,6 +1217,7 @@
                         countRecordFilter()
                     }
                     appendSummary(json.array);
+
                 },
                 columns: [{
                         data: 'array',
@@ -1271,7 +1275,7 @@
 
 
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -1348,6 +1352,8 @@
                 setTimeout(() => {
                     $('#fmtable_length').children().children().val('10');
                     $('#fmtable_length').children().children().change();
+                    $('#fmtable1_length').children().children().val('10');
+                    $('#fmtable1_length').children().children().change();
                     // $('#searchKeyword').trigger('input');
                     $("#loader").hide();
 

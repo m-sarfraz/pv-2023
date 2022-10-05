@@ -325,8 +325,9 @@ class ProfileController extends Controller
                         $endorsement->tap = $tap;
                         $endorsement->save();
                         //close
-                        $userid = User::where('id',$render[3])->first(); 
+                        $userid = User::where('id', $render[3])->first();
                         $team = $userid->roles->pluck('name');
+                        $team_id = $userid->roles->pluck('id');
                         //finance start
                         // $query = DB::table("finance")
                         //     ->where("candidate_id", $store_by_google_sheet->id)
@@ -371,7 +372,7 @@ class ProfileController extends Controller
                         $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                         $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
                         $finance->remarks_recruiter = 'Unbilled';
-                        $finance->t_id = $team;
+                        $finance->t_id = $team_id[0];
                         $finance->save();
 
                         //finance close
@@ -440,7 +441,7 @@ class ProfileController extends Controller
                         $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
                         $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
                         $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
-                        $finance_detail->t_id = $recruiter->id;
+                        $finance_detail->t_id = $team_id[0];
                         $finance_detail->save();
                         //start logic for cip
 
@@ -546,8 +547,8 @@ class ProfileController extends Controller
                         //     $Cipprogress->onboarded = 1;
                         // }
                         $Cipprogress->candidate_id = $store_by_google_sheet->id;
-                        $Cipprogress->team = $recruiter->name;
-                        $Cipprogress->t_id = $recruiter->id;
+                        $Cipprogress->team = $team[0];
+                        $Cipprogress->t_id = $team_id[0];
                         $Cipprogress->finance_id = $finance->id;
                         $Cipprogress->endorsement_id = $endorsement->id;
                         $Cipprogress->save();
@@ -677,9 +678,7 @@ class ProfileController extends Controller
         // unset first row after checking
         unset($data[0]);
 
-        $recruiter = Auth::user()->roles->first();
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
-        $recruiter = Auth::user()->roles->first();
         if (count($data) > 0) {
             foreach ($data as $key => $render) {
                 $num = count($render);
@@ -888,8 +887,9 @@ class ProfileController extends Controller
 
                     $endorsement->save();
                     //close
-                    $userid = User::where('id',$render[3])->first(); 
+                    $userid = User::where('id', $render[3])->first();
                     $team = $userid->roles->pluck('name');
+                    $team_id = $userid->roles->pluck('id');
                     //finance start
                     $query = DB::table("finance")
                         ->where("candidate_id", $store_by_Ecxel->id)
@@ -902,6 +902,32 @@ class ProfileController extends Controller
                     //     // insert record
                     //     $finance = new Finance();
                     // }
+                    // Placement fee calculator starts from here
+                    $billAmount = 0;
+// get inputs values by removing space or comma in it
+                    $salray = floatval(isset($render[50]) ? $render[50] : 0);
+                    $vat = isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0;
+                    $compensation = isset($render[52]) ? $render[52] : 0;
+                    $allowance = floatval(isset($render[51]) ? $render[51] : 0);
+                    $rate = isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0;
+                    $credit_memo = floatval(isset($render[58]) ? $render[58] : 0);
+// if rate is below zero ccalculate placement fee
+                    if ($rate > 0) {
+                        $fee1 = ($billAmount + $compensation);
+                        $ratePercentage = $fee1 * ($rate / 100);
+                        $findVatpercent = (1 + $vat / 100);
+                        $multiplyVatandRate = $findVatpercent * $ratePercentage;
+                        $placementFe = $multiplyVatandRate - $credit_memo;
+                        $placementFee_total = number_format($placementFe, 2);
+                    } else {
+                        // if rate value is equal to zero or negative
+                        $fee1 = ($billAmount + $compensation);
+                        $ratePercentage = $fee1;
+                        $findVatpercent = (1 + $vat / 100);
+                        $multiplyVatandRate = $findVatpercent * $ratePercentage;
+                        $placementFe = $multiplyVatandRate - $credit_memo;
+                        $placementFee_total = number_format($placementFe, 2);
+                    }
                     $finance->candidate_id = $store_by_Ecxel->id;
                     $finance->onboardnig_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
                     $finance->endorsement_id = $endorsement->id;
@@ -924,17 +950,17 @@ class ProfileController extends Controller
                     $offered_salary_combune_0 = isset($offered_salary_divide[0]) ? $offered_salary_divide[0] : '';
                     $offered_salary_combune_1 = isset($offered_salary_divide[1]) ? $offered_salary_divide[1] : '';
                     $finance->offered_salary = floatval($offered_salary_combune_0 . $offered_salary_combune_1);
-                    $placement_fee = isset($render[55]) ? $render[55] : "";
-                    $placement_fee_divide = explode(',', $placement_fee);
-                    $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
-                    $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
-                    $finance->placement_fee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
+                    // $placement_fee = isset($render[55]) ? $render[55] : "";
+                    // $placement_fee_divide = explode(',', $placement_fee);
+                    // $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                    // $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                    $finance->placement_fee = $placementFee_total;
                     $allowance = isset($render[51]) ? $render[51] : "";
                     $allowance_divide = explode(',', $allowance);
                     $allowance_combune_0 = isset($allowance_divide[0]) ? $allowance_divide[0] : '';
                     $allowance_combune_1 = isset($allowance_divide[1]) ? $allowance_divide[1] : '';
                     $finance->allowance = floatval($allowance_combune_0 . $allowance_combune_1);
-                    $finance->t_id = $team;
+                    $finance->t_id = $team_id[0];
                     $finance->remarks_recruiter = 'Unbilled';
 
                     $finance->save();
@@ -951,6 +977,34 @@ class ProfileController extends Controller
                     //     // insert record
                     //     $finance_detail = new Finance_detail();
                     // }
+// calculations  before saving finance detail data starts
+
+// placement fee calculator ends here
+// final fee calculator starts here
+                    $adjustment = floatval(isset($render[57]) ? $render[57] : 0);
+                    $finalFe = floatval($adjustment + $placementFe);
+                    $finalFee_total = number_format($finalFe, 2);
+// final fee calculator ends here
+// Reprocess share amount calculator starts here
+                    $share = isset($render[78]) ? floatval(str_replace('%', '', $render[78])) : 0;
+                    $reprocessAmount1 = floatval($finalFe * (($share * 1) / 100));
+                    $reprocessAmount_total = number_format($reprocessAmount1, 2);
+// Rewprcoess sahre amount calcualtor ends here
+// OWNER SHAER AMOUNT CALCULATOR STARTS
+                    $owsP = isset($render[76]) ? floatval(str_replace('%', '', $render[76])) : 0;
+                    $ownerAmount1 = floatval($finalFe * (($owsP * 1) / 100));
+                    $ownerAmount_total = number_format($ownerAmount1, 2);
+// OWNER SHARE AMOUNT CALCULTOR ENDS HERE
+// VCC Share Amount  CALCULATOR STARTS HERE
+                    $vccShare = isset($render[72]) ? floatval(str_replace('%', '', $render[72])) : 0;
+                    $VCCamount1 = floatval($finalFe * ($vccShare * 1 / 100));
+                    $VCCamount_total = number_format($VCCamount1, 2);
+// VCC Share Amount: CALCULATOR ENDS HERE
+// c take amount calculator starts here
+                    $c_take_per = isset($render[74]) ? floatval(str_replace('%', '', $render[74])) : 0;
+                    $cTake1 = floatval($placementFe * ($c_take_per * 1 / 100));
+                    $cTake_total = number_format($cTake1, 2);
+// c take calculator ends here
 
                     $finance_detail->finance_id = $finance->id;
                     $finance_detail->candidate_id = $store_by_Ecxel->id;
@@ -971,16 +1025,16 @@ class ProfileController extends Controller
                     $vat_per_combune_0 = isset($vat_per_divide[0]) ? $vat_per_divide[0] : '';
                     $vat_per_combune_1 = isset($vat_per_divide[1]) ? $vat_per_divide[1] : '';
                     $finance_detail->vat_per = floatval($vat_per_combune_0 . $vat_per_combune_1);
-                    $placement_fee = isset($render[55]) ? $render[55] : "";
-                    $placement_fee_divide = explode(',', $placement_fee);
-                    $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
-                    $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
-                    $finance_detail->placementFee = floatval($placement_fee_combune_0 . $placement_fee_combune_1);
-                    $finalFee = isset($render[56]) ? $render[56] : "";
-                    $finalFee_divide = explode(',', $finalFee);
-                    $finalFee_combune_0 = isset($finalFee_divide[0]) ? $finalFee_divide[0] : '';
-                    $finalFee_combune_1 = isset($finalFee_divide[1]) ? $finalFee_divide[1] : '';
-                    $finance_detail->finalFee = floatval($finalFee_combune_0 . $finalFee_combune_1);
+                    // $placement_fee = isset($render[55]) ? $render[55] : "";
+                    // $placement_fee_divide = explode(',', $placement_fee);
+                    // $placement_fee_combune_0 = isset($placement_fee_divide[0]) ? $placement_fee_divide[0] : '';
+                    // $placement_fee_combune_1 = isset($placement_fee_divide[1]) ? $placement_fee_divide[1] : '';
+                    $finance_detail->placementFee = $placementFee_total;
+                    // $finalFee = isset($render[56]) ? $render[56] : "";
+                    // $finalFee_divide = explode(',', $finalFee);
+                    // $finalFee_combune_0 = isset($finalFee_divide[0]) ? $finalFee_divide[0] : '';
+                    // $finalFee_combune_1 = isset($finalFee_divide[1]) ? $finalFee_divide[1] : '';
+                    $finance_detail->finalFee = $finalFee_total;
                     $finance_detail->adjustment = isset($render[57]) ? $render[57] : "";
                     $finance_detail->credit_memo = isset($render[58]) ? $render[58] : "";
                     $finance_detail->ob_date = isset($render[59]) ? date('y-m-d', strtotime($render[59])) : "";
@@ -997,15 +1051,15 @@ class ProfileController extends Controller
                     $finance_detail->remarks = isset($render[70]) ? $render[70] : "";
                     $finance_detail->process_status = isset($render[71]) ? $render[71] : "";
                     $finance_detail->vcc_share_per = isset($render[72]) ? intval($render[72]) : intval(0);
-                    $finance_detail->vcc_amount = isset($render[73]) ? intval($render[73]) : intval(0);
+                    $finance_detail->vcc_amount = $VCCamount_total;
                     $finance_detail->c_take_per = isset($render[74]) ? intval($render[74]) : intval(0);
-                    $finance_detail->c_take = isset($render[75]) ? intval($render[75]) : intval(0);
+                    $finance_detail->c_take = $cTake_total;
                     $finance_detail->owner_share_per = isset($render[76]) ? intval($render[76]) : intval(0);
-                    $finance_detail->owner_share = isset($render[77]) ? intval($render[77]) : intval(0);
+                    $finance_detail->owner_share = $ownerAmount_total;
                     $finance_detail->reprocess_share_per = isset($render[78]) ? intval($render[78]) : intval(0);
-                    $finance_detail->reprocess_share = isset($render[79]) ? intval($render[79]) : intval(0);
+                    $finance_detail->reprocess_share = $reprocessAmount_total;
                     $finance_detail->ind_revenue = isset($render[80]) ? intval($render[80]) : intval(0);
-                    $finance_detail->t_id = $recruiter->id;
+                    $finance_detail->t_id = $team_id[0];
                     $finance_detail->save();
                     //start logic for cip
 
@@ -1059,8 +1113,6 @@ class ProfileController extends Controller
                         ],
                     ];
 
-                    $user = User::find($recruiter->id);
-
                     // $query = DB::table("cip_progress")
                     //     ->where("candidate_id", $store_by_Ecxel->id)
                     //     ->first();
@@ -1092,8 +1144,8 @@ class ProfileController extends Controller
                         $Cipprogress->onboarded = 1;
                     }
                     $Cipprogress->candidate_id = $store_by_Ecxel->id;
-                    $Cipprogress->team = $recruiter->name;
-                    $Cipprogress->t_id = $recruiter->id;
+                    $Cipprogress->team = $team[0];
+                    $Cipprogress->t_id = $team_id[0];
                     $Cipprogress->finance_id = $finance->id;
                     $Cipprogress->endorsement_id = $endorsement->id;
                     $Cipprogress->save();

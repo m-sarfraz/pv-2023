@@ -30,13 +30,13 @@ class GoogleSheet
             // $config2 = Config::get("datastudio.google_sheet_id");
             // dd($config2);
             $dimensions = $this->getDimensions($config2);
-
+            dd($dimensions);
             $range = 'Sheet1!A1:' . $dimensions['colCount'];
             $data = $this->googleSheetService
                 ->spreadsheets_values
                 ->batchGet($config2, ['ranges' => $range]);
             return $data->valueRanges;
-        } catch (\Exception $e) {
+        } catch (\Exception$e) {
             return $e->getMessage();
         }
 
@@ -61,7 +61,7 @@ class GoogleSheet
             $spreadSheetId,
             ['ranges' => 'Sheet1!1:1', 'majorDimension' => 'ROWS']
         );
-        
+
         //if data is present at nth col, it will return array till nth col
         //if all column values are empty, it returns null
         $colMeta = $colDimensions->getValueRanges()[0]->values;

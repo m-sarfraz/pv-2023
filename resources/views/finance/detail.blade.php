@@ -162,7 +162,8 @@
                                     Offered Salary:
                                 </label>
                                 <input type="text" id="offered_salary" class="form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $off_salary != '' ? $off_salary : 0 }}"
+                                    placeholder="hires.."
+                                    value="{{ $off_salary != '' ? number_format($off_salary, 2) : 0 }}"
                                     name="offered_salary" />
                             </div>
                         </div>
@@ -204,7 +205,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="allowance" name="allowance"
-                                    value="{{ $detail->allowance != '' ? $detail->allowance : 0 }}" />
+                                    value="{{ $detail->allowance != '' ? number_format($detail->allowance, 2) : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-2 p-1">
@@ -214,7 +215,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="vat" oninput="placementFeeCalculator()"
-                                    value="{{ $detail->vat_per != '' ? $detail->vat_per : 0 }}" name="vat_per" />
+                                    value="{{ $detail->vat_per != '' ? number_format($detail->vat_per, 2)  : 0 }}" name="vat_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -224,7 +225,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="credit_memo" oninput="placementFeeCalculator()"
-                                    value="{{ $detail->credit_memo != '' ? $detail->credit_memo : 0 }}"
+                                    value="{{ $detail->credit_memo != '' ? number_format($detail->credit_memo, 2) : 0 }}"
                                     name="credit_memo" />
                             </div>
                         </div>
@@ -244,8 +245,7 @@
                                     Invoice Date:
                                 </label>
                                 <input type="date" class="w-100 form-control users-input-S-C"
-                                    placeholder="hires.." value="{{ $detail->invoice_date }}"
-                                    name="invoice_date" />
+                                    placeholder="hires.." value="{{ $detail->invoice_date }}" name="invoice_date" />
                             </div>
                         </div>
                     </div>
@@ -267,7 +267,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     oninput="placementFeeCalculator()" id="rate" name="rate_per"
-                                    value="{{ $detail->rate_per != '' ? $detail->rate_per : 0 }}" />
+                                    value="{{ $detail->rate_per != '' ? number_format($detail->rate_per, 2) : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -277,7 +277,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     readonly
-                                    value="{{ $detail->placement_fee != '' ? number_format($detail->placement_fee, 2) : 0 }}"
+                                    value="{{ $detail->feee != '' ? $detail->feee : 0 }}"
                                     name="placement_fee" id="placementfee" />
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="reprocessShare" oninput="reprocessAmountCalculate()"
-                                    value="{{ $detail->reprocess_share_per != '' ? $detail->reprocess_share_per : 0 }}"
+                                    value="{{ $detail->reprocess_share_per != '' ? number_format($detail->reprocess_share_per, 2)  : 0 }}"
                                     name="reprocess_share_per" />
                             </div>
                         </div>
@@ -329,7 +329,7 @@
                                 {{-- @dd($detail->reprocess_share) --}}
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     name="reprocess_share"
-                                    value="{{ $detail->reprocess_share != '' ? number_format($detail->reprocess_share, 2) : 0 }}"
+                                    value="{{ $detail->reprocess_share != '' ? $detail->reprocess_share : 0 }}"
                                     id="reprocessAmount" readonly />
                             </div>
                         </div>
@@ -340,7 +340,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     id="vccShare" oninput="vccShareCalcualte()"
-                                    value="{{ $detail->vcc_share_per != '' ? $detail->vcc_share_per : 0 }}"
+                                    value="{{ $detail->vcc_share_per != '' ? number_format($detail->vcc_share_per, 2)  : 0 }}"
                                     name="vcc_share_per" />
                             </div>
                         </div>
@@ -350,7 +350,7 @@
                                     VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
-                                    value="{{ $detail->vcc_amount != '' ? number_format($detail->vcc_amount, 2) : 0 }}"
+                                    value="{{ $detail->vcc_amount != '' ? $detail->vcc_amount  : 0 }}"
                                     id="vccAmount" />
                             </div>
                         </div>
@@ -375,7 +375,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="ownerAmount" readonly
-                                    value="{{ $detail->owner_share != '' ? number_format($detail->owner_share, 2) : 0 }}"
+                                    value="{{ $detail->owner_share != '' ?  $detail->owner_share  : 0 }}"
                                     name="owner_share" />
                             </div>
                         </div>
@@ -386,7 +386,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     oninput="ctakeCalcualte()"
-                                    value="{{ $detail->c_take_per != '' ? $detail->c_take_per : 0 }}"
+                                    value="{{ $detail->c_take_per != '' ? number_format($detail->c_take_per, 2)  : 0 }}"
                                     name="c_take_per" id="c_take_per" />
                             </div>
                         </div>
@@ -396,7 +396,7 @@
                                     C. Take Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" id="cTake"
-                                    value="{{ $detail->c_take != '' ? number_format($detail->c_take, 2) : 0 }}"
+                                    value="{{ $detail->c_take != '' ?  $detail->c_take : 0 }}"
                                     name="c_take" />
                             </div>
                         </div>
@@ -409,7 +409,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="adjustment" oninput="adjustmentCalculator()" name="adjustment"
-                                    value="{{ $detail->adjustment != '' ? $detail->adjustment : 0 }}" />
+                                    value="{{ $detail->adjustment != '' ? number_format($detail->adjustment, 2) : 0 }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -419,7 +419,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="finalFee" readonly
-                                    value="{{ $detail->finalFee != '' ? number_format($detail->finalFee, 2) : 0 }}"
+                                    value="{{ $detail->finalFee != '' ?  $detail->finalFee  : 0 }}"
                                     name="finalFee" />
                             </div>
                         </div>
@@ -457,24 +457,30 @@
 <script src="{{ asset('assets/js/moment.js') }}"></script>
 
 <script>
-    var currency = Intl.NumberFormat('ja-JP');
+    var currency = Intl.NumberFormat('ja-JP', { minimumFractionDigits: 2 });
     // section loads on ready start
     $(document).ready(function() {
+        // var fee = {!! $fee !!};
 
         // append placement allowance offered_salary value on start          
-        var fee = {!! $fee !!};
         // var off_salary = {!! $off_salary !!};
         // var off_allowance = {!! $off_allowance !!};
-        $('#placementfee').val(currency.format(fee))
-        $('#allowance').val(currency.format($('#allowance').val()))
-        $('#offered_salary').val(currency.format($('#offered_salary').val()))
-        $('#adjustment').val(currency.format($('#adjustment').val()))
+        $('#placementfee').val(currency.format($('#placementfee').val()))
+        $('#finalFee').val(currency.format($('#finalFee').val()))
+        $('#reprocessAmount').val(currency.format($('#reprocessAmount').val()))
+        $('#ownerAmount').val(currency.format($('#ownerAmount').val()))
+        $('#cTake').val(currency.format($('#cTake').val()))
+        $('#vccAmount').val(currency.format($('#vccAmount').val()))
+        
+        // $('#allowance').val(currency.format($('#allowance').val()))
+        // $('#offered_salary').val(currency.format($('#offered_salary').val()))
+        // $('#adjustment').val(currency.format($('#adjustment').val()))
         $('#ownerSharePercentage').val(currency.format($('#ownerSharePercentage').val()))
-        $('#rate').val(currency.format($('#rate').val()))
-        $('#vat').val(currency.format($('#vat').val()))
-        $('#c_take_per').val(currency.format($('#c_take_per').val()))
-        $('#reprocessShare').val(currency.format($('#reprocessShare').val()))
-        $('#vccShare').val(currency.format($('#vccShare').val()))
+        // $('#rate').val(currency.format($('#rate').val()))
+        // $('#vat').val(currency.format($('#vat').val()))
+        // $('#c_take_per').val(currency.format($('#c_take_per').val()))
+        // $('#reprocessShare').val(currency.format($('#reprocessShare').val()))
+        // $('#vccShare').val(currency.format($('#vccShare').val()))
 
         // offered_salary = $('#offered_salary').val(currency.format(off_salary))
 
@@ -486,13 +492,12 @@
         console.log(remarks_r);
 
         // if (remarks == 'offer accepted' || remarks == 'onboarded') {
-            if (remarks_r == '') {
-                $('#processStatus').val('FB')
-                $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
-            }
-            else if( remarks_r == 'unbilled') {
-                $('#processStatus').val('FB')
-            }
+        if (remarks_r == '') {
+            $('#processStatus').val('FB')
+            $('#remarksFinance option[value=Unbilled').prop('selected', 'selected');
+        } else if (remarks_r == 'unbilled') {
+            $('#processStatus').val('FB')
+        }
         // }
         // close 
     });
@@ -515,12 +520,16 @@
         var billAmount = {!! $billAmount !!};
 
         // get inputs values by removing space or comma in it 
-        salray = isNaN(parseFloat($('#offered_salary').val())) ? 0 : parseFloat($('#offered_salary').val().replace(/[^0-9.-]+/g, ""));
-        vat = isNaN(parseFloat($('#vat').val())) ? 0 :parseFloat($('#vat').val().replace(/[^0-9.-]+/g, "")) ;
-        compensation = isNaN(parseFloat($('#compensation').val())) ? 0 :parseFloat($('#compensation').val().replace(/[^0-9.-]+/g, "")) ;
-        allowance = isNaN(parseFloat($('#allowance').val())) ? 0 :parseFloat($('#allowance').val().replace(/[^0-9.-]+/g, "")) ;
-        rate = isNaN(parseFloat($('#rate').val())) ? 0 :parseFloat($('#rate').val().replace(/[^0-9.-]+/g, "")) ;
-        credit_memo = isNaN(parseFloat($('#credit_memo').val())) ? 0 :parseFloat($('#credit_memo').val().replace(/[^0-9.-]+/g, "")) ;
+        salray = isNaN(parseFloat($('#offered_salary').val())) ? 0 : parseFloat($('#offered_salary').val().replace(
+            /[^0-9.-]+/g, ""));
+        vat = isNaN(parseFloat($('#vat').val())) ? 0 : parseFloat($('#vat').val().replace(/[^0-9.-]+/g, ""));
+        compensation = isNaN(parseFloat($('#compensation').val())) ? 0 : parseFloat($('#compensation').val().replace(
+            /[^0-9.-]+/g, ""));
+        allowance = isNaN(parseFloat($('#allowance').val())) ? 0 : parseFloat($('#allowance').val().replace(
+            /[^0-9.-]+/g, ""));
+        rate = isNaN(parseFloat($('#rate').val())) ? 0 : parseFloat($('#rate').val().replace(/[^0-9.-]+/g, ""));
+        credit_memo = isNaN(parseFloat($('#credit_memo').val())) ? 0 : parseFloat($('#credit_memo').val().replace(
+            /[^0-9.-]+/g, ""));
 
         // if rate is below zero ccalculate placement fee
         if (rate > 0) {
@@ -528,9 +537,11 @@
             ratePercentage = fee1 * (rate / 100);
             findVatpercent = (1 + vat / 100)
             multiplyVatandRate = findVatpercent * ratePercentage;
-            placementFee = multiplyVatandRate - credit_memo; 
+            placementFee = multiplyVatandRate - credit_memo;
             // append value of placement fee  
-            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
+            placementFee1 = placementFee.toFixed(2);
+            console.log(placementFee1);
+            (isNaN(placementFee1)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee1)); 
         } else {
 
             // if rate value is equal to zero or negative 
@@ -539,9 +550,9 @@
             findVatpercent = (1 + vat / 100)
             multiplyVatandRate = findVatpercent * ratePercentage;
             placementFee = multiplyVatandRate - credit_memo;
-
             // append value if is number 
-            (isNaN(placementFee)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee));
+            placementFee1 = placementFee.toFixed(2);
+            (isNaN(placementFee1)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee1));
 
         }
         // call function for adjustm fee calculator based on current placemnt fee 
@@ -551,13 +562,16 @@
 
     // function for adjustment fee calculator starts
     function adjustmentCalculator() {
-        adjustment = isNaN(parseFloat($('#adjustment').val())) ? 0 : parseFloat($('#adjustment').val().replace(/[^0-9.-]+/g, ""));
-        placement = isNaN(parseFloat($('#placement').val())) ? 0 :parseFloat($('#placement').val().replace(/[^0-9.-]+/g, "")) ;
+        adjustment = isNaN(parseFloat($('#adjustment').val())) ? 0 : parseFloat($('#adjustment').val().replace(
+            /[^0-9.-]+/g, ""));
+        placement = isNaN(parseFloat($('#placementfee').val())) ? 0 : parseFloat($('#placementfee').val().replace(
+            /[^0-9.-]+/g, ""));
 
-        // console.log(placement)
         finalFee = parseFloat(adjustment + placement);
+        finalFee1 = finalFee.toFixed(2);
+
         // $('#finalFee').val(currency.format(finalFee))
-        (isNaN(finalFee)) ? $('#finalFee').val(0): $('#finalFee').val(currency.format(finalFee));
+        (isNaN(finalFee1)) ? $('#finalFee').val(0): $('#finalFee').val(currency.format(finalFee1));
 
         // call final fee dependent functions 
         vccShareCalcualte()
@@ -570,7 +584,7 @@
     function remarksChange() {
         // DPDCalculate();
         // change process staus according to selected options 
-        var value = $('#remarksFinance').val().trim(); 
+        var value = $('#remarksFinance').val().trim();
         if (value.includes('Replaced') || value.includes('For Replacement') || value.includes('Fall out') ||
             value.includes('Collected') || value.includes('Replacement')) {
             $('#processStatus').val("");
@@ -602,15 +616,20 @@
 
     // vcc share calculator starts 
     function vccShareCalcualte() {
-        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 : parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, ""));
-        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 :parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, "")) ;
-        vccShare = isNaN(parseFloat($('#vccShare').val())) ? 0 :parseFloat($('#vccShare').val().replace(/[^0-9.-]+/g, "")) ;
- 
- 
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 : parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g,
+            ""));
+        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 : parseFloat($('#placementfee').val().replace(
+            /[^0-9.-]+/g, ""));
+        vccShare = isNaN(parseFloat($('#vccShare').val())) ? 0 : parseFloat($('#vccShare').val().replace(/[^0-9.-]+/g,
+            ""));
+
+
         VCCamount = (finalFee * (vccShare * 1 / 100));
-        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 :parseFloat($('#c_take_per').val().replace(/[^0-9.-]+/g, "")) ;
+        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 : parseFloat($('#c_take_per').val().replace(
+            /[^0-9.-]+/g, ""));
         cTake = parseFloat(placementfee * (c_take_per * 1 / 100));
-        (isNaN(VCCamount)) ? $('#vccAmount').val(0): $('#vccAmount').val(currency.format(VCCamount));
+        VCCamount1 = VCCamount.toFixed(2);
+        (isNaN(VCCamount1)) ? $('#vccAmount').val(0): $('#vccAmount').val(currency.format(VCCamount1));
         // (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
 
         // $('#vccAmount').val(currency.format(VCCamount))
@@ -621,18 +640,25 @@
     // close 
     function ctakeCalcualte() {
 
-        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 :parseFloat($('#c_take_per').val().replace(/[^0-9.-]+/g, "")) ;
-        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 :parseFloat($('#placementfee').val().replace(/[^0-9.-]+/g, "")) ;
+        c_take_per = isNaN(parseFloat($('#c_take_per').val())) ? 0 : parseFloat($('#c_take_per').val().replace(
+            /[^0-9.-]+/g, ""));
+        placementfee = isNaN(parseFloat($('#placementfee').val())) ? 0 : parseFloat($('#placementfee').val().replace(
+            /[^0-9.-]+/g, ""));
         cTake = parseFloat(placementfee * (c_take_per * 1 / 100));
-        (isNaN(cTake)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake));
+        cTake1 = cTake.toFixed(2);
+
+        (isNaN(cTake1)) ? $('#cTake').val(0): $('#cTake').val(currency.format(cTake1));
 
     }
     // owner share calculator funciton starts 
     function ownerShareCalculate() {
-        owsP = isNaN(parseFloat($('#ownerSharePercentage').val())) ? 0 :parseFloat($('#ownerSharePercentage').val().replace(/[^0-9.-]+/g, "")) ;
-        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 :parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, "")) ;
+        owsP = isNaN(parseFloat($('#ownerSharePercentage').val())) ? 0 : parseFloat($('#ownerSharePercentage').val()
+            .replace(/[^0-9.-]+/g, ""));
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 : parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g,
+            ""));
         ownerAmount = parseFloat(finalFee * ((owsP * 1) / 100));
-        (isNaN(ownerAmount)) ? $('#ownerAmount').val(0): $('#ownerAmount').val(currency.format(ownerAmount));
+        ownerAmount1 = ownerAmount.toFixed(2);
+        (isNaN(ownerAmount1)) ? $('#ownerAmount').val(0): $('#ownerAmount').val(currency.format(ownerAmount1));
 
         // $('#ownerAmount').val(currency.format(ownerAmount))
     }
@@ -640,15 +666,18 @@
 
     // reprocess amount calculator 
     function reprocessAmountCalculate() {
- 
-        var share = isNaN(parseFloat($('#reprocessShare').val())) ? 0 :parseFloat($('#reprocessShare').val().replace(/[^0-9.-]+/g, "")) ;
-        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 :parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g, "")) ;
+
+        var share = isNaN(parseFloat($('#reprocessShare').val())) ? 0 : parseFloat($('#reprocessShare').val().replace(
+            /[^0-9.-]+/g, ""));
+        finalFee = isNaN(parseFloat($('#finalFee').val())) ? 0 : parseFloat($('#finalFee').val().replace(/[^0-9.-]+/g,
+            ""));
 
         reprocessAmount = parseFloat(finalFee * ((share * 1) / 100));
+        reprocessAmount1 = reprocessAmount.toFixed(2);
 
         // append value
-        (isNaN(reprocessAmount)) ? $('#reprocessAmount').val(0): $('#reprocessAmount').val(currency.format(
-            reprocessAmount));
+        (isNaN(reprocessAmount1)) ? $('#reprocessAmount').val(0): $('#reprocessAmount').val(currency.format(
+            reprocessAmount1));
 
         // $('#reprocessAmount').val(currency.format(reprocessAmount))
     }
@@ -660,24 +689,25 @@
         placementfee = $('#placementfee').val()
         vccShare = $('#vccShare').val()
         var team = {!! $team !!};
-        var fee = {!! $fee !!};
+        // var fee = {!! $fee !!};
         // check selected options and type of team for individual revenue calculator 
         if (value == "Unbilled" || value == "For Replacement" || value == "Replaced") {
             revenue = 0;
-            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue));
+            revenue1 = revenue.toFixed(2);
+            (isNaN(revenue1)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue1));
 
             // $('#individualRevenue').val(revenue)
         }
         if (value == "Billed" || value == "Collected" && team[0] == "CONSULTANT") {
             revenue = (placementfee * (vccShare * 1 / 100));
             // console.log('revenue is' + revenue)
-            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(
-                revenue));
+            revenue1 = cTake.toFixed(2);
+            (isNaN(revenue1)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue1));
             // $('#individualRevenue').val(revenue)
         } else if (value == "Billed" || value == "Collected" && team[0] != "CONSULTANT") {
             revenue = placementfee;
-            (isNaN(revenue)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(
-                revenue));
+            revenue1 = cTake.toFixed(2);
+            (isNaN(revenue1)) ? $('#individualRevenue').val(0): $('#individualRevenue').val(currency.format(revenue1));
             // $('#individualRevenue').val(revenue)
         }
         return;
@@ -741,14 +771,14 @@
     // })
     //close
     // $("#financeReferenceForm").on("input", "input[type='text']", function() {
-        // if ($(this).val() == '') {
-        //     $(this).val(0)
-        // } 
-        // else {
+    // if ($(this).val() == '') {
+    //     $(this).val(0)
+    // } 
+    // else {
 
-        //     $(this).val(parseFloat($(this).val().replace(/[^0-9.-]+/g, "")));
-        //     $(this).val(currency.format($(this).val()))
-        // }
+    //     $(this).val(parseFloat($(this).val().replace(/[^0-9.-]+/g, "")));
+    //     $(this).val(currency.format($(this).val()))
+    // }
     // });
 </script>
 {{-- section script ends --}}

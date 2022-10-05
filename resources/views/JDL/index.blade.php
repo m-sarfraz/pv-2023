@@ -40,7 +40,7 @@
         .hidetrID tr td:nth-child(3), 
         .hidetrID tr td:nth-child(18) {
             white-space: nowrap;
-            display: -webkit-box;
+            display: list-item;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             width: 264px !important;
@@ -79,8 +79,8 @@
         }
 
         /* .hidetrID tr td{
-                                                                white-space: nowrap !important;
-                                                            } */
+            white-space: nowrap !important;
+            } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -397,24 +397,25 @@
 
         })
         var option_table = "";
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                if (settings.oPreviousSearch.sSearch === "")
-                    return true; // Always return true if search is blank (save processing)
+        var option_table1 = "";
+        // $.fn.dataTable.ext.search.push(
+        //     function(settings, data, dataIndex) {
+        //         if (settings.oPreviousSearch.sSearch === "")
+        //             return true; // Always return true if search is blank (save processing)
 
-                var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
-                var newFilter = data.slice();
+        //         var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
+        //         var newFilter = data.slice();
 
-                for (var i = 0; i < settings.aoColumns.length; i++) {
-                    if (!settings.aoColumns[i].bVisible) {
-                        newFilter.splice(i, 1);
-                    }
-                }
+        //         for (var i = 0; i < settings.aoColumns.length; i++) {
+        //             if (!settings.aoColumns[i].bVisible) {
+        //                 newFilter.splice(i, 1);
+        //             }
+        //         }
 
-                var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
-                return regex.test(newFilter.join(" "));
-            }
-        );
+        //         var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
+        //         return regex.test(newFilter.join(" "));
+        //     }
+        // );
         select2Dropdown("select2_dropdown");
         // count total number of records coming from data table with interval starts
         function appendJdlOptions() {
@@ -537,9 +538,9 @@
                 // },
                 processing: true,
                 serverSide: false,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // }, 
 
                 ajax: {
                     url: "{{ route('view-jdl-table') }}",
@@ -651,7 +652,7 @@
 
                     }
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -674,23 +675,24 @@
             career_level = $('#career_level').val();
             status = $('#status').val();
             address = $('#location').val();
-            option_table = $('#filteredJdlTable').DataTable({
+            option_table1 = $('#filteredJdlTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
+               
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // },
 
                 ajax: {
                     url: "{{ route('view-jdl-filter-table') }}",
                     type: "GET",
                     data: {
                         _token: token,
-                        // searchKeyword: searchKeyword,
+                        searchKeyword: searchKeyword,
                         client: client,
                         candidateDomain: candidateDomain,
                         segment: segment,
@@ -705,7 +707,9 @@
                     $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
-                    $('#searchKeyword').trigger('input');
+                    // $('#searchKeyword').trigger('input');
+                    $('#searchKeyword').val(json.search)
+                    $('#searchKeyword').change()
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'jdlTable_wrapper') {
                         countRecord()
@@ -792,7 +796,7 @@
                         name: 'maturity',
                     }
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -805,15 +809,22 @@
             });
         }
         $('#searchKeyword').on("change", function() {
+            // $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
+            // $('#filteredJdlTable_filter').children().children().val($('#searchKeyword').val());
+            // $('#jdlTable_filter').children().children().focus();
+            // $('#filteredJdlTable_filter').children().children().focus();
+            // $('#searchKeyword').focus();
+            // $('#jdlTable_filter').children().children().trigger('input');
+            // $('#filteredJdlTable_filter').children().children().trigger('input');
+            // $('#jdlTable_filter').hide('div');
+            // $('#filteredJdlTable_filter').hide('div');
+
+            
             $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
+            $('#jdlTable_filter').children().children().trigger('input'); 
+            
             $('#filteredJdlTable_filter').children().children().val($('#searchKeyword').val());
-            $('#jdlTable_filter').children().children().focus();
-            $('#filteredJdlTable_filter').children().children().focus();
-            $('#searchKeyword').focus();
-            $('#jdlTable_filter').children().children().trigger('input');
-            $('#filteredJdlTable_filter').children().children().trigger('input');
-            $('#jdlTable_filter').hide('div');
-            $('#filteredJdlTable_filter').hide('div');
+            $('#filteredJdlTable_filter').children().children().trigger('input'); 
             let tableID = $('#filter_table_div').children().children().attr('id')
             if (tableID == 'jdlTable_wrapper') {
                 countRecord()

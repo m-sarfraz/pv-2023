@@ -9,8 +9,9 @@ use App\Segment;
 use App\SubSegment;
 use DB;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Cache;
+use Yajra\DataTables\DataTables;
+
 class JdlController extends Controller
 {
     public function __construct()
@@ -34,10 +35,9 @@ class JdlController extends Controller
         $now = \Carbon\Carbon::now();
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
-        if (Cache::has('jdl')) { 
+        if (Cache::has('jdl')) {
             $jdlData = Cache::get('jdl');
-        }
-        else{
+        } else {
             $jdlData = DB::table('jdl')->get();
             Cache::put('jdl', $jdlData, $now->addMonth(1));
         }
@@ -358,7 +358,9 @@ class JdlController extends Controller
             ->addColumn('maturity', function ($dataJdl) {
                 return $dataJdl->maturity;
             })
-
+            ->with([
+                'search' => $request->searchKeyword,
+            ])
             ->rawColumns([
                 'budget',
                 'c_level',

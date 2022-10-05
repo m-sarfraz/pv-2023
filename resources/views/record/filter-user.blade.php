@@ -45,7 +45,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        load_datatable1()
+        load_datatable1();
         $('#filteredTable_filter').hide('div');
 
     })
@@ -59,7 +59,7 @@
         // alert($(this).val())
     })
 
-    $('#searchKeyword').on("input", function() {
+    $('#searchKeyword').on("change", function() {
         $('#recordTable_filter').children().children().val($('#searchKeyword').val());
         $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
         $('#recordTable_filter').children().children().focus();

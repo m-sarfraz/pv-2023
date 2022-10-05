@@ -207,7 +207,9 @@ class RecordController extends Controller
             ->addColumn('sub_segment', function ($Alldata) {
                 return $Alldata->sub_segment;
             })
-
+            ->with([
+                'search' => $request->searchKeyword
+            ])
             ->rawColumns([
                 'id',
                 'recruiter',

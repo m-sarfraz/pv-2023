@@ -45,7 +45,7 @@ class FinanceController extends Controller
         DB::table('endorsements')
             ->join('finance', 'finance.endorsement_id', 'endorsements.id')
             ->join('finance_detail', 'finance.id', 'finance_detail.finance_id')
-            ->select('endorsements.*', 'finance.*', 'finance_detail.*')
+            ->select('endorsements.*', 'finance.*', 'finance_detail.*','finance_detail.placementFee as feee')
             ->where(['finance.candidate_id' => $arr[0],
                 'endorsements.numberOfEndo' => $arr[1], 'endorsements.saved_by' => $arr[2], 'endorsements.id' => $arr[4]])
             ->first();
@@ -91,7 +91,6 @@ class FinanceController extends Controller
     // function for filtering record starts
     public function recordFilter(Request $request)
     {
-
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
         $Userdata = DB::table('finance_view');
         //    check null values coming form selected options
@@ -99,7 +98,6 @@ class FinanceController extends Controller
             $Userdata->whereIn('finance_view.origionalRecruiter', $request->recruiter);
         }
         if (isset($request->team_id)) {
-            // return $request->team_id;
             $Userdata->whereIn('finance_view.t_id', $request->team_id);
         }
         if (isset($request->client)) {
@@ -159,17 +157,16 @@ class FinanceController extends Controller
                 return (User::where('id', $id->saved_by)->first('name'))->name;
             })
             ->addColumn('tapped', function ($user) {
-                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter; 
-                if ( $user->origionalRecruiter != '0') {
+                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter;
+                if ($user->origionalRecruiter != '0') {
                     return '';
-                }
-                else{
+                } else {
 
                     return (User::where('id', $id)->first('name'))->name;
                 }
             })
             ->addColumn('client', function ($user) {
-            
+
                 return $user->client;
             })
             ->addColumn('reprocess', function ($user) {
@@ -205,6 +202,7 @@ class FinanceController extends Controller
             ])
             ->with([
                 'array' => $this->candidate_arr,
+                'searchKeyword' => $request->searchKeyword,
             ])
             ->make(true);
     }
@@ -232,15 +230,14 @@ class FinanceController extends Controller
             })
             ->addColumn('recruiter', function ($user) {
                 $id = Endorsement::where('candidate_id', $user->cid)->where('origionalRecruiter', '!=', '0')->first();
-                
+
                 return (User::where('id', $id->saved_by)->first('name'))->name;
             })
             ->addColumn('tapped', function ($user) {
-                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter; 
-                if ( $user->origionalRecruiter != '0') {
+                $id = $user->origionalRecruiter == '0' ? $user->tap : $user->origionalRecruiter;
+                if ($user->origionalRecruiter != '0') {
                     return '';
-                }
-                else{
+                } else {
 
                     return (User::where('id', $id)->first('name'))->name;
                 }
@@ -402,7 +399,7 @@ class FinanceController extends Controller
         if (strpos($sql, 'where') !== false) {
             $sql_fallout = $sql . " and  remarks_recruiter in('fall out' , 'Replacement')";
             $sql_billed = $sql . " and  remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')";
-            $sql_unBilled = $sql . " and remarks_recruiter ='Unbilled' ";
+            $sql_unBilled = $sql . " and process_status ='FB' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
             $sql_fallout_amount = DB::select($sql_fallout);
@@ -420,7 +417,7 @@ class FinanceController extends Controller
 
             $sql_fallout = $sql . " where  remarks_recruiter in('fall out' , 'Replacement')";
             $sql_billed = $sql . "where  remarks_recruiter in('Billed' , 'Collected' , 'For Replacement' , 'Replaced')";
-            $sql_unBilled = $sql . "where remarks_recruiter ='Unbilled' ";
+            $sql_unBilled = $sql . "where process_status ='FB' ";
             $sql_billed_amount = DB::select($sql_billed);
             $sql_unbilled_amount = DB::select($sql_unBilled);
             $sql_fallout_amount = DB::select($sql_fallout);
@@ -531,13 +528,13 @@ class FinanceController extends Controller
         $arr = ['Offer accepted', 'Onboarded'];
         $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->whereIn('remarks_for_finance', $arr)
-            ->select('candidate_informations.id as cid', 'candidate_informations.reprocess', 'candidate_informations.first_name', 'candidate_informations.middle_name', 'candidate_informations.last_name')->get();
+            ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))->get();
         $recruiter = User::where("type", 3)->get();
         $teams = DB::select("select * from roles order by name");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
         $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');
-        $process =  Helper::get_dropdown('process_status'); 
+        $process = Helper::get_dropdown('process_status');
         return response()->json([
             'candidates' => $candidates,
             'recruiter' => $recruiter,

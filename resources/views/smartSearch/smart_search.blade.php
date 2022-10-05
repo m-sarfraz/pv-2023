@@ -77,27 +77,28 @@
                 height: auto !important;
             }
         }
+
         .tableFixHead {
             overflow-y: auto;
             height: 670px;
-            
+
         }
 
         .tableFixHead thead th {
             position: sticky;
             top: -10px;
         }
+
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(20),
         .hidetrID tr td:nth-child(24),
-        .hidetrID tr td:nth-child(15)
-          {
+        .hidetrID tr td:nth-child(15) {
             white-space: nowrap;
-            display: -webkit-box;
+            display: list-item;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             width: 164px !important;
-            overflow:  hidden;
+            overflow: hidden;
         }
     </style>
 @endsection
@@ -455,11 +456,11 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12"  >
+            <div class="col-lg-12">
                 <div class="table-responsive border-right pt-3" id="filterResult_div">
-                    <div class="tableFixHead" >
+                    <div class="tableFixHead">
                         <table id="smTable" class="table">
-                            <thead class="bg-light w-100"  style="">
+                            <thead class="bg-light w-100" style="">
                                 <tr style="">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
@@ -666,10 +667,6 @@
                 // },
                 processing: true,
                 serverSide: false,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
-
                 ajax: {
                     url: "{{ route('filterSearch') }}",
                     type: "GET",
@@ -842,7 +839,7 @@
                         name: 'sub_segment'
                     },
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -862,15 +859,21 @@
         //start yajra table load 
         function load_datatable() {
             option_table = $('#smTable').DataTable({
+                // destroy: false,
+                // // search: {
+                // //     smart: false
+                // // },
+                // processing: true,
+                // serverSide: true,
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // },
                 destroy: true,
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
 
                 ajax: {
                     url: "{{ route('view-smart-search-table') }}",
@@ -1019,13 +1022,15 @@
                         name: 'sub_segment'
                     },
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
-                    className: 'noVis'
+                    className: 'noVis',
+
                 }],
                 buttons: [{
                     extend: 'colvis',
+                    collectionLayout: 'fixed two-column',
                     text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
                     columns: ':not(.noVis)'
                 }]
@@ -1057,6 +1062,7 @@
                     };
                 }
                 summaryAppendAjax(obj)
+                // option_table.page.len(20).draw();
                 setTimeout(() => {
                     $('#smTable_length').children().children().val('10');
                     $('#smTable_length').children().children().change();
@@ -1068,19 +1074,32 @@
         }
         // oninput append value in yajra table 
         $('#searchKeyword').on('change', function() {
-            $('#loader3').show();
-            $("#loader").show();
-
-            // console.log(option_table.rows().data().toArray());
             option_table.page.len(-1).draw();
             passIDToSummaryAppend();
             // console.log(obj);
-
+            let test = $('#searchKeyword').val().split(' ');
+            for (let index = 0; index < test.length; index++) {
+                if (test[index] == 'MALE') {
+                    option_table.column(22).search('^' + test[index], true, false).draw();
+                    console.log(test[index]);
+                } else if (test[index] == 'FEMALE') {
+                    option_table.column(22).search('^' + test[index], true, false).draw();
+                    console.log(test[index]);
+                }
+                // else {
+                //     console.log(test[index]);
+                //     option_table.column(22).search("").draw();
+                // }
+            }
+            // return;
+            // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
             // append summary after passing the curetn candidate array for calculations 
 
             $('#smTable_filter').children().children().val($('#searchKeyword').val());
-            $('#smTable_filter').children().children().trigger('input');
-            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
+            $('#smTable_filter')
+                .children().children().trigger('input');
+            $('#smTable1_filter').children().children().val($(
+                '#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
             // let total_recored = data.split(" ")
             // console.log(total_recored)
@@ -1093,6 +1112,7 @@
                 countRecord()
             }
             var data = $(this).val();
+            // option_table.draw();
             // $.ajax({
             //     type: "post",
             //     url: '{{ url('admin/searchsummary') }}',

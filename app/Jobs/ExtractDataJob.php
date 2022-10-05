@@ -41,32 +41,32 @@ class ExtractDataJob implements ShouldQueue
         $Userdata = DB::table('data_extract_view');
         //    check null values coming form selected options
         if (isset($this->data['domain'])) {
-            $Userdata->whereIn('data_extract_view.domain', $this->data['domain']);
+            $Userdata->whereIn('data_extract_view.DOMAIN ENDORSEMENT', $this->data['domain']);
         }
         if (isset($this->data['client'])) {
-            $Userdata->whereIn('data_extract_view.client', $this->data['client']);
+            $Userdata->whereIn('data_extract_view.CLIENT', $this->data['client']);
         }
 
         if (isset($this->data['career_level'])) {
-            $Userdata->whereIn('data_extract_view.career_endo', $this->data['career_level']);
+            $Userdata->whereIn('data_extract_view.CAREER LEVEL', $this->data['career_level']);
         }
         if (isset($this->data['category'])) {
-            $Userdata->whereIn('data_extract_view.category', $this->data['category']);
+            $Userdata->whereIn('data_extract_view.CATEGORY', $this->data['category']);
         }
         if (isset($this->data['remarks'])) {
-            $Userdata->whereIn('data_extract_view.remarks_for_finance', $this->data['remarks']);
+            $Userdata->whereIn('data_extract_view.REMARKS (For Finance)', $this->data['remarks']);
         }
         if (isset($this->data['sift_start'])) {
-            $Userdata->whereDate('data_extract_view.date_shifted', '>=', $this->data['sift_start']);
+            $Userdata->whereDate('data_extract_view.DATE SIFTED', '>=', $this->data['sift_start']);
         }
         if (isset($this->data['sift_end'])) {
-            $Userdata->whereDate('data_extract_view.date_shifted', '<=', $this->data['sift_end']);
+            $Userdata->whereDate('data_extract_view.DATE SIFTED', '<=', $this->data['sift_end']);
         }
         if (isset($this->data['endo_start'])) {
-            $Userdata->whereDate('data_extract_view.endi_date', '>=', $this->data['endo_start']);
+            $Userdata->whereDate('data_extract_view.DATE ENDORSED', '>=', $this->data['endo_start']);
         }
         if (isset($this->data['endo_end'])) {
-            $Userdata->whereDate('data_extract_view.endi_date', '<=', $this->data['endo_end']);
+            $Userdata->whereDate('data_extract_view.DATE ENDORSED', '<=', $this->data['endo_end']);
         }
         $header_style = (new StyleBuilder())
             ->setFontSize(12)
@@ -85,7 +85,7 @@ class ExtractDataJob implements ShouldQueue
             $report = new Report();
             $report->type = 'excel';
             $report->user_id = $this->id;
-            $report->export_date = now();
+            $report->export_date = now()->addMinute(60);
             $report->status = 'Processing';
             $report->save();
             try {
@@ -98,7 +98,7 @@ class ExtractDataJob implements ShouldQueue
                 }
 
             } catch (\Exception$e) {
-                return $e->getMessage();
+                dd ($e->getMessage());
             }
 
         }

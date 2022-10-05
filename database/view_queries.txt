@@ -63,7 +63,8 @@ from  candidate_informations
 JOIN (SELECT id as endorsement_id,origionalRecruiter,tap, saved_by,numberOfEndo,is_deleted,remarks_for_finance,app_status,remarks,client,career_endo,candidate_id FROM endorsements Where is_deleted = 0) e  on  candidate_informations.id  =  e.candidate_id   
 JOIN  finance  on  e.endorsement_id  =  finance.endorsement_id  
 JOIN  finance_detail  on  finance.id  =  finance_detail.finance_id  
-where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded');
+where  remarks_for_finance  in ('Fallout', 'Offer accepted', 'Onboarded')
+
 
 -----------------------
 six table view
@@ -98,27 +99,57 @@ WHERE endorsements.is_deleted = 0
 -----------------------
 Data extract view
 ------------------------
+  
+ CREATE VIEW data_extract_view AS
+SELECT endorsements.category as CATEGORY,roles.name as TEAM , candidate_informations.reprocess as REPROCESS,users.name as 'ORIGINAL RECRUITER',
+candidate_domains.date_shifted as 'DATE SIFTED',candidate_positions.source as SOURCE,candidate_positions.position_applied as 'POSITION TITLE APPLIED',
+candidate_positions.candidate_profile as 'CANDIDATES PROFILE',candidate_domains.domain as DOMAIN,candidate_domains.segment as SEGMENT,candidate_domains.sub_segment as 'SUB SEGMENT',
+candidate_positions.manner_of_invite as 'MANNER OF INVITE',candidate_positions.date_invited as 'DATE INVITED',
+CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,''))as  'CANDIDATE NAME',
+candidate_informations.last_name as 'Last Name',
+candidate_informations.first_name as 'First Name',candidate_informations.middle_name as 'M.I.', 
+candidate_informations.gender as GENDER ,candidate_informations.dob as 'DATE OF BIRTH',candidate_informations.phone as 'CONTACT NUMBER',candidate_informations.email as 'EMAIL ADDRESS',
+candidate_informations.address as RESIDENCE,candidate_educations.course as COURSE,
+candidate_educations.educational_attain as 'EDUCATIONAL ATTAINMENT',candidate_educations.certification as CERTIFICATIONS,candidate_domains.emp_history as 'EMPLOYMENT HISTORY',
+candidate_domains.interview_note as 'INTERVIEW NOTES',candidate_positions.curr_salary as 'CURRENT SALARY',
+candidate_positions.curr_allowance as 'CURRENT ALLOWANCE',candidate_positions.exp_salary as 'EXPECTED SALARY',candidate_positions.off_salary as 'OFFERED SALARY',
+candidate_positions.off_allowance as 'OFFERED ALLOWANCE',endorsements.app_status as 'APPLICATION STATUS',endorsements.type as 'ENDORSEMENT TYPE',
+endorsements.endi_date as 'DATE ENDORSED',endorsements.client as CLIENT,endorsements.site as SITE,endorsements.position_title as 'POSITION TITLE',
+endorsements.career_endo as 'CAREER LEVEL',endorsements.domain_endo as 'DOMAIN ENDORSEMENT',endorsements.segment_endo as 'SEGMENT ENDORSEMENT',endorsements.sub_segment_endo as SUBSEGMENT,
+endorsements.status as STATUS,
+endorsements.remarks_for_finance as 'REMARKS (For Finance)',endorsements.rfp as 'REASONS FOR NOT PROGRESSING',endorsements.interview_date as 'INTERVIEW SCHEDULE',finance.srp as 'STANDARD PROJECTED REVENUE',finance.client_finance as 'CLIENT FINANCE',
+finance.career_finance as 'CAREER LEVEL FINANCE',candidate_positions.off_salary as 'OFFERED SALRY', 
+candidate_positions.off_allowance as 'OFFERED ALOWANCE',
+finance_detail.compensation as 'SPECIAL COMPENSATION',
+finance_detail.rate_per as 'RATE(%)',
+finance_detail.vat_per as 'VAT(%)',
+finance_detail.placementFee as 'PLACEMENT FEE',
+finance_detail.finalFee as 'FINAL FEE',
+finance_detail.adjustment as ADJUSTMENT,
+finance_detail.credit_memo as 'CREDIT MEMO',
+finance_detail.ob_date as 'ONBOARDING DATE',
+finance_detail.invoice_date as 'INVOICE DATE',
+finance_detail.invoice_number as 'INVOICE NUMBER',
+finance_detail.date_delvrd as 'DATE DELIVERED',
+finance_detail.dpd as DPD,
+finance_detail.payment_term as 'PAYMENT TERMS',
+finance_detail.date_collected as 'DATE COLLECTED',
+finance_detail.or_number as 'OR NUMBER',
+finance_detail.code as CODE,
+finance_detail.term_date as 'TERMINATION DATE',
+finance_detail.replacement_for as 'REPLACEMENT FOR',
+finance_detail.remarks as REMARKS,
+finance_detail.process_status as 'PROCESS STATUS',
+finance_detail.vcc_share_per as 'VCC SHARE(%)',
+finance_detail.vcc_amount as 'VCC SHARE AMOUNT',
+finance_detail.c_take_per as 'CONSULTANTS TAKE (%)',
+finance_detail.c_take as 'CONSULTANTS TAKE',
+finance_detail.owner_share_per as 'OWNER SHARE(%)',
+finance_detail.owner_share as 'OWNER SHARE AMOUNT',
+finance_detail.reprocess_share_per as 'REPROCESS SHARE(%)',
+finance_detail.reprocess_share as 'REPROCESS SHARE AMOUNT',
+finance_detail.ind_revenue  as 'INDIVIDUAL REVENUE'
 
-CREATE VIEW data_extract_view AS
-SELECT endorsements.category,roles.name as Team_Name , candidate_informations.reprocess,endorsements.saved_by,
-candidate_domains.date_shifted,candidate_positions.source,candidate_positions.position_applied,
-candidate_positions.candidate_profile,candidate_domains.domain,candidate_domains.segment,candidate_domains.sub_segment,
-candidate_positions.manner_of_invite,candidate_positions.date_invited,
-CONCAT(candidate_informations.first_name,' ',candidate_informations.middle_name , ' ' , candidate_informations.last_name)as  Candidate_Name,
-candidate_informations.last_name,
-candidate_informations.first_name,candidate_informations.middle_name, 
-candidate_informations.gender,candidate_informations.dob,candidate_informations.phone,candidate_informations.email,
-candidate_informations.address,candidate_educations.course,
-candidate_educations.educational_attain,candidate_educations.certification,candidate_domains.emp_history,
-candidate_domains.interview_note,candidate_positions.curr_salary,
-candidate_positions.curr_allowance,candidate_positions.exp_salary,candidate_positions.off_salary,
-candidate_positions.off_allowance,endorsements.app_status,endorsements.type,
-endorsements.endi_date,endorsements.client,endorsements.site,endorsements.position_title,
-endorsements.career_endo,endorsements.domain_endo,endorsements.segment_endo,endorsements.sub_segment_endo,
-endorsements.status,
-endorsements.remarks_for_finance,endorsements.rfp,endorsements.interview_date,finance.srp,finance.client_finance,
-finance.career_finance,finance_detail.*,users.id as UserID,users.name as recruiter
- 
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
 JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
@@ -148,12 +179,13 @@ WHERE endorsements.is_deleted = 0
 finance formula view_record
 -----------------------------------------------------------------
 CREATE VIEW finance_formula_view AS
-select `e`.`remarks_for_finance`, `e`.`client`, `e`.`career_endo`, `e`.`status`,`finance`.`remarks_recruiter`, `e`.`endorsement_id`, `finance`.`t_id` as team,
-`e`.`saved_by`, `e`.`numberOfEndo` , `finance`.`placement_fee`, `finance`.`srp`, `finance_detail`.* , `finance_detail`.`vcc_amount` as vcc_share
+select `e`.`remarks_for_finance`, `e`.`client`, `e`.`career_endo`, `e`.`status`,`finance`.`remarks_recruiter`, `e`.`endorsement_id`, 
+`finance`.`t_id` as team,`e`.`saved_by`, `e`.`numberOfEndo` , `finance`.`placement_fee`, `finance`.`srp`, `finance_detail`.* ,
+`finance_detail`.`vcc_amount` as vcc_share
 from finance JOIN (SELECT id as endorsement_id,saved_by,numberOfEndo,is_deleted,remarks_for_finance,status,app_status,client,
 career_endo,candidate_id FROM endorsements Where is_deleted = 0) e on `e`.`endorsement_id` = `finance`.`endorsement_id` 
-inner join `finance_detail` on `finance_detail`.`finance_id` = `finance`.`id` 
-where `e`.`remarks_for_finance` in ('Onboarded', 'Offer Accepted', 'Fallout');
+ join `finance_detail` on `finance_detail`.`finance_id` = `finance`.`id` 
+where `remarks_for_finance` in ('Onboarded', 'Offer Accepted', 'Fallout');
 
 
 

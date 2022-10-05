@@ -117,6 +117,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     // Profile route
     Route::get('profile', 'ProfileController@view_profile')->name('profile');
+    // Route::get('testtest', 'ProfileController@test')->name('testest');
     Route::post('connect-to-sheet', 'ProfileController@readsheet')->name('connect-to-sheet');
     Route::post('save-profile', 'ProfileController@save_profile')->name('save-profile');
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');

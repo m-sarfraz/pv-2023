@@ -1112,43 +1112,34 @@
         })
         // close 
 
-        $.fn.dataTable.ext.search.push(
-            function(settings, data, dataIndex) {
-                if (settings.oPreviousSearch.sSearch === "")
-                    return true; // Always return true if search is blank (save processing)
+        // $.fn.dataTable.ext.search.push(
+        //     function(settings, data, dataIndex) {
+        //         if (settings.oPreviousSearch.sSearch === "")
+        //             return true; // Always return true if search is blank (save processing)
 
-                var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
-                var newFilter = data.slice();
+        //         var search = $.fn.DataTable.util.escapeRegex(settings.oPreviousSearch.sSearch);
+        //         var newFilter = data.slice();
 
-                for (var i = 0; i < settings.aoColumns.length; i++) {
-                    if (!settings.aoColumns[i].bVisible) {
-                        newFilter.splice(i, 1);
-                    }
-                }
+        //         for (var i = 0; i < settings.aoColumns.length; i++) {
+        //             if (!settings.aoColumns[i].bVisible) {
+        //                 newFilter.splice(i, 1);
+        //             }
+        //         }
 
-                var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
-                return regex.test(newFilter.join(" "));
-            }
-        );
+        //         var regex = new RegExp("^(?=.*?" + search + ").*$", "i");
+        //         return regex.test(newFilter.join(" "));
+        //     }
+        // );
         // load main table data on page load using ajax(Yajra datatable) 
         function load_datatable() {
          option_table = $('#recordTable').DataTable({
-                destroy: true,
+            destroy: true,
                 // search: {
                 //     smart: false
                 // },
-                pageLength: 10,
                 processing: true,
                 serverSide: false,
-                searchHighlight: true,
-                // search: {
-                //     smart: false
-                // },
-                language: {
-                    processing: '<div class="spinner-border mr-3" role="status"></div>' +
-                        ' <span>Loading Records Please wait </span>' +
-                        ' <span>...</span>'
-                },
+               
 
                 ajax: {
                     url: "{{ route('view-record-table') }}",
@@ -1293,7 +1284,7 @@
                         name: 'sub_segment'
                     },
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'
@@ -1327,23 +1318,33 @@
             client = $('#client').val();
             date = $('#date').val();
              option_table = $('#filteredTable').DataTable({
+               
+                // pageLength: 20,
+                // search: {
+                //     smart: false
+                // },
+                // destroy: false,
+                // // search: {
+                // //     smart: false
+                // // },
+                // processing: true,
+                // serverSide: false,
+                // "language": {
+                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
+                // },
                 destroy: true,
-                pageLength: 20,
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
-                "language": {
-                    processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                },
-
+               
                 ajax: {
                     url: "{{ route('view-record-filter-table') }}",
                     type: "GET",
                     data: {
                         _token: token,
-                        // searchKeyword: searchKeyword,
+                        searchKeyword: searchKeyword,
                         user_id: user_id,
                         candidate: candidate,
                         profile: profile,
@@ -1357,6 +1358,8 @@
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
+                    $('#searchKeyword').val(json.search)
+                    $('#searchKeyword').change()
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1494,7 +1497,7 @@
                         name: 'sub_segment'
                     },
                 ],
-                dom: 'Bfrtip',
+                dom: 'Blfrtip',
                 columnDefs: [{
                     targets: 1,
                     className: 'noVis'

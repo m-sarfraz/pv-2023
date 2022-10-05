@@ -946,7 +946,16 @@ input {
     z-index: 999;
     background-color: #fff;
 }
+.dataTables_length label{
+    display: flex;
+    margin-bottom: 0px;
+    margin-left: 20px;;
+}
 
+.dataTables_length label select{
+   width:50px;
+
+}
 .tableFixHead1 {
     overflow-y: auto;
     height: 214px;
