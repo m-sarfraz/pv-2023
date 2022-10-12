@@ -483,10 +483,10 @@ class SmartSearchController extends Controller
     {
         // \Cache::forget('smartSearch');
         if ($request->array == 1) {
-            if (\Cache::get('smartSearch') != null) {
-                $data = \Cache::get('smartSearch');
-                return view('smartSearch.summary', $data);
-            }
+            // if (\Cache::get('smartSearch') != null) {
+            //     $data = \Cache::get('smartSearch');
+            //     return view('smartSearch.summary', $data);
+            // }
             $Userdata = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
                 ->join('finance', 'endorsements.id', 'finance.endorsement_id')
                 ->select(
@@ -551,6 +551,7 @@ class SmartSearchController extends Controller
             ];
             return view('smartSearch.summary', $data);
         }
+        
         $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql());
         // $total = count($Userdata->where('endorsements.is_deleted', '0')->get());
         $sql1 = Str::replaceArray('?', $Userdata1->getBindings(), $Userdata1->toSql());
@@ -628,7 +629,6 @@ class SmartSearchController extends Controller
         if ($request->array == 1) {
             \Cache::put('smartSearch', $data);
         }
-
         return view('smartSearch.summary', $data);
     }
     //close

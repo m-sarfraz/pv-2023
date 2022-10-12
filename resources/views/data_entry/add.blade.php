@@ -405,14 +405,14 @@
                                                         </div> --}}
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">Domain</label>
-                                                            <select name="DOMAIN" id="domain"
+                                                            <select name="DOMAIN" id="domain" disabled
                                                                 onchange="DomainChange(this)"
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
                                                                 @foreach ($domainDrop as $domainOption)
-                                                                    <option value="{{ $domainOption->id }}"
+                                                                    <option value="{{ $domainOption->domain_name }}"
                                                                         {{ ($candidateDetail != null ? $candidateDetail->domain == $domainOption->domain_name : '') ? 'selected' : '' }}>
                                                                         {{ $domainOption->domain_name }}</option>
                                                                 @endforeach
@@ -420,22 +420,24 @@
                                                             <div>
                                                                 <small class="text-danger"></small>
                                                             </div>
+                                                            {{-- @dd($candidateDetail->segment) --}}
+
                                                         </div>
                                                         @php
-                                                            $segments = Helper::get_dropdown('segments');
+                                                            $segments = App\Segment::get();
                                                         @endphp
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                                                             <label class="Label labelFontSize">segment</label>
                                                             <select name="Domainsegment" id="Domainsegment"
-                                                                onchange="SegmentChange('Domainsegment')"
+                                                                onchange="SegmentChange('Domainsegment')" disabled
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($segments->options as $segmentOption)
-                                                                    <option value="{{ $segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->segment == $segmentOption->option_name : '') ? 'selected' : '' }}>
-                                                                        {{ $segmentOption->option_name }}</option>
+                                                                @foreach ($segments as $segmentOption)
+                                                                    <option value="{{ $segmentOption->segment_name }}"
+                                                                        {{ $candidateDetail != null ? ($candidateDetail->segment == $segmentOption->segment_name ? 'selected' : '') : '' }}>
+                                                                        {{ $segmentOption->segment_name }}</option>
                                                                 @endforeach
 
                                                             </select>
@@ -444,20 +446,20 @@
                                                             </div>
                                                         </div>
                                                         @php
-                                                            $sub_segment = Helper::get_dropdown('sub_segment');
+                                                            $sub_segment = App\SubSegment::get();
                                                         @endphp
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
 
                                                             <label class="Label labelFontSize">sub-segment</label>
-                                                            <select name="Domainsub" id="Domainsub"
+                                                            <select name="Domainsub" id="Domainsub" disabled
                                                                 class="form-control p-0 users-input-S-C">
                                                                 <option value=""
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
-                                                                @foreach ($sub_segment->options as $sub_segmentOption)
-                                                                    <option value="{{ $sub_segmentOption->id }}"
-                                                                        {{ ($candidateDetail != null ? str_replace(' ', '', strtolower($candidateDetail->sub_segment)) == str_replace(' ', '', strtolower($sub_segmentOption->option_name)) : '') ? 'selected' : '' }}>
-                                                                        {{ $sub_segmentOption->option_name }}
+                                                                @foreach ($sub_segment as $sub_segmentOption)
+                                                                    <option value="{{ $sub_segmentOption->sub_segment_name }}"
+                                                                        {{  $candidateDetail != null ? (str_replace(' ', '', strtolower($candidateDetail->sub_segment)) == str_replace(' ', '', strtolower($sub_segmentOption->sub_segment_name)) ? 'selected'  : '')  : '' }}>
+                                                                        {{ $sub_segmentOption->sub_segment_name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -1216,7 +1218,7 @@
                                                                 <label class="d-block labelFontSize font-size-3 mb-0">
                                                                     Total Billable Amount
                                                                 </label>
-                                                                <input type="number" name="TOTAL_BILLABLE_AMOUNT"
+                                                                <input type="text" name="TOTAL_BILLABLE_AMOUNT"
                                                                     id="bilable_amount" oninput="amountFinder(this)"
                                                                     class="form-control border h-px-20_custom" />
                                                             </div>
@@ -1837,7 +1839,7 @@
         // function for (if segment is changed append segments acoordingly) starts
         function SegmentChange(elem) {
             $('#Domainsub').empty()
-            $('#sub_segment').empty()
+            // $('#sub_segment').empty()
             var sub_segmentsDropDown = {!! $sub_segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < sub_segmentsDropDown.length; i++) {
@@ -2321,11 +2323,11 @@
         })
 
         function DomainSegmentAppend() {
-         
+
             var value = $("#remarks_for_finance").find(":selected").text().trim();
             // enable and disable finance section on selected text of remarks for finance
             if (value.includes('accepted') || value.includes('Onboarded')) {
-             
+
                 SPRCalculator()
                 let value = $('#career').val()
                 $('#career_finance').append(`<option selected value="${value}">
@@ -2346,6 +2348,7 @@
                     );
                 }
             }
+            SPRCalculator();
         }
         $(document).ready(function() {
             appendRemarksForFinance(1)

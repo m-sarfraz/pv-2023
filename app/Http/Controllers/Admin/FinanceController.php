@@ -528,9 +528,10 @@ class FinanceController extends Controller
         $arr = ['Offer accepted', 'Onboarded'];
         $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->whereIn('remarks_for_finance', $arr)
-            ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))->get();
-        $recruiter = User::where("type", 3)->get();
-        $teams = DB::select("select * from roles order by name");
+            ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))
+            ->orderBy('name','ASC')->get();
+        $recruiter = User::where("type", 3)->orderBy('name','ASC')->get();
+        $teams = DB::select("select * from roles order by name ASC");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");
         $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');

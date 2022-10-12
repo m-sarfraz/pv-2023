@@ -11,6 +11,7 @@
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <!-- Styles -->
+    <script src="{{ asset('assets/plugins/bootstrap/script/popper.min.js') }}"> </script>
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/custom_css/global.css') }}" />
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->

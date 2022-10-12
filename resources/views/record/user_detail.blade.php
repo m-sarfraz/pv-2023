@@ -288,7 +288,7 @@
                                 {{-- onchange="SegmentChange(this) --}} ">
                                 <option {{ $user->segment == null ? 'selected' : '' }} disabled>Select Option
                                 </option>
-                                @foreach ($segments as $segmentsOptions)
+                                 @foreach ($segments as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->segment_name }}"
                                     {{ strtolower($user->segment) == strtolower($segmentsOptions->segment_name) ? 'selected' : '' }}>
                                     {{ $segmentsOptions->segment_name }}
@@ -315,7 +315,7 @@
 
                                 @foreach ($sub_segments as $Options)
                                     <option value="{{ $Options->sub_segment_name }}"
-                                        {{ strtolower($user->sub_segment) == strtolower($Options->sub_segment_name) ? 'selected' : '' }}>
+                                        {{ str_replace(' ', '', strtolower($user->sub_segment)) == str_replace(' ', '', strtolower($Options->sub_segment_name)) ? 'selected' : '' }}>
                                         {{ $Options->sub_segment_name }}
                                     </option>
                                 @endforeach
@@ -518,12 +518,10 @@
                                                         <select name="CAREER_LEVEL" id="career"
                                                             {{-- onchange="DomainSegmentAppend()" --}}
                                                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                            <option
-                                                                {{ $user->career_endo == null ? 'selected' : '' }}
+                                                            <option {{ $user->career_endo == null ? 'selected' : '' }}
                                                                 disabled>Select Option</option>
                                                             @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                                                <option
-                                                                    value="{{ $CareerLevelOptions->option_name }}"
+                                                                <option value="{{ $CareerLevelOptions->option_name }}"
                                                                     {{ strtolower($user->career_endo) == strtolower($CareerLevelOptions->option_name) ? 'selected' : '' }}>
                                                                     {{ $CareerLevelOptions->option_name }}
                                                                 </option>
@@ -660,8 +658,7 @@
                                                                 {{ $user->position_title == null ? 'selected' : '' }}
                                                                 disabled>Select Option</option>
                                                             @foreach ($pos_title as $position_titleOptions)
-                                                                <option
-                                                                    value="{{ $position_titleOptions->position }}"
+                                                                <option value="{{ $position_titleOptions->position }}"
                                                                     {{ strtolower($user->position_title) == strtolower($position_titleOptions->position) ? 'selected' : '' }}>
                                                                     {{ $position_titleOptions->position }}
                                                                 </option>
@@ -809,8 +806,7 @@
                                                         </label>
                                                         <select name="endo_sub_segment" id="endo_sub_segment" readonly
                                                             class="w-100  form-control">
-                                                            <option
-                                                                {{ $user->sub_segment == null ? 'selected' : '' }}
+                                                            <option {{ $user->sub_segment == null ? 'selected' : '' }}
                                                                 disabled>Select Option</option>
                                                             @foreach ($sub_segments->options as $Options)
                                                                 <option value="{{ $Options->sub_segment_name }}"
@@ -878,11 +874,12 @@
 
 <script>
     var apendtoOption = '';
-    $(document).ready(function() { 
-         apendtoOption = <?php echo json_encode($user->remarks_for_finance); ?>; 
-         appendRemarksForFinance(1) 
+    $(document).ready(function() {
+        apendtoOption = <?php echo json_encode($user->remarks_for_finance); ?>;
+        appendRemarksForFinance(1)
         $('#status').change();
     });
+
     function verifyDeleteRecord(id) {
         Swal.fire({
                 icon: 'warning',
@@ -1212,7 +1209,7 @@
         }
     }
     var value = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
-    
+
     var role_id = {!! Auth::user()->agent !!}
     if (role_id == 1) {
         if (value == 'HIGH SCHOOL GRADUATE') {
@@ -1255,7 +1252,7 @@
     });
     // ajax to append remarks for finance options 
     function appendRemarksForFinance(bol) {
-        console.log('remarks are' +apendtoOption);
+        console.log('remarks are' + apendtoOption);
 
         $.ajax({
             url: "{{ route('get_remarksForFinance_options') }}",
@@ -1264,22 +1261,22 @@
                 if (bol == 0) {
                     $('#remarks_for_finance').empty().trigger('change');
                 }
-                console.log('status is ' + $('#status').val().toLowerCase() );
-                if( $('#status').val().toLowerCase() != 'invalid' &&
-                 $('#status').val().toLowerCase() != 'pending validation' ){
-                console.log('no');
-                optionArray = ["pending db validation", "in client's db/portal"];
-                for (var i = 0; i < res.options.length; i++) {
-                    if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
-                        var option = new Option(res.options[i].option_name, res.options[i].option_name,
-                            true, false);
-                        $('#remarks_for_finance').append(option).trigger('change');
-                        $('#remarks_for_finance').val(apendtoOption).trigger('change');
+                console.log('status is ' + $('#status').val().toLowerCase());
+                if ($('#status').val().toLowerCase() != 'invalid' &&
+                    $('#status').val().toLowerCase() != 'pending validation') {
+                    console.log('no');
+                    optionArray = ["pending db validation", "in client's db/portal"];
+                    for (var i = 0; i < res.options.length; i++) {
+                        if (!optionArray.includes(res.options[i].option_name.toLowerCase())) {
+                            var option = new Option(res.options[i].option_name, res.options[i].option_name,
+                                true, false);
+                            $('#remarks_for_finance').append(option).trigger('change');
+                            $('#remarks_for_finance').val(apendtoOption).trigger('change');
 
+                        }
                     }
-                }
 
-            }
+                }
             }
         });
     }

@@ -159,7 +159,9 @@
     </form>
 </div>
 <script>
-    var currency = Intl.NumberFormat('ja-JP');
+    var currency = Intl.NumberFormat('ja-JP', {
+        minimumFractionDigits: 2
+    });
 
     fallout = {!! $fallout !!}
     billed = {!! $billed !!}
@@ -176,10 +178,10 @@
     vcc_amount_sum = {!! $vcc_amount_sum !!}
     teamRevenueAmount = {!! $teamRevenueAmount !!}
     sql_bod_share = {!! $sql_bod_share !!}
-    $('#hires').val(currency.format(hires));
-    $('#fallout').val(currency.format(fallout));
-    $('#billed').val(currency.format(billed));
-    $('#unbilled').val(currency.format(unbilled));
+    $('#hires').val(hires);
+    $('#fallout').val(fallout);
+    $('#billed').val(billed);
+    $('#unbilled').val(unbilled);
     $('#revenue').val(currency.format(billedAmount + unbilledAmount));
     $('#billedAmount').val(currency.format(billedAmount));
     $('#unbilledAmount').val(currency.format(unbilledAmount));
@@ -189,7 +191,7 @@
     $('#overDue_receivablesAmount').val(currency.format(overDue_receivablesAmount));
     $('#ctakeAmount').val(currency.format(ctakeAmount));
     $('#c_take').val(currency.format(sql_c_share));
-
+    console.log('value for c_take is: '$('#cTake').val());
     $('#vcc_share').val(currency.format(teamRevenueAmount - sql_bod_share))
     $('#hidden1').val(currency.format(sql_bod_share));
     $('#BOD_share').val(0);
@@ -203,7 +205,7 @@
         $('#Revenue_In_Incentive').val(currency.format(bod + c_share + teamRevenueAmount))
         val = $('#hidden1').val().replace(/[^0-9.-]+/g, "");
         bod_amount = $('#BOD_share').val().replace(/[^0-9.-]+/g, "");
-        bodlessshare =  parseInt(val - bod_amount);
+        bodlessshare = parseInt(val - bod_amount);
         $('#vcc_share').val(currency.format(bodlessshare))
     }
 </script>

@@ -1104,7 +1104,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Total Bilable Amount
                                             </label>
-                                            <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
+                                            <input type="text" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
                                                 value="{{ $user->Total_bilable_ammount }}"
                                                 oninput="amountFinder(this)"
                                                 class="form-control border h-px-20_custom" />
@@ -1409,10 +1409,10 @@
                 );
             }
         }
-        // let value = $('#career').val()
-        // $('#career_finance').append(`<option selected value="${value}">
-        //                                ${value}
-        //                           </option>`)
+        let value = $('#career').val()
+        $('#career_finance').append(`<option selected value="${value}">
+                                       ${value}
+                                  </option>`)
         DomainSegmentAppend()
 
 
@@ -1433,6 +1433,8 @@
                 );
             }
         }
+        SPRCalculator();
+
     }
 
     function mask(id) {
