@@ -34,17 +34,17 @@
         }
 
         /* overflow: hidden;
-        text-overflow: ellipsis;
-        /* height: 113px; */
-        .hidetrID tr td:nth-child(7) , 
-        .hidetrID tr td:nth-child(3), 
+                text-overflow: ellipsis;
+                /* height: 113px; */
+        .hidetrID tr td:nth-child(7),
+        .hidetrID tr td:nth-child(3),
         .hidetrID tr td:nth-child(18) {
             white-space: nowrap;
             display: list-item;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             width: 264px !important;
-            overflow:  hidden;
+            overflow: hidden;
         }
 
         .hideID:first-child,
@@ -79,8 +79,8 @@
         }
 
         /* .hidetrID tr td{
-            white-space: nowrap !important;
-            } */
+                    white-space: nowrap !important;
+                    } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -110,8 +110,8 @@
         }
 
         /* .customWidth {
-                    width: 410px !important;
-                } */
+                            width: 410px !important;
+                        } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -143,10 +143,10 @@
         }
 
         /*
-                   this is important!
-                   make sure you define this here
-                   or in jQuery codef
-                */
+                           this is important!
+                           make sure you define this here
+                           or in jQuery codef
+                        */
         .resizer {
             position: absolute;
             top: 0;
@@ -156,15 +156,16 @@
             width: 16px;
             cursor: col-resize;
         }
+
         .tableFixHead {
-        overflow-y: auto;
-        height: 600px;
-      }
-      .tableFixHead thead th {
-        position: sticky;
-        top: -10px;
-      }
- 
+            overflow-y: auto;
+            height: 600px;
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            top: -10px;
+        }
     </style>
 @endsection
 
@@ -682,7 +683,7 @@
                 // },
                 processing: true,
                 serverSide: false,
-               
+
                 // "language": {
                 //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 // },
@@ -708,8 +709,10 @@
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
-                    $('#searchKeyword').val(json.search)
-                    $('#searchKeyword').change()
+                    if (json.search != null) {
+                        $('#searchKeyword').val(json.search)
+                        $('#searchKeyword').change()
+                    }
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'jdlTable_wrapper') {
                         countRecord()
@@ -819,12 +822,12 @@
             // $('#jdlTable_filter').hide('div');
             // $('#filteredJdlTable_filter').hide('div');
 
-            
+
             $('#jdlTable_filter').children().children().val($('#searchKeyword').val());
-            $('#jdlTable_filter').children().children().trigger('input'); 
-            
+            $('#jdlTable_filter').children().children().trigger('input');
+
             $('#filteredJdlTable_filter').children().children().val($('#searchKeyword').val());
-            $('#filteredJdlTable_filter').children().children().trigger('input'); 
+            $('#filteredJdlTable_filter').children().children().trigger('input');
             let tableID = $('#filter_table_div').children().children().attr('id')
             if (tableID == 'jdlTable_wrapper') {
                 countRecord()

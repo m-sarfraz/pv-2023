@@ -325,7 +325,7 @@
                                                                     disabled>Select Option</option>
                                                                 @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                                                     <option
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == $eduAttainmentOptions->option_name : '') ? 'selected' : '' }}
+                                                                        {{ ($candidateDetail != null ? strtolower($candidateDetail->educational_attain) == strtolower($eduAttainmentOptions->option_name) : '') ? 'selected' : '' }}
                                                                         value="{{ $eduAttainmentOptions->option_name }}">
                                                                         {{ $eduAttainmentOptions->option_name }}</option>
                                                                 @endforeach
@@ -350,8 +350,8 @@
                                                                     selected>Select Option</option>
                                                                 @foreach ($course->options as $courseOptions)
                                                                     <option value="{{ $courseOptions->option_name }}"
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->course == $courseOptions->option_name : '') ? 'selected' : '' }}
-                                                                        {{ ($candidateDetail != null ? $candidateDetail->educational_attain == 'HIGH SCHOOL GRADUATE' : '') ? 'disabled' : '' }}>
+                                                                        {{ ($candidateDetail != null ? strtolower($candidateDetail->course) == strtolower($courseOptions->option_name) : '') ? 'selected' : '' }}
+                                                                        {{ ($candidateDetail != null ? strtolower($candidateDetail->educational_attain) == 'high school graduate' : '') ? 'disabled' : '' }}>
                                                                         {{ $courseOptions->option_name }}</option>
                                                                 @endforeach
                                                             </select>
@@ -1218,7 +1218,7 @@
                                                                 <label class="d-block labelFontSize font-size-3 mb-0">
                                                                     Total Billable Amount
                                                                 </label>
-                                                                <input type="text" name="TOTAL_BILLABLE_AMOUNT"
+                                                                <input type="number" name="TOTAL_BILLABLE_AMOUNT"
                                                                     id="bilable_amount" oninput="amountFinder(this)"
                                                                     class="form-control border h-px-20_custom" />
                                                             </div>

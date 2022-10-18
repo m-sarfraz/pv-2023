@@ -191,7 +191,6 @@
     $('#overDue_receivablesAmount').val(currency.format(overDue_receivablesAmount));
     $('#ctakeAmount').val(currency.format(ctakeAmount));
     $('#c_take').val(currency.format(sql_c_share));
-    console.log('value for c_take is: '$('#cTake').val());
     $('#vcc_share').val(currency.format(teamRevenueAmount - sql_bod_share))
     $('#hidden1').val(currency.format(sql_bod_share));
     $('#BOD_share').val(0);

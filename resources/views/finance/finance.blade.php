@@ -1067,6 +1067,11 @@
                     targets: 1,
                     className: 'noVis'
                 }],
+                columnDefs: [{
+                    targets: 8,
+                    type: 'date'
+                }],
+                bInfo: true,
                 buttons: [{
                     extend: 'colvis',
                     text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
@@ -1093,7 +1098,7 @@
 
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
-                            res.candidates[i].name +   
+                            res.candidates[i].name +
                             '</option>')
                     }
                     for (let i = 0; i < res.recruiter.length; i++) {
@@ -1171,7 +1176,7 @@
                 // // stateSave: true,
                 // // order: [[ 8, "asc" ]], // Sort by first column descending
                 // // columnDefs : [{targets:8, type:"date-eu"}],
-                
+
                 // "language": {
                 //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 // },
@@ -1181,7 +1186,7 @@
                 // },
                 processing: true,
                 serverSide: false,
-               
+
                 ajax: {
                     url: "{{ route('financeRecordFilter') }}",
                     type: "POST",
@@ -1206,8 +1211,10 @@
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
-                    $('#searchKeyword').val(json.searchKeyword);
-                    $('#searchKeyword').change();
+                    if (json.searchKeyword != null) {
+                        $('#searchKeyword').val(json.searchKeyword)
+                        $('#searchKeyword').change()
+                    }
                     let tableID = $('#filterData_div').children().children().attr('id')
 
                     if (tableID == 'fmtable_wrapper') {
@@ -1280,6 +1287,11 @@
                     targets: 1,
                     className: 'noVis'
                 }],
+                 columnDefs: [{
+                    targets: 8,
+                    type: 'date'
+                }],
+                bInfo: true,
                 buttons: [{
                     extend: 'colvis',
                     text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
@@ -1390,23 +1402,30 @@
         }
         // setInterval(() => {
         window.onbeforeunload = function(event) {
-            // localStorage.clear();
-            var recruiter = $('#recruiter').val();
-            var candidate = $('#candidate').val();
-            var remarks = $('#remarks').val();
-            var team_id = $('#team_id').val();
-            var process = $('#process').val();
-            var client = $('#client').val();
-            var appstatus = $('#appstatus').val();
+            // get destined url and save or not save selected dropdosn according to conditions 
+            url = document.activeElement.href;
+            let afterLifeStr = url.split("admin/").pop();
+            if (afterLifeStr == 'record' || afterLifeStr == 'search' || afterLifeStr == 'finance') {
 
-            localStorage.setItem('recruiter', JSON.stringify(recruiter));
-            localStorage.setItem('candidate', JSON.stringify(candidate));
-            localStorage.setItem('remarks', JSON.stringify(remarks));
-            localStorage.setItem('team_id', JSON.stringify(team_id));
-            localStorage.setItem('process', JSON.stringify(process));
-            localStorage.setItem('client', JSON.stringify(client));
-            localStorage.setItem('appstatus', JSON.stringify(appstatus));
+                var recruiter = $('#recruiter').val();
+                var candidate = $('#candidate').val();
+                var remarks = $('#remarks').val();
+                var team_id = $('#team_id').val();
+                var process = $('#process').val();
+                var client = $('#client').val();
+                var appstatus = $('#appstatus').val();
 
+                localStorage.setItem('recruiter', JSON.stringify(recruiter));
+                localStorage.setItem('candidate', JSON.stringify(candidate));
+                localStorage.setItem('remarks', JSON.stringify(remarks));
+                localStorage.setItem('team_id', JSON.stringify(team_id));
+                localStorage.setItem('process', JSON.stringify(process));
+                localStorage.setItem('client', JSON.stringify(client));
+                localStorage.setItem('appstatus', JSON.stringify(appstatus));
+            } else {
+                localStorage.clear();
+
+            }
         };
 
         // }, 3000);

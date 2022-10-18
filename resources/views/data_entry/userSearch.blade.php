@@ -161,7 +161,7 @@
                                                 option</option>
                                             @foreach ($eduAttainment->options as $eduAttainmentOptions)
                                                 <option value="{{ $eduAttainmentOptions->option_name }}"
-                                                    {{ $user->educational_attain == $eduAttainmentOptions->option_name ? 'selected' : '' }}>
+                                                    {{ strtolower($user->educational_attain) == strtolower($eduAttainmentOptions->option_name) ? 'selected' : '' }}>
                                                     {{ $eduAttainmentOptions->option_name }}</option>
                                             @endforeach
                                         </select>
@@ -451,7 +451,7 @@
                                             <label class="Label">
                                                 Expected Salary:
                                             </label>
-                                            <input type="text" name="EXPECTED_SALARY" id="expec_salary"
+                                            <input type="number" name="EXPECTED_SALARY" id="expec_salary"
                                                 value="{{ $user->exp_salary }}"
                                                 class="form-control p-0 users-input-S-C" />
                                             <div>
@@ -1104,7 +1104,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Total Bilable Amount
                                             </label>
-                                            <input type="text" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
+                                            <input type="number" name="TOTAL_BILLABLE_AMOUNT" id="bilable_amount"
                                                 value="{{ $user->Total_bilable_ammount }}"
                                                 oninput="amountFinder(this)"
                                                 class="form-control border h-px-20_custom" />

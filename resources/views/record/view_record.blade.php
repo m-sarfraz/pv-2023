@@ -61,30 +61,31 @@
             width: 16px;
             cursor: col-resize;
         }
+
         .tableFixHead {
-        overflow-y: auto;
-        height: 750px;
-    }
-    .tableFixHead thead th {
-        position: sticky;
-    }
-    .tableFixHead thead {
-        top: -10px !important;
-    }
-     
+            overflow-y: auto;
+            height: 750px;
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+        }
+
+        .tableFixHead thead {
+            top: -10px !important;
+        }
+
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(15),
         .hidetrID tr td:nth-child(20),
-        .hidetrID tr td:nth-child(24)
-         {
+        .hidetrID tr td:nth-child(24) {
             white-space: nowrap;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             width: 164px !important;
-            overflow:  hidden;
+            overflow: hidden;
         }
-
     </style>
 @endsection
 
@@ -1064,8 +1065,9 @@
                     }
                     for (let i = 0; i < res.clients.options.length; i++) {
                         if (res.clients.options[i].option_name != '') {
-                            
-                            $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res.clients
+
+                            $('#client').append('<option value="' + res.clients.options[i].option_name + '">' + res
+                                .clients
                                 .options[i].option_name + '</option>')
                         }
                     }
@@ -1132,14 +1134,14 @@
         // );
         // load main table data on page load using ajax(Yajra datatable) 
         function load_datatable() {
-         option_table = $('#recordTable').DataTable({
-            destroy: true,
+            option_table = $('#recordTable').DataTable({
+                destroy: true,
                 // search: {
                 //     smart: false
                 // },
                 processing: true,
                 serverSide: false,
-               
+
 
                 ajax: {
                     url: "{{ route('view-record-table') }}",
@@ -1317,8 +1319,8 @@
             career_level = $('#career_level').val();
             client = $('#client').val();
             date = $('#date').val();
-             option_table = $('#filteredTable').DataTable({
-               
+            option_table = $('#filteredTable').DataTable({
+
                 // pageLength: 20,
                 // search: {
                 //     smart: false
@@ -1338,7 +1340,7 @@
                 // },
                 processing: true,
                 serverSide: false,
-               
+
                 ajax: {
                     url: "{{ route('view-record-filter-table') }}",
                     type: "GET",
@@ -1357,9 +1359,11 @@
                     },
                 },
                 initComplete: function(settings, json) {
-                    // $('#searchKeyword').trigger('input');
-                    $('#searchKeyword').val(json.search)
-                    $('#searchKeyword').change()
+                    // $('#searchKeyword').trigger('input'); 
+                    if (json.search != null) {
+                        $('#searchKeyword').val(json.search)
+                        $('#searchKeyword').change()
+                    }
                     let tableID = $('#filter_table_div').children().children().attr('id')
                     if (tableID == 'filteredTable_wrapper') {
                         countRecordFilter()
@@ -1532,7 +1536,7 @@
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
-       
+
             $("#loader").show();
             // get values of selected inputs of users
             // $('#searchKeyword').val('');
@@ -1755,21 +1759,28 @@
 
         window.onbeforeunload = function(event) {
             // localStorage.clear();
-            var recruiter_view = $('#recruiter').val();
-            var candidate_view = $('#candidate').val();
-            var profile_view = $('#profile').val();
-            var sub_segment_view = $('#sub_segment').val();
-            var app_status_view = $('#app_status').val();
-            var client_view = $('#client').val();
-            var career_level_view = $('#career_level').val();
+            url = document.activeElement.href;
+            let afterLifeStr = url.split("admin/").pop();
+            if (afterLifeStr == 'record' || afterLifeStr == 'search' || afterLifeStr == 'finance') {
+                var recruiter_view = $('#recruiter').val();
+                var candidate_view = $('#candidate').val();
+                var profile_view = $('#profile').val();
+                var sub_segment_view = $('#sub_segment').val();
+                var app_status_view = $('#app_status').val();
+                var client_view = $('#client').val();
+                var career_level_view = $('#career_level').val();
 
-            localStorage.setItem('recruiter_view', JSON.stringify(recruiter_view));
-            localStorage.setItem('candidate_view', JSON.stringify(candidate_view));
-            localStorage.setItem('profile_view', JSON.stringify(profile_view));
-            localStorage.setItem('sub_segment_view', JSON.stringify(sub_segment_view));
-            localStorage.setItem('app_status_view', JSON.stringify(app_status_view));
-            localStorage.setItem('client_view', JSON.stringify(client_view));
-            localStorage.setItem('career_level_view', JSON.stringify(career_level_view));
+                localStorage.setItem('recruiter_view', JSON.stringify(recruiter_view));
+                localStorage.setItem('candidate_view', JSON.stringify(candidate_view));
+                localStorage.setItem('profile_view', JSON.stringify(profile_view));
+                localStorage.setItem('sub_segment_view', JSON.stringify(sub_segment_view));
+                localStorage.setItem('app_status_view', JSON.stringify(app_status_view));
+                localStorage.setItem('client_view', JSON.stringify(client_view));
+                localStorage.setItem('career_level_view', JSON.stringify(career_level_view));
+            } else {
+                localStorage.clear();
+
+            }
         };
     </script>
 @endsection
