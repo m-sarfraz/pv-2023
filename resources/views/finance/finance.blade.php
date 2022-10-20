@@ -1095,7 +1095,9 @@
                     client_dp = JSON.parse(localStorage.getItem('client'));
                     remarks_dp = JSON.parse(localStorage.getItem('remarks'));
                     appstatus_dp = JSON.parse(localStorage.getItem('appstatus'));
-
+                    var fromOB_view = JSON.parse(localStorage.getItem('from_ob'));
+                    var toOB_view = JSON.parse(localStorage.getItem('to_ob'));
+                    
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
                             res.candidates[i].name +
@@ -1143,7 +1145,8 @@
                     $('#client').val(client_dp);
                     $('#remarks').val(remarks_dp);
                     $('#appstatus').val(appstatus_dp);
-
+                    $('#ob_date').val(fromOB_view);
+                    $('#to_ob_date').val(toOB_view);
                 })
                 .fail(function(err) {
                     console.log(err);
@@ -1404,7 +1407,13 @@
         window.onbeforeunload = function(event) {
             // get destined url and save or not save selected dropdosn according to conditions 
             url = document.activeElement.href;
+            currentURL = window.location.href;
+            let bfrLifeStr = currentURL.split("admin/").pop();
             let afterLifeStr = url.split("admin/").pop();
+            if (afterLifeStr == bfrLifeStr) {
+                localStorage.clear();
+                return;
+            }
             if (afterLifeStr == 'record' || afterLifeStr == 'search' || afterLifeStr == 'finance') {
 
                 var recruiter = $('#recruiter').val();
@@ -1414,7 +1423,8 @@
                 var process = $('#process').val();
                 var client = $('#client').val();
                 var appstatus = $('#appstatus').val();
-
+                var from_ob = $('#ob_date').val();
+                var to_ob = $('#to_ob_date').val();
                 localStorage.setItem('recruiter', JSON.stringify(recruiter));
                 localStorage.setItem('candidate', JSON.stringify(candidate));
                 localStorage.setItem('remarks', JSON.stringify(remarks));
@@ -1422,6 +1432,8 @@
                 localStorage.setItem('process', JSON.stringify(process));
                 localStorage.setItem('client', JSON.stringify(client));
                 localStorage.setItem('appstatus', JSON.stringify(appstatus));
+                localStorage.setItem('from_ob', JSON.stringify(from_ob));
+                localStorage.setItem('to_ob', JSON.stringify(to_ob));
             } else {
                 localStorage.clear();
 

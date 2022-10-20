@@ -215,7 +215,8 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="vat" oninput="placementFeeCalculator()"
-                                    value="{{ $detail->vat_per != '' ? number_format($detail->vat_per, 2)  : 0 }}" name="vat_per" />
+                                    value="{{ $detail->vat_per != '' ? number_format($detail->vat_per, 2) : 0 }}"
+                                    name="vat_per" />
                             </div>
                         </div>
                         <div class="col-lg-3 p-1">
@@ -276,8 +277,7 @@
                                     Placement Fee:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
-                                    readonly
-                                    value="{{ $detail->feee != '' ? $detail->feee : 0 }}"
+                                    readonly value="{{ $detail->feee != '' ? $detail->feee : 0 }}"
                                     name="placement_fee" id="placementfee" />
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="reprocessShare" oninput="reprocessAmountCalculate()"
-                                    value="{{ $detail->reprocess_share_per != '' ? number_format($detail->reprocess_share_per, 2)  : 0 }}"
+                                    value="{{ $detail->reprocess_share_per != '' ? number_format($detail->reprocess_share_per, 2) : 0 }}"
                                     name="reprocess_share_per" />
                             </div>
                         </div>
@@ -340,7 +340,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     id="vccShare" oninput="vccShareCalcualte()"
-                                    value="{{ $detail->vcc_share_per != '' ? number_format($detail->vcc_share_per, 2)  : 0 }}"
+                                    value="{{ $detail->vcc_share_per != '' ? number_format($detail->vcc_share_per, 2) : 0 }}"
                                     name="vcc_share_per" />
                             </div>
                         </div>
@@ -350,7 +350,7 @@
                                     VCC Share Amount:
                                 </label>
                                 <input type="text" class="w-100 form-control users-input-S-C" name="VSA"
-                                    value="{{ $detail->vcc_amount != '' ? $detail->vcc_amount  : 0 }}"
+                                    value="{{ $detail->vcc_amount != '' ? $detail->vcc_amount : 0 }}"
                                     id="vccAmount" />
                             </div>
                         </div>
@@ -375,7 +375,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="Rev.."
                                     id="ownerAmount" readonly
-                                    value="{{ $detail->owner_share != '' ?  $detail->owner_share  : 0 }}"
+                                    value="{{ $detail->owner_share != '' ? $detail->owner_share : 0 }}"
                                     name="owner_share" />
                             </div>
                         </div>
@@ -386,7 +386,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="total.."
                                     oninput="ctakeCalcualte()"
-                                    value="{{ $detail->c_take_per != '' ? number_format($detail->c_take_per, 2)  : 0 }}"
+                                    value="{{ $detail->c_take_per != '' ? number_format($detail->c_take_per, 2) : 0 }}"
                                     name="c_take_per" id="c_take_per" />
                             </div>
                         </div>
@@ -396,8 +396,7 @@
                                     C. Take Amount:
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" id="cTake"
-                                    value="{{ $detail->c_take != '' ?  $detail->c_take : 0 }}"
-                                    name="c_take" />
+                                    value="{{ $detail->c_take != '' ? $detail->c_take : 0 }}" name="c_take" />
                             </div>
                         </div>
                     </div>
@@ -419,7 +418,7 @@
                                 </label>
                                 <input type="text" class="form-control users-input-S-C" placeholder="hires.."
                                     id="finalFee" readonly
-                                    value="{{ $detail->finalFee != '' ?  $detail->finalFee  : 0 }}"
+                                    value="{{ $detail->finalFee != '' ? $detail->finalFee : 0 }}"
                                     name="finalFee" />
                             </div>
                         </div>
@@ -457,7 +456,9 @@
 <script src="{{ asset('assets/js/moment.js') }}"></script>
 
 <script>
-    var currency = Intl.NumberFormat('ja-JP', { minimumFractionDigits: 2 });
+    var currency = Intl.NumberFormat('ja-JP', {
+        minimumFractionDigits: 2
+    });
     // section loads on ready start
     $(document).ready(function() {
         // var fee = {!! $fee !!};
@@ -471,7 +472,7 @@
         $('#ownerAmount').val(currency.format($('#ownerAmount').val()))
         $('#cTake').val(currency.format($('#cTake').val()))
         $('#vccAmount').val(currency.format($('#vccAmount').val()))
-        
+
         // $('#allowance').val(currency.format($('#allowance').val()))
         // $('#offered_salary').val(currency.format($('#offered_salary').val()))
         // $('#adjustment').val(currency.format($('#adjustment').val()))
@@ -541,7 +542,7 @@
             // append value of placement fee  
             placementFee1 = placementFee.toFixed(2);
             console.log(placementFee1);
-            (isNaN(placementFee1)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee1)); 
+            (isNaN(placementFee1)) ? $('#placementfee').val(0): $('#placementfee').val(currency.format(placementFee1));
         } else {
 
             // if rate value is equal to zero or negative 
@@ -739,8 +740,10 @@
                         icon: "success",
                         text: "{{ __('Updated finance') }}",
                         icon: "success",
+                        timer: 2000
                     });
-                    location.reload();
+                    // location.reload();
+                    $('.hidetrID').find('.hover-primary1').click();
                 } else if (!res) {
                     $("#loader").hide();
 

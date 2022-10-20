@@ -75,10 +75,10 @@
             top: -10px !important;
         }
 
-        .hidetrID tr td:nth-child(12),
+        .hidetrID tr td:nth-child(13),
         .hidetrID tr td:nth-child(15),
-        .hidetrID tr td:nth-child(20),
-        .hidetrID tr td:nth-child(24) {
+        .hidetrID tr td:nth-child(16),
+        .hidetrID tr td:nth-child(17) {
             white-space: nowrap;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -237,38 +237,38 @@
                                 <tr style="">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
-                                    <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Team</th>
+                                    <th class="ant-table-cell">Recruiter</th>
                                     <th class="ant-table-cell">Candidate</th>
+                                    <th class="ant-table-cell">Date Sifted</th>
+                                    <th class="ant-table-cell">Candidate’s Profile</th>
+                                    <th class="ant-table-cell">Date Invited</th>
+                                    <th class="ant-table-cell">Gender</th>
+                                    <th class="ant-table-cell">Phone</th>
                                     <th class="ant-table-cell">Email</th>
+                                    <th class="ant-table-cell">Address </th>
+                                    <th class="ant-table-cell">Course</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
+                                    <th class="ant-table-cell">Certificate</th>
+                                    <th class="ant-table-cell">Employment History</th>
+                                    <th class="ant-table-cell">Interview Note</th>
+                                    <th class="ant-table-cell">Exp Salary</th>
+                                    <th class="ant-table-cell">Application Status</th>
+                                    <th class="ant-table-cell">Type</th>
+                                    <th class="ant-table-cell">Endorsement Date</th>
+                                    <th class="ant-table-cell">Client</th>
+                                    <th class="ant-table-cell">Site</th>
+                                    <th class="ant-table-cell">Position Title </th>
+                                    <th class="ant-table-cell">Career</th>
+                                    <th class="ant-table-cell">Segment </th>
+                                    <th class="ant-table-cell">Sub-Segment</th>
+                                    <th class="ant-table-cell">Endorsement Status</th>
+                                    <th class="ant-table-cell">Remarks For Finance </th>
+                                    <th class="ant-table-cell">Remarks </th>
+                                    <th class="ant-table-cell">Onboarding Date </th>
+                                    <th class="ant-table-cell">Invoice Number</th>
                                     <th class="ant-table-cell">OR Number</th>
                                     <th class="ant-table-cell">Replacement For</th>
-                                    <th class="ant-table-cell">Application Status</th>
-                                    <th class="ant-table-cell">Candidate’s Profile</th>
-                                    <th class="ant-table-cell">Career</th>
-                                    <th class="ant-table-cell">Certificate</th>
-                                    <th class="ant-table-cell">Client</th>
-                                    <th class="ant-table-cell">Phone</th>
-                                    <th class="ant-table-cell">Course</th>
-                                    <th class="ant-table-cell">Endorsement Date</th>
-                                    <th class="ant-table-cell">Date Invited</th>
-                                    <th class="ant-table-cell">Date Sifted</th>
-                                    <th class="ant-table-cell">Educational Attainment</th>
-                                    <th class="ant-table-cell">Employment History</th>
-                                    <th class="ant-table-cell">Type</th>
-                                    <th class="ant-table-cell">Exp Salary</th>
-                                    <th class="ant-table-cell">Gender</th>
-                                    <th class="ant-table-cell">Interview Note</th>
-                                    <th class="ant-table-cell">Invoice Number</th>
-                                    <th class="ant-table-cell">Onboarding Date </th>
-                                    <th class="ant-table-cell">Position Title </th>
-                                    <th class="ant-table-cell">Remarks </th>
-                                    <th class="ant-table-cell">Remarks For Finance </th>
-                                    <th class="ant-table-cell">Address </th>
-                                    <th class="ant-table-cell">Segment </th>
-                                    <th class="ant-table-cell">Site</th>
-                                    <th class="ant-table-cell">Endorsement Status</th>
-                                    <th class="ant-table-cell">Sub-Segment</th>
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
@@ -1041,6 +1041,7 @@
                     var app_status_view = JSON.parse(localStorage.getItem('app_status_view'));
                     var client_view = JSON.parse(localStorage.getItem('client_view'));
                     var career_level_view = JSON.parse(localStorage.getItem('career_level_view'));
+                    var fromOB_view = JSON.parse(localStorage.getItem('date_view'));
 
                     for (let i = 0; i < res.user.length; i++) {
                         if (res.user[i].name != 'null') {
@@ -1088,6 +1089,7 @@
                     $('#client').val(client_view);
                     $('#career_level').val(career_level_view);
                     $('#profile').val(profile_view);
+                    $('#date').val(fromOB_view);
 
                     $('#loader1').hide()
                 })
@@ -1168,14 +1170,14 @@
                         searchable: false
                     },
                     {
-                        data: 'recruiter',
-                        name: 'recruiter'
-                    },
-                    {
                         data: 'team',
                         name: 'team',
                         // searchable: false,
                         // orderable: false
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
                     },
                     {
                         data: 'Candidate',
@@ -1184,106 +1186,129 @@
                         // orderable: false
                     },
                     {
-                        data: 'Email',
-                        name: 'Email',
-                        // searchable: false,
-                        // orderable: false
+                        data: 'date_shifted',
+                        name: 'date_shifted'
                     },
                     {
-                        data: 'OR_Number',
-                        name: 'OR_Number',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'Replacement_For',
-                        name: 'Replacement_For',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'appStatus',
-                        name: 'appStatus',
-                        // searchable: false,
-                        // orderable: false
-                    }, {
                         data: 'profile',
                         name: 'profile',
                         // searchable: false,
                         // orderable: false
                     },
                     {
-                        data: 'career_level',
-                        name: 'career_level'
-                    }, {
-                        data: 'certification',
-                        name: 'certification'
-                    }, {
-                        data: 'client',
-                        name: 'client'
-                    }, {
-                        data: 'phone',
-                        name: 'phone'
-                    }, {
-                        data: 'course',
-                        name: 'course'
-                    }, {
-                        data: 'endi_date',
-                        name: 'endi_date'
-                    }, {
                         data: 'date_invited',
                         name: 'date_invited'
-                    }, {
-                        data: 'date_shifted',
-                        name: 'date_shifted'
-                    }, {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    }, {
-                        data: 'emp_history',
-                        name: 'emp_history'
-                    }, {
-                        data: 'type',
-                        name: 'type'
-                    }, {
-                        data: 'exp_salary',
-                        name: 'exp_salary'
-                    }, {
+                    },
+                    {
                         data: 'gender',
                         name: 'gender'
-                    }, {
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'course',
+                        name: 'course'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'certification',
+                        name: 'certification'
+                    },
+                    {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    },
+                    {
                         data: 'interview_note',
                         name: 'interview_note'
-                    }, {
-                        data: 'invoice_number',
-                        name: 'invoice_number'
-                    }, {
-                        data: 'onboardnig_date',
-                        name: 'onboardnig_date'
-                    }, {
+                    },
+                    {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    },
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'type',
+                        name: 'type'
+                    },
+
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'site',
+                        name: 'site'
+                    },
+                    {
                         data: 'position_title',
                         name: 'position_title'
-                    }, {
-                        data: 'remarks',
-                        name: 'remarks'
-                    }, {
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    },
+                    {
+                        data: 'segment',
+                        name: 'segment'
+                    },
+                    {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
+                    },
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+                    {
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance'
                     }, {
-                        data: 'address',
-                        name: 'address'
+                        data: 'remarks',
+                        name: 'remarks'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    },
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
                     }, {
-                        data: 'segment',
-                        name: 'segment'
-                    }, {
-                        data: 'site',
-                        name: 'site'
-                    }, {
-                        data: 'endostatus',
-                        name: 'endostatus'
-                    }, {
-                        data: 'sub_segment',
-                        name: 'sub_segment'
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
                     },
                 ],
                 dom: 'Blfrtip',
@@ -1383,14 +1408,14 @@
                         searchable: false
                     },
                     {
-                        data: 'recruiter',
-                        name: 'recruiter'
-                    },
-                    {
                         data: 'team',
                         name: 'team',
                         // searchable: false,
                         // orderable: false
+                    },
+                    {
+                        data: 'recruiter',
+                        name: 'recruiter'
                     },
                     {
                         data: 'Candidate',
@@ -1399,106 +1424,129 @@
                         // orderable: false
                     },
                     {
-                        data: 'Email',
-                        name: 'Email',
-                        // searchable: false,
-                        // orderable: false
+                        data: 'date_shifted',
+                        name: 'date_shifted'
                     },
                     {
-                        data: 'OR_Number',
-                        name: 'OR_Number',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'Replacement_For',
-                        name: 'Replacement_For',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'appStatus',
-                        name: 'appStatus',
-                        // searchable: false,
-                        // orderable: false
-                    }, {
                         data: 'profile',
                         name: 'profile',
                         // searchable: false,
                         // orderable: false
                     },
                     {
-                        data: 'career_level',
-                        name: 'career_level'
-                    }, {
-                        data: 'certification',
-                        name: 'certification'
-                    }, {
-                        data: 'client',
-                        name: 'client'
-                    }, {
-                        data: 'phone',
-                        name: 'phone'
-                    }, {
-                        data: 'course',
-                        name: 'course'
-                    }, {
-                        data: 'endi_date',
-                        name: 'endi_date'
-                    }, {
                         data: 'date_invited',
                         name: 'date_invited'
-                    }, {
-                        data: 'date_shifted',
-                        name: 'date_shifted'
-                    }, {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    }, {
-                        data: 'emp_history',
-                        name: 'emp_history'
-                    }, {
-                        data: 'type',
-                        name: 'type'
-                    }, {
-                        data: 'exp_salary',
-                        name: 'exp_salary'
-                    }, {
+                    },
+                    {
                         data: 'gender',
                         name: 'gender'
-                    }, {
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'Email',
+                        name: 'Email',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'course',
+                        name: 'course'
+                    },
+                    {
+                        data: 'educational_attain',
+                        name: 'educational_attain'
+                    },
+                    {
+                        data: 'certification',
+                        name: 'certification'
+                    },
+                    {
+                        data: 'emp_history',
+                        name: 'emp_history'
+                    },
+                    {
                         data: 'interview_note',
                         name: 'interview_note'
-                    }, {
-                        data: 'invoice_number',
-                        name: 'invoice_number'
-                    }, {
-                        data: 'onboardnig_date',
-                        name: 'onboardnig_date'
-                    }, {
+                    },
+                    {
+                        data: 'exp_salary',
+                        name: 'exp_salary'
+                    },
+                    {
+                        data: 'appStatus',
+                        name: 'appStatus',
+                        // searchable: false,
+                        // orderable: false
+                    },
+                    {
+                        data: 'type',
+                        name: 'type'
+                    },
+
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date'
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'site',
+                        name: 'site'
+                    },
+                    {
                         data: 'position_title',
                         name: 'position_title'
-                    }, {
-                        data: 'remarks',
-                        name: 'remarks'
-                    }, {
+                    },
+                    {
+                        data: 'career_level',
+                        name: 'career_level'
+                    },
+                    {
+                        data: 'segment',
+                        name: 'segment'
+                    },
+                    {
+                        data: 'sub_segment',
+                        name: 'sub_segment'
+                    },
+                    {
+                        data: 'endostatus',
+                        name: 'endostatus'
+                    },
+                    {
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance'
                     }, {
-                        data: 'address',
-                        name: 'address'
+                        data: 'remarks',
+                        name: 'remarks'
+                    },
+                    {
+                        data: 'onboardnig_date',
+                        name: 'onboardnig_date'
+                    },
+                    {
+                        data: 'invoice_number',
+                        name: 'invoice_number'
+                    },
+                    {
+                        data: 'OR_Number',
+                        name: 'OR_Number',
+                        // searchable: false,
+                        // orderable: false
                     }, {
-                        data: 'segment',
-                        name: 'segment'
-                    }, {
-                        data: 'site',
-                        name: 'site'
-                    }, {
-                        data: 'endostatus',
-                        name: 'endostatus'
-                    }, {
-                        data: 'sub_segment',
-                        name: 'sub_segment'
+                        data: 'Replacement_For',
+                        name: 'Replacement_For',
+                        // searchable: false,
+                        // orderable: false
                     },
                 ],
                 dom: 'Blfrtip',
@@ -1760,7 +1808,13 @@
         window.onbeforeunload = function(event) {
             // localStorage.clear();
             url = document.activeElement.href;
+            currentURL = window.location.href;
+            let bfrLifeStr = currentURL.split("admin/").pop();
             let afterLifeStr = url.split("admin/").pop();
+            if (afterLifeStr == bfrLifeStr) {
+                localStorage.clear();
+                return;
+            }
             if (afterLifeStr == 'record' || afterLifeStr == 'search' || afterLifeStr == 'finance') {
                 var recruiter_view = $('#recruiter').val();
                 var candidate_view = $('#candidate').val();
@@ -1769,6 +1823,7 @@
                 var app_status_view = $('#app_status').val();
                 var client_view = $('#client').val();
                 var career_level_view = $('#career_level').val();
+                var date_ob = $('#date').val();
 
                 localStorage.setItem('recruiter_view', JSON.stringify(recruiter_view));
                 localStorage.setItem('candidate_view', JSON.stringify(candidate_view));
@@ -1777,6 +1832,7 @@
                 localStorage.setItem('app_status_view', JSON.stringify(app_status_view));
                 localStorage.setItem('client_view', JSON.stringify(client_view));
                 localStorage.setItem('career_level_view', JSON.stringify(career_level_view));
+                localStorage.setItem('date_view', JSON.stringify(date_ob));
             } else {
                 localStorage.clear();
 

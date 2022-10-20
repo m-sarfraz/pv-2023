@@ -89,16 +89,13 @@
             top: -10px;
         }
 
-        .hidetrID tr td:nth-child(12),
-        .hidetrID tr td:nth-child(20),
-        .hidetrID tr td:nth-child(24),
-        .hidetrID tr td:nth-child(15) {
+        .hidetrID tr td:nth-child(13),
+        .hidetrID tr td:nth-child(15),
+        .hidetrID tr td:nth-child(16),
+        .hidetrID tr td:nth-child(17) {
             white-space: nowrap;
-            display: list-item;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            width: 164px !important;
             overflow: hidden;
+            width: 50px;
         }
     </style>
 @endsection
@@ -455,7 +452,7 @@
                         <table id="smTable" class="table">
                             <thead class="bg-light w-100" style="">
                                 <tr style="">
-                                    <th class="d-none">  sr</th>
+                                    <th class="d-none"> sr</th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">
                                         <svg title="Click Here For Columnwise Search" data-toggle="tooltip"
                                             data-placement="top" style="color:#dc8627;text-color:red;top:0;bottom:0"
@@ -465,7 +462,7 @@
                                             <path
                                                 d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                         </svg>
-                                        Sr  
+                                        Sr
                                     </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Team <input
@@ -734,6 +731,12 @@
                     status_dp = JSON.parse(localStorage.getItem('status'));
                     category_dp = JSON.parse(localStorage.getItem('category'));
                     remarks_dp = JSON.parse(localStorage.getItem('remarks'));
+                    endo_start_dp = JSON.parse(localStorage.getItem('endo_start'));
+                    endo_end_dp = JSON.parse(localStorage.getItem('endo_end'));
+                    Shifted_start_dp = JSON.parse(localStorage.getItem('Shifted_start'));
+                    Shifted_end_dp = JSON.parse(localStorage.getItem('Shifted_end'));
+                    ob_start_dp = JSON.parse(localStorage.getItem('ob_start'));
+                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end')); 
                     for (let i = 0; i < res.domain.length; i++) {
                         $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
                             .domain_name +
@@ -785,6 +788,12 @@
                     $('#status').val(status_dp);
                     $('#category').val(category_dp).trigger('change');
                     $('#remarks').val(remarks_dp);
+                    $('#endo_start').val(endo_start_dp);
+                    $('#endo_end').val(endo_end_dp);
+                    $('#Shifted_start').val(Shifted_start_dp);
+                    $('#Shifted_end').val(Shifted_end_dp);
+                    $('#ob_start').val(ob_start_dp);
+                    $('#ob_end').val(ob_end_dp);
                 })
                 .fail(function(err) {
                     console.log(err);
@@ -1308,7 +1317,7 @@
                     targets: 1,
                     className: 'noVis'
                 }],
-                
+
                 buttons: [{
                     extend: 'colvis',
                     collectionLayout: 'fixed two-column',
@@ -1361,10 +1370,10 @@
             let test = $('#searchKeyword').val().split(' ');
             for (let index = 0; index < test.length; index++) {
                 if (test[index] == 'MALE') {
-                    option_table.column(22).search('^' + test[index], true, false).draw();
+                    option_table.column(8).search('^' + test[index], true, false).draw();
                     // console.log(test[index]);
                 } else if (test[index] == 'FEMALE') {
-                    option_table.column(22).search('^' + test[index], true, false).draw();
+                    option_table.column(8).search('^' + test[index], true, false).draw();
                     // console.log(test[index]);
                 }
                 // else {
@@ -1435,7 +1444,7 @@
             // draw values in option_table instance 
             console.log($(e).val());
             console.log($(e).attr('data-id'));
-            
+
             option_table.column($(e).attr('data-id')).search('^' + $(e).val(), true, false).draw();
             passIDToSummaryAppend();
             // console.log(obj);
@@ -1486,7 +1495,13 @@
         window.onbeforeunload = function(event) {
             // get destined url and save or not save selected dropdosn according to conditions 
             url = document.activeElement.href;
+            currentURL = window.location.href;
+            let bfrLifeStr = currentURL.split("admin/").pop();
             let afterLifeStr = url.split("admin/").pop();
+            if (afterLifeStr == bfrLifeStr) {
+                localStorage.clear();
+                return;
+            }
             if (afterLifeStr == 'record' || afterLifeStr == 'search' || afterLifeStr == 'finance') {
 
                 var domain = $('#domain').val();
@@ -1498,6 +1513,12 @@
                 var status = $('#status').val();
                 var category = $('#category').val();
                 var remarks = $('#remarks').val();
+                var endo_start = $('#endo_start').val() != 'undefined' ? $('#endo_start').val() : '';
+                var endo_end = $('#endo_end').val() != 'undefined' ? $('#endo_end').val() : '';
+                var Shifted_start = $('#Shifted_start').val() != 'undefined' ? $('#Shifted_start').val() : '';
+                var Shifted_end = $('#Shifted_end').val() != 'undefined' ? $('#Shifted_end').val() : '';
+                var ob_start = $('#ob_start').val() != 'undefined' ? $('#ob_start').val() : '';
+                var ob_end = $('#ob_end').val() != 'undefined' ? $('#ob_end').val() : '';
 
                 localStorage.setItem('domain', JSON.stringify(domain));
                 localStorage.setItem('recruiter', JSON.stringify(recruiter));
@@ -1508,6 +1529,12 @@
                 localStorage.setItem('status', JSON.stringify(status));
                 localStorage.setItem('category', JSON.stringify(category));
                 localStorage.setItem('remarks', JSON.stringify(remarks));
+                localStorage.setItem('endo_start', JSON.stringify(endo_start));
+                localStorage.setItem('endo_end', JSON.stringify(endo_end));
+                localStorage.setItem('Shifted_start', JSON.stringify(Shifted_start));
+                localStorage.setItem('Shifted_end', JSON.stringify(Shifted_end));
+                localStorage.setItem('ob_start', JSON.stringify(ob_start));
+                localStorage.setItem('ob_end', JSON.stringify(ob_end));
 
             } else {
                 localStorage.clear();
