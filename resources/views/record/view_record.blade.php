@@ -80,11 +80,9 @@
         .hidetrID tr td:nth-child(16),
         .hidetrID tr td:nth-child(17) {
             white-space: nowrap;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            width: 164px !important;
             overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 30ch;
         }
     </style>
 @endsection

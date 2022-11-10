@@ -115,7 +115,7 @@
                                                     <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
-                                            <input type="number" class="form-control EmailInput-F"
+                                            <input type="text" class="form-control EmailInput-F"
                                                 value="{{ $user->phone }}" name="CONTACT_NUMBER" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -1373,10 +1373,10 @@
                         }
                     }
 
-                    let value = $('#client').val()
-                    $('#client_finance').append(`<option selected  value="${value}">
-                                       ${value}
-                                  </option>`)
+                    // let value = $('#client').val()
+                    // $('#client_finance').append(`<option selected  value="${value}">
+                    //                    ${value}
+                    //               </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -1409,10 +1409,10 @@
                 );
             }
         }
-        let value = $('#career').val()
-        $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+        // let value = $('#career').val()
+        // $('#career_finance').append(`<option selected value="${value}">
+        //                                ${value}
+        //                           </option>`)
         DomainSegmentAppend()
 
 
@@ -1433,7 +1433,7 @@
                 );
             }
         }
-        SPRCalculator();
+        // SPRCalculator();
 
     }
 

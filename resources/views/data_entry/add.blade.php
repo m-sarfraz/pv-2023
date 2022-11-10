@@ -278,7 +278,7 @@
                                                                         <i class="bi bi-telephone"></i>
                                                                     </span>
                                                                 </div>
-                                                                <input type="number" class="form-control EmailInput-F"
+                                                                <input type="text" class="form-control EmailInput-F"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->phone : '' }}"
                                                                     name="CONTACT_NUMBER" />
                                                             </div>
@@ -457,8 +457,9 @@
                                                                     {{ $candidateDetail == null ? 'selected' : '' }}
                                                                     disabled>Select Option</option>
                                                                 @foreach ($sub_segment as $sub_segmentOption)
-                                                                    <option value="{{ $sub_segmentOption->sub_segment_name }}"
-                                                                        {{  $candidateDetail != null ? (str_replace(' ', '', strtolower($candidateDetail->sub_segment)) == str_replace(' ', '', strtolower($sub_segmentOption->sub_segment_name)) ? 'selected'  : '')  : '' }}>
+                                                                    <option
+                                                                        value="{{ $sub_segmentOption->sub_segment_name }}"
+                                                                        {{ $candidateDetail != null ? (str_replace(' ', '', strtolower($candidateDetail->sub_segment)) == str_replace(' ', '', strtolower($sub_segmentOption->sub_segment_name)) ? 'selected' : '') : '' }}>
                                                                         {{ $sub_segmentOption->sub_segment_name }}
                                                                     </option>
                                                                 @endforeach
@@ -2283,10 +2284,10 @@
                             }
                         }
 
-                        let value = $('#client').val()
-                        $('#client_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+                        // let value = $('#client').val()
+                        // $('#client_finance').append(`<option selected value="${value}">
+                    //                ${value}
+                    //           </option>`)
                         $('#position').change();
                         $('#client').attr('readonly', true);
                         $('#domain_endo').attr('readonly', true);
@@ -2328,11 +2329,15 @@
             // enable and disable finance section on selected text of remarks for finance
             if (value.includes('accepted') || value.includes('Onboarded')) {
 
-                SPRCalculator()
-                let value = $('#career').val()
+                // SPRCalculator()
+                let value = $('#career').val();
+                let value2 = $('#client').val(); 
+                $('#client_finance').append(`<option selected value="${value2}">
+                                       ${value2}
+                                  </option>`);
                 $('#career_finance').append(`<option selected value="${value}">
                                    ${value}
-                              </option>`)
+                              </option>`);
             }
             for (let i = 0; i < globalData.length; i++) {
                 if ($('#position').val() == globalData[i].p_title && $('#career').val() == globalData[i].c_level &&
@@ -2348,7 +2353,7 @@
                     );
                 }
             }
-            SPRCalculator();
+            // SPRCalculator();
         }
         $(document).ready(function() {
             appendRemarksForFinance(1)

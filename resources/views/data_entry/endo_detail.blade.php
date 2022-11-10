@@ -788,11 +788,11 @@
                         }
                     }
 
-                    let value = $('#client').val()
-                    console.log(value)
-                    $('#client_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+                    // let value = $('#client').val()
+                    // console.log(value)
+                    // $('#client_finance').append(`<option selected value="${value}">
+                    //                    ${value}
+                    //               </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -830,10 +830,10 @@
                 }
             }
         }
-        let value = $('#career').val()
-        $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+        // let value = $('#career').val()
+        // $('#career_finance').append(`<option selected value="${value}">
+        //                                ${value}
+        //                           </option>`)
         DomainSegmentAppend()
         
 

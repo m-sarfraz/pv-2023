@@ -95,8 +95,15 @@
         .hidetrID tr td:nth-child(17) {
             white-space: nowrap;
             overflow: hidden;
-            width: 50px;
+            text-overflow: ellipsis;
+            max-width: 30ch;
         }
+
+        /* option_table.sl-text-trim td {
+                                                                                                                                            overflow: hidden;
+                                                                                                                                            text-overflow: ellipsis;
+                                                                                                                                            white-space: nowrap;
+                                                                                                                                        } */
     </style>
 @endsection
 
@@ -736,7 +743,7 @@
                     Shifted_start_dp = JSON.parse(localStorage.getItem('Shifted_start'));
                     Shifted_end_dp = JSON.parse(localStorage.getItem('Shifted_end'));
                     ob_start_dp = JSON.parse(localStorage.getItem('ob_start'));
-                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end')); 
+                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end'));
                     for (let i = 0; i < res.domain.length; i++) {
                         $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
                             .domain_name +
@@ -779,21 +786,31 @@
                             res.career.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
-                    $('#domain').val(domain_dp);
-                    $('#recruiter').val(recruiter_dp);
-                    $('#client').val(client_dp);
-                    $('#portal').val(portal_dp);
-                    $('#residence').val(resd_dp);
-                    $('#career_level').val(career_dp);
-                    $('#status').val(status_dp);
-                    $('#category').val(category_dp).trigger('change');
-                    $('#remarks').val(remarks_dp);
-                    $('#endo_start').val(endo_start_dp);
-                    $('#endo_end').val(endo_end_dp);
-                    $('#Shifted_start').val(Shifted_start_dp);
-                    $('#Shifted_end').val(Shifted_end_dp);
-                    $('#ob_start').val(ob_start_dp);
-                    $('#ob_end').val(ob_end_dp);
+                    if (domain_dp == null) {
+                        console.log('error');
+                    }
+                    if (domain_dp != null || recruiter_dp != null || client_dp != null || portal_dp != null ||
+                        resd_dp != null || career_dp != null || status_dp != null || category_dp != null ||
+                        remarks_dp != null || endo_start_dp != null || endo_end_dp != null || Shifted_start_dp !=
+                        null || Shifted_end_dp != null || ob_start_dp != null || ob_end_dp != null) {
+                        $('#domain').val(domain_dp);
+                        console.log('idr a rha');
+                        $('#recruiter').val(recruiter_dp);
+                        $('#client').val(client_dp);
+                        $('#portal').val(portal_dp);
+                        $('#residence').val(resd_dp);
+                        $('#career_level').val(career_dp);
+                        $('#status').val(status_dp);
+                        $('#category').val(category_dp);
+                        $('#remarks').val(remarks_dp);
+                        $('#endo_start').val(endo_start_dp);
+                        $('#endo_end').val(endo_end_dp);
+                        $('#Shifted_start').val(Shifted_start_dp);
+                        $('#Shifted_end').val(Shifted_end_dp);
+                        $('#ob_start').val(ob_start_dp);
+                        $('#ob_end').val(ob_end_dp);
+                        $('#category').trigger('change');
+                    }
                 })
                 .fail(function(err) {
                     console.log(err);
@@ -828,6 +845,7 @@
 
         // function for filtering the data according to selected input starts
         function FilterSearch() {
+            console.log('aaaaaa');
             // empty search so it can not effect result and summary 
             // $('#searchKeyword').val('')
             // get values of selected inputs of users
@@ -890,8 +908,25 @@
                     $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
-                    // console.log(json); 
 
+                    divHtml = JSON.parse(localStorage.getItem('divHTML')); 
+                    $("div[role='menu']").html()
+                    document.querySelector(".dt-button").classList.add('customDivClass');
+                    $("#loader").show();
+                    $('.customDivClass').click();
+                    let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
+                    for (let item of test) {
+                        item.classList.add('customClasss')
+                        item.addEventListener('click', saveFilter);
+                    }
+                    setTimeout(() => {
+                        $("div[role='menu']").html('');
+                        $("div[role='menu']").html(divHtml);
+                        $('.customDivClass').click();
+                    }, 100);
+                    setTimeout(() => {
+                        $("#loader").hide();
+                    }, 1000);
                     summaryAppendAjax(json.array);
                     // console.log(json.search);
                     if (json.search != null) {
@@ -1128,6 +1163,20 @@
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
+                    $("#loader").show();
+                    document.querySelector(".dt-button").classList.add('customDivClass');
+                    $('.customDivClass').click();
+                    let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
+                    for (let item of test) {
+                        item.classList.add('customClasss')
+                        item.addEventListener('click', saveFilter);
+                    }
+                    setTimeout(() => {
+                        $('.customDivClass').click();
+                    }, 100);
+                    setTimeout(() => {
+                        $("#loader").hide();
+                    }, 1000);
                     var that = this;
                     option_table.columns().every(function() {
                         var that = this;
@@ -1541,5 +1590,22 @@
 
             }
         };
+        // setTimeout(() => {
+        // $('.dt-button').click();
+        // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
+        // for (let item of test) {
+        //     item.classList.add('customClasss')
+        //     item.addEventListener('click', (e) => {
+        //         let divHtml = $("div[role='menu']").html();
+        //     localStorage.setItem('divHTML', JSON.stringify(divHtml));
+        //     })
+        // }
+        // }, 4000);
+
+
+        function saveFilter() {
+            let divHtml = $("div[role='menu']").html();
+            localStorage.setItem('divHTML', JSON.stringify(divHtml));
+        }
     </script>
 @endsection

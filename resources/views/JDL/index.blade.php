@@ -40,11 +40,9 @@
         .hidetrID tr td:nth-child(3),
         .hidetrID tr td:nth-child(18) {
             white-space: nowrap;
-            display: list-item;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            width: 264px !important;
             overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 30ch;
         }
 
         .hideID:first-child,

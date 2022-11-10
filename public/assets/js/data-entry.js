@@ -44,6 +44,11 @@ function RemarksChange(elem) {
         $('#career_finance').append(`<option selected value="${value}">
                                    ${value}
                               </option>`)
+        let value2 = $('#client').val();
+        $('#client_finance').append(`<option selected value="${value2}">
+                                                     ${value2}
+                                                </option>`);
+        SPRCalculator();
         $('#finance_fieldset').prop("disabled", false);
         $('#off_allowance').prop("disabled", false);
         $('#career_finance').prop("disabled", false);
@@ -60,13 +65,13 @@ function RemarksChange(elem) {
         // $('#onboard_date').attr("readonly", true);
         // $('#off_allowance').prop("disabled", false);
     } else {
- 
+
         $('#career_finance').val('');
         $('#srp').val('');
         // $('#remarks_finance').val('');
         $('#remarks_finance').attr("readonly", true);
         $('#invoice_number').val('');
-        
+
         $('#bilable_amount').val('');
         $('#rate').val('');
         $('#off_allowance_finance').val('');
@@ -74,9 +79,9 @@ function RemarksChange(elem) {
         $('#off_salary_fianance').val('');
         $('#onboard_date').val('');
         $('#client_finance').val('');
-        
-         
-    // else disable the finance section and disable salray fields
+
+
+        // else disable the finance section and disable salray fields
         $('#finance_fieldset').prop("disabled", true);
 
         // $('#off_allowance').prop("disabled", true);
@@ -305,7 +310,7 @@ function clientChanged(elem) {
 // }
 //function for appending endorsement career to finance portion ends
 // function for enabling the edit of searched user starts
-function EnableUserEdit(elem,role_id) {
+function EnableUserEdit(elem, role_id) {
 
     $('#certificate').prop('disabled', false)
     // enabling th fieldset value
@@ -400,7 +405,7 @@ function EnableUserEdit(elem,role_id) {
     }
     var edu_attain = $('#EDUCATIONAL_ATTAINTMENT').find(":selected").text().trim();
     console.log(edu_attain);
-  
+
     if (role_id == 1) {
         if (edu_attain == 'HIGH SCHOOL GRADUATE') {
 
