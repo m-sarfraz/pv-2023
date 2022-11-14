@@ -743,7 +743,7 @@
                     Shifted_start_dp = JSON.parse(localStorage.getItem('Shifted_start'));
                     Shifted_end_dp = JSON.parse(localStorage.getItem('Shifted_end'));
                     ob_start_dp = JSON.parse(localStorage.getItem('ob_start'));
-                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end')); 
+                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end'));
                     for (let i = 0; i < res.domain.length; i++) {
                         $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
                             .domain_name +
@@ -909,21 +909,21 @@
                 },
                 initComplete: function(settings, json) {
 
-                    // divHtml = JSON.parse(localStorage.getItem('divHTML')); 
-                    // $("div[role='menu']").html()
-                    // document.querySelector(".dt-button").classList.add('customDivClass');
-                    // $("#loader").show();
-                    // $('.customDivClass').click();
-                    // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
-                    // for (let item of test) {
-                    //     item.classList.add('customClasss')
-                    //     item.addEventListener('click', saveFilter);
-                    // }
-                    // setTimeout(() => {
-                    //     $("div[role='menu']").html('');
-                    //     $("div[role='menu']").html(divHtml);
-                    //     $('.customDivClass').click();
-                    // }, 100);
+                    divHtml = JSON.parse(localStorage.getItem('divHTML')); 
+                    $("div[role='menu']").html()
+                    document.querySelector(".dt-button").classList.add('customDivClass');
+                    $("#loader").show();
+                    $('.customDivClass').click();
+                    let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
+                    for (let item of test) {
+                        item.classList.add('customClasss')
+                        item.addEventListener('click', saveFilter);
+                    }
+                    setTimeout(() => {
+                        $("div[role='menu']").html('');
+                        $("div[role='menu']").html(divHtml);
+                        $('.customDivClass').click();
+                    }, 100);
                     setTimeout(() => {
                         $("#loader").hide();
                     }, 1000);
@@ -1164,16 +1164,16 @@
                         $('svg').tooltip('hide');
                     }, 5000);
                     $("#loader").show();
-                    // document.querySelector(".dt-button").classList.add('customDivClass');
-                    // $('.customDivClass').click();
-                    // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
-                    // for (let item of test) {
-                    //     item.classList.add('customClasss')
-                    //     item.addEventListener('click', saveFilter);
-                    // }
-                    // setTimeout(() => {
-                    //     $('.customDivClass').click();
-                    // }, 100);
+                    document.querySelector(".dt-button").classList.add('customDivClass');
+                    $('.customDivClass').click();
+                    let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
+                    for (let item of test) {
+                        item.classList.add('customClasss')
+                        item.addEventListener('click', saveFilter);
+                    }
+                    setTimeout(() => {
+                        $('.customDivClass').click();
+                    }, 100);
                     setTimeout(() => {
                         $("#loader").hide();
                     }, 1000);
@@ -1603,9 +1603,9 @@
         // }, 4000);
 
 
-        // function saveFilter() {
-        //     let divHtml = $("div[role='menu']").html();
-        //     localStorage.setItem('divHTML', JSON.stringify(divHtml));
-        // }
+        function saveFilter() {
+            let divHtml = $("div[role='menu']").html();
+            localStorage.setItem('divHTML', JSON.stringify(divHtml));
+        }
     </script>
 @endsection

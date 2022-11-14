@@ -284,7 +284,7 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $id[0])->firstOrFail();
                 $numberOfEndo = $id[1] + 1;
-                $origionalRecruiter = 0; 
+                $origionalRecruiter = 0;
                 $tap = Auth::user()->id;
             }
 
@@ -497,7 +497,7 @@ class CandidateController extends Controller
             $finance->onboardnig_date = $request->ONBOARDING_DATE;
             $finance->invoice_number = $request->INVOICE_NUMBER;
             $finance->client_finance = $request->CLIENT_FINANCE;
-            $finance->career_finance = $request->CAREER_LEVEL;
+            $finance->career_finance = $request->CAREER_LEVEL_FINANCE;
             $finance->rate = preg_replace('/%/', '', $request->RATE);
             $finance->srp = $request->STANDARD_PROJECTED_REVENUE;
             $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
@@ -517,7 +517,9 @@ class CandidateController extends Controller
             $finance_detail->allowance = $request->ALLOWANCE;
             $finance_detail->rate_per = preg_replace('/%/', '', $request->RATE);
             $finance_detail->finance_id = $finance->id;
-            $finance_detail->process_status = "FB";
+            if (in_array($request->REMARKS_FOR_FINANCE, $array['Final Stage'])) {
+                $finance_detail->process_status = "FB";
+            }
             $finance_detail->save();
 
             // return response success if data is entered
@@ -1191,7 +1193,7 @@ class CandidateController extends Controller
                 'onboardnig_date' => $request->ONBOARDING_DATE,
                 'invoice_number' => $request->INVOICE_NUMBER,
                 'client_finance' => $request->CLIENT_FINANCE,
-                'career_finance' => $request->CAREER_LEVEL,
+                'career_finance' => $request->CAREER_LEVEL_FINANCE,
                 'rate' => preg_replace('/%/', '', $request->RATE),
                 'Total_bilable_ammount' => $request->TOTAL_BILLABLE_AMOUNT,
                 'srp' => $request->STANDARD_PROJECTED_REVENUE,
@@ -1323,7 +1325,7 @@ class CandidateController extends Controller
     // get candidate profile data from ajax call
     public function traveseDataByClientProfile(Request $request)
     {
-        $status = ['OPEN','REOPEN'];
+        $status = ['OPEN', 'REOPEN'];
         if ($request->c_profile) {
             $request->position == null;
             $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
@@ -1334,7 +1336,7 @@ class CandidateController extends Controller
         }
         if ($request->position) {
             $request->c_profile == null;
-            $response = DB::table('jdl')->where("p_title", $request->position)->whereIn('status',  $status)
+            $response = DB::table('jdl')->where("p_title", $request->position)->whereIn('status', $status)
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
             if ($response) {
 
@@ -1342,7 +1344,7 @@ class CandidateController extends Controller
             }
         }
         if ($request->client_dropdown) {
-            $response = DB::table('jdl')->where("client", $request->client_dropdown)->whereIntegerInRaw('status',  $status)
+            $response = DB::table('jdl')->where("client", $request->client_dropdown)->whereIntegerInRaw('status', $status)
                 ->select('client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level')->orderBy('p_title')->get();
             if ($response) {
                 return response()->json(['data' => $response]);

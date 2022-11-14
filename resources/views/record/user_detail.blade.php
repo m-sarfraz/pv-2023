@@ -1128,7 +1128,7 @@
         $('#career').empty();
 
         for (let i = 0; i < globalData.length; i++) {
-            if ($('#position').val() == globalData[i].p_title) {
+            if ($('#position').val().toLowerCase() == globalData[i].p_title.toLowerCase()) {
                 if (career_endo == globalData[i].c_level) {
                     $('#career').append(
                         `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`

@@ -115,7 +115,7 @@
                                                     <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
-                                            <input type="number" class="form-control EmailInput-F"
+                                            <input type="text" class="form-control EmailInput-F"
                                                 value="{{ $user->phone }}" name="CONTACT_NUMBER" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -690,12 +690,12 @@
                                         disabled>
                                         Select
                                         Option</option>
-                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                    {{-- @foreach ($CareerLevel->options as $CareerLevelOptions)
                                         <option value="{{ $CareerLevelOptions->option_name }}"
                                             {{ $user->career_endo == $CareerLevelOptions->option_name ? 'selected' : '' }}>
                                             {{ $CareerLevelOptions->option_name }}
                                         </option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 <div>
                                     <small class="text-danger"></small>
@@ -1373,10 +1373,10 @@
                         }
                     }
 
-                    let value = $('#client').val()
-                    $('#client_finance').append(`<option selected  value="${value}">
-                                       ${value}
-                                  </option>`)
+                    // let value = $('#client').val()
+                    // $('#client_finance').append(`<option selected  value="${value}">
+                    //                    ${value}
+                    //               </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -1400,19 +1400,25 @@
 
     $('#position').change(function() {
         $('#career').empty();
-        console.log(globalData)
-        for (let i = 0; i < globalData.length; i++) {
-            if ($('#position').val().toLowerCase() == (globalData[i].p_title).toLowerCase()) {
 
-                $('#career').append(
-                    `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
-                );
+        for (let i = 0; i < globalData.length; i++) {
+            if ($('#position').val().toLowerCase() == globalData[i].p_title.toLowerCase()) {
+                if (career_endo == globalData[i].c_level) {
+                    $('#career').append(
+                        `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                } else {
+
+                    $('#career').append(
+                        `<option   value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
+                    );
+                }
             }
         }
-        let value = $('#career').val()
-        $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+        // let value = $('#career').val()
+        // $('#career_finance').append(`<option selected value="${value}">
+        //                                ${value}
+        //                           </option>`)
         DomainSegmentAppend()
 
 
@@ -1433,7 +1439,7 @@
                 );
             }
         }
-        SPRCalculator();
+        // SPRCalculator();
 
     }
 

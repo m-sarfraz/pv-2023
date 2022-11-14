@@ -788,11 +788,11 @@
                         }
                     }
 
-                    let value = $('#client').val()
-                    console.log(value)
-                    $('#client_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+                    // let value = $('#client').val()
+                    // console.log(value)
+                    // $('#client_finance').append(`<option selected value="${value}">
+                    //                    ${value}
+                    //               </option>`)
                     $('#position').change();
                     $('#client').attr('readonly', true);
                     $('#domain_endo').attr('readonly', true);
@@ -817,7 +817,7 @@
     $('#position').change(function() {
         $('#career').empty();
         for (let i = 0; i < globalData.length; i++) {
-            if ($('#position').val() == globalData[i].p_title) {
+            if ($('#position').val().toLowerCase() == globalData[i].p_title.toLowerCase()) {
                 if (career_endo == globalData[i].c_level) {
                     $('#career').append(
                         `<option selected value="${globalData[i].c_level}">${globalData[i].c_level}</option>`
@@ -830,10 +830,10 @@
                 }
             }
         }
-        let value = $('#career').val()
-        $('#career_finance').append(`<option selected value="${value}">
-                                       ${value}
-                                  </option>`)
+        // let value = $('#career').val()
+        // $('#career_finance').append(`<option selected value="${value}">
+        //                                ${value}
+        //                           </option>`)
         DomainSegmentAppend()
         
 
