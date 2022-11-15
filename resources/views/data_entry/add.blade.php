@@ -637,7 +637,7 @@
                                                                 <input type="number" name="OFFERED_SALARY"
                                                                     id="off_salary"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
-                                                                    disabled="" oninput="SalaryAppend('#remarks')"
+                                                                     oninput="SalaryAppend('#remarks')"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
@@ -649,7 +649,7 @@
                                                                 <input type="number" name="OFFERED_ALLOWANCE"
                                                                     id="off_allowance"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_allowance : '' }}"
-                                                                    oninput="SalaryAppend('#remarks')" disabled=""
+                                                                    oninput="SalaryAppend('#remarks')" 
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
@@ -1933,7 +1933,7 @@
         //     $('#placement_fee').prop("disabled", false);
         //     $('#off_salary_fianance').prop("disabled", false);
         //     $('#onboard_date').prop("disabled", false);
-        //     // $('#off_allowance').prop("disabled", false);
+            // $('#off_allowance').prop("disabled", false);
         // } else {
 
         //     // else disable the finance section and disable salray fields
@@ -1943,7 +1943,7 @@
         // }
         // if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard') || value.includes(
         //         'Scheduled') || value.includes('Offer accepted')) {
-        //     $('#off_allowance').prop("disabled", false);
+            // $('#off_allowance').prop("disabled", false);
         //     $('#off_salary').prop("disabled", false);
         // } else {
         //     $('#off_allowance').prop("disabled", true);
@@ -2124,7 +2124,7 @@
                     $('#endo_date').prop("disabled", true);
                     // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
-                    $('#off_allowance').prop("disabled", true);
+                    // $('#off_allowance').prop("disabled", true);
                     $('#career_finance').prop("disabled", true);
                     $('#srp').prop("disabled", true);
                     $('#remarks_finance').prop("disabled", true);
@@ -2135,7 +2135,7 @@
                     $('#placement_fee').prop("disabled", true);
                     $('#off_salary_fianance').prop("disabled", true);
                     $('#onboard_date').attr("readonly", true);
-                    $('#off_salary').prop("disabled", true);
+                    // $('#off_salary').prop("disabled", true);
                     var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text(
                         "Select Option")
                     $("#remarks_for_finance").append($newOption).trigger('change');
@@ -2165,7 +2165,7 @@
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
                 $('#finance_fieldset').prop("disabled", false);
-                $('#off_allowance').prop("disabled", true);
+                // $('#off_allowance').prop("disabled", true);
                 $('#career_finance').prop("disabled", true);
                 $('#srp').prop("disabled", true);
                 $('#remarks_finance').prop("disabled", true);
@@ -2177,7 +2177,7 @@
                 $('#off_salary_fianance').prop("disabled", true);
                 $('#onboard_date').attr("readonly", true);
                 // $('#onboard_date').prop("disabled", true);
-                $('#off_salary').prop("disabled", true);
+                // $('#off_salary').prop("disabled", true);
 
             }
 

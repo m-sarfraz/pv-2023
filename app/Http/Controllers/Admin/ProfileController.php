@@ -290,7 +290,7 @@ class ProfileController extends Controller
                                 $finance = new Finance();
                                 $finance_detail = new Finance_detail();
                                 $Cipprogress = new Cipprogress();
-                                $origionalRecruiter = 0;
+                                $origionalRecruiter = (Endorsement::where('candidate_id', $query->id)->first())->origionalRecruiter;
                                 $tap = Auth::user()->id;
                             }
                         } else {
@@ -908,7 +908,7 @@ class ProfileController extends Controller
                             $finance = new Finance();
                             $finance_detail = new Finance_detail();
                             $Cipprogress = new Cipprogress();
-                            $origionalRecruiter = 0;
+                            $origionalRecruiter = (Endorsement::where('candidate_id', $query->id)->first())->origionalRecruiter;
                             $tap = Auth::user()->id;
                         }
 

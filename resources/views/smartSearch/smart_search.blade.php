@@ -100,10 +100,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                                                                                            overflow: hidden;
-                                                                                                                                            text-overflow: ellipsis;
-                                                                                                                                            white-space: nowrap;
-                                                                                                                                        } */
+                                                                                                                                                overflow: hidden;
+                                                                                                                                                text-overflow: ellipsis;
+                                                                                                                                                white-space: nowrap;
+                                                                                                                                            } */
     </style>
 @endsection
 
@@ -1493,8 +1493,12 @@
             // draw values in option_table instance 
             console.log($(e).val());
             console.log($(e).attr('data-id'));
-
-            option_table.column($(e).attr('data-id')).search('^' + $(e).val(), true, false).draw();
+            let data_id = $(e).attr('data-id');
+            if (data_id == 15 || data_id == 16) {
+                option_table.column($(e).attr('data-id')).search($(e).val(), true, false).draw();
+            } else {
+                option_table.column($(e).attr('data-id')).search('^' + $(e).val(), true, false).draw();
+            }
             passIDToSummaryAppend();
             // console.log(obj);
             let test = $('#searchKeyword').val().split(' ');

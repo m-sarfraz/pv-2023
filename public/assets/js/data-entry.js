@@ -63,7 +63,7 @@ function RemarksChange(elem) {
         $('#off_salary_fianance').prop("disabled", false);
         $('#onboard_date').prop("disabled", false);
         // $('#onboard_date').attr("readonly", true);
-        // $('#off_allowance').prop("disabled", false);
+        $('#off_allowance').prop("disabled", false);
     } else {
 
         $('#career_finance').val('');
@@ -91,8 +91,8 @@ function RemarksChange(elem) {
         $('#off_salary').prop("disabled", false);
     }
     else {
-        $('#off_allowance').prop("disabled", true);
-        $('#off_salary').prop("disabled", true);
+        // $('#off_allowance').prop("disabled", true);
+        // $('#off_salary').prop("disabled", true);
     }
     // enalbe the interview date if remark include schedule
     if (value.includes('Scheduled')) {
@@ -131,7 +131,7 @@ function RemarksChange(elem) {
 function SalaryAppend(id) {
     var value = $('#remarks_finance').find(":selected").text().trim();
     // if (value == 'Billed') {
-    //     $('#off_allowance').prop("disabled", false);
+        $('#off_allowance').prop("disabled", false);
     // }
     var allowance = $('#off_allowance').val();
     // get vlaues of input field of candidate position
@@ -360,10 +360,10 @@ function EnableUserEdit(elem, role_id) {
         $('#rate').prop("disabled", false);
         $('#off_allowance_finance').prop("disabled", false);
         $('#placement_fee').prop("disabled", false);
-        $('#off_salary_fianance').prop("disabled", false);
+        // $('#off_salary_fianance').prop("disabled", false);
         $('#onboard_date').prop("disabled", false);
         // $('#onboard_date').attr("readonly", true);
-        // $('#off_allowance').prop("disabled", false);
+        $('#off_allowance').prop("disabled", false);
     } else {
 
         // else disable the finance section and disable salray fields
@@ -376,8 +376,8 @@ function EnableUserEdit(elem, role_id) {
         $('#off_salary').prop("disabled", false);
     }
     else {
-        $('#off_allowance').prop("disabled", true);
-        $('#off_salary').prop("disabled", true);
+        // $('#off_allowance').prop("disabled", true);
+        // $('#off_salary').prop("disabled", true);
     }
     // enalbe the interview date if remark include schedule
     if (value.includes('Scheduled')) {

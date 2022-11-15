@@ -273,7 +273,7 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
                 $numberOfEndo = 0;
-                $origionalRecruiter = 0;
+                $origionalRecruiter = (Endorsement::where('candidate_id',$candidate_id)->first())->origionalRecruiter;
                 $tap = Auth::user()->id;
             }
             $id = explode('-', $request->candidate_id);
@@ -284,11 +284,9 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $id[0])->firstOrFail();
                 $numberOfEndo = $id[1] + 1;
-                $origionalRecruiter = 0;
+                $origionalRecruiter =  (Endorsement::where('candidate_id',$candidate_id)->first())->origionalRecruiter;
                 $tap = Auth::user()->id;
-            }
-
-            // return $candidate_id;
+            } 
             // if ($candidate_id > 0) {
             //     // if record is being updated from Tap
 

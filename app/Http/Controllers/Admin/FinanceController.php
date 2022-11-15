@@ -118,11 +118,11 @@ class FinanceController extends Controller
         }
 
         if (isset($request->process)) {
-            if (isset($request->recruiter)) {
-                $Userdata->orWhereIn('finance_view.tap', $request->process);
-            } else {
+            // if (isset($request->recruiter)) {
+            //     $Userdata->orWhereIn('finance_view.tap', $request->process);
+            // } else {
                 $Userdata->whereIn('finance_view.tap', $request->process);
-            }
+            // }
         }
         if (isset($request->appstatus)) {
             $Userdata->whereIn('finance_view.process_status', $request->appstatus);
