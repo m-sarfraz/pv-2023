@@ -743,7 +743,7 @@
                     Shifted_start_dp = JSON.parse(localStorage.getItem('Shifted_start'));
                     Shifted_end_dp = JSON.parse(localStorage.getItem('Shifted_end'));
                     ob_start_dp = JSON.parse(localStorage.getItem('ob_start'));
-                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end')); 
+                    ob_end_dp = JSON.parse(localStorage.getItem('ob_end'));
                     for (let i = 0; i < res.domain.length; i++) {
                         $('#domain').append('<option value="' + res.domain[i].domain_name + '">' + res.domain[i]
                             .domain_name +
