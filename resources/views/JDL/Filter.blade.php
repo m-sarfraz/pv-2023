@@ -20,8 +20,8 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group mb-0">
-                            <label class="Label">FTE:</label>
-                            <input type="text" class="form-control users-input-S-C" value="{{ $user->t_fte }}" />
+                            <label class="Label"> FTE:</label>
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->updated_fte }}" />
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                             </label>
                             <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
                                 class="form-control border E_H h-px-20_custom"
-                                placeholder="Enter Interview Notes">{{ $user->recruiter }}</textarea>
+                                placeholder="">{{ $user->recruiter }}</textarea>
                         </div>
                     </div>
                     <div class="col-lg-6">

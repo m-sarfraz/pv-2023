@@ -1080,15 +1080,18 @@
                     }
 
                     // append values to storage 
-                    $('#recruiter').val(recruiter_view).trigger('change');
-                    $('#candidate').val(candidate_view);
-                    $('#sub_segment').val(sub_segment_view);
-                    $('#app_status').val(app_status_view);
-                    $('#client').val(client_view);
-                    $('#career_level').val(career_level_view);
-                    $('#profile').val(profile_view);
-                    $('#date').val(fromOB_view);
-
+                    if (recruiter_view != null || candidate_view != null || profile_view != null || sub_segment_view != null ||
+                        app_status_view != null || client_view != null || career_level_view != null || fromOB_view != null 
+                          ) {
+                        $('#recruiter').val(recruiter_view).trigger('change');
+                        $('#candidate').val(candidate_view);
+                        $('#sub_segment').val(sub_segment_view);
+                        $('#app_status').val(app_status_view);
+                        $('#client').val(client_view);
+                        $('#career_level').val(career_level_view);
+                        $('#profile').val(profile_view);
+                        $('#date').val(fromOB_view);
+                    }
                     $('#loader1').hide()
                 })
                 .fail(function(err) {

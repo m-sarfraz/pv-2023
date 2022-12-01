@@ -247,7 +247,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-1 align-items-center"> 
+                            <div class="row mb-1 align-items-center">
                                 <div class="col-lg-8">
                                     <div class="form-group mb-0 pt-lg-1 pt-m-0 pt-0">
                                         <label class="d-block font-size-3 mb-0">
@@ -994,7 +994,7 @@
                 // },
                 processing: true,
                 serverSide: false,
-               
+
                 ajax: {
                     url: "{{ route('view-finance-search-table') }}",
                     type: "GET",
@@ -1097,7 +1097,7 @@
                     appstatus_dp = JSON.parse(localStorage.getItem('appstatus'));
                     var fromOB_view = JSON.parse(localStorage.getItem('from_ob'));
                     var toOB_view = JSON.parse(localStorage.getItem('to_ob'));
-                    
+
                     for (let i = 0; i < res.candidates.length; i++) {
                         $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
                             res.candidates[i].name +
@@ -1137,16 +1137,21 @@
                     //     }
                     // }
                     $('#loader1').hide()
-
-                    $('#recruiter').val(recruiter_dp).trigger('change');
-                    $('#candidate').val(candidate_dp);
-                    $('#process').val(process_dp);
-                    $('#team_id').val(team_id_dp);
-                    $('#client').val(client_dp);
-                    $('#remarks').val(remarks_dp);
-                    $('#appstatus').val(appstatus_dp);
-                    $('#ob_date').val(fromOB_view);
-                    $('#to_ob_date').val(toOB_view);
+                    if (recruiter_dp != null || candidate_dp != null || process_dp != null || team_id_dp !=
+                        null ||
+                        client_dp != null || remarks_dp != null || appstatus_dp != null || fromOB_view !=
+                        null || toOB_view != null
+                    ) {
+                        $('#recruiter').val(recruiter_dp).trigger('change');
+                        $('#candidate').val(candidate_dp);
+                        $('#process').val(process_dp);
+                        $('#team_id').val(team_id_dp);
+                        $('#client').val(client_dp);
+                        $('#remarks').val(remarks_dp);
+                        $('#appstatus').val(appstatus_dp);
+                        $('#ob_date').val(fromOB_view);
+                        $('#to_ob_date').val(toOB_view);
+                    }
                 })
                 .fail(function(err) {
                     console.log(err);
@@ -1290,7 +1295,7 @@
                     targets: 1,
                     className: 'noVis'
                 }],
-                 columnDefs: [{
+                columnDefs: [{
                     targets: 8,
                     type: 'date'
                 }],

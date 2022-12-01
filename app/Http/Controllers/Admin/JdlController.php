@@ -11,7 +11,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\DataTables;
-
+use carbon\carbon;
 class JdlController extends Controller
 {
     public function __construct()
@@ -97,7 +97,11 @@ class JdlController extends Controller
             })
 
             ->addColumn('maturity', function ($jdlData) {
-                return $jdlData->maturity;
+                $maturityDate = $jdlData->maturity;
+                $date = Carbon::parse($jdlData->req_date);
+                $curren_date = Carbon::now();
+                $maturityDate = $date->diffInDays( $curren_date) ;  
+                return  $maturityDate;
             })
 
             ->rawColumns([
@@ -356,7 +360,11 @@ class JdlController extends Controller
             })
 
             ->addColumn('maturity', function ($dataJdl) {
-                return $dataJdl->maturity;
+                $maturityDate = $dataJdl->maturity;
+                $date = Carbon::parse($dataJdl->req_date);
+                $curren_date = Carbon::now();
+                $maturityDate = $date->diffInDays( $curren_date) ;  
+                return  $maturityDate;
             })
             ->with([
                 'search' => $request->searchKeyword,

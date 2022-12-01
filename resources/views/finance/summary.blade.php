@@ -177,7 +177,7 @@
     sql_c_share = {!! $sql_c_share !!}
     vcc_amount_sum = {!! $vcc_amount_sum !!}
     teamRevenueAmount = {!! $teamRevenueAmount !!}
-    sql_bod_share = {!! $sql_bod_share !!}
+    // sql_bod_share = {!! $sql_bod_share !!}
     $('#hires').val(hires);
     $('#fallout').val(fallout);
     $('#billed').val(billed);

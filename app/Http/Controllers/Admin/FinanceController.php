@@ -45,7 +45,7 @@ class FinanceController extends Controller
         DB::table('endorsements')
             ->join('finance', 'finance.endorsement_id', 'endorsements.id')
             ->join('finance_detail', 'finance.id', 'finance_detail.finance_id')
-            ->select('endorsements.*', 'finance.*', 'finance_detail.*','finance_detail.placementFee as feee')
+            ->select('endorsements.*', 'finance.*', 'finance_detail.*', 'finance_detail.placementFee as feee')
             ->where(['finance.candidate_id' => $arr[0],
                 'endorsements.numberOfEndo' => $arr[1], 'endorsements.saved_by' => $arr[2], 'endorsements.id' => $arr[4]])
             ->first();
@@ -121,7 +121,7 @@ class FinanceController extends Controller
             // if (isset($request->recruiter)) {
             //     $Userdata->orWhereIn('finance_view.tap', $request->process);
             // } else {
-                $Userdata->whereIn('finance_view.tap', $request->process);
+            $Userdata->whereIn('finance_view.tap', $request->process);
             // }
         }
         if (isset($request->appstatus)) {
@@ -148,7 +148,7 @@ class FinanceController extends Controller
 
             })
             ->addColumn('team', function ($user) {
-                $userid = User::where('id', $user->saved_by)->first(); 
+                $userid = User::where('id', $user->saved_by)->first();
                 $team = $userid->roles->pluck('name');
                 return json_decode($team);
             })
@@ -529,8 +529,8 @@ class FinanceController extends Controller
         $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
             ->whereIn('remarks_for_finance', $arr)
             ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))
-            ->orderBy('name','ASC')->get();
-        $recruiter = User::where("type", 3)->orderBy('name','ASC')->get();
+            ->orderBy('name', 'ASC')->get();
+        $recruiter = User::where("type", 3)->orderBy('name', 'ASC')->get();
         $teams = DB::select("select * from roles order by name ASC");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
         $remarks_finance = DB::select("select remarks_for_finance from endorsements where remarks_for_finance !='' group by remarks_for_finance");

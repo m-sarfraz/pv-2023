@@ -100,10 +100,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                                                                                                overflow: hidden;
-                                                                                                                                                text-overflow: ellipsis;
-                                                                                                                                                white-space: nowrap;
-                                                                                                                                            } */
+                                                                                                                                                    overflow: hidden;
+                                                                                                                                                    text-overflow: ellipsis;
+                                                                                                                                                    white-space: nowrap;
+                                                                                                                                                } */
     </style>
 @endsection
 
@@ -786,15 +786,14 @@
                             res.career.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
-                    if (domain_dp == null) {
-                        console.log('error');
-                    }
-                    if (domain_dp != null || recruiter_dp != null || client_dp != null || portal_dp != null ||
-                        resd_dp != null || career_dp != null || status_dp != null || category_dp != null ||
-                        remarks_dp != null || endo_start_dp != null || endo_end_dp != null || Shifted_start_dp !=
-                        null || Shifted_end_dp != null || ob_start_dp != null || ob_end_dp != null) {
+                 
+                    if (domain_dp != '' || recruiter_dp != '' || client_dp != '' || portal_dp != '' ||
+                        resd_dp != '' || career_dp != '' || status_dp != '' || category_dp != '' ||
+                        remarks_dp != '' || endo_start_dp != '' || endo_end_dp != '' || Shifted_start_dp !=
+                        '' || Shifted_end_dp != '' || ob_start_dp != '' || ob_end_dp != '') {
                         $('#domain').val(domain_dp);
                         console.log('idr a rha');
+                        console.log(domain_dps);
                         $('#recruiter').val(recruiter_dp);
                         $('#client').val(client_dp);
                         $('#portal').val(portal_dp);

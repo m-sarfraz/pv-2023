@@ -16,10 +16,10 @@ use App\jdlSheet;
 use App\Segment;
 use App\User;
 use Auth;
+use Cache;
 use Config;
 use DB;
 use File;
-use Cache;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -282,15 +282,14 @@ class ProfileController extends Controller
                                 $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
                                 $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
                                 $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
-                            } else {
-
+                            } else { 
                                 // insert new record
                                 $numberOfEndo = 1;
                                 $endorsement = new Endorsement();
                                 $finance = new Finance();
                                 $finance_detail = new Finance_detail();
                                 $Cipprogress = new Cipprogress();
-                                $origionalRecruiter = (Endorsement::where('candidate_id', $query->id)->first())->origionalRecruiter;
+                                $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
                                 $tap = Auth::user()->id;
                             }
                         } else {
@@ -333,10 +332,10 @@ class ProfileController extends Controller
                         $billAmount = 0;
                         // get inputs values by removing space or comma in it
                         $salray = floatval(isset($render[50]) ? $render[50] : 0);
-                        $vat = isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0;
-                        $compensation = isset($render[52]) ? $render[52] : 0;
+                        $vat = floatval(isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0);
+                        $compensation = floatval(isset($render[52]) ? $render[52] : 0);
                         $allowance = floatval(isset($render[51]) ? $render[51] : 0);
-                        $rate = isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0;
+                        $rate = floatval(isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0);
                         $credit_memo = floatval(isset($render[58]) ? $render[58] : 0);
                         // if rate is below zero ccalculate placement fee
                         if ($rate > 0) {
@@ -908,7 +907,7 @@ class ProfileController extends Controller
                             $finance = new Finance();
                             $finance_detail = new Finance_detail();
                             $Cipprogress = new Cipprogress();
-                            $origionalRecruiter = (Endorsement::where('candidate_id', $query->id)->first())->origionalRecruiter;
+                            $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
                             $tap = Auth::user()->id;
                         }
 
@@ -963,10 +962,10 @@ class ProfileController extends Controller
                     $billAmount = 0;
 // get inputs values by removing space or comma in it
                     $salray = floatval(isset($render[50]) ? $render[50] : 0);
-                    $vat = isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0;
-                    $compensation = isset($render[52]) ? $render[52] : 0;
-                    $allowance = floatval(isset($render[51]) ? $render[51] : 0);
-                    $rate = isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0;
+                    $vat = floatval(isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0);
+                    $compensation = floatval(isset($render[52]) ? $render[52] : 0);
+                    $allowance = floatval(isset($render[51]) ? $render[51] : 0); 
+                    $rate = floatval(isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0);
                     $credit_memo = floatval(isset($render[58]) ? $render[58] : 0);
 // if rate is below zero ccalculate placement fee
                     if ($rate > 0) {

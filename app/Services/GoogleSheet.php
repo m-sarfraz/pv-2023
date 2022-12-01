@@ -30,7 +30,6 @@ class GoogleSheet
             // $config2 = Config::get("datastudio.google_sheet_id");
             // dd($config2);
             $dimensions = $this->getDimensions($config2);
-            dd($dimensions);
             $range = 'Sheet1!A1:' . $dimensions['colCount'];
             $data = $this->googleSheetService
                 ->spreadsheets_values

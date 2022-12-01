@@ -63,6 +63,7 @@ class SmartSearchController extends Controller
     public function smartTOYajra()
     {
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
         $record = DB::select('select * from updated_view_record');
         return Datatables::of($record)
             ->addIndexColumn()
@@ -218,6 +219,7 @@ class SmartSearchController extends Controller
     // filter record on basis of seelcted dropdowns
     public function filterSearch(Request $request)
     {
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
         $data = [];
         $check = $searchCheck = false;
         // $search = $request->search;
@@ -483,6 +485,8 @@ class SmartSearchController extends Controller
     // append summary on page load or filter change
     public function summaryAppend(Request $request)
     {
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+
         // \Cache::forget('smartSearch');
         if ($request->array == 1) {
             // if (\Cache::get('smartSearch') != null) {
