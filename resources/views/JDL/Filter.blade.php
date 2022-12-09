@@ -14,14 +14,13 @@
                     <div class="col-lg-4">
                         <div class="form-group mb-0">
                             <label class="Label">Priority</label>
-                            <input type="text" class="form-control users-input-S-C"
-                                value="{{ $user->priority }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->priority }}" />
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group mb-0">
                             <label class="Label"> FTE:</label>
-                            <input type="text" class="form-control users-input-S-C" value="{{ $user->updated_fte }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->t_fte }}" />
                         </div>
                     </div>
                 </div>
@@ -29,7 +28,7 @@
                     <div class="col-lg-4">
                         <div class="form-group mb-0">
                             <label class="Label">No of Endo:</label>
-                            <input type="text" class="form-control users-input-S-C" value={{$endorsmentCount}} />
+                            <input type="text" class="form-control users-input-S-C" value={{ $endorsmentCount }} />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -45,8 +44,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Segment
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
-                                value="{{ $user->segment }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->segment }}" />
                         </div>
                     </div>
                 </div>
@@ -74,8 +72,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Career Level
                             </label>
-                            <input type="text" class="form-control users-input-S-C"
-                                value="{{ $user->c_level }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->c_level }}" />
                         </div>
                     </div>
                 </div>
@@ -89,8 +86,7 @@
                     <div class="col-lg-4">
                         <div class="form-group mb-0">
                             <label class="Label">Location:</label>
-                            <input type="text" class="form-control users-input-S-C"
-                                value="{{ $user->location }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->location }}" />
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -107,8 +103,7 @@
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">Budget:</label>
-                            <input type="text" class="form-control users-input-S-C"
-                                value="{{ $user->budget }}" />
+                            <input type="text" class="form-control users-input-S-C" value="{{ $user->budget }}" />
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -127,8 +122,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Job Description &amp; Work Experience:
                             </label>
-                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                class="form-control border E_H h-px-20_custom"
+                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                 placeholder="Job Description &amp; Work Experience">{{ $user->jd }}</textarea>
                         </div>
                     </div>
@@ -139,8 +133,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Recruitment Process:
                             </label>
-                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                class="form-control border E_H h-px-20_custom"
+                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                 placeholder="Recruitment Process">{{ $user->poc }}</textarea>
                         </div>
                     </div>
@@ -149,8 +142,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Notes:
                             </label>
-                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                class="form-control border E_H h-px-20_custom"
+                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                 placeholder=" Interview Notes">{{ $user->note }}</textarea>
                         </div>
                     </div>
@@ -161,8 +153,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Assigned Recruiters:
                             </label>
-                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text"
-                                class="form-control border E_H h-px-20_custom"
+                            <textarea name="EMPLOYMENT_HISTORY" rows="3" type="text" class="form-control border E_H h-px-20_custom"
                                 placeholder="">{{ $user->recruiter }}</textarea>
                         </div>
                     </div>

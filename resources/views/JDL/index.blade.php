@@ -34,8 +34,8 @@
         }
 
         /* overflow: hidden;
-                text-overflow: ellipsis;
-                /* height: 113px; */
+                    text-overflow: ellipsis;
+                    /* height: 113px; */
         .hidetrID tr td:nth-child(7),
         .hidetrID tr td:nth-child(3),
         .hidetrID tr td:nth-child(18) {
@@ -77,8 +77,8 @@
         }
 
         /* .hidetrID tr td{
-                    white-space: nowrap !important;
-                    } */
+                        white-space: nowrap !important;
+                        } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -108,8 +108,8 @@
         }
 
         /* .customWidth {
-                            width: 410px !important;
-                        } */
+                                width: 410px !important;
+                            } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -141,10 +141,10 @@
         }
 
         /*
-                           this is important!
-                           make sure you define this here
-                           or in jQuery codef
-                        */
+                               this is important!
+                               make sure you define this here
+                               or in jQuery codef
+                            */
         .resizer {
             position: absolute;
             top: 0;
