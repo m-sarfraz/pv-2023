@@ -1296,7 +1296,7 @@ class ProfileController extends Controller
                         $store_by_google_sheet->poc = isset($render[22]) ? $render[22] : "";
                         $store_by_google_sheet->note = isset($render[23]) ? $render[23] : "";
                         $store_by_google_sheet->start_date = isset($render[24]) ? $render[24] : "";
-                        $store_by_google_sheet->keyword = isset($render[25]) ? $render[21] : "";
+                        $store_by_google_sheet->keyword = isset($render[25]) ? $render[25] : "";
                         $store_by_google_sheet->recruiter = isset($render[26]) ? $render[26] : "";
 
                         $store_by_google_sheet->save();
@@ -1378,7 +1378,7 @@ class ProfileController extends Controller
                         $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
                         $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
                         $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
-                        $JDL_local_sheet->keyword = isset($render[25]) ? $render[21] : "";
+                        $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
                         $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
                         $JDL_local_sheet->save();
                     }

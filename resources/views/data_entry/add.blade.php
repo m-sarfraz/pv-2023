@@ -634,7 +634,7 @@
                                                                 <label class="Label labelFontSize" name="OFFERED_SALARY">
                                                                     Offered Salary:
                                                                 </label>
-                                                                <input type="number" name="OFFERED_SALARY"
+                                                                <input type="number" name="OFFERED_SALARY" disabled
                                                                     id="off_salary"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
                                                                      oninput="SalaryAppend('#remarks')"
@@ -646,7 +646,7 @@
                                                                 <label class="Label labelFontSize">
                                                                     Offered Allowance:
                                                                 </label>
-                                                                <input type="number" name="OFFERED_ALLOWANCE"
+                                                                <input type="number" name="OFFERED_ALLOWANCE" disabled
                                                                     id="off_allowance"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_allowance : '' }}"
                                                                     oninput="SalaryAppend('#remarks')" 
@@ -2124,7 +2124,7 @@
                     $('#endo_date').prop("disabled", true);
                     // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
-                    // $('#off_allowance').prop("disabled", true);
+                    $('#off_allowance').prop("disabled", true);
                     $('#career_finance').prop("disabled", true);
                     $('#srp').prop("disabled", true);
                     $('#remarks_finance').prop("disabled", true);
@@ -2135,7 +2135,7 @@
                     $('#placement_fee').prop("disabled", true);
                     $('#off_salary_fianance').prop("disabled", true);
                     $('#onboard_date').attr("readonly", true);
-                    // $('#off_salary').prop("disabled", true);
+                    $('#off_salary').prop("disabled", true);
                     var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text(
                         "Select Option")
                     $("#remarks_for_finance").append($newOption).trigger('change');
@@ -2165,7 +2165,7 @@
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
                 $('#finance_fieldset').prop("disabled", false);
-                // $('#off_allowance').prop("disabled", true);
+                $('#off_allowance').prop("disabled", true);
                 $('#career_finance').prop("disabled", true);
                 $('#srp').prop("disabled", true);
                 $('#remarks_finance').prop("disabled", true);
@@ -2177,7 +2177,7 @@
                 $('#off_salary_fianance').prop("disabled", true);
                 $('#onboard_date').attr("readonly", true);
                 // $('#onboard_date').prop("disabled", true);
-                // $('#off_salary').prop("disabled", true);
+                $('#off_salary').prop("disabled", true);
 
             }
 
