@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eallaine-recruitment-system",
+  "private_key_id": "c7658b020abbdef73d5dc4994785f331e244305a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDD0hDcZUG+jf/O\nzjhHSDqwL+n8CC7IKy2mLaHkq+dfYLGBmQEU5a73lmWSJfqgFnjxN7a5ZoIe9IH3\n2aCGnxH8fe/0sF2gO7W+K3Mnw+sz7kb3bolt07vAaP96uWgGhv36admyeJV6rP9J\nA9XZAILySrCovzKSTRMq63JyuSPDLuu5/gj4uRLPKNIXdrsDBsNUc6DRDGcRsIFc\n+1y+lJbygB1StBAb7GJHCPMyckpj6h9G5a5IAYVXyWkPqZUJOZs3Uksr12oOWh8O\nXzucgSywHv9mZue+Nd+oNpp5CO76U42PgqSspvoVDnkO8W+nv+xFQwVpvf1cwasG\nsJjiqDSBAgMBAAECgf9ERnVrvxozqan/Asd0SbBrIel0lSyfPL9hLE6+9KnWlN7c\nyG81WWcWbPHcrBxrDoDmFqs+7bGG2IRbtRWvIfDihWvdS3S680GTMSXu/aVfQzrx\narRER4HQINjeKonr4RXFae/+HfMT47fM4x7kj6lCDoKF/d3qQqTJzaEbLuCi5mus\nbJEOgb+tlfcypzFu+1Y3Eec66DEKyeQMT/yq7uYhL0IZSXQSC/v+RGLEWP/RBEG8\n4wcWm71fD1IOuUEVy+vnGj43ZHlykpxMNMf5FK+iCjKm0FYjxUmCz2GTo65IlAvx\n9FTEnaGycFOTC+BtaYKAUmqaLULOyXO/QF+Co8ECgYEA9X+sJCxuhmkh1b+wa+75\ndKBGY8pjZ+dv5jA4+BcerL5g2yNjKOu3fR2HOI5LqFLWtCzkXfk/UsBzhh6m6Eht\nCaUuv1O7YPYIkNacnlB2rM2lIEol2JDXGMA23vIfo105ytKhHXA2HMSF2pT45Bx4\noGaeZLifVgatUxEIg+b7wZ8CgYEAzDJk42eU9neK8tDgHwTnhEhpWLrJK6CoHxfw\nltYs6I2QY2VO/At/C6C4UHu6lEKd+0+P8q3hdAwLhDEWaQzlsUS/sTvGhD1o+Vkz\n/WUKh/hqfN18vYjIXqi1xyvJrYYNuFOeWSru/YYkAmYMSeiZ6GuPEchmrLk7fS7r\n7iO3ld8CgYEAjGUKJdm/D2D6N4obM26D/F1YQ+NPO/GP/b0gJ0jZgwKQ02GGaLV8\nxrFnTkGaJNXS8VEm/FL5ErL6nf3Th807hiOP+1zAMPAi7+m7wZHUfHhScYfV4uba\nC86I0rD2xO8giMwx1WsBlywQPHOrbpCVr21gMcufW4wP/QwlqYEkApMCgYBKL5zb\nyYwjJzdCFIT4gA2kz7IGXIYt5YZvFYGBK3rRWm00z1+sznhvvwp3oxwcNT+0SCmi\nH24jfSTJ+BOOQvNIPhPuzirHbJAw1ym+S/FRiP0XNFjXe1Rgn6a7H7t74ZImf6qt\n9p0xWoTGolCgoXMZL8qgyVAUPI/SYTOyJyPRvQKBgQCeNNqyciJZfB9lE6nCeg73\nPdKwnEahmRlwo6AWDCyQP46Gwu1p1a8Jl3CU2xMFADSZSP+ImD1mqIyhbYJCluJT\nGF1jbpLYe9sLUAIYtzu3n0zm/Ek++bPl4MUKWXSc5azR+Wr+n1D9JN/nPfbooiaT\nyb6OO7MUL0okQIdPLr4h5Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "eallaine-recruitment-system@eallaine-recruitment-system.iam.gserviceaccount.com",
+  "client_id": "117124673720199436467",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/eallaine-recruitment-system%40eallaine-recruitment-system.iam.gserviceaccount.com"
+}

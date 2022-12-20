@@ -266,7 +266,8 @@
                         </option>
                         @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                             {{ $user != null ? ($user->rfp == $ReasonForNotP->option_name ? 'selected' : '') : '' }}>
-                            <option value="{{ $ReasonForNotPOptions->option_name }}">
+                            <option value="{{ $ReasonForNotPOptions->option_name }}"
+                                {{strtolower( $user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '' }}>
                                 {{ $ReasonForNotPOptions->option_name }}
                             </option>
                         @endforeach
