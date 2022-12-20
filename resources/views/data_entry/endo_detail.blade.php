@@ -252,7 +252,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="form-group mb-0">
+                <div class="form-group mb-0"> 
                     @php
                         $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
                     @endphp
@@ -264,10 +264,9 @@
                         <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
                             Option
                         </option>
-                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
-                            {{ $user != null ? ($user->rfp == $ReasonForNotP->option_name ? 'selected' : '') : '' }}>
+                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions) 
                             <option value="{{ $ReasonForNotPOptions->option_name }}"
-                                {{strtolower( $user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '' }}>
+                                {{ $user != null ? ($user->rfp != null ? (strtolower($user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '') : ''):'' }}>
                                 {{ $ReasonForNotPOptions->option_name }}
                             </option>
                         @endforeach
@@ -429,8 +428,8 @@
                                     Standard Projected Reveneu
                                 </label>
                                 <input type="number" name="STANDARD_PROJECTED_REVENUE" id="srp"
-                                    value="{{ $user != null ? $user->srp : '' }}"
-                                    class="form-control h-px-20_custom" readonly />
+                                    value="{{ $user != null ? $user->srp : '' }}" class="form-control h-px-20_custom"
+                                    readonly />
                                 <div>
                                     <small class="text-danger"></small>
                                 </div>
@@ -656,7 +655,7 @@
         $('#endo_type').prop("disabled", false);
     }
     // close 
-    var title = "<?php echo $user !=null ?  $user->position_title : ''; ?>";
+    var title = "<?php echo $user != null ? $user->position_title : ''; ?>";
 
     var career_endo = "<?php echo $user != null ? $user->career_endo : ''; ?>";
     // on finance load enable disable fields according to finance remarks 
@@ -742,7 +741,7 @@
     $("form#data_entry select").each(function() {
         $(this).attr('readonly') ? $(this).css('pointer-events', 'none') : ''
     });
- 
+
     function clientChanged(dropDown, elem) {
         // console.log('helllo');
 
@@ -836,7 +835,7 @@
         //                                ${value}
         //                           </option>`)
         DomainSegmentAppend()
-        
+
 
     })
 
