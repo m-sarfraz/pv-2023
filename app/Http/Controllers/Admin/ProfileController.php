@@ -105,6 +105,7 @@ class ProfileController extends Controller
     public function readsheet(\App\Services\GoogleSheet$googleSheet, Request $request)
     {
         ini_set('max_execution_time', 3000); //3000 seconds = 50 minutes
+        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
         $recruiter = Auth::user()->roles->first();
         // change configuration for google sheet ID
         $config = Config::get("datastudio.google_sheet_id");
