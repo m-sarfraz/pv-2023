@@ -91,8 +91,8 @@ function RemarksChange(elem) {
         $('#off_salary').prop("disabled", false);
     }
     else {
-        // $('#off_allowance').prop("disabled", true);
-        // $('#off_salary').prop("disabled", true);
+        $('#off_allowance').prop("disabled", true);
+        $('#off_salary').prop("disabled", true);
     }
     // enalbe the interview date if remark include schedule
     if (value.includes('Scheduled')) {
@@ -376,8 +376,8 @@ function EnableUserEdit(elem, role_id) {
         $('#off_salary').prop("disabled", false);
     }
     else {
-        // $('#off_allowance').prop("disabled", true);
-        // $('#off_salary').prop("disabled", true);
+        $('#off_allowance').prop("disabled", true);
+        $('#off_salary').prop("disabled", true);
     }
     // enalbe the interview date if remark include schedule
     if (value.includes('Scheduled')) {
