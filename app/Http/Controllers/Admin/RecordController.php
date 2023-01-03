@@ -581,6 +581,7 @@ class RecordController extends Controller
                 'segment_endo' => $e_name,
                 'category' => $category,
                 'sub_segment_endo' => $e_sub_name,
+                'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
                 'endi_date' => $request->endo_date,
                 'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
             ]);
