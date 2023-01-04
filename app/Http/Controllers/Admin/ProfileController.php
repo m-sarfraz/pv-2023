@@ -283,7 +283,7 @@ class ProfileController extends Controller
                                 $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
                                 $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
                                 $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
-                            } else { 
+                            } else {
                                 // insert new record
                                 $numberOfEndo = 1;
                                 $endorsement = new Endorsement();
@@ -965,7 +965,7 @@ class ProfileController extends Controller
                     $salray = floatval(isset($render[50]) ? $render[50] : 0);
                     $vat = floatval(isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0);
                     $compensation = floatval(isset($render[52]) ? $render[52] : 0);
-                    $allowance = floatval(isset($render[51]) ? $render[51] : 0); 
+                    $allowance = floatval(isset($render[51]) ? $render[51] : 0);
                     $rate = floatval(isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0);
                     $credit_memo = floatval(isset($render[58]) ? $render[58] : 0);
 // if rate is below zero ccalculate placement fee
@@ -1352,6 +1352,17 @@ class ProfileController extends Controller
                             // insert record
                             $JDL_local_sheet = new jdlSheet();
                         }
+                        // $JDL_local_sheet = new CandidateProfile_Dropdown();
+                        // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
+                        // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
+                        // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
+                        // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
+                        // $JDL_local_sheet->save();
+                        // return;
+                        // $JDL_local_sheet = new DropDownOption();
+                        // $JDL_local_sheet->drop_down_id = 5;
+                        // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
+                        // $JDL_local_sheet->save();
                         // $JDL_local_sheet = new jdlSheet();
                         $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
                         $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";

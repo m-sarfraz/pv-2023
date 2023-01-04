@@ -148,7 +148,7 @@ finance_detail.owner_share_per as 'OWNER SHARE(%)',
 finance_detail.owner_share as 'OWNER SHARE AMOUNT',
 finance_detail.reprocess_share_per as 'REPROCESS SHARE(%)',
 finance_detail.reprocess_share as 'REPROCESS SHARE AMOUNT',
-finance_detail.ind_revenue  as 'INDIVIDUAL REVENUE'
+finance_detail.ind_revenue  as 'INDIVIDUAL REVENUE',endorsements.updated_at as 'Last Updated'
 
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
