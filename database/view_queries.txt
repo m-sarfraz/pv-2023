@@ -216,3 +216,28 @@ JOIN endorsements on endorsements.candidate_id = candidate_informations.id
 JOIN finance on endorsements.id = finance.endorsement_id
 JOIN finance_detail on finance.id = finance_detail.finance_id 
 WHERE endorsements.is_deleted = 0
+
+--------------------------------
+Detail View Record View
+--------------------------------
+CREATE VIEW view_record_detail_view AS
+ SELECT candidate_informations.*,candidate_informations.id as cid,
+candidate_positions.candidate_profile,candidate_positions.position_applied,candidate_positions.date_invited,
+candidate_positions.manner_of_invite,candidate_positions.curr_salary,candidate_positions.exp_salary,
+candidate_positions.off_salary,candidate_positions.curr_allowance,candidate_positions.cv,candidate_positions.off_allowance,
+candidate_domains.date_shifted,candidate_domains.domain,candidate_domains.emp_history,candidate_domains.interview_note,
+candidate_domains.segment,candidate_domains.sub_segment,endorsements.app_status,endorsements.remarks,endorsements.client,
+endorsements.type,endorsements.site,endorsements.position_title,endorsements.domain_endo,endorsements.interview_date,
+endorsements.career_endo,endorsements.rfp,endorsements.segment_endo,endorsements.sub_segment_endo,endorsements.endi_date,
+endorsements.remarks_for_finance,endorsements.status as endostatus,candidate_educations.educational_attain,
+candidate_educations.course,candidate_educations.certification,  
+candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id
+ 
+ 
+FROM candidate_informations
+JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
+JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
+JOIN candidate_educations on candidate_informations.id = candidate_educations.candidate_id
+JOIN endorsements on endorsements.candidate_id = candidate_informations.id
+ 
+WHERE endorsements.is_deleted = 0

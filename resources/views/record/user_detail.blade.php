@@ -47,7 +47,7 @@
                         <div class="form-group mb-0">
                             <label class="Label">DOB:</label>
                             <input type="date" class="form-control users-input-S-C" name="dob"
-                                value="{{ Carbon\Carbon::parse($user->dob)->format('Y-m-d') }}">
+                                value="{{ $user->dob != null  ? Carbon\Carbon::parse($user->dob)->format('Y-m-d') : '' }}">
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                 Date Sifted:
                             </label>
                             <input type="date" class="form-control users-input-S-C" name="date_shifted"
-                                value="{{ Carbon\Carbon::parse($user->date_shifted)->format('Y-m-d') }}" />
+                                value="{{$user->date_shifted != null  ? Carbon\Carbon::parse($user->date_shifted)->format('Y-m-d') : '' }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -154,7 +154,7 @@
                         <div class="form-group mb-0">
                             <label class="Label">Date Invited:</label>
                             <input type="date" class="form-control users-input-S-C" name="date_invited"
-                                value="{{ Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') }}" />
+                                value="{{ $user->date_invited != null  ? Carbon\Carbon::parse($user->date_invited)->format('Y-m-d') : '' }}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -367,7 +367,7 @@
                             </label>
                             <input type="date" class="form-control users-input-S-C" name="date_processed"
                                 id="date_processed"
-                                value="{{ Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') }}" />
+                                value="{{ $user->endi_date != null  ? Carbon\Carbon::parse($user->endi_date)->format('Y-m-d') : ''}}" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>
@@ -410,13 +410,16 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                    $recruiter = App\User::where('id', $user->recruiter_id)->first();
+                    ?>
                     <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="Label">
                                 Sifted By:
                             </label>
                             <input readonly type="text" class="form-control users-input-S-C"
-                                value="{{ $user->recruiter }}" name="shifted_by" />
+                                value="{{ $recruiter->name }}" name="shifted_by" />
                             <div>
                                 <small class="text-danger"></small>
                             </div>

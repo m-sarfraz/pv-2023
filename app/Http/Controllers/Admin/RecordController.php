@@ -417,7 +417,7 @@ class RecordController extends Controller
     public function UserDetails(Request $request)
     {
         $arrayofID = explode('-', $request->id);
-        $user = DB::table('six_table_view')
+        $user = DB::table('updated_view_record')
             ->where(['numberofEndo' => $arrayofID[1], 'id' => $arrayofID[0] == '' ? 0 : $arrayofID[0], 'recruiter_id' => $arrayofID[2]])
             ->first();
         $domainDrop = Domain::all();
