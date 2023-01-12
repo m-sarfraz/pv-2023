@@ -1328,7 +1328,7 @@ class ProfileController extends Controller
                 // die('Cannot open file for reading');
                 return redirect()->back()->with('error-jdl-sheet-local', 'Cannot open file for reading');
             }
-            $render = fgetcsv($file, 1000, ",");
+            // $render = fgetcsv($file, 1000, ",");
             // dd($render[0]);
             if ($render[0] != 'PRIORITY') {
                 return redirect()->back()->with('error-jdl-sheet-local', 'Data is not correct');
@@ -1392,6 +1392,7 @@ class ProfileController extends Controller
                         $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
                         $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
                         $JDL_local_sheet->save();
+                        $row++;
                     }
                 }
 
@@ -1447,5 +1448,45 @@ class ProfileController extends Controller
             // return DB::table('unit_details')->insert($insert_data);
         }
         return response()->json(['success' => false, "error" => true, 'message' => "Excel sheet does not having any record"]);
+    }
+    public function uploadDropDownSheet(Request $request)
+    {
+
+        $filename = $_FILES["sheetFileJDL"]["tmp_name"];
+        if ($_FILES["sheetFileJDL"]["size"] > 0) {
+            $file = fopen($filename, "r");
+
+            if (!$file) {
+                // die('Cannot open file for reading');
+                return redirect()->back()->with('error-jdl-sheet-local', 'Cannot open file for reading');
+            }
+            DropDownOption::where('drop_down_id', 22)->delete();
+            $render = fgetcsv($file, 1000, ",");
+            $row = 1;
+            while (($render = fgetcsv($file, 1000, ",")) !== false) {
+                $num = count($render);
+                if ($row > 6002) {
+                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
+                }
+
+                // $JDL_local_sheet = new CandidateProfile_Dropdown();
+                // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
+                // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
+                // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
+                // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
+                // $JDL_local_sheet->save();
+                // return;
+                $JDL_local_sheet = new DropDownOption();
+                $JDL_local_sheet->drop_down_id = 22;
+                $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
+                $JDL_local_sheet->save();
+
+            }
+
+            return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
+
+        }
+
+        return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');
     }
 }

@@ -342,16 +342,18 @@
                     <div class="col-lg-6">
                         <?php
                         $profile = Helper::get_dropdown('candidates_profile');
+                        $profile = App\CandidateProfile_Dropdown::select('c_profile')->get();
+
                         ?>
                         <div class="form-group mb-0">
                             <label class="Label">Candidate’s Profile:</label>
                             <select name="CANDIDATES_PROFILE" id="CANDIDATES_PROFILE" class="select2_dropdown w-100"
                                 class="form-control p-0 users-input-S-C" onchange="Fetch_profile()">
                                 <option {{ $user->candidate_profile == null ? 'selected' : '' }} disabled></option>
-                                @foreach ($profile->options as $profileOption)
-                                    <option value="{{ $profileOption->option_name }}"
-                                        {{ strtolower($user->candidate_profile) == strtolower($profileOption->option_name) ? 'selected' : '' }}>
-                                        {{ $profileOption->option_name }}
+                                @foreach ($profile as $profileOption)
+                                    <option value="{{ $profileOption->c_profile }}"
+                                        {{ strtolower($user->candidate_profile) == strtolower($profileOption->c_profile) ? 'selected' : '' }}>
+                                        {{ $profileOption->c_profile }}
                                     </option>
                                 @endforeach
                             </select>

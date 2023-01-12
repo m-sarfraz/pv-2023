@@ -123,6 +123,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-excel', 'ProfileController@readLocalAcceess')->name('save-excel');
     Route::post('connect_to_jdl_sheet', 'ProfileController@connect_to_jdl_sheet')->name('connect_to_jdl_sheet');
     Route::post('uploadJdlSheet', 'ProfileController@uploadJdlSheet')->name('uploadJdlSheet');
+    // Route::post('uploadJdlSheet', 'ProfileController@uploadDropDownSheet')->name('uploadJdlSheet');
 
     // finance route
     Route::get('finance', 'FinanceController@index')->name('finance');

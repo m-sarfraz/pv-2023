@@ -470,7 +470,8 @@
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <?php
-                                                            $profile = Helper::get_dropdown('candidates_profile');
+                                                            // $profile = Helper::get_dropdown('candidates_profile');
+                                                            $profile = App\CandidateProfile_Dropdown::select('c_profile')->get();
                                                             ?>
                                                             <div class="form-group mb-0">
                                                                 <label class="Label labelFontSize">
@@ -484,10 +485,10 @@
                                                                         {{ $candidateDetail == null ? 'selected' : '' }}
                                                                         disabled>Select Option
                                                                     </option>
-                                                                    @foreach ($profile->options as $profileOption)
-                                                                        <option value="{{ $profileOption->option_name }}"
-                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->option_name : '') ? 'selected' : '' }}>
-                                                                            {{ $profileOption->option_name }}
+                                                                    @foreach ($profile as $profileOption)
+                                                                        <option value="{{ $profileOption->c_profile }}"
+                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->c_profile : '') ? 'selected' : '' }}>
+                                                                            {{ $profileOption->c_profile }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>

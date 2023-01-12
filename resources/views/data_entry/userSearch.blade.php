@@ -297,7 +297,9 @@
                                     </div>
                                     <div class="col-lg-12 p-0">
                                         <?php
-                                        $profile = Helper::get_dropdown('candidates_profile');
+                                        // $profile = Helper::get_dropdown('candidates_profile');
+                                        $profile = App\CandidateProfile_Dropdown::select('c_profile')->get();
+
                                         ?>
                                         <div class="form-group mb-0">
                                             <label class="Label">
@@ -307,10 +309,10 @@
                                                 class="form-control p-0 users-input-S-C select2_dropdown w-100"
                                                 onchange="traverseData()">
                                                 <option disabled></option>
-                                                @foreach ($profile->options as $profileOption)
-                                                    <option value="{{ $profileOption->option_name }}"
-                                                        {{ $user->candidate_profile == $profileOption->option_name ? 'selected' : '' }}>
-                                                        {{ $profileOption->option_name }}
+                                                @foreach ($profile as $profileOption)
+                                                    <option value="{{ $profileOption->c_profile }}"
+                                                        {{ $user->candidate_profile == $profileOption->c_profile ? 'selected' : '' }}>
+                                                        {{ $profileOption->c_profile }}
                                                     </option>
                                                 @endforeach
                                             </select>
