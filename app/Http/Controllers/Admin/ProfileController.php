@@ -1330,12 +1330,9 @@ class ProfileController extends Controller
             }
             // $render = fgetcsv($file, 1000, ",");
             // dd($render[0]);
-            if ($render[0] != 'PRIORITY') {
-                return redirect()->back()->with('error-jdl-sheet-local', 'Data is not correct');
-            } else {
 
                 $row = 1;
-                while (($render = fgetcsv($file, 1000, ",")) !== false) {
+                while (($render = fgetcsv($file)) ) {
                     $num = count($render);
                     if ($row > 6002) {
                         redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
@@ -1397,7 +1394,6 @@ class ProfileController extends Controller
                 }
 
                 return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
-            }
         }
 
         return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');
