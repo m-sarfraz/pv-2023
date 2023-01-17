@@ -792,8 +792,7 @@
                         remarks_dp != '' || endo_start_dp != '' || endo_end_dp != '' || Shifted_start_dp !=
                         '' || Shifted_end_dp != '' || ob_start_dp != '' || ob_end_dp != '') {
                         $('#domain').val(domain_dp);
-                        console.log('idr a rha');
-                        console.log(domain_dps);
+                        console.log('idr a rha'); 
                         $('#recruiter').val(recruiter_dp);
                         $('#client').val(client_dp);
                         $('#portal').val(portal_dp);

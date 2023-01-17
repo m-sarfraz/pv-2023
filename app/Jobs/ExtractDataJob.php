@@ -38,6 +38,9 @@ class ExtractDataJob implements ShouldQueue
     {
             //  cron job path 
             // /usr/local/bin/php /home/vcclink/public_html/artisan schedule:run	
+            ini_set('max_execution_time', -1); //-1 seconds = infinite
+            ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+
         $Userdata = DB::table('data_extract_view');
         //    check null values coming form selected options
         if (isset($this->data['domain'])) {
