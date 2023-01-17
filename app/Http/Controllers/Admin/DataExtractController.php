@@ -49,7 +49,7 @@ class DataExtractController extends Controller
     public function extractData(Request $request)
     {
         ini_set('max_execution_time', -1); //-1 seconds = infinite
-        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+        ini_set('memory_limit',  -1); //1000M  = 1 GB
         $data = $request->all(); 
         $id = Auth::user()->id;
         // dispatch ob for exporting the data

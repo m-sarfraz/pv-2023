@@ -418,32 +418,32 @@ class ProfileController extends Controller
                         // }
                         // calculations  before saving finance detail data starts
 
-// placement fee calculator ends here
-// final fee calculator starts here
+                        // placement fee calculator ends here
+                        // final fee calculator starts here
                         $adjustment = floatval(isset($render[57]) ? $render[57] : 0);
                         $finalFe = floatval($adjustment + $placementFe);
                         $finalFee_total = number_format($finalFe, 2);
-// final fee calculator ends here
-// Reprocess share amount calculator starts here
+                        // final fee calculator ends here
+                        // Reprocess share amount calculator starts here
                         $share = isset($render[78]) ? floatval(str_replace('%', '', $render[78])) : 0;
                         $reprocessAmount1 = floatval($finalFe * (($share * 1) / 100));
                         $reprocessAmount_total = number_format($reprocessAmount1, 2);
-// Rewprcoess sahre amount calcualtor ends here
-// OWNER SHAER AMOUNT CALCULATOR STARTS
+                        // Rewprcoess sahre amount calcualtor ends here
+                        // OWNER SHAER AMOUNT CALCULATOR STARTS
                         $owsP = isset($render[76]) ? floatval(str_replace('%', '', $render[76])) : 0;
                         $ownerAmount1 = floatval($finalFe * (($owsP * 1) / 100));
                         $ownerAmount_total = number_format($ownerAmount1, 2);
-// OWNER SHARE AMOUNT CALCULTOR ENDS HERE
-// VCC Share Amount  CALCULATOR STARTS HERE
+                        // OWNER SHARE AMOUNT CALCULTOR ENDS HERE
+                        // VCC Share Amount  CALCULATOR STARTS HERE
                         $vccShare = isset($render[72]) ? floatval(str_replace('%', '', $render[72])) : 0;
                         $VCCamount1 = floatval($finalFe * ($vccShare * 1 / 100));
                         $VCCamount_total = number_format($VCCamount1, 2);
-// VCC Share Amount: CALCULATOR ENDS HERE
-// c take amount calculator starts here
+                        // VCC Share Amount: CALCULATOR ENDS HERE
+                        // c take amount calculator starts here
                         $c_take_per = isset($render[74]) ? floatval(str_replace('%', '', $render[74])) : 0;
                         $cTake1 = floatval($placementFe * ($c_take_per * 1 / 100));
                         $cTake_total = number_format($cTake1, 2);
-// c take calculator ends here
+                        // c take calculator ends here
 
                         $finance_detail->finance_id = $finance->id;
                         $finance_detail->candidate_id = $store_by_google_sheet->id;
@@ -629,6 +629,8 @@ class ProfileController extends Controller
     }
     public function readLocalAcceess(Request $request)
     {
+        ini_set('max_execution_time', -1); //-1 seconds = infinite
+        ini_set('memory_limit', -1); //1000M  = 1 GB
 
         $image_changed_name = time() . '.' . $request->file->getClientOriginalExtension();
 
@@ -923,6 +925,8 @@ class ProfileController extends Controller
                         $origionalRecruiter = Auth::user()->id;
                         $tap = 0;
                     }
+                    $array = Str::lower(isset($render[43]) ? $render[43] : "");
+                    $category = Helper::getCategory($array);
                     $endorsement->app_status = isset($render[32]) ? ucwords($render[32]) : "";
                     $endorsement->client = isset($render[35]) ? $render[35] : "";
                     $endorsement->type = isset($render[33]) ? $render[33] : "";
@@ -937,6 +941,7 @@ class ProfileController extends Controller
                     $endorsement->status = isset($render[42]) ? $render[42] : "";
                     $endorsement->remarks_for_finance = isset($render[43]) ? $render[43] : "";
                     $endorsement->candidate_id = $store_by_Ecxel->id;
+                    $endorsement->category = $category;
                     $endorsement->numberOfEndo = $numberOfEndo;
                     $endorsement->origionalRecruiter = $origionalRecruiter;
                     $endorsement->tap = $tap;
@@ -961,14 +966,14 @@ class ProfileController extends Controller
                     // }
                     // Placement fee calculator starts from here
                     $billAmount = 0;
-// get inputs values by removing space or comma in it
+                    // get inputs values by removing space or comma in it
                     $salray = floatval(isset($render[50]) ? $render[50] : 0);
                     $vat = floatval(isset($render[54]) ? floatval(str_replace('%', '', $render[54])) : 0);
                     $compensation = floatval(isset($render[52]) ? $render[52] : 0);
                     $allowance = floatval(isset($render[51]) ? $render[51] : 0);
                     $rate = floatval(isset($render[53]) ? floatval(str_replace('%', '', $render[53])) : 0);
                     $credit_memo = floatval(isset($render[58]) ? $render[58] : 0);
-// if rate is below zero ccalculate placement fee
+                    // if rate is below zero ccalculate placement fee
                     if ($rate > 0) {
                         $fee1 = ($billAmount + $compensation);
                         $ratePercentage = $fee1 * ($rate / 100);
@@ -1034,34 +1039,34 @@ class ProfileController extends Controller
                     //     // insert record
                     //     $finance_detail = new Finance_detail();
                     // }
-// calculations  before saving finance detail data starts
+                    // calculations  before saving finance detail data starts
 
-// placement fee calculator ends here
-// final fee calculator starts here
+                    // placement fee calculator ends here
+                    // final fee calculator starts here
                     $adjustment = floatval(isset($render[57]) ? $render[57] : 0);
                     $finalFe = floatval($adjustment + $placementFe);
                     $finalFee_total = number_format($finalFe, 2);
-// final fee calculator ends here
-// Reprocess share amount calculator starts here
+                    // final fee calculator ends here
+                    // Reprocess share amount calculator starts here
                     $share = isset($render[78]) ? floatval(str_replace('%', '', $render[78])) : 0;
                     $reprocessAmount1 = floatval($finalFe * (($share * 1) / 100));
                     $reprocessAmount_total = number_format($reprocessAmount1, 2);
-// Rewprcoess sahre amount calcualtor ends here
-// OWNER SHAER AMOUNT CALCULATOR STARTS
+                    // Rewprcoess sahre amount calcualtor ends here
+                    // OWNER SHAER AMOUNT CALCULATOR STARTS
                     $owsP = isset($render[76]) ? floatval(str_replace('%', '', $render[76])) : 0;
                     $ownerAmount1 = floatval($finalFe * (($owsP * 1) / 100));
                     $ownerAmount_total = number_format($ownerAmount1, 2);
-// OWNER SHARE AMOUNT CALCULTOR ENDS HERE
-// VCC Share Amount  CALCULATOR STARTS HERE
+                    // OWNER SHARE AMOUNT CALCULTOR ENDS HERE
+                    // VCC Share Amount  CALCULATOR STARTS HERE
                     $vccShare = isset($render[72]) ? floatval(str_replace('%', '', $render[72])) : 0;
                     $VCCamount1 = floatval($finalFe * ($vccShare * 1 / 100));
                     $VCCamount_total = number_format($VCCamount1, 2);
-// VCC Share Amount: CALCULATOR ENDS HERE
-// c take amount calculator starts here
+                    // VCC Share Amount: CALCULATOR ENDS HERE
+                    // c take amount calculator starts here
                     $c_take_per = isset($render[74]) ? floatval(str_replace('%', '', $render[74])) : 0;
                     $cTake1 = floatval($placementFe * ($c_take_per * 1 / 100));
                     $cTake_total = number_format($cTake1, 2);
-// c take calculator ends here
+                    // c take calculator ends here
 
                     $finance_detail->finance_id = $finance->id;
                     $finance_detail->candidate_id = $store_by_Ecxel->id;
@@ -1331,69 +1336,69 @@ class ProfileController extends Controller
             // $render = fgetcsv($file, 1000, ",");
             // dd($render[0]);
 
-                $row = 1;
-                while (($render = fgetcsv($file)) ) {
-                    $num = count($render);
-                    if ($row > 6002) {
-                        redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
-                    }
-                    if ($render[0] != 'PRIORITY') {
-                        $client = isset($render[8]) ? $render[8] : "";
-                        $c_level = isset($render[13]) ? $render[13] : "";
-                        $p_title = isset($render[12]) ? $render[12] : "";
-                        $query = DB::table("jdl")->where(["client" => $client, "c_level" => $c_level, "p_title" => $p_title])->first();
-                        if (isset($query->id)) {
-                            // update record
-                            $JDL_local_sheet = jdlSheet::find($query->id);
-                        } else {
-                            // insert record
-                            $JDL_local_sheet = new jdlSheet();
-                        }
-                        // $JDL_local_sheet = new CandidateProfile_Dropdown();
-                        // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
-                        // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
-                        // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
-                        // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
-                        // $JDL_local_sheet->save();
-                        // return;
-                        // $JDL_local_sheet = new DropDownOption();
-                        // $JDL_local_sheet->drop_down_id = 5;
-                        // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
-                        // $JDL_local_sheet->save();
-                        // $JDL_local_sheet = new jdlSheet();
-                        $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
-                        $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
-                        $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
-                        $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
-                        $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
-                        $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
-                        $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
-                        $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
-                        $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
-                        $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
-                        $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
-                        $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
-                        $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
-                        $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
-                        $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
-                        $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
-                        $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
-                        $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
-                        $JDL_local_sheet->jd = isset($render[17]) ? $render[17] : "";
-                        $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
-                        $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
-                        $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
-                        $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
-                        $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
-                        $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
-                        $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
-                        $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-                        $JDL_local_sheet->save();
-                        $row++;
-                    }
+            $row = 1;
+            while (($render = fgetcsv($file))) {
+                $num = count($render);
+                if ($row > 6002) {
+                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
                 }
+                if ($render[0] != 'PRIORITY') {
+                    $client = isset($render[8]) ? $render[8] : "";
+                    $c_level = isset($render[13]) ? $render[13] : "";
+                    $p_title = isset($render[12]) ? $render[12] : "";
+                    $query = DB::table("jdl")->where(["client" => $client, "c_level" => $c_level, "p_title" => $p_title])->first();
+                    if (isset($query->id)) {
+                        // update record
+                        $JDL_local_sheet = jdlSheet::find($query->id);
+                    } else {
+                        // insert record
+                        $JDL_local_sheet = new jdlSheet();
+                    }
+                    // $JDL_local_sheet = new CandidateProfile_Dropdown();
+                    // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
+                    // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
+                    // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
+                    // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
+                    // $JDL_local_sheet->save();
+                    // return;
+                    // $JDL_local_sheet = new DropDownOption();
+                    // $JDL_local_sheet->drop_down_id = 5;
+                    // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
+                    // $JDL_local_sheet->save();
+                    // $JDL_local_sheet = new jdlSheet();
+                    $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
+                    $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
+                    $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
+                    $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
+                    $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
+                    $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
+                    $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
+                    $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
+                    $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
+                    $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
+                    $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
+                    $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
+                    $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
+                    $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
+                    $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
+                    $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
+                    $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
+                    $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
+                    $JDL_local_sheet->jd = isset($render[17]) ? $render[17] : "";
+                    $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
+                    $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
+                    $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
+                    $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
+                    $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
+                    $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
+                    $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
+                    $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
+                    $JDL_local_sheet->save();
+                    $row++;
+                }
+            }
 
-                return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
+            return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');
         }
 
         return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');

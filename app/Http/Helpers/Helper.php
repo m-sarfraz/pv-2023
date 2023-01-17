@@ -67,6 +67,7 @@ class Helper
                 str_contains($array, Str::lower('Pending Offer Schedule')) ||
                 str_contains($array, Str::lower('Shortlisted'))) {
                 $category = 'Active - Final Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('Failed Country Head Interview')) ||
                 str_contains($array, Str::lower('Failed Final Interview')) ||
@@ -74,14 +75,15 @@ class Helper
                 str_contains($array, Str::lower('Offer Rejected')) ||
                 str_contains($array, Str::lower('position closed (final stage)')) ||
                 str_contains($array, Str::lower('Withdraw / CNI - Final')) ||
-                str_contains($array, Str::lower('Fallout')) ||  
-                str_contains($array, Str::lower('Reneged')) || 
+                str_contains($array, Str::lower('Fallout')) ||
+                str_contains($array, Str::lower('Reneged')) ||
                 str_contains($array, Str::lower('Position On Hold (Final Stage)'))) {
-
                 $category = 'Inactive - Final Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('Onboarded'))) {
                 $category = 'Converted - Final Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('For Initial Paper Screening')) ||
                 str_contains($array, Str::lower('Pending HRI')) ||
@@ -101,6 +103,7 @@ class Helper
                 str_contains($array, Str::lower('Pending Skills/Technical Interview')) ||
                 str_contains($array, Str::lower('Pending Validation'))) {
                 $category = 'Active - Initial Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('Pending DB Validation')) ||
                 str_contains($array, Str::lower('In Client')) ||
@@ -118,6 +121,7 @@ class Helper
                 || str_contains($array, Str::lower('Position Closed (Initial)')) ||
                 str_contains($array, Str::lower('Sourced by Other Vendor'))) {
                 $category = 'Inactive - Initial Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('Failed Skills interview')) ||
                 str_contains($array, Str::lower('Failed Techincal Interview')) ||
@@ -129,6 +133,7 @@ class Helper
                 str_contains($array, Str::lower('Position On Hold (Mid Stage)'))
                 || str_contains($array, Str::lower('Failed Account Validation'))) {
                 $category = 'Inactive - Mid Stage';
+                return $category;
             }
             if (str_contains($array, Str::lower('Scheduled for Skills Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Technical Interview')) ||
@@ -146,7 +151,9 @@ class Helper
                 || str_contains($array, Str::lower('Scheduled for Behavioral Interview')) ||
                 str_contains($array, Str::lower('Scheduled for Skills/Technical Interview'))) {
                 $category = 'Active - Mid Stage';
+                return $category;
             }
+            $category = '';
             return $category;
 
             // close
