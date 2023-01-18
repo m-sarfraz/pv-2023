@@ -34,9 +34,10 @@
         }
 
         /* overflow: hidden;
-                    text-overflow: ellipsis;
-                    /* height: 113px; */
-        .hidetrID tr td:nth-child(7),
+                        text-overflow: ellipsis;
+                        /* height: 113px; */
+        .hidetrID tr td:nth-child(17),
+        .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
         .hidetrID tr td:nth-child(18) {
             white-space: nowrap;
@@ -77,8 +78,8 @@
         }
 
         /* .hidetrID tr td{
-                        white-space: nowrap !important;
-                        } */
+                            white-space: nowrap !important;
+                            } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -108,8 +109,8 @@
         }
 
         /* .customWidth {
-                                width: 410px !important;
-                            } */
+                                    width: 410px !important;
+                                } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -141,10 +142,10 @@
         }
 
         /*
-                               this is important!
-                               make sure you define this here
-                               or in jQuery codef
-                            */
+                                   this is important!
+                                   make sure you define this here
+                                   or in jQuery codef
+                                */
         .resizer {
             position: absolute;
             top: 0;
@@ -322,24 +323,35 @@
                                 <tr style="whitespace-nowrap">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
-                                    <th class="ant-table-cell customWidth">Budget</th>
-                                    <th class="ant-table-cell ">Career Level</th>
+                                    <th class="ant-table-cell"> Priority</th>
+                                    <th class="ant-table-cell">Keyword</th>
+                                    <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell">Client</th>
                                     <th class="ant-table-cell">Domain</th>
-                                    <th class="ant-table-cell">Job Description</th>
-                                    <th class="ant-table-cell">Keyword</th>
-                                    <th class="ant-table-cell">Location</th>
-                                    <th class="ant-table-cell">Notes</th>
-                                    <th class="ant-table-cell">Position Title</th>
-                                    <th class="ant-table-cell"> Priority</th>
                                     <th class="ant-table-cell">Segment</th>
-                                    <th class="ant-table-cell">SLL. No</th>
-                                    <th class="ant-table-cell">Start Date</th>
-                                    <th class="ant-table-cell">Status</th>
                                     <th class="ant-table-cell">Sub-Segment</th>
+                                    <th class="ant-table-cell">Position Title</th>
+                                    <th class="ant-table-cell ">Career Level</th>
+                                    <th class="ant-table-cell">Job Description</th>
+                                    <th class="ant-table-cell">Educational Attainment</th>
+                                    <th class="ant-table-cell">Location</th>
                                     <th class="ant-table-cell">Work Schedule</th>
+                                    <th class="ant-table-cell customWidth">Budget</th>
+                                    <th class="ant-table-cell">Recruitment Process/POC</th>
+                                    <th class="ant-table-cell">Notes</th>
+                                    <th class="ant-table-cell">Start Date</th>
+                                    <th class="ant-table-cell">SLL. No</th>
+                                    <th class="ant-table-cell">Total FTE</th>
+                                    <th class="ant-table-cell">Updated FTE</th>
+                                    <th class="ant-table-cell">Ref. Code</th>
+                                    <th class="ant-table-cell">Requirement Date</th>
                                     <th class="tooltip1">MOR <span class="tooltiptext">Maturity Of
                                             Requirement</span></th>
+                                    <th class="ant-table-cell">Update Date</th>
+                                    <th class="ant-table-cell">Closed Date</th>
+                                    <th class="ant-table-cell">Old Shared Date</th>
+                                    <th class="ant-table-cell">Recruiter</th>
+
                                     {{-- <th class="ant-table-cell ant-table-cell-scrollbar"></th> --}}
                                 </tr>
                             </thead>
@@ -566,13 +578,18 @@
                         searchable: false
                     },
                     {
-                        data: 'budget',
-                        name: 'budget',
+                        data: 'priority',
+                        name: 'priority',
 
                     },
                     {
-                        data: 'c_level',
-                        name: 'c_level',
+                        data: 'keyword',
+                        name: 'keyword',
+
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
 
                     },
                     {
@@ -586,53 +603,8 @@
 
                     },
                     {
-                        data: 'jd',
-                        name: 'jd',
-
-                    },
-                    {
-                        data: 'keyword',
-                        name: 'keyword',
-
-                    },
-                    {
-                        data: 'location',
-                        name: 'location',
-
-                    },
-                    {
-                        data: 'note',
-                        name: 'note',
-
-                    },
-                    {
-                        data: 'p_title',
-                        name: 'p_title',
-
-                    },
-                    {
-                        data: 'priority',
-                        name: 'priority',
-
-                    },
-                    {
                         data: 'segment',
                         name: 'segment',
-
-                    },
-                    {
-                        data: 'sll_no',
-                        name: 'sll_no',
-
-                    },
-                    {
-                        data: 'start_date',
-                        name: 'start_date',
-
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
 
                     },
                     {
@@ -641,15 +613,97 @@
 
                     },
                     {
+                        data: 'p_title',
+                        name: 'p_title',
+
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level',
+
+                    },
+                    {
+                        data: 'jd',
+                        name: 'jd',
+
+                    },
+                    {
+                        data: 'edu_attainment',
+                        name: 'edu_attainment',
+
+                    },
+                    {
+                        data: 'location',
+                        name: 'location',
+
+                    },
+                    {
                         data: 'w_schedule',
                         name: 'w_schedule',
 
                     },
                     {
+                        data: 'budget',
+                        name: 'budget',
+
+                    },
+                    {
+                        data: 'poc',
+                        name: 'poc',
+
+                    },
+                    {
+                        data: 'note',
+                        name: 'note',
+
+                    },
+                    {
+                        data: 'start_date',
+                        name: 'start_date',
+
+                    },
+                    {
+                        data: 'sll_no',
+                        name: 'sll_no',
+
+                    },
+                    {
+                        data: 't_fte',
+                        name: 't_fte',
+
+                    }, {
+                        data: 'updated_fte',
+                        name: 'updated_fte',
+
+                    }, {
+                        data: 'ref_code',
+                        name: 'ref_code',
+
+                    }, {
+                        data: 'req_date',
+                        name: 'req_date',
+
+                    }, {
                         data: 'maturity',
                         name: 'maturity',
 
-                    }
+                    }, {
+                        data: 'updated_date',
+                        name: 'updated_date',
+
+                    }, {
+                        data: 'closed_date',
+                        name: 'closed_date',
+
+                    }, {
+                        data: 'os_date',
+                        name: 'os_date',
+
+                    }, {
+                        data: 'recruiter',
+                        name: 'recruiter',
+
+                    },
                 ],
                 dom: 'Blfrtip',
                 columnDefs: [{
@@ -721,7 +775,8 @@
                 },
                 columns: [{
                         data: 'id',
-                        name: 'id'
+                        name: 'id',
+                        searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
@@ -729,73 +784,132 @@
                         searchable: false
                     },
                     {
-                        data: 'budget',
-                        name: 'budget',
-                    },
-                    {
-                        data: 'c_level',
-                        name: 'c_level',
-                    },
-                    {
-                        data: 'client',
-                        name: 'client',
-                    },
-                    {
-                        data: 'domain',
-                        name: 'domain',
-                    },
-                    {
-                        data: 'jd',
-                        name: 'jd',
+                        data: 'priority',
+                        name: 'priority',
+
                     },
                     {
                         data: 'keyword',
                         name: 'keyword',
-                    },
-                    {
-                        data: 'location',
-                        name: 'location',
-                    },
-                    {
-                        data: 'note',
-                        name: 'note',
-                    },
-                    {
-                        data: 'p_title',
-                        name: 'p_title',
-                    },
-                    {
-                        data: 'priority',
-                        name: 'priority',
-                    },
-                    {
-                        data: 'segment',
-                        name: 'segment',
-                    },
-                    {
-                        data: 'sll_no',
-                        name: 'sll_no',
-                    },
-                    {
-                        data: 'start_date',
-                        name: 'start_date',
+
                     },
                     {
                         data: 'status',
                         name: 'status',
+
+                    },
+                    {
+                        data: 'client',
+                        name: 'client',
+
+                    },
+                    {
+                        data: 'domain',
+                        name: 'domain',
+
+                    },
+                    {
+                        data: 'segment',
+                        name: 'segment',
+
                     },
                     {
                         data: 'subsegment',
                         name: 'subsegment',
+
+                    },
+                    {
+                        data: 'p_title',
+                        name: 'p_title',
+
+                    },
+                    {
+                        data: 'c_level',
+                        name: 'c_level',
+
+                    },
+                    {
+                        data: 'jd',
+                        name: 'jd',
+
+                    },
+                    {
+                        data: 'edu_attainment',
+                        name: 'edu_attainment',
+
+                    },
+                    {
+                        data: 'location',
+                        name: 'location',
+
                     },
                     {
                         data: 'w_schedule',
                         name: 'w_schedule',
+
                     },
                     {
+                        data: 'budget',
+                        name: 'budget',
+
+                    },
+                    {
+                        data: 'poc',
+                        name: 'poc',
+
+                    },
+                    {
+                        data: 'note',
+                        name: 'note',
+
+                    },
+                    {
+                        data: 'start_date',
+                        name: 'start_date',
+
+                    },
+                    {
+                        data: 'sll_no',
+                        name: 'sll_no',
+
+                    },
+                    {
+                        data: 't_fte',
+                        name: 't_fte',
+
+                    }, {
+                        data: 'updated_fte',
+                        name: 'updated_fte',
+
+                    }, {
+                        data: 'ref_code',
+                        name: 'ref_code',
+
+                    }, {
+                        data: 'req_date',
+                        name: 'req_date',
+
+                    }, {
                         data: 'maturity',
                         name: 'maturity',
-                    }
+
+                    }, {
+                        data: 'updated_date',
+                        name: 'updated_date',
+
+                    }, {
+                        data: 'closed_date',
+                        name: 'closed_date',
+
+                    }, {
+                        data: 'os_date',
+                        name: 'os_date',
+
+                    }, {
+                        data: 'recruiter',
+                        name: 'recruiter',
+
+                    },
                 ],
                 dom: 'Blfrtip',
                 columnDefs: [{

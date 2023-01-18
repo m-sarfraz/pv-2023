@@ -7,11 +7,12 @@ use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\SubSegment;
+use carbon\carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\DataTables;
-use carbon\carbon;
+
 class JdlController extends Controller
 {
     public function __construct()
@@ -42,66 +43,99 @@ class JdlController extends Controller
             Cache::put('jdl', $jdlData, $now->addMonth(1));
         }
         return Datatables::of($jdlData)
+        ->addColumn('id', function ($jdlData) {
+            return $jdlData->id;
+        })
             ->addIndexColumn()
-            ->addColumn('budget', function ($jdlData) {
-                return $jdlData->budget;
-            })
-            ->addColumn('c_level', function ($jdlData) {
-                return $jdlData->c_level;
-            })
-            ->addColumn('client', function ($jdlData) {
-                return $jdlData->client;
-            })
-
-            ->addColumn('domain', function ($jdlData) {
-                return $jdlData->domain;
-            })
-            ->addColumn('jd', function ($jdlData) {
-                return $jdlData->jd;
-            })
-            ->addColumn('keyword', function ($jdlData) {
-                return $jdlData->keyword;
-            })
-            ->addColumn('location', function ($jdlData) {
-                return $jdlData->location;
-            })
-            ->addColumn('note', function ($jdlData) {
-                return $jdlData->note;
-            })
-
-            ->addColumn('p_title', function ($jdlData) {
-                return $jdlData->p_title;
-            })
             ->addColumn('priority', function ($jdlData) {
                 return $jdlData->priority;
             })
-            ->addColumn('segment', function ($jdlData) {
-                return $jdlData->segment;
-            })
-            ->addColumn('sll_no', function ($jdlData) {
-                return $jdlData->sll_no;
-            })
-            ->addColumn('start_date', function ($jdlData) {
-                return $jdlData->start_date;
+            ->addColumn('keyword', function ($jdlData) {
+                return $jdlData->keyword;
             })
             ->addColumn('status', function ($jdlData) {
                 return $jdlData->status;
             })
 
+            ->addColumn('client', function ($jdlData) {
+                return $jdlData->client;
+            })
+            ->addColumn('domain', function ($jdlData) {
+                return $jdlData->domain;
+            })
+            ->addColumn('segment', function ($jdlData) {
+                return $jdlData->segment;
+            })
             ->addColumn('subsegment', function ($jdlData) {
                 return $jdlData->subsegment;
             })
+            ->addColumn('p_title', function ($jdlData) {
+                return $jdlData->p_title;
+            })
+            ->addColumn('c_level', function ($jdlData) {
+                return $jdlData->c_level;
+            })
 
+            ->addColumn('jd', function ($jdlData) {
+                return $jdlData->jd;
+            })
+            ->addColumn('edu_attainment', function ($jdlData) {
+                return $jdlData->edu_attainment;
+            })
+            ->addColumn('location', function ($jdlData) {
+                return $jdlData->location;
+            })
             ->addColumn('w_schedule', function ($jdlData) {
                 return $jdlData->w_schedule;
             })
+            ->addColumn('budget', function ($jdlData) {
+                return $jdlData->budget;
+            })
+            ->addColumn('poc', function ($jdlData) {
+                return $jdlData->poc;
+            })
+            ->addColumn('note', function ($jdlData) {
+                return $jdlData->note;
+            })
+            ->addColumn('start_date', function ($jdlData) {
+                return $jdlData->start_date;
+            })
+            ->addColumn('sll_no', function ($jdlData) {
+                return $jdlData->sll_no;
+            })
 
+            ->addColumn('t_fte', function ($jdlData) {
+                return $jdlData->t_fte;
+            })
+            ->addColumn('updated_fte', function ($jdlData) {
+                return $jdlData->updated_fte;
+            })
+            ->addColumn('ref_code', function ($jdlData) {
+                return $jdlData->ref_code;
+            })
+
+            ->addColumn('req_date', function ($jdlData) {
+                return $jdlData->req_date;
+            })
             ->addColumn('maturity', function ($jdlData) {
                 $maturityDate = $jdlData->maturity;
                 $date = Carbon::parse($jdlData->req_date);
                 $curren_date = Carbon::now();
-                $maturityDate = $date->diffInDays( $curren_date) ;  
-                return  $maturityDate;
+                $maturityDate = $date->diffInDays($curren_date);
+                return $maturityDate;
+            })
+            ->addColumn('updated_date', function ($jdlData) {
+                return $jdlData->updated_date;
+            })
+            ->addColumn('closed_date', function ($jdlData) {
+                return $jdlData->closed_date;
+            })
+
+            ->addColumn('os_date', function ($jdlData) {
+                return $jdlData->os_date;
+            })
+            ->addColumn('recruiter', function ($jdlData) {
+                return $jdlData->recruiter;
             })
 
             ->rawColumns([
@@ -110,10 +144,12 @@ class JdlController extends Controller
                 'client',
                 'domain',
                 'jd',
+                'poc',
                 'keyword',
                 'location',
                 'note',
                 'p_title',
+                'edu_attainment',
                 'priority',
                 'segment',
                 'sll_no',
@@ -122,6 +158,14 @@ class JdlController extends Controller
                 'subsegment',
                 'w_schedule',
                 'maturity',
+                't_fte',
+                'updated_fte',
+                'ref_code',
+                'req_date',
+                'updated_date',
+                'closed_date',
+                'os_date',
+                'recruiter',
             ])
             ->make(true);
     }
@@ -301,70 +345,99 @@ class JdlController extends Controller
         }
         $dataJdl = $Userdata;
         return Datatables::of($dataJdl)
-            ->addColumn('id', function ($dataJdl) {
-                return $dataJdl->id;
-            })
+        ->addColumn('id', function ($dataJdl) {
+            return $dataJdl->id;
+        })
             ->addIndexColumn()
-
-            ->addColumn('budget', function ($dataJdl) {
-                return $dataJdl->budget;
-            })
-            ->addColumn('c_level', function ($dataJdl) {
-                return $dataJdl->c_level;
-            })
-            ->addColumn('client', function ($dataJdl) {
-                return $dataJdl->client;
-            })
-
-            ->addColumn('domain', function ($dataJdl) {
-                return $dataJdl->domain;
-            })
-            ->addColumn('jd', function ($dataJdl) {
-                return $dataJdl->jd;
-            })
-            ->addColumn('keyword', function ($dataJdl) {
-                return $dataJdl->keyword;
-            })
-            ->addColumn('location', function ($dataJdl) {
-                return $dataJdl->location;
-            })
-            ->addColumn('note', function ($dataJdl) {
-                return $dataJdl->note;
-            })
-
-            ->addColumn('p_title', function ($dataJdl) {
-                return $dataJdl->p_title;
-            })
             ->addColumn('priority', function ($dataJdl) {
                 return $dataJdl->priority;
             })
-            ->addColumn('segment', function ($dataJdl) {
-                return $dataJdl->segment;
-            })
-            ->addColumn('sll_no', function ($dataJdl) {
-                return $dataJdl->sll_no;
-            })
-            ->addColumn('start_date', function ($dataJdl) {
-                return $dataJdl->start_date;
+            ->addColumn('keyword', function ($dataJdl) {
+                return $dataJdl->keyword;
             })
             ->addColumn('status', function ($dataJdl) {
                 return $dataJdl->status;
             })
 
+            ->addColumn('client', function ($dataJdl) {
+                return $dataJdl->client;
+            })
+            ->addColumn('domain', function ($dataJdl) {
+                return $dataJdl->domain;
+            })
+            ->addColumn('segment', function ($dataJdl) {
+                return $dataJdl->segment;
+            })
             ->addColumn('subsegment', function ($dataJdl) {
                 return $dataJdl->subsegment;
             })
+            ->addColumn('p_title', function ($dataJdl) {
+                return $dataJdl->p_title;
+            })
+            ->addColumn('c_level', function ($dataJdl) {
+                return $dataJdl->c_level;
+            })
 
+            ->addColumn('jd', function ($dataJdl) {
+                return $dataJdl->jd;
+            })
+            ->addColumn('edu_attainment', function ($dataJdl) {
+                return $dataJdl->edu_attainment;
+            })
+            ->addColumn('location', function ($dataJdl) {
+                return $dataJdl->location;
+            })
             ->addColumn('w_schedule', function ($dataJdl) {
                 return $dataJdl->w_schedule;
             })
+            ->addColumn('budget', function ($dataJdl) {
+                return $dataJdl->budget;
+            })
+            ->addColumn('poc', function ($dataJdl) {
+                return $dataJdl->poc;
+            })
+            ->addColumn('note', function ($dataJdl) {
+                return $dataJdl->note;
+            })
+            ->addColumn('start_date', function ($dataJdl) {
+                return $dataJdl->start_date;
+            })
+            ->addColumn('sll_no', function ($dataJdl) {
+                return $dataJdl->sll_no;
+            })
 
+            ->addColumn('t_fte', function ($dataJdl) {
+                return $dataJdl->t_fte;
+            })
+            ->addColumn('updated_fte', function ($dataJdl) {
+                return $dataJdl->updated_fte;
+            })
+            ->addColumn('ref_code', function ($dataJdl) {
+                return $dataJdl->ref_code;
+            })
+
+            ->addColumn('req_date', function ($dataJdl) {
+                return $dataJdl->req_date;
+            })
             ->addColumn('maturity', function ($dataJdl) {
                 $maturityDate = $dataJdl->maturity;
                 $date = Carbon::parse($dataJdl->req_date);
                 $curren_date = Carbon::now();
-                $maturityDate = $date->diffInDays( $curren_date) ;  
-                return  $maturityDate;
+                $maturityDate = $date->diffInDays($curren_date);
+                return $maturityDate;
+            })
+            ->addColumn('updated_date', function ($dataJdl) {
+                return $dataJdl->updated_date;
+            })
+            ->addColumn('closed_date', function ($dataJdl) {
+                return $dataJdl->closed_date;
+            })
+
+            ->addColumn('os_date', function ($dataJdl) {
+                return $dataJdl->os_date;
+            })
+            ->addColumn('recruiter', function ($dataJdl) {
+                return $dataJdl->recruiter;
             })
             ->with([
                 'search' => $request->searchKeyword,
@@ -375,10 +448,12 @@ class JdlController extends Controller
                 'client',
                 'domain',
                 'jd',
+                'poc',
                 'keyword',
                 'location',
                 'note',
                 'p_title',
+                'edu_attainment',
                 'priority',
                 'segment',
                 'sll_no',
@@ -387,8 +462,16 @@ class JdlController extends Controller
                 'subsegment',
                 'w_schedule',
                 'maturity',
+                't_fte',
+                'updated_fte',
+                'ref_code',
+                'req_date',
+                'updated_date',
+                'closed_date',
+                'os_date',
+                'recruiter',
             ])
-            ->make(true);
+            ->make(true); 
     }
     public function filter_records_jdl_getclient(Request $request)
     {
