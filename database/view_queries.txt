@@ -206,8 +206,9 @@ endorsements.remarks_for_finance,endorsements.status as endostatus,candidate_edu
 candidate_educations.course,candidate_educations.certification,finance.endorsement_id,finance.remarks_recruiter,
 finance.onboardnig_date,finance.invoice_number,finance.client_finance,finance.career_finance,finance.rate,
 finance.Total_bilable_ammount,finance.srp,finance.offered_salary,finance_detail.placementFee,finance.allowance,
+CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,''))as  'fullName',
 finance_detail.c_take,finance_detail.vcc_amount,finance_detail.finalFee,finance_detail.process_status, finance_detail.or_number , finance_detail.replacement_for,
-candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id , endorsements.origionalRecruiter
+candidate_positions.source,endorsements.numberOfEndo,endorsements.saved_by as recruiter_id,users.name as recruiter_name,roles.name as team_name ,  endorsements.origionalRecruiter
 FROM candidate_informations
 JOIN candidate_positions on candidate_informations.id = candidate_positions.candidate_id
 JOIN candidate_domains on candidate_informations.id = candidate_domains.candidate_id
@@ -215,6 +216,9 @@ JOIN candidate_educations on candidate_informations.id = candidate_educations.ca
 JOIN endorsements on endorsements.candidate_id = candidate_informations.id
 JOIN finance on endorsements.id = finance.endorsement_id
 JOIN finance_detail on finance.id = finance_detail.finance_id 
+JOIN users on endorsements.saved_by = users.id 
+JOIN model_has_roles on users.id = model_has_roles.model_id
+join roles on   model_has_roles.role_id = roles.id
 WHERE endorsements.is_deleted = 0
 
 --------------------------------

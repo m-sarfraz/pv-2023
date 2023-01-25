@@ -10,7 +10,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Str;
 use Yajra\DataTables\DataTables;
-
+use Artisan;
 class SmartSearchController extends Controller
 {
     // private array for controller to summary append on filter change
@@ -20,6 +20,7 @@ class SmartSearchController extends Controller
     public function __construct()
     {
         set_time_limit(8000000);
+ 
         $this->middleware('permission:view-smart-search', ['only' => ['index']]);
     }
     //close
@@ -63,22 +64,28 @@ class SmartSearchController extends Controller
     public function smartTOYajra()
     {
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
-        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
-        $record = DB::select('select * from updated_view_record');
+        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
+        Artisan::call('cache:clear');
+        $totalCount = DB::select('select count(*) as total from endorsements where candidate_id=candidate_id and is_deleted = 0');
+        $totalCount = ($totalCount)[0]->total; 
+        $record = DB::table('updated_view_record');
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
                 return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
             })
             ->addColumn('recruiter', function ($record) {
-                $recr = (User::where('id', $record->saved_by)->first())->name;
-                return $recr;
+                // $recr = (User::where('id', $record->saved_by)->first())->name;
+                // return $recr;
+                return $record->recruiter_name;
 
             })
             ->addColumn('team', function ($record) {
-                $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
-                return json_decode($team);
+                // $userid = User::where('id', $record->saved_by)->get();
+                // $team = $userid[0]->roles->pluck('name');
+                // return json_decode($team);
+                return $record->team_name;
+
             })
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
@@ -178,7 +185,7 @@ class SmartSearchController extends Controller
             ->addColumn('sub_segment', function ($record) {
                 return $record->sub_segment;
             })
-
+            ->setTotalRecords($totalCount)
             ->rawColumns([
                 'id',
                 'recruiter',
@@ -219,7 +226,7 @@ class SmartSearchController extends Controller
     // filter record on basis of seelcted dropdowns
     public function filterSearch(Request $request)
     {
-        ini_set('memory_limit', '1000M'); //1000M  = 1 GB
+        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
         $data = [];
         $check = $searchCheck = false;
         // $search = $request->search;
@@ -322,6 +329,7 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('updated_view_record.endi_date', '<=', $request->endo_end);
         }
         $record = $Userdata->get();
+        $totalCount =  count($record); 
         $arrayOfIDS = $Userdata->select('cid', 'endorsement_id')->get();
         // return $arrayOfIDS;
         // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
@@ -335,14 +343,17 @@ class SmartSearchController extends Controller
                 return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
             })
             ->addColumn('recruiter', function ($record) {
-                $recr = (User::where('id', $record->saved_by)->first())->name;
-                return $recr;
+                // $recr = (User::where('id', $record->saved_by)->first())->name;
+                // return $recr;
+                return $record->recruiter_name;
 
             })
             ->addColumn('team', function ($record) {
-                $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
-                return json_decode($team);
+                // $userid = User::where('id', $record->saved_by)->get();
+                // $team = $userid[0]->roles->pluck('name');
+                // return json_decode($team);
+                return $record->team_name;
+
             })
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
@@ -442,6 +453,7 @@ class SmartSearchController extends Controller
             ->addColumn('sub_segment', function ($record) {
                 return $record->sub_segment;
             })
+            ->setTotalRecords($totalCount)
             ->with([
                 'array' => $this->candidate_arr,
                 'search' => $request->search,

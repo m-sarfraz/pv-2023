@@ -486,7 +486,7 @@
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate <input
                                             class="form-control inputTh" data-id="4" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /></th>
+                                            placeholder="Search Candidate" /></th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Sifted <input
                                             class="form-control inputTh" data-id="5" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
@@ -786,11 +786,11 @@
                             res.career.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
-                 
-                    if (domain_dp != '' || recruiter_dp != '' || client_dp != '' || portal_dp != '' ||
-                        resd_dp != '' || career_dp != '' || status_dp != '' || category_dp != '' ||
-                        remarks_dp != '' || endo_start_dp != '' || endo_end_dp != '' || Shifted_start_dp !=
-                        '' || Shifted_end_dp != '' || ob_start_dp != '' || ob_end_dp != '') {
+                 console.log(domain_dp);
+                    if (domain_dp != null || recruiter_dp != null || client_dp != null || portal_dp != null ||
+                        resd_dp != null || career_dp != null || status_dp != null || category_dp != null ||
+                        remarks_dp != null || endo_start_dp != null || endo_end_dp != null || Shifted_start_dp !=
+                        null || Shifted_end_dp != null || ob_start_dp != null || ob_end_dp != null) {
                         $('#domain').val(domain_dp);
                         console.log('idr a rha'); 
                         $('#recruiter').val(recruiter_dp);
@@ -822,7 +822,7 @@
             console.log(array);
             $('#loader3').show();
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: '{{ url('admin/summaryAppend') }}',
                 data: {
                     _token: token,

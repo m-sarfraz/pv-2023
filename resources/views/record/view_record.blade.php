@@ -1002,6 +1002,23 @@
             // $('#searchKeyword').focus();
             // show and hide loader after time set starts
             $('#loader').show();
+            $('#candidate').select2({
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ url('admin/showCandidateDropDown') }}',
+                    dataType: 'json',
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.fullName,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                },
+            })
             setTimeout(function() {
                 $('#loader').hide();
             }, 1000);
@@ -1080,9 +1097,11 @@
                     }
 
                     // append values to storage 
-                    if (recruiter_view != null || candidate_view != null || profile_view != null || sub_segment_view != null ||
-                        app_status_view != null || client_view != null || career_level_view != null || fromOB_view != null 
-                          ) {
+                    if (recruiter_view != null || candidate_view != null || profile_view != null || sub_segment_view !=
+                        null ||
+                        app_status_view != null || client_view != null || career_level_view != null || fromOB_view !=
+                        null
+                    ) {
                         $('#recruiter').val(recruiter_view).trigger('change');
                         $('#candidate').val(candidate_view);
                         $('#sub_segment').val(sub_segment_view);
@@ -1099,6 +1118,35 @@
                 });
         }
         //close 
+        // function searchCandidateTrhoughAjax(elem) {
+        //     var typingTimer; //timer identifier
+        //     clearTimeout(typingTimer);
+        //     var doneTypingInterval = 500; //time in ms, 2 second for example
+        //     typingTimer = setTimeout(function() {
+        //         console.log(elem);
+        //         $.ajax({
+        //                 type: "GET",
+        //                 data: {
+        //                     name: elem
+        //                 },
+        //                 url: '{{ url('admin/showCandidateDropDown') }}',
+        //             })
+        //             .done(function(res) {
+        //                 console.log(res.candidates.length);
+        //                 $('#candidate').empty();
+        //                 for (let i = 0; i < res.candidates.length; i++) {
+        //                     if (res.candidates[i].name != null || res.candidates[i].name != ' ') {
+        //                         $('#candidate').append('<option value="' + res.candidates[i].id + '">' + res
+        //                             .candidates[i]
+        //                             .name + '</option>')
+        //                     }
+        //                 }
+        //             })
+        //             .fail(function(err) {
+        //                 console.log(err);
+        //             });
+        //     }, doneTypingInterval);
+        // }
         // Append endorsement data to finance portion starts
         // const changeOnboardingDate = () => {
         //     alert('hi')
@@ -1143,7 +1191,7 @@
                 //     smart: false
                 // },
                 processing: true,
-                serverSide: false,
+                serverSide: true,
 
 
                 ajax: {
@@ -1159,6 +1207,7 @@
                     if (tableID == 'recordTable_wrapper') {
                         countRecord()
                     }
+                    $('#recordTable_length').hide()
                 },
                 columns: [{
                         data: 'id',
@@ -1365,7 +1414,7 @@
                 //     smart: false
                 // },
                 processing: true,
-                serverSide: false,
+                serverSide: true,
 
                 ajax: {
                     url: "{{ route('view-record-filter-table') }}",
@@ -1397,6 +1446,7 @@
                     if (tableID == 'recordTable_wrapper') {
                         countRecord()
                     }
+                    $('#filteredTable_length').hide()
                 },
                 columns: [{
                         data: 'id',
@@ -1727,7 +1777,8 @@
                                     'span').remove();
                                 $("input[name='" + i + "']").parent().parent()
                                     .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                        '<span style="color:red;" >' + 'Required' +
+                                        '</span>'
                                     );
                                 console.log($("select[name='" + i + "']"));
                                 $("select[name='" + i + "']").prop('required', true)
@@ -1735,12 +1786,15 @@
                                     'div').children().remove();
                                 $("select[name='" + i + "']").siblings('div')
                                     .append(
-                                        '<span style="color:red;" >' + 'Required' + '</span>'
+                                        '<span style="color:red;" >' + 'Required' +
+                                        '</span>'
                                     );
                                 $("textarea[name='" + i + "']").prop('required', true)
-                                $("textarea[name='" + i + "']").next('div').children().remove();
+                                $("textarea[name='" + i + "']").next('div').children()
+                                    .remove();
                                 $("textarea[name='" + i + "']").next('div').append(
-                                    '<span style="color:red;" >' + 'Required' + '</span>'
+                                    '<span style="color:red;" >' + 'Required' +
+                                    '</span>'
                                 );
                             });
 

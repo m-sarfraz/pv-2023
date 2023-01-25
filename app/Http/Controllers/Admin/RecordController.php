@@ -12,6 +12,7 @@ use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
+use Artisan;
 use Auth;
 use Cache;
 use DB;
@@ -91,6 +92,7 @@ class RecordController extends Controller
             $Userdata->where('updated_view_record.endi_date', $request->date);
         }
         $Alldata = $Userdata->get();
+        $totalCount = count($Alldata);
         // return $Alldata;
         return Datatables::of($Alldata)
             ->addIndexColumn()
@@ -98,15 +100,18 @@ class RecordController extends Controller
                 return $Alldata->cid . '-' . $Alldata->numberOfEndo . '-' . $Alldata->saved_by;
             })
 
-            ->addColumn('recruiter', function ($Alldata) {
-                $recr = (User::where('id', $Alldata->saved_by)->first())->name;
-                return $recr;
+            ->addColumn('recruiter', function ($record) {
+                // $recr = (User::where('id', $record->saved_by)->first())->name;
+                // return $recr;
+                return $record->recruiter_name;
 
             })
-            ->addColumn('team', function ($Alldata) {
-                $userid = User::where('id', $Alldata->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
-                return json_decode($team);
+            ->addColumn('team', function ($record) {
+                // $userid = User::where('id', $record->saved_by)->get();
+                // $team = $userid[0]->roles->pluck('name');
+                // return json_decode($team);
+                return $record->team_name;
+
             })
 
             ->addColumn('Candidate', function ($Alldata) {
@@ -208,8 +213,9 @@ class RecordController extends Controller
                 return $Alldata->sub_segment;
             })
             ->with([
-                'search' => $request->searchKeyword
+                'search' => $request->searchKeyword,
             ])
+            ->setTotalRecords($totalCount)
             ->rawColumns([
                 'id',
                 'recruiter',
@@ -251,21 +257,27 @@ class RecordController extends Controller
     {
         ini_set('memory_limit', '-1');
         // $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
-        $record = DB::table('updated_view_record')->get();
+        Artisan::call('cache:clear');
+        $totalCount = DB::select('select count(*) as total from endorsements where candidate_id=candidate_id and is_deleted = 0');
+        $totalCount = ($totalCount)[0]->total;
+        $record = DB::table('updated_view_record');
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
                 return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
             })
             ->addColumn('recruiter', function ($record) {
-                $recr = (User::where('id', $record->saved_by)->first())->name;
-                return $recr;
+                // $recr = (User::where('id', $record->saved_by)->first())->name;
+                // return $recr;
+                return $record->recruiter_name;
 
             })
             ->addColumn('team', function ($record) {
-                $userid = User::where('id', $record->saved_by)->get();
-                $team = $userid[0]->roles->pluck('name');
-                return json_decode($team);
+                // $userid = User::where('id', $record->saved_by)->get();
+                // $team = $userid[0]->roles->pluck('name');
+                // return json_decode($team);
+                return $record->team_name;
+
             })
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
@@ -365,6 +377,7 @@ class RecordController extends Controller
             ->addColumn('sub_segment', function ($record) {
                 return $record->sub_segment;
             })
+            ->setTotalRecords($totalCount)
 
             ->rawColumns([
                 'id',
@@ -600,14 +613,15 @@ class RecordController extends Controller
     public function appendFilterOptions()
     {
         $user = User::where('type', 3)->get();
-        $candidates = DB::table('candidate_informations')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->select('candidate_informations.id',
-                'candidate_informations.first_name', 'candidate_informations.last_name', 'candidate_informations.middle_name',
-                DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,' '),' ',IFNULL(candidate_informations.middle_name ,' '),' ',IFNULL(candidate_informations.last_name,' ')) as name"))
-            ->where('endorsements.is_deleted', 0)
-            ->distinct()
-            ->get();
+        // $candidates = DB::table('candidate_informations')
+        //     ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+        //     ->select('candidate_informations.id',
+        //         'candidate_informations.first_name', 'candidate_informations.last_name', 'candidate_informations.middle_name',
+        //         DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,' '),' ',IFNULL(candidate_informations.middle_name ,' '),' ',IFNULL(candidate_informations.last_name,' ')) as name"))
+        //     ->where('endorsements.is_deleted', 0)
+        //     ->distinct()
+        //     ->get();
+        $candidates = [];
         // return $candidates;
         $candidates_profile = Helper::get_dropdown('candidates_profile');
         $sub_segment = Helper::get_dropdown('sub_segment');
@@ -652,4 +666,16 @@ class RecordController extends Controller
         }
     }
     // close
+
+    public function showCandidate_nameDrpDown(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $data = DB::table('updated_view_record')
+                ->where('fullName', 'LIKE', "%$search%")->select('id','fullName')->distinct()
+                ->get();
+        }
+        return response()->json($data);
+
+    }
 }
