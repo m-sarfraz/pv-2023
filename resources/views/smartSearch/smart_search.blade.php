@@ -100,10 +100,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                                                                                                    overflow: hidden;
-                                                                                                                                                    text-overflow: ellipsis;
-                                                                                                                                                    white-space: nowrap;
-                                                                                                                                                } */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    } */
     </style>
 @endsection
 
@@ -876,7 +876,7 @@
                 // },
                 ordering: false,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 ajax: {
                     url: "{{ route('filterSearch') }}",
                     type: "GET",
@@ -906,6 +906,7 @@
                     $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
+                    $('#smTable_length').hide();
 
                     // divHtml = JSON.parse(localStorage.getItem('divHTML')); 
                     // $("div[role='menu']").html()
@@ -1147,7 +1148,7 @@
                 // },
                 ordering: false,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
 
                 ajax: {
                     url: "{{ route('view-smart-search-table') }}",
@@ -1193,6 +1194,7 @@
                     if (tableID == 'smTable_wrapper') {
                         countRecord()
                     }
+                    $('#smTable_length').hide();
                 },
                 columns: [{
                         data: 'id',
@@ -1433,10 +1435,8 @@
             // append summary after passing the curetn candidate array for calculations 
 
             $('#smTable_filter').children().children().val($('#searchKeyword').val());
-            $('#smTable_filter')
-                .children().children().trigger('input');
-            $('#smTable1_filter').children().children().val($(
-                '#searchKeyword').val());
+            $('#smTable_filter').children().children().trigger('input');
+            $('#smTable1_filter').children().children().val($('#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
             // let total_recored = data.split(" ")
             // console.log(total_recored)

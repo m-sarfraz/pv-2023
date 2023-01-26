@@ -8,6 +8,7 @@ use App\CandidateInformation;
 use App\CandidatePosition;
 use App\Cipprogress;
 use App\Domain;
+use App\DropDownOption;
 use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
@@ -1337,12 +1338,33 @@ class ProfileController extends Controller
             // dd($render[0]);
 
             $row = 1;
+            // $current = []; # ids detail: 22: certification 16: client 5: courses
+            // $existing = [];
+            // while (($render = fgetcsv($file))) {
+            //     array_push($existing, $render[0]);
+            // }
+            // $currentArray = DB::table('drop_down_options')->where('drop_down_id', 22)->select('option_name')->get()->toArray();
+            // foreach($currentArray as $value){
+            //     array_push($current, $value->option_name);
+            // }
+            // return array_diff($existing , $current );
             while (($render = fgetcsv($file))) {
+                // $JDL_local_sheet = new CandidateProfile_Dropdown();
+                // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
+                // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
+                // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
+                // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
+                // $JDL_local_sheet->save();
+                // return;
+                // $JDL_local_sheet = new DropDownOption();
+                // $JDL_local_sheet->drop_down_id = 5;
+                // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
+                // $JDL_local_sheet->save();
                 $num = count($render);
                 if ($row > 6002) {
                     redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
                 }
-                if ($render[0] != 'PRIORITY') {
+                if ($render[0] == 'PRIORITY') {
                     $client = isset($render[8]) ? $render[8] : "";
                     $c_level = isset($render[13]) ? $render[13] : "";
                     $p_title = isset($render[12]) ? $render[12] : "";
@@ -1354,17 +1376,6 @@ class ProfileController extends Controller
                         // insert record
                         $JDL_local_sheet = new jdlSheet();
                     }
-                    // $JDL_local_sheet = new CandidateProfile_Dropdown();
-                    // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
-                    // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
-                    // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
-                    // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
-                    // $JDL_local_sheet->save();
-                    // return;
-                    // $JDL_local_sheet = new DropDownOption();
-                    // $JDL_local_sheet->drop_down_id = 5;
-                    // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
-                    // $JDL_local_sheet->save();
                     // $JDL_local_sheet = new jdlSheet();
                     $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
                     $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
@@ -1395,6 +1406,9 @@ class ProfileController extends Controller
                     $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
                     $JDL_local_sheet->save();
                     $row++;
+                } else {
+                    return redirect()->back()->with('error-jdl-sheet-local', 'Please upload Correct Data');
+
                 }
             }
 
