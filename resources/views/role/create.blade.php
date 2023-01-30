@@ -283,6 +283,26 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12">
+                                                    <div class="shadow p-3 rounded">
+                                                        <?php
+                                                        $extract = Helper::get_permission('extract');
+                                                        ?>
+                                                        <label for="aboutTextarea"
+                                                            class="d-block text-black-2 font-size-4 font-weight-bolder font-weight-semibold py-2">
+                                                            Extract Data Permissions
+                                                        </label>
+                                                        <div class="row pl-lg-3 pl-md-3 pl-sm-0 pl-0">
+
+                                                            @foreach ($extract as $value)
+                                                                <label class="col-md-12"><input type="checkbox"
+                                                                        name="jdlPermission[]"
+                                                                        value="{{ $value->name }}">
+                                                                    {{ $value->name }}</label>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
                                                     <div class="col-md-12 text-left">
                                                         <input type="submit" style="background: #dc8627;" value="Save"
                                                             class="btn btn-h-60 text-white px-5 py-2 mt-3 rounded text-uppercase" />

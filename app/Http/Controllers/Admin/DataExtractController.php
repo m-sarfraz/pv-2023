@@ -13,6 +13,8 @@ class DataExtractController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('permission:view-extract', ['only' => ['index','appendFilterOptions','extractData','downloadReport']]);
+
     }
     public function index()
     {

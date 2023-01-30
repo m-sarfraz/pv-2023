@@ -26,8 +26,8 @@
                 </a>
             @endcan
             @can('view-record')
-                <a class="nav-link {{ $routeName == 'record' ? 'nav-active' : 'text-white' }} "
-                    href="{{ route('record') }}" style="cursor: pointer;">
+                <a class="nav-link {{ $routeName == 'record' ? 'nav-active' : 'text-white' }} " href="{{ route('record') }}"
+                    style="cursor: pointer;">
                     View Records
                 </a>
             @endcan
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             @endcan
-            @if (Auth::user()->type == 1)
+            @can('view-extract')
                 <div class="dropdown pt-2 pl-2 text-white">
                     Reports
                     <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
@@ -117,7 +117,7 @@
 
                     </div>
                 </div>
-            @endif
+            @endcan
 
             <div class="ml-auto E_S_icon pr-8 px-3">
                 {{-- <div class="d-flex pl-3 pr-2" style="border: 1px solid #dc8627; background: #fff; height: 37px; border-radius: 33px;">
@@ -137,7 +137,8 @@
                     $user = Auth::user();
                     
                     ?>
-                    <img class="mb-1 dropbtn" src="{{ url('storage/' . $user->image) }}" alt="" style="    width: 33px;
+                    <img class="mb-1 dropbtn" src="{{ url('storage/' . $user->image) }}" alt=""
+                        style="    width: 33px;
                     height: 33px;
                     border-radius: 100%;" />
                     <i class="bi bi-chevron-down mt-2" style="color: white;"></i>
