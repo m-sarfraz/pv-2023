@@ -253,14 +253,43 @@ class RecordController extends Controller
             ])
             ->make(true);
     }
-    public function view_record_table()
+    public function view_record_table(Request $request)
     {
+        if ($request->search['value'] != '') {
+            $recordQuery = DB::table('updated_view_record');
+            if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
+                if ($request->search['value'] == strtolower('male')) {
+                    $recordQuery->where('gender', "'MALE'");
+                }
+                if ($request->search['value'] == strtolower('female')) {
+                    $recordQuery->where('gender', "'FEMALE'");
+                }
+                if ($request->search['value'] == strtolower('graduate')) {
+                    $recordQuery->where('educational_attain', "'GRADUATE'");
+                }
+            } else {
+
+                $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
+                foreach ($columnArray as $value) {
+                    $search = "%" . $request->search['value'] . "%";
+                    $recordQuery->orWhere($value, 'like', "'$search'");
+                }
+            }
+            $sqlQuery = Str::replaceArray('?', $recordQuery->getBindings(), $recordQuery->toSql());
+            $result = DB::select($sqlQuery);
+            $record = $result;
+            $totalCount = count($record);
+
+        } else {
+            $totalCount = DB::select('select count(*) as total from endorsements where candidate_id=candidate_id and is_deleted = 0');
+            $totalCount = ($totalCount)[0]->total;
+            $record = DB::table('updated_view_record');
+        }
         ini_set('memory_limit', '-1');
         // $record = DB::table('view_record')->orderBy('timestamp', 'desc')->get();
         Artisan::call('cache:clear');
         $totalCount = DB::select('select count(*) as total from endorsements where candidate_id=candidate_id and is_deleted = 0');
         $totalCount = ($totalCount)[0]->total;
-        $record = DB::table('updated_view_record');
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {

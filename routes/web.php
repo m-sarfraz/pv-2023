@@ -89,7 +89,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::match(['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
     Route::match(['get', 'post'], 'deleteCandidateData', 'RecordController@deleteCandidateData')->name('deleteCandidateData');
     Route::get('view-record-table', 'RecordController@view_record_table')->name('view-record-table');
-    Route::get('view-record-filter-table', 'RecordController@view_record_filter_table')->name('view-record-filter-table');
+    Route::post('view-record-filter-table', 'RecordController@view_record_filter_table')->name('view-record-filter-table');
     Route::get('appendFilterOptions', 'RecordController@appendFilterOptions')->name('appendFilterOptions');
     Route::get('showCandidateDropDown', 'RecordController@showCandidate_nameDrpDown')->name('showCandidate_nameDrpDown');
     

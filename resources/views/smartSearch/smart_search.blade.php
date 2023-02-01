@@ -100,10 +100,10 @@
         }
 
         /* option_table.sl-text-trim td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    } */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                } */
     </style>
 @endsection
 
@@ -843,7 +843,6 @@
 
         // function for filtering the data according to selected input starts
         function FilterSearch() {
-            console.log('aaaaaa');
             // empty search so it can not effect result and summary 
             // $('#searchKeyword').val('')
             // get values of selected inputs of users
@@ -869,6 +868,7 @@
             } else {
                 cip = 0;
             }
+            option_table.settings()[0].jqXHR.abort();
             option_table = $('#smTable').DataTable({
                 destroy: true,
                 // search: {
@@ -876,7 +876,7 @@
                 // },
                 ordering: false,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: {
                     url: "{{ route('filterSearch') }}",
                     type: "GET",
@@ -908,6 +908,8 @@
                 initComplete: function(settings, json) {
                     $('#smTable_length').hide();
 
+                    $('#foundRecord').val(json.recordsTotal)
+                    $('#sifted').val(json.recordsTotal)
                     // divHtml = JSON.parse(localStorage.getItem('divHTML')); 
                     // $("div[role='menu']").html()
                     // document.querySelector(".dt-button").classList.add('customDivClass');
@@ -932,13 +934,13 @@
                         $('#searchKeyword').val(json.search)
                         $('#searchKeyword').change()
                     }
-                    let tableID = $('#filterResult_div').children().children().attr('id')
-                    if (tableID == 'filteredTable_wrapper') {
-                        countRecordFilter()
-                    }
-                    if (tableID == 'smTable_wrapper') {
-                        countRecord()
-                    }
+                    // let tableID = $('#filterResult_div').children().children().attr('id')
+                    // if (tableID == 'filteredTable_wrapper') {
+                    //     countRecordFilter()
+                    // }
+                    // if (tableID == 'smTable_wrapper') {
+                    //     countRecord()
+                    // }
                 },
                 columns: [{
                         data: 'id',
@@ -1146,6 +1148,7 @@
                 // search: {
                 //     smart: false
                 // },
+                regex: false,
                 ordering: false,
                 processing: true,
                 serverSide: true,
@@ -1154,11 +1157,18 @@
                     url: "{{ route('view-smart-search-table') }}",
                     type: "GET",
                 },
+                drawCallback: function(settings) {
+                    $('#foundRecord').val(settings.json.recordsTotal)
+                    $('#sifted').val(settings.json.recordsTotal)
+                    summaryAppendAjax(settings.json.array);
+                },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
                 },
                 initComplete: function(settings, json) {
                     // Apply the search 
+                    $('#foundRecord').val(json.recordsTotal)
+                    $('#sifted').val(json.recordsTotal)
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
@@ -1187,13 +1197,13 @@
                         });
                     });
                     // $('#searchKeyword').trigger('input');
-                    let tableID = $('#filterResult_div').children().children().attr('id')
-                    if (tableID == 'filteredTable_wrapper') {
-                        countRecordFilter()
-                    }
-                    if (tableID == 'smTable_wrapper') {
-                        countRecord()
-                    }
+                    // let tableID = $('#filterResult_div').children().children().attr('id')
+                    // if (tableID == 'filteredTable_wrapper') {
+                    //     countRecordFilter()
+                    // }
+                    // if (tableID == 'smTable_wrapper') {
+                    //     countRecord()
+                    // }
                     $('#smTable_length').hide();
                 },
                 columns: [{
@@ -1413,23 +1423,23 @@
         }
         // oninput append value in yajra table 
         $('#searchKeyword').on('change', function() {
-            option_table.page.len(-1).draw();
-            passIDToSummaryAppend();
-            // console.log(obj);
-            let test = $('#searchKeyword').val().split(' ');
-            for (let index = 0; index < test.length; index++) {
-                if (test[index] == 'MALE') {
-                    option_table.column(8).search('^' + test[index], true, false).draw();
-                    // console.log(test[index]);
-                } else if (test[index] == 'FEMALE') {
-                    option_table.column(8).search('^' + test[index], true, false).draw();
-                    // console.log(test[index]);
-                }
-                // else {
-                //     console.log(test[index]);
-                //     option_table.column(22).search("").draw();
-                // }
-            }
+            // option_table.page.len(-1).draw();
+            // passIDToSummaryAppend();
+            // // console.log(obj);
+            // let test = $('#searchKeyword').val().split(' ');
+            // for (let index = 0; index < test.length; index++) {
+            //     if (test[index] == 'MALE') {
+            //         option_table.column(8).search('^' + test[index], true, false).draw();
+            //         // console.log(test[index]);
+            //     } else if (test[index] == 'FEMALE') {
+            //         option_table.column(8).search('^' + test[index], true, false).draw();
+            //         // console.log(test[index]);
+            //     }
+            // else {
+            //     console.log(test[index]);
+            //     option_table.column(22).search("").draw();
+            // }
+            // }
             // return;
             // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
             // append summary after passing the curetn candidate array for calculations 
@@ -1441,14 +1451,15 @@
             // let total_recored = data.split(" ")
             // console.log(total_recored)
             // $('#foundRecord').val(total_recored[3])
-            let tableID = $('#filterResult_div').children().children().attr('id')
-            if (tableID == 'filteredTable_wrapper') {
-                countRecordFilter()
-            }
-            if (tableID == 'smTable_wrapper') {
-                countRecord()
-            }
-            var data = $(this).val();
+            // let tableID = $('#filterResult_div').children().children().attr('id')
+            // console.log('table id is ' + tableID);
+            // if (tableID == 'filteredTable_wrapper') {
+            //     countRecordFilter()
+            // }
+            // if (tableID == 'smTable_wrapper') {
+            //     countRecord()
+            // }
+            // var data = $(this).val();
             // option_table.draw();
             // $.ajax({
             //     type: "post",
@@ -1517,22 +1528,22 @@
             // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
             // append summary after passing the curetn candidate array for calculations 
 
-            $('#smTable_filter').children().children().val($('#searchKeyword').val());
-            $('#smTable_filter')
-                .children().children().trigger('input');
-            $('#smTable1_filter').children().children().val($(
-                '#searchKeyword').val());
-            $('#smTable1_filter').children().children().trigger('input');
-            // let total_recored = data.split(" ")
-            // console.log(total_recored)
-            // $('#foundRecord').val(total_recored[3])
-            let tableID = $('#filterResult_div').children().children().attr('id')
-            if (tableID == 'filteredTable_wrapper') {
-                countRecordFilter()
-            }
-            if (tableID == 'smTable_wrapper') {
-                countRecord()
-            }
+            // $('#smTable_filter').children().children().val($('#searchKeyword').val());
+            // $('#smTable_filter')
+            //     .children().children().trigger('input');
+            // $('#smTable1_filter').children().children().val($(
+            //     '#searchKeyword').val());
+            // $('#smTable1_filter').children().children().trigger('input');
+            // // let total_recored = data.split(" ")
+            // // console.log(total_recored)
+            // // $('#foundRecord').val(total_recored[3])
+            // let tableID = $('#filterResult_div').children().children().attr('id')
+            // if (tableID == 'filteredTable_wrapper') {
+            //     countRecordFilter()
+            // }
+            // if (tableID == 'smTable_wrapper') {
+            //     countRecord()
+            // }
         }
         // ends
 

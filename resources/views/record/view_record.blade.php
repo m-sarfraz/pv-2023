@@ -1199,14 +1199,15 @@
                     type: "GET",
                 },
                 initComplete: function(settings, json) {
+                    $('#recordNumber').val(json.recordsTotal)
                     // $('#searchKeyword').trigger('input');
-                    let tableID = $('#filter_table_div').children().children().attr('id')
-                    if (tableID == 'filteredTable_wrapper') {
-                        countRecordFilter()
-                    }
-                    if (tableID == 'recordTable_wrapper') {
-                        countRecord()
-                    }
+                    // let tableID = $('#filter_table_div').children().children().attr('id')
+                    // if (tableID == 'filteredTable_wrapper') {
+                    //     countRecordFilter()
+                    // }
+                    // if (tableID == 'recordTable_wrapper') {
+                    //     countRecord()
+                    // }
                     $('#recordTable_length').hide()
                 },
                 columns: [{
@@ -1394,6 +1395,7 @@
             career_level = $('#career_level').val();
             client = $('#client').val();
             date = $('#date').val();
+            option_table.settings()[0].jqXHR.abort();
             option_table = $('#filteredTable').DataTable({
 
                 // pageLength: 20,
@@ -1418,7 +1420,7 @@
 
                 ajax: {
                     url: "{{ route('view-record-filter-table') }}",
-                    type: "GET",
+                    type: "post",
                     data: {
                         _token: token,
                         searchKeyword: searchKeyword,
@@ -1434,18 +1436,19 @@
                     },
                 },
                 initComplete: function(settings, json) {
+                    $('#recordNumber').val(json.recordsTotal)
                     // $('#searchKeyword').trigger('input'); 
                     if (json.search != null) {
                         $('#searchKeyword').val(json.search)
                         $('#searchKeyword').change()
                     }
-                    let tableID = $('#filter_table_div').children().children().attr('id')
-                    if (tableID == 'filteredTable_wrapper') {
-                        countRecordFilter()
-                    }
-                    if (tableID == 'recordTable_wrapper') {
-                        countRecord()
-                    }
+                    // let tableID = $('#filter_table_div').children().children().attr('id')
+                    // if (tableID == 'filteredTable_wrapper') {
+                    //     countRecordFilter()
+                    // }
+                    // if (tableID == 'recordTable_wrapper') {
+                    //     countRecord()
+                    // }
                     $('#filteredTable_length').hide()
                 },
                 columns: [{
@@ -1619,19 +1622,19 @@
             });
         }
 
-        // count record on page load 
-        function countRecord() {
-            var count = $('#recordTable_info').text().split(' ');
-            $('#recordNumber').val(count[5])
-        }
-        // close 
+        // // count record on page load 
+        // function countRecord() {
+        //     var count = $('#recordTable_info').text().split(' ');
+        //     $('#recordNumber').val(count[5])
+        // }
+        // // close 
 
-        // count record of filtered data
-        function countRecordFilter() {
-            var count = $('#filteredTable_info').text().split(' ');
-            $('#recordNumber').val(count[5])
-        }
-        // close 
+        // // count record of filtered data
+        // function countRecordFilter() {
+        //     var count = $('#filteredTable_info').text().split(' ');
+        //     $('#recordNumber').val(count[5])
+        // }
+        // // close 
 
         // funciton for filtering the data according to selected input starts
         function filterUserData() {
@@ -1829,23 +1832,23 @@
         // close 
 
         // make custom search data table search starts
-        $('#searchKeyword').on("change", function() {
+        $('#searchKeyword').on('change', function() {
             $('#recordTable_filter').children().children().val($('#searchKeyword').val());
             $('#filteredTable_filter').children().children().val($('#searchKeyword').val());
-            $('#recordTable_filter').children().children().focus();
-            $('#filteredTable_filter').children().children().focus();
-            $('#searchKeyword').focus();
             $('#recordTable_filter').children().children().trigger('input');
             $('#filteredTable_filter').children().children().trigger('input');
-            $('#recordTable_filter').hide('div');
-            $('#filteredTable_filter').hide('div');
-            let tableID = $('#filter_table_div').children().children().attr('id')
-            if (tableID == 'filteredTable_wrapper') {
-                countRecordFilter()
-            }
-            if (tableID == 'recordTable_wrapper') {
-                countRecord()
-            }
+            // $('#recordTable_filter').children().children().focus();
+            // $('#filteredTable_filter').children().children().focus();
+            // $('#searchKeyword').focus();
+            // $('#recordTable_filter').hide('div');
+            // $('#filteredTable_filter').hide('div');
+        //     let tableID = $('#filter_table_div').children().children().attr('id')
+        //     if (tableID == 'filteredTable_wrapper') {
+        //         countRecordFilter()
+        //     }
+        //     if (tableID == 'recordTable_wrapper') {
+        //         countRecord()
+        //     }
         });
         // close
         // $('#recordTable').dataTable({
