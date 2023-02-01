@@ -100,10 +100,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                } */
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        } */
     </style>
 @endsection
 
@@ -786,13 +786,13 @@
                             res.career.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
-                 console.log(domain_dp);
+                    console.log(domain_dp);
                     if (domain_dp != null || recruiter_dp != null || client_dp != null || portal_dp != null ||
                         resd_dp != null || career_dp != null || status_dp != null || category_dp != null ||
                         remarks_dp != null || endo_start_dp != null || endo_end_dp != null || Shifted_start_dp !=
                         null || Shifted_end_dp != null || ob_start_dp != null || ob_end_dp != null) {
                         $('#domain').val(domain_dp);
-                        console.log('idr a rha'); 
+                        console.log('idr a rha');
                         $('#recruiter').val(recruiter_dp);
                         $('#client').val(client_dp);
                         $('#portal').val(portal_dp);
@@ -817,18 +817,24 @@
         //close 
         $('svg').tooltip('show');
         // ajax call for view append
+        var ajaxReq = 'ToCancelPrevReq'; // you can have its value anything you like
+
         function summaryAppendAjax(array) {
             array = array;
             console.log(array);
             $('#loader3').show();
-            $.ajax({
+            ajaxReq = $.ajax({
                 type: "POST",
                 url: '{{ url('admin/summaryAppend') }}',
                 data: {
                     _token: token,
                     array: array,
                 },
-
+                beforeSend: function() {
+                    if (ajaxReq != 'ToCancelPrevReq' && ajaxReq.readyState < 4) {
+                        ajaxReq.abort();
+                    }
+                },
                 // Success fucniton of Ajax
                 success: function(data) {
                     $('#summaryDiv').html(data);
