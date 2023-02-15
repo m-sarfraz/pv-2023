@@ -283,6 +283,8 @@ class ProfileController extends Controller
                                 $endorsement = Endorsement::find($check->id);
                                 $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
                                 $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
+                                $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
+                                $tap = Auth::user()->id;
                                 $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
                             } else {
                                 // insert new record
@@ -902,9 +904,10 @@ class ProfileController extends Controller
                             $endorsement = Endorsement::find($check->id);
                             $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
                             $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
+                            $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
+                            $tap = Auth::user()->id;
                             $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
                         } else {
-
                             // insert new record
                             $numberOfEndo = 1;
                             $endorsement = new Endorsement();
@@ -1217,9 +1220,9 @@ class ProfileController extends Controller
                     $row++;
 
                     // fclose($file);
-                    return redirect()->back()->with('message', 'data Imported successfully');
                 }
             }
+            return redirect()->back()->with('message', 'data Imported successfully');
         }
 
     }
@@ -1244,7 +1247,13 @@ class ProfileController extends Controller
         // if sheet exist on google sheet with given id
         if (is_array($data)) {
 
-            if ($data[0][0][0] != "PRIORITY") {
+            if ($data[0][0][0] != 'PRIORITY' && $data[0][0][1] != 'REF. CODE' && $data[0][0][2] != 'STATUS' && $data[0][0][3] != 'REQUIREMENT DATE' && $data[0][0][4] != 'Maturity'
+                && $data[0][0][5] != 'UPDATED DATE' && $data[0][0][6] != 'CLOSED DATE' && $data[0][0][7] != 'OLD SHARED DATE' && $data[0][0][8] != 'CLIENT' && $data[0][0][9] != 'DOMAIN'
+                && $data[0][0][10] != 'SEGMENT' && $data[0][0][11] != 'SUBSEGMENT' && $data[0][0][12] != 'POSITION TITLE' && $data[0][0][13] != 'CAREER LEVEL'
+                && $data[0][0][14] != 'SLL NO.' && $data[0][0][15] != 'TOTAL FTE' && $data[0][0][16] != 'UPDATED FTE' && $data[0][0][17] != 'JOB DESCRIPTION'
+                && $data[0][0][18] != 'EDUCATIONAL ATTAINMENT' && $data[0][0][19] != 'LOCATION' && $data[0][0][20] != 'WORK SCHEDULE'
+                && $data[0][0][21] != 'BUDGET' && $data[0][0][22] != 'RECRUITMENT PROCESS/POC' && $data[0][0][23] != 'NOTES'
+                && $data[0][0][24] != 'START DATE' && $data[0][0][25] != 'KEYWORD (overlapping)' && $data[0][0][26] != 'Recruiter') {
                 // dd('yes');
                 return redirect()->back()->with('error-jdl-sheet', 'Data is not correct');
             } else {
@@ -1362,9 +1371,15 @@ class ProfileController extends Controller
                 // $JDL_local_sheet->save();
                 $num = count($render);
                 if ($row > 6002) {
-                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data is greaterthan  6002');
+                    redirect()->back()->with('CSV_FILE_UPLOADED_JDL', '6000 of Total Reocrds have been entered.');
                 }
-                if ($render[0] == 'PRIORITY') {
+                if ($render[0] != 'PRIORITY' && $render[1] != 'REF. CODE' && $render[2] != 'STATUS' && $render[3] != 'REQUIREMENT DATE' && $render[4] != 'Maturity'
+                    && $render[5] != 'UPDATED DATE' && $render[6] != 'CLOSED DATE' && $render[7] != 'OLD SHARED DATE' && $render[8] != 'CLIENT' && $render[9] != 'DOMAIN'
+                    && $render[10] != 'SEGMENT' && $render[11] != 'SUBSEGMENT' && $render[12] != 'POSITION TITLE' && $render[13] != 'CAREER LEVEL'
+                    && $render[14] != 'SLL NO.' && $render[15] != 'TOTAL FTE' && $render[16] != 'UPDATED FTE' && $render[17] != 'JOB DESCRIPTION'
+                    && $render[18] != 'EDUCATIONAL ATTAINMENT' && $render[19] != 'LOCATION' && $render[20] != 'WORK SCHEDULE'
+                    && $render[21] != 'BUDGET' && $render[22] != 'RECRUITMENT PROCESS/POC' && $render[23] != 'NOTES'
+                    && $render[24] != 'START DATE' && $render[25] != 'KEYWORD (overlapping)' && $render[26] != 'Recruiter') {
                     $client = isset($render[8]) ? $render[8] : "";
                     $c_level = isset($render[13]) ? $render[13] : "";
                     $p_title = isset($render[12]) ? $render[12] : "";
@@ -1410,6 +1425,7 @@ class ProfileController extends Controller
                     return redirect()->back()->with('error-jdl-sheet-local', 'Please upload Correct Data');
 
                 }
+                $row++;
             }
 
             return redirect()->back()->with('CSV_FILE_UPLOADED_JDL', 'data Import successfully');

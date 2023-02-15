@@ -593,36 +593,10 @@
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
                                             placeholder="Search Team" />
                                     </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Remarks <input
+                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Onboarding Date <input
                                             class="form-control inputTh" data-id="29" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
                                             placeholder="Search Team" /> </th>
-
-
-                                    </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Onboarding Date <input
-                                            class="form-control inputTh" data-id="30" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Invoice Number <input
-                                            class="form-control inputTh" data-id="31" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">OR Number <input
-                                            class="form-control inputTh" data-id="32" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /></th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Replacement For <input
-                                            class="form-control inputTh" data-id="33" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /></th>
-
-
-
                                 </tr>
                             </thead>
                             <tbody class="hidetrID" style="height:100px">
@@ -659,11 +633,8 @@
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Endorsement Status</th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Remarks For Finance
                                     </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Remarks </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Onboarding Date </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Invoice Number</th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">OR Number</th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Replacement For</th>
+
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </tfoot>
@@ -969,18 +940,9 @@
                         name: 'recruiter'
                     },
                     {
-                        data: 'Candidate',
-                        name: 'Candidate',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
                         data: 'date_shifted',
                         name: 'date_shifted'
                     },
-
-
-
                     {
                         data: 'profile',
                         name: 'profile',
@@ -994,6 +956,16 @@
                         data: 'date_invited',
                         name: 'date_invited'
                     },
+                    {
+                        data: 'Candidate',
+                        name: 'Candidate',
+                        // searchable: false,
+                        // orderable: false
+                    },
+
+
+
+
                     {
                         data: 'gender',
                         name: 'gender'
@@ -1083,32 +1055,32 @@
                         name: 'remarks_for_finance'
                     },
 
-                    {
-                        data: 'remarks',
-                        name: 'remarks'
-                    },
+                    // {
+                    //     data: 'remarks',
+                    //     name: 'remarks'
+                    // },
 
 
                     {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date'
                     },
-                    {
-                        data: 'invoice_number',
-                        name: 'invoice_number'
-                    },
-                    {
-                        data: 'OR_Number',
-                        name: 'OR_Number',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'Replacement_For',
-                        name: 'Replacement_For',
-                        // searchable: false,
-                        // orderable: false
-                    },
+                    // {
+                    //     data: 'invoice_number',
+                    //     name: 'invoice_number'
+                    // },
+                    // {
+                    //     data: 'OR_Number',
+                    //     name: 'OR_Number',
+                    //     // searchable: false,
+                    //     // orderable: false
+                    // },
+                    // {
+                    //     data: 'Replacement_For',
+                    //     name: 'Replacement_For',
+                    //     // searchable: false,
+                    //     // orderable: false
+                    // },
 
 
 
@@ -1233,18 +1205,9 @@
                         name: 'recruiter'
                     },
                     {
-                        data: 'Candidate',
-                        name: 'Candidate',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
                         data: 'date_shifted',
                         name: 'date_shifted'
                     },
-
-
-
                     {
                         data: 'profile',
                         name: 'profile',
@@ -1258,6 +1221,16 @@
                         data: 'date_invited',
                         name: 'date_invited'
                     },
+                    {
+                        data: 'Candidate',
+                        name: 'Candidate',
+                        // searchable: false,
+                        // orderable: false
+                    },
+
+
+
+
                     {
                         data: 'gender',
                         name: 'gender'
@@ -1347,32 +1320,32 @@
                         name: 'remarks_for_finance'
                     },
 
-                    {
-                        data: 'remarks',
-                        name: 'remarks'
-                    },
+                    // {
+                    //     data: 'remarks',
+                    //     name: 'remarks'
+                    // },
 
 
                     {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date'
                     },
-                    {
-                        data: 'invoice_number',
-                        name: 'invoice_number'
-                    },
-                    {
-                        data: 'OR_Number',
-                        name: 'OR_Number',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'Replacement_For',
-                        name: 'Replacement_For',
-                        // searchable: false,
-                        // orderable: false
-                    },
+                    // {
+                    //     data: 'invoice_number',
+                    //     name: 'invoice_number'
+                    // },
+                    // {
+                    //     data: 'OR_Number',
+                    //     name: 'OR_Number',
+                    //     // searchable: false,
+                    //     // orderable: false
+                    // },
+                    // {
+                    //     data: 'Replacement_For',
+                    //     name: 'Replacement_For',
+                    //     // searchable: false,
+                    //     // orderable: false
+                    // },
 
 
 

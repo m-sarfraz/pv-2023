@@ -18,11 +18,11 @@ class DataExtractController extends Controller
     }
     public function index()
     {
-        if (Auth::user()->type != 1) {
-            return redirect()->back();
-        } else {
+        // if (Auth::user()->type != 1) {
+        //     return redirect()->back();
+        // } else {
             return view('extract-data');
-        }
+        // }
     }
 
     // append filter options on page load
