@@ -10,6 +10,7 @@ use App\DropDownOption;
 use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
+use DB;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -90,7 +91,7 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns = DropDown::all(); 
+        $dropdowns = DropDown::all();
         return view('dropdown.add_options', compact('dropdowns'));
     }
     public function ajax_view_dropdown(Request $request)
@@ -134,6 +135,77 @@ class DropDownController extends Controller
                 return $name;
             })
             ->addColumn('action', function ($view_options) use ($request) {
+                // dd($request->drop_down_type);
+                if ($request->drop_down_type == 'application_status') {
+                    $check = DB::table('endorsements')->where('app_status', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'candidates_profile') {
+                    $check = DB::table('candidate_positions')->where('candidate_profile', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'career_level') {
+                    $check = DB::table('endorsements')->where('career_endo', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'course') {
+                    $check = DB::table('candidate_educations')->where('course', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'educational_attainment') {
+                    $check = DB::table('candidate_educations')->where('educational_attain', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'domains') {
+                    $check = DB::table('candidate_domains')->where('domain', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'segments') {
+                    $check = DB::table('candidate_domains')->where('segment', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'sub_segment') {
+                    $check = DB::table('candidate_domains')->where('sub_segment', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'manner_of_invite') {
+                    $check = DB::table('candidate_positions')->where('manner_of_invite', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'position_title') {
+                    $check = DB::table('endorsements')->where('position_title', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'reason_for_not_progressing') {
+                    $check = DB::table('endorsements')->where('rfp', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'status') {
+                    $check = DB::table('endorsements')->where('app_status', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'clients') {
+                    $check = DB::table('endorsements')->where('client', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'endorsement_type') {
+                    $check = DB::table('endorsements')->where('type', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'remarks_from_finance') {
+                    $check = DB::table('endorsements')->where('remarks', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'site') {
+                    $check = DB::table('endorsements')->where('site', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'source') {
+                    $check = DB::table('candidate_positions')->where('source', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'gender') {
+                    $check = DB::table('candidate_informations')->where('gender', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'certifications') {
+                    $check = DB::table('candidate_educations')->where('certification', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'remarks_for_finance') {
+                    $check = DB::table('endorsements')->where('remarks_for_finance', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'residence') {
+                    $check = DB::table('candidate_informations')->where('address', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'data_entry_status') {
+                    $check = DB::table('endorsements')->where('status', $view_options->option_name)->first();
+                }
+                if ($request->drop_down_type == 'process_status') {
+                    $check = DB::table('finance_detail')->where('process_status', $view_options->option_name)->first();
+                }
+                $b = '';
                 if ($view_options->status == 1) {
                     $statusColor = 'btn-success';
                     $statusText = 'Active';
@@ -141,21 +213,29 @@ class DropDownController extends Controller
                     $statusColor = 'btn-warning';
                     $statusText = 'Inactive';
                 }
-                $b = '';
-                if ($request->drop_down_type == 'remarks_for_finance') {
-                    //$this->authorize('option-status');
-                    $b = '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
-                }
-                //$this->authorize('delete-option');
-                $route = Route("delete-option");
-                $route2 = Route("update-option");
-                $edit = 0;
-                $function = 'delete_data(this,"' . $route . '")';
-                $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
-                $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger border-2 mr-3">Delete</button>' .
-                '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn btn-primary border-0">Edit</button>';
 
+                if ($check == null) {
+                    //$this->authorize('delete-option');
+                    $route = Route("delete-option");
+                    // $route2 = Route("update-option");
+                    // $edit = 0;
+                    // $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
+                    // '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn btn-primary border-0">Edit</button>';
+                    $function = 'delete_data(this,"' . $route . '")';
+                    $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger border-2 mr-3 bi bi-trash"> </button>';
+                    $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
+
+                } else {
+                    $b .= '<span  disalbed class= "btn border-2 mr-3 bi bi-lock" style="color: #000; background-color: #c2c1c1; border-color: #5b5859;"> </span>';
+                    $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
+                    // $b .= '<button  disalbed class= "btn btn-danger border-2 mr-3">Delete</button>';
+                }
+                // if ($request->drop_down_type == 'remarks_for_finance') {
+                //     //$this->authorize('option-status');
+                //     $b = '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
+                // }
                 return $b;
+
             })
             ->rawColumns(['option_name', 'action'])
             ->make(true);
@@ -278,7 +358,7 @@ class DropDownController extends Controller
                 case 'data_entry_status':
                     Endorsement::where('status', $request->prevValue)->update(['status' => $request->option_name]);
                     break;
-        //
+                    //
             }
             return response()->json(['success' => true, 'message' => 'Option updated successfully']);
 

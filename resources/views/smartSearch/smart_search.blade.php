@@ -482,24 +482,28 @@
                                             placeholder="Search Recruiter" />
                                     </th>
 
+                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Sifted <input
+                                            class="form-control inputTh" data-id="5" type="text"
+                                            style="display:block" onchange="individualColomnSearchFunc(this)"
+                                            placeholder="Search Team" /> </th>
+                                    
+                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate’s Profile <input class="form-control inputTh" data-id="6" type="text"
+                                            style="display:block" onchange="individualColomnSearchFunc(this)"
+                                            placeholder="Search Team" />
+                                    </th>
+
+                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Invited <input
+                                            class="form-control inputTh" data-id="7" type="text"
+                                            style="display:block" onchange="individualColomnSearchFunc(this)"
+                                            placeholder="Search Team" /> </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate <input
                                             class="form-control inputTh" data-id="4" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
                                             placeholder="Search Candidate" /></th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Sifted <input
-                                            class="form-control inputTh" data-id="5" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate’s Profile
-                                        <input class="form-control inputTh" data-id="6" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
-                                    </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Invited <input
-                                            class="form-control inputTh" data-id="7" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                    
+                                    
+                                    
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Gender <input
                                             class="form-control inputTh" data-id="8" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"

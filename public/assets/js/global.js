@@ -3,39 +3,45 @@ function select2Dropdown(obj) {
 }
 function delete_data(obj, route) {
     swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: "Are you sure?",
+        text: "You will not be able to revert this Change!",
+        icon: "warning",
         buttons: true,
         dangerMode: true,
-    })
-        .then((delete_data) => {
-            $("#loader").show();
-            var id = $(obj).data('id');
-            $.ajax({
-                url: route,
-                data: {
-                    '_token': $('meta[name=csrf-token]').attr("content"),
-                    'id': id
-                },
-                type: 'POST',
-                success: function (res) {
-                    if (res.success == true) {
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+              $("#loader").show();
+              var id = $(obj).data('id');
+              $.ajax({
+                  url: route,
+                  data: {
+                      '_token': $('meta[name=csrf-token]').attr("content"),
+                      'id': id
+                  },
+                  type: 'POST',
+                  success: function (res) {
+                      if (res.success == true) {
 
-                        swal("Success", res.message, 'success');
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    } else if (res.success == false) {
-                        swal("Warning", res.message, 'error');
-                    }
+                          swal("Success", res.message, 'success');
+                          setTimeout(function () {
+                              location.reload();
+                          }, 1000);
+                      } else if (res.success == false) {
+                          swal("Warning", res.message, 'error');
+                      }
 
-                    $("#loader").hide();
-                },
-                error: function () {
-                    $("#loader").hide();
-                }
-            });
-            return false;
+                      $("#loader").hide();
+                  },
+                  error: function () {
+                      $("#loader").hide();
+                  }
+              });
+          }
+          else {
+              
+              return false;
+          }
         });
 
 }

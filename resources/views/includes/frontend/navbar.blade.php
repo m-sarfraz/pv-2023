@@ -62,16 +62,10 @@
 @endcan -->
 
             @can('view-dropdowns')
-                <div class="dropdown pt-2 pl-2 text-white">
-                    Dropdowns
-                    <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
-                    <div class="dropdown-content" style="left: 14px;">
-                        <a href="{{ route('dropdown') }}">
-                            Add Dropdowns
-                        </a>
-
-                    </div>
-                </div>
+            <a class="nav-link {{ $routeName == 'dropdown' ? 'nav-active' : 'text-white' }}"
+            href="{{ route('dropdown') }}" style="cursor: pointer;">
+            Dropdowns
+        </a>
             @endcan
             @can('view-team')
                 <a href="{{ route('role.index') }}"

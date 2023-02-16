@@ -10,7 +10,7 @@
             <div class="mb-15 mb-lg-23">
                 <div class="row">
                     <div class="col-xl-12 px-lg-5 mt-5 ">
-                        <p class="C-Heading">Add dropdowns</p>
+                        <p class="C-Heading">Dropdown Finder</p>
                         <div class="card">
                             <div class="card-body">
                                 <form id="add_option_form" method="POST">
@@ -21,38 +21,26 @@
                                                 <div class="form-group position-relative">
                                                     <label for="select3"
                                                         class="d-block text-black-2 font-size-4 font-weight-semibold mb-4">
-                                                        Dropdowns
+                                                        Select Dropdowns
                                                     </label>
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 ">
                                                             <select onchange="get_dropdown_value();" name="drop_down_id"
                                                                 class="select2_dropdown h-100">
                                                                 <option value="" disabled="disabled">Choose options
                                                                 </option>
                                                                 @foreach ($dropdowns as $dropdown)
-                                                                    {{-- @if ($dropdown->type =! 'candidates_profile') --}}
-                                                                        <option data-type="{{ $dropdown->type }}"
-                                                                            value="{{ $dropdown->id }}">
-                                                                            {{ $dropdown->name }}</option>
+                                                                    {{-- @if ($dropdown->type = !'candidates_profile') --}}
+                                                                    <option data-type="{{ $dropdown->type }}"
+                                                                        value="{{ $dropdown->id }}">
+                                                                        {{ $dropdown->name }}</option>
                                                                     {{-- @endif --}}
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        @can('add-dropdown')
-                                                            <div class="col-md-3">
-                                                                {{-- <button onclick="AddOption();" type="button"
-                                                                    id="add_option_btn"
-                                                                    class="btn btn-warning px-5 text-white">Add</button> &nbsp; --}}
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                <button
-                                                                    onclick="save_form('add_option_form','{{ route('save-options') }}');"
-                                                                    type="button" style="display: none;" id="option_save_btn"
-                                                                    class="btn btn-warning px-5 text-white">Save</button>
-                                                            </div>
-                                                        @endcan
+
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    {{-- <div class="col-md-6 text-right">
                                                         <select name="sec_dropdown_id" class="2nd_dropdown_id form-control">
                                                             <option value="" disabled="disabled">Choose options
                                                             </option>
@@ -60,19 +48,42 @@
                                                             <option value="2">Mid Stages</option>
                                                             <option value="3">Final Stages</option>
                                                         </select>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
-                                                <div class="option_input_append mb-3"></div>
+                                                <div class="option_input_append mb-3 col-lg-6"></div>
+                                                @can('add-dropdown')
+                                                    <div class="col-md-6 text-right px-2">
+                                                        <button onclick="AddOption();" type="button" id="add_option_btn"
+                                                            class="btn btn-warning px-5 text-white">Add Option</button> &nbsp;
+                                                    </div>
+                                                    {{-- <div class="col-md-3">
+                                                    <button
+                                                        onclick="save_form('add_option_form','{{ route('save-options') }}');"
+                                                        type="button" style="display: none;" id="option_save_btn"
+                                                        class="btn btn-warning px-5 text-white">Save</button>
+                                                </div> --}}
+                                                @endcan
+                                                <div class="col-md-6 mt-3 text-right">
+                                                    <button
+                                                        onclick="save_form('add_option_form','{{ route('save-options') }}');"
+                                                        type="button" style="display: none;" id="option_save_btn"
+                                                        class="btn btn-warning px-5 text-white">Save Option</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </form>
+                            </div>
+                        </div>
+                        <p class="C-Heading mt-5">Dropdowns</p>
+                        <div class="card mt-2">
+                            <div class="card-body">
 
                                 <table id="option_table" class="display">
                                     <thead>
                                         <tr>
                                             <th>Option</th>
-                                            {{-- <th>Action</th> --}}
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -120,31 +131,149 @@
 
         function change_status(obj) {
             swal({
-                    title: 'Are you sure?',
+                    title: "Are you sure?",
+                    text: "Change Status of Dropdown Option?",
+                    icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                .then((change_status) => {
-                    $("#loader").show();
-                    var optionId = $(obj).data('id');
-                    var status = $(obj).data('status');
-                    $.ajax({
-                        url: "{{ Route('change-option-status') }}",
+                .then((willDelete) => {
+                        if (willDelete) {
+                            $("#loader").show();
+                            var optionId = $(obj).data('id');
+                            var status = $(obj).data('status');
+                            $.ajax({
+                                url: "{{ Route('change-option-status') }}",
+                                data: {
+                                    '_token': $('meta[name=csrf-token]').attr("content"),
+                                    'option_id': optionId,
+                                    'status': status
+                                },
+                                type: 'POST',
+                                success: function(res) {
+                                    if (res.success == true) {
+
+                                        swal("{{ __('Success') }}", res.message, 'success');
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1000);
+                                    } else if (res.success == false) {
+                                        swal("{{ __('Warning') }}", res.message, 'error');
+                                    }
+
+                                    $("#loader").hide();
+                                },
+                                error: function() {
+                                    $("#loader").hide();
+                                }
+                            });
+                        }
+                        else{
+
+                            return false;
+                        }
+                        });
+
+                }
+
+            function load_datatable(dropdownType) {
+                var option_table = $('#option_table').DataTable({
+                    destroy: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('view-options') }}",
+                        type: "POST",
                         data: {
-                            '_token': $('meta[name=csrf-token]').attr("content"),
-                            'option_id': optionId,
-                            'status': status
+                            'drop_down_type': dropdownType,
+                            '_token': $('meta[name=csrf-token]').attr("content")
+                        }
+                    },
+                    columns: [{
+                            data: 'option_name',
+                            name: 'option_name'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            searchable: false,
+                            orderable: false
+                        }
+                    ]
+                });
+
+
+            }
+
+            function get_dropdown_value() {
+                var dropdownType = $("select[name='drop_down_id']").find(":selected").data('type');
+                // if (dropdownType == 'remarks_for_finance') //Remarks for finance dropdown
+                //     $("select[name='sec_dropdown_id']").prop('hidden', false);
+                // else
+                //     $("select[name='sec_dropdown_id']").prop('hidden', true);
+
+                $("#loader").show();
+                load_datatable(dropdownType);
+                $("#loader").hide();
+            }
+
+            function removeOptionField(obj) {
+                $(obj).parent().parent().remove();
+                var eleLen = $(".option_input_append").children().length;
+                if (eleLen == 0) {
+                    $("#option_save_btn").hide();
+                }
+
+            }
+
+            function AddOption() {
+                var AppendContent = '<div class="d-flex" >' +
+                    '<div class=" mb-3 mb-1 pr-3 w-100" >' +
+                    '<input type="text" name="option_name[]" required class="form-control">' +
+                    '</div>' +
+                    '<div class="" >' +
+                    '<button type="button" class="btn btn-danger" style="" onclick="removeOptionField(this)">{{ __('X') }}</button>' +
+                    '</div>' +
+                    '</div>';
+                $('.option_input_append').append(AppendContent);
+                $("#option_save_btn").show();
+
+
+            }
+
+            function update_data(elem, route, edit) {
+                console.log(edit)
+                if (edit == 0) {
+                    values = $(elem).attr('data-id')
+                    $('#id_values').val(values)
+                    id = $('#id_values').val()
+                    $('#exampleModal').modal('show')
+                    valueofDropdown = $(elem).parent('td').siblings('td').text();
+                    $('#inputofDropdown').val(valueofDropdown)
+                    $('#prevValues').val(valueofDropdown)
+                    // prevValue = $(elem).parent('td').siblings('td').text();
+                } else {
+                    $.ajax({
+                        url: route,
+                        data: {
+                            id: id,
+                            prevValue: $('#prevValues').val(),
+                            option_name: $('#inputofDropdown').val(),
+                            _token: token
                         },
                         type: 'POST',
                         success: function(res) {
                             if (res.success == true) {
 
-                                swal("{{ __('Success') }}", res.message, 'success');
+                                swal("Success", res.message, 'success');
                                 setTimeout(function() {
                                     location.reload();
                                 }, 1000);
                             } else if (res.success == false) {
-                                swal("{{ __('Warning') }}", res.message, 'error');
+                                swal("Warning", res.message, 'error');
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
                             }
 
                             $("#loader").hide();
@@ -154,118 +283,7 @@
                         }
                     });
                     return false;
-                });
-
-        }
-
-        function load_datatable(dropdownType) {
-            var option_table = $('#option_table').DataTable({
-                destroy: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('view-options') }}",
-                    type: "POST",
-                    data: {
-                        'drop_down_type': dropdownType,
-                        '_token': $('meta[name=csrf-token]').attr("content")
-                    }
-                },
-                columns: [{
-                        data: 'option_name',
-                        name: 'option_name'
-                    },
-                    // {
-                    //     data: 'action',
-                    //     name: 'action',
-                    //     searchable: false,
-                    //     orderable: false
-                    // }
-                ]
-            });
-
-
-        }
-
-        function get_dropdown_value() {
-            var dropdownType = $("select[name='drop_down_id']").find(":selected").data('type');
-            if (dropdownType == 'remarks_for_finance') //Remarks for finance dropdown
-                $("select[name='sec_dropdown_id']").prop('hidden', false);
-            else
-                $("select[name='sec_dropdown_id']").prop('hidden', true);
-
-            $("#loader").show();
-            load_datatable(dropdownType);
-            $("#loader").hide();
-        }
-
-        function removeOptionField(obj) {
-            $(obj).parent().parent().remove();
-            var eleLen = $(".option_input_append").children().length;
-            if (eleLen == 0) {
-                $("#option_save_btn").hide();
+                }
             }
-
-        }
-
-        function AddOption() {
-            var AppendContent = '<div class="row" >' +
-                '<div class="col-md-9 mt-1 mb-1" >' +
-                '<input type="text" name="option_name[]" required class="form-control">' +
-                '</div>' +
-                '<div class="col-md-2" >' +
-                '<button type="button" class="btn btn-danger" style="margin-top: 3px;" onclick="removeOptionField(this)">{{ __('Remove') }}</button>' +
-                '</div>' +
-                '</div>';
-            $('.option_input_append').append(AppendContent);
-            $("#option_save_btn").show();
-
-
-        }
-
-        function update_data(elem, route, edit) {
-            console.log(edit)
-            if (edit == 0) {
-                values = $(elem).attr('data-id')
-                $('#id_values').val(values)
-                id = $('#id_values').val()
-                $('#exampleModal').modal('show')
-                valueofDropdown = $(elem).parent('td').siblings('td').text();
-                $('#inputofDropdown').val(valueofDropdown)
-                $('#prevValues').val(valueofDropdown)
-                // prevValue = $(elem).parent('td').siblings('td').text();
-            } else {
-                $.ajax({
-                    url: route,
-                    data: {
-                        id: id,
-                        prevValue: $('#prevValues').val(),
-                        option_name: $('#inputofDropdown').val(),
-                        _token: token
-                    },
-                    type: 'POST',
-                    success: function(res) {
-                        if (res.success == true) {
-
-                            swal("Success", res.message, 'success');
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
-                        } else if (res.success == false) {
-                            swal("Warning", res.message, 'error');
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
-                        }
-
-                        $("#loader").hide();
-                    },
-                    error: function() {
-                        $("#loader").hide();
-                    }
-                });
-                return false;
-            }
-        }
     </script>
 @endsection
