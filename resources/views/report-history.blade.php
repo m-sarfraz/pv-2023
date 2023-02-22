@@ -21,7 +21,7 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ \Auth::user()->name }}</td>
-                        <td>Excel</td>
+                        <td>{{$report->type}}</td>
                         <td>{{ $report->export_date }}</td>
                         @if ($report->status == 'Processing')
                             <td class="">
@@ -69,7 +69,7 @@
                         @else
                             <td class="justify-content-center">
                                 <a class="text-center" style="text-decoration:underline; color:blue"  target="blank"
-                                    href="{{ url('/storage/reports/' . $report->download_link) }}">
+                                    href="{{ url('/uploads/' . $report->download_link) }}">
                                    Click here to Download Report
                                 </a>
                             </td>

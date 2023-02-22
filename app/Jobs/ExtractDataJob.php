@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exports\DataExport;
 use App\Report;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use DB;
@@ -10,7 +11,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Rap2hpoutre\FastExcel\FastExcel;
+use Maatwebsite\Excel\Facades\Excel;
+use Storage;
 
 class ExtractDataJob implements ShouldQueue
 {
@@ -36,10 +38,10 @@ class ExtractDataJob implements ShouldQueue
      */
     public function handle()
     {
-            //  cron job path 
-            // /usr/local/bin/php /home/vcclink/public_html/artisan schedule:run	
-            ini_set('max_execution_time', -1); //-1 seconds = infinite
-            ini_set('memory_limit',  -1); //1000M  = 1 GB
+        //  cron job path
+        // /usr/local/bin/php /home/vcclink/public_html/artisan schedule:run
+        ini_set('max_execution_time', -1); //-1 seconds = infinite
+        ini_set('memory_limit', -1); //1000M  = 1 GB
 
         $Userdata = DB::table('data_extract_view');
         //    check null values coming form selected options
@@ -60,10 +62,10 @@ class ExtractDataJob implements ShouldQueue
             $Userdata->whereIn('data_extract_view.REMARKS (For Finance)', $this->data['remarks']);
         }
         if (isset($this->data['sift_start'])) {
-            $Userdata->whereDate('data_extract_view.DATE SIFTED', '>=', $this->data['sift_start']);
+            $Userdata->where('data_extract_view.DATE SIFTED', '>=', $this->data['sift_start']);
         }
         if (isset($this->data['sift_end'])) {
-            $Userdata->whereDate('data_extract_view.DATE SIFTED', '<=', $this->data['sift_end']);
+            $Userdata->where('data_extract_view.DATE SIFTED', '<=', $this->data['sift_end']);
         }
         if (isset($this->data['endo_start'])) {
             $Userdata->whereDate('data_extract_view.DATE ENDORSED', '>=', $this->data['endo_start']);
@@ -82,26 +84,38 @@ class ExtractDataJob implements ShouldQueue
             ->setShouldWrapText(false)
             ->setBackgroundColor("FFFFFF")
             ->build();
-        
+
         if ($Userdata) {
             $fileName = time();
             $report = new Report();
-            $report->type = 'excel';
+            $report->type = 'CSV';
             $report->user_id = $this->id;
             $report->export_date = now()->addMinute(60);
             $report->status = 'Processing';
             $report->save();
             try {
-                if ((new FastExcel($this->usersGenerator($Userdata)))->headerStyle($header_style)
-                    ->rowsStyle($row_style)->export(public_path('storage/reports/' . $fileName . '.xlsx'))) {
+                // Or save the file to disk
+                $headers = DB::getSchemaBuilder()->getColumnListing('data_extract_view');
+
+                $collection = $Userdata->get();
+                $dataExport = new DataExport($collection, $headers);
+                Storage::put('public/data.txt', $dataExport);
+                if (Excel::store($dataExport, $fileName . '.csv', 'excel_uploads')) {
                     Report::where('id', $report->id)->update([
-                        'download_link' =>$fileName . '.xlsx',
+                        'download_link' => $fileName . '.csv',
                         'status' => 'Exported',
                     ]);
                 }
+                // if ((new FastExcel($this->usersGenerator($Userdata)))->headerStyle($header_style)
+                //     ->rowsStyle($row_style)->export(public_path('storage/reports/' . $fileName . '.xlsx'))) {
+                //     Report::where('id', $report->id)->update([
+                //         'download_link' =>$fileName . '.xlsx',
+                //         'status' => 'Exported',
+                //     ]);
+                // }
 
             } catch (\Exception$e) {
-                dd ($e->getMessage());
+                dd($e->getMessage());
             }
 
         }
@@ -109,6 +123,7 @@ class ExtractDataJob implements ShouldQueue
     }
     public function usersGenerator($Userdata)
     {
+        dd($Userdata->count());
         foreach ($Userdata->cursor() as $user) {
             yield $user;
         }
