@@ -13,9 +13,8 @@
         "barryvdh/laravel-debugbar": "~3.0",
         "box/spout": "^3.3",
         "consoletvs/charts": "^6",
-        "dragonmantank/cron-expression": "^3.0",
         "fideloper/proxy": "^4.4",
-        "laravel/framework": "8.0",
+        "laravel/framework": "^6.20.26",
         "laravel/tinker": "^2.5",
         "league/csv": "^9.8",
         "maatwebsite/excel": "^3.1",
@@ -26,12 +25,12 @@
         "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
-        "facade/ignition": "^2.5.1",
+        "facade/ignition": "^1.16.15",
         "fakerphp/faker": "^1.9.1",
-        "laravel/ui": "^3.2",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.5.10"
+        "laravel/ui": "1.0",
+        "mockery/mockery": "^1.0",
+        "nunomaduro/collision": "^3.0",
+        "phpunit/phpunit": "^8.5.8|^9.3.3"
     },
     "config": {
         "optimize-autoloader": true,

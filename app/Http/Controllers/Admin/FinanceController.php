@@ -93,6 +93,8 @@ class FinanceController extends Controller
     {
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
         $Userdata = DB::table('finance_view');
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
         //    check null values coming form selected options
         if (isset($request->recruiter)) {
             $Userdata->whereIn('finance_view.origionalRecruiter', $request->recruiter);
@@ -211,6 +213,8 @@ class FinanceController extends Controller
     // yajra data table of finance data
     public function view_finance_search_table()
     {
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
         // user, information ,endo , finance
         $arr = ['Fallout', 'Offer accepted', 'Onboarded'];
         $Userdata = DB::select('SELECT * FROM `finance_view`');
@@ -346,6 +350,8 @@ class FinanceController extends Controller
     public function summaryAppend(Request $request)
     {
         //for check team revenue
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
         // $recruiter = Auth::user()->roles()->pluck('name');
         $revenueArray = [];
         $revenue = DB::select('select id from roles where team_revenue = 1 and id != 3 and id != 24');

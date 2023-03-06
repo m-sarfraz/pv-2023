@@ -101,7 +101,7 @@ Data extract view
 ------------------------
   
  CREATE VIEW data_extract_view AS
-SELECT endorsements.category as CATEGORY,roles.name as TEAM , candidate_informations.reprocess as REPROCESS,users.name as 'ORIGINAL RECRUITER',
+SELECT endorsements.category as CATEGORY,roles.name as TEAM , endorsements.tapName as REPROCESS,users.name as 'ORIGINAL RECRUITER',
 candidate_domains.date_shifted as 'DATE SIFTED',candidate_positions.source as SOURCE,candidate_positions.position_applied as 'POSITION TITLE APPLIED',
 candidate_positions.candidate_profile as 'CANDIDATES PROFILE',candidate_domains.domain as DOMAIN,candidate_domains.segment as SEGMENT,candidate_domains.sub_segment as 'SUB SEGMENT',
 candidate_positions.manner_of_invite as 'MANNER OF INVITE',candidate_positions.date_invited as 'DATE INVITED',
@@ -245,3 +245,10 @@ JOIN candidate_educations on candidate_informations.id = candidate_educations.ca
 JOIN endorsements on endorsements.candidate_id = candidate_informations.id
  
 WHERE endorsements.is_deleted = 0
+
+------------------------------------------------
+update query for tap and recruiter
+-----------------------------------------------
+
+UPDATE endorsements SET origionalRecruiterName = (SELECT name FROM users WHERE users.id = endorsements.origionalRecruiter),
+    tapName = (SELECT name FROM users WHERE users.id = endorsements.tap);

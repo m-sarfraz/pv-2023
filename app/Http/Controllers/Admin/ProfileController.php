@@ -622,6 +622,7 @@ class ProfileController extends Controller
                 }
                 //save Google sheet addeed log to table starts
                 Helper::save_log('GOOGLE_SHEET_IMPORTED');
+                Helper::updateTapRecord();
                 // save Google sheet added to log table ends
                 return redirect()->back()->with('message-live', 'data Import successfully');
             }
@@ -1222,6 +1223,7 @@ class ProfileController extends Controller
                     // fclose($file);
                 }
             }
+            Helper::updateTapRecord();
             return redirect()->back()->with('message', 'data Imported successfully');
         }
 

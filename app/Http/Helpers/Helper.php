@@ -30,6 +30,11 @@ class Helper
         $log->save();
         return;
     }
+    public static function updateTapRecord()
+    {
+        DB::Select('UPDATE endorsements SET origionalRecruiterName = (SELECT name FROM users WHERE users.id = endorsements.origionalRecruiter),
+        tapName = (SELECT name FROM users WHERE users.id = endorsements.tap)');
+    }
     public static function user_data()
     {
         // join the tables to get ccandidate data

@@ -554,7 +554,7 @@ class CandidateController extends Controller
             $Cipprogress->finance_id = $finance->id;
             $Cipprogress->save();
             //close cip
-
+            Helper::updateTapRecord();
             // save record for logs starts
             Helper::save_log('CANDIDATE_CREATED');
             //save record for logs ends
@@ -1289,6 +1289,7 @@ class CandidateController extends Controller
 
             //save candidate addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED');
+            Helper::updateTapRecord();
             // save candidate added to log table ends
             Cache::forget('users');
 
