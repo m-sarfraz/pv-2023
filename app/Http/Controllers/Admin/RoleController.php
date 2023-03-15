@@ -133,14 +133,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        $role = Role::find($id);
         $permission = Permission::orderBy('id', 'DESC')->get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-        $target = DB::table('team_revenue')->where('team_id', $id)->first();
+        $target = DB::table('team_revenue')->where('team_id', $role->id)->first();
         return view('role.edit', compact('role', 'permission', 'rolePermissions', 'target'));
     }
 
@@ -151,7 +150,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -178,7 +177,7 @@ class RoleController extends Controller
                 array_push($permissionArr, $arr);
             }
         }
-        $role = Role::find($id);
+        $role = Role::find($role->id);
         $role->name = $request->input('name');
         if (isset($request->revenue)) {
             $role->team_revenue = '1';
@@ -194,8 +193,8 @@ class RoleController extends Controller
             $q3Weekly = round(($request->q3) / 12);
             $q4Weekly = round(($request->q4) / 12);
 
-            if (DB::table('team_revenue')->where('team_id', $id)->exists()) {
-                DB::table('team_revenue')->where('team_id', $id)->update([
+            if (DB::table('team_revenue')->where('team_id', $role->id)->exists()) {
+                DB::table('team_revenue')->where('team_id', $role->id)->update([
                     'q1_target' => $request->q1,
                     'q2_target' => $request->q2,
                     'q3_target' => $request->q3,
@@ -224,7 +223,7 @@ class RoleController extends Controller
                     'q2_weekly' => $q2Weekly,
                     'q3_weekly' => $q3Weekly,
                     'q4_weekly' => $q4Weekly,
-                    'team_id' => $id,
+                    'team_id' => $role->id,
                 ]);
             }
         } else {

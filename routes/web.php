@@ -92,9 +92,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('view-record-filter-table', 'RecordController@view_record_filter_table')->name('view-record-filter-table');
     Route::get('appendFilterOptions', 'RecordController@appendFilterOptions')->name('appendFilterOptions');
     Route::get('showCandidateDropDown', 'RecordController@showCandidate_nameDrpDown')->name('showCandidate_nameDrpDown');
-    
-    Route::resource('role', 'RoleController')->name('*', 'role');
-    Route::resource('user', 'UserController')->name('*', 'user');
+
+    Route::resource('role', RoleController::class);
+    Route::resource('user', UserController::class);
     Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
 
     // Route::resource('team', 'TeamController')->name('*', 'team');
@@ -158,17 +158,20 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
     Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
-    Route::match(['get', 'post'],'view-options', 'DropDownController@view_options')->name('view-options');
+    Route::match(['get', 'post'], 'view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('update-option', 'DropDownController@update_option')->name('update-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
-    
+
     // domain/segmnet routes
     Route::get('domain', 'DomainController@domain')->name('domain');
     Route::post('add-domains', 'DomainController@add_domains')->name('add-domains');
+    Route::get('append-filters', 'DomainController@appendFilters')->name('append-filters-domain');
     Route::post('add-segments', 'DomainController@add_segments')->name('add-segments');
     Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
     Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
+    Route::post('add-profile', 'DomainController@add_profile')->name('add-profiles');
+    Route::post('delete-option', 'DomainController@deleteOption')->name('delete-option');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
     // testing link fro entring or testing data
     Route::get('testinglink', 'DomainController@testinglink')->name('testinglink');

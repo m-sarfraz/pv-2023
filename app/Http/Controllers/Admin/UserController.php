@@ -102,9 +102,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
         // $password = Crypt::decrypt($user->password);
@@ -119,11 +118,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,   User $user)
     {
+      
         $arrayCheck = [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'required',
             'roles' => 'required',
             'agent' => 'required',
@@ -142,10 +142,10 @@ class UserController extends Controller
             } else {
                 $input = $request->except(['password']);
             }
-            $user = User::find($id);
+            $user = User::find($user->id);
             $user->update($input);
 
-            DB::table('model_has_roles')->where('model_id', $id)->delete();
+            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
             $user->assignRole($request->input('roles'));
             if ($user) {
                 //save USER addeed log to table starts

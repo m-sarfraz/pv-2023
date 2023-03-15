@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.cs') }}" />
+
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> --}}
     <!-- ================= -->
     <!-- Datatable css start-->
@@ -58,6 +60,7 @@
     <script src="{{ asset('assets/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-resizable.js') }}"></script> 
     <script src="{{ asset('assets/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     {{-- <script src="https://rawgit.com/RickStrahl/jquery-resizable/master/src/jquery-resizable.js"></script> --}}
     {{-- <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script> --}}
     {{-- <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script> --}}
@@ -72,4 +75,3 @@
 
 </html>
 {{-- script for saving the activity of user untill logged in --}}
-
