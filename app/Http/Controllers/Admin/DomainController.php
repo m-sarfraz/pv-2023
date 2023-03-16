@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Domain;
 use App\Http\Controllers\Controller;
+use App\Profile;
 use App\Segment;
 use App\SubSegment;
 use DB;
@@ -53,6 +54,13 @@ class DomainController extends Controller
     }
     public function domain()
     {
+        // return Domain::with([
+        //     'segments' => function ($q1) {
+        //         return $q1->with([
+        //             'sub_segments' => function ($q2) {
+        //                 return $q2->with('profile');
+        //             }]);
+        //     }])->get();
         $getDomains = Domain::all();
         $getSegments = Segment::all();
         $profile = DB::table('gettravesels')->select('c_profile')->get();
@@ -228,7 +236,9 @@ class DomainController extends Controller
                 $option = (Domain::where('id', $request->optionValue)->first())->domain_name;
                 $check = DB::table('candidate_domains')->where('domain', $option)->exists();
                 if ($check == false) {
-                    return 'not found';
+                    $domain = Domain::findOrFail($request->optionValue); // Find the domain using Laravel's ORM
+                    $domain->delete(); // Use Laravel's ORM to delete the domain, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Domain Deleted Successfully']);
                 } else {
                     $useCount = DB::table('candidate_domains')->where('domain', $option)->count();
                     return response()->json(['success' => false, 'message' => 'Domain Already in Use for ' . $useCount . ' candidate(s)']);
@@ -238,7 +248,9 @@ class DomainController extends Controller
                 $option = (Segment::where('id', $request->optionValue)->first())->segment_name;
                 $check = DB::table('candidate_domains')->where('segment', $option)->exists();
                 if ($check == false) {
-                    return 'not found';
+                    $Segment = Segment::findOrFail($request->optionValue); // Find the Segment using Laravel's ORM
+                    $Segment->delete(); // Use Laravel's ORM to delete the Segment, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Segment Deleted Successfully']);
                 } else {
                     $useCount = DB::table('candidate_domains')->where('segment', $option)->count();
                     return response()->json(['success' => false, 'message' => 'Segment Already in Use for ' . $useCount . ' candidate(s)']);
@@ -248,18 +260,22 @@ class DomainController extends Controller
                 $option = (SubSegment::where('id', $request->optionValue)->first())->sub_segment_name;
                 $check = DB::table('candidate_domains')->where('sub_segment', $option)->exists();
                 if ($check == false) {
-                    return 'not found';
+                    $SubSegment = SubSegment::findOrFail($request->optionValue); // Find the SubSegment using Laravel's ORM
+                    $SubSegment->delete(); // Use Laravel's ORM to delete the SubSegment, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Sub Segment Deleted Successfully']);
                 } else {
                     $useCount = DB::table('candidate_domains')->where('sub_segment', $option)->count();
-                    return response()->json(['success' => false, 'message' => 'sub Segments Already in Use for ' . $useCount . ' candidate(s)']);
+                    return response()->json(['success' => false, 'message' => 'Sub Segments Already in Use for ' . $useCount . ' candidate(s)']);
                 }
                 break;
 
             case 'profile':
-                $option = (SubSegment::where('id', $request->optionValue)->first())->c_profile_name;
+                $option = (Profile::where('id', $request->optionValue)->first())->c_profile_name;
                 $check = DB::table('candidate_positions')->where('candidate_profile', $option)->exists();
                 if ($check == false) {
-                    return 'not found';
+                    $Profile = Profile::findOrFail($request->optionValue); // Find the Profile using Laravel's ORM
+                    $Profile->delete(); // Use Laravel's ORM to delete the Profile, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Candidate Profile Deleted Successfully']);
                 } else {
                     $useCount = DB::table('candidate_positions')->where('candidate_profile', $option)->count();
                     return response()->json(['success' => false, 'message' => 'Candidate Profile Already in Use for ' . $useCount . ' candidate(s)']);

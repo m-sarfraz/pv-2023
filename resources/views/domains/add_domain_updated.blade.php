@@ -5,6 +5,16 @@
             background: #CCC
         }
 
+        .loader-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+
         .btn-dropdown {
             color: #fff;
             background-color: #dc8627;
@@ -27,7 +37,9 @@
                     <div class="col-xl-12 px-lg-5">
                         <p class="C-Heading pt-3">Candidate Profile Management</p>
                         <div class="card">
-                            <div id="loader1" style="display: none;"></div>
+                            <div id="loader1" style="display: none;">
+                                <div class="loader-text">Refreshing Filters...</div>
+                            </div>
                             <div class="card-body">
                                 <fieldset>
                                     <div class="row mb-xl-1 mb-9 align-items-end">
@@ -190,6 +202,41 @@
                                 </fieldset>
                             </div>
                         </div>
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Domains</h5>
+                                        <p class="card-text" id="domainCount"> </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Segments</h5>
+                                        <p class="card-text" id="SegmentCount"> </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sub Segments</h5>
+                                        <p class="card-text" id="subSegmentCount"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Candidate Profiles </h5>
+                                        <p class="card-text" id="profileCount"> </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card mt-3 d-none" id="addNewOptionDiv">
                             <div id="loader1" style="display: none;"></div>
                             <h4 class="py-2 mt-2 text-center btn-dropdown">Enter New <span id="title"></span></h4>
@@ -248,6 +295,7 @@
                     .done(function(res) {
                         console.log(res)
                         $('#domains').empty()
+                        $('#profile').empty()
                         for (let i = 0; i < res.domains.length; i++) {
                             if (res.domains[i].domain_name != '') {
                                 $('#domains').append('<option value="' + res.domains[i].id + '">' + res.domains[i]
@@ -322,6 +370,7 @@
                     $('#subSegments').empty();
 
                 } else {
+                    $('#subSegments').empty();
                     $("#myModalSegment").addClass('d-none');
                     $.ajax({
                             type: "GET",
@@ -441,7 +490,10 @@
                             var messageHtml = '<div class="alert ' + alertClass + '">' + message + '</div>';
                             $('#alert-div').append('');
                             $('#alert-div').append(messageHtml);
-                            appendFilterOptions()
+                            setTimeout(() => {
+
+                                appendFilterOptions()
+                            }, 1600);
                             setTimeout(function() {
                                 $('.alert').fadeOut('slow', function() {
                                     $(this).remove();
@@ -502,17 +554,22 @@
                                 success: function(res) {
                                     if (res.success == true) {
                                         Swal.fire({
+                                            position: 'top-end',
                                             icon: 'success',
-                                            text: "Option Delted succesfully",
-                                            type: 'success',
-
+                                            title: res.message,
+                                            showConfirmButton: false,
+                                            timer: 1500
                                         })
+                                        setTimeout(() => {
+                                            appendFilterOptions();
+                                        }, 1500);
                                     } else if (res.success == false) {
                                         Swal.fire({
+                                            position: 'top-end',
                                             icon: 'warning',
-                                            text: res.message,
-                                            type: 'warning',
-
+                                            title: res.message,
+                                            showConfirmButton: false,
+                                            timer: 1500
                                         })
                                     }
 
