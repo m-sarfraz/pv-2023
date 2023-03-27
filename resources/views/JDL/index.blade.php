@@ -19,6 +19,22 @@
             color: white !important;
         }
 
+        #filteredJdlTable td {
+            text-align: center;
+            max-width: 40ch;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        #jdlTable td {
+            text-align: center;
+            max-width: 40ch;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
         .row {
             margin: 0px !important;
         }
@@ -34,8 +50,8 @@
         }
 
         /* overflow: hidden;
-                        text-overflow: ellipsis;
-                        /* height: 113px; */
+                                text-overflow: ellipsis;
+                                /* height: 113px; */
         .hidetrID tr td:nth-child(17),
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
@@ -78,8 +94,8 @@
         }
 
         /* .hidetrID tr td{
-                            white-space: nowrap !important;
-                            } */
+                                    white-space: nowrap !important;
+                                    } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -109,8 +125,8 @@
         }
 
         /* .customWidth {
-                                    width: 410px !important;
-                                } */
+                                            width: 410px !important;
+                                        } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -142,10 +158,10 @@
         }
 
         /*
-                                   this is important!
-                                   make sure you define this here
-                                   or in jQuery codef
-                                */
+                                           this is important!
+                                           make sure you define this here
+                                           or in jQuery codef
+                                        */
         .resizer {
             position: absolute;
             top: 0;
@@ -320,7 +336,7 @@
                     <div class="tableFixHead">
                         <table id="jdlTable" class="table borderd">
                             <thead class="bg-light w-100">
-                                <tr style="whitespace-nowrap">
+                                <tr style="whitespace-nowrap; text-align:center;">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
                                     <th class="ant-table-cell"> Priority</th>

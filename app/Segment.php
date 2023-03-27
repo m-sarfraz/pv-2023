@@ -9,10 +9,6 @@ class Segment extends Model
     protected $fillable = [
         'segment_name',
     ];
-    public function sub_segments()
-    {
-        return $this->hasMany(SubSegment::class, 'segment_id', 'id');
-    }
     public static function booted()
     {
         static::deleting(function ($segment) {
@@ -21,5 +17,14 @@ class Segment extends Model
                 $subSegment->delete(); // delete the sub segment itself
             });
         });
+    }
+    public function subSegments()
+    {
+        return $this->hasMany(SubSegment::class);
+    }
+
+    public function domain()
+    {
+        return $this->belongsTo(Domain::class);
     }
 }

@@ -14,8 +14,6 @@
 /* =================== */
 /* Route for clear cache */
 
-use App\Http\Controllers\HomeController;
-
 Route::get('/clear-all', function () {
     Artisan::call('view:clear');
     Artisan::call('route:clear');
@@ -136,8 +134,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('summaryAppend_finance', 'FinanceController@summaryAppend')->name('summaryAppend_finance');
     Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
     Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
+    Route::get('/finance-details/{id}', 'FinanceController@financeDetails')->name('details.finance');
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
+    Route::get('/details/{id}', 'SmartSearchController@candidateDetails')->name('details.candidate');
     Route::get('filter_search', 'SmartSearchController@filterSearch')->name('filterSearch');
     Route::post('summaryAppend', 'SmartSearchController@summaryAppend')->name('summaryAppend');
     Route::get('view-smart-search-table', 'SmartSearchController@smartTOYajra')->name('view-smart-search-table');

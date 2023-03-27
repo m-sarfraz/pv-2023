@@ -471,7 +471,7 @@
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                                             <?php
                                                             // $profile = Helper::get_dropdown('candidates_profile');
-                                                            $profile = App\CandidateProfile_Dropdown::select('c_profile')->get();
+                                                            $profile = App\Profile::select('c_profile_name', 'id')->get();
                                                             ?>
                                                             <div class="form-group mb-0">
                                                                 <label class="Label labelFontSize">
@@ -486,9 +486,9 @@
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($profile as $profileOption)
-                                                                        <option value="{{ $profileOption->c_profile }}"
-                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->c_profile : '') ? 'selected' : '' }}>
-                                                                            {{ $profileOption->c_profile }}
+                                                                        <option value="{{ $profileOption->id }}"
+                                                                            {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
+                                                                            {{ $profileOption->c_profile_name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -650,7 +650,7 @@
                                                                 <input type="number" name="OFFERED_ALLOWANCE" disabled
                                                                     id="off_allowance"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_allowance : '' }}"
-                                                                    oninput="SalaryAppend('#remarks')" 
+                                                                    oninput="SalaryAppend('#remarks')"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
@@ -1934,7 +1934,7 @@
         //     $('#placement_fee').prop("disabled", false);
         //     $('#off_salary_fianance').prop("disabled", false);
         //     $('#onboard_date').prop("disabled", false);
-            // $('#off_allowance').prop("disabled", false);
+        // $('#off_allowance').prop("disabled", false);
         // } else {
 
         //     // else disable the finance section and disable salray fields
@@ -1944,7 +1944,7 @@
         // }
         // if (value.includes('Hire') || value.includes('Reneged') || value.includes('Onboard') || value.includes(
         //         'Scheduled') || value.includes('Offer accepted')) {
-            // $('#off_allowance').prop("disabled", false);
+        // $('#off_allowance').prop("disabled", false);
         //     $('#off_salary').prop("disabled", false);
         // } else {
         //     $('#off_allowance').prop("disabled", true);
@@ -2211,11 +2211,14 @@
                     if (res.data.id) {
 
                         $('#domain').append(
-                            `<option value="${res.data.domain}">${res.data.domain}</option>`);
+                            `<option selected value="${res.data.domainName}">${res.data.domainName}</option>`
+                            );
                         $('#Domainsegment').append(
-                            `<option value="${res.data.segment}">${res.data.segment}</option>`);
+                            `<option selected value="${res.data.segmentName}">${res.data.segmentName}</option>`
+                            );
                         $('#Domainsub').append(
-                            `<option value="${res.data.s_segment}">${res.data.s_segment}</option>`);
+                            `<option selected value="${res.data.subSegmentName}">${res.data.subSegmentName}</option>`
+                            );
 
 
                         // $('#domain_endo').append(

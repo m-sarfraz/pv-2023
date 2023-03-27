@@ -1,7 +1,7 @@
 <div class="tableFixHead">
     <table id="fmtable1" class="table ">
         <thead class="bg-light w-100">
-            <tr style="">
+            <tr style="text-align:center">
                 <th class="ant-table-cell hideIDTh noVis">secret-id</th>
                 <th class="ant-table-cell hideIDTh">id</th>
                 <th class="ant-table-cell">Team</th>
@@ -17,7 +17,7 @@
                 <th class="ant-table-cell ant-table-cell-scrollbar"></th>
             </tr>
         </thead>
-        <tbody class="hidetrID" style="height:100px"> </tbody>
+        <tbody class="hidetrID hidetrIDFinance" style="height:100px"> </tbody>
     </table>
 </div>
 <script>

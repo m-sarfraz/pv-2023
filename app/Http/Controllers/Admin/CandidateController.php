@@ -13,6 +13,7 @@ use App\Endorsement;
 use App\Finance;
 use App\Finance_detail;
 use App\Http\Controllers\Controller;
+use App\Profile;
 use App\Segment;
 use App\User;
 use Auth;
@@ -273,7 +274,7 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $candidate_id)->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $candidate_id)->firstOrFail();
                 $numberOfEndo = 0;
-                $origionalRecruiter = (Endorsement::where('candidate_id',$candidate_id)->first())->origionalRecruiter;
+                $origionalRecruiter = (Endorsement::where('candidate_id', $candidate_id)->first())->origionalRecruiter;
                 $tap = Auth::user()->id;
             }
             $id = explode('-', $request->candidate_id);
@@ -284,9 +285,9 @@ class CandidateController extends Controller
                 $CandidiatePosition = CandidatePosition::where('candidate_id', $id[0])->firstOrFail();
                 $CandidiateDomain = CandidateDomain::where('candidate_id', $id[0])->firstOrFail();
                 $numberOfEndo = $id[1] + 1;
-                $origionalRecruiter =  (Endorsement::where('candidate_id',$candidate_id)->first())->origionalRecruiter;
+                $origionalRecruiter = (Endorsement::where('candidate_id', $candidate_id)->first())->origionalRecruiter;
                 $tap = Auth::user()->id;
-            } 
+            }
             // if ($candidate_id > 0) {
             //     // if record is being updated from Tap
 
@@ -1327,10 +1328,18 @@ class CandidateController extends Controller
         $status = ['OPEN', 'REOPEN'];
         if ($request->c_profile) {
             $request->position == null;
-            $response = DB::table('gettravesels')->where("c_profile", $request->c_profile)->first();
-            if ($response) {
+            $profile = Profile::findOrFail($request->c_profile);
+            if ($profile->subSegment) {
 
+                $subSegmentName = $profile->subSegment->sub_segment_name;
+                $segmentName = $profile->subSegment->segment->segment_name;
+                $domainName = $profile->subSegment->segment->domain->domain_name;
+                $id = $profile->subSegment->segment->domain->id;
+                $response = compact('domainName', 'segmentName', 'subSegmentName', 'id');
                 return response()->json(['data' => $response]);
+            } else {
+                return response()->json(['data' => 'No Data']);
+
             }
         }
         if ($request->position) {

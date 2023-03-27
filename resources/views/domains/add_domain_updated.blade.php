@@ -202,7 +202,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        {{-- <div class="row mt-2">
                             <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -235,7 +235,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="card mt-3 d-none" id="addNewOptionDiv">
                             <div id="loader1" style="display: none;"></div>

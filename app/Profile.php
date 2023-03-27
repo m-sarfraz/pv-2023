@@ -9,5 +9,9 @@ class Profile extends Model
 {
     use HasFactory;
     protected $table = 'candidate_profile';
+    public function subSegment()
+    {
+        return $this->belongsTo(SubSegment::class);
+    }
 
 }

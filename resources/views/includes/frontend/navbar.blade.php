@@ -1,12 +1,12 @@
 <div>
 
     <?php
-    $routeName = Route::currentRouteName();
+    $routeName = Route::currentRouteName(); 
     ?>
     <div class="w-100 px-3 menu-blockDiv">
         <i class="bi bi-list menu-block" onclick="myFunction()" aria-hidden="true"></i>
     </div>
-    <nav id="navBarSmall" class="navBarSmallClass" style="background: #dc8627;">
+    <nav id="navBarSmall" class="navBarSmallClass {{ $routeName == 'details.finance' ? 'd-none' : 'd-block' }}" style="background: #dc8627;">
         <div class="nav nav-tabs nav_Tabs" id="nav-tab" role="tablist">
             <a class="nav-link {{ $routeName == 'home' ? 'nav-active' : 'text-white' }}" href="{{ route('home') }}"
                 style="cursor: pointer;">

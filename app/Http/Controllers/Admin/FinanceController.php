@@ -442,7 +442,7 @@ class FinanceController extends Controller
         $sql_overDue_receivables_amount = DB::select($sql_overDue_receivables);
         $sql_ctake_amount = DB::select($c_take);
         $sql_c_share_db = DB::select($c_share);
-        $sql_bod_share_db = DB::select($bod_share);
+        $sql_bod_share_db = DB::select($bod_share); 
         $sql_vcc_amount_sum = DB::select($vcc_amount_sum);
         $billedAmount = 0;
         $unbilledAmount = 0;
@@ -523,7 +523,7 @@ class FinanceController extends Controller
             'sql_bod_share' => $sql_bod_share,
             'vcc_amount_sum' => $vcc_amount_sum,
             'teamRevenueAmount' => $teamRevenueAmountFinance,
-        ];
+        ]; 
         return view('finance.summary', $data);
     }
     // close
@@ -737,4 +737,50 @@ class FinanceController extends Controller
     //     ];
     //     return view('finance.summary', $data);
     // }
+    public function financeDetails($id)
+    {
+        $arr = explode('-', $id);
+        // return $arr[0] . '-'. $arr[1] . '-'. $arr[2] ;
+        $detail =
+        //  DB::select('select `endorsements`.*, `finance`.*, `finance_detail`.* from `endorsements` inner join `finance`
+        // on `finance`.`endorsement_id` = `endorsements`.`id` inner join `finance_detail`
+        // on `finance`.`id` = `finance_detail`.`finance_id`
+        // WHERE finance.candidate_id =' . $arr[0] . ' and endorsements.numberOfEndo =' . $arr[1] . ' and endorsements.saved_by = ' . $arr[2] . '');
+        DB::table('endorsements')
+            ->join('finance', 'finance.endorsement_id', 'endorsements.id')
+            ->join('finance_detail', 'finance.id', 'finance_detail.finance_id')
+            ->select('endorsements.*', 'finance.*', 'finance_detail.*', 'finance_detail.placementFee as feee')
+            ->where(['finance.candidate_id' => $arr[0],
+                'endorsements.numberOfEndo' => $arr[1], 'endorsements.saved_by' => $arr[2], 'endorsements.id' => $arr[4]])
+            ->first();
+        // $sql = Str::replaceArray('?', $detail->getBindings(), $detail->toSql());
+
+        // dd($detail);
+        $fee = $detail->placementFee != null ? $detail->placementFee : 0;
+        $remarks_finance = $detail->remarks_for_finance != null ? $detail->remarks_for_finance : '';
+        $remarks_recruiter = $detail->remarks != null ? $detail->remarks : '';
+        // $remarks = $detail->remarks_for_finance;
+        // $remarks_finance = $remarks;
+        $salary1 = \App\Finance::where(['candidate_id' => $arr[0], 'endorsement_id' => $arr[4]])->first();
+        $salary = Finance_detail::where('finance_id', $salary1->id)->first();
+        $off_salary = $salary->offered_salary != null ? $salary->offered_salary : 0;
+        $off_allowance = $salary->allowance != null ? $salary->allowance : 0;
+        $billAmount = $salary1->Total_bilable_ammount != null ? $salary1->Total_bilable_ammount : 0;
+        // $savedBy = \App\CandidateInformation::where('id', $detail->candidate_id)->first();
+        $user = \App\User::where('id', $arr[2])->first();
+        $role = $user->roles->pluck('name');
+        $team = $role;
+        $data = [
+            'detail' => $detail,
+            'team' => $team,
+            'fee' => $fee,
+            'billAmount' => $billAmount,
+            'off_salary' => $off_salary,
+            'off_allowance' => $off_allowance,
+            'remarks_finance' => $remarks_finance,
+            'remarks_recruiter' => $remarks_recruiter,
+            'fid' => $arr[3],
+        ];
+        return view('finance.finance-detail', $data);
+    }
 }

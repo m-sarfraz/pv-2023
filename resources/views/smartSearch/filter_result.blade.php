@@ -1,7 +1,7 @@
 <div class="tableFixHead">
     <table id="smTable1" class="table">
         <thead class="bg-light w-100" style="">
-            <tr style="">
+            <tr style="text-align: center;">
                 <th class="d-none"> sr</th>
                 <th class="ant-table-cell" onclick="enableFocusOnInput(this)">
                     <svg title="Click Here For Columnwise Search" data-toggle="tooltip" data-placement="top"

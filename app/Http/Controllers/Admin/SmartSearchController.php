@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Domain;
 use App\Http\Controllers\Controller;
 use App\User;
+use Artisan;
 use DB;
+use App\CandidateInformation;
+use App\Endorsement;
 use Helper;
+use Auth;
 use Illuminate\Http\Request;
 use Str;
 use Yajra\DataTables\DataTables;
-use Artisan;
+
 class SmartSearchController extends Controller
 {
     // private array for controller to summary append on filter change
@@ -20,7 +24,7 @@ class SmartSearchController extends Controller
     public function __construct()
     {
         set_time_limit(8000000);
- 
+
         $this->middleware('permission:view-smart-search', ['only' => ['index']]);
     }
     //close
@@ -103,20 +107,20 @@ class SmartSearchController extends Controller
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
-                return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
+                return $record->cid . '-' . $record->endorsement_id . '-' . $record->saved_by . '-' . $record->finance_id;
             })
             ->addColumn('team', function ($record) {
                 // $userid = User::where('id', $record->saved_by)->get();
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
-    
+
             })
             ->addColumn('recruiter', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
-    
+
             })
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
@@ -127,10 +131,10 @@ class SmartSearchController extends Controller
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
-    
+
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
-    
+
             })
             ->addColumn('gender', function ($record) {
                 return $record->gender;
@@ -140,7 +144,7 @@ class SmartSearchController extends Controller
             })
             ->addColumn('Email', function ($record) {
                 return $record->email;
-    
+
             })
             ->addColumn('address', function ($record) {
                 return $record->address;
@@ -160,18 +164,18 @@ class SmartSearchController extends Controller
             ->addColumn('interview_note', function ($record) {
                 return $record->interview_note;
             })
-        
+
             ->addColumn('exp_salary', function ($record) {
                 return $record->exp_salary;
             })
-    
-            // ->addColumn('Replacement_For', function ($Alldata) {
-            //     return $Alldata->replacement_for;
-            // })
-            // ->addColumn('OR_Number', function ($Alldata) {
-            //     return $Alldata->or_number;
-    
-            // })
+
+        // ->addColumn('Replacement_For', function ($Alldata) {
+        //     return $Alldata->replacement_for;
+        // })
+        // ->addColumn('OR_Number', function ($Alldata) {
+        //     return $Alldata->or_number;
+
+        // })
             ->addColumn('appStatus', function ($record) {
                 return $record->app_status;
             })
@@ -186,7 +190,7 @@ class SmartSearchController extends Controller
                     $record->endi_date = '';
                 }
             })
-    
+
             ->addColumn('client', function ($record) {
                 return $record->client;
             })
@@ -199,7 +203,7 @@ class SmartSearchController extends Controller
             ->addColumn('career_level', function ($record) {
                 return $record->career_endo;
             })
-      
+
             ->addColumn('segment', function ($record) {
                 return $record->segment;
             })
@@ -209,13 +213,13 @@ class SmartSearchController extends Controller
             ->addColumn('endostatus', function ($record) {
                 return $record->endostatus;
             })
-      
+
             ->addColumn('remarks_for_finance', function ($record) {
                 return $record->remarks_for_finance;
             })
-            // ->addColumn('invoice_number', function ($record) {
-            //     return $record->invoice_number;
-            // })
+        // ->addColumn('invoice_number', function ($record) {
+        //     return $record->invoice_number;
+        // })
             ->addColumn('onboardnig_date', function ($record) {
                 return $record->onboardnig_date;
             })
@@ -366,7 +370,7 @@ class SmartSearchController extends Controller
             $Userdata->whereDate('updated_view_record.endi_date', '<=', $request->endo_end);
         }
         $record = $Userdata->get();
-        $totalCount =  count($record); 
+        $totalCount = count($record);
         $arrayOfIDS = $Userdata->select('cid', 'endorsement_id')->get();
         // return $arrayOfIDS;
         // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
@@ -384,13 +388,13 @@ class SmartSearchController extends Controller
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
-    
+
             })
             ->addColumn('recruiter', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
-    
+
             })
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
@@ -401,10 +405,10 @@ class SmartSearchController extends Controller
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
-    
+
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
-    
+
             })
             ->addColumn('gender', function ($record) {
                 return $record->gender;
@@ -414,7 +418,7 @@ class SmartSearchController extends Controller
             })
             ->addColumn('Email', function ($record) {
                 return $record->email;
-    
+
             })
             ->addColumn('address', function ($record) {
                 return $record->address;
@@ -434,18 +438,18 @@ class SmartSearchController extends Controller
             ->addColumn('interview_note', function ($record) {
                 return $record->interview_note;
             })
-        
+
             ->addColumn('exp_salary', function ($record) {
                 return $record->exp_salary;
             })
-    
-            // ->addColumn('Replacement_For', function ($Alldata) {
-            //     return $Alldata->replacement_for;
-            // })
-            // ->addColumn('OR_Number', function ($Alldata) {
-            //     return $Alldata->or_number;
-    
-            // })
+
+        // ->addColumn('Replacement_For', function ($Alldata) {
+        //     return $Alldata->replacement_for;
+        // })
+        // ->addColumn('OR_Number', function ($Alldata) {
+        //     return $Alldata->or_number;
+
+        // })
             ->addColumn('appStatus', function ($record) {
                 return $record->app_status;
             })
@@ -460,7 +464,7 @@ class SmartSearchController extends Controller
                     $record->endi_date = '';
                 }
             })
-    
+
             ->addColumn('client', function ($record) {
                 return $record->client;
             })
@@ -473,7 +477,7 @@ class SmartSearchController extends Controller
             ->addColumn('career_level', function ($record) {
                 return $record->career_endo;
             })
-      
+
             ->addColumn('segment', function ($record) {
                 return $record->segment;
             })
@@ -483,13 +487,13 @@ class SmartSearchController extends Controller
             ->addColumn('endostatus', function ($record) {
                 return $record->endostatus;
             })
-      
+
             ->addColumn('remarks_for_finance', function ($record) {
                 return $record->remarks_for_finance;
             })
-            // ->addColumn('invoice_number', function ($record) {
-            //     return $record->invoice_number;
-            // })
+        // ->addColumn('invoice_number', function ($record) {
+        //     return $record->invoice_number;
+        // })
             ->addColumn('onboardnig_date', function ($record) {
                 return $record->onboardnig_date;
             })
@@ -690,7 +694,43 @@ class SmartSearchController extends Controller
         return view('smartSearch.summary', $data);
     }
     //close
-    public function searchsummary(Request $request)
+    public function candidateDetails(Request $request, $id)
     {
+        $arrayofID = explode('-', $id); 
+        $candidateDetail = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+            ->where('candidate_informations.id', $arrayofID[0])
+            ->where('endorsements.id', $arrayofID[1])
+            ->first();
+        // $countEndo = DB::table('candidate_informations')
+        //     ->leftJoin('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
+        //     ->select('endorsements.*', 'finance.*', 'endorsements.id as E_id', 'finance.id as F_id')
+        //     ->where(['candidate_informations.id' => $_GET['id'], 'endorsements.saved_by' => Auth::user()->id])
+        //     ->groupBy('endorsements.id')->get();
+        $number_of_endorsements = Endorsement::where([
+            'saved_by' => Auth::user()->id,
+            'candidate_id' =>  $arrayofID[0],
+            'is_deleted' => 0,
+        ])->get();
+        $domainDrop = Domain::all();
+        $segmentsDropDown = DB::table('segments')->get();
+        $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        // $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
+        // $client = DB::table('taverse2')->distinct()->select('client')->get();
+        // return $sub_segmentsDropDown;
+        $data = [
+            // 'user' => $user,
+            'domainDrop' => $domainDrop,
+            'segmentsDropDown' => $segmentsDropDown,
+            'candidateDetail' => $candidateDetail,
+            'number_of_endorsements' => $number_of_endorsements,
+            'sub_segmentsDropDown' => $sub_segmentsDropDown,
+        ];
+        return view('smartSearch.details', $data);
     }
 }

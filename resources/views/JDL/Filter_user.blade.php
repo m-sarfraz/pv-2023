@@ -1,7 +1,7 @@
 <div class="tableFixHead">
     <table id="filteredJdlTable" class="table">
         <thead class="bg-light w-100">
-            <tr style="whitespace-nowrap">
+            <tr style="whitespace-nowrap; text-align:center;">
                 <th class="ant-table-cell hideID noVis">id</th>
                 <th class="ant-table-cell">Sr</th>
                 <th class="ant-table-cell"> Priority</th>

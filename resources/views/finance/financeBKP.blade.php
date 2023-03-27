@@ -14,22 +14,6 @@
             color: black !important;
         }
 
-        #fmtable1 td {
-            text-align: center; 
-            max-width: 40ch; 
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        #fmtable td {
-            text-align: center;
-            max-width: 40ch; 
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
         button.dt-button.buttons-columnVisibility {
             background-color: #dc8627 !important;
             background: #dc8627 !important;
@@ -115,360 +99,184 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row mt-4">
-            <div class="col-lg-6 ">
-                <div class="card">
-                    <p class="C-Heading pt-3 px-3">Record Finder:</p>
-                    <div class=" mb-13">
-                        <div id="loader1" style="display: block;"></div>
-                        <div class="card-body">
-                            <form action="">
-                                <div class="row mb-4">
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Search (keyword):
-                                            </label>
-                                            <input type="text" name="searchKeyword" id="searchKeyword"
-                                                placeholder="search keyword" required=""
-                                                class="form-control h-px-20_custom border" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Number Of Records Found:
-                                            </label>
-                                            <input type="text" name="REF_CODE" value="" disabled=""
-                                                required="" id="record" class="form-control h-px-20_custom border" />
-                                        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="C-Heading pt-3">Record Finder:</p>
+                <div class="card mb-13">
+                    <div id="loader1" style="display: block;"></div>
+                    <div class="card-body">
+                        <form action="">
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Search (keyword):
+                                        </label>
+                                        <input type="text" name="searchKeyword" id="searchKeyword"
+                                            placeholder="search keyword" required=""
+                                            class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <p class="mb-0 mt-2">Filter by:</p>
-                                            <!-- <label class="Label">Recruiter</label> -->
-                                        </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Number Of Records Found:
+                                        </label>
+                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
+                                            id="record" class="form-control h-px-20_custom border" />
                                     </div>
                                 </div>
-                                <div class="row mb-1 align-items-center">
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0">
-                                            <label class="Label">Original Recruiter</label>
-                                            <select multiple name="recruiter" id="recruiter"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- @foreach ($recruiter as $key => $user)
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <p class="mb-0 mt-2">Filter by:</p>
+                                        <!-- <label class="Label">Recruiter</label> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1 align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">Original Recruiter</label>
+                                        <select multiple name="recruiter" id="recruiter"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- @foreach ($recruiter as $key => $user)
                                                 <option value="{{ $user->id }}">
                                                     {{ $user->name }}</option>
                                             @endforeach --}}
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Candidate's Name:
-                                            </label>
-                                            <select multiple name="" id="candidate"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- @foreach ($candidates as $key => $candidate)
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0 pt-0 pt-lg-1 pt-sm-0 ">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Candidate's Name:
+                                        </label>
+                                        <select multiple name="" id="candidate"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- @foreach ($candidates as $key => $candidate)
                                                 <option value="{{ $candidate->cid }}">
                                                     {{ $candidate->last_name }}</option>
                                             @endforeach --}}
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Remarks
-                                            </label>
-                                            <select multiple name="remarks" id="remarks"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- <option disabled>Select Option</option> --}}
-                                                {{-- @foreach ($remarks_finance as $remarks)
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Remarks
+                                        </label>
+                                        <select multiple name="remarks" id="remarks"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- <option disabled>Select Option</option> --}}
+                                            {{-- @foreach ($remarks_finance as $remarks)
                                                 <option value="{{ $remarks->remarks_for_finance }}">
                                                     {{ $remarks->remarks_for_finance }}</option>
                                             @endforeach --}}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Team
-                                            </label>
-                                            <select multiple name="team_id" id="team_id"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- <option disabaled> select option </option> --}}
-                                                {{-- @foreach ($teams as $team)
-                                                <option value="{{ $team->name }}">{{ $team->name }}</option>
-                                            @endforeach --}}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                From (OB Date:)
-                                            </label>
-                                            <input type="date" class="w-100 form-control" id="ob_date"
-                                                onchange="filterUserData()">
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row mb-1">
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Reprocess:
-                                            </label>
-                                            <select multiple name="process" id="process"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- <option disabaled> select option </option> --}}
-                                                {{-- @foreach ($candidates as $reprocess)
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Team
+                                        </label>
+                                        <select multiple name="team_id" id="team_id"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($teams as $team)
+                                                <option value="{{ $team->name }}">{{ $team->name }}</option>
+                                            @endforeach --}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            From (OB Date:)
+                                        </label>
+                                        <input type="date" class="w-100 form-control" id="ob_date"
+                                            onchange="filterUserData()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Reprocess:
+                                        </label>
+                                        <select multiple name="process" id="process"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- <option disabaled> select option </option> --}}
+                                            {{-- @foreach ($candidates as $reprocess)
                                                 <option value="{{ $reprocess->reprocess }}">
                                                     {{ $reprocess->reprocess }}
                                                 </option>
                                             @endforeach --}}
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            @php
-                                                $client = Helper::get_dropdown('clients');
-                                            @endphp
-                                            <label class="d-block font-size-3 mb-0">
-                                                Client:
-                                            </label>
-                                            <select multiple name="" id="client"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- <option value="" disabled>Select Option</option> --}}
-                                                {{-- @foreach ($client->options as $clientOptions)
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        @php
+                                            $client = Helper::get_dropdown('clients');
+                                        @endphp
+                                        <label class="d-block font-size-3 mb-0">
+                                            Client:
+                                        </label>
+                                        <select multiple name="" id="client"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- <option value="" disabled>Select Option</option> --}}
+                                            {{-- @foreach ($client->options as $clientOptions)
                                                 <option value="{{ $clientOptions->option_name }}">
                                                     {{ $clientOptions->option_name }}
                                                 </option>
                                             @endforeach --}}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-0">
-                                            <label class="Label">To (OB Date:)</label>
-                                            <input type="date" class="w-100 form-control" id="to_ob_date"
-                                                onchange="filterUserData()">
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row mb-1 align-items-center">
-                                    <div class="col-lg-8">
-                                        <div class="form-group mb-0 pt-lg-1 pt-m-0 pt-0">
-                                            <label class="d-block font-size-3 mb-0">
-                                                Process Status:
-                                            </label>
-                                            <select multiple name="appstatus" id="appstatus"
-                                                class="w-100 form-control select2_dropdown" onchange="filterUserData()">
-                                                {{-- <option value="FB">FB</option>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">To (OB Date:)</label>
+                                        <input type="date" class="w-100 form-control" id="to_ob_date"
+                                            onchange="filterUserData()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1 align-items-center">
+                                <div class="col-lg-8">
+                                    <div class="form-group mb-0 pt-lg-1 pt-m-0 pt-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Process Status:
+                                        </label>
+                                        <select multiple name="appstatus" id="appstatus"
+                                            class="w-100 form-control select2_dropdown" onchange="filterUserData()">
+                                            {{-- <option value="FB">FB</option>
                                             <option value="DONE">DONE</option>
                                             <option value="RCVD">RCVD</option>
                                             <option value="FFUP">FFUP</option>
                                             <option value="OVERDUE">OVERDUE</option> --}}
 
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
-
                                 </div>
-                            </form>
-                        </div>
+
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-
-
-
-            </div>
-            <div class="col-lg-6 " id="detail_div">
-                <div class="card h-100">
-                    <p class="C-Heading pt-3 px-3">Summary:</p>
-                    <div class=" mb-13" id="summaryDiv">
-                        <div class="card-body">
-                            <form action="">
-                                <fieldset disabled="">
-                                    <div class="row mb-1">
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Number of Hires:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="hires.." id="hires" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Company Revenue:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." id="revenue" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Incentive Based Revenue:
-                                                </label>
-                                                <input type="text" id="Revenue_In_Incentive"
-                                                    class="form-control users-input-S-C" placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Total Receivables:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="total.." />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Number Of Billed:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C" id="billed"
-                                                    placeholder="hires.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Billed Amount:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    BOD (less share):
-                                                </label>
-                                                <input type="text" id="vcc_share" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Current Receivables:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="total.." />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Number Of Unbilled:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C" id="unbilled"
-                                                    placeholder="hires.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Unbilled Amount:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    BOD Share:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Overdue Receivables:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="total.." />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Number of Fallout:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C" id="fallout"
-                                                    placeholder="hires.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Fallout Amount:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Consultants Share:
-                                                </label>
-                                                <input type="text" id="c_take" class="form-control users-input-S-C"
-                                                    placeholder="Rev.." />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">
-                                                    Consultants Take:
-                                                </label>
-                                                <input type="text" class="form-control users-input-S-C"
-                                                    placeholder="total.." />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-lg-12">
                 <!-- ================= -->
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterData_div">
                     <div class="tableFixHead">
-                        <table id="fmtable" class="table m-0 pt-4">
+                        <table id="fmtable" class="table">
                             <thead class="bg-light w-100">
-                                <tr style="text-align:center">
+                                <tr style="">
                                     <th class="ant-table-cell hideIDTh noVis">secret-id</th>
                                     {{-- <th class="ant-table-cell hideID">id</th> --}}
                                     <th class="ant-table-cell hideIDTh noVis">id</th>
@@ -485,7 +293,7 @@
                                     <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
-                            <tbody class="hidetrID  hidetrIDFinance" style="height:100px"> </tbody>
+                            <tbody class="hidetrID" style="height:100px"> </tbody>
                         </table>
                     </div>
 
@@ -493,6 +301,172 @@
                 </div>
                 <!-- Datatable code end-->
                 <!-- ================= -->
+
+
+            </div>
+            <div class="col-lg-6" id="detail_div">
+                <p class="C-Heading pt-3">Summary:</p>
+                <div class="card mb-13" id="summaryDiv">
+                    <div class="card-body">
+                        <form action="">
+                            <fieldset disabled="">
+                                <div class="row mb-1">
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Number of Hires:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="hires.." id="hires" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Company Revenue:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." id="revenue" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Incentive Based Revenue:
+                                            </label>
+                                            <input type="text" id="Revenue_In_Incentive"
+                                                class="form-control users-input-S-C" placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Total Receivables:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="total.." />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Number Of Billed:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" id="billed"
+                                                placeholder="hires.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Billed Amount:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                BOD (less share):
+                                            </label>
+                                            <input type="text" id="vcc_share" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Current Receivables:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="total.." />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Number Of Unbilled:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" id="unbilled"
+                                                placeholder="hires.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Unbilled Amount:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                BOD Share:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Overdue Receivables:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="total.." />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Number of Fallout:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C" id="fallout"
+                                                placeholder="hires.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Fallout Amount:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Consultants Share:
+                                            </label>
+                                            <input type="text" id="c_take" class="form-control users-input-S-C"
+                                                placeholder="Rev.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group mb-0">
+                                            <label class="Label">
+                                                Consultants Take:
+                                            </label>
+                                            <input type="text" class="form-control users-input-S-C"
+                                                placeholder="total.." />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+             
             </div>
         </div>
     </div>
@@ -605,17 +579,6 @@
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
-                    let id = $(row).find('td:eq(1)').text().trim();
-                    $(row).attr('data-href', `{{ url('admin/finance-details/${id}') }}`);
-
-                },
-
-                drawCallback: function(settings) {
-                    $('.hidetrIDFinance').find('tr').each(function() {
-                        $(this).click(function() {
-                            window.open($(this).attr('data-href'), '_blank');
-                        });
-                    });
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
@@ -831,16 +794,6 @@
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
-                    let id = $(row).find('td:eq(1)').text().trim();
-                    $(row).attr('data-href', `{{ url('admin/finance-details/${id}') }}`);
-
-                },
-                drawCallback: function(settings) {
-                    $('.hidetrIDFinance').find('tr').each(function() {
-                        $(this).click(function() {
-                            window.open($(this).attr('data-href'), '_blank');
-                        });
-                    });
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
