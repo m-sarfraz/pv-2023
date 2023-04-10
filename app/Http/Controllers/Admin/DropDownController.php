@@ -28,7 +28,8 @@ class DropDownController extends Controller
     }
     public function show_dropdown_form()
     {
-        $dropdowns = DropDown::all();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
+
         return view('dropdown.add_dropdown', compact('dropdowns'));
     }
     public function save_dropdown(Request $request)
@@ -91,12 +92,13 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns = DropDown::all();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
+
         return view('dropdown.add_options', compact('dropdowns'));
     }
     public function ajax_view_dropdown(Request $request)
     {
-        $dropdowns = DropDown::all();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
         return Datatables::of($dropdowns)
             ->addColumn('name', function ($dropdowns) {
                 return $dropdowns->name;
@@ -214,20 +216,27 @@ class DropDownController extends Controller
                     $statusText = 'Inactive';
                 }
 
-                if ($check == null) {
-                    //$this->authorize('delete-option');
-                    $route = Route("delete-option");
-                    // $route2 = Route("update-option");
-                    // $edit = 0;
-                    // $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
-                    // '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn btn-primary border-0">Edit</button>';
-                    $function = 'delete_data(this,"' . $route . '")';
-                    $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger border-2 mr-3 bi bi-trash"> </button>';
+                if ($check != null) {
+                    //$this->authorize('delete_option');
+                    $route2 = Route("update-option");
+                    $edit = 0;
+                    $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
+                    $b .= '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn ml-2 btn-primary bi bi-pencil-square border-0">     </button>';
+                    $b .= '<span  disalbed class= "btn border-2  ml-3 mr-3 bi bi-lock" style="color: #000; background-color: #c2c1c1; border-color: #5b5859;"> </span>';
                     $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
 
                 } else {
-                    $b .= '<span  disalbed class= "btn border-2 mr-3 bi bi-lock" style="color: #000; background-color: #c2c1c1; border-color: #5b5859;"> </span>';
-                    $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0"  >' . $statusText . '</button>';
+                    $route = Route("delete-option");
+
+                    $function = 'delete_data(this,"' . $route . '")';
+                    
+                    $route2 = Route("update-option");
+                    $edit = 0;
+                    $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
+                    $b .= '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn ml-2 btn-primary bi bi-pencil-square border-0">     </button>';
+                    $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger ml-3 border-2 mr-3 bi bi-trash"> </button>';
+                   
+                    $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0  "  >' . $statusText . '</button>';
                     // $b .= '<button  disalbed class= "btn btn-danger border-2 mr-3">Delete</button>';
                 }
                 // if ($request->drop_down_type == 'remarks_for_finance') {

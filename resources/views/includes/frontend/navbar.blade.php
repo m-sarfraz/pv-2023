@@ -25,7 +25,7 @@
                     JDL
                 </a>
             @endcan
-            @can('view-record')
+            @can('view-record-edit')
                 <a class="nav-link {{ $routeName == 'record' ? 'nav-active' : 'text-white' }} " href="{{ route('record') }}"
                     style="cursor: pointer;">
                     View Records

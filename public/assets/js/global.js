@@ -2,7 +2,7 @@ function select2Dropdown(obj) {
     $("." + obj).select2();
 }
 function delete_data(obj, route) {
-    swal({
+    Swal.fire({
         title: "Are you sure?",
         text: "You will not be able to revert this Change!",
         icon: "warning",
@@ -23,12 +23,12 @@ function delete_data(obj, route) {
                   success: function (res) {
                       if (res.success == true) {
 
-                          swal("Success", res.message, 'success');
+                          Swal.fire("Success", res.message, 'success');
                           setTimeout(function () {
                               location.reload();
                           }, 1000);
                       } else if (res.success == false) {
-                          swal("Warning", res.message, 'error');
+                          Swal.fire("Warning", res.message, 'error');
                       }
 
                       $("#loader").hide();
@@ -58,12 +58,12 @@ function save_form(id, route) {
         success: function (res) {
             if (res.success == true) {
 
-                swal("Success", res.message, 'success');
+                Swal.fire("Success", res.message, 'success');
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
             } else if (res.success == false) {
-                swal("Warning", res.message, 'error');
+                Swal.fire("Warning", res.message, 'error');
             }
 
             $("#loader").hide();
@@ -94,12 +94,12 @@ function downloadCv(id, targetURL) {
                 $("#loader").hide();
 
                 // show success sweet alert and enable entering new record button
-                swal("success", res.message, "success").then((value) => { });
+                Swal.fire("success", res.message, "success").then((value) => { });
             } else if (res.success == false) {
                 $("#loader").hide();
 
                 //show warning message if file not found error occured
-                swal({
+                Swal.fire({
                     icon: "error",
                     text: "no attachment found",
                     icon: "error",

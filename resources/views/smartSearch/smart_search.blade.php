@@ -122,10 +122,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                        overflow: hidden;
-                                                        text-overflow: ellipsis;
-                                                        white-space: nowrap;
-                                                        } */
+                                                            overflow: hidden;
+                                                            text-overflow: ellipsis;
+                                                            white-space: nowrap;
+                                                            } */
     </style>
 @endsection
 
@@ -969,8 +969,36 @@
                         // searchKeyword: searchKeyword,
                     },
                 },
+                drawCallback: function(settings) {
+
+                    setTimeout(() => {
+                        $("#loader").hide();
+                        var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
+                        for (let items of trLoop) {
+                            items.addEventListener("click", myFunction);
+                        }
+
+                        function myFunction(event) {
+                            var data = $(this).find('td:first').text();
+                            data = data.split("-");
+                            origionalID = data[2];
+                            candidateID = data[0];
+                            var loggedInID = $('meta[name="user-id"]').attr('content');
+                            if (loggedInID == origionalID) {
+                                window.open('data-entry?id=' + candidateID, '_blank');
+                            } else {
+                                window.open('data-entry?id=' + candidateID, '_blank');
+                            }
+                        }
+
+                    }, 500);
+                },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
+                    let id = $(row).find('td:first').text().trim();
+                    $(row).attr('data-href', `{{ url('admin/details/${id}') }}`);
+ 
+
                 },
                 initComplete: function(settings, json) {
                     $('#smTable_length').hide();
@@ -1212,7 +1240,7 @@
                 // "language": {
                 //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 // },
-                destroy: true,
+                // destroy: true,
                 // search: {
                 //     smart: false
                 // },
@@ -1226,32 +1254,52 @@
                     type: "GET",
                 },
                 drawCallback: function(settings) {
-                    $('#foundRecord').val(settings.json.recordsTotal)
-                    $('#sifted').val(settings.json.recordsTotal)
-                    summaryAppendAjax(settings.json.array);
+
+                    setTimeout(() => {
+                        $("#loader").hide();
+                        var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
+                        for (let items of trLoop) {
+                            items.addEventListener("click", myFunction);
+                        }
+
+                        function myFunction(event) {
+                            var data = $(this).find('td:first').text();
+                            data = data.split("-");
+                            origionalID = data[2];
+                            candidateID = data[0];
+                            var loggedInID = $('meta[name="user-id"]').attr('content');
+                            if (loggedInID == origionalID) {
+                                window.open('data-entry?id=' + candidateID, '_blank');
+                            } else {
+                                window.open('data-entry?id=' + candidateID, '_blank');
+                            }
+                        }
+
+                    }, 500);
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
                     let id = $(row).find('td:first').text().trim();
                     $(row).attr('data-href', `{{ url('admin/details/${id}') }}`);
-
-                    console.log('--------');
-                    console.log('--------');
+ 
 
                 },
-                drawCallback: function(settings) {
-                    $('.hidetrIDSmartSearch').find('tr').each(function() {
-                        $(this).click(function() {
-                            window.open($(this).attr('data-href'), '_blank');
-                        });
-                    });
-                },
+                // drawCallback: function(settings) {
+                //     $('.hidetrIDSmartSearch').find('tr').each(function() {
+                //         $(this).click(function() {
+                //             window.open($(this).attr('data-href'), '_blank');
+                //         });
+                //     });
+                // },
                 initComplete: function(settings, json) {
                     console.log(settings);
                     console.log(json);
                     // Apply the search 
                     $('#foundRecord').val(json.recordsTotal)
                     $('#sifted').val(json.recordsTotal)
+                    $('#foundRecord').val(settings.json.recordsTotal)
+                    $('#sifted').val(settings.json.recordsTotal)
+                    summaryAppendAjax(settings.json.array);
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
@@ -1266,18 +1314,7 @@
                     // setTimeout(() => {
                     //     $('.customDivClass').click();
                     // }, 100);
-                    setTimeout(() => {
-                        $("#loader").hide();
-                        var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
-                        for (let items of trLoop) {
-                            items.addEventListener("click", myFunction);
 
-                            function myFunction(event) {
-                                console.log(event.target.parentNode, event.target);
-                            }
-                        }
-
-                    }, 1000);
                     var that = this;
                     option_table.columns().every(function() {
                         var that = this;

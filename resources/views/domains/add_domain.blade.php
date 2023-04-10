@@ -375,12 +375,12 @@
                 success: function(res) {
                     if (res.success == true) {
 
-                        swal("Success", res.message, 'success');
+                        Swal.fire("Success", res.message, 'success');
                         setTimeout(function() {
                             location.reload();
                         }, 1000);
                     } else if (res.success == false) {
-                        swal("Warning", res.message, 'error');
+                        Swal.fire("Warning", res.message, 'error');
                     }
 
                     $("#loader").hide();

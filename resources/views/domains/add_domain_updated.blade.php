@@ -542,7 +542,7 @@
                     .then((isConfirm) => {
                         if (isConfirm.value) {
                             $.ajax({
-                                url: "{{ Route('delete-option') }}",
+                                url: "{{ Route('delete-option-domain') }}",
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },

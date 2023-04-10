@@ -1668,7 +1668,7 @@
                         $("#loader").hide();
 
                         //show warning message to change the data
-                        swal({
+                        Swal.fire({
                             icon: "error",
                             text: "{{ __('Duplicate data detected') }}",
                             icon: "error",
@@ -1677,7 +1677,7 @@
                         $("#loader").hide();
 
                         //show warning message to change the data
-                        swal({
+                        Swal.fire({
                             icon: "error",
                             text: "{{ __('Please fill expected salary/c') }}",
                             icon: "error",
@@ -1827,7 +1827,7 @@
                 $('#cross').removeClass('d-block')
                 $('#cross').addClass('d-none')
             } else {
-                swal({
+                Swal.fire({
                     icon: "error",
                     text: "{{ __('Allowed formats is pdf') }}",
                     icon: "error",

@@ -1298,7 +1298,7 @@
                 success: function(res) {
 
                     if (res.success == true) {
-                        swal("success", res.message, "success").then((value) => {
+                        Swal.fire("success", res.message, "success").then((value) => {
 
                             location.reload();
                         });
@@ -1323,7 +1323,7 @@
                             // });
 
                             // wrapper.innerHTML = err;
-                            swal({
+                            Swal.fire({
                                 icon: "error",
                                 text: "{{ __('Please fix the highlighted errors!') }}",
                                 //content: wrapper,

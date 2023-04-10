@@ -129,12 +129,12 @@
                     success: function(res) {
                         if (res.success == true) {
 
-                            swal("{{ __('Success') }}", res.message, 'success');
+                            Swal.fire("{{ __('Success') }}", res.message, 'success');
                             setTimeout(function() {
                                 location.reload();
                             }, 1000);
                         } else if (res.success == false) {
-                            swal("{{ __('Warning') }}", res.message, 'error');
+                            Swal.fire("{{ __('Warning') }}", res.message, 'error');
                         }
 
                         $("#loader").hide();

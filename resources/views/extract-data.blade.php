@@ -789,7 +789,7 @@
                 // $('#buttonExtract').attr('disabled', true)
 
                 // onTimer();
-                swal({
+                Swal.fire({
                     icon: "success",
                     text: "{{ __('Report has been put to Queue!') }}",
                     //content: wrapper,

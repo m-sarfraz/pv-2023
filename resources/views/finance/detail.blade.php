@@ -736,7 +736,7 @@
                 // console.log("updated candidate_id", res)
                 if (res.success == true) {
                     // show success sweet alert and enable entering new record button
-                    swal({
+                    Swal.fire({
                         icon: "success",
                         text: "{{ __('Updated finance') }}",
                         icon: "success",
@@ -748,7 +748,7 @@
                     $("#loader").hide();
 
                     //show warning message to change the data
-                    swal({
+                    Swal.fire({
                         icon: "error",
                         text: "{{ __('Error Occured') }}",
                         icon: "error",

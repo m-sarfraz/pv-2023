@@ -1453,6 +1453,20 @@
                             res[i].endi_date + '</option>')
 
                     }
+                    candidateRecruiter = "<?php echo isset($candidateDetail->origionalRecruiter) ? $candidateDetail->origionalRecruiter : ''; ?>";
+                    endoID = "<?php echo isset($candidateDetail->numberOfEndo) ? $candidateDetail->numberOfEndo : ''; ?>";
+                    loggedInRecruiter = "<?php echo Auth()->user()->id; ?>";
+                    // Get the URL search parameters
+                    var searchParams = new URLSearchParams(window.location.search);
+                    var idParam = searchParams.get('id');
+                    console.log('candidateRecruiter' + candidateRecruiter);
+                    console.log('loggedInRecruiter' + loggedInRecruiter);
+                    if (loggedInRecruiter == candidateRecruiter) {
+                        candidateIDtoSelect = idParam + '-' + endoID;
+                        console.log('candidateIDtoSelect' + candidateIDtoSelect);
+                        $('#user').val(candidateIDtoSelect).trigger('change');
+                        $('#searchRecord').click(); 
+                    } 
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -1561,7 +1575,8 @@
                 // console.log(queryStr[1])
                 tap = 1;
                 cid = queryStr[1]
-            } else {
+            }
+            if ($('#user').val() == null) { 
                 cid = $('#user').val();
                 tap = 0;
             }
@@ -1741,7 +1756,7 @@
                         $("#loader").hide();
 
                         //show warning message to change the data
-                        swal({
+                        Swal.fire({
                             icon: "error",
                             text: "{{ __('Duplicate data detected') }}",
                             icon: "error",
@@ -1750,7 +1765,7 @@
                         $("#loader").hide();
 
                         //show warning message to change the data
-                        swal({
+                        Swal.fire({
                             icon: "error",
                             text: "{{ __('Please fill expected salary/c') }}",
                             icon: "error",
@@ -1900,7 +1915,7 @@
                 $('#cross').removeClass('d-block')
                 $('#cross').addClass('d-none')
             } else {
-                swal({
+                Swal.fire({
                     icon: "error",
                     text: "{{ __('Allowed formats is pdf') }}",
                     icon: "error",

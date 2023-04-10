@@ -1838,7 +1838,7 @@
                         $("#loader").hide();
 
                         //show warning message to change the data
-                        swal({
+                        Swal.fire({
                             icon: "error",
                             text: "{{ __('Duplicate data detected') }}",
                             icon: "error",

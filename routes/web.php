@@ -135,6 +135,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
     Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
     Route::get('/finance-details/{id}', 'FinanceController@financeDetails')->name('details.finance');
+
     // Smart search controllers summaryAppend
     Route::get('search', 'SmartSearchController@index')->name('search');
     Route::get('/details/{id}', 'SmartSearchController@candidateDetails')->name('details.candidate');
@@ -171,7 +172,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('view-sub-segments', 'DomainController@view_sub_segments')->name('view-sub-segments');
     Route::post('add-sub-segments', 'DomainController@add_sub_segments')->name('add-sub-segments');
     Route::post('add-profile', 'DomainController@add_profile')->name('add-profiles');
-    Route::post('delete-option', 'DomainController@deleteOption')->name('delete-option');
+    Route::post('delete-option-domain', 'DomainController@deleteOption')->name('delete-option-domain');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
     // testing link fro entring or testing data
     Route::get('testinglink', 'DomainController@testinglink')->name('testinglink');

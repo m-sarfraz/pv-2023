@@ -113,7 +113,7 @@
                         onchange="individualColomnSearchFunc(this)" placeholder="Search Team" /> </th>
             </tr>
         </thead>
-        <tbody class="hidetrID" style="height:100px">
+        <tbody class="hidetrID hidetrIDSmartSearch" style="height:100px">
         </tbody>
         <tfoot>
             <tr style="">
