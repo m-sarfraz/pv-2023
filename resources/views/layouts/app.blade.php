@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.cs') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}" />
 
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> --}}
     <!-- ================= -->

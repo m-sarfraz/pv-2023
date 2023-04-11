@@ -295,33 +295,33 @@
                                             <small class="text-danger"></small>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 p-0">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12  p-0">
                                         <?php
                                         // $profile = Helper::get_dropdown('candidates_profile');
-                                        $profile = App\CandidateProfile_Dropdown::select('c_profile')->get();
-
+                                        $profile = App\Profile::select('c_profile_name', 'id')->get();
                                         ?>
                                         <div class="form-group mb-0">
-                                            <label class="Label">
+                                            <label class="Label labelFontSize">
                                                 Candidate’s Profile
                                             </label>
                                             <select name="CANDIDATES_PROFILE" id="candidate_profile"
-                                                class="form-control p-0 users-input-S-C select2_dropdown w-100"
-                                                onchange="traverseData()">
-                                                <option disabled></option>
+                                                onchange="traverseData()"
+                                                class="select2_dropdown w-100"
+                                                class="form-control p-0 users-input-S-C">
+                                                <option value=""
+                                                    {{ $user == null ? 'selected' : '' }}
+                                                    disabled>Select Option
+                                                </option>
                                                 @foreach ($profile as $profileOption)
-                                                    <option value="{{ $profileOption->c_profile }}"
-                                                        {{ $user->candidate_profile == $profileOption->c_profile ? 'selected' : '' }}>
-                                                        {{ $profileOption->c_profile }}
+                                                    <option value="{{ $profileOption->id }}"
+                                                        {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
+                                                        {{ $profileOption->c_profile_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <small class="text-danger"></small>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-0">
@@ -1489,11 +1489,12 @@
     }
     // append option in remarks for finance on status change 
     $('#status').on('change', function() {
-        if ($(this).val().toLowerCase() == 'invalid') {
+        console.log($(this).val());
+        if (($(this).val() !== null) ? ($(this).val().toLowerCase() == 'invalid') : false) {
             $('#remarks_for_finance').empty().trigger('change');
             var option = new Option("In Client's DB/Portal", "In Client's DB/Portal", true, true);
             $('#remarks_for_finance').append(option).trigger('change');
-        } else if ($(this).val().toLowerCase() == 'pending validation') {
+        } else if (($(this).val() !== null) ? ($(this).val().toLowerCase() == 'pending validation') : false) {
             $('#remarks_for_finance').empty().trigger('change');
             var option = new Option("Pending DB Validation", "Pending DB Validation", true, true);
             $('#remarks_for_finance').append(option).trigger('change');
