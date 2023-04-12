@@ -122,10 +122,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                            overflow: hidden;
-                                                            text-overflow: ellipsis;
-                                                            white-space: nowrap;
-                                                            } */
+                                                                    overflow: hidden;
+                                                                    text-overflow: ellipsis;
+                                                                    white-space: nowrap;
+                                                                    } */
     </style>
 @endsection
 
@@ -970,34 +970,38 @@
                     },
                 },
                 drawCallback: function(settings) {
+                    $('.hidetrIDSmartSearch').find('tr').each(function() {
+                        $(this).click(function() {
+                            window.open($(this).attr('data-href'), '_blank');
+                        });
+                    });
+                    // setTimeout(() => {
+                    //     $("#loader").hide();
+                    //     var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
+                    //     for (let items of trLoop) {
+                    //         items.addEventListener("click", myFunction);
+                    //     }
 
-                    setTimeout(() => {
-                        $("#loader").hide();
-                        var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
-                        for (let items of trLoop) {
-                            items.addEventListener("click", myFunction);
-                        }
+                    //     function myFunction(event) {
+                    //         var data = $(this).find('td:first').text();
+                    //         data = data.split("-");
+                    //         origionalID = data[2];
+                    //         candidateID = data[0];
+                    //         var loggedInID = $('meta[name="user-id"]').attr('content');
+                    //         if (loggedInID == origionalID) {
+                    //             window.open('data-entry?id=' + candidateID, '_blank');
+                    //         } else {
+                    //             window.open('data-entry?id=' + candidateID, '_blank');
+                    //         }
+                    //     }
 
-                        function myFunction(event) {
-                            var data = $(this).find('td:first').text();
-                            data = data.split("-");
-                            origionalID = data[2];
-                            candidateID = data[0];
-                            var loggedInID = $('meta[name="user-id"]').attr('content');
-                            if (loggedInID == origionalID) {
-                                window.open('data-entry?id=' + candidateID, '_blank');
-                            } else {
-                                window.open('data-entry?id=' + candidateID, '_blank');
-                            }
-                        }
-
-                    }, 500);
+                    // }, 500);
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
                     let id = $(row).find('td:first').text().trim();
                     $(row).attr('data-href', `{{ url('admin/details/${id}') }}`);
- 
+
 
                 },
                 initComplete: function(settings, json) {
@@ -1254,34 +1258,38 @@
                     type: "GET",
                 },
                 drawCallback: function(settings) {
+                    $('.hidetrIDSmartSearch').find('tr').each(function() {
+                        $(this).click(function() {
+                            window.open($(this).attr('data-href'), '_blank');
+                        });
+                    });
+                    // setTimeout(() => {
+                    //     $("#loader").hide();
+                    //     var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
+                    //     for (let items of trLoop) {
+                    //         items.addEventListener("click", myFunction);
+                    //     }
 
-                    setTimeout(() => {
-                        $("#loader").hide();
-                        var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
-                        for (let items of trLoop) {
-                            items.addEventListener("click", myFunction);
-                        }
+                    //     function myFunction(event) {
+                    //         var data = $(this).find('td:first').text();
+                    //         data = data.split("-");
+                    //         origionalID = data[2];
+                    //         candidateID = data[0];
+                    //         var loggedInID = $('meta[name="user-id"]').attr('content');
+                    //         if (loggedInID == origionalID) {
+                    //             window.open('data-entry?id=' + candidateID, '_blank');
+                    //         } else {
+                    //             window.open('data-entry?id=' + candidateID, '_blank');
+                    //         }
+                    //     }
 
-                        function myFunction(event) {
-                            var data = $(this).find('td:first').text();
-                            data = data.split("-");
-                            origionalID = data[2];
-                            candidateID = data[0];
-                            var loggedInID = $('meta[name="user-id"]').attr('content');
-                            if (loggedInID == origionalID) {
-                                window.open('data-entry?id=' + candidateID, '_blank');
-                            } else {
-                                window.open('data-entry?id=' + candidateID, '_blank');
-                            }
-                        }
-
-                    }, 500);
+                    // }, 500);
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
                     let id = $(row).find('td:first').text().trim();
                     $(row).attr('data-href', `{{ url('admin/details/${id}') }}`);
- 
+
 
                 },
                 // drawCallback: function(settings) {
@@ -1303,7 +1311,7 @@
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
-                    $("#loader").show();
+                    $("#loader").hide();
                     // document.querySelector(".dt-button").classList.add('customDivClass');
                     // $('.customDivClass').click();
                     // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");

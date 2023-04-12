@@ -381,7 +381,7 @@ class SmartSearchController extends Controller
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
-                return $record->cid . '-' . $record->numberOfEndo . '-' . $record->saved_by;
+                return $record->cid . '-' . $record->endorsement_id . '-' . $record->saved_by . '-' . $record->finance_id;
             })
             ->addColumn('team', function ($record) {
                 // $userid = User::where('id', $record->saved_by)->get();
@@ -696,41 +696,44 @@ class SmartSearchController extends Controller
     //close
     public function candidateDetails(Request $request, $id)
     {
-        $arrayofID = explode('-', $id); 
-        $candidateDetail = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
-            ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
-            ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
-            ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-            ->select('candidate_educations.*', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-            ->where('candidate_informations.id', $arrayofID[0])
-            ->where('endorsements.id', $arrayofID[1])
-            ->first();
-        // $countEndo = DB::table('candidate_informations')
-        //     ->leftJoin('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-        //     ->join('finance', 'candidate_informations.id', 'finance.candidate_id')
-        //     ->select('endorsements.*', 'finance.*', 'endorsements.id as E_id', 'finance.id as F_id')
-        //     ->where(['candidate_informations.id' => $_GET['id'], 'endorsements.saved_by' => Auth::user()->id])
-        //     ->groupBy('endorsements.id')->get();
-        $number_of_endorsements = Endorsement::where([
-            'saved_by' => Auth::user()->id,
-            'candidate_id' =>  $arrayofID[0],
-            'is_deleted' => 0,
-        ])->get();
-        $domainDrop = Domain::all();
-        $segmentsDropDown = DB::table('segments')->get();
-        $sub_segmentsDropDown = DB::table('sub_segments')->get();
-        // $pos_title = DB::table('taverse2')->distinct()->select('position')->get();
-        // $client = DB::table('taverse2')->distinct()->select('client')->get();
-        // return $sub_segmentsDropDown;
-        $data = [
-            // 'user' => $user,
-            'domainDrop' => $domainDrop,
-            'segmentsDropDown' => $segmentsDropDown,
-            'candidateDetail' => $candidateDetail,
-            'number_of_endorsements' => $number_of_endorsements,
-            'sub_segmentsDropDown' => $sub_segmentsDropDown,
-        ];
-        return view('smartSearch.details', $data);
+        try {
+            $str_arr = explode('-', $request->id);
+            // return $str_arr;
+            $endoID = $str_arr[1];
+            $number_of_endorsements = Endorsement::where(['saved_by' => Auth::user()->id, 'candidate_id' => $str_arr[0], 'is_deleted' => 0])->get();
+            $domainDrop = Domain::all();
+            // $segmentsDropDown = DB::table('segments')->get();
+            // $sub_segmentsDropDown = DB::table('sub_segments')->get();
+            $user = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
+                ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
+                ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
+                ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+                ->join('finance', 'endorsements.id', 'finance.endorsement_id')
+                ->select('candidate_educations.*', 'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+                ->where(['candidate_informations.id' => $str_arr[0] ,  'endorsements.id' => $str_arr[1] ])
+                ->first();
+            // return $user;
+            $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
+            $finance_remark = $financeDetail->remarks;
+            $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
+            $title = $user->position_title;
+            $data = [
+                'title' => $title,
+                'finance_remark' => $finance_remark,
+                'financeDetail' => $financeDetail,
+                'domainDrop' => $domainDrop,
+                'user' => $user,
+                'number' => $endoID,
+                'number_of_endorsements' => $number_of_endorsements,
+                // 'segmentsDropDown' => $segmentsDropDown,
+                // 'sub_segmentsDropDown' => $sub_segmentsDropDown,
+                'inputDetail' => $inputDetail,
+            ];
+            return view('smartSearch.details', $data);
+        } catch (\Exception $e) {
+            return "Data Against This User Can't be Found";
+        }
+           // exploding string for endorsement number and candidate id to get selected data
+       
     }
 }

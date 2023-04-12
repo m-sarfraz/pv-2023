@@ -1453,20 +1453,20 @@
                             res[i].endi_date + '</option>')
 
                     }
-                    candidateRecruiter = "<?php echo isset($candidateDetail->origionalRecruiter) ? $candidateDetail->origionalRecruiter : ''; ?>";
-                    endoID = "<?php echo isset($candidateDetail->numberOfEndo) ? $candidateDetail->numberOfEndo : ''; ?>";
-                    loggedInRecruiter = "<?php echo Auth()->user()->id; ?>";
-                    // Get the URL search parameters
-                    var searchParams = new URLSearchParams(window.location.search);
-                    var idParam = searchParams.get('id');
-                    console.log('candidateRecruiter' + candidateRecruiter);
-                    console.log('loggedInRecruiter' + loggedInRecruiter);
-                    if (loggedInRecruiter == candidateRecruiter) {
-                        candidateIDtoSelect = idParam + '-' + endoID;
-                        console.log('candidateIDtoSelect' + candidateIDtoSelect);
-                        $('#user').val(candidateIDtoSelect).trigger('change');
-                        $('#searchRecord').click(); 
-                    } 
+                    // candidateRecruiter = "<?php echo isset($candidateDetail->origionalRecruiter) ? $candidateDetail->origionalRecruiter : ''; ?>";
+                    // endoID = "<?php echo isset($candidateDetail->numberOfEndo) ? $candidateDetail->numberOfEndo : ''; ?>";
+                    // loggedInRecruiter = "<?php echo Auth()->user()->id; ?>";
+                    // // Get the URL search parameters
+                    // var searchParams = new URLSearchParams(window.location.search);
+                    // var idParam = searchParams.get('id');
+                    // console.log('candidateRecruiter' + candidateRecruiter);
+                    // console.log('loggedInRecruiter' + loggedInRecruiter);
+                    // if (loggedInRecruiter == candidateRecruiter) {
+                    //     candidateIDtoSelect = idParam + '-' + endoID;
+                    //     console.log('candidateIDtoSelect' + candidateIDtoSelect);
+                    //     $('#user').val(candidateIDtoSelect).trigger('change');
+                    //     $('#searchRecord').click(); 
+                    // } 
                     $('#loader1').hide()
                 })
                 .fail(function(err) {

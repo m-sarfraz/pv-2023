@@ -9,6 +9,7 @@ use App\CandidatePosition;
 use App\Cipprogress;
 use App\Domain;
 use App\Endorsement;
+use App\Finance;
 use App\Http\Controllers\Controller;
 use App\Segment;
 use App\User;
@@ -105,13 +106,13 @@ class RecordController extends Controller
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
-    
+
             })
             ->addColumn('recruiter', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
-    
+
             })
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
@@ -122,10 +123,10 @@ class RecordController extends Controller
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
-    
+
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
-    
+
             })
             ->addColumn('gender', function ($record) {
                 return $record->gender;
@@ -135,7 +136,7 @@ class RecordController extends Controller
             })
             ->addColumn('Email', function ($record) {
                 return $record->email;
-    
+
             })
             ->addColumn('address', function ($record) {
                 return $record->address;
@@ -155,18 +156,18 @@ class RecordController extends Controller
             ->addColumn('interview_note', function ($record) {
                 return $record->interview_note;
             })
-        
+
             ->addColumn('exp_salary', function ($record) {
                 return $record->exp_salary;
             })
-    
-            // ->addColumn('Replacement_For', function ($Alldata) {
-            //     return $Alldata->replacement_for;
-            // })
-            // ->addColumn('OR_Number', function ($Alldata) {
-            //     return $Alldata->or_number;
-    
-            // })
+
+        // ->addColumn('Replacement_For', function ($Alldata) {
+        //     return $Alldata->replacement_for;
+        // })
+        // ->addColumn('OR_Number', function ($Alldata) {
+        //     return $Alldata->or_number;
+
+        // })
             ->addColumn('appStatus', function ($record) {
                 return $record->app_status;
             })
@@ -181,7 +182,7 @@ class RecordController extends Controller
                     $record->endi_date = '';
                 }
             })
-    
+
             ->addColumn('client', function ($record) {
                 return $record->client;
             })
@@ -194,7 +195,7 @@ class RecordController extends Controller
             ->addColumn('career_level', function ($record) {
                 return $record->career_endo;
             })
-      
+
             ->addColumn('segment', function ($record) {
                 return $record->segment;
             })
@@ -204,13 +205,13 @@ class RecordController extends Controller
             ->addColumn('endostatus', function ($record) {
                 return $record->endostatus;
             })
-      
+
             ->addColumn('remarks_for_finance', function ($record) {
                 return $record->remarks_for_finance;
             })
-            // ->addColumn('invoice_number', function ($record) {
-            //     return $record->invoice_number;
-            // })
+        // ->addColumn('invoice_number', function ($record) {
+        //     return $record->invoice_number;
+        // })
             ->addColumn('onboardnig_date', function ($record) {
                 return $record->onboardnig_date;
             })
@@ -298,13 +299,13 @@ class RecordController extends Controller
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
-    
+
             })
             ->addColumn('recruiter', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
-    
+
             })
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
@@ -315,10 +316,10 @@ class RecordController extends Controller
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
-    
+
             ->addColumn('Candidate', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
-    
+
             })
             ->addColumn('gender', function ($record) {
                 return $record->gender;
@@ -328,7 +329,7 @@ class RecordController extends Controller
             })
             ->addColumn('Email', function ($record) {
                 return $record->email;
-    
+
             })
             ->addColumn('address', function ($record) {
                 return $record->address;
@@ -348,18 +349,18 @@ class RecordController extends Controller
             ->addColumn('interview_note', function ($record) {
                 return $record->interview_note;
             })
-        
+
             ->addColumn('exp_salary', function ($record) {
                 return $record->exp_salary;
             })
-    
-            // ->addColumn('Replacement_For', function ($Alldata) {
-            //     return $Alldata->replacement_for;
-            // })
-            // ->addColumn('OR_Number', function ($Alldata) {
-            //     return $Alldata->or_number;
-    
-            // })
+
+        // ->addColumn('Replacement_For', function ($Alldata) {
+        //     return $Alldata->replacement_for;
+        // })
+        // ->addColumn('OR_Number', function ($Alldata) {
+        //     return $Alldata->or_number;
+
+        // })
             ->addColumn('appStatus', function ($record) {
                 return $record->app_status;
             })
@@ -374,7 +375,7 @@ class RecordController extends Controller
                     $record->endi_date = '';
                 }
             })
-    
+
             ->addColumn('client', function ($record) {
                 return $record->client;
             })
@@ -387,7 +388,7 @@ class RecordController extends Controller
             ->addColumn('career_level', function ($record) {
                 return $record->career_endo;
             })
-      
+
             ->addColumn('segment', function ($record) {
                 return $record->segment;
             })
@@ -397,13 +398,13 @@ class RecordController extends Controller
             ->addColumn('endostatus', function ($record) {
                 return $record->endostatus;
             })
-      
+
             ->addColumn('remarks_for_finance', function ($record) {
                 return $record->remarks_for_finance;
             })
-            // ->addColumn('invoice_number', function ($record) {
-            //     return $record->invoice_number;
-            // })
+        // ->addColumn('invoice_number', function ($record) {
+        //     return $record->invoice_number;
+        // })
             ->addColumn('onboardnig_date', function ($record) {
                 return $record->onboardnig_date;
             })
@@ -671,19 +672,18 @@ class RecordController extends Controller
     // delete candidate data function
     public function deleteCandidateData(Request $request)
     {
+       
         try {
             if ($request->id) {
                 $data = explode('-', $request->id);
                 $user_id = $data[0];
-                $numberOfEndo = $data[1];
-                $recruiter = $data[2];
+                $e_id = $data[1];
+                $saved_by = $data[2];
+                $f_id = $data[3];
 
-                Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])
-                    ->update([
-                        'is_deleted' => 1,
-                    ]);
-                $id = Endorsement::where(['saved_by' => $recruiter, 'candidate_id' => $user_id, 'numberOfEndo' => $numberOfEndo])->first();
-                Cipprogress::where(['candidate_id' => $user_id, 'endorsement_id' => $id->id])->delete();
+                Endorsement::where( 'id', $e_id )->update([ 'is_deleted' => 1 ]);
+                Cipprogress::where('endorsement_id' , $e_id)->delete();
+                Finance::where( 'endorsement_id' , $e_id)->delete();
                 Helper::save_log('CANDIDATE_DELETED');
                 return response()->json(['success' => true, 'message' => 'Record Deleted Succesfully!']);
             }
@@ -698,7 +698,7 @@ class RecordController extends Controller
         if ($request->has('q')) {
             $search = $request->q;
             $data = DB::table('updated_view_record')
-                ->where('fullName', 'LIKE', "%$search%")->select('id','fullName')->distinct()
+                ->where('fullName', 'LIKE', "%$search%")->select('id', 'fullName')->distinct()
                 ->get();
         }
         return response()->json($data);
