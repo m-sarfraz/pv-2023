@@ -76,7 +76,7 @@
     <div class="container-fluid">
         <div id="loader"></div>
         {{-- <div id="transparentDiv"></div> --}}
-        <form id="data_entry" method="post">
+        <form id="user_detail_form" method="post">
             <div class="row d-E-Row mb-6">
                 @csrf
                 <div class="col-lg-12 col-md-9 col-sm-12 col-12">
@@ -420,7 +420,7 @@
                                                                         </option>
                                                                         @foreach ($profile as $profileOption)
                                                                             <option value="{{ $profileOption->id }}"
-                                                                                {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
+                                                                                {{ ($user != null ? $user->candidate_profile == $profileOption->id : '') ? 'selected' : '' }}>
                                                                                 {{ $profileOption->c_profile_name }}
                                                                             </option>
                                                                         @endforeach
@@ -1379,10 +1379,10 @@
                                 <a class="btn btn-success mt-5 btn-md" type="button" target="blank"
                                     href="{{ asset('assets/cv/' . $user->cv) }}" {{-- onclick="downloadCv('{{ $user->cid }}' , '{{ url('admin/download_cv') }}')" --}}>Download CV</a>
                             @endif
-                            @if (Auth::user()->id == $user->recruiter_id)
+                            @if (Auth::user()->id == $user->saved_by)
                                 @can('edit-record')
                                     <button class="btn btn-primary mt-5 btn-md" type="button"
-                                        onclick="UpdateRecord('{{ $user->id . '-' . $user->numberOfEndo }}')">Update</button>
+                                        onclick="UpdateRecord('{{ $user->id . '-' . $user->e_id }}')">Update</button>
                                 @endcan
                             @else
                                 <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
@@ -1851,5 +1851,116 @@
 
 
         }
+        // update the selected records if it belongs to the user starts
+        function UpdateRecord(id) {
+            // show loader for waiting
+
+            $("#loader").show();
+            // making a variable containg all for data and append token
+            var data = new FormData(document.getElementById('user_detail_form'));
+            console.log(data);
+
+            data.append("_token", "{{ csrf_token() }}");
+            data.append("id", id);
+
+            // call Ajax whihc will return view of detail data of user
+            $.ajax({
+                type: "POST",
+                url: '{{ url('admin/update_records_detail') }}',
+                data: data,
+                contentType: false,
+                processData: false,
+                _token: token,
+                id: id,
+
+
+                // Ajax Success funciton
+                success: function(res) {
+                    if (res.success == true) {
+
+                        // show success sweet alert and enable entering new record button
+                        // $('#new').prop("disabled", false);
+                        // swal("success", res.message, "success").then((value) => {});
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: res.message,
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                        location.reload();
+                    } else if (res.success == false) {
+
+                        // show validation error on scree with border color changed and text
+                        if (res.hasOwnProperty("message")) {
+                            var err = "";
+                            // $("input").parent().siblings('span').remove();
+                            // $("select").siblings('div').children().remove();
+                            // $("textarea").next('div').children().remove();
+                            $("input").removeClass('borderRed')
+                            $("select").removeClass('borderRed')
+                            $("textarea").removeClass('borderRed')
+                            $("select").next().children().children().removeClass('borderRed');
+
+                            //function for appending span and changing css color for input
+                            $.each(res.message, function(i, e) {
+                                // $("input[name='" + i + "']").prop('required', true)
+                                // $("input[name='" + i + "']").parent().siblings(
+                                //     'span').remove();
+                                $("input[name='" + i + "']").addClass('borderRed')
+
+                                // $("input[name='" + i + "']").parent().parent()
+                                //     .append(
+                                //         '<span style="color:red;" >' + 'Required' + '</span>'
+                                //     );
+                                // console.log($("select[name='" + i + "']"));
+                                // $("select[name='" + i + "']").prop('required', true)
+                                $("select[name='" + i + "']").addClass('borderRed')
+                                $("select[name='" + i + "']").next().children().children().addClass(
+                                    'borderRed');
+                                // $("select[name='" + i + "']").siblings(
+                                //     'div').children().remove();
+                                // $("select[name='" + i + "']").siblings('div')
+                                //     .append(
+                                //         '<span style="color:red;" >' + 'Required' + '</span>'
+                                //     );
+                                // $("textarea[name='" + i + "']").prop('required', true)
+                                $("textarea[name='" + i + "']").addClass('borderRed')
+
+                                // $("textarea[name='" + i + "']").next('div').children().remove();
+                                // $("textarea[name='" + i + "']").next('div').append(
+                                //     '<span style="color:red;" >' + 'Required' + '</span>'
+                                // );
+                            });
+
+                            // // show warning message to user if firld is required
+                            // swal({
+                            //     icon: "error",
+                            //     text: "{{ __('Please fill all required fields!') }}",
+                            //     icon: "error",
+                            // });
+                        }
+                    } else if (res.success == 'duplicate') {
+                        $("#loader").hide();
+
+                        //show warning message to change the data
+                        Swal.fire({
+                            icon: "error",
+                            text: "{{ __('Duplicate data detected') }}",
+                            icon: "error",
+                        });
+                    }
+
+                    //hide loader
+                    $("#loader").hide();
+
+                },
+                //if there is error in ajax call
+                error: function() {
+                    $("#loader").hide();
+                }
+            });
+        }
+        // close 
     </script>
 @endsection

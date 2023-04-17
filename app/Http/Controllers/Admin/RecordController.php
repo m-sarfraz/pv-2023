@@ -481,150 +481,412 @@ class RecordController extends Controller
         $arr = explode('-', $request->id);
         $c_id = $arr[0];
         $endo_id = $arr[1];
-        $arrayCheck = [
-            'SOURCE' => 'required',
-            "first_name" => "required",
-            // "EMAIL_ADDRESS" => "required|email",
-            "phone" => "required",
-            // "GENDER" => "required",
-            // "RESIDENCE" => 'required ',
-            // "EDUCATIONAL_ATTAINTMENT" => 'required ',
-            // // "COURSE" => 'required ',
-            // "CANDIDATES_PROFILE" => 'required ',
-            // "INTERVIEW_NOTES" => 'required ',
-            // // "DATE_SIFTED" => 'required ',
-            // "domain" => 'required ',
-            // "segment" => 'required ',
-            // // "SUB_SEGMENT" => 'required ',
-            // "EMPLOYMENT_HISTORY" => 'required ',
-            // "POSITION_TITLE_APPLIED" => 'required ',
-            // // "DATE_INVITED" => 'required ',
-            // "MANNER_OF_INVITE" => 'required ',
-            // "CURRENT_SALARY" => 'required ',
-            // "CURRENT_ALLOWANCE" => 'required ',
-            // "EXPECTED_SALARY" => 'required ',
-            // "OFFERED_SALARY" => 'required ',
-            // "OFFERED_ALLOWANCE" => 'required ',
-        ];
-        $validator = Validator::make($request->all(), $arrayCheck);
+        if (Auth::user()->agent == 1) {
+            $arrayCheck = [
+                "EMPLOYMENT_HISTORY" => 'required ',
+                // "DOMAIN" => 'required ',
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                // "CERTIFICATIONS" => "required",
+                "RESIDENCE" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
+                "SOURCE" => 'required ',
+                // "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                // // "COURSE" => 'required ',
+                "MANNER_OF_INVITE" => 'required ',
+                "CANDIDATES_PROFILE" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
+                "DATE_SIFTED" => 'required|date|after:1970-01-01',
+                // "SEGMENT" => 'required ',
+                // "SUB_SEGMENT" => 'required ',
+                "POSITION_TITLE_APPLIED" => 'required ',
+                // // "DATE_INVITED" => 'required ',
+                // "MANNER_OF_INVITE" => 'required ',
+                // "CURRENT_SALARY" => 'required ',
+                // "file" => 'required ',
+                // "CURRENT_ALLOWANCE" => 'required ',
+                // "EXPECTED_SALARY" => 'required ',
+                // "OFFERED_SALARY" => 'required ',
+                // "OFFERED_ALLOWANCE" => 'required ',
+            ];
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
+            }
+            $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
+            if (
+                str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+                || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
+                || str_contains($manner_of_invite, 'sms')
+            ) {
+                $arrayCheck["DATE_INVITED"] = "required|date|after:1970-01-01";
+            }
+            if ($request->rfp == 1) {
+                $arrayCheck["REASONS_FOR_NOT_PROGRESSING"] = "required";
+            }
+            if ($request->interview_schedule == 1) {
+                $arrayCheck["INTERVIEW_SCHEDULE"] = "required";
+            }
+            if ($request->salary_field == 1) {
+                $arrayCheck["OFFERED_SALARY"] = "required";
+                $arrayCheck["OFFERED_ALLOWANCE"] = "required";
+            }
+            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "") {
+            } else {
+                $arrayCheck["COURSE"] = "required";
+            }
 
-        // send response mesage if validations are not according to requierd
-        if ($validator->fails()) {
+            if ($request->endorsement_field == 'active') {
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["CAREER_LEVEL"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
+                $arrayCheck["STATUS"] = "required";
+                $arrayCheck["CLIENT"] = "required";
+                $arrayCheck["SITE"] = "required";
+                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+            }
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+
+            if (str_contains($array, 'onboarded') || str_contains($array, 'accepted')) {
+                // $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required|date|after:1970-01-01";
+                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
+                $arrayCheck["RATE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
+            }
+        } else {
+            $arrayCheck = [
+                'LAST_NAME' => 'required',
+                "FIRST_NAME" => "required",
+                "EMAIL_ADDRESS" => "required|email",
+                "SOURCE" => 'required ',
+                "CONTACT_NUMBER" => "required",
+                "GENDER" => "required",
+                "RESIDENCE" => 'required ',
+                "EDUCATIONAL_ATTAINTMENT" => 'required ',
+                // "DOMAIN" => 'required ',
+                // "SEGMENT" => 'required ',
+                // "SUB_SEGMENT" => 'required ',
+                // // "COURSE" => 'required ',
+                "CANDIDATES_PROFILE" => 'required ',
+                "APPLICATION_STATUS" => 'required ',
+                // "INTERVIEW_NOTES" => 'required ',
+                "DATE_SIFTED" => 'required ',
+                "EMPLOYMENT_HISTORY" => 'required ',
+                "POSITION_TITLE_APPLIED" => 'required ',
+                // // "DATE_INVITED" => 'required ',
+                "MANNER_OF_INVITE" => 'required ',
+                // "CURRENT_SALARY" => 'required ',
+                // "file" => 'required ',
+                // "CURRENT_ALLOWANCE" => 'required ',
+                // "EXPECTED_SALARY" => 'required ',
+                // "OFFERED_SALARY" => 'required ',
+                // "OFFERED_ALLOWANCE" => 'required ',
+            ];
+            if ($request->EDUCATIONAL_ATTAINTMENT == 'HIGH SCHOOL GRADUATE' || $request->EDUCATIONAL_ATTAINTMENT == "" || $request->EDUCATIONAL_ATTAINTMENT == 'SENIOR HIGH SCHOOL GRADUATE') {
+            } else {
+                $arrayCheck["COURSE"] = "required";
+            }
+
+            if ($request->endorsement_field == 'active') {
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["ENDORSEMENT_TYPE"] = "required";
+                $arrayCheck["POSITION_TITLE"] = "required";
+                $arrayCheck["CAREER_LEVEL"] = "required";
+                $arrayCheck["DATE_ENDORSED"] = "required";
+                $arrayCheck["STATUS"] = "required";
+                $arrayCheck["CLIENT"] = "required";
+                $arrayCheck["SITE"] = "required";
+                $arrayCheck["REMARKS_FOR_FINANCE"] = "required";
+                // $arrayCheck["REMARKS_FROM_FINANCE"] = "required";
+            }
+            if ($request->finance_field == 1) {
+                // $arrayCheck["REMARKS"] = "required";
+                // $arrayCheck["ONBOARDING_DATE"] = "required";
+                $arrayCheck["TOTAL_BILLABLE_AMOUNT"] = "required";
+                $arrayCheck["RATE"] = "required";
+                // $arrayCheck["PLACEMENT_FEE"] = "required";
+            }
+            $status = Str::lower($request->APPLICATION_STATUS);
+            if (str_contains($status, 'active') || str_contains($status, 'to be')) {
+                $arrayCheck["EDUCATIONAL_ATTAINTMENT"] = "required";
+                $arrayCheck["EXPECTED_SALARY"] = "required";
+                $arrayCheck["CURRENT_SALARY"] = "required";
+                $arrayCheck["INTERVIEW_NOTES"] = "required";
+            }
+            $manner_of_invite = Str::lower($request->MANNER_OF_INVITE);
+            if (
+                str_contains($manner_of_invite, 'sms') || str_contains($manner_of_invite, 'email') || str_contains($manner_of_invite, 'call')
+                || str_contains($manner_of_invite, 'viber') || str_contains($manner_of_invite, 'skype') || str_contains($manner_of_invite, 'mess')
+                || str_contains($manner_of_invite, 'sms')
+            ) {
+                $arrayCheck["DATE_INVITED"] = "required";
+            }
+        }
+
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if (!$validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
             // $name = explode(" ", $request->first_name, 3);
+            $CandidateInformation =  CandidateInformation::where('id', $c_id)->firstOrfail();
+            $CandidateEducation =  CandidateEducation::where('candidate_id', $c_id)->firstOrfail();
+            $CandidiateDomain =  CandidateDomain::where('candidate_id', $c_id)->firstOrfail();
+            $CandidiatePosition =  CandidatePosition::where('candidate_id', $c_id)->firstOrfail();
+            $endorsement =  Endorsement::where('id', $endo_id)->firstOrfail();
+            $finance =  Finance::where('endorsement_id', $endo_id)->firstOrfail(); 
 
-            CandidateInformation::where('id', $c_id)->update([
-                // 'first_name' => isset($name[0]) ? $name[0] : '',
-                // 'middle_name' => isset($name[1]) ? $name[1] : '',
-                // 'last_name' => isset($name[2]) ? $name[2] : '',
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'gender' => $request->gender,
-                'dob' => $request->dob,
-                'status' => '1',
-                // 'saved_by' => Auth::user()->id,
-            ]);
 
-            // update candidate education data
-            $For_save_good_format = [];
+            // save data to candidate information table
+            $CandidateInformation->last_name = $request->LAST_NAME;
+            $CandidateInformation->middle_name = $request->MIDDLE_NAME;
+            $CandidateInformation->first_name = $request->FIRST_NAME;
+            $CandidateInformation->email = $request->EMAIL_ADDRESS;
+            $CandidateInformation->phone = $request->CONTACT_NUMBER;
+            $CandidateInformation->gender = $request->GENDER;
+            $CandidateInformation->address = $request->RESIDENCE;
+            $CandidateInformation->dob = $request->DATE_OF_BIRTH; 
+            $CandidateInformation->save();
+
+            $CandidateEducation->educational_attain = $request->EDUCATIONAL_ATTAINTMENT;
+            $CandidateEducation->candidate_id = $CandidateInformation->id;
+
+            // save course if according to selcteedd educational attainment
+            if ($request->COURSE === null) {
+                $CandidateEducation->course = 'N/A';
+            } else {
+                $CandidateEducation->course = $request->COURSE;
+            }
             if (isset($request->CERTIFICATIONS)) {
-
-                $For_save_good_format = implode(",", $request->CERTIFICATIONS);
+                $certification = implode(",", $request->CERTIFICATIONS);
+                $CandidateEducation->certification = $certification;
             }
+            $CandidateEducation->save();
 
-            CandidateEducation::where('candidate_id', $c_id)->update([
-                'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
-                'course' => $request->COURSE,
-                'certification' => $For_save_good_format,
-            ]);
 
-            $array = Str::lower($request->REMARKS_FOR_FINANCE);
-            $category = Helper::getCategory($array);
-            // update candidae domain data
-            // $domain_name = Domain::where('id', $request->DOMAIN)->first();
-            // $name = Segment::where('id', $request->segment)->first();
-            // $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
-            if (is_numeric(isset($request->segment))) {
-                $name = (DropDownOption::where('id', $request->segment)->first())->option_name;
-            } else {
-                $name = $request->segment;
+            $CandidiatePosition->candidate_id = $CandidateInformation->id;
+            $CandidiatePosition->candidate_profile = $request->CANDIDATES_PROFILE;
+            $CandidiatePosition->position_applied = $request->POSITION_TITLE_APPLIED;
+            $CandidiatePosition->date_invited = $request->DATE_INVITED;
+            $CandidiatePosition->manner_of_invite = $request->MANNER_OF_INVITE;
+            $CandidiatePosition->source = $request->SOURCE;
+            $CandidiatePosition->curr_salary = $request->CURRENT_SALARY;
+            $CandidiatePosition->exp_salary = $request->EXPECTED_SALARY;
+            $CandidiatePosition->off_salary = $request->OFFERED_SALARY;
+            $CandidiatePosition->curr_allowance = $request->CURRENT_ALLOWANCE;
+            $CandidiatePosition->off_allowance = $request->OFFERED_ALLOWANCE;
+
+            // Upload CV of user
+            if ($request->hasFile('file')) {
+                $path = base_path();
+                $path = str_replace("laravel", "public_html", $path); // <= This one !
+                $destinationPath = $path . '/public/assets/cv'; // upload path
+                $fileName = $request->CONTACT_NUMBER . time() . '.pdf';
+                // $path = 'assets/cv';
+                $request->file->move($destinationPath, $fileName);
+                $CandidiatePosition->cv = $fileName;
             }
-            if (is_numeric(isset($request->sub_segment))) {
-                $Sub_name = (DropDownOption::where('id', $request->sub_segment)->first())->option_name;
+            $CandidiatePosition->save();
+
+
+            if (is_numeric(isset($request->Domainsegment))) {
+                $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
             } else {
-                $Sub_name = $request->sub_segment;
+                $name = $request->Domainsegment;
+            }
+            if (is_numeric(isset($request->Domainsub))) {
+                $Sub_name = (DropDownOption::where('id', $request->Domainsub)->first())->option_name;
+            } else {
+                $Sub_name = $request->Domainsub;
             }
             if (is_numeric(isset($request->DOMAIN))) {
                 $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
             } else {
                 $domain = $request->DOMAIN;
             }
-            if (is_numeric(isset($request->endo_segment))) {
-                $e_name = (DropDownOption::where('id', $request->endo_segment)->first())->option_name;
-            } else {
-                $e_name = $request->endo_segment;
+            // return $name;
+            //  save data to candidate domain table
+            // $CandidiateDomain = CandidateDomain::find($candidate_id);
+            $CandidiateDomain->candidate_id = $CandidateInformation->id;
+            $CandidiateDomain->date_shifted = $request->DATE_SIFTED;
+            // $domain_name = Domain::where('domain_name', $request->DOMAIN)->first();
+            $CandidiateDomain->domain = $domain;
+            $CandidiateDomain->emp_history = $request->EMPLOYMENT_HISTORY;
+            $CandidiateDomain->interview_note = $request->INTERVIEW_NOTES;
+            // $name = Segment::where('segment_name', $request->SEGMENT)->first();
+            $CandidiateDomain->segment = $name;
+            // $Sub_name = SubSegment::where('sub_segment_name', $request->SUB_SEGMENT)->first();
+            $CandidiateDomain->sub_segment = $Sub_name;
+            $CandidiateDomain->save();
 
-            }
-            if (is_numeric(isset($request->endo_sub_segment))) {
+            $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            $category = Helper::getCategory($array);
+            $endorsement->candidate_id = $CandidateInformation->id;
+            $endorsement->app_status = $request->APPLICATION_STATUS;
+            $endorsement->remarks = $request->REMARKS_FROM_FINANCE;
+            $endorsement->client = $request->CLIENT;
+            $endorsement->status = $request->STATUS;
+            $endorsement->type = $request->ENDORSEMENT_TYPE;
+            $endorsement->site = $request->SITE;
+            $endorsement->domain_endo = $request->DOMAIN_ENDORSEMENT;
+            $endorsement->position_title = $request->POSITION_TITLE;
+            $endorsement->timestamp = time(); 
+            $endorsement->interview_date = $request->INTERVIEW_SCHEDULE;
+            $endorsement->rfp = $request->REASONS_FOR_NOT_PROGRESSING;
+            $endorsement->career_endo = $request->CAREER_LEVEL;
+            $endorsement->segment_endo = $request->SEGMENT;
+            $endorsement->sub_segment_endo = $request->SUB_SEGMENT;
+            $endorsement->endi_date = $request->DATE_ENDORSED;
+            $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
+            $endorsement->saved_by = Auth::user()->id;
+            $endorsement->category = $category;
+ 
+            $endorsement->save();
 
-                $e_sub_name = (DropDownOption::where('id', $request->endo_sub_segment)->first())->option_name;
-            } else {
-                $e_sub_name = $request->endo_sub_segment;
-            }
-            if (is_numeric(isset($request->DOMAIN_endo))) {
 
-                $e_domain = (Domain::where('id', $request->DOMAIN_endo)->first())->domain_name;
 
-            } else {
-                $e_domain = $request->DOMAIN_endo;
+            $finance->candidate_id = $CandidateInformation->id;
+            $finance->endorsement_id = $endorsement->id;
+            $finance->remarks_recruiter = $request->REMARKS;
+            $finance->onboardnig_date = $request->ONBOARDING_DATE;
+            $finance->invoice_number = $request->INVOICE_NUMBER;
+            $finance->client_finance = $request->CLIENT_FINANCE;
+            $finance->career_finance = $request->CAREER_LEVEL_FINANCE;
+            $finance->rate = preg_replace('/%/', '', $request->RATE);
+            $finance->srp = $request->STANDARD_PROJECTED_REVENUE;
+            $finance->Total_bilable_ammount = $request->TOTAL_BILLABLE_AMOUNT;
+            $finance->offered_salary = $request->OFFERED_SALARY_finance;
+            $finance->allowance = $request->ALLOWANCE;
+            $finance->placement_fee = $request->PLACEMENT_FEE;
+            $recruiter = Auth::user()->roles->pluck('id');
+            $finance->t_id = $recruiter[0];
+            $finance->remarks_recruiter = 'Unbilled';
+            $finance->save();
 
-            }
 
-            CandidateDomain::where('candidate_id', $c_id)->update([
-                'date_shifted' => $request->date_shifted,
-                'domain' => $domain,
-                'interview_note' => $request->notes,
-                'segment' => $name,
-                'sub_segment' => $Sub_name,
-                'emp_history' => $request->EMPLOYMENT_HISTORY,
-            ]);
 
-            // update candidate position data according to requested data
-            CandidatePosition::where('candidate_id', $c_id)->update([
-                'candidate_profile' => $request->CANDIDATES_PROFILE,
-                'position_applied' => $request->position_applied,
-                'date_invited' => $request->date_invited,
-                'manner_of_invite' => $request->manner_of_invite,
-                'curr_salary' => $request->curr_salary,
-                'exp_salary' => $request->expec_salary,
-                'off_salary' => $request->offered_salary,
-                'source' => $request->SOURCE,
-                'curr_allowance' => $request->curr_allowance,
-                'off_allowance' => $request->offered_allowance,
 
-            ]);
-            //update endorsements table according to data updated
-            Endorsement::where(['candidate_id' => $c_id, 'numberOfEndo' => $endo_id, 'saved_by' => Auth::user()->id])->update([
-                'app_status' => $request->APPLICATION_STATUS,
-                'remarks' => $request->REMARKS_FROM_FINANCE,
-                'client' => $request->CLIENT_FINANCE,
-                'site' => $request->SITE,
-                'status' => $request->STATUS,
-                'type' => $request->ENDORSEMENT_TYPE,
-                'position_title' => $request->POSITION_TITLE,
-                'domain_endo' => $e_domain,
-                'interview_date' => $request->INTERVIEW_SCHEDULE,
-                'career_endo' => $request->CAREER_LEVEL,
-                'segment_endo' => $e_name,
-                'category' => $category,
-                'sub_segment_endo' => $e_sub_name,
-                'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
-                'endi_date' => $request->endo_date,
-                'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
-            ]);
+
+            // CandidateInformation::where('id', $c_id)->update([
+            //     // 'first_name' => isset($name[0]) ? $name[0] : '',
+            //     // 'middle_name' => isset($name[1]) ? $name[1] : '',
+            //     // 'last_name' => isset($name[2]) ? $name[2] : '',
+            //     'email' => $request->email,
+            //     'phone' => $request->phone,
+            //     'address' => $request->address,
+            //     'gender' => $request->gender,
+            //     'dob' => $request->dob,
+            //     'status' => '1',
+            //     // 'saved_by' => Auth::user()->id,
+            // ]);
+
+            // // update candidate education data
+            // $For_save_good_format = [];
+            // if (isset($request->CERTIFICATIONS)) {
+
+            //     $For_save_good_format = implode(",", $request->CERTIFICATIONS);
+            // }
+
+            // CandidateEducation::where('candidate_id', $c_id)->update([
+            //     'educational_attain' => $request->EDUCATIONAL_ATTAINTMENT,
+            //     'course' => $request->COURSE,
+            //     'certification' => $For_save_good_format,
+            // ]);
+
+            // $array = Str::lower($request->REMARKS_FOR_FINANCE);
+            // $category = Helper::getCategory($array);
+            // // update candidae domain data
+            // // $domain_name = Domain::where('id', $request->DOMAIN)->first();
+            // // $name = Segment::where('id', $request->segment)->first();
+            // // $Sub_name = SubSegment::where('id', $request->sub_segment)->first();
+            // if (is_numeric(isset($request->segment))) {
+            //     $name = (DropDownOption::where('id', $request->segment)->first())->option_name;
+            // } else {
+            //     $name = $request->segment;
+            // }
+            // if (is_numeric(isset($request->sub_segment))) {
+            //     $Sub_name = (DropDownOption::where('id', $request->sub_segment)->first())->option_name;
+            // } else {
+            //     $Sub_name = $request->sub_segment;
+            // }
+            // if (is_numeric(isset($request->DOMAIN))) {
+            //     $domain = (Domain::where('id', $request->DOMAIN)->first())->domain_name;
+            // } else {
+            //     $domain = $request->DOMAIN;
+            // }
+            // if (is_numeric(isset($request->endo_segment))) {
+            //     $e_name = (DropDownOption::where('id', $request->endo_segment)->first())->option_name;
+            // } else {
+            //     $e_name = $request->endo_segment;
+
+            // }
+            // if (is_numeric(isset($request->endo_sub_segment))) {
+
+            //     $e_sub_name = (DropDownOption::where('id', $request->endo_sub_segment)->first())->option_name;
+            // } else {
+            //     $e_sub_name = $request->endo_sub_segment;
+            // }
+            // if (is_numeric(isset($request->DOMAIN_endo))) {
+
+            //     $e_domain = (Domain::where('id', $request->DOMAIN_endo)->first())->domain_name;
+
+            // } else {
+            //     $e_domain = $request->DOMAIN_endo;
+
+            // }
+
+            // CandidateDomain::where('candidate_id', $c_id)->update([
+            //     'date_shifted' => $request->date_shifted,
+            //     'domain' => $domain,
+            //     'interview_note' => $request->notes,
+            //     'segment' => $name,
+            //     'sub_segment' => $Sub_name,
+            //     'emp_history' => $request->EMPLOYMENT_HISTORY,
+            // ]);
+
+            // // update candidate position data according to requested data
+            // CandidatePosition::where('candidate_id', $c_id)->update([
+            //     'candidate_profile' => $request->CANDIDATES_PROFILE,
+            //     'position_applied' => $request->position_applied,
+            //     'date_invited' => $request->date_invited,
+            //     'manner_of_invite' => $request->manner_of_invite,
+            //     'curr_salary' => $request->curr_salary,
+            //     'exp_salary' => $request->expec_salary,
+            //     'off_salary' => $request->offered_salary,
+            //     'source' => $request->SOURCE,
+            //     'curr_allowance' => $request->curr_allowance,
+            //     'off_allowance' => $request->offered_allowance,
+
+            // ]);
+            // //update endorsements table according to data updated
+            // Endorsement::where(['candidate_id' => $c_id, 'id' => $endo_id, 'saved_by' => Auth::user()->id])->update([
+            //     'app_status' => $request->APPLICATION_STATUS,
+            //     'remarks' => $request->REMARKS_FROM_FINANCE,
+            //     'client' => $request->CLIENT_FINANCE,
+            //     'site' => $request->SITE,
+            //     'status' => $request->STATUS,
+            //     'type' => $request->ENDORSEMENT_TYPE,
+            //     'position_title' => $request->POSITION_TITLE,
+            //     'domain_endo' => $e_domain,
+            //     'interview_date' => $request->INTERVIEW_SCHEDULE,
+            //     'career_endo' => $request->CAREER_LEVEL,
+            //     'segment_endo' => $e_name,
+            //     'category' => $category,
+            //     'sub_segment_endo' => $e_sub_name,
+            //     'rfp' => $request->REASONS_FOR_NOT_PROGRESSING,
+            //     'endi_date' => $request->endo_date,
+            //     'remarks_for_finance' => $request->REMARKS_FOR_FINANCE,
+            // ]);
 
             //save CANDIDATE addeed log to table starts
             Helper::save_log('CANDIDATE_UPDATED_FROM_VIEW_RECORD_');

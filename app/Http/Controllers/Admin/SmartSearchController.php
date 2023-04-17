@@ -709,7 +709,7 @@ class SmartSearchController extends Controller
                 ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
                 ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
                 ->join('finance', 'endorsements.id', 'finance.endorsement_id')
-                ->select('candidate_educations.*', 'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+                ->select('candidate_educations.*', 'endorsements.id as e_id' ,'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
                 ->where(['candidate_informations.id' => $str_arr[0] ,  'endorsements.id' => $str_arr[1] ])
                 ->first();
             // return $user;

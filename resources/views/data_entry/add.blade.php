@@ -1576,7 +1576,7 @@
                 tap = 1;
                 cid = queryStr[1]
             }
-            if ($('#user').val() == null) { 
+            if ($('#user').val() == null && window.location.href.indexOf("id") == -1 ) { 
                 cid = $('#user').val();
                 tap = 0;
             }

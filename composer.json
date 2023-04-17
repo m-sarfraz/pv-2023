@@ -9,8 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4.0|^8.0",
-        "ext-gd": "*",
-        "barryvdh/laravel-debugbar": "~3.0",
+        "ext-gd": "*", 
         "box/spout": "^3.3",
         "consoletvs/charts": "^6",
         "dragonmantank/cron-expression": "^3.0",
