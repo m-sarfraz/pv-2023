@@ -156,6 +156,15 @@
                                 placeholder="total.." />
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0">
+                            <label class="Label-00">
+                                Number of Unique Records:
+                            </label>
+                            <input readonly type="text" class="form-control users-input-S-C"
+                                id="unique" placeholder="total.." />
+                        </div>
+                    </div>
                 </div>
                 <!-- </div> -->
             </fieldset>
@@ -179,6 +188,7 @@
     salary = {!! $salary !!}
     spr = {!! $spr !!}
     total = {!! $total !!}
+    unique = {!! $unique !!}
     var currency = Intl.NumberFormat('ja-JP');
 
     function test() {
@@ -187,6 +197,7 @@
         $('#avgsalary').val(isNaN(avgSalary) ? 0 : avgSalary);
     }
     $('#endo').val(currency.format(endo));
+    $('#unique').val(currency.format(unique));
     $('#active').val(currency.format(active));
     $('#onBoarded').val(currency.format(onBoarded));
     $('#failed').val(currency.format(failed));

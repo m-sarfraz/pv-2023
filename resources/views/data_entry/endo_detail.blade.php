@@ -65,10 +65,12 @@
                         <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
                         </option>
                         @foreach ($endoType->options as $endoTypeOptions)
-                            <option value="{{ $endoTypeOptions->option_name }}"
-                                {{ $user != null ? ($user->type == $endoTypeOptions->option_name ? 'selected' : '') : '' }}>
-                                {{ $endoTypeOptions->option_name }}
-                            </option>
+                            @if ($endoTypeOptions->option_name != 'Endorsed')
+                                <option value="{{ $endoTypeOptions->option_name }}"
+                                    {{ $user != null ? ($user->type == $endoTypeOptions->option_name ? 'selected' : '') : '' }}>
+                                    {{ $endoTypeOptions->option_name }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                     <div>
@@ -108,8 +110,8 @@
                         <label class="d-block font-size-3 mb-0">
                             Date Processed:
                         </label>
-                        <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
-                            onchange="changeOnboardingDate()" class="form-control border h-px-20_custom"
+                        <input type="date" name="DATE_ENDORSED" id="endo_date" onchange="changeOnboardingDate()"
+                            class="form-control border h-px-20_custom"
                             value="{{ $user != null ? $user->endi_date : '' }}" />
                         <div>
                             <small class="text-danger"></small>
@@ -264,9 +266,9 @@
                         <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select
                             Option
                         </option>
-                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions) 
+                        @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                             <option value="{{ $ReasonForNotPOptions->option_name }}"
-                                {{ $user != null ? ($user->rfp != null ? (strtolower($user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '') : ''):'' }}>
+                                {{ $user != null ? ($user->rfp != null ? (strtolower($user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '') : '') : '' }}>
                                 {{ $ReasonForNotPOptions->option_name }}
                             </option>
                         @endforeach

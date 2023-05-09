@@ -28,7 +28,7 @@ class DropDownController extends Controller
     }
     public function show_dropdown_form()
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ])->get();
 
         return view('dropdown.add_dropdown', compact('dropdowns'));
     }
@@ -92,13 +92,13 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title'])->get();
 
         return view('dropdown.add_options', compact('dropdowns'));
     }
     public function ajax_view_dropdown(Request $request)
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ,'clients'])->get();
+        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title'])->get();
         return Datatables::of($dropdowns)
             ->addColumn('name', function ($dropdowns) {
                 return $dropdowns->name;

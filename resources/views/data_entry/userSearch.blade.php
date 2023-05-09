@@ -115,7 +115,7 @@
                                                     <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control EmailInput-F"
+                                            <input type="number" min="0" class="form-control EmailInput-F" min= "0"
                                                 value="{{ $user->phone }}" name="CONTACT_NUMBER" />
                                             <div>
                                                 <small class="text-danger"></small>
@@ -313,7 +313,7 @@
                                                     disabled>Select Option
                                                 </option>
                                                 @foreach ($profile as $profileOption)
-                                                    <option value="{{ $profileOption->id }}"
+                                                    <option value="{{ $profileOption->c_profile_name }}"
                                                         {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
                                                         {{ $profileOption->c_profile_name }}
                                                     </option>
@@ -712,7 +712,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Date Processed:
                                     </label>
-                                    <input type="date" name="DATE_ENDORSED" disabled="" id="endo_date"
+                                    <input type="date" name="DATE_ENDORSED"  id="endo_date"
                                         onchange="changeOnboardingDate()" class="form-control border h-px-20_custom"
                                         value="{{ $user->endi_date }}" />
                                     <div>

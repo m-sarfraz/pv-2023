@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
+use Str;
 
 class ExtractDataJob implements ShouldQueue
 {
@@ -48,6 +49,12 @@ class ExtractDataJob implements ShouldQueue
         if (isset($this->data['domain'])) {
             $Userdata->whereIn('data_extract_view.DOMAIN ENDORSEMENT', $this->data['domain']);
         }
+        if (isset($this->data['ob_start'])) {
+            $Userdata->whereDate('data_extract_view.ONBOARDING DATE', '>=',    $this->data['ob_start']);
+        }
+        if (isset($this->data['ob_end'])) {
+            $Userdata->whereDate('data_extract_view.ONBOARDING DATE', '<=',    $this->data['ob_end']);
+        }
         if (isset($this->data['client'])) {
             $Userdata->whereIn('data_extract_view.CLIENT', $this->data['client']);
         }
@@ -73,6 +80,8 @@ class ExtractDataJob implements ShouldQueue
         if (isset($this->data['endo_end'])) {
             $Userdata->whereDate('data_extract_view.DATE ENDORSED', '<=', $this->data['endo_end']);
         }
+    //    dd( $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql()));
+    //     dd($Userdata->get());
         $header_style = (new StyleBuilder())
             ->setFontSize(12)
             ->setShouldWrapText(false)

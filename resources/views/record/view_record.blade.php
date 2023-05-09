@@ -337,7 +337,7 @@
                                             <label class="d-block font-size-3 mb-0">
                                                 Contact:
                                             </label>
-                                            <input type="text" class="form-control users-input-S-C"
+                                            <input type="number" min="0" class="form-control users-input-S-C"
                                                 placeholder="Contact #" name="phone" />
                                             <div>
                                                 <small class="text-danger"></small>

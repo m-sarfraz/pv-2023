@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Domain;
 use App\Endorsement;
 use App\Http\Controllers\Controller;
+use App\JDL;
 use App\Segment;
 use App\SubSegment;
 use carbon\carbon;
 use DB;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class JdlController extends Controller
@@ -43,9 +46,9 @@ class JdlController extends Controller
             Cache::put('jdl', $jdlData, $now->addMonth(1));
         }
         return Datatables::of($jdlData)
-        ->addColumn('id', function ($jdlData) {
-            return $jdlData->id;
-        })
+            ->addColumn('id', function ($jdlData) {
+                return $jdlData->id;
+            })
             ->addIndexColumn()
             ->addColumn('priority', function ($jdlData) {
                 return $jdlData->priority;
@@ -175,23 +178,102 @@ class JdlController extends Controller
             ->get();
         return response()->json($user);
     }
-    public function Filter(Request $request)
+    public function Filter(Request $request, $id)
     {
 
-        // return $request->id;
-        $user = DB::table('jdl')->where('jdl.id', $request->id)
+        $user = DB::table('jdl')->where('jdl.id', $id)
             ->first();
         $endorsmentCount = Endorsement::where('client', $user->client)
             ->where('position_title', $user->p_title)->where('career_endo', $user->c_level)
             ->count();
         $domainDrop = Domain::all();
+        $segmentsDropDown = DB::table('segments')->get();
+        $sub_segmentsDropDown = DB::table('sub_segments')->get();
 
         $data = [
+            'sub_segmentsDropDown' => $sub_segmentsDropDown,
+            'segmentsDropDown' => $segmentsDropDown,
             'user' => $user,
             'endorsmentCount' => $endorsmentCount,
-
         ];
-        return view('JDL.Filter', $data);
+        return view('JDL.jdl-detail', $data);
+    }
+
+    public function updateJDL(Request $request)
+    {
+        // return $request->all();
+        $arrayCheck = [
+            'client' => 'required',
+            "priority" => "required",
+            "ref_code" => "required",
+            "status" => "required",
+            "req_date" => "required |date|after:1970-01-01",
+            "updated_date" => "required |date|after:1970-01-01",
+            "closed_date" => "required |date|after:1970-01-01",
+            "os_date" => "required |date|after:1970-01-01",
+            "domain" => "required",
+            "segment" => "required",
+            "subsegment" => "required",
+            "p_title" => "required",
+            "c_level" => "required",
+            "sll_no" => "required",
+            "t_fte" => "required",
+            "updated_fte" => "required",
+            "edu_attainment" => "required",
+            "jd" => "required",
+            "location" => "required",
+            "w_schedule" => "required",
+            "budget" => "required",
+            "poc" => "required",
+            "note" => "required",
+            "start_date" => "required |date|after:1970-01-01",
+            "keyword" => "required",
+            'recruiter' => 'required|array|min:1',
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()]);
+
+        } else {
+            $recruiters = implode(',', $request->recruiter);
+            $domainName = (Domain::where('id', $request->domain)->first())->domain_name;
+            $segmentaName = (Segment::where('id', $request->segment)->first())->segment_name;
+            $subsegmentName = (SubSegment::where('id', $request->subsegment)->first())->sub_segment_name;
+            $dataArray = $request->except('_token', 'id', 'domain', 'segment', 'subsegment');
+            $dataArray['domain'] = $domainName;
+            $dataArray['segment'] = $segmentaName;
+            $dataArray['subsegment'] = $subsegmentName;
+            $dataArray['recruiter'] = $recruiters;
+            // return $request->id;
+            $checkDup = JDL::where([
+                'client' => $request->client,
+                'p_title' => $request->p_title,
+                'domain' => $domainName,
+                'c_level' => $request->c_level,
+                'segment' => $segmentaName,
+                'subsegment' => $subsegmentName,
+            ])->where('id', '!=', $request->id)->first();
+            if ($checkDup) {
+                return response()->json(['success' => false, 'status' => 1, 'message' => 'You are overwriting Existing Job']);
+
+            } else {
+                JDL::updateOrCreate(['id' => $request->id], $dataArray);
+                return response()->json(['success' => true, 'message' => 'Data has been inserted successfully']);
+
+            }
+        }
+    }
+
+    public function deleteJDL(Request $request)
+    {
+        try {
+            JDL::where('id', $request->id)->delete();
+            return response()->json(['success' => true, 'message' => 'Data has been Delete successfully']);
+
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->Message()]);
+
+        }
     }
     public function Filter_user_table(Request $request)
     {
@@ -345,9 +427,9 @@ class JdlController extends Controller
         }
         $dataJdl = $Userdata;
         return Datatables::of($dataJdl)
-        ->addColumn('id', function ($dataJdl) {
-            return $dataJdl->id;
-        })
+            ->addColumn('id', function ($dataJdl) {
+                return $dataJdl->id;
+            })
             ->addIndexColumn()
             ->addColumn('priority', function ($dataJdl) {
                 return $dataJdl->priority;
@@ -471,7 +553,7 @@ class JdlController extends Controller
                 'os_date',
                 'recruiter',
             ])
-            ->make(true); 
+            ->make(true);
     }
     public function filter_records_jdl_getclient(Request $request)
     {
@@ -501,6 +583,112 @@ class JdlController extends Controller
             "return" => $return,
         ]]);
     }
+
+    // add new jdl entry
+    public function addJDLEntry(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            $segmentsDropDown = DB::table('segments')->get();
+            $sub_segmentsDropDown = DB::table('sub_segments')->get();
+            $data = [
+                'sub_segmentsDropDown' => $sub_segmentsDropDown,
+                'segmentsDropDown' => $segmentsDropDown,
+            ];
+            return view('JDL.addJDL', $data);
+        }
+        if ($request->isMethod('post')) {
+            $arrayCheck = [
+                'client' => 'required',
+                "priority" => "required",
+                "ref_code" => "required",
+                "status" => "required",
+                "req_date" => "required |date|after:1970-01-01",
+                "updated_date" => "required |date|after:1970-01-01",
+                "closed_date" => "required |date|after:1970-01-01",
+                "os_date" => "required |date|after:1970-01-01",
+                "domain" => "required",
+                "segment" => "required",
+                "subsegment" => "required",
+                "p_title" => "required",
+                "c_level" => "required",
+                "sll_no" => "required",
+                "t_fte" => "required",
+                "updated_fte" => "required",
+                "edu_attainment" => "required",
+                "jd" => "required",
+                "location" => "required",
+                "w_schedule" => "required",
+                "budget" => "required",
+                "poc" => "required",
+                "note" => "required",
+                "start_date" => "required |date|after:1970-01-01",
+                "keyword" => "required",
+                'recruiter[]' => 'required|array|min:1',
+            ];
+            $validator = Validator::make($request->all(), $arrayCheck);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()]);
+            } else {
+                $recruiters = implode(',', $request->recruiter);
+                $domainName = (Domain::where('id', $request->domain)->first())->domain_name;
+                $segmentaName = (Segment::where('id', $request->segment)->first())->segment_name;
+                $subsegmentName = (SubSegment::where('id', $request->subsegment)->first())->sub_segment_name;
+                $reqDate = $request->req_date; // 2023-05-02
+                $todayDate = Carbon::now()->format('Y-m-d'); // 2023-08-02
+                $maturity = Carbon::parse($reqDate)->diffInDays(Carbon::parse($todayDate));
+                $reqDate = $request->req_date;
+                $checkDup = JDL::where([
+                    'client' => $request->client,
+                    'p_title' => $request->p_title,
+                    'domain' => $domainName,
+                    'c_level' => $request->c_level,
+                    'segment' => $segmentaName,
+                    'subsegment' => $subsegmentName,
+                ])->first();
+                if ($checkDup) {
+                    return response()->json(['success' => false, 'status' => 1, 'message' => 'Job Exists in Database']);
+
+                } else {
+                    return 'err';
+                    $jdl = new JDL();
+                    $jdl->priority = $request->priority;
+                    $jdl->ref_code = $request->ref_code;
+                    $jdl->status = $request->status;
+                    $jdl->req_date = $request->req_date;
+                    $jdl->maturity = $maturity;
+                    $jdl->updated_date = $request->updated_date;
+                    $jdl->closed_date = $request->closed_date;
+                    $jdl->os_date = $request->os_date;
+                    $jdl->client = $request->client;
+                    $jdl->domain = $domainName;
+                    $jdl->segment = $segmentaName;
+                    $jdl->subsegment = $subsegmentName;
+                    $jdl->p_title = $request->p_title;
+                    $jdl->c_level = $request->c_level;
+                    $jdl->sll_no = $request->sll_no;
+                    $jdl->t_fte = $request->t_fte;
+                    $jdl->updated_fte = $request->updated_fte;
+                    $jdl->edu_attainment = $request->edu_attainment;
+                    $jdl->jd = $request->jd;
+                    $jdl->location = $request->location;
+                    $jdl->w_schedule = $request->w_schedule;
+                    $jdl->budget = $request->budget;
+                    $jdl->poc = $request->poc;
+                    $jdl->note = $request->note;
+                    $jdl->start_date = $request->start_date;
+                    $jdl->keyword = $request->keyword;
+                    $jdl->recruiter = $recruiters;
+                    $jdl->save();
+                    //save COMAPNY addeed log to table starts
+                    Helper::save_log('NEW_JDL_Entry');
+                    // save COMAPNY added to log table ends
+                    return response()->json(['success' => true, 'message' => 'Job Has Been Posted Successfully']);
+                }
+            }
+        }
+    }
+
+    // close
     /**
      * Show the form for creating a new resource.
      *

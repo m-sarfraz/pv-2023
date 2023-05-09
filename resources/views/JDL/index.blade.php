@@ -190,7 +190,19 @@
 
         <div class="row m-0 pt-4">
             <div class="col-lg-12">
-                <p class="C-Heading">Requirements Finder:</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <p class="C-Heading">Requirements Finder:</p>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <a href="{{ route('add-jdl') }}" target="_blank" rel="noopener noreferrer">
+                            <button type="button" class="btn btn-sm btn-primary"
+                                style="color: #fff;  background-color: #dc8627; border-color: #dc8627;" class="text-end">Add
+                                a
+                                Job</button>
+                        </a>
+                    </div>
+                </div>
                 <div class="card mb-13">
                     <div id="loader1" style="display: block;"></div>
                     <div class="card-body">
@@ -531,8 +543,8 @@
             $(this).addClass('hover-primary1');
             let tdVal = $(this).children()[0];
             var id = tdVal.innerHTML
-            Filter(this, id)
-            $('#exampleModal').modal('show');
+            // Filter(this, id)
+            // $('#exampleModal').modal('show');
             // alert($(this).val())
         })
 
@@ -572,6 +584,20 @@
                 ajax: {
                     url: "{{ route('view-jdl-table') }}",
                     type: "GET",
+                },
+                drawCallback: function(settings) {
+                    $('.hidetrID').find('tr').each(function() {
+                        $(this).on('dblclick', function() {
+                            window.open($(this).attr('data-href'), '_blank');
+                        });
+
+                    });
+                },
+                createdRow: function(row, data, dataIndex) {
+                    $(row).addClass('id');
+                    let id = $(row).find('td:first').text().trim();
+                    $(row).attr('data-href', `{{ url('admin/jdl_filter_records_detail/${id}') }}`)
+
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
@@ -772,8 +798,19 @@
                         status: status,
                     },
                 },
+                drawCallback: function(settings) {
+                    $('.hidetrID').find('tr').each(function() {
+                        $(this).on('dblclick', function() {
+                            window.open($(this).attr('data-href'), '_blank');
+                        });
+
+                    });
+                },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
+                    let id = $(row).find('td:first').text().trim();
+                    $(row).attr('data-href', `{{ url('admin/jdl_filter_records_detail/${id}') }}`)
+
                 },
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');

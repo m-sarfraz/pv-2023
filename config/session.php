@@ -31,7 +31,7 @@ return [
     |
      */
 
-    'lifetime' => 60,
+    'lifetime' => 15,
 
     'expire_on_close' => false,
 

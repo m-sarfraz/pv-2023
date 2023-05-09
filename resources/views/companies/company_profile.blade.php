@@ -3,7 +3,7 @@
 @section('style')
     <!-- ================= -->
     <!-- Datatable css start-->
-    <link rel="stylesheet"   href= "{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
     <!-- Datatable css end-->
     <!-- ================= -->
     <style>
@@ -14,10 +14,9 @@
         #example1_filter label {
             display: flex;
             width: fit-content;
-   align-items:center;
+            align-items: center;
             margin-left: auto;
         }
-
     </style>
 @endsection
 
@@ -33,13 +32,13 @@
                 @if (Session::has('message'))
                     <p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
                 @endif
-                <div style="width: fit-content; float: right; border-radius: 7px; margin-top: 1.1rem;margin-bottom: 1.1rem; font-size: 13px;">
-                   @can('add-company')
-                       
-                  <input href="{{ route('add_company') }}" type="button"
-                        class="btn btn-green text-white rounded-5 text-uppercase" value="Add Data" id="add"
-                        style="background-color: rgb(220, 134, 39);" />
-                        @endcan 
+                <div
+                    style="width: fit-content; float: right; border-radius: 7px; margin-top: 1.1rem;margin-bottom: 1.1rem; font-size: 13px;">
+                    @can('add-company')
+                        <input href="{{ route('add_company') }}" type="button"
+                            class="btn btn-green text-white rounded-5 text-uppercase" value="Add Data" id="add"
+                            style="background-color: rgb(220, 134, 39);" />
+                    @endcan
                 </div>
                 <div class="table-responsive border py-2 px-2 ">
                     <div class="___class_+?6___">
@@ -266,14 +265,13 @@
         </div>
     </div>
     <div style="height: 30px;"></div>
-
 @endsection
 
 
 @section('script')
     <!-- ================= -->
     <!-- Datatable js start-->
-    <script src= "{{ asset('assets/js/jquery.dataTables.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 
     <script>
         $(function() {

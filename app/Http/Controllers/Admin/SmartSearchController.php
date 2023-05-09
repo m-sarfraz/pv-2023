@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CandidateInformation;
 use App\Domain;
+use App\Endorsement;
 use App\Http\Controllers\Controller;
+use App\Profile;
+use App\Segment;
+use App\SubSegment;
 use App\User;
 use Artisan;
-use DB;
-use App\CandidateInformation;
-use App\Endorsement;
-use Helper;
 use Auth;
+use DB;
+use Helper;
 use Illuminate\Http\Request;
 use Str;
 use Yajra\DataTables\DataTables;
@@ -40,6 +43,9 @@ class SmartSearchController extends Controller
     public function appendSmartFilters()
     {
         $domain = Domain::all();
+        $segment = Segment::all();
+        $subSegment = SubSegment::all();
+        $profile = Profile::all();
         $user_recruiter = User::where('type', 3)->get();
         $client = Helper::get_dropdown('clients');
         $address = DB::Select("select address from candidate_informations where  address!='' group by address");
@@ -47,10 +53,22 @@ class SmartSearchController extends Controller
         $status = Helper::get_dropdown('data_entry_status');
         $portal = Helper::get_dropdown('source');
         $career = Helper::get_dropdown('career_level');
-
+        $appStatus = Helper::get_dropdown('application_status');
+        $course = Helper::get_dropdown('course');
+        $certification = Helper::get_dropdown('certifications');
+        $team = DB::table('roles')->get();
+        $p_title = DB::table('jdl')->distinct()->get('p_title');
         // close
         return response()->json(
             [
+                'p_title' => $p_title,
+                'team' => $team,
+                'certification' => $certification,
+                'course' => $course,
+                'appStatus' => $appStatus,
+                'profile' => $profile,
+                'segment' => $segment,
+                'subSegment' => $subSegment,
                 'career' => $career,
                 'domain' => $domain,
                 'user_recruiter' => $user_recruiter,
@@ -273,6 +291,42 @@ class SmartSearchController extends Controller
         // $search = $request->search;
         $Userdata = DB::table('updated_view_record');
         //    check null values coming form selected options
+        if (isset($request->p_title)) {
+            $Userdata->whereIn('updated_view_record.position_title', $request->p_title);
+        }
+        if (isset($request->profile)) {
+            $Userdata->whereIn('updated_view_record.candidate_profile', $request->profile);
+        }
+        if (isset($request->cname)) {
+            $Userdata->whereIn('updated_view_record.cid', $request->cname);
+        }
+        if (isset($request->segment)) {
+            $Userdata->whereIn('updated_view_record.segment', $request->segment);
+        }
+        if (isset($request->subSegment)) {
+            $Userdata->whereIn('updated_view_record.sub_segment', $request->subSegment);
+        }
+        if (isset($request->course)) {
+            $Userdata->whereIn('updated_view_record.course', $request->course);
+        }
+        if (isset($request->certification)) {
+            $Userdata->whereIn('updated_view_record.certification', $request->certification);
+        }
+        if (isset($request->team)) {
+            $Userdata->whereIn('updated_view_record.team_name', $request->team);
+        }
+        if (isset($request->appStatus)) {
+            $Userdata->whereIn('updated_view_record.app_status', $request->appStatus);
+        }
+        if (isset($request->min_salary) && isset($request->max_salary)) {
+            $Userdata->whereBetween('updated_view_record.curr_salary', [$request->min_salary, $request->max_salary]);
+        } else if (isset($request->min_salary)) {
+            $Userdata->where('updated_view_record.curr_salary', '>=', $request->min_salary);
+        } else if (isset($request->max_salary)) {
+            $Userdata->where('updated_view_record.curr_salary', '<=', $request->max_salary);
+        }
+        
+
         if (isset($request->domain)) {
             $Userdata->whereIn('updated_view_record.domain_endo', $request->domain);
         }
@@ -610,6 +664,7 @@ class SmartSearchController extends Controller
                 'activeSPR' => 0,
                 'salary' => 0,
                 'total' => 0,
+                'unique' => 0,
             ];
             return view('smartSearch.summary', $data);
         }
@@ -635,6 +690,7 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1 . "and endorsements.is_deleted='0' ");
             $active_spr = DB::select($sql1);
             $sql_getActive_spr = DB::select($sql_active_spr);
+            $unique =  CandidateInformation::count();
         } else {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0' group by endorsements.candidate_id ");
             $sql_active = $sql . "where endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
@@ -653,6 +709,7 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1);
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
+            $unique =  CandidateInformation::count();
         }
         $sql_spr_amount = 0;
         $sql_active_spr_amount = 0;
@@ -671,6 +728,7 @@ class SmartSearchController extends Controller
             $total_salary = ($total_salary + $salary->t_salary);
         }
         $data = [
+            'unique' =>  $unique ,
             'endo' => count(DB::select($sql_enors)),
             'active' => count(DB::select($sql_active)),
             'onBoarded' => count(DB::select($sql_onboarded)),
@@ -709,8 +767,8 @@ class SmartSearchController extends Controller
                 ->join('candidate_domains', 'candidate_informations.id', 'candidate_domains.candidate_id')
                 ->join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
                 ->join('finance', 'endorsements.id', 'finance.endorsement_id')
-                ->select('candidate_educations.*', 'endorsements.id as e_id' ,'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
-                ->where(['candidate_informations.id' => $str_arr[0] ,  'endorsements.id' => $str_arr[1] ])
+                ->select('candidate_educations.*', 'endorsements.id as e_id', 'finance.id as f_id', 'candidate_informations.*', 'candidate_informations.id as cid', 'candidate_positions.*', 'candidate_domains.*', 'finance.*', 'endorsements.*')
+                ->where(['candidate_informations.id' => $str_arr[0], 'endorsements.id' => $str_arr[1]])
                 ->first();
             // return $user;
             $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
@@ -733,7 +791,7 @@ class SmartSearchController extends Controller
         } catch (\Exception $e) {
             return "Data Against This User Can't be Found";
         }
-           // exploding string for endorsement number and candidate id to get selected data
-       
+        // exploding string for endorsement number and candidate id to get selected data
+
     }
 }

@@ -67,7 +67,7 @@
                             <label class="d-block font-size-3 mb-0">
                                 Contact:
                             </label>
-                            <input type="text" class="form-control users-input-S-C" placeholder="enter you cell"
+                            <input type="number" class="form-control users-input-S-C" placeholder="enter you cell" min="0"
                                 name="phone" value="{{ $user->phone }}" />
                             <div>
                                 <small class="text-danger"></small>

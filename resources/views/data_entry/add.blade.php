@@ -396,6 +396,7 @@
                                                                 </label>
                                                                 <input type="date" name="DATE_SIFTED"
                                                                     placeholder="mm-dd-yyyy"
+                                                                    {{$candidateDetail != null ? 'readonly' : ''}}
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -486,7 +487,7 @@
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($profile as $profileOption)
-                                                                        <option value="{{ $profileOption->id }}"
+                                                                        <option value="{{ $profileOption->c_profile_name }}"
                                                                             {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
                                                                             {{ $profileOption->c_profile_name }}
                                                                         </option>
@@ -858,7 +859,7 @@
                                                         <label class="d-block font-size-3 mb-0 labelFontSize">
                                                             Date Processed:
                                                         </label>
-                                                        <input type="date" name="DATE_ENDORSED" disabled=""
+                                                        <input type="date" name="DATE_ENDORSED" 
                                                             id="endo_date" placeholder="mm-dd-yyyy"
                                                             onchange="changeOnboardingDate()"
                                                             class="form-control border h-px-20_custom" />
@@ -1567,6 +1568,7 @@
         function CreateUpdateData(targetURL) {
             event.preventDefault()
             let cid = 0;
+            let tap = 0;
             url = window.location.href;
             queryStr = url.split('?');
             if (window.location.href.indexOf("id") != -1) {
@@ -2137,7 +2139,7 @@
                     $('#endo_type').prop("disabled", true);
                     $('#segment').prop("disabled", true);
                     $('#sub_segment').prop("disabled", true);
-                    $('#endo_date').prop("disabled", true);
+                    // $('#endo_date').prop("disabled", true);
                     // $('#expec_salary').prop("disabled", true);
                     $('#remarks_for_finance').prop("disabled", true);
                     $('#off_allowance').prop("disabled", true);
@@ -2177,7 +2179,7 @@
                 $('#career').prop("disabled", true);
                 $('#segment').prop("disabled", true);
                 $('#sub_segment').prop("disabled", true);
-                $('#endo_date').prop("disabled", true);
+                // $('#endo_date').prop("disabled", true);
                 //  $('#expec_salary').prop("disabled", true);
                 $('#remarks_for_finance').prop("disabled", true);
                 $('#finance_fieldset').prop("disabled", false);
@@ -2194,6 +2196,7 @@
                 $('#onboard_date').attr("readonly", true);
                 // $('#onboard_date').prop("disabled", true);
                 $('#off_salary').prop("disabled", true);
+                $('#endo_type').prop("disabled", true);
 
             }
 

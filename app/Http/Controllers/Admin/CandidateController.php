@@ -110,6 +110,7 @@ class CandidateController extends Controller
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
+                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
                 // "CURRENT_SALARY" => 'required ',
@@ -154,7 +155,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
+                // $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -192,6 +193,7 @@ class CandidateController extends Controller
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
+                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
                 // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
@@ -209,7 +211,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required";
+                // $arrayCheck["DATE_ENDORSED"] = "required";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -278,7 +280,7 @@ class CandidateController extends Controller
                 $tap = Auth::user()->id;
             }
             $id = explode('-', $request->candidate_id);
-            if ($request->tap == 0 && $id[0] != 'null') {
+            if ($request->tap == 0 && $id[0] != 'null' && $request->candidate_id != 0) {
                 $candidate_id = $id[0];
                 $CandidateInformation = CandidateInformation::find($id[0]);
                 $CandidateEducation = CandidateEducation::where('candidate_id', $id[0])->firstOrFail();
@@ -888,6 +890,7 @@ class CandidateController extends Controller
                 // "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
+                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
             ];
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
@@ -924,7 +927,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
+                // $arrayCheck["DATE_ENDORSED"] = "required|date|after:1970-01-01";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -963,6 +966,7 @@ class CandidateController extends Controller
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
+                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
                 // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
@@ -983,7 +987,7 @@ class CandidateController extends Controller
                 $arrayCheck["ENDORSEMENT_TYPE"] = "required";
                 $arrayCheck["POSITION_TITLE"] = "required";
                 $arrayCheck["CAREER_LEVEL"] = "required";
-                $arrayCheck["DATE_ENDORSED"] = "required";
+                // $arrayCheck["DATE_ENDORSED"] = "required";
                 $arrayCheck["STATUS"] = "required";
                 $arrayCheck["CLIENT"] = "required";
                 $arrayCheck["SITE"] = "required";
@@ -1328,7 +1332,9 @@ class CandidateController extends Controller
         $status = ['OPEN', 'REOPEN'];
         if ($request->c_profile) {
             $request->position == null;
-            $profile = Profile::findOrFail($request->c_profile);
+            // $profile = Profile::findOrFail($request->c_profile);
+            $profile = Profile::whereRaw('LOWER(REPLACE(c_profile_name, " ", "")) = ?', [strtolower(str_replace(" ", "", $request->c_profile))])
+            ->firstOrFail();
             if ($profile->subSegment) {
 
                 $subSegmentName = $profile->subSegment->sub_segment_name;

@@ -134,235 +134,287 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-7">
-                <p class="C-Heading pt-3">Record Finder:</p>
+                <p class="C-Heading pt-3">Record Finder</p>
                 <div class="card smartSearchHeight mb-13">
                     <div class="card-body">
                         <div id="loader1" style="display: block;"></div>
                         <form action="">
-                            <div class="row mb-4">
-                                <div class="col-lg-6 px-0">
-                                    <div class="row">
-                                        <div class="col-lg-6 ">
-                                            <div class="form-group mb-0">
-                                                <label class="d-block font-size-3 mb-0">
-                                                    Search (keyword):
-                                                </label>
-                                                <input type="text" name="searchKeyword" id="searchKeyword"
-                                                    placeholder="search keyword" required=""
-                                                    class="form-control h-px-20_custom border" value="" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Candidate's profile:</label>
-                                                <select multiple name="candidateprofile" id="candidateprofile"
-                                                    onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Domain:</label>
-                                                <select multiple name="DOMAIN" id="domain" required=""
-                                                    onchange="FilterSearch()"
-                                                    class="form-control p-0 users-input-S-C select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Recruiter:</label>
-                                                <select multiple name="recruiter" id="recruiter"
-                                                    class="select2_dropdown  w-100" onchange="FilterSearch()"
-                                                    onchange="filterUserData()">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Client:</label>
-                                                <select multiple name="CLIENT" id="client" onchange="FilterSearch()"
-                                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">Portal</label>
-                                                <select multiple name="portal" required="" id="portal"
-                                                    onchange="FilterSearch()"
-                                                    class="form-control border h-px-20_custom select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-
-                                                <label class="Label-00">Residence:</label>
-                                                <select multiple name="residence" required="" id="residence"
-                                                    onchange="FilterSearch()"
-                                                    class="form-control border h-px-20_custom select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-
-                                                <label class="Label-00">Career Level:</label>
-                                                <select multiple name="CAREER_LEVEL_FINANCE" required=""
-                                                    id="career_level" onchange="FilterSearch()"
-                                                    class="form-control border h-px-20_custom select2_dropdown w-100">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Category:</label>
-                                                <select multiple name="REMARKS_FOR_FINANCE" id="category"
-                                                    onchange="FilterSearch()"
-                                                    class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="Active - Initial Stage"> Active - Initial Stage</option>
-                                                    <option value="Active - Mid Stage">Active - Mid Stage</option>
-                                                    <option value="Active - Final Stage">Active - Final Stage</option>
-                                                    <option value="Converted - Final Stage">Converted - Final Stage</option>
-                                                    <option value="Inactive - Initial Stage">Inactive - Initial Stage
-                                                    </option>
-                                                    <option value="Inactive - Mid Stage">Inactive - Mid Stage</option>
-                                                    <option value="Inactive - Final Stage"> Inactive - Final Stage</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Status:</label>
-                                                <select multiple name="status" id="status" onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Remarks:</label>
-                                                <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Search (keyword):
+                                        </label>
+                                        <input type="text" name="searchKeyword" id="searchKeyword"
+                                            placeholder="search keyword" required=""
+                                            class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6 px-0">
-                                    <div class="row mx-0">
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Candidate's Name:</label>
-                                                <select multiple name="candidateName" id="candidateName"
-                                                    onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="d-block font-size-3 mb-0">
-                                                    Number Of Records Found:
-                                                </label>
-                                                <input type="text" name="REF_CODE" value="" disabled=""
-                                                    required="" id="foundRecord"
-                                                    class="form-control h-px-20_custom border" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Sub-Segment :</label>
-                                                <select multiple name="subSegment" id="subSegment"
-                                                    onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label-00">Application Status:</label>
-                                                <select multiple name="appStatus" id="appStatus"
-                                                    onchange="FilterSearch()"
-                                                    class="w-100 form-control select2_dropdown w-100">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">Start Date (Endorsement):</label>
-                                                <input type="date" id="endo_start"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">End Date (Endorsement):</label>
-                                                <input type="date" id="endo_end"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">Start Date (Sifted):</label>
-                                                <input type="date" id="Shifted_start"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">End Date (Sifted):</label>
-                                                <input type="date" id="Shifted_end"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">Start Date (Onboarding):</label>
-                                                <input type="date" id="ob_start"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-0">
-                                                <label class="Label">End Date (Onboarding):</label>
-                                                <input type="date" id="ob_end"
-                                                    class="w-100 users-input-S-C form-control"
-                                                    onchange="FilterSearch()" />
-                                            </div>
-                                        </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Number Of Records Found:
+                                        </label>
+                                        <input type="text" name="REF_CODE" value="" disabled="" required=""
+                                            id="foundRecord" class="form-control h-px-20_custom border" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">Start Date (Sifted)</label>
+                                        <input type="date" id="Shifted_start" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">End Date (Sifted)</label>
+                                        <input type="date" id="Shifted_end" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
                                     </div>
 
                                 </div>
 
                             </div>
-                            <div class="row mb-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Client</label>
+                                        <select multiple name="CLIENT" id="client" onchange="FilterSearch()"
+                                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">Portal</label>
+                                        <select multiple name="portal" required="" id="portal"
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">Start Date (Onboarding)</label>
+                                        <input type="date" id="ob_start" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">End Date (Onboarding)</label>
+                                        <input type="date" id="ob_end" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
+                                    </div>
+                                </div>
 
                             </div>
-                            <div class="row mb-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Category</label>
+                                        <select multiple name="REMARKS_FOR_FINANCE" id="category" onchange="FilterSearch()"
+                                            class="select2_dropdown  w-100 form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                            <option value="Active - Initial Stage"> Active - Initial Stage</option>
+                                            <option value="Active - Mid Stage">Active - Mid Stage</option>
+                                            <option value="Active - Final Stage">Active - Final Stage</option>
+                                            <option value="Converted - Final Stage">Converted - Final Stage</option>
+                                            <option value="Inactive - Initial Stage">Inactive - Initial Stage
+                                            </option>
+                                            <option value="Inactive - Mid Stage">Inactive - Mid Stage</option>
+                                            <option value="Inactive - Final Stage"> Inactive - Final Stage</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Status</label>
+                                        <select multiple name="status" id="status" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">Start Date (Endorsement)</label>
+                                        <input type="date" id="endo_start" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
+                                    </div>
+                                </div>
 
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label">End Date (Endorsement)</label>
+                                        <input type="date" id="endo_end" class="w-100 users-input-S-C form-control"
+                                            onchange="FilterSearch()" />
+                                    </div>
+
+                                </div>
 
                             </div>
-                            <div class="row mb-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group ">
+                                        <label class="Label-00">Candidate's profile</label>
+                                        <select multiple name="profile" id="profile" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Domain</label>
+                                        <select multiple name="DOMAIN" id="domain" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control p-0 users-input-S-C select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
 
-
-
-
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Application Status</label>
+                                        <select multiple name="appStatus" id="appStatus" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Remarks</label>
+                                        <select multiple name="remarks" id="remarks" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-2 ml-auto pt-3">
-                                <div class="form-group mb-0 text-right">
-                                    <label class="Label-00">CIP</label>
-                                    <input type="checkbox" id="cip" name="cip" onclick="FilterSearch()">
+                            <div class="row">
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Candidate's Name</label>
+                                        <select multiple name="candidate" id="candidate" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="Label-00">Segment</label>
+                                        <select multiple name="segment" id="segment" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Recruiter</label>
+                                        <select multiple name="recruiter" id="recruiter" class="select2_dropdown  w-100"
+                                            onchange="FilterSearch()" onchange="filterUserData()">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="Label-00">Residence</label>
+                                        <select multiple name="residence" required="" id="residence"
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="Label-00">Career Level</label>
+                                        <select multiple name="CAREER_LEVEL_FINANCE" required="" id="career_level"
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Sub-Segment </label>
+                                        <select multiple name="subSegment" id="subSegment" onchange="FilterSearch()"
+                                            class="w-100 form-control select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="Label-00">Courses</label>
+                                        <select multiple id="course" name="course" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="Label-00">Certification</label>
+                                        <select multiple name="certification" id="certification" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Team</label>
+                                        <select multiple name="team" id="team" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label-00">Position Title</label>
+                                        <select multiple name="p_title" id="p_title" required=""
+                                            onchange="FilterSearch()"
+                                            class="form-control border h-px-20_custom select2_dropdown w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="Label">Min. Salary</label>
+                                    <input type="number" id="min_salary" min="0"
+                                        class="w-100 users-input-S-C form-control" style="height: 34px !important;"
+                                        onchange="FilterSearch()" />
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="Label">Max. Salary</label>
+                                    <input type="number" id="max_salary" min="0"
+                                        class="w-100 users-input-S-C form-control" style="height: 34px !important;"
+                                        onchange="FilterSearch()" />
+                                </div>
+                                <div class="col-lg-3 mt-3">
+                                    <div class="form-group mb-0 text-right">
+                                        <label class="Label-00">CIP</label>
+                                        <input type="checkbox" id="cip" name="cip" onclick="FilterSearch()">
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -370,7 +422,7 @@
                 </div>
             </div>
             <div class="col-lg-5" id="summaryDiv">
-                <p class="C-Heading pt-3">Summary:</p>
+                <p class="C-Heading pt-3">Summary</p>
                 <div id="loader3"></div>
                 <div class="card mb-13">
                     {{-- <div id="loader1" style="display: block;"></div> --}}
@@ -526,6 +578,15 @@
                                             </label>
                                             <input readonly type="text" class="form-control users-input-S-C"
                                                 id="rejected" placeholder="total.." />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-0">
+                                            <label class="Label-00">
+                                                Number of Unique Records:
+                                            </label>
+                                            <input readonly type="text" class="form-control users-input-S-C"
+                                                id="unique" placeholder="total.." />
                                         </div>
                                     </div>
                                 </div>
@@ -782,7 +843,26 @@
             appendFilterOptions()
         });
         // close 
-
+        $(document).ready(function() {
+            console.log('read')
+            $('#candidate').select2({
+                minimumInputLength: 1,
+                ajax: {
+                    url: '{{ url('admin/showCandidateDropDown') }}',
+                    dataType: 'json',
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.fullName,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    },
+                },
+            })
+        })
         //append  dropdowns
         function appendFilterOptions() {
             $.ajax({
@@ -810,20 +890,38 @@
                             .domain_name +
                             '</option>')
                     }
+                    for (let i = 0; i < res.segment.length; i++) {
+                        $('#segment').append('<option value="' + res.segment[i].segment_name + '">' +
+                            res.segment[i].segment_name + '</option>')
+                    }
+                    for (let i = 0; i < res.p_title.length; i++) {
+                        $('#p_title').append('<option value="' + res.p_title[i].p_title + '">' +
+                            res.p_title[i].p_title + '</option>')
+                    }
+                    for (let i = 0; i < res.subSegment.length; i++) {
+                        $('#subSegment').append('<option value="' + res.subSegment[i].sub_segment_name + '">' +
+                            res.subSegment[i].sub_segment_name + '</option>')
+                    }
+                    for (let i = 0; i < res.team.length; i++) {
+                        $('#team').append('<option value="' + res.team[i].name + '">' +
+                            res.team[i].name + '</option>')
+                    }
+                    for (let i = 0; i < res.profile.length; i++) {
+                        $('#profile').append('<option value="' + res.profile[i].c_profile_name + '">' +
+                            res.profile[i].c_profile_name + '</option>')
+                    }
                     for (let i = 0; i < res.user_recruiter.length; i++) {
-                        $('#recruiter').append('<option value="' + res.user_recruiter[i].id + '">' + res.user_recruiter[
-                                i]
-                            .name + '</option>')
+                        $('#recruiter').append('<option value="' + res.user_recruiter[i].id + '">' +
+                            res.user_recruiter[i].name + '</option>')
                     }
                     for (let i = 0; i < res.client.options.length; i++) {
-                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' + res.client
-                            .options[i]
-                            .option_name + '</option>')
+                        $('#client').append('<option value="' + res.client.options[i].option_name + '">' +
+                            res.client.options[i].option_name + '</option>')
                     }
                     for (let i = 0; i < res.address.length; i++) {
                         if (res.address[i].address != '') {
-                            $('#residence').append('<option value="' + res.address[i].address + '">' + res.address[i]
-                                .address + '</option>')
+                            $('#residence').append('<option value="' + res.address[i].address + '">' +
+                                res.address[i].address + '</option>')
                         }
                     }
                     // for (let i = 0; i < res.remarks.options.length; i++) {
@@ -845,6 +943,18 @@
                     for (let i = 0; i < res.career.options.length; i++) {
                         $('#career_level').append('<option value="' + res.career.options[i].option_name + '">' +
                             res.career.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.appStatus.options.length; i++) {
+                        $('#appStatus').append('<option value="' + res.appStatus.options[i].option_name + '">' +
+                            res.appStatus.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.course.options.length; i++) {
+                        $('#course').append('<option value="' + res.course.options[i].option_name + '">' +
+                            res.course.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.certification.options.length; i++) {
+                        $('#certification').append('<option value="' + res.certification.options[i].option_name + '">' +
+                            res.certification.options[i].option_name + '</option>')
                     }
                     $('#loader1').hide()
                     console.log(domain_dp);
@@ -929,6 +1039,19 @@
             endo_start = $('#endo_start').val();
             endo_end = $('#endo_end').val();
             portal = $('#portal').val();
+
+            p_title = $('#p_title').val();
+            profile = $('#profile').val();
+            segment = $('#segment').val();
+            subSegment = $('#subSegment').val();
+            course = $('#course').val();
+            certification = $('#certification').val();
+            team = $('#team').val();
+            appStatus = $('#appStatus').val();
+            cname = $('#candidate').val();
+            min_salary = $('#min_salary').val();
+            max_salary = $('#max_salary').val();
+
             // $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
@@ -949,7 +1072,18 @@
                     type: "GET",
                     data: {
                         _token: token,
+                        min_salary: min_salary,
+                        max_salary: max_salary,
                         domain: domain,
+                        p_title: p_title,
+                        segment: segment,
+                        subSegment: subSegment,
+                        course: course,
+                        certification: certification,
+                        team: team,
+                        cname: cname,
+                        appStatus: appStatus,
+                        profile: profile,
                         recruiter: recruiter,
                         client: client,
                         residence: residence,

@@ -538,7 +538,6 @@
             .card {
                 flex-direction: inherit;
             }
-
         </style>
     @endsection
 
@@ -649,6 +648,23 @@
                                             <div class="row mx-0 pt-3 justify-content-center">
                                                 <div class="col-lg-6">
                                                     <div class="form-group mb-0">
+                                                        <label class="Label">Start Date (Onboarding)</label>
+                                                        <input type="date" id="ob_start" name="ob_start"
+                                                            class="w-100 users-input-S-C form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group mb-0">
+                                                        <label class="Label">End Date (Onboarding)</label>
+                                                        <input type="date" id="ob_end" name="ob_end"
+                                                            class="w-100 users-input-S-C form-control" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mx-0 pt-3 justify-content-center">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group mb-0">
                                                         <label class="Label-00">Start Date (Endo):</label>
                                                         <input type="date" id="endo_start" name="endo_start"
                                                             class="w-100 users-input-S-C form-control" />
@@ -705,7 +721,6 @@
 
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     @section('script')
-
         <script>
             select2Dropdown("select2_dropdown");
             $(document).ready(function() {
@@ -808,6 +823,8 @@
                 sift_end = $('#sifted_end').val();
                 endo_start = $('#endo_start').val();
                 endo_end = $('#endo_end').val();
+                ob_start = $('#ob_start').val();
+                ob_end = $('#ob_end').val();
                 //Calling Ajax
                 $.ajax({
                         url: "{{ route('extract-search-filter') }}",
@@ -824,6 +841,8 @@
                             endo_end: endo_end,
                             sift_start: sift_start,
                             sift_end: sift_end,
+                            ob_start: ob_start,
+                            ob_end: ob_end,
                             // searchKeyword: searchKeyword,
                         }
                     })

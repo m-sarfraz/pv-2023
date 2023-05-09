@@ -16,7 +16,7 @@ class Helper
     {
         return $data = DropDown::with([
             'options' => function ($q1) {
-                return $q1->orderBy('option_name');
+                return $q1->orderBy('option_name')->distinct('option_name');
             }])->where('type', $type)->first();
 
         // return $data = DropDown::with('options')->where('type', $type)->first();

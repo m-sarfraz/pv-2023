@@ -50,10 +50,10 @@
     $('#filteredJdlTable').on('click', 'tbody tr', function() {
         $('tr').removeClass('hover-primary1');
         $(this).addClass('hover-primary1');
-        let tdVal = $(this).children()[0];
-        var id = tdVal.innerHTML
-        Filter(this, id)
-        $('#exampleModal').modal('show');
+        // let tdVal = $(this).children()[0];
+        // var id = tdVal.innerHTML
+        // Filter(this, id)
+        // $('#exampleModal').modal('show');
     })
     $("th")
         .css({

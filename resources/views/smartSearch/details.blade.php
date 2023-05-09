@@ -206,7 +206,7 @@
                                                                             <i class="bi bi-telephone"></i>
                                                                         </span>
                                                                     </div>
-                                                                    <input type="text" class="form-control EmailInput-F"
+                                                                    <input type="number" class="form-control EmailInput-F"
                                                                         value="{{ $user->phone }}" name="CONTACT_NUMBER" />
                                                                     <div>
                                                                         <small class="text-danger"></small>
@@ -419,8 +419,8 @@
                                                                             Select Option
                                                                         </option>
                                                                         @foreach ($profile as $profileOption)
-                                                                            <option value="{{ $profileOption->id }}"
-                                                                                {{ ($user != null ? $user->candidate_profile == $profileOption->id : '') ? 'selected' : '' }}>
+                                                                            <option value="{{ $profileOption->c_profile_name }}"
+                                                                                {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
                                                                                 {{ $profileOption->c_profile_name }}
                                                                             </option>
                                                                         @endforeach
