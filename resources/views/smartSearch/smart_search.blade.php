@@ -847,6 +847,14 @@
             console.log('read')
             $('#candidate').select2({
                 minimumInputLength: 1,
+                data: function(params) {
+                    return {
+                        term: params.term,
+                        _type: 'query',
+                        q: params.q,
+                        finance: false // set the flag value to true or false as needed
+                    };
+                },
                 ajax: {
                     url: '{{ url('admin/showCandidateDropDown') }}',
                     dataType: 'json',

@@ -646,7 +646,6 @@ class RecordController extends Controller
             $endorsement =  Endorsement::where('id', $endo_id)->firstOrfail();
             $finance =  Finance::where('endorsement_id', $endo_id)->firstOrfail(); 
 
-
             // save data to candidate information table
             $CandidateInformation->last_name = $request->LAST_NAME;
             $CandidateInformation->middle_name = $request->MIDDLE_NAME;
@@ -655,7 +654,7 @@ class RecordController extends Controller
             $CandidateInformation->phone = $request->CONTACT_NUMBER;
             $CandidateInformation->gender = $request->GENDER;
             $CandidateInformation->address = $request->RESIDENCE;
-            $CandidateInformation->dob = $request->DATE_OF_BIRTH; 
+            $CandidateInformation->dob = $request->DATE_OF_BIRTH;
             $CandidateInformation->save();
 
             $CandidateEducation->educational_attain = $request->EDUCATIONAL_ATTAINTMENT;
@@ -672,7 +671,6 @@ class RecordController extends Controller
                 $CandidateEducation->certification = $certification;
             }
             $CandidateEducation->save();
-
 
             $CandidiatePosition->candidate_id = $CandidateInformation->id;
             $CandidiatePosition->candidate_profile = $request->CANDIDATES_PROFILE;
@@ -697,7 +695,6 @@ class RecordController extends Controller
                 $CandidiatePosition->cv = $fileName;
             }
             $CandidiatePosition->save();
-
 
             if (is_numeric(isset($request->Domainsegment))) {
                 $name = (DropDownOption::where('id', $request->Domainsegment)->first())->option_name;
@@ -740,7 +737,7 @@ class RecordController extends Controller
             $endorsement->site = $request->SITE;
             $endorsement->domain_endo = $request->DOMAIN_ENDORSEMENT;
             $endorsement->position_title = $request->POSITION_TITLE;
-            $endorsement->timestamp = time(); 
+            $endorsement->timestamp = time();
             $endorsement->interview_date = $request->INTERVIEW_SCHEDULE;
             $endorsement->rfp = $request->REASONS_FOR_NOT_PROGRESSING;
             $endorsement->career_endo = $request->CAREER_LEVEL;
@@ -750,10 +747,8 @@ class RecordController extends Controller
             $endorsement->remarks_for_finance = $request->REMARKS_FOR_FINANCE;
             $endorsement->saved_by = Auth::user()->id;
             $endorsement->category = $category;
- 
+
             $endorsement->save();
-
-
 
             $finance->candidate_id = $CandidateInformation->id;
             $finance->endorsement_id = $endorsement->id;
@@ -772,10 +767,6 @@ class RecordController extends Controller
             $finance->t_id = $recruiter[0];
             $finance->remarks_recruiter = 'Unbilled';
             $finance->save();
-
-
-
-
 
             // CandidateInformation::where('id', $c_id)->update([
             //     // 'first_name' => isset($name[0]) ? $name[0] : '',
@@ -934,7 +925,7 @@ class RecordController extends Controller
     // delete candidate data function
     public function deleteCandidateData(Request $request)
     {
-       
+
         try {
             if ($request->id) {
                 $data = explode('-', $request->id);
@@ -943,13 +934,13 @@ class RecordController extends Controller
                 $saved_by = $data[2];
                 $f_id = $data[3];
 
-                Endorsement::where( 'id', $e_id )->update([ 'is_deleted' => 1 ]);
-                Cipprogress::where('endorsement_id' , $e_id)->delete();
-                Finance::where( 'endorsement_id' , $e_id)->delete();
+                Endorsement::where('id', $e_id)->update(['is_deleted' => 1]);
+                Cipprogress::where('endorsement_id', $e_id)->delete();
+                Finance::where('endorsement_id', $e_id)->delete();
                 Helper::save_log('CANDIDATE_DELETED');
                 return response()->json(['success' => true, 'message' => 'Record Deleted Succesfully!']);
             }
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
@@ -957,10 +948,18 @@ class RecordController extends Controller
 
     public function showCandidate_nameDrpDown(Request $request)
     {
-        if ($request->has('q')) {
-            $search = $request->q;
+        // dd($request->all());
+        $search = $request->q;
+        if ($request->finance == false) {
             $data = DB::table('updated_view_record')
                 ->where('fullName', 'LIKE', "%$search%")->select('id', 'fullName')->distinct()
+                ->get();
+
+        } else {
+            $data = DB::table('updated_view_record')
+                ->where('fullName', 'LIKE', "%$search%")
+                ->where('remarks_for_finance', "Onboarded")
+                ->select('id', 'fullName')->distinct()
                 ->get();
         }
         return response()->json($data);

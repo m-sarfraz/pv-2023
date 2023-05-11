@@ -532,10 +532,10 @@ class FinanceController extends Controller
     public function appendFinanceOptions()
     {
         $arr = ['Offer accepted', 'Onboarded'];
-        $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
-            ->whereIn('remarks_for_finance', $arr)
-            ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))
-            ->orderBy('name', 'ASC')->get();
+        // $candidates = CandidateInformation::join('endorsements', 'candidate_informations.id', 'endorsements.candidate_id')
+        //     ->whereIn('remarks_for_finance', $arr)
+        //     ->select('candidate_informations.id as cid', DB::raw("CONCAT(IFNULL(candidate_informations.first_name ,''),' ',IFNULL(candidate_informations.middle_name ,''),' ',IFNULL(candidate_informations.last_name,'')) as name"))
+        //     ->orderBy('name', 'ASC')->get();
         $recruiter = User::where("type", 3)->orderBy('name', 'ASC')->get();
         $teams = DB::select("select * from roles order by name ASC");
         $appstatus = DB::select("select app_status from endorsements group by app_status");
@@ -543,7 +543,7 @@ class FinanceController extends Controller
         $client = DB::select('select distinct client from endorsements where client!="" order by client ASC;');
         $process = Helper::get_dropdown('process_status');
         return response()->json([
-            'candidates' => $candidates,
+            // 'candidates' => $candidates,
             'recruiter' => $recruiter,
             "teams" => $teams,
             "appstatus" => $appstatus,
@@ -741,6 +741,8 @@ class FinanceController extends Controller
     {
         $arr = explode('-', $id);
         // return $arr[0] . '-'. $arr[1] . '-'. $arr[2] ;
+        $candidate = CandidateInformation::where('id', $arr[0])->first();
+        $candidate = $candidate->first_name . ' ' .$candidate-> middle_name . ' ' . $candidate->last_name;
         $detail =
         //  DB::select('select `endorsements`.*, `finance`.*, `finance_detail`.* from `endorsements` inner join `finance`
         // on `finance`.`endorsement_id` = `endorsements`.`id` inner join `finance_detail`
@@ -772,6 +774,7 @@ class FinanceController extends Controller
         $team = $role;
         $data = [
             'detail' => $detail,
+            'candidate' => $candidate,
             'team' => $team,
             'fee' => $fee,
             'billAmount' => $billAmount,

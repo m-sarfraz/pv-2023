@@ -12,7 +12,7 @@
                             <form action="">
                                 <fieldset disabled="">
                                     <div class="row mb-1 ">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
                                                     Recruiter:
@@ -24,7 +24,18 @@
                                                     value="{{ $name != null ? $name->name : '' }}" placeholder="hires.." />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
+                                            <div class="form-group mb-0">
+                                                <label class="Label">
+                                                    Candidate's Name:
+                                                </label>
+
+                                                <input type="text" class="form-control users-input-S-C"
+                                                    value="{{ $candidate != null ? $candidate : '' }}"
+                                                    placeholder="hires.." />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
                                                     Career Level:
@@ -33,7 +44,7 @@
                                                     placeholder="Rev.." value="{{ $detail->career_endo }}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-3">
                                             <div class="form-group mb-0">
                                                 <label class="Label">
                                                     Onboarding Date:

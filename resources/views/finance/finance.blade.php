@@ -15,8 +15,8 @@
         }
 
         #fmtable1 td {
-            text-align: center; 
-            max-width: 40ch; 
+            text-align: center;
+            max-width: 40ch;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -24,7 +24,7 @@
 
         #fmtable td {
             text-align: center;
-            max-width: 40ch; 
+            max-width: 40ch;
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -535,6 +535,52 @@
             appendSummary(1)
             appendFilterOptions()
             // close 
+            setTimeout(() => {
+                // $('#candidate').select2({
+                //     minimumInputLength: 1,
+                //     ajax: {
+                //         url: '{{ url('admin/showCandidateDropDown') }}',
+                //         dataType: 'json', 
+                //         processResults: function(data) {
+                //             return {
+                //                 results: $.map(data, function(item) {
+                //                     return {
+                //                         text: item.fullName,
+                //                         id: item.id
+                //                     }
+                //                 })
+                //             };
+                //         },
+                //     },
+                // })
+                $('#candidate').select2({
+                    minimumInputLength: 1,
+                    ajax: {
+                        url: '{{ url('admin/showCandidateDropDown') }}',
+                        dataType: 'json',
+                        data: function(params) {
+                            return {
+                                term: params.term,
+                                _type: 'query',
+                                q: params.q,
+                                finance: true // set the flag value to true or false as needed
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        text: item.fullName,
+                                        id: item.id
+                                    }
+                                })
+                            };
+                        },
+                    },
+                })
+
+                console.log('calll');
+            }, 4000);
         });
         // close 
 
@@ -582,10 +628,10 @@
             // $(this).css('background-color','red')
             $('tr').removeClass('hover-primary1');
             $(this).addClass('hover-primary1');
-            let tdVal = $(this).children()[1];
-            var id = tdVal.innerHTML
-            // console.log('id is ' + id)
-            userDetail(this, id)
+            // let tdVal = $(this).children()[1];
+            // var id = tdVal.innerHTML
+            // // console.log('id is ' + id)
+            // userDetail(this, id)
         })
         // close 
         var option_table = '';
@@ -612,7 +658,7 @@
 
                 drawCallback: function(settings) {
                     $('.hidetrIDFinance').find('tr').each(function() {
-                        $(this).click(function() {
+                        $(this).dblclick(function() {
                             window.open($(this).attr('data-href'), '_blank');
                         });
                     });
@@ -713,11 +759,10 @@
                     var fromOB_view = JSON.parse(localStorage.getItem('from_ob'));
                     var toOB_view = JSON.parse(localStorage.getItem('to_ob'));
 
-                    for (let i = 0; i < res.candidates.length; i++) {
-                        $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
-                            res.candidates[i].name +
-                            '</option>')
-                    }
+                    // for (let i = 0; i < res.candidates.length; i++) {
+                    //     $('#candidate').append('<option  value="' + res.candidates[i].cid + '">' +
+                    //         res.candidates[i].name + '</option>')
+                    // }
                     for (let i = 0; i < res.recruiter.length; i++) {
                         $('#process').append('<option value="' + res.recruiter[i].id + '">' + res.recruiter[i]
                             .name + '</option>')
@@ -837,11 +882,12 @@
                 },
                 drawCallback: function(settings) {
                     $('.hidetrIDFinance').find('tr').each(function() {
-                        $(this).click(function() {
+                        $(this).dblclick(function() {
                             window.open($(this).attr('data-href'), '_blank');
                         });
                     });
                 },
+
                 initComplete: function(settings, json) {
                     // $('#searchKeyword').trigger('input');
                     if (json.searchKeyword != null) {

@@ -26,10 +26,10 @@
         // $(this).css('background-color','red')
         $('tr').removeClass('hover-primary1');
         $(this).addClass('hover-primary1');
-        let tdVal = $(this).children()[1];
-        var id = tdVal.innerHTML
-        // console.log('id is ' + id)
-        userDetail(this, id)
+        // let tdVal = $(this).children()[1];
+        // var id = tdVal.innerHTML
+        // // console.log('id is ' + id)
+        // userDetail(this, id)
     })
     // close 
     $(document).ready(function() {

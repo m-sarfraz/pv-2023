@@ -1005,6 +1005,14 @@
                 ajax: {
                     url: '{{ url('admin/showCandidateDropDown') }}',
                     dataType: 'json',
+                    data: function(params) {
+                        return {
+                            term: params.term,
+                            _type: 'query',
+                            q: params.q,
+                            finance: true // set the flag value to true or false as needed
+                        };
+                    },
                     processResults: function(data) {
                         return {
                             results: $.map(data, function(item) {
@@ -1868,13 +1876,13 @@
             // $('#searchKeyword').focus();
             // $('#recordTable_filter').hide('div');
             // $('#filteredTable_filter').hide('div');
-        //     let tableID = $('#filter_table_div').children().children().attr('id')
-        //     if (tableID == 'filteredTable_wrapper') {
-        //         countRecordFilter()
-        //     }
-        //     if (tableID == 'recordTable_wrapper') {
-        //         countRecord()
-        //     }
+            //     let tableID = $('#filter_table_div').children().children().attr('id')
+            //     if (tableID == 'filteredTable_wrapper') {
+            //         countRecordFilter()
+            //     }
+            //     if (tableID == 'recordTable_wrapper') {
+            //         countRecord()
+            //     }
         });
         // close
         // $('#recordTable').dataTable({
