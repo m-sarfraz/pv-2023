@@ -65,12 +65,14 @@
                         <option value="" {{ $user == null ? 'selected' : '' }} disabled>Select Option
                         </option>
                         @foreach ($endoType->options as $endoTypeOptions)
-                            @if ($endoTypeOptions->option_name != 'Endorsed')
-                                <option value="{{ $endoTypeOptions->option_name }}"
-                                    {{ $user != null ? ($user->type == $endoTypeOptions->option_name ? 'selected' : '') : '' }}>
-                                    {{ $endoTypeOptions->option_name }}
-                                </option>
+                            @if ($count > 1 && $endoTypeOptions->option_name == 'Endorsed')
+                                @continue
                             @endif
+
+                            <option value="{{ $endoTypeOptions->option_name }}"
+                                {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
+                                {{ $endoTypeOptions->option_name }}
+                            </option>
                         @endforeach
                     </select>
                     <div>
@@ -254,7 +256,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="form-group mb-0"> 
+                <div class="form-group mb-0">
                     @php
                         $ReasonForNotP = Helper::get_dropdown('reason_for_not_progressing');
                     @endphp

@@ -232,8 +232,7 @@
                                             Date Sifted:
                                         </label>
                                         <input type="date" name="DATE_SIFTED" value="{{ $user->date_shifted }}"
-                                            {{ $count > 1 ? 'readonly' : '' }}
-                                            class="form-control users-input-S-C" />
+                                            {{ $count > 1 ? 'readonly' : '' }} class="form-control users-input-S-C" />
                                         <div>
                                             <small class="text-danger"></small>
                                         </div>
@@ -666,6 +665,10 @@
                                         Option
                                     </option>
                                     @foreach ($endoType->options as $endoTypeOptions)
+                                        @if ($count > 1 && $endoTypeOptions->option_name == 'Endorsed')
+                                            @continue
+                                        @endif
+
                                         <option value="{{ $endoTypeOptions->option_name }}"
                                             {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
                                             {{ $endoTypeOptions->option_name }}

@@ -329,7 +329,8 @@
                                                                 <label class="Label">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED"   {{ $count > 1 ? 'readonly' : '' }}
+                                                                <input type="date" name="DATE_SIFTED"
+                                                                    {{ $count > 1 ? 'readonly' : '' }}
                                                                     value="{{ $user->date_shifted }}"
                                                                     class="form-control users-input-S-C" />
                                                                 <div>
@@ -769,6 +770,10 @@
                                                                 Option
                                                             </option>
                                                             @foreach ($endoType->options as $endoTypeOptions)
+                                                                @if ($count > 1 && $endoTypeOptions->option_name == 'Endorsed')
+                                                                    @continue
+                                                                @endif
+
                                                                 <option value="{{ $endoTypeOptions->option_name }}"
                                                                     {{ $user->type == $endoTypeOptions->option_name ? 'selected' : '' }}>
                                                                     {{ $endoTypeOptions->option_name }}
@@ -1872,7 +1877,7 @@
             data.append("endorsement_field", $endorsement);
             data.append("finance_field", $finance_field);
             data.append("rfp", $rfp);
-            data.append("interview_schedule", $interview_schedule);  
+            data.append("interview_schedule", $interview_schedule);
             data.append("checkDuplicate", checkDuplicate);
             // call Ajax whihc will return view of detail data of user
             $.ajax({
