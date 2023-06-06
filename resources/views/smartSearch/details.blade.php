@@ -329,7 +329,7 @@
                                                                 <label class="Label">
                                                                     Date Sifted:
                                                                 </label>
-                                                                <input type="date" name="DATE_SIFTED"
+                                                                <input type="date" name="DATE_SIFTED"   {{ $count > 1 ? 'readonly' : '' }}
                                                                     value="{{ $user->date_shifted }}"
                                                                     class="form-control users-input-S-C" />
                                                                 <div>

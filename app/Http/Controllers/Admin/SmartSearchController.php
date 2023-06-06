@@ -657,7 +657,7 @@ class SmartSearchController extends Controller
                 'revenue' => 0,
                 'spr' => 0,
                 'activeSPR' => 0,
-                'salary' => 0, 
+                'salary' => 0,
                 'total' => 0,
                 'unique' => 0,
             ];
@@ -770,8 +770,10 @@ class SmartSearchController extends Controller
             $finance_remark = $financeDetail->remarks;
             $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
             $title = $user->position_title;
+            $count = count($number_of_endorsements);
             $data = [
                 'title' => $title,
+                'count' => $count,
                 'finance_remark' => $finance_remark,
                 'financeDetail' => $financeDetail,
                 'domainDrop' => $domainDrop,

@@ -115,8 +115,8 @@
                                                     <i class="bi bi-telephone"></i>
                                                 </span>
                                             </div>
-                                            <input type="number" min="0" class="form-control EmailInput-F" min= "0"
-                                                value="{{ $user->phone }}" name="CONTACT_NUMBER" />
+                                            <input type="number" min="0" class="form-control EmailInput-F"
+                                                min="0" value="{{ $user->phone }}" name="CONTACT_NUMBER" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -154,7 +154,8 @@
                                         $eduAttainment = Helper::get_dropdown('educational_attainment');
                                         ?>
 
-                                        <select name="EDUCATIONAL_ATTAINTMENT" onchange="EducationalAttainChange(this)"
+                                        <select name="EDUCATIONAL_ATTAINTMENT"
+                                            onchange="EducationalAttainChange(this)"
                                             class=" form-control p-0 EmailInput-F" id="EDUCATIONAL_ATTAINTMENT">
                                             <option value="" {{ $user == null ? 'selected' : '' }} disabled>
                                                 select
@@ -184,11 +185,11 @@
                                             <option value="" {{ $user->course == null ? 'selected' : '' }}>
                                             </option>
                                             @foreach ($course->options as $courseOptions)
-                                            <option value="{{ strtoupper($courseOptions->option_name) }}"
-                                                @if ($user->course != null) {{ strtoupper($courseOptions->option_name) == strtoupper($user->course) ? 'selected' : '' }} @endif>
-                                                {{ strtoupper($courseOptions->option_name) }}
-                                            </option>
-                                        @endforeach
+                                                <option value="{{ strtoupper($courseOptions->option_name) }}"
+                                                    @if ($user->course != null) {{ strtoupper($courseOptions->option_name) == strtoupper($user->course) ? 'selected' : '' }} @endif>
+                                                    {{ strtoupper($courseOptions->option_name) }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         <div>
                                             <small class="text-danger"></small>
@@ -231,6 +232,7 @@
                                             Date Sifted:
                                         </label>
                                         <input type="date" name="DATE_SIFTED" value="{{ $user->date_shifted }}"
+                                            {{ $count > 1 ? 'readonly' : '' }}
                                             class="form-control users-input-S-C" />
                                         <div>
                                             <small class="text-danger"></small>
@@ -305,12 +307,10 @@
                                                 Candidate’s Profile
                                             </label>
                                             <select name="CANDIDATES_PROFILE" id="candidate_profile"
-                                                onchange="traverseData()"
-                                                class="select2_dropdown w-100"
+                                                onchange="traverseData()" class="select2_dropdown w-100"
                                                 class="form-control p-0 users-input-S-C">
-                                                <option value=""
-                                                    {{ $user == null ? 'selected' : '' }}
-                                                    disabled>Select Option
+                                                <option value="" {{ $user == null ? 'selected' : '' }} disabled>
+                                                    Select Option
                                                 </option>
                                                 @foreach ($profile as $profileOption)
                                                     <option value="{{ $profileOption->c_profile_name }}"
@@ -484,9 +484,8 @@
                                                 Offered Allowance:
                                             </label>
                                             <input type="number" name="OFFERED_ALLOWANCE" id="off_allowance"
-                                                value="{{ $user->off_allowance }}"
-                                                oninput="SalaryAppend('#remarks')" disabled=""
-                                                class="form-control users-input-S-C" />
+                                                value="{{ $user->off_allowance }}" oninput="SalaryAppend('#remarks')"
+                                                disabled="" class="form-control users-input-S-C" />
                                             <div>
                                                 <small class="text-danger"></small>
                                             </div>
@@ -712,7 +711,7 @@
                                     <label class="d-block font-size-3 mb-0">
                                         Date Processed:
                                     </label>
-                                    <input type="date" name="DATE_ENDORSED"  id="endo_date"
+                                    <input type="date" name="DATE_ENDORSED" id="endo_date"
                                         onchange="changeOnboardingDate()" class="form-control border h-px-20_custom"
                                         value="{{ $user->endi_date }}" />
                                     <div>
@@ -789,8 +788,8 @@
                                     @php
                                         $remarks = Helper::get_dropdown('remarks_for_finance');
                                     @endphp
-                                    <option value=""
-                                        {{ $user->remarks_for_finance == null ? 'selected' : '' }} disabled>
+                                    <option value="" {{ $user->remarks_for_finance == null ? 'selected' : '' }}
+                                        disabled>
                                         Select Option</option>
                                     @foreach ($remarks->options as $remarksOptions)
                                         <option value="{{ $remarksOptions->option_name }}"
@@ -880,7 +879,7 @@
                                     @foreach ($ReasonForNotP->options as $ReasonForNotPOptions)
                                         {{ $user->rfp == $ReasonForNotP->option_name ? 'selected' : '' }}>
                                         <option value="{{ $ReasonForNotPOptions->option_name }}"
-                                            {{ $user != null ? ($user->rfp != null ? (strtolower($user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '') : ''):'' }}>
+                                            {{ $user != null ? ($user->rfp != null ? (strtolower($user->rfp) == strtolower($ReasonForNotPOptions->option_name) ? 'selected' : '') : '') : '' }}>
                                             {{ $ReasonForNotPOptions->option_name }}
                                         </option>
                                     @endforeach
@@ -1527,5 +1526,4 @@
         });
     }
     traverseData()
-
 </script>

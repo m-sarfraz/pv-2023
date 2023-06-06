@@ -36,6 +36,7 @@ class CandidateController extends Controller
         $profile = Helper::get_dropdown('candidates_profile');
         $candidateDetail = null;
         $number_of_endorsements = 0;
+        $count = 0;
         if (isset($_GET['id'])) {
             $candidateDetail = CandidateInformation::join('candidate_educations', 'candidate_informations.id', 'candidate_educations.candidate_id')
                 ->join('candidate_positions', 'candidate_informations.id', 'candidate_positions.candidate_id')
@@ -57,6 +58,7 @@ class CandidateController extends Controller
                 'is_deleted' => 0,
             ])->get();
             // return $number_of_endorsements;
+            $count = count($number_of_endorsements);
         }
         // $user = DB::table('candidate_informations')->select('id', 'last_name')->where('saved_by', Auth::user()->id)->get();
 
@@ -68,6 +70,7 @@ class CandidateController extends Controller
         // return $sub_segmentsDropDown;
         $data = [
             // 'user' => $user,
+            'count' => $count,
             'domainDrop' => $domainDrop,
             'segmentsDropDown' => $segmentsDropDown,
             'candidateDetail' => $candidateDetail,
@@ -110,7 +113,7 @@ class CandidateController extends Controller
                 // "SEGMENT" => 'required ',
                 // "SUB_SEGMENT" => 'required ',
                 "POSITION_TITLE_APPLIED" => 'required ',
-                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
+                "DATE_ENDORSED" => "required|date|after:1970-01-01",
                 // // "DATE_INVITED" => 'required ',
                 // "MANNER_OF_INVITE" => 'required ',
                 // "CURRENT_SALARY" => 'required ',
@@ -193,7 +196,7 @@ class CandidateController extends Controller
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
-                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
+                "DATE_ENDORSED" => "required|date|after:1970-01-01",
                 // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
@@ -828,6 +831,7 @@ class CandidateController extends Controller
             ->where(['candidate_informations.id' => $str_arr[0], 'endorsements.numberofEndo' => $endoID, 'endorsements.saved_by' => Auth::user()->id])
             ->first();
         // return $user;
+        $count = count($number_of_endorsements);
         $financeDetail = DB::table('finance_detail')->where('finance_id', $user->f_id)->first();
         $finance_remark = $financeDetail->remarks;
         $inputDetail = $user->last_name . '-' . $user->candidate_profile . '-' . $user->client . '-' . $user->endi_date;
@@ -840,6 +844,7 @@ class CandidateController extends Controller
             'user' => $user,
             'number' => $endoID,
             'number_of_endorsements' => $number_of_endorsements,
+            'count' => $count,
             // 'segmentsDropDown' => $segmentsDropDown,
             // 'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'inputDetail' => $inputDetail,
@@ -890,7 +895,7 @@ class CandidateController extends Controller
                 // "EXPECTED_SALARY" => 'required ',
                 // "OFFERED_SALARY" => 'required ',
                 // "OFFERED_ALLOWANCE" => 'required ',
-                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
+                "DATE_ENDORSED" => "required|date|after:1970-01-01",
             ];
             $status = Str::lower($request->APPLICATION_STATUS);
             if (str_contains($status, 'active') || str_contains($status, 'to be')) {
@@ -966,7 +971,7 @@ class CandidateController extends Controller
                 "POSITION_TITLE_APPLIED" => 'required ',
                 // // "DATE_INVITED" => 'required ',
                 "MANNER_OF_INVITE" => 'required ',
-                "DATE_ENDORSED" => "required|date|after:1970-01-01", 
+                "DATE_ENDORSED" => "required|date|after:1970-01-01",
                 // "CURRENT_SALARY" => 'required ',
                 // "file" => 'required ',
                 // "CURRENT_ALLOWANCE" => 'required ',
@@ -1334,7 +1339,7 @@ class CandidateController extends Controller
             $request->position == null;
             // $profile = Profile::findOrFail($request->c_profile);
             $profile = Profile::whereRaw('LOWER(REPLACE(c_profile_name, " ", "")) = ?', [strtolower(str_replace(" ", "", $request->c_profile))])
-            ->firstOrFail();
+                ->firstOrFail();
             if ($profile->subSegment) {
 
                 $subSegmentName = $profile->subSegment->sub_segment_name;
@@ -1458,7 +1463,7 @@ class CandidateController extends Controller
                 'sub_segmentsDropDown' => $sub_segmentsDropDown,
             ];
             return response()->view('data_entry.endo_detail', $data);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 

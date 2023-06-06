@@ -396,7 +396,7 @@
                                                                 </label>
                                                                 <input type="date" name="DATE_SIFTED"
                                                                     placeholder="mm-dd-yyyy"
-                                                                    {{$candidateDetail != null ? 'readonly' : ''}}
+                                                                    {{ $count > 1 ? 'readonly' : '' }}
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->date_shifted : '' }}"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
@@ -487,7 +487,8 @@
                                                                         disabled>Select Option
                                                                     </option>
                                                                     @foreach ($profile as $profileOption)
-                                                                        <option value="{{ $profileOption->c_profile_name }}"
+                                                                        <option
+                                                                            value="{{ $profileOption->c_profile_name }}"
                                                                             {{ ($candidateDetail != null ? $candidateDetail->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
                                                                             {{ $profileOption->c_profile_name }}
                                                                         </option>
@@ -639,7 +640,7 @@
                                                                 <input type="number" name="OFFERED_SALARY" disabled
                                                                     id="off_salary"
                                                                     value="{{ $candidateDetail != null ? $candidateDetail->off_salary : '' }}"
-                                                                     oninput="SalaryAppend('#remarks')"
+                                                                    oninput="SalaryAppend('#remarks')"
                                                                     class="form-control users-input-S-C" />
                                                             </div>
                                                         </div>
@@ -859,9 +860,8 @@
                                                         <label class="d-block font-size-3 mb-0 labelFontSize">
                                                             Date Processed:
                                                         </label>
-                                                        <input type="date" name="DATE_ENDORSED" 
-                                                            id="endo_date" placeholder="mm-dd-yyyy"
-                                                            onchange="changeOnboardingDate()"
+                                                        <input type="date" name="DATE_ENDORSED" id="endo_date"
+                                                            placeholder="mm-dd-yyyy" onchange="changeOnboardingDate()"
                                                             class="form-control border h-px-20_custom" />
                                                     </div>
                                                 </div>
@@ -1578,7 +1578,7 @@
                 tap = 1;
                 cid = queryStr[1]
             }
-            if ($('#user').val() != null && window.location.href.indexOf("id") == -1 ) { 
+            if ($('#user').val() != null && window.location.href.indexOf("id") == -1) {
                 cid = $('#user').val();
                 tap = 0;
             }
@@ -2230,13 +2230,13 @@
 
                         $('#domain').append(
                             `<option selected value="${res.data.domainName}">${res.data.domainName}</option>`
-                            );
+                        );
                         $('#Domainsegment').append(
                             `<option selected value="${res.data.segmentName}">${res.data.segmentName}</option>`
-                            );
+                        );
                         $('#Domainsub').append(
                             `<option selected value="${res.data.subSegmentName}">${res.data.subSegmentName}</option>`
-                            );
+                        );
 
 
                         // $('#domain_endo').append(
@@ -2353,7 +2353,7 @@
 
                 // SPRCalculator()
                 let value = $('#career').val();
-                let value2 = $('#client').val(); 
+                let value2 = $('#client').val();
                 $('#client_finance').append(`<option selected value="${value2}">
                                        ${value2}
                                   </option>`);
