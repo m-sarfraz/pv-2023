@@ -213,6 +213,7 @@
                 //     $("select[name='sec_dropdown_id']").prop('hidden', true);
 
                 $("#loader").show();
+                console.log(dropdownType);
                 load_datatable(dropdownType);
                 $("#loader").hide();
             }

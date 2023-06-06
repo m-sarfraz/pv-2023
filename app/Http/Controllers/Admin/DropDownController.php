@@ -28,7 +28,7 @@ class DropDownController extends Controller
     }
     public function show_dropdown_form()
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title' ])->get();
+        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level', 'position_title'])->get();
 
         return view('dropdown.add_dropdown', compact('dropdowns'));
     }
@@ -92,13 +92,13 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title'])->get();
+        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level', 'position_title'])->get();
 
         return view('dropdown.add_options', compact('dropdowns'));
     }
     public function ajax_view_dropdown(Request $request)
     {
-        $dropdowns =   DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile','career_level','position_title'])->get();
+        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level', 'position_title'])->get();
         return Datatables::of($dropdowns)
             ->addColumn('name', function ($dropdowns) {
                 return $dropdowns->name;
@@ -207,6 +207,9 @@ class DropDownController extends Controller
                 if ($request->drop_down_type == 'process_status') {
                     $check = DB::table('finance_detail')->where('process_status', $view_options->option_name)->first();
                 }
+                if ($request->drop_down_type == 'clientClassification') {
+                    $check = DB::table('jdl')->where('client_classification', $view_options->option_name)->first();
+                }
                 $b = '';
                 if ($view_options->status == 1) {
                     $statusColor = 'btn-success';
@@ -229,13 +232,13 @@ class DropDownController extends Controller
                     $route = Route("delete-option");
 
                     $function = 'delete_data(this,"' . $route . '")';
-                    
+
                     $route2 = Route("update-option");
                     $edit = 0;
                     $function2 = 'update_data(this,"' . $route2 . '","' . $edit . '")';
                     $b .= '<button id="option_edit" onclick=' . $function2 . '  data-id="' . $view_options->id . '-' . $request->drop_down_type . '" class="btn ml-2 btn-primary bi bi-pencil-square border-0">     </button>';
                     $b .= '<button onclick=' . $function . '  data-id="' . $view_options->id . '" class= "btn btn-danger ml-3 border-2 mr-3 bi bi-trash"> </button>';
-                   
+
                     $b .= '<button onclick="change_status(this);" data-status="' . $view_options->status . '" data-id="' . $view_options->id . '" class="btn ' . $statusColor . ' border-0  "  >' . $statusText . '</button>';
                     // $b .= '<button  disalbed class= "btn btn-danger border-2 mr-3">Delete</button>';
                 }
@@ -249,6 +252,7 @@ class DropDownController extends Controller
             ->rawColumns(['option_name', 'action'])
             ->make(true);
     }
+
     public function change_status(Request $request)
     {
         if ($request->status == 0) {

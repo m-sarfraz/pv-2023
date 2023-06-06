@@ -252,3 +252,44 @@ update query for tap and recruiter
 
 UPDATE endorsements SET origionalRecruiterName = (SELECT name FROM users WHERE users.id = endorsements.origionalRecruiter),
     tapName = (SELECT name FROM users WHERE users.id = endorsements.tap);
+
+ ------------------------------------------------
+JDL VIew
+-----------------------------------------------
+
+ CREATE VIEW jdl_extract_view AS
+ SELECT jdl.priority as PRIORITY, 
+ jdl.assignment as ASSIGNMENT,
+ jdl.status as STATUS,
+ jdl.req_date as 'REQUIREMENT DATE',
+ jdl.maturity as MATURITY,
+ jdl.updated_date as 'UPDATED DATE',
+ jdl.closed_date as 'CLOSED DATE',
+ jdl.os_date as 'OLD SHARED DATE',
+ jdl.client  as CLIENT,
+ jdl.domain  as DOMAIN,
+ jdl.segment  as SEGMENT,
+ jdl.subsegment  as SUBSEGMENT,
+ jdl.p_title  as 'POSITION TITLE',
+ jdl.c_level  as 'CAREER LEVEL',
+ jdl.sll_no  as 'SLL NO.',
+ jdl.t_fte as 'TOTAL FTE',
+ jdl.location as 'LOCATION',
+ jdl.updated_fte as 'UPDATED FTE',
+ jdl.jd as 'JOB DESCRIPTION',
+ jdl.edu_attainment  as 'EDUCATIONAL ATTAINMENT',
+ jdl.w_schedule  as 'WORK SCHEDULE',
+ jdl.budget as BUDGET,
+ jdl.poc as 'RECRUITMENT PROCESS/POC',
+ jdl.note as NOTES,
+ jdl.start_date as 'START DATE',
+ jdl.keyword  as 'KEYWORD(overlapping)',
+ jdl.recruiter  as RECRUITER,
+ jdl.classification as CLASSIFICATION,
+ jdl.req_classification as 'REQUIREMENT CLASSIFICATION',
+ jdl.client_classification as 'CLIENT CLASSIFICATION',
+ jdl.req_id as 'REQUISITION ID #',
+ jdl.numberOfActive as '# OF ACTIVE ENDO',
+ jdl.numberOfInactive as '# OF INACTIVE ENDO',
+ jdl.turn_around as 'TURN AROUND TIME'  
+ FROM jdl

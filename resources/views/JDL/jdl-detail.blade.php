@@ -28,85 +28,12 @@
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 @php
-                                    $position_title = Helper::get_dropdown('position_title');
-                                    $status = Helper::get_dropdown('status');
-                                @endphp
-                                <label class="Label">
-                                    Position Title
-                                </label>
-                                {{-- <input type="text" class="form-control users-input-S-C" value="{{ $user->p_title }}" /> --}}
-                                <select id="position" name="p_title"
-                                    class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" {{ $user->p_title == null ? 'selected' : '' }} disabled>
-                                        Select Option</option>
-                                    @foreach ($position_title->options as $position_titleOptions)
-                                        <option value="{{ $position_titleOptions->option_name }}"
-                                            {{ $user->p_title == $position_titleOptions->option_name ? 'selected' : '' }}>
-                                            {{ $position_titleOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="Label">Priority</label>
-                                <input type="text" name="priority" class="form-control users-input-S-C"
-                                    value="{{ $user->priority }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="Label"> FTE:</label>
-                                <input type="text" name="t_fte" class="form-control users-input-S-C"
-                                    value="{{ $user->t_fte }}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="Label">
-                                    Updated FTE
-                                </label>
-                                <input type="text" class="form-control users-input-S-C" name="updated_fte"
-                                    value="{{ $user->updated_fte }}" />
-
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="Label">Ref-Code</label>
-                                <input type="text" class="form-control users-input-S-C" name="ref_code"
-                                    value="{{ $user->ref_code }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label for="" class="Label labelFontSize mt-3">Status</label>
-                                <select name="status" id="status" class="select2_dropdown w-100 form-control">
-                                    @foreach ($status->options as $render_status)
-                                        <option value="{{ $render_status->option_name }}"
-                                            {{ $user->status == $render_status->option_name ? 'selected' : '' }}>
-                                            {{ $render_status->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="Label">No of Endo:</label>
-                                <input type="text" class="form-control users-input-S-C" disabled
-                                    value={{ $endorsmentCount }} />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                @php
                                     $client = Helper::get_dropdown('clients');
+                                    $classification = Helper::get_dropdown('classification');
+                                    $status = Helper::get_dropdown('status');
+                                    $position_title = Helper::get_dropdown('position_title');
+                                    $reqClassification = Helper::get_dropdown('reqClassification');
+                                    $recruiter = App\User::where('type', '3')->get();
                                 @endphp
                                 <label class="d-block font-size-3 mb-0">
                                     Client:
@@ -125,9 +52,157 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
+                                <label class="Label">
+                                    Classification
+                                </label>
+                                <select name="classification" id="classification"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100 select2-hidden-accessible">
+                                    @foreach ($classification->options as $classificationOptions)
+                                        <option value="{{ $classificationOptions->option_name }}"
+                                            {{ $user->classification == $classificationOptions->option_name ? 'selected' : '' }}>
+                                            {{ $classificationOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Status
+                                </label>
+                                <select name="status" id="status"
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100 select2-hidden-accessible">
+                                    @foreach ($status->options as $statusOptions)
+                                        <option value="{{ $statusOptions->option_name }}"
+                                            {{ $user->status == $statusOptions->option_name ? 'selected' : '' }}>
+                                            {{ $statusOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Position Title
+                                </label>
+                                <select id="position" name="p_title"
+                                    class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" {{ $user->p_title == null ? 'selected' : '' }} disabled>
+                                        Select Option</option>
+                                    @foreach ($position_title->options as $position_titleOptions)
+                                        <option value="{{ $position_titleOptions->option_name }}"
+                                            {{ $user->p_title == $position_titleOptions->option_name ? 'selected' : '' }}>
+                                            {{ $position_titleOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Requirement Classification
+                                </label>
+                                <select id="reqClassification" name="req_classification"
+                                    class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option value="" {{ $user->req_classification == null ? 'selected' : '' }}
+                                        disabled> Select Option</option>
+                                    @foreach ($reqClassification->options as $reqClassificationOptions)
+                                        <option value="{{ $reqClassificationOptions->option_name }}"
+                                            {{ $user->req_classification == $reqClassificationOptions->option_name ? 'selected' : '' }}>
+                                            {{ $reqClassificationOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Keyword
+                                </label>
+                                <input type="text" name="keyword" class="form-control users-input-S-C"
+                                    value="{{ $user->keyword }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="d-block font-size-3 mb-0">
+                                    Updated FTE:
+                                </label>
+                                <input type="text" name="updated_fte" class="form-control border h-px-20_custom"
+                                    value="{{ $user->updated_fte }}" />
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    # of Active endo
+                                </label>
+                                <input type="text" class="form-control users-input-S-C" value="" readonly <input
+                                    type="text" class="form-control users-input-S-C" value="" id="active_endo" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    # of Inactive endo
+                                </label>
+                                <input type="text" class="form-control users-input-S-C" value="" readonly
+                                    id="inactive_endo" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-1">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                @php
+                                    $CareerLevel = Helper::get_dropdown('career_level');
+                                @endphp
+                                <label class="d-block font-size-3 mb-0">
+                                    Career Level
+                                </label>
+                                {{-- <input type="text" class="form-control users-input-S-C"
+                                    value="{{ $user->c_level }}" /> --}}
+                                <select name="c_level" id="c_level"
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+
+                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
+                                        <option value="{{ $CareerLevelOptions->option_name }}"
+                                            {{ $user->c_level == $CareerLevelOptions->option_name ? 'selected' : '' }}>
+                                            {{ $CareerLevelOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
                                 <label class="Label">SLL No:</label>
-                                <input type="text" class="form-control users-input-S-C" name="sll_no"
+                                <input type="text" name="sll_no" class="form-control users-input-S-C"
                                     value="{{ $user->sll_no }}" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">Requisition ID #</label>
+                                <input type="text" class="form-control users-input-S-C" value="{{ $user->req_id }}"
+                                    name="req_id" />
                             </div>
                         </div>
 
@@ -166,7 +241,7 @@
                                 </label>
                                 {{-- <input type="text" class="form-control users-input-S-C" value="{{ $user->segment }}" /> --}}
                                 <select id="segment" name="segment" onchange="endoSegmentChange('#segment')"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option class="selectedOption" selected disabled>
                                         Select Option</option>
                                     @foreach ($segments as $segmentsOptions)
@@ -182,7 +257,10 @@
                             @php
                                 $subSegments = App\SubSegment::get();
                                 $edu_attain = Helper::get_dropdown('educational_attainment');
-                                
+                                $priority = Helper::get_dropdown('priority');
+                                $assignment = Helper::get_dropdown('assignment');
+                                $location = Helper::get_dropdown('location');
+                                $work_schedule = Helper::get_dropdown('work_schedule');
                             @endphp
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
@@ -191,7 +269,7 @@
                                 {{-- <input type="text" class="form-control users-input-S-C"
                                     value="{{ $user->subsegment }}" /> --}}
                                 <select id="subsegment" name="subsegment"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option class="selectedOption" selected disabled>
                                         Select Option</option>
                                     @foreach ($subSegments as $subSegmentsOptions)
@@ -207,11 +285,96 @@
                     <div class="row mb-1">
                         <div class="col-lg-4">
                             <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    Keyword
+                                <label class="Label">Priority</label>
+                                <select id="priority" name="priority"
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option class="selectedOption" selected disabled>
+                                        Select Option</option>
+                                    @foreach ($priority->options as $priorityOptions)
+                                        <option value="{{ $priorityOptions->option_name }}"
+                                            {{ $user->priority == $priorityOptions->option_name ? 'selected' : '' }}>
+                                            {{ $priorityOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">Assignment</label>
+                                <select id="assignment" name="assignment"
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option class="selectedOption" selected disabled>
+                                        Select Option</option>
+                                    @foreach ($assignment->options as $assignmentOptions)
+                                        <option value="{{ $assignmentOptions->option_name }}"
+                                            {{ $user->assignment == $assignmentOptions->option_name ? 'selected' : '' }}>
+                                            {{ $assignmentOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">Maturity</label>
+                                <input type="text" name="maturity" class="form-control users-input-S-C" readonly
+                                    value="{{ $user->maturity }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">Budget:</label>
+                                <input type="text" class="form-control users-input-S-C" name="budget"
+                                    value="{{ $user->budget }}" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">Location:</label>
+                                <select id="location" name="location"
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option class="selectedOption" selected disabled>
+                                        Select Option</option>
+                                    @foreach ($location->options as $locationOptions)
+                                        <option value="{{ $locationOptions->option_name }}"
+                                            {{ $user->location == $locationOptions->option_name ? 'selected' : '' }}>
+                                            {{ $locationOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Educational Attainment:
                                 </label>
-                                <input type="text" class="form-control users-input-S-C" name="keyword"
-                                    value="{{ $user->keyword }}" />
+                                <input type="text" class="form-control users-input-S-C" name="edu_attainment"
+                                    value="{{ $user->edu_attainment }}" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="Label">
+                                    Work Schedule:
+                                </label>
+                                <select id="w_schedule" name="w_schedule"
+                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                    <option class="selectedOption" selected disabled>
+                                        Select Option</option>
+                                    @foreach ($work_schedule->options as $work_scheduleOptions)
+                                        <option value="{{ $work_scheduleOptions->option_name }}"
+                                            {{ $user->w_schedule == $work_scheduleOptions->option_name ? 'selected' : '' }}>
+                                            {{ $work_scheduleOptions->option_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -220,173 +383,87 @@
                                     Start Date
                                 </label>
                                 <input type="date" class="form-control users-input-S-C" name="start_date"
-                                    value="{{ $user->start_date ? date('Y-m-d', strtotime($user->start_date)) : '' }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                @php
-                                    $CareerLevel = Helper::get_dropdown('career_level');
-                                @endphp
-                                <label class="d-block font-size-3 mb-0">
-                                    Career Level
-                                </label>
-                                {{-- <input type="text" class="form-control users-input-S-C"
-                                    value="{{ $user->c_level }}" /> --}}
-                                <select name="c_level" id="c_level"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-
-                                    @foreach ($CareerLevel->options as $CareerLevelOptions)
-                                        <option value="{{ $CareerLevelOptions->option_name }}"
-                                            {{ $user->c_level == $CareerLevelOptions->option_name ? 'selected' : '' }}>
-                                            {{ $CareerLevelOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    Requirement Date
-                                </label>
-                                <input type="date" class="form-control users-input-S-C" name="req_date"
-                                    value="{{ $user->req_date ? date('Y-m-d', strtotime($user->req_date)) : '' }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    Close Date
-                                </label>
-                                <input type="date" class="form-control users-input-S-C" name="closed_date"
-                                    value="{{ $user->closed_date ? date('Y-m-d', strtotime($user->closed_date)) : '' }}" />
+                                    value="{{ $user->start_date }}" />
                             </div>
                         </div>
                         <div class="col-lg-4">
 
-                            <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
-                                    OS Date
-                                </label>
-                                <input type="date" class="form-control users-input-S-C" name="os_date"
-                                    value="{{ $user->os_date ? date('Y-m-d', strtotime($user->os_date)) : '' }}" />
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <label class="Label">Location:</label>
-                                <input type="text" class="form-control users-input-S-C" name="location"
-                                    value="{{ $user->location }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <label class="Label">
-                                    Work Schedule:
-                                </label>
-                                <input type="text" class="form-control users-input-S-C" name="w_schedule"
-                                    value="{{ $user->w_schedule }}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-1">
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <label class="Label">Budget:</label>
-                                <input type="text" class="form-control users-input-S-C" name="budget"
-                                    value="{{ $user->budget }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group mb-0">
-                                <label class="Label">
-                                    Educational Background:
-                                </label>
-
-                                <select id="edu_attainment" name="edu_attainment"
-                                    class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                    <option value="" class="selectedOption" selected disabled>
-                                        Select Option
-                                    </option>
-                                    @foreach ($edu_attain->options as $edu_attainOptions)
-                                        <option value="{{ $edu_attainOptions->option_name }}"
-                                            {{ $user->edu_attainment == $edu_attainOptions->option_name ? 'selected' : '' }}>
-                                            {{ $edu_attainOptions->option_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
                     </div>
                     <div class="row mb-1">
                         <div class="col-lg-12">
                             <div class="form-group mb-0">
-                                <label class="d-block font-size-3 mb-0">
+                                <label class="d-block font-size-3 mb-0 ">
                                     Job Description &amp; Work Experience:
                                 </label>
                                 <textarea name="jd" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                    placeholder="Job Description &amp; Work Experience">{{ $user->jd }}</textarea>
+                                    placeholder="Write Job Description &amp; Work Experience Here">{{ $user->jd }}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
                                     Recruitment Process:
                                 </label>
-                                <textarea name="poc" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                    placeholder="Recruitment Process">{{ $user->poc }}</textarea>
+                                <input name="poc" type="text" class="form-control border"
+                                    placeholder="Write Recruitment Process Here" value="{{ $user->poc }}" />
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
                                     Notes:
                                 </label>
-                                <textarea name="note" rows="3" type="text" class="form-control border E_H h-px-20_custom"
-                                    placeholder=" Interview Notes">{{ $user->note }}</textarea>
+                                <input name="note" type="text" class="form-control border"
+                                    placeholder="Write Interview Notes Here" value="{{ $user->note }}" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="d-block font-size-3 mb-0">
+                                    Client Spiel
+                                </label>
+                                <input name="client_spiel" type="text" class="form-control border"
+                                    placeholder="Write Client Spiel Here" value="{{ $user->client_spiel }}" />
                             </div>
                         </div>
                     </div>
                     <div class="row mb-1">
-                        @php
-                            $recruiters = explode(',', $user->recruiter);
-                            $recruiter = App\User::where('type', '3')->get();
-                            
-                        @endphp
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                    Assigned Recruiters:
+                                    Recruiters:
                                 </label>
-                                <select name="recruiter[]" id="recruiter" multiple
+                                <select name="recruiter" id="recruiter"
                                     class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
 
                                     @foreach ($recruiter as $recruiterOptions)
                                         <option value="{{ $recruiterOptions->id }}"
-                                            @foreach ($recruiters as $key => $value)  
-                                                {{ $recruiterOptions->id == $value ? 'selected' : '' }} @endforeach>
+                                            {{ $user->recruiter == $recruiterOptions->id ? 'selected' : '' }}>
                                             {{ $recruiterOptions->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div class="form-group mb-0">
                                 <label class="d-block font-size-3 mb-0">
-                                    Updated Date:
+                                    Date Updated:
                                 </label>
                                 <input type="date" name="updated_date" class="form-control border h-px-20_custom"
-                                    value="{{ $user->updated_date ? date('Y-m-d', strtotime($user->updated_date)) : '' }}" />
+                                    value="{{ $user->updated_date }}" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0">
+                                <label class="d-block font-size-3 mb-0">
+                                    Turn Around Time
+                                </label>
+                                <input type="text" name="turn_around" id="turn_around" readonly
+                                        class="form-control border h-px-20_custom" value="{{ $user->turn_around }}" />
                             </div>
                         </div>
                     </div>
@@ -398,9 +475,10 @@
                         <button class="btn btn-lg btn-primary pt-2 mt-3 ml-3 w-25 btn-class" type="button"
                             id="edit" enabled> <i class="bi bi-pencil-square mr-2"></i>Edit
                             Job</button>
-                        <button class="btn btn-lg btn-success pt-2 mt-3 ml-3 w-25 btn-class" type="button" disabled=""
-                            id="save" onclick="ajaxCallDataJDL('jdlForm', '{{ route('update-jdl') }} ')"> <i
-                                class="bi bi-save mr-2"></i> Save  Job</button>
+                        <button class="btn btn-lg btn-success pt-2 mt-3 ml-3 w-25 btn-class" type="button"
+                            disabled="" id="save"
+                            onclick="ajaxCallDataJDL('jdlForm', '{{ route('update-jdl') }} ')"> <i
+                                class="bi bi-save mr-2"></i> Save Job</button>
                         <button class="btn btn-lg btn-danger pt-2 mt-3 ml-3 w-25 btn-class" type="button" id="delete"
                             onclick="verifyDeleteRecord('{{ $user->id }}' , '{{ route('delete-jdl') }}') " enabled>
                             <i class="bi bi-trash mr-2"></i>Delete
@@ -417,6 +495,12 @@
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script>
         $(document).ready(function() {
+            activeEndo = {!! $activeEndorsmentCount !!}
+            inActiveEndo = {!! $inActiveEndorsmentCount !!}
+            turn_around = {!! $turnAround !!}
+            $('#active_endo').val(activeEndo)
+            $('#turn_around').val(turn_around)
+            $('#inactive_endo').val(inActiveEndo)
             select2Dropdown("select2_dropdown");
         })
         $('#edit').on('click', function() {

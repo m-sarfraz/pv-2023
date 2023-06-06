@@ -634,11 +634,11 @@ class RecordController extends Controller
         }
 
         $validator = Validator::make($request->all(), $arrayCheck);
-        if (!$validator->fails()) {
+        if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
         } else {
             // Update data of eantry page
-            // $name = explode(" ", $request->first_name, 3);
+            // $name = explode(" ", $request->first_name, 3); 
             $CandidateInformation =  CandidateInformation::where('id', $c_id)->firstOrfail();
             $CandidateEducation =  CandidateEducation::where('candidate_id', $c_id)->firstOrfail();
             $CandidiateDomain =  CandidateDomain::where('candidate_id', $c_id)->firstOrfail();

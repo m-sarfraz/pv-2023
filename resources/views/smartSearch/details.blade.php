@@ -419,7 +419,8 @@
                                                                             Select Option
                                                                         </option>
                                                                         @foreach ($profile as $profileOption)
-                                                                            <option value="{{ $profileOption->c_profile_name }}"
+                                                                            <option
+                                                                                value="{{ $profileOption->c_profile_name }}"
                                                                                 {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
                                                                                 {{ $profileOption->c_profile_name }}
                                                                             </option>
@@ -683,37 +684,7 @@
                                 <div class="">
                                     <p class="C-Heading">Endorsement Details</p>
                                 </div>
-                                @if ($user != null)
-                                    <div class="mb-1">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <label class="d-block font-size-3 mb-0 labelFontSize px-2">Select
-                                                    Endorsement #:
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <select name="endo_number" id="no_endo"
-                                                    onchange="selectEndoDetails(this)"
-                                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                                                    <option value="" disabled>Select Endorsement</option>
-                                                    @foreach ($number_of_endorsements as $value)
-                                                        <option selected value="{{ $value->numberOfEndo }}"
-                                                            {{-- {{ $i == $number ? 'selected' : '' }} --}}>
-                                                            {{ $value->numberOfEndo }}
-                                                        </option>
-                                                    @endforeach
-                                                    {{-- @for ($i = 1; $i <= $number_of_endorsements; $i++)
-                                <option value="{{ $i }}" {{ $i == $number ? 'selected' : '' }}>
-                                    {{ $i }}
-                                </option>
-                            @endfor --}}
-                                                </select>
-                                            </div>
-                                        </div>
 
-
-                                    </div>
-                                @endif
 
                             </div>
                             <!-- ================== -->
@@ -1382,7 +1353,7 @@
                             @if (Auth::user()->id == $user->saved_by)
                                 @can('edit-record')
                                     <button class="btn btn-primary mt-5 btn-md" type="button"
-                                        onclick="UpdateRecord('{{ $user->id . '-' . $user->e_id }}')">Update</button>
+                                        onclick="UpdateRecord('{{ $user->cid . '-' . $user->e_id }}')">Update</button>
                                 @endcan
                             @else
                                 <a type="button" href="{{ url('admin/data-entry') }}?id={{ $user->cid }}"
@@ -1460,7 +1431,7 @@
                             timer: 100
                         })
                         setTimeout(() => {
-                            
+
                             window.location.href = '{{ url('admin/search') }}';
                         }, 800);
 
@@ -1854,7 +1825,42 @@
         // update the selected records if it belongs to the user starts
         function UpdateRecord(id) {
             // show loader for waiting
+            if ($('#save').is(':disabled')) {
+                checkDuplicate = 0;
+            } else {
+                checkDuplicate = 1;
+            }
+            if ($('#off_salary').is(':disabled')) {
+                $salary_field = 0;
+            } else {
+                $salary_field = 1;
+            }
+            if ($('#rfp').is(':disabled')) {
+                $rfp = 0;
+            } else {
+                $rfp = 1;
+            }
+            if ($('#interview_schedule').is(':disabled')) {
+                $interview_schedule = 0;
+            } else {
+                $interview_schedule = 1;
+            }
+            if ($('#bilable_amount').is(':disabled')) {
+                $finance_field = 0;
+            } else {
+                $finance_field = 1;
+            }
+            if ($('#ap_status').val() == null) {
+                $endorsement = 'inactive'
 
+            } else {
+                $application_status = $('#ap_status').val().toLowerCase();
+                if ($application_status == 'to be endorsed') {
+                    $endorsement = 'active';
+                } else {
+                    $endorsement = 'inactive'
+                }
+            }
             $("#loader").show();
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('user_detail_form'));
@@ -1862,7 +1868,12 @@
 
             data.append("_token", "{{ csrf_token() }}");
             data.append("id", id);
-
+            data.append("salary_field", $salary_field);
+            data.append("endorsement_field", $endorsement);
+            data.append("finance_field", $finance_field);
+            data.append("rfp", $rfp);
+            data.append("interview_schedule", $interview_schedule);  
+            data.append("checkDuplicate", checkDuplicate);
             // call Ajax whihc will return view of detail data of user
             $.ajax({
                 type: "POST",
@@ -1961,6 +1972,128 @@
                 }
             });
         }
+        // close 
+
+        function ApplicationStatusChange(elem) {
+
+            // if current and exepcted salary is empty notify user
+            var value = $(elem).find(":selected").text().trim();
+
+            // check for selected application status value
+            if (value.includes('To') || value.includes('Active')) {
+                var role_id = {!! Auth::user()->agent !!}
+                if (role_id == 1) {
+                    $('#domain').prop('disabled', false)
+                    $('#Domainsegment').attr('readonly', false)
+                    $('#Domainsub').attr('readonly', false)
+                    // $('#candidate_profile').prop('disabled', false)
+                }
+
+                if (value.includes('To')) {
+                    // disable and enable input fields for user data in endorsement section
+                    $('#remarks').prop("disabled", false);
+                    $('#status').prop("disabled", false);
+                    $('#site').prop("disabled", false);
+                    $('#client').prop("disabled", false);
+                    $('#domain_endo').prop("disabled", false);
+                    $('#segment').prop("disabled", false);
+                    $('#sub_segment').prop("disabled", false);
+                    $('#endo_date').prop("disabled", false);
+                    $('#remarks_for_finance').prop("disabled", false);
+                    $('#endo_type').prop("disabled", false);
+                    $('#position').prop("disabled", false);
+                    // $('#position').prop("disabled", false);
+                    // $('#position').attr("readonly", true);
+                    // $('#career').attr("readonly", true);
+                    $('#career').prop("disabled", false);
+                    // $('#expec_salary').prop("disabled", false);
+
+
+                } else {
+
+                    //else disalbe the input fields of endorsement section 
+                    $('#remarks').prop("disabled", true);
+                    $('#status').prop("disabled", true);
+                    $('.selectedOption').prop("selected", true)
+                    $('#selectedOption').prop("selected", true)
+
+                    $('#site').prop("disabled", true);
+                    $('#client').prop("disabled", true);
+                    $('#position').prop("disabled", true);
+                    $('#domain_endo').prop("disabled", true);
+                    $('#career').prop("disabled", true);
+                    $('#endo_type').prop("disabled", true);
+                    $('#segment').prop("disabled", true);
+                    $('#sub_segment').prop("disabled", true);
+                    // $('#endo_date').prop("disabled", true);
+                    // $('#expec_salary').prop("disabled", true);
+                    $('#remarks_for_finance').prop("disabled", true);
+                    $('#off_allowance').prop("disabled", true);
+                    $('#career_finance').prop("disabled", true);
+                    $('#srp').prop("disabled", true);
+                    $('#remarks_finance').prop("disabled", true);
+                    $('#invoice_number').prop("disabled", true);
+                    $('#bilable_amount').prop("disabled", true);
+                    $('#rate').prop("disabled", true);
+                    $('#off_allowance_finance').prop("disabled", true);
+                    $('#placement_fee').prop("disabled", true);
+                    $('#off_salary_fianance').prop("disabled", true);
+                    $('#onboard_date').attr("readonly", true);
+                    $('#off_salary').prop("disabled", true);
+                    var $newOption = $("<option disabled selected='selected'></option>").val("TheID").text(
+                        "Select Option")
+                    $("#remarks_for_finance").append($newOption).trigger('change');
+                }
+
+
+            } else {
+
+                //else disable domain segment and and candidate profile
+                $('#domain').attr('readonly', true)
+                $('#Domainsegment').attr('readonly', true)
+                $('#Domainsub').attr('readonly', true)
+                // $('#candidate_profile').prop('disabled', true)
+                //else disalbe the input fields of endorsement section 
+                $('#remarks').prop("disabled", true);
+                $('#status').prop("disabled", true);
+                var $newOption = $("<option selected='selected'></option>").val("TheID").text("Select Option")
+                $("#remarks_for_finance").append($newOption).trigger('change');
+                $('#site').prop("disabled", true);
+                $('#client').prop("disabled", true);
+                $('#position').prop("disabled", true);
+                $('#domain_endo').prop("disabled", true);
+                $('#career').prop("disabled", true);
+                $('#segment').prop("disabled", true);
+                $('#sub_segment').prop("disabled", true);
+                // $('#endo_date').prop("disabled", true);
+                //  $('#expec_salary').prop("disabled", true);
+                $('#remarks_for_finance').prop("disabled", true);
+                $('#finance_fieldset').prop("disabled", false);
+                $('#off_allowance').prop("disabled", true);
+                $('#career_finance').prop("disabled", true);
+                $('#srp').prop("disabled", true);
+                $('#remarks_finance').prop("disabled", true);
+                $('#invoice_number').prop("disabled", true);
+                $('#bilable_amount').prop("disabled", true);
+                $('#rate').prop("disabled", true);
+                $('#off_allowance_finance').prop("disabled", true);
+                $('#placement_fee').prop("disabled", true);
+                $('#off_salary_fianance').prop("disabled", true);
+                $('#onboard_date').attr("readonly", true);
+                // $('#onboard_date').prop("disabled", true);
+                $('#off_salary').prop("disabled", true);
+                $('#endo_type').prop("disabled", true);
+
+            }
+
+        }
+        // on reamrks recruiter change 
+        $('#remarks_finance').change(function() {
+            value = $(this).val();
+            $('#remarks').append(`<option selected value="${value}">
+                            ${value}
+                        </option>`);
+        });
         // close 
     </script>
 @endsection

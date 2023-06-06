@@ -20,78 +20,35 @@
     @if ($errors->has('message'))
         <li>{{ $errors->first('message') }}</li>
     @endif
+    @php
+        $status = Helper::get_dropdown('status');
+        $client = Helper::get_dropdown('clients');
+        $domain = App\Domain::get();
+        $segment = App\Segment::get();
+        $subsegment = App\SubSegment::get();
+        $position_title = Helper::get_dropdown('position_title');
+        $c_level = Helper::get_dropdown('career_level');
+        $edu_attain = Helper::get_dropdown('educational_attainment');
+        $classification = Helper::get_dropdown('classification');
+        $clientClassification = Helper::get_dropdown('clientClassification');
+        $priority = Helper::get_dropdown('priority');
+        $assignment = Helper::get_dropdown('assignment');
+        $location = Helper::get_dropdown('location');
+        $work_schedule = Helper::get_dropdown('work_schedule');
+        $recruiter = App\User::where('type', '3')->get();
+        
+    @endphp
     <div class="container mt-5">
-        <div class="card shadow p-4"> 
+        <div class="card shadow p-4">
             <p class="C-Heading">New JDL Entry</p>
             <hr>
             <form method="POST" action="" id="jdl_form">
                 @csrf
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize">Priority</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="priority"
-                            aria-describedby="basic-addon1">
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize">Ref-code</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="ref_code"
-                            aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="row mb-xl-1 mb-9">
-                    @php
-                        $status = Helper::get_dropdown('status');
-                        $client = Helper::get_dropdown('clients');
-                        $domain = App\Domain::get();
-                        $segment = App\Segment::get();
-                        $subsegment = App\SubSegment::get();
-                        $position_title = Helper::get_dropdown('position_title');
-                        $c_level = Helper::get_dropdown('career_level');
-                        $edu_attain = Helper::get_dropdown('educational_attainment');
-                        $recruiter = App\User::where('type', '3')->get();
-                        
-                    @endphp
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Status</label>
-                        <select name="status" id="status" class="select2_dropdown w-100 form-control">
-                            @foreach ($status->options as $render_status)
-                                <option value="{{ $render_status->option_name }}">
-                                    {{ $render_status->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-lg-6">
-
-                        <label for="" class="Label labelFontSize mt-3">Req-Date</label>
-                        <input type="date" class="form-control border h-px-20_custom w-100" aria-label="Username"
-                            aria-describedby="basic-addon1" name="req_date">
-
-                    </div>
-                </div>
-                <div class="row mb-xl-1 mb-9">
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Updated-Date</label>
-                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
-                            aria-describedby="basic-addon1" name="updated_date">
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Close-Date</label>
-                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
-                            aria-describedby="basic-addon1" name="closed_date">
-                    </div>
-                </div>
-                <div class="row mb-xl-1 mb-9">
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Os-Date</label>
-                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
-                            aria-describedby="basic-addon1" name="os_date">
-                    </div>
-
-                    <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Client</label>
                         <select class="form-select p-0 users-input-S-C select2_dropdown w-100 select2-hidden-accessible "
-                            aria-label="Default select example" name="client">
+                            aria-label="Default select example" name="client" onchange="clientChangeAutomateFunc(this)">
                             <option value="" class="selectedOption" selected disabled>
                                 Select Option
                             </option>
@@ -102,8 +59,76 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3"> CLASSIFICATION</label>
+                        <select class="form-select p-0 users-input-S-C select2_dropdown w-100 select2-hidden-accessible "
+                            aria-label="Default select example" name="classification">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($classification->options as $render_classification)
+                                <option value="{{ $render_classification->option_name }}">
+                                    {{ $render_classification->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="row mb-xl-1 mb-9">
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">P-title</label>
+                        <select id="position" name="p_title"
+                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($position_title->options as $position_titleOptions)
+                                <option value="{{ $position_titleOptions->option_name }}">
+                                    {{ $position_titleOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select> 
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">REQUIREMENT CLASSIFICATION</label>
+                        <select class="form-select p-0 users-input-S-C select2_dropdown w-100 select2-hidden-accessible "
+                            aria-label="Default select example" name="req_classification">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">Career Level</label>
+                        <select id="c_level " name="c_level"
+                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($c_level->options as $c_levelOptions)
+                                <option value="{{ $c_levelOptions->option_name }}">
+                                    {{ $c_levelOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">Status</label>
+                        <select name="status" id="status" class="select2_dropdown w-100 form-control">
+                            @foreach ($status->options as $render_status)
+                                <option value="{{ $render_status->option_name }}">
+                                    {{ $render_status->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
+
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Domain</label>
                         <select id="domain" onchange="endoDomainChange(this)" name="domain"
@@ -118,6 +143,21 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize">Priority</label>
+                        <select id="priority" name="priority" class="select2_dropdown w-100 form-control">
+                            <option class="selectedOption" selected disabled>
+                                Select Option</option>
+                            @foreach ($priority->options as $render_priority)
+                                <option value="{{ $render_priority->option_name }}">
+                                    {{ $render_priority->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Segment</label>
                         <select id="segment" name="segment" onchange="endoSegmentChange('#segment')"
@@ -127,6 +167,18 @@
                             @foreach ($segment as $segmentsOptions)
                                 <option value="{{ $segmentsOptions->id }}">
                                     {{ $segmentsOptions->segment_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize">ASSIGNMENT</label>
+                        <select name="assignment" id="assignment" class="select2_dropdown w-100 form-control">
+                            <option class="selectedOption" selected disabled>
+                                Select Option</option>
+                            @foreach ($assignment->options as $render_assignment)
+                                <option value="{{ $render_assignment->option_name }}">
+                                    {{ $render_assignment->option_name }}
                                 </option>
                             @endforeach
                         </select>
@@ -148,58 +200,64 @@
                         </select>
                     </div>
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">P-title</label>
-                        <select id="position" name="p_title"
-                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                            <option value="" class="selectedOption" selected disabled>
-                                Select Option
-                            </option>
-                            @foreach ($position_title->options as $position_titleOptions)
-                                <option value="{{ $position_titleOptions->option_name }}">
-                                    {{ $position_titleOptions->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-xl-1 mb-9">
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Career Level</label>
-                        <select id="c_level " name="c_level"
-                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                            <option value="" class="selectedOption" selected disabled>
-                                Select Option
-                            </option>
-                            @foreach ($c_level->options as $c_levelOptions)
-                                <option value="{{ $c_levelOptions->option_name }}">
-                                    {{ $c_levelOptions->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Sll-no</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="sll_no"
+                        <label for="" class="Label labelFontSize">Keyword</label>
+                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="keyword"
                             aria-describedby="basic-addon1">
                     </div>
                 </div>
+                <div class="row mb-xl-1 mb-9">
+                    <div class="col-lg-6">
 
+                        <label for="" class="Label labelFontSize mt-3">Req-Date</label>
+                        <input type="date" class="form-control border h-px-20_custom w-100" aria-label="Username"
+                            onchange="calculateMaturityFunc(this)" aria-describedby="basic-addon1" name="req_date">
+
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">DATE UPDATED</label>
+                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
+                            aria-describedby="basic-addon1" name="updated_date">
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">Close-Date</label>
+                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
+                            aria-describedby="basic-addon1" name="closed_date">
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">Os-Date</label>
+                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
+                            aria-describedby="basic-addon1" name="os_date">
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize mt-3">SLL NO.</label>
+                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="sll_no"
+                            aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="Label labelFontSize">REQUISITION ID #</label>
+                        <input type="text" class="form-control users-input-S-C" aria-label="Username"
+                            name="requisitionID" aria-describedby="basic-addon1">
+                    </div>
+                </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">T-fte</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username"
+                        <input type="number" min="0" class="form-control users-input-S-C" aria-label="Username"
                             aria-describedby="basic-addon1" name="t_fte">
                     </div>
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Updated-fte</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username"
+                        <input type="number" min="0" class="form-control users-input-S-C" aria-label="Username"
                             aria-describedby="basic-addon1" name="updated_fte">
                     </div>
                 </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">edu-attainment</label>
+                        <label for="" class="Label labelFontSize mt-3">Educational Attainment</label>
 
                         <select id="edu_attainment" name="edu_attainment"
                             class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
@@ -215,27 +273,43 @@
 
 
                     </div>
-
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">Start-Date</label>
-                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
-                            name="start_date" aria-describedby="basic-addon1">
+
+                        <label for="" class="Label labelFontSize">Location</label>
+                        <select id="location" name="location"
+                            class="form-control select2_dropdown w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($location->options as $locationOptions)
+                                <option value="{{ $locationOptions->option_name }}">
+                                    {{ $locationOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-
-                        <label for="" class="Label labelFontSize">Location</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="location"
-                            aria-describedby="basic-addon1">
+                        <label for="" class="Label labelFontSize">Work Schedule</label>
+                        <select id="work_schedule" name="work_schedule"
+                            class="form-control select2_dropdown w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($work_schedule->options as $work_scheduleOptions)
+                                <option value="{{ $work_scheduleOptions->option_name }}">
+                                    {{ $work_scheduleOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize">w-shedule</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username"
-                            name="w_schedule" aria-describedby="basic-addon1">
+                        <label for="" class="Label labelFontSize mt-3">Start Date</label>
+                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
+                            name="start_date" aria-describedby="basic-addon1">
                     </div>
                 </div>
-
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize">Budget</label>
@@ -250,24 +324,40 @@
                 </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-
-                        <label for="" class="Label labelFontSize mt-3">Note</label>
-                        <textarea class="form-control users-input-S-C" placeholder="Leave a comment here"
-                            style="min-height: 120px !important;" id="" name="note" class="Label labelFontSize"></textarea>
-                    </div>
-                    <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Jd</label>
                         <textarea class="form-control users-input-S-C" placeholder="Write Job Description Here" name="jd"
                             style="min-height: 120px !important;" id="" class="Label labelFontSize"></textarea>
 
                     </div>
+                    <div class="col-lg-6">
+
+                        <label for="" class="Label labelFontSize mt-3">Note</label>
+                        <textarea class="form-control users-input-S-C" placeholder="Leave a comment here"
+                            style="min-height: 120px !important;" id="" name="note" class="Label labelFontSize"></textarea>
+                    </div>
                 </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize">Keyword</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="keyword"
-                            aria-describedby="basic-addon1">
+                        <label for="" class="Label labelFontSize mt-3">CLIENT CLASSIFICATION</label>
+                        <select id="client_classification" name="client_classification"
+                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" selected disabled="disabled">Choose options
+                            </option>
+                            @foreach ($clientClassification->options as $clientClassificationOptions)
+                                <option value="{{ $clientClassificationOptions->option_name }}">
+                                    {{ $clientClassificationOptions->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="col-lg-6">
+
+                        <label for="" class="Label labelFontSize mt-3">Maturity (In days)</label>
+                        <input class="form-control users-input-S-C" placeholder="" readonly id="maturity"
+                            name="maturity" class="Label labelFontSize">
+                    </div>
+                </div>
+                <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize">Recruiter</label>
                         <select name="recruiter[]" id="recruiter" multiple
@@ -280,13 +370,21 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-
-                <div class="row mb-xl-1 mb-9 mt-3">
-                    <div class="col-lg-12 text-center">
-                        <label for="" class="Label labelFontSize mt-3"></label>
-                        <button onclick="saveJDL()" type="button" class="btn btn-success btn-sm w-75">Save Job</button>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0">
+                            <label class="d-block font-size-3 mb-0">
+                                Turn Around Time
+                            </label>
+                            <input type="text" name="turn_around" class="form-control border h-px-20_custom" />
+                        </div>
                     </div>
+                    <div class="col-lg-6 text-center mt-4">
+                        <label for="" class="Label labelFontSize mt-3"></label>
+                        <button onclick="saveJDLDataAjaxFunc()" type="button" class="btn btn-success btn-sm w-75 ">Save
+                            Job</button>
+                    </div>
+                    <input type="hidden" name="client_spiel" id="client_spiel">
+
                 </div>
             </form>
         </div>
@@ -297,7 +395,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            appendJdlOptions()
+            // appendJdlOptions()   
 
         })
 
@@ -360,12 +458,42 @@
         //             console.log(err);
         //         });
         // }
+        // on client chagne automate options of classification and spiel 
+        function clientChangeAutomateFunc(elem) {
+            var clientData = {!! $clientData !!};
+            // console.log(clientData);
 
-        function saveJDL() {
+            var clientClassifications = []; // Array to store client classifications
+
+            for (let index = 0; index < clientData.length; index++) {
+                if (clientData[index].client == $(elem).val()) {
+                    clientClassifications.push(clientData[index]
+                    .ClientClassification); // Add client classification to the array
+                    console.log(clientData[index]);
+                    // console.log(clientData[index].ClientSpiel);
+                    $('#client_spiel').val(clientData[index].ClientSpiel);
+                }
+            }
+
+
+            // Clear previous options and append new options
+            // var selectElement = $('#client_classification');
+            // selectElement.val([]).trigger('change');
+            $('#client_classification').empty();
+            for (let i = 0; i < clientClassifications.length; i++) {
+                $('#client_classification').append('<option value="' + clientClassifications[i] + '">' +
+                    clientClassifications[i] + '</option>');
+            }
+            $('#client_classification').trigger('change');
+            console.log('-----------------');
+            // console.log($('#client_spiel').val());
+        }
+
+        // end 
+
+        function saveJDLDataAjaxFunc() {
             // making a variable containg all for data and append token
             var data = new FormData(document.getElementById('jdl_form'));
-
-
             // call ajax for data entry ad validation
             $.ajax({
                 url: "{{ url('admin/add-jdl') }}",
@@ -505,6 +633,8 @@
         // on domain change 
         function endoDomainChange(elem) {
             $('#segment').empty()
+            $('#subsegment').empty()
+
             var segmentsDropDown = {!! $segmentsDropDown !!};
             var count = 0;
             for (let i = 0; i < segmentsDropDown.length; i++) {
@@ -533,5 +663,25 @@
             }
         }
         // on segment chagne function ends 
+
+        //calculate maturity function starts
+        function calculateMaturityFunc(elem) {
+            // Get input date
+            const inputDate = new Date(elem.value);
+
+            // Set time of day for both dates to 00:00:00
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            // Calculate difference in days from current date
+            const timeDifference = currentDate.getTime() - inputDate.getTime();
+            const differenceInDays = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+            // Append input with id 'maturity'
+            $('#maturity').val(differenceInDays);
+        }
+
+        // calculate maturity function ends
     </script>
 @endsection

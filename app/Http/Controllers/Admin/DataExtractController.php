@@ -1,8 +1,12 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Domain;
 use App\Http\Controllers\Controller;
 use App\Jobs\ExtractDataJob;
+use App\Jobs\JDLExtractDataJob;
+use App\Segment;
+use App\SubSegment;
 use Auth;
 use DB;
 use File;
@@ -13,7 +17,7 @@ class DataExtractController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view-extract', ['only' => ['index','appendFilterOptions','extractData','downloadReport']]);
+        $this->middleware('permission:view-extract', ['only' => ['index', 'appendFilterOptions', 'extractData', 'downloadReport']]);
 
     }
     public function index()
@@ -21,10 +25,46 @@ class DataExtractController extends Controller
         // if (Auth::user()->type != 1) {
         //     return redirect()->back();
         // } else {
-            return view('extract-data');
+        return view('extraction.sdb-data-extract');
         // }
     }
+    public function jdl()
+    {
+        return view('extraction.jdl-data-extract');
 
+    }
+    public function appendJdlOptionsDataExtract()
+    {
+        $domains = Domain::all();
+        $segment = Segment::all();
+        $subSegment = SubSegment::all();
+        $position_title = Helper::get_dropdown('position_title');
+        $career_level = Helper::get_dropdown('career_level');
+        $client = Helper::get_dropdown('clients');
+        $location = Helper::get_dropdown('location');
+        $status = Helper::get_dropdown('status');
+        $p_title = Helper::get_dropdown('position_title');
+
+        $keyword = Helper::get_dropdown('keyword');
+        $priority = Helper::get_dropdown('priority');
+        $assignment = Helper::get_dropdown('assignment');
+        $wschedule = Helper::get_dropdown('work_schedule'); 
+        return response()->json([
+            'keyword' => $keyword,
+            'priority' => $priority,
+            'assignment' => $assignment,
+            'wschedule' => $wschedule,
+            'domains' => $domains,
+            'segment' => $segment,
+            'subSegment' => $subSegment,
+            'position_title' => $position_title,
+            'career' => $career_level,
+            'location' => $location,
+            'client' => $client,
+            'status' => $status,
+            'p_title' => $p_title,
+        ]);
+    }
     // append filter options on page load
     public function appendFilterOptions(Request $request)
     {
@@ -51,8 +91,8 @@ class DataExtractController extends Controller
     public function extractData(Request $request)
     {
         ini_set('max_execution_time', -1); //-1 seconds = infinite
-        ini_set('memory_limit',  -1); //1000M  = 1 GB
-        $data = $request->all(); 
+        ini_set('memory_limit', -1); //1000M  = 1 GB
+        $data = $request->all();
         $id = Auth::user()->id;
         // dispatch ob for exporting the data
         ExtractDataJob::dispatch($data, $id)->delay(now());
@@ -60,10 +100,27 @@ class DataExtractController extends Controller
 
     }
     // close
+    // extract data function JDL
+    public function extractDataJDL(Request $request)
+    {
+        ini_set('max_execution_time', -1); //-1 seconds = infinite
+        ini_set('memory_limit', -1); //1000M  = 1 GB
+        $data = $request->all();
+        $id = Auth::user()->id;
+        // dispatch ob for exporting the data
+        JDLExtractDataJob::dispatch($data, $id)->delay(now());
+        // return response()->json(['warning' => true, 'message' => 'Data Extraction has been Started!']);
+
+    }
+    // close
 
     public function getReportHistory()
     {
-        return response()->view('report-history');
+        return response()->view('reports.report-history');
+    }
+    public function getReportHistoryJDL()
+    {
+        return response()->view('reports.report-history-jdl');
     }
     public function downloadReport(Request $request)
     {

@@ -37,5 +37,11 @@ class JDL extends Model
         "updated_date" ,
         "updated_fte" ,
         "w_schedule" ,
+        "assignment" ,
+        "classification" ,
+        "req_classification" ,
+        "client_classification" ,
+        "req_id",
+        "turn_around"
     ];
 }

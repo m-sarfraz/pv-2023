@@ -4,6 +4,7 @@
     <!-- ================= -->
     <!-- Datatable css start-->
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
 
     <!-- Datatable css end-->
     <!-- ================= -->
@@ -122,10 +123,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                    overflow: hidden;
-                                                                    text-overflow: ellipsis;
-                                                                    white-space: nowrap;
-                                                                    } */
+                                                                                                                                overflow: hidden;
+                                                                                                                                text-overflow: ellipsis;
+                                                                                                                                white-space: nowrap;
+                                                                                                                                } */
     </style>
 @endsection
 
@@ -607,14 +608,14 @@
                                 <tr style="text-align: center;">
                                     <th class="d-none"> sr</th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">
-                                        <svg title="Click Here For Columnwise Search" data-toggle="tooltip"
+                                        {{-- <svg title="Click Here For Columnwise Search" data-toggle="tooltip"
                                             data-placement="top" style="color:#dc8627;text-color:red;top:0;bottom:0"
                                             xmlns="http://www.w3.org/2000/svg" onclick="toggleSearchFunc()"
                                             width="22" height="22" fill="currentColor"
                                             class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                             <path
                                                 d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                        </svg>
+                                        </svg> --}}
                                         Sr
                                     </th>
 
@@ -636,7 +637,7 @@
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate’s Profile
                                         <input class="form-control inputTh" data-id="6" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Candidate’s Profile" />
                                     </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Invited <input
@@ -654,57 +655,57 @@
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Gender <input
                                             class="form-control inputTh" data-id="8" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Gender" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Phone <input
                                             class="form-control inputTh" data-id="9" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Phone" /> </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Email
                                         <input class="form-control inputTh" data-id="10" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Email" />
                                     </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Address <input
                                             class="form-control inputTh" data-id="11" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Address" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Course <input
                                             class="form-control inputTh" data-id="12" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Course" /> </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Educational Attainment
                                         <input class="form-control inputTh" data-id="13" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Educational Attainment" />
                                     </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Certificate <input
                                             class="form-control inputTh" data-id="14" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Certificate" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Employment History
                                         <input class="form-control inputTh" data-id="15" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Employment History" />
                                     </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Interview Note <input
                                             class="form-control inputTh" data-id="16" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Interview Note" /> </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Exp Salary <input
                                             class="form-control inputTh" data-id="17" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Exp Salary " /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Application Status<input
                                             class="form-control inputTh" data-id="18" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /></th>
+                                            placeholder="Search Application Status" /></th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Type <input
                                             class="form-control inputTh" data-id="19" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Type" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Endorsement Date <input
                                             class="form-control inputTh" data-id="20" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
@@ -713,41 +714,41 @@
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Client <input
                                             class="form-control inputTh" data-id="21" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Client" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Site <input
                                             class="form-control inputTh" data-id="22" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Site" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Position Title <input
                                             class="form-control inputTh" data-id="23" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Position Title" /> </th>
 
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Career <input
                                             class="form-control inputTh" data-id="24" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Career" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Segment <input
                                             class="form-control inputTh" data-id="25" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Segment" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Sub-Segment <input
                                             class="form-control inputTh" data-id="26" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Sub-Segment" /> </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Endorsement Status
                                         <input class="form-control inputTh" data-id="27" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Endorsement Status" />
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Remarks For Finance
                                         <input class="form-control inputTh" data-id="28" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" />
+                                            placeholder="Search Remarks For Finance" />
                                     </th>
                                     <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Onboarding Date <input
                                             class="form-control inputTh" data-id="29" type="text"
                                             style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
+                                            placeholder="Search Onboarding Date" /> </th>
                                 </tr>
                             </thead>
                             <tbody class="hidetrID hidetrIDSmartSearch" style="height:100px">
@@ -1066,15 +1067,17 @@
             } else {
                 cip = 0;
             }
-            option_table.settings()[0].jqXHR.abort();
+            // option_table.settings()[0].jqXHR.abort();
             option_table = $('#smTable').DataTable({
                 destroy: true,
-                // search: {
-                //     smart: false
-                // },
+                search: {
+                    smart: true
+                },
+                regex: false,
                 ordering: false,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
+
                 ajax: {
                     url: "{{ route('filterSearch') }}",
                     type: "GET",
@@ -1169,6 +1172,7 @@
                     setTimeout(() => {
                         $("#loader").hide();
                     }, 1000);
+
                     summaryAppendAjax(json.array);
                     // console.log(json.search);
                     if (json.search != null) {
@@ -1182,169 +1186,244 @@
                     // if (tableID == 'smTable_wrapper') {
                     //     countRecord()
                     // }
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var input = $(
+                                '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
+                            )
+                            .appendTo($(column.footer()).empty())
+                            .attr('data-column', column.data()) // Add custom attribute
+                            .on('keyup change clear', function() {
+                                if (column.search() !== this.value) {
+                                    column.search(this.value).draw();
+                                }
+                            });
+                    });
+
                 },
                 columns: [{
                         data: 'id',
                         name: 'id',
+                        ordering: true, // Enable sorting
+
                         searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
-                        searchable: false
+                        searchable: false,
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'team',
-                        name: 'team',
+                        data: 'team_name',
+                        name: 'team_name',
                         // searchable: false,
-                        // orderable: false
+                        orderable: true,
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'recruiter',
-                        name: 'recruiter'
+                        data: 'recruiter_name',
+                        name: 'recruiter_name',
+                        ordering: true, // Enable sorting
                     },
                     {
                         data: 'date_shifted',
-                        name: 'date_shifted'
+                        name: 'date_shifted',
+                        ordering: true, // Enable sorting
                     },
+
                     {
-                        data: 'profile',
-                        name: 'profile',
+                        data: 'candidate_profile',
+                        name: 'candidate_profile',
                         // searchable: false,
-                        // orderable: false
+                        // orderable: ,false
+                        ordering: true, // Enable sorting
                     },
+
 
 
 
                     {
                         data: 'date_invited',
-                        name: 'date_invited'
+                        name: 'date_invited',
+                        ordering: true, // Enable sorting
                     },
+
                     {
-                        data: 'Candidate',
-                        name: 'Candidate',
+                        data: 'fullName',
+                        name: 'fullName',
                         // searchable: false,
-                        // orderable: false
+                        // orderable: ,false
+                        ordering: true, // Enable sorting
                     },
-
-
-
 
                     {
                         data: 'gender',
-                        name: 'gender'
+                        name: 'gender',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'phone',
-                        name: 'phone'
+                        name: 'phone',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'address',
-                        name: 'address'
-                    },
-                    {
-                        data: 'course',
-                        name: 'course'
-                    }, {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    },
-                    {
-                        data: 'certification',
-                        name: 'certification'
-                    },
-                    {
-                        data: 'emp_history',
-                        name: 'emp_history'
-                    },
-                    {
-                        data: 'interview_note',
-                        name: 'interview_note'
-                    },
-                    {
-                        data: 'exp_salary',
-                        name: 'exp_salary'
-                    },
-                    {
-                        data: 'appStatus',
-                        name: 'appStatus',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'type',
-                        name: 'type'
-                    },
-                    {
-                        data: 'endi_date',
-                        name: 'endi_date'
-                    },
-                    {
-                        data: 'client',
-                        name: 'client'
-                    },
-                    {
-                        data: 'site',
-                        name: 'site'
+                        // orderable: ,false
+                        ordering: true, // Enable sorting
                     },
 
                     {
-                        data: 'position_title',
-                        name: 'position_title'
+                        data: 'address',
+                        name: 'address',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'course',
+                        name: 'course',
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'career_level',
-                        name: 'career_level'
+                        data: 'educational_attain',
+                        name: 'educational_attain',
+                        ordering: true, // Enable sorting
                     },
+
+                    {
+                        data: 'certification',
+                        name: 'certification',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'emp_history',
+                        name: 'emp_history',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'interview_note',
+                        name: 'interview_note',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'exp_salary',
+                        name: 'exp_salary',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'app_status',
+                        name: 'app_status',
+                        // searchable: false,
+                        // orderable: ,false
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'type',
+                        name: 'type',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'client',
+                        name: 'client',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'site',
+                        name: 'site',
+                        ordering: true, // Enable sorting
+                    },
+
+
+                    {
+                        data: 'position_title',
+                        name: 'position_title',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo',
+                        ordering: true, // Enable sorting
+                    },
+
                     {
                         data: 'segment',
-                        name: 'segment'
+                        name: 'segment',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'sub_segment',
-                        name: 'sub_segment'
+                        name: 'sub_segment',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'endostatus',
-                        name: 'endostatus'
+                        name: 'endostatus',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'remarks_for_finance',
-                        name: 'remarks_for_finance'
+                        name: 'remarks_for_finance',
+                        ordering: true, // Enable sorting
                     },
+
 
                     // {
                     //     data: 'remarks',
                     //     name: 'remarks'
+                    // ordering: true, // Enable sorting
                     // },
+
 
 
                     {
                         data: 'onboardnig_date',
-                        name: 'onboardnig_date'
+                        name: 'onboardnig_date',
+                        ordering: true, // Enable sorting
                     },
+
                     // {
                     //     data: 'invoice_number',
                     //     name: 'invoice_number'
+                    // ordering: true, // Enable sorting
                     // },
+
                     // {
                     //     data: 'OR_Number',
                     //     name: 'OR_Number',
                     //     // searchable: false,
                     //     // orderable: false
+                    // ordering: true, // Enable sorting
                     // },
+
                     // {
                     //     data: 'Replacement_For',
                     //     name: 'Replacement_For',
                     //     // searchable: false,
                     //     // orderable: false
+                    // ordering: true, // Enable sorting
                     // },
+
 
 
 
@@ -1354,6 +1433,8 @@
                     targets: 1,
                     className: 'noVis'
                 }],
+                bInfo: true,
+
                 buttons: [{
                     extend: 'colvis',
                     text: 'List of Visible Coloumn Names in Current Table(Click to Deselect a Coloumn)',
@@ -1386,10 +1467,10 @@
                 // "language": {
                 //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 // },
-                // destroy: true,
-                // search: {
-                //     smart: false
-                // },
+                destroy: true,
+                search: {
+                    smart: true
+                },
                 regex: false,
                 ordering: false,
                 processing: true,
@@ -1399,6 +1480,7 @@
                     url: "{{ route('view-smart-search-table') }}",
                     type: "GET",
                 },
+
                 drawCallback: function(settings) {
                     $('.hidetrIDSmartSearch').find('tr').each(function() {
                         $(this).click(function() {
@@ -1465,16 +1547,16 @@
                     //     $('.customDivClass').click();
                     // }, 100);
 
-                    var that = this;
-                    option_table.columns().every(function() {
-                        var that = this;
-                        $('input', this.footer()).on('keyup change', function() {
-                            console.log(this.value);
-                            option_table.column(9).search('^' + this.value, true, false)
-                                .draw();
-                            // that.search(this.value).draw();
-                        });
-                    });
+                    // var that = this;
+                    // option_table.columns().every(function() {
+                    //     var that = this;
+                    //     $('input', this.footer()).on('keyup change', function() {
+                    //         console.log(this.value);
+                    //         option_table.column(9).search('^' + this.value, true, false)
+                    //             .draw();
+                    //         // that.search(this.value).draw();
+                    //     });
+                    // });
                     // $('#searchKeyword').trigger('input');
                     // let tableID = $('#filterResult_div').children().children().attr('id')
                     // if (tableID == 'filteredTable_wrapper') {
@@ -1484,169 +1566,244 @@
                     //     countRecord()
                     // }
                     $('#smTable_length').hide();
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var input = $(
+                                '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
+                                )
+                            .appendTo($(column.footer()).empty())
+                            .attr('data-column', column.data()) // Add custom attribute
+                            .on('keyup change clear', function() {
+                                if (column.search() !== this.value) {
+                                    column.search(this.value).draw();
+                                }
+                            });
+                    });
+
                 },
                 columns: [{
                         data: 'id',
                         name: 'id',
+                        ordering: true, // Enable sorting
+
                         searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
-                        searchable: false
+                        searchable: false,
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'team',
-                        name: 'team',
+                        data: 'team_name',
+                        name: 'team_name',
                         // searchable: false,
-                        // orderable: false
+                        orderable: true,
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'recruiter',
-                        name: 'recruiter'
+                        data: 'recruiter_name',
+                        name: 'recruiter_name',
+                        ordering: true, // Enable sorting
                     },
                     {
                         data: 'date_shifted',
-                        name: 'date_shifted'
+                        name: 'date_shifted',
+                        ordering: true, // Enable sorting
                     },
+
                     {
-                        data: 'profile',
-                        name: 'profile',
+                        data: 'candidate_profile',
+                        name: 'candidate_profile',
                         // searchable: false,
                         // orderable: false
+                        ordering: true, // Enable sorting
                     },
+
 
 
 
                     {
                         data: 'date_invited',
-                        name: 'date_invited'
+                        name: 'date_invited',
+                        ordering: true, // Enable sorting
                     },
+
                     {
-                        data: 'Candidate',
-                        name: 'Candidate',
+                        data: 'fullName',
+                        name: 'fullName',
                         // searchable: false,
                         // orderable: false
+                        ordering: true, // Enable sorting
                     },
-
-
-
 
                     {
                         data: 'gender',
-                        name: 'gender'
+                        name: 'gender',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'phone',
-                        name: 'phone'
+                        name: 'phone',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'Email',
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                    },
-                    {
-                        data: 'address',
-                        name: 'address'
-                    },
-                    {
-                        data: 'course',
-                        name: 'course'
-                    }, {
-                        data: 'educational_attain',
-                        name: 'educational_attain'
-                    },
-                    {
-                        data: 'certification',
-                        name: 'certification'
-                    },
-                    {
-                        data: 'emp_history',
-                        name: 'emp_history'
-                    },
-                    {
-                        data: 'interview_note',
-                        name: 'interview_note'
-                    },
-                    {
-                        data: 'exp_salary',
-                        name: 'exp_salary'
-                    },
-                    {
-                        data: 'appStatus',
-                        name: 'appStatus',
-                        // searchable: false,
-                        // orderable: false
-                    },
-                    {
-                        data: 'type',
-                        name: 'type'
-                    },
-                    {
-                        data: 'endi_date',
-                        name: 'endi_date'
-                    },
-                    {
-                        data: 'client',
-                        name: 'client'
-                    },
-                    {
-                        data: 'site',
-                        name: 'site'
+                        ordering: true, // Enable sorting
                     },
 
                     {
-                        data: 'position_title',
-                        name: 'position_title'
+                        data: 'address',
+                        name: 'address',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'course',
+                        name: 'course',
+                        ordering: true, // Enable sorting
                     },
                     {
-                        data: 'career_level',
-                        name: 'career_level'
+                        data: 'educational_attain',
+                        name: 'educational_attain',
+                        ordering: true, // Enable sorting
                     },
+
+                    {
+                        data: 'certification',
+                        name: 'certification',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'emp_history',
+                        name: 'emp_history',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'interview_note',
+                        name: 'interview_note',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'exp_salary',
+                        name: 'exp_salary',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'app_status',
+                        name: 'app_status',
+                        // searchable: false,
+                        // orderable: false
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'type',
+                        name: 'type',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'endi_date',
+                        name: 'endi_date',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'client',
+                        name: 'client',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'site',
+                        name: 'site',
+                        ordering: true, // Enable sorting
+                    },
+
+
+                    {
+                        data: 'position_title',
+                        name: 'position_title',
+                        ordering: true, // Enable sorting
+                    },
+
+                    {
+                        data: 'career_endo',
+                        name: 'career_endo',
+                        ordering: true, // Enable sorting
+                    },
+
                     {
                         data: 'segment',
-                        name: 'segment'
+                        name: 'segment',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'sub_segment',
-                        name: 'sub_segment'
+                        name: 'sub_segment',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'endostatus',
-                        name: 'endostatus'
+                        name: 'endostatus',
+                        ordering: true, // Enable sorting
                     },
+
                     {
                         data: 'remarks_for_finance',
-                        name: 'remarks_for_finance'
+                        name: 'remarks_for_finance',
+                        ordering: true, // Enable sorting
                     },
+
 
                     // {
                     //     data: 'remarks',
                     //     name: 'remarks'
+                    // ordering: true, // Enable sorting
                     // },
+
 
 
                     {
                         data: 'onboardnig_date',
-                        name: 'onboardnig_date'
+                        name: 'onboardnig_date',
+                        ordering: true, // Enable sorting
                     },
+
                     // {
                     //     data: 'invoice_number',
                     //     name: 'invoice_number'
+                    // ordering: true, // Enable sorting
                     // },
+
                     // {
                     //     data: 'OR_Number',
                     //     name: 'OR_Number',
                     //     // searchable: false,
                     //     // orderable: false
+                    // ordering: true, // Enable sorting
                     // },
+
                     // {
                     //     data: 'Replacement_For',
                     //     name: 'Replacement_For',
                     //     // searchable: false,
                     //     // orderable: false
+                    // ordering: true, // Enable sorting
                     // },
+
 
 
 
@@ -1656,6 +1813,7 @@
                     targets: 1,
                     className: 'noVis'
                 }],
+                bInfo: true,
 
                 buttons: [{
                     extend: 'colvis',
@@ -1778,53 +1936,53 @@
         // ends
 
         // Custom coloumnwise search  starts here
-        function individualColomnSearchFunc(e) {
-            // draw values in option_table instance 
-            console.log($(e).val());
-            console.log($(e).attr('data-id'));
-            let data_id = $(e).attr('data-id');
-            if (data_id == 15 || data_id == 16) {
-                option_table.column($(e).attr('data-id')).search($(e).val(), true, false).draw();
-            } else {
-                option_table.column($(e).attr('data-id')).search('^' + $(e).val(), true, false).draw();
-            }
-            passIDToSummaryAppend();
-            // console.log(obj);
-            let test = $('#searchKeyword').val().split(' ');
-            for (let index = 0; index < test.length; index++) {
-                if (test[index] == 'MALE') {
-                    option_table.column(22).search('^' + test[index], true, false).draw();
-                    // console.log(test[index]);
-                } else if (test[index] == 'FEMALE') {
-                    option_table.column(22).search('^' + test[index], true, false).draw();
-                    // console.log(test[index]);
-                }
-                // else {
-                //     console.log(test[index]);
-                //     option_table.column(22).search("").draw();
-                // }
-            }
-            // return;
-            // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
-            // append summary after passing the curetn candidate array for calculations 
+        // function individualColomnSearchFunc(e) {
+        //     // draw values in option_table instance 
+        //     console.log($(e).val());
+        //     console.log($(e).attr('data-id'));
+        //     let data_id = $(e).attr('data-id');
+        //     if (data_id == 15 || data_id == 16) {
+        //         option_table.column($(e).attr('data-id')).search($(e).val(), true, false).draw();
+        //     } else {
+        //         option_table.column($(e).attr('data-id')).search('^' + $(e).val(), true, false).draw();
+        //     }
+        //     passIDToSummaryAppend();
+        //     // console.log(obj);
+        //     let test = $('#searchKeyword').val().split(' ');
+        //     for (let index = 0; index < test.length; index++) {
+        //         if (test[index] == 'MALE') {
+        //             option_table.column(22).search('^' + test[index], true, false).draw();
+        //             // console.log(test[index]);
+        //         } else if (test[index] == 'FEMALE') {
+        //             option_table.column(22).search('^' + test[index], true, false).draw();
+        //             // console.log(test[index]);
+        //         }
+        //         // else {
+        //         //     console.log(test[index]);
+        //         //     option_table.column(22).search("").draw();
+        //         // }
+        //     }
+        //     // return;
+        //     // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
+        //     // append summary after passing the curetn candidate array for calculations 
 
-            // $('#smTable_filter').children().children().val($('#searchKeyword').val());
-            // $('#smTable_filter')
-            //     .children().children().trigger('input');
-            // $('#smTable1_filter').children().children().val($(
-            //     '#searchKeyword').val());
-            // $('#smTable1_filter').children().children().trigger('input');
-            // // let total_recored = data.split(" ")
-            // // console.log(total_recored)
-            // // $('#foundRecord').val(total_recored[3])
-            // let tableID = $('#filterResult_div').children().children().attr('id')
-            // if (tableID == 'filteredTable_wrapper') {
-            //     countRecordFilter()
-            // }
-            // if (tableID == 'smTable_wrapper') {
-            //     countRecord()
-            // }
-        }
+        //     // $('#smTable_filter').children().children().val($('#searchKeyword').val());
+        //     // $('#smTable_filter')
+        //     //     .children().children().trigger('input');
+        //     // $('#smTable1_filter').children().children().val($(
+        //     //     '#searchKeyword').val());
+        //     // $('#smTable1_filter').children().children().trigger('input');
+        //     // // let total_recored = data.split(" ")
+        //     // // console.log(total_recored)
+        //     // // $('#foundRecord').val(total_recored[3])
+        //     // let tableID = $('#filterResult_div').children().children().attr('id')
+        //     // if (tableID == 'filteredTable_wrapper') {
+        //     //     countRecordFilter()
+        //     // }
+        //     // if (tableID == 'smTable_wrapper') {
+        //     //     countRecord()
+        //     // }
+        // }
         // ends
 
         function toggleSearchFunc() {

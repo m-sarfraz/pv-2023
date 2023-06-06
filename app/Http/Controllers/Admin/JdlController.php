@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\ClientManagement;
 use App\Domain;
 use App\Endorsement;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\DataTables; 
 
 class JdlController extends Controller
 {
@@ -183,18 +184,37 @@ class JdlController extends Controller
 
         $user = DB::table('jdl')->where('jdl.id', $id)
             ->first();
-        $endorsmentCount = Endorsement::where('client', $user->client)
-            ->where('position_title', $user->p_title)->where('career_endo', $user->c_level)
+        $activeEndorsmentCount = Endorsement::where('client', $user->client)
+            ->where('position_title', $user->p_title)->where('career_endo', $user->c_level)->where('category', 'LIKE', 'active%')
+            ->count();
+        $inActiveEndorsmentCount = Endorsement::where('client', $user->client)
+            ->where('position_title', $user->p_title)->where('career_endo', $user->c_level)->where('category', 'LIKE', 'Inactive%')
             ->count();
         $domainDrop = Domain::all();
         $segmentsDropDown = DB::table('segments')->get();
         $sub_segmentsDropDown = DB::table('sub_segments')->get();
+        $endorsement = Endorsement::where('client', $user->client)
+            ->where('position_title', $user->p_title)
+            ->where('career_endo', $user->c_level)
+            ->first();
 
+        $createdDate = null;
+        $turnAround = 0;
+        if ($endorsement) {
+            $createdDate = date('Y-m-d', strtotime($endorsement->created_at));
+            $reqDate = date($user->req_date);
+            $createdDateTime = Carbon::parse($createdDate);
+            $reqDateTime = Carbon::parse($reqDate);
+            $diff = $createdDateTime->diff($reqDateTime);
+            $turnAround = $diff->days;
+        } 
         $data = [
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'segmentsDropDown' => $segmentsDropDown,
             'user' => $user,
-            'endorsmentCount' => $endorsmentCount,
+            'activeEndorsmentCount' => $activeEndorsmentCount,
+            'inActiveEndorsmentCount' => $inActiveEndorsmentCount,
+            'turnAround' => $turnAround,
         ];
         return view('JDL.jdl-detail', $data);
     }
@@ -204,38 +224,23 @@ class JdlController extends Controller
         // return $request->all();
         $arrayCheck = [
             'client' => 'required',
-            "priority" => "required",
-            "ref_code" => "required",
-            "status" => "required",
-            "req_date" => "required |date|after:1970-01-01",
-            "updated_date" => "required |date|after:1970-01-01",
-            "closed_date" => "required |date|after:1970-01-01",
-            "os_date" => "required |date|after:1970-01-01",
+            "p_title" => "required",
+            "c_level" => "required",
             "domain" => "required",
             "segment" => "required",
             "subsegment" => "required",
-            "p_title" => "required",
-            "c_level" => "required",
-            "sll_no" => "required",
-            "t_fte" => "required",
+            "status" => "required",
+            "assignment" => "required",
             "updated_fte" => "required",
-            "edu_attainment" => "required",
-            "jd" => "required",
             "location" => "required",
-            "w_schedule" => "required",
-            "budget" => "required",
-            "poc" => "required",
-            "note" => "required",
-            "start_date" => "required |date|after:1970-01-01",
-            "keyword" => "required",
-            'recruiter' => 'required|array|min:1',
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
             return response()->json(['success' => false, 'message' => $validator->errors()]);
 
         } else {
-            $recruiters = implode(',', $request->recruiter);
+            // return  ($request->all());
+            // $recruiters = implode(',', $request->recruiter);
             $domainName = (Domain::where('id', $request->domain)->first())->domain_name;
             $segmentaName = (Segment::where('id', $request->segment)->first())->segment_name;
             $subsegmentName = (SubSegment::where('id', $request->subsegment)->first())->sub_segment_name;
@@ -243,7 +248,6 @@ class JdlController extends Controller
             $dataArray['domain'] = $domainName;
             $dataArray['segment'] = $segmentaName;
             $dataArray['subsegment'] = $subsegmentName;
-            $dataArray['recruiter'] = $recruiters;
             // return $request->id;
             $checkDup = JDL::where([
                 'client' => $request->client,
@@ -394,7 +398,6 @@ class JdlController extends Controller
     {
         $check = $searchCheck = false;
         // DB::enableQueryLog();
-        // return $request->all();
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
 
@@ -424,6 +427,19 @@ class JdlController extends Controller
         if (isset($request->status)) {
             $status = explode(',', $request->status);
             $Userdata->whereIn('jdl.status', $status);
+        }
+
+        if (isset($request->keyword)) {
+            $Userdata->whereIn('jdl.keyword', $request->keyword);
+        }
+        if (isset($request->priority)) {
+            $Userdata->whereIn('jdl.priority', $request->priority);
+        }
+        if (isset($request->assignment)) {
+            $Userdata->whereIn('jdl.assignment', $request->assignment);
+        }
+        if (isset($request->wschedule)) {
+            $Userdata->whereIn('jdl.w_schedule ', $request->wschedule);
         }
         $dataJdl = $Userdata;
         return Datatables::of($dataJdl)
@@ -590,40 +606,45 @@ class JdlController extends Controller
         if ($request->isMethod('get')) {
             $segmentsDropDown = DB::table('segments')->get();
             $sub_segmentsDropDown = DB::table('sub_segments')->get();
+            $clientData = ClientManagement::all();
             $data = [
+                'clientData' => $clientData,
                 'sub_segmentsDropDown' => $sub_segmentsDropDown,
                 'segmentsDropDown' => $segmentsDropDown,
             ];
             return view('JDL.addJDL', $data);
         }
         if ($request->isMethod('post')) {
+
             $arrayCheck = [
                 'client' => 'required',
-                "priority" => "required",
-                "ref_code" => "required",
-                "status" => "required",
-                "req_date" => "required |date|after:1970-01-01",
-                "updated_date" => "required |date|after:1970-01-01",
-                "closed_date" => "required |date|after:1970-01-01",
-                "os_date" => "required |date|after:1970-01-01",
+                "p_title" => "required",
+                "c_level" => "required",
                 "domain" => "required",
                 "segment" => "required",
                 "subsegment" => "required",
-                "p_title" => "required",
-                "c_level" => "required",
-                "sll_no" => "required",
-                "t_fte" => "required",
+                "req_date" => "required |date|after:1970-01-01",
+                "status" => "required",
+                "assignment" => "required",
                 "updated_fte" => "required",
-                "edu_attainment" => "required",
-                "jd" => "required",
                 "location" => "required",
-                "w_schedule" => "required",
-                "budget" => "required",
-                "poc" => "required",
-                "note" => "required",
-                "start_date" => "required |date|after:1970-01-01",
-                "keyword" => "required",
-                'recruiter[]' => 'required|array|min:1',
+                "t_fte" => "required",
+
+                // "priority" => "required",
+                // "ref_code" => "required",
+                // "updated_date" => "required |date|after:1970-01-01",
+                // "closed_date" => "required |date|after:1970-01-01",
+                // "os_date" => "required |date|after:1970-01-01",
+                // "sll_no" => "required",
+                // "edu_attainment" => "required",
+                // "jd" => "required",
+                // "w_schedule" => "required",
+                // "budget" => "required",
+                // "poc" => "required",
+                // "note" => "required",
+                // "start_date" => "required |date|after:1970-01-01",
+                // "keyword" => "required",
+                // 'recruiter[]' => 'required|array|min:1',
             ];
             $validator = Validator::make($request->all(), $arrayCheck);
             if ($validator->fails()) {
@@ -649,13 +670,13 @@ class JdlController extends Controller
                     return response()->json(['success' => false, 'status' => 1, 'message' => 'Job Exists in Database']);
 
                 } else {
-                    return 'err';
+
                     $jdl = new JDL();
                     $jdl->priority = $request->priority;
                     $jdl->ref_code = $request->ref_code;
                     $jdl->status = $request->status;
                     $jdl->req_date = $request->req_date;
-                    $jdl->maturity = $maturity;
+                    $jdl->maturity = $request->maturity;
                     $jdl->updated_date = $request->updated_date;
                     $jdl->closed_date = $request->closed_date;
                     $jdl->os_date = $request->os_date;
@@ -671,13 +692,18 @@ class JdlController extends Controller
                     $jdl->edu_attainment = $request->edu_attainment;
                     $jdl->jd = $request->jd;
                     $jdl->location = $request->location;
-                    $jdl->w_schedule = $request->w_schedule;
+                    $jdl->w_schedule = $request->work_schedule;
                     $jdl->budget = $request->budget;
                     $jdl->poc = $request->poc;
                     $jdl->note = $request->note;
                     $jdl->start_date = $request->start_date;
                     $jdl->keyword = $request->keyword;
                     $jdl->recruiter = $recruiters;
+                    $jdl->req_id = $request->requisitionID;
+                    $jdl->classification = $request->classification;
+                    $jdl->assignment = $request->assignment;
+                    $jdl->req_classification = $request->req_classification;
+                    $jdl->client_classification = $request->client_classification;
                     $jdl->save();
                     //save COMAPNY addeed log to table starts
                     Helper::save_log('NEW_JDL_Entry');
@@ -761,9 +787,19 @@ class JdlController extends Controller
         $subSegment = DB::table('jdl')->select("subsegment")->groupby("subsegment")->get();
         $position_title = DB::table('jdl')->select("p_title")->groupby("p_title")->get();
         $career_level = DB::table('jdl')->select("c_level")->groupby("c_level")->get();
-        $location = DB::table('jdl')->select("location")->groupby("location")->get();
+        // $location = DB::table('jdl')->select("location")->groupby("location")->get();
         $client = DB::table('jdl')->select("client")->groupby("client")->get();
+
+        $location = Helper::get_dropdown('location');
+        $keyword = Helper::get_dropdown('keyword');
+        $priority = Helper::get_dropdown('priority');
+        $assignment = Helper::get_dropdown('assignment');
+        $wschedule = Helper::get_dropdown('work_schedule');
         return response()->json([
+            'keyword' => $keyword,
+            'priority' => $priority,
+            'assignment' => $assignment,
+            'wschedule' => $wschedule,
             'domains' => $domains,
             'segment' => $segment,
             'subSegment' => $subSegment,

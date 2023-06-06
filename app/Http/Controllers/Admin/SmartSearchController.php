@@ -85,56 +85,85 @@ class SmartSearchController extends Controller
     // convert table to yajra data table on page load
     public function smartTOYajra(Request $request)
     {
-        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
-        ini_set('memory_limit', '10000M'); //10000M  = 10 GB
-        Artisan::call('cache:clear');
-        if ($request->search['value'] != '') {
-            $recordQuery = DB::table('updated_view_record');
-            if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
-                if ($request->search['value'] == strtolower('male')) {
-                    $recordQuery->where('gender', "'MALE'");
-                }
-                if ($request->search['value'] == strtolower('female')) {
-                    $recordQuery->where('gender', "'FEMALE'");
-                }
-                if ($request->search['value'] == strtolower('graduate')) {
-                    $recordQuery->where('educational_attain', "'GRADUATE'");
-                }
-            } else {
+        $columns = $request->input('columns');
 
-                $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
-                foreach ($columnArray as $value) {
-                    $search = "%" . $request->search['value'] . "%";
-                    $recordQuery->orWhere($value, 'like', "'$search'");
-                }
-            }
-            $sqlQuery = Str::replaceArray('?', $recordQuery->getBindings(), $recordQuery->toSql());
-            $result = DB::select($sqlQuery);
-            $record = $result;
-            foreach ($record as $key => $value) {
-                $this->candidate_arr[$value->endorsement_id] = $value->cid;
-            }
-            $totalCount = count($record);
+        // Initialize the new array
+        $newArray = [];
 
-        } else {
-            $this->candidate_arr = 1;
-            $totalCount = DB::select('select count(*) as total from endorsements where candidate_id=candidate_id and is_deleted = 0');
-            $totalCount = ($totalCount)[0]->total;
-            $record = DB::table('updated_view_record');
+        // Iterate through the $columns array using a for loop
+        for ($i = 0; $i < count($columns); $i++) {
+            // Check if the condition is met
+            if (!empty($columns[$i]['search']['value'])) {
+                // Push the value into the new array
+                $newArray[] = $columns[$i]['search']['value'];
+            }
         }
+
+        // Check if the new array is empty or has values
+        if (empty($newArray)) {
+            ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
+            ini_set('memory_limit', '10000M'); //10000M  = 10 GB
+            Artisan::call('cache:clear');
+            if ($request->search['value'] != '') {
+                $recordQuery = DB::table('updated_view_record');
+                if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
+                    if ($request->search['value'] == strtolower('male')) {
+                        $recordQuery->where('gender', "'MALE'");
+                    }
+                    if ($request->search['value'] == strtolower('female')) {
+                        $recordQuery->where('gender', "'FEMALE'");
+                    }
+                    if ($request->search['value'] == strtolower('graduate')) {
+                        $recordQuery->where('educational_attain', "'GRADUATE'");
+                    }
+                } else {
+
+                    $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
+                    foreach ($columnArray as $value) {
+                        $search = "%" . $request->search['value'] . "%";
+                        $recordQuery->orWhere($value, 'like', "'$search'");
+                    }
+                }
+                $sqlQuery = Str::replaceArray('?', $recordQuery->getBindings(), $recordQuery->toSql());
+                $result = DB::select($sqlQuery);
+                $record = $result;
+                foreach ($record as $key => $value) {
+                    $this->candidate_arr[$value->endorsement_id] = $value->cid;
+                }
+                $totalCount = count($record);
+
+            } else {
+                $this->candidate_arr = 1;
+                $totalCount = Endorsement::count();
+                $record = DB::table('updated_view_record');
+            }
+        } else {
+            $record = DB::table('updated_view_record');
+            for ($i = 0; $i < count($columns); $i++) {
+                if ($columns[$i]['search']['value'] != '') {
+                    $searchValue = $columns[$i]['search']['value'];
+                    $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
+
+                }
+            }
+
+            $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
+            $totalCount = $record->count();
+        }
+        // dd($record);
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
                 return $record->cid . '-' . $record->endorsement_id . '-' . $record->saved_by . '-' . $record->finance_id;
             })
-            ->addColumn('team', function ($record) {
+            ->addColumn('team_name', function ($record) {
                 // $userid = User::where('id', $record->saved_by)->get();
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
 
             })
-            ->addColumn('recruiter', function ($record) {
+            ->addColumn('recruiter_name', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
@@ -143,14 +172,14 @@ class SmartSearchController extends Controller
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
             })
-            ->addColumn('profile', function ($record) {
+            ->addColumn('candidate_profile', function ($record) {
                 return $record->candidate_profile;
             })
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
 
-            ->addColumn('Candidate', function ($record) {
+            ->addColumn('fullName', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
 
             })
@@ -187,13 +216,6 @@ class SmartSearchController extends Controller
                 return $record->exp_salary;
             })
 
-        // ->addColumn('Replacement_For', function ($Alldata) {
-        //     return $Alldata->replacement_for;
-        // })
-        // ->addColumn('OR_Number', function ($Alldata) {
-        //     return $Alldata->or_number;
-
-        // })
             ->addColumn('appStatus', function ($record) {
                 return $record->app_status;
             })
@@ -235,9 +257,7 @@ class SmartSearchController extends Controller
             ->addColumn('remarks_for_finance', function ($record) {
                 return $record->remarks_for_finance;
             })
-        // ->addColumn('invoice_number', function ($record) {
-        //     return $record->invoice_number;
-        // })
+
             ->addColumn('onboardnig_date', function ($record) {
                 return $record->onboardnig_date;
             })
@@ -248,34 +268,35 @@ class SmartSearchController extends Controller
             ])
             ->rawColumns([
                 'id',
-                'recruiter',
-                'team',
-                'Candidate',
-                'appStatus',
-                'profile',
-                'career_level',
-                'certification',
-                'client',
-                'phone',
-                'course',
-                'endi_date',
-                'date_invited',
+                'DT_RowIndex',
+                'team_name',
+                'recruiter_name',
                 'date_shifted',
-                'educational_attain',
-                'emp_history',
-                'type',
-                'exp_salary',
+                'candidate_profile',
+                'date_invited',
+                'fullName',
                 'gender',
-                'interview_note',
-                'invoice_number',
-                'onboardnig_date',
-                'position_title',
-                'remarks_for_finance',
+                'phone',
+                'Email',
                 'address',
-                'segment',
+                'course',
+                'educational_attain',
+                'certification',
+                'emp_history',
+                'interview_note',
+                'exp_salary',
+                'appStatus',
+                'type',
+                'endi_date',
+                'client',
                 'site',
-                'endostatus',
+                'position_title',
+                'career_level',
+                'segment',
                 'sub_segment',
+                'endostatus',
+                'remarks_for_finance',
+                'onboardnig_date',
             ])
             ->make(true);
 
@@ -286,165 +307,139 @@ class SmartSearchController extends Controller
     public function filterSearch(Request $request)
     {
         ini_set('memory_limit', '10000M'); //10000M  = 10 GB
-        $data = [];
-        $check = $searchCheck = false;
-        // $search = $request->search;
-        $Userdata = DB::table('updated_view_record');
-        //    check null values coming form selected options
+
+        $record = DB::table('updated_view_record');
+        //    check null values coming form selected options and apply
         if (isset($request->p_title)) {
-            $Userdata->whereIn('updated_view_record.position_title', $request->p_title);
+            $record->whereIn('position_title', $request->p_title);
         }
         if (isset($request->profile)) {
-            $Userdata->whereIn('updated_view_record.candidate_profile', $request->profile);
+            $record->whereIn('candidate_profile', $request->profile);
         }
         if (isset($request->cname)) {
-            $Userdata->whereIn('updated_view_record.cid', $request->cname);
+            $record->whereIn('cid', $request->cname);
         }
         if (isset($request->segment)) {
-            $Userdata->whereIn('updated_view_record.segment', $request->segment);
+            $record->whereIn('segment', $request->segment);
         }
         if (isset($request->subSegment)) {
-            $Userdata->whereIn('updated_view_record.sub_segment', $request->subSegment);
+            $record->whereIn('sub_segment', $request->subSegment);
         }
         if (isset($request->course)) {
-            $Userdata->whereIn('updated_view_record.course', $request->course);
+            $record->whereIn('course', $request->course);
         }
         if (isset($request->certification)) {
-            $Userdata->whereIn('updated_view_record.certification', $request->certification);
+            $record->whereIn('certification', $request->certification);
         }
         if (isset($request->team)) {
-            $Userdata->whereIn('updated_view_record.team_name', $request->team);
+            $record->whereIn('team_name', $request->team);
         }
         if (isset($request->appStatus)) {
-            $Userdata->whereIn('updated_view_record.app_status', $request->appStatus);
+            $record->whereIn('app_status', $request->appStatus);
         }
         if (isset($request->min_salary) && isset($request->max_salary)) {
-            $Userdata->whereBetween('updated_view_record.curr_salary', [$request->min_salary, $request->max_salary]);
+            $record->whereBetween('curr_salary', [$request->min_salary, $request->max_salary]);
         } else if (isset($request->min_salary)) {
-            $Userdata->where('updated_view_record.curr_salary', '>=', $request->min_salary);
+            $record->where('curr_salary', '>=', $request->min_salary);
         } else if (isset($request->max_salary)) {
-            $Userdata->where('updated_view_record.curr_salary', '<=', $request->max_salary);
+            $record->where('curr_salary', '<=', $request->max_salary);
         }
-        
 
         if (isset($request->domain)) {
-            $Userdata->whereIn('updated_view_record.domain_endo', $request->domain);
+            $record->whereIn('domain_endo', $request->domain);
         }
         if (isset($request->recruiter)) {
-            $Userdata->whereIn('updated_view_record.saved_by', $request->recruiter);
+            $record->whereIn('saved_by', $request->recruiter);
         }
         if (isset($request->status)) {
             $status = explode(',', $request->status);
-            $Userdata->whereIn('updated_view_record.endostatus', $status);
+            $record->whereIn('endostatus', $status);
         }
         if (isset($request->client)) {
-            // return $request->client;
-            $Userdata->whereIn('updated_view_record.client', $request->client);
+            $record->whereIn('client', $request->client);
         }
         if ($request->cip == 1) {
-            $stageArray = [
-                'Scheduled for Skills Interview',
-                'Scheduled for Technical Interview',
-                'Scheduled for Technical exam',
-                'Sheduled for Behavioral Interview',
-                'Scheduled for account validation',
-                'Done Skills interview/ Awaiting Feedback',
-                'Done Techincal Interview /Awaiting Feedback',
-                'Done Technical exam /Awaiting Feedback',
-                'Done Behavioral /Awaiting Feedback',
-                'Failed Skills interview',
-                'Failed Techincal Interview',
-                'Failed Technical exam',
-                'Failed Behavioral Interview',
-                'Pending Country Head Interview',
-                'Pending Final Interview',
-                'Pending Hiring Managers Interview',
-                'Withdraw / CNI - Mid',
-                'Position Closed (Mid Stage)',
-                'Done Skills/Technical Interview / Awaiting Feedback',
-                'Failed Skills/Technical Interview',
-                'Position On Hold (Mid Stage)',
-                'Scheduled for Behavioral Interview',
-                'Scheduled for Skills/Technical Interview',
-                'Fallout/Reneged',
-                'Scheduled for Country Head Interview',
-                'Scheduled for Final Interview',
-                'Scheduled for Hiring Managers Interview',
-                'Done Behavioral Interview / Awaiting Feedback',
-                'Done Final Interview / Awaiting Feedback',
-                'Done Hiring Managers Interview / Awaiting Feedback',
-                'Failed Country Head Interview',
-                'Failed Final Interview',
-                'Failed Hiring Managers Interview',
-                'Scheduled for Job Offer',
-                'Shortlisted/For Comparison',
-                'Offer accepted',
-                'Offer Rejected',
-                'Position Closed (Final Stage)',
-                'Withdraw / CNI - Final',
-                'Done Country Head Interview / Awaiting Feedback',
-                'Pending Offer Approval',
-                'Pending Offer Schedule',
-                'Position On Hold (Final Stage)',
-                'Shortlisted',
-            ];
-            $Userdata->whereIn('updated_view_record.remarks_for_finance', $stageArray);
+            $record->where('category', 'LIKE', 'active%');
         }
         if (isset($request->residence)) {
-            $Userdata->whereIn('updated_view_record.address', $request->residence);
+            $record->whereIn('address', $request->residence);
         }
         if (isset($request->career_level)) {
-            $Userdata->whereIn('updated_view_record.career_endo', $request->career_level);
+            $record->whereIn('career_endo', $request->career_level);
         }
         if (isset($request->category)) {
-            $Userdata->whereIn('updated_view_record.category', $request->category);
+            $record->whereIn('category', $request->category);
         }
         if (isset($request->remarks)) {
-            $Userdata->whereIn('updated_view_record.remarks_for_finance', $request->remarks);
+            $record->whereIn('remarks_for_finance', $request->remarks);
         }
         if (isset($request->portal)) {
-            $Userdata->whereIn('updated_view_record.source', $request->portal);
+            $record->whereIn('source', $request->portal);
         }
         if (isset($request->ob_start)) {
-            $Userdata->whereDate('updated_view_record.onboardnig_date', '>=', $request->ob_start);
+            $record->whereDate('onboardnig_date', '>=', $request->ob_start);
         }
         if (isset($request->ob_end)) {
-            $Userdata->whereDate('updated_view_record.onboardnig_date', '<=', $request->ob_end);
+            $record->whereDate('onboardnig_date', '<=', $request->ob_end);
         }
         if (isset($request->sift_start)) {
-            $Userdata->whereDate('updated_view_record.date_shifted', '>=', $request->sift_start);
+            $record->whereDate('date_shifted', '>=', $request->sift_start);
         }
         if (isset($request->sift_end)) {
-            $Userdata->whereDate('updated_view_record.date_shifted', '<=', $request->sift_end);
+            $record->whereDate('date_shifted', '<=', $request->sift_end);
         }
         if (isset($request->endo_start)) {
-            $Userdata->whereDate('updated_view_record.endi_date', '>=', $request->endo_start);
+            $record->whereDate('endi_date', '>=', $request->endo_start);
         }
         if (isset($request->endo_end)) {
-            $Userdata->whereDate('updated_view_record.endi_date', '<=', $request->endo_end);
+            $record->whereDate('endi_date', '<=', $request->endo_end);
         }
-        $record = $Userdata->get();
-        $totalCount = count($record);
-        $arrayOfIDS = $Userdata->select('cid', 'endorsement_id')->get();
+
+        $columns = $request->input('columns');
+        $newArray = [];
+        for ($i = 0; $i < count($columns); $i++) {
+            if (!empty($columns[$i]['search']['value'])) {
+                // Push the value into the new array
+                $newArray[] = $columns[$i]['search']['value'];
+            }
+        }
+
+        if (empty($newArray)) {
+        } else {
+            for ($i = 0; $i < count($columns); $i++) {
+                if ($columns[$i]['search']['value'] != '') {
+                    $searchValue = $columns[$i]['search']['value'];
+                    $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
+                    $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
+                }
+            }
+        }
+
+        $totalCount = $record->count();
+        // $arrayOfIDS = $record->select('cid', 'endorsement_id')->get();
         // return $arrayOfIDS;
         // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
-        foreach ($arrayOfIDS as $key => $value) {
-            $this->candidate_arr[$value->endorsement_id] = $value->cid;
-        }
+        // foreach ($arrayOfIDS as $key => $value) {
+        //     $this->candidate_arr[$value->endorsement_id] = $value->cid;
+        // }
         //    return $this->candidate_arr;
+        // return ($record);
+        $cidArray = $record->pluck('cid', 'endorsement_id')->toArray();
+
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
+
                 return $record->cid . '-' . $record->endorsement_id . '-' . $record->saved_by . '-' . $record->finance_id;
             })
-            ->addColumn('team', function ($record) {
+            ->addColumn('team_name', function ($record) {
                 // $userid = User::where('id', $record->saved_by)->get();
                 // $team = $userid[0]->roles->pluck('name');
                 // return json_decode($team);
                 return $record->team_name;
 
             })
-            ->addColumn('recruiter', function ($record) {
+            ->addColumn('recruiter_name', function ($record) {
                 // $recr = (User::where('id', $record->saved_by)->first())->name;
                 // return $recr;
                 return $record->recruiter_name;
@@ -453,14 +448,14 @@ class SmartSearchController extends Controller
             ->addColumn('date_shifted', function ($record) {
                 return $record->date_shifted;
             })
-            ->addColumn('profile', function ($record) {
+            ->addColumn('candidate_profile', function ($record) {
                 return $record->candidate_profile;
             })
             ->addColumn('date_invited', function ($record) {
                 return $record->date_invited;
             })
 
-            ->addColumn('Candidate', function ($record) {
+            ->addColumn('fullName', function ($record) {
                 return $record->first_name . ' ' . $record->middle_name . ' ' . $record->last_name;
 
             })
@@ -553,40 +548,40 @@ class SmartSearchController extends Controller
             })
             ->setTotalRecords($totalCount)
             ->with([
-                'array' => $this->candidate_arr,
+                'array' => $cidArray,
                 'search' => $request->search,
             ])
             ->rawColumns([
                 'id',
-                'recruiter',
-                'team',
-                'Candidate',
-                'appStatus',
-                'profile',
-                'career_level',
-                'certification',
-                'client',
-                'phone',
-                'course',
-                'endi_date',
-                'date_invited',
+                'DT_RowIndex',
+                'team_name',
+                'recruiter_name',
                 'date_shifted',
-                'educational_attain',
-                'emp_history',
-                'type',
-                'exp_salary',
+                'candidate_profile',
+                'date_invited',
+                'fullName',
                 'gender',
-                'interview_note',
-                'invoice_number',
-                'onboardnig_date',
-                'position_title',
-                'remarks',
-                'remarks_for_finance',
+                'phone',
+                'Email',
                 'address',
-                'segment',
+                'course',
+                'educational_attain',
+                'certification',
+                'emp_history',
+                'interview_note',
+                'exp_salary',
+                'appStatus',
+                'type',
+                'endi_date',
+                'client',
                 'site',
-                'endostatus',
+                'position_title',
+                'career_level',
+                'segment',
                 'sub_segment',
+                'endostatus',
+                'remarks_for_finance',
+                'onboardnig_date',
             ])
             ->make(true);
     }
@@ -662,7 +657,7 @@ class SmartSearchController extends Controller
                 'revenue' => 0,
                 'spr' => 0,
                 'activeSPR' => 0,
-                'salary' => 0,
+                'salary' => 0, 
                 'total' => 0,
                 'unique' => 0,
             ];
@@ -690,7 +685,7 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1 . "and endorsements.is_deleted='0' ");
             $active_spr = DB::select($sql1);
             $sql_getActive_spr = DB::select($sql_active_spr);
-            $unique =  CandidateInformation::count();
+            $unique = CandidateInformation::count();
         } else {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0' group by endorsements.candidate_id ");
             $sql_active = $sql . "where endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
@@ -709,7 +704,7 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1);
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
-            $unique =  CandidateInformation::count();
+            $unique = CandidateInformation::count();
         }
         $sql_spr_amount = 0;
         $sql_active_spr_amount = 0;
@@ -728,7 +723,7 @@ class SmartSearchController extends Controller
             $total_salary = ($total_salary + $salary->t_salary);
         }
         $data = [
-            'unique' =>  $unique ,
+            'unique' => $unique,
             'endo' => count(DB::select($sql_enors)),
             'active' => count(DB::select($sql_active)),
             'onBoarded' => count(DB::select($sql_onboarded)),

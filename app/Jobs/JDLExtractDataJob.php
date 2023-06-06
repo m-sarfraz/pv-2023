@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Exports\DataExport;
-use App\Report;
+use App\JDLReportB;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use DB;
 use Illuminate\Bus\Queueable;
@@ -13,14 +13,12 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
-use Str;
-
-class ExtractDataJob implements ShouldQueue
+use Str; 
+class JDLExtractDataJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $data;
     private $id;
-
     /**
      * Create a new job instance.
      *
@@ -29,7 +27,7 @@ class ExtractDataJob implements ShouldQueue
     public function __construct($data, $id)
     {
         $this->data = $data;
-        $this->id = $id;
+        $this->id = $id;  
     }
 
     /**
@@ -44,42 +42,45 @@ class ExtractDataJob implements ShouldQueue
         ini_set('max_execution_time', -1); //-1 seconds = infinite
         ini_set('memory_limit', -1); //1000M  = 1 GB
 
-        $Userdata = DB::table('data_extract_view');
+        $Userdata = DB::table('jdl_extract_view');
         //    check null values coming form selected options
-        if (isset($this->data['domain'])) {
-            $Userdata->whereIn('data_extract_view.DOMAIN ENDORSEMENT', $this->data['domain']);
-        }
-        if (isset($this->data['ob_start'])) {
-            $Userdata->whereDate('data_extract_view.ONBOARDING DATE', '>=',    $this->data['ob_start']);
-        }
-        if (isset($this->data['ob_end'])) {
-            $Userdata->whereDate('data_extract_view.ONBOARDING DATE', '<=',    $this->data['ob_end']);
-        }
         if (isset($this->data['client'])) {
-            $Userdata->whereIn('data_extract_view.CLIENT', $this->data['client']);
+            $Userdata->whereIn('jdl_extract_view.CLIENT', $this->data['client']);
         }
-
+        if (isset($this->data['domain'])) {
+            $Userdata->whereIn('jdl_extract_view.DOMAIN', $this->data['domain']);
+        }
+        if (isset($this->data['segment'])) {
+            $Userdata->whereIn('jdl_extract_view.SEGMENT',    $this->data['segment']);
+        }
+        if (isset($this->data['subSegment'])) {
+            $Userdata->whereIn('jdl_extract_view.SUBSEGMENT',    $this->data['subSegment']);
+        }
+        if (isset($this->data['position_title'])) {
+            $Userdata->whereIn('jdl_extract_view.POSITION TITLE',    $this->data['position_title']);
+        } 
         if (isset($this->data['career_level'])) {
-            $Userdata->whereIn('data_extract_view.CAREER LEVEL', $this->data['career_level']);
+            $Userdata->whereIn('jdl_extract_view.CAREER LEVEL', $this->data['career_level']);
+        } 
+        if (isset($this->data['status'])) {
+            $Userdata->whereIn('jdl_extract_view.STATUS', $this->data['status']);
         }
-        if (isset($this->data['category'])) {
-            $Userdata->whereIn('data_extract_view.CATEGORY', $this->data['category']);
+        if (isset($this->data['location'])) {
+            $Userdata->whereIn('jdl_extract_view.LOCATION', $this->data['location']);
         }
-        if (isset($this->data['remarks'])) {
-            $Userdata->whereIn('data_extract_view.REMARKS (For Finance)', $this->data['remarks']);
+        if (isset($this->data['keyword'])) {
+            $Userdata->whereIn('jdl_extract_view.KEYWORD(overlapping)', $this->data['keyword']);
         }
-        if (isset($this->data['sift_start'])) {
-            $Userdata->where('data_extract_view.DATE SIFTED', '>=', $this->data['sift_start']);
+        if (isset($this->data['priority'])) {
+            $Userdata->where('jdl_extract_view.PRIORITY', $this->data['priority']);
         }
-        if (isset($this->data['sift_end'])) {
-            $Userdata->where('data_extract_view.DATE SIFTED', '<=', $this->data['sift_end']);
+        if (isset($this->data['assignment'])) {
+            $Userdata->where('jdl_extract_view.ASSIGNMENT',  $this->data['assignment']);
         }
-        if (isset($this->data['endo_start'])) {
-            $Userdata->whereDate('data_extract_view.DATE ENDORSED', '>=', $this->data['endo_start']);
+        if (isset($this->data['wschedule'])) {
+            $Userdata->whereDate('jdl_extract_view.WORK SCHEDULE', $this->data['wschedule']);
         }
-        if (isset($this->data['endo_end'])) {
-            $Userdata->whereDate('data_extract_view.DATE ENDORSED', '<=', $this->data['endo_end']);
-        }
+ 
     //    dd( $sql = Str::replaceArray('?', $Userdata->getBindings(), $Userdata->toSql()));
     //     dd($Userdata->get());
         $header_style = (new StyleBuilder())
@@ -94,9 +95,9 @@ class ExtractDataJob implements ShouldQueue
             ->setBackgroundColor("FFFFFF")
             ->build();
 
-        if ($Userdata) {
+        if ($Userdata) { 
             $fileName = time();
-            $report = new Report();
+            $report = new JDLReportB();
             $report->type = 'CSV';
             $report->user_id = $this->id;
             $report->export_date = now()->addMinute(60);
@@ -104,14 +105,14 @@ class ExtractDataJob implements ShouldQueue
             $report->save();
             try {
                 // Or save the file to disk
-                $headers = DB::getSchemaBuilder()->getColumnListing('data_extract_view');
+                $headers = DB::getSchemaBuilder()->getColumnListing('jdl_extract_view');
 
                 $collection = $Userdata->get();
                 $dataExport = new DataExport($collection, $headers);
                 Storage::put('public/data.txt', $dataExport);
-                if (Excel::store($dataExport, 'SDB-' .$fileName . '.csv', 'excel_uploads')) {
-                    Report::where('id', $report->id)->update([
-                        'download_link' => 'SDB-' .$fileName . '.csv',
+                if (Excel::store($dataExport,'JDL-'. $fileName . '.csv', 'excel_uploads')) {
+                    JDLReportB::where('id', $report->id)->update([
+                        'download_link' =>'JDL-'. $fileName . '.csv',
                         'status' => 'Exported',
                     ]);
                 }
@@ -120,7 +121,7 @@ class ExtractDataJob implements ShouldQueue
                 //     Report::where('id', $report->id)->update([
                 //         'download_link' =>$fileName . '.xlsx',
                 //         'status' => 'Exported',
-                //     ]);
+                //     ]);  
                 // }
 
             } catch (\Exception$e) {
@@ -129,12 +130,5 @@ class ExtractDataJob implements ShouldQueue
 
         }
 
-    }
-    public function usersGenerator($Userdata)
-    {
-        dd($Userdata->count());
-        foreach ($Userdata->cursor() as $user) {
-            yield $user;
-        }
     }
 }

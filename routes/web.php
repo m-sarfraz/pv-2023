@@ -67,12 +67,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     // companies routes
     Route::get('companies', 'CompanyController@show')->name('companies');
-    Route::match(['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
-    Route::match(['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
+    Route::match (['get', 'post'], 'add-company', 'CompanyController@add_company')->name('add_company');
+    Route::match (['get', 'post'], 'company-detail/{id}', 'CompanyController@view_company')->name('view_company');
     Route::post('update_company/{id}', 'CompanyController@update_company')->name('update_company');
     //JDL Routes
     Route::get('jdl', 'JdlController@index')->name("jdl");
-    Route::match(['get', 'post'], 'add-jdl', 'JdlController@addJDLEntry')->name("add-jdl");
+    Route::match (['get', 'post'], 'add-jdl', 'JdlController@addJDLEntry')->name("add-jdl");
 
     Route::get('view-jdl-table', 'JdlController@view_jdl_table')->name('view-jdl-table');
     Route::get('view-jdl-filter-table', 'JdlController@view_jdl_filter_table')->name('view-jdl-filter-table');
@@ -89,8 +89,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('record', 'RecordController@index')->name('record');
     Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
     Route::get('filter_records_detail', 'RecordController@UserDetails')->name('filterRecordDetail');
-    Route::match(['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
-    Route::match(['get', 'post'], 'deleteCandidateData', 'RecordController@deleteCandidateData')->name('deleteCandidateData');
+    Route::match (['get', 'post'], 'update_records_detail', 'RecordController@updateDetails')->name('updateRecordDetail');
+    Route::match (['get', 'post'], 'deleteCandidateData', 'RecordController@deleteCandidateData')->name('deleteCandidateData');
     Route::get('view-record-table', 'RecordController@view_record_table')->name('view-record-table');
     Route::post('view-record-filter-table', 'RecordController@view_record_filter_table')->name('view-record-filter-table');
     Route::get('appendFilterOptions', 'RecordController@appendFilterOptions')->name('appendFilterOptions');
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
-    Route::match(['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
+    Route::match (['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
 
     // Route::resource('team', 'TeamController')->name('*', 'team');
     //
@@ -109,9 +109,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('Get_Position_title', 'CandidateController@Get_Position_title')->name('Get_Position_title');
     Route::get('get_candidateList', 'CandidateController@get_candidateList')->name('get_candidateList');
     Route::post('traveseDataByClientProfile', 'CandidateController@traveseDataByClientProfile')->name('traveseDataByClientProfile');
-    Route::match(['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
-    Route::match(['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
-    Route::match(['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
+    Route::match (['get', 'post'], 'save-data-entry', 'CandidateController@save_data_entry')->name('save-data-entry');
+    Route::match (['get', 'post'], 'update-data-entry/{id}', 'CandidateController@update_data_entry');
+    Route::match (['get', 'post'], 'download_cv', 'CandidateController@downloadCv');
 
     // multiple endorsements view routes
     Route::post('endorsements_detail_view', 'CandidateController@endorsementDetailView')->name('endorsements_detail_view');
@@ -133,9 +133,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('finance', 'FinanceController@index')->name('finance');
     Route::get('finance_records_detail', 'FinanceController@recordDetail')->name('financeRecordDetail');
     Route::get('view-finance-search-table', 'FinanceController@view_finance_search_table')->name('view-finance-search-table');
-    Route::match(['get', 'post'], 'filter_records_finance', 'FinanceController@recordFilter')->name('financeRecordFilter');
-    Route::match(['get', 'post'], 'filterView', 'FinanceController@filterView')->name('filterView');
-    Route::match(['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
+    Route::match (['get', 'post'], 'filter_records_finance', 'FinanceController@recordFilter')->name('financeRecordFilter');
+    Route::match (['get', 'post'], 'filterView', 'FinanceController@filterView')->name('filterView');
+    Route::match (['get', 'post'], 'save_finance-reference', 'FinanceController@SavefinanceReference')->name('SavefinanceReference');
     Route::get('summaryAppend_finance', 'FinanceController@summaryAppend')->name('summaryAppend_finance');
     Route::get('appendFinanceOptions', 'FinanceController@appendFinanceOptions')->name('appendFinanceOptions');
     Route::any('financeserachforsummary', 'FinanceController@FinanceSearchForSummary')->name('financeserachforsummary');
@@ -150,12 +150,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('appendSmartFilters', 'SmartSearchController@appendSmartFilters')->name('appendSmartFilters');
     Route::post('searchsummary', 'SmartSearchController@searchsummary')->name('searchsummary');
 
-    // Data extract routes
-    Route::get('extract-data', 'DataExtractController@index')->name('extract-data');
+    // SDB Data extract routes
+    Route::get('sdb-extract-data', 'DataExtractController@index')->name('sdb-extract-data');
     Route::get('append-extract-option', 'DataExtractController@appendFilterOptions')->name('append-extract-option');
     Route::get('extract-search-filter', 'DataExtractController@extractData')->name('extract-search-filter');
     Route::get('get-report-history', 'DataExtractController@getReportHistory')->name('get-report-history');
     Route::get('download-report', 'DataExtractController@downloadReport')->name('download-report');
+
+    // jdl Data extract routes
+    Route::get('jdl-extract-data', 'DataExtractController@jdl')->name('jdl-extract-data');
+    Route::get('appendJdlOptionsDataExtract', 'DataExtractController@appendJdlOptionsDataExtract')->name('appendJdlOptionsDataExtract');
+    Route::post('extract-search-filter-jdl', 'DataExtractController@extractDataJDL')->name('extract-search-filter-jdl');
+    Route::get('get-report-history-jdl', 'DataExtractController@getReportHistoryJDL')->name('get-report-history-jdl');
 
     // dropdown routes
     Route::get('dropdown', 'DropDownController@view_dropdown')->name('dropdown');
@@ -164,7 +170,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('save-dropdown', 'DropDownController@save_dropdown')->name('save-dropdown');
     Route::get('view-dropdown', 'DropDownController@ajax_view_dropdown')->name('view-dropdown');
     Route::post('save-options', 'DropDownController@save_options')->name('save-options');
-    Route::match(['get', 'post'], 'view-options', 'DropDownController@view_options')->name('view-options');
+    Route::match (['get', 'post'], 'view-options', 'DropDownController@view_options')->name('view-options');
     Route::post('delete-option', 'DropDownController@delete_option')->name('delete-option');
     Route::post('update-option', 'DropDownController@update_option')->name('update-option');
     Route::post('change-option-status', 'DropDownController@change_status')->name('change-option-status');
@@ -179,6 +185,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('add-profile', 'DomainController@add_profile')->name('add-profiles');
     Route::post('delete-option-domain', 'DomainController@deleteOption')->name('delete-option-domain');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
+
+    // client dropdown management routes
+    Route::match (['get', 'post'], 'load-client-table', 'DomainController@view_client_table')->name('load-client-table');
+    Route::post('delete-client-spiel', 'DomainController@deleteClientSpiel')->name('delete-client-spiel');
+    Route::post('edit-client-spiel', 'DomainController@editClientSpiel')->name('edit-client-spiel');
+    Route::post('add-client-spiel', 'DomainController@saveClientSpiel')->name('add-client-spiel');
+    Route::post('add-client', 'DomainController@add_client')->name('add-client');
+    Route::post('add-classification', 'DomainController@add_classification')->name('add-classification');
+
     // testing link fro entring or testing data
     Route::get('testinglink', 'DomainController@testinglink')->name('testinglink');
 });

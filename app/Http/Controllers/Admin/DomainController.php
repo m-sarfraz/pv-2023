@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\clientManagement;
 use App\Domain;
+use App\DropDown;
+use App\DropDownOption;
 use App\Http\Controllers\Controller;
+use App\JDL;
 use App\Profile;
 use App\Segment;
 use App\SubSegment;
@@ -52,6 +56,110 @@ class DomainController extends Controller
             ->rawColumns(['sub_segment_name', 'action'])
             ->make(true);
     }
+
+    //show client, classificaton and spiel table
+    public function view_client_table(Request $request)
+    {
+        $data = clientManagement::all();
+        return Datatables::of($data)
+            ->addColumn('client', function ($data) {
+                return $data->client;
+            })
+            ->addColumn('ClientClassification', function ($data) {
+                return $data->ClientClassification;
+            })
+            ->addColumn('ClientSpiel', function ($data) {
+                return $data->ClientSpiel;
+            })
+            ->addColumn('action', function ($data) {
+                $route = Route("delete-client-spiel");
+                $function = 'delete_client_spiel(this,"' . $route . '")';
+                $b = "<button onclick='" . $function . "' data-id='" . $data->id . "' class='btn btn-sm btn-danger mr-3  border-0' >Delete</button>";
+
+                $route = Route("edit-client-spiel");
+                $function = 'edit_client_spiel(this,"' . $route . '")';
+                $b .= "<button onclick='" . $function . "' data-id='" . $data->id . "' class=' btn btn-sm btn-primary mr-3 border-0' data-objct = '" . json_encode($data) . "'>Edit</button>";
+
+                return $b;
+            })
+            ->rawColumns(['sub_segment_name', 'action'])
+            ->make(true);
+    }
+    // ends
+
+    // function for deleting the client spiel
+    public function deleteClientSpiel(Request $request)
+    {
+        try {
+            clientManagement::where('id', $request->id)->delete();
+            return response()->json(['success' => true, 'message' => 'Dropdown Deleted Successfully']);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
+        }
+
+    }
+    // ends
+    // function for updating the data
+    public function editClientSpiel(Request $request)
+    {
+
+        $arrayCheck = [
+            "modalClient" => "required",
+
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => 'error', 'message' => $validator->errors()]);
+        } else {
+            $bol = clientManagement::where([
+                'client' => $request->modalClient,
+                'ClientClassification' => $request->clientClassificationModal,
+            ])->where('id', '!=', $request->id)->exists();
+            if ($bol) {
+                return response()->json(['success' => 'duplicate', 'message' => 'Duplicate Entry Deducted']);
+
+            }
+            clientManagement::where('id', $request->id)
+                ->update([
+                    'client' => $request->modalClient,
+                    'ClientClassification' => $request->clientClassificationModal,
+                    'ClientSpiel' => $request->clientSpielModal,
+                ]);
+            return response()->json(['success' => true, 'message' => 'Update Successfully']);
+
+        }
+    }
+    // ends
+    // function for saving client, spi el and classification
+    public function saveClientSpiel(Request $request)
+    {
+        $arrayCheck = [
+            "clients" => "required",
+
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        } else {
+            $exists = clientManagement::where([
+                'client' => $request->clients, 'clientClassification' => $request->clientClassification])->exists();
+            if ($exists) {
+                return response()->json(['success' => 'duplicate', 'message' => $validator->errors()->first()]);
+            } else {
+                $data = new clientManagement();
+                $data->client = $request->clients;
+                $data->clientClassification = $request->clientClassification;
+                $data->clientSpiel = $request->clientSpiel;
+                $data->save();
+                return response()->json(['success' => true, 'message' => 'Data Inserted Successfully']);
+
+            }
+        }
+
+    }
+    // ends
+
     public function domain()
     {
         // return Domain::with([
@@ -76,6 +184,8 @@ class DomainController extends Controller
         //$data['sub_segments']    =   $subSegments;
         return view('domains.add_domain_updated', $data);
     }
+    // ends
+
     public function add_domains(Request $request)
     {
         $arrayCheck = [
@@ -101,6 +211,68 @@ class DomainController extends Controller
         }
 
     }
+    // ends
+    public function add_classification(Request $request)
+    {
+        $arrayCheck = [
+            "optionClient" => "required|string|min:1|unique:drop_down_options,option_name",
+        ];
+        $message = [
+            'option.required' => 'Enter an Option value',
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck, $message);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'status' => 'error', 'message' => $validator->errors()->first()]);
+        }
+        $optionID = DropDown::where('type', 'clientClassification')->first('id');
+        // return  ($oprionID);
+        $arr = [
+            'option_name' => $request->optionClient,
+            'drop_down_id' => $optionID->id,
+        ];
+        $insertData = DropDownOption::insert($arr);
+        if ($insertData) {
+            Helper::save_log('CLIENT_CLASSIFICATION_CREATED');
+            return response()->json(['success' => true, 'message' => 'Data inserted Successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Some Error Occured']);
+
+        }
+
+    }
+    // ends
+    public function add_client(Request $request)
+    {
+        $arrayCheck = [
+            "optionClient" => "required|string|min:1|unique:drop_down_options,option_name",
+        ];
+        $message = [
+            'option.required' => 'Enter an Option Value',
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck, $message);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'status' => 'error', 'message' => $validator->errors()->first()]);
+        } else {
+            $clientID = DropDown::where('type', 'clients')->first('id');
+            // return  ($clientID);
+            $arr = [
+                'option_name' => $request->optionClient,
+                'drop_down_id' => $clientID->id,
+            ];
+            $insertData = DropDownOption::insert($arr);
+            if ($insertData) {
+                Helper::save_log('CLIENT_CREATED');
+                $client = Helper::get_dropdown('clients');
+                return response()->json(['success' => true, 'message' => 'Data inserted Successfully', 'client' => $client]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Some Error Occured']);
+
+            }
+        }
+
+    }
+    // ends
+
     public function add_segments(Request $request)
     {
         $arrayCheck = [
@@ -133,6 +305,8 @@ class DomainController extends Controller
 
         }
     }
+    // ends
+
     //append filter options
     public function appendFilters()
     {
@@ -141,9 +315,13 @@ class DomainController extends Controller
         $profile = DB::table('gettravesels')->select('c_profile')->get();
         $subsegment = SubSegment::all();
         $cprofile = DB::table('candidate_profile')->get();
+        $client = Helper::get_dropdown('clients');
+        $clientClassification = Helper::get_dropdown('clientClassification');
 
         return response()->json(
             [
+                'clientClassification' => $clientClassification,
+                'client' => $client,
                 'domains' => $getDomains,
                 'segments' => $getSegments,
                 'profile' => $profile,
@@ -152,6 +330,7 @@ class DomainController extends Controller
             ]
         );
     }
+    // ends
 
     public function add_profile(Request $request)
     {
@@ -181,6 +360,8 @@ class DomainController extends Controller
         }
 
     }
+    // ends
+
     public function add_sub_segments(Request $request)
     {
         $arrayCheck = [
@@ -213,6 +394,7 @@ class DomainController extends Controller
 
         }
     }
+    // ends
 
     public function delete_sub_segment(Request $request)
     {
@@ -227,10 +409,11 @@ class DomainController extends Controller
             return response()->json(['success' => false, 'message' => 'Error while deleting Sub Segment']);
         }
     }
+    // ends
 
     public function deleteOption(Request $request)
     {
-        // return $request->all();
+
         switch ($request->optionToDelete) {
             case 'domains':
                 $option = (Domain::where('id', $request->optionValue)->first())->domain_name;
@@ -282,7 +465,30 @@ class DomainController extends Controller
                 }
                 break;
 
-                //
+            case 'clients':
+                // $option = (Profile::where('id', $request->optionValue)->first())->c_profile_name;
+                $check = JDL::where('client', $request->optionValue)->exists();
+                if ($check == false) {
+                    $Profile = DropDownOption::where('option_name', $request->optionValue)->delete(); // Use Laravel's ORM to delete the Profile, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Client has been Deleted Successfully']);
+                } else {
+                    $useCount = DB::table('jdl')->where('client', $request->optionValue)->count();
+                    return response()->json(['success' => false, 'message' => 'Client Option Already in Use for ' . $useCount . ' candidate(s)']);
+                }
+                break;
+            case 'clientClassification':
+                // $option = (Profile::where('id', $request->optionValue)->first())->c_profile_name;
+                $check = JDL::where('client_classification', $request->optionValue)->exists();
+                if ($check == false) {
+                    $Profile = DropDownOption::where('option_name', $request->optionValue)->delete(); // Use Laravel's ORM to delete the Profile, which triggers the `deleting` event
+                    return response()->json(['success' => true, 'message' => 'Client Classification has been Deleted Successfully']);
+                } else {
+                    $useCount = DB::table('jdl')->where('client_classification', $request->optionValue)->count();
+                    return response()->json(['success' => false, 'message' => 'Client Classification Option Already in Use for ' . $useCount . ' candidate(s)']);
+                }
+                break;
         }
     }
+    // ends
+
 }

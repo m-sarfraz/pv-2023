@@ -102,14 +102,18 @@
             @endcan
             @can('view-extract')
                 <div class="dropdown pt-2 pl-2 text-white">
-                    Reports
+                    Extraction
                     <i class="bi bi-chevron-down ml-2 mt-2" style="color: white;"></i>
                     <div class="dropdown-content" style="left: 14px;">
-                        <a class="nav-link" href="{{ route('extract-data') }}" style="cursor: pointer;">
-                            Extract Data
+                        <a class="nav-link" href="{{ route('sdb-extract-data') }}" style="cursor: pointer;">
+                           SDB Data Extract
                         </a>
-
+                        <a class="nav-link" href="{{ route('jdl-extract-data') }}" style="cursor: pointer;">
+                            JDL Data Extract
+                        </a>
+                       
                     </div>
+
                 </div>
             @endcan
 

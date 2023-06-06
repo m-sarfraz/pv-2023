@@ -50,8 +50,8 @@
         }
 
         /* overflow: hidden;
-                                text-overflow: ellipsis;
-                                /* height: 113px; */
+                                        text-overflow: ellipsis;
+                                        /* height: 113px; */
         .hidetrID tr td:nth-child(17),
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
@@ -94,8 +94,8 @@
         }
 
         /* .hidetrID tr td{
-                                    white-space: nowrap !important;
-                                    } */
+                                            white-space: nowrap !important;
+                                            } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -125,8 +125,8 @@
         }
 
         /* .customWidth {
-                                            width: 410px !important;
-                                        } */
+                                                    width: 410px !important;
+                                                } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -158,10 +158,10 @@
         }
 
         /*
-                                           this is important!
-                                           make sure you define this here
-                                           or in jQuery codef
-                                        */
+                                                   this is important!
+                                                   make sure you define this here
+                                                   or in jQuery codef
+                                                */
         .resizer {
             position: absolute;
             top: 0;
@@ -337,6 +337,53 @@
                                 </div>
 
                             </div>
+
+                            <div class="row mb-1 align-items-center">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+                                            Keyword
+                                        </label>
+                                        <select onchange="Filter_user()" multiple name="keyword[]" id="keyword"
+                                            class="select2_dropdown  w-100">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+
+                                        <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
+                                            Priority:
+                                        </label>
+                                        <select onchange="Filter_user()" multiple name="priority[]" id="priority"
+                                            class="select2_dropdown  w-100">
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0 pt-1">
+
+                                        <label class="d-block font-size-3 mb-0 Label labelFontSize">
+                                            Assignment
+                                        </label>
+                                        <select onchange="Filter_user()" name="assignment[]" id="assignment"
+                                            class="select2_dropdown w-100 form-control" multiple>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="Label labelFontSize">Work Schedule</label>
+                                        <select onchange="Filter_user()" name="wschedule[]" id="wschedule"
+                                            class="select2_dropdown w-100 form-control" multiple>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -502,12 +549,32 @@
                                 res.career_level[i].c_level + '</option>')
                         }
                     }
-                    for (let i = 0; i < res.location.length; i++) {
-                        if (res.location[i].location != '') {
-                            $('#location').append('<option value="' + res.location[i].location + '">' +
-                                res.location[i].location + '</option>')
-                        }
+                    for (let i = 0; i < res.keyword.options.length; i++) {
+                        $('#keyword').append('<option value="' + res.keyword.options[i].option_name + '">' + res
+                            .keyword.options[i].option_name + '</option>')
                     }
+                    for (let i = 0; i < res.assignment.options.length; i++) {
+                        $('#assignment').append('<option value="' + res.assignment.options[i].option_name + '">' + res
+                            .assignment.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.wschedule.options.length; i++) {
+                        $('#wschedule').append('<option value="' + res.wschedule.options[i].option_name + '">' + res
+                            .wschedule.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.priority.options.length; i++) {
+                        $('#priority').append('<option value="' + res.priority.options[i].option_name + '">' + res
+                            .priority.options[i].option_name + '</option>')
+                    }
+                    for (let i = 0; i < res.location.options.length; i++) {
+                        $('#location').append('<option value="' + res.location.options[i].option_name + '">' + res
+                            .location.options[i].option_name + '</option>')
+                    }
+                    // for (let i = 0; i < res.location.length; i++) {
+                    //     if (res.location[i].location != '') {
+                    //         $('#location').append('<option value="' + res.location[i].location + '">' +
+                    //             res.location[i].location + '</option>')
+                    //     }
+                    // }
                     $('#loader1').hide()
                 })
                 .fail(function(err) {
@@ -1043,11 +1110,20 @@
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();
             sub_segment = $('#sub_segment').val();
+
             position_title = $('#position_title').val();
             career_level = $('#career_level').val();
             status = $('#status').val();
             address = $('#location').val();
 
+            keyword = $('#keyword').val();
+            priority = $('#priority').val();
+            wschedule = $('#wschedule').val();
+            assignment = $('#assignment').val();
+            console.log(keyword);
+            console.log(priority);
+            console.log(assignment);
+            console.log(wschedule);
             // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
@@ -1059,10 +1135,16 @@
                     candidateDomain: candidateDomain,
                     segment: segment,
                     sub_segment: sub_segment,
+
                     position_title: position_title,
                     career_level: career_level,
                     address: address,
                     status: status,
+
+                    keyword: keyword,
+                    priority: priority,
+                    assignment: assignment,
+                    wschedule: wschedule,
                 },
 
                 // Success fucniton of Ajax

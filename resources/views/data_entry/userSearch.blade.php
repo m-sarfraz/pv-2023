@@ -314,7 +314,7 @@
                                                 </option>
                                                 @foreach ($profile as $profileOption)
                                                     <option value="{{ $profileOption->c_profile_name }}"
-                                                        {{ ($user != null ? $user->candidate_profile == $profileOption->c_profile_name : '') ? 'selected' : '' }}>
+                                                        {{ ($user != null ? strtolower($user->candidate_profile) == strtolower($profileOption->c_profile_name) : '') ? 'selected' : '' }}>
                                                         {{ $profileOption->c_profile_name }}
                                                     </option>
                                                 @endforeach
