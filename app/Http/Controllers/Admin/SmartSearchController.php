@@ -265,6 +265,7 @@ class SmartSearchController extends Controller
             ->with([
                 'array' => $this->candidate_arr,
                 'appendSummary' => 1,
+                'totalCount' => $totalCount,
             ])
             ->rawColumns([
                 'id',
