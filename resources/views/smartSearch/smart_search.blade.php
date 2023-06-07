@@ -1530,7 +1530,16 @@
                     $('#sifted').val(json.recordsTotal)
                     $('#foundRecord').val(settings.json.recordsTotal)
                     $('#sifted').val(settings.json.recordsTotal)
-                    summaryAppendAjax(settings.json.array);
+                    // summaryAppendAjax(settings.json.array);
+                    // Bind a callback to the 'draw.dt' event
+                    $('#smTable').on('draw.dt', function() {
+                        if (settings.oFeatures.bServerSide === true) {
+                            // This condition ensures that the callback is only executed for client-side processing
+                            console.log(settings.json.totalCount);
+                            summaryAppendAjax(settings.json.array); 
+                            $('#foundRecord').val(settings.json.totalCount)
+                        }
+                    });
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
