@@ -15,7 +15,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables; 
+use Yajra\DataTables\DataTables;
 
 class JdlController extends Controller
 {
@@ -207,7 +207,7 @@ class JdlController extends Controller
             $reqDateTime = Carbon::parse($reqDate);
             $diff = $createdDateTime->diff($reqDateTime);
             $turnAround = $diff->days;
-        } 
+        }
         $data = [
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'segmentsDropDown' => $segmentsDropDown,
@@ -431,6 +431,14 @@ class JdlController extends Controller
 
         if (isset($request->keyword)) {
             $Userdata->whereIn('jdl.keyword', $request->keyword);
+        }
+
+        if ($request->agent == 1) {
+            $Userdata->where('jdl.ref_code','LIKE' , 'A%' );
+        }
+
+        if ($request->nonAgent == 1) {
+            $Userdata->where('jdl.ref_code',  'LIKE' , 'N%' );
         }
         if (isset($request->priority)) {
             $Userdata->whereIn('jdl.priority', $request->priority);

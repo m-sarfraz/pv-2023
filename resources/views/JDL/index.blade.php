@@ -50,8 +50,8 @@
         }
 
         /* overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        /* height: 113px; */
+                                                                text-overflow: ellipsis;
+                                                                /* height: 113px; */
         .hidetrID tr td:nth-child(17),
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
@@ -94,8 +94,8 @@
         }
 
         /* .hidetrID tr td{
-                                            white-space: nowrap !important;
-                                            } */
+                                                                    white-space: nowrap !important;
+                                                                    } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -125,8 +125,8 @@
         }
 
         /* .customWidth {
-                                                    width: 410px !important;
-                                                } */
+                                                                            width: 410px !important;
+                                                                        } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -158,10 +158,10 @@
         }
 
         /*
-                                                   this is important!
-                                                   make sure you define this here
-                                                   or in jQuery codef
-                                                */
+                                                                           this is important!
+                                                                           make sure you define this here
+                                                                           or in jQuery codef
+                                                                        */
         .resizer {
             position: absolute;
             top: 0;
@@ -381,6 +381,20 @@
                                             class="select2_dropdown w-100 form-control" multiple>
 
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-3">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="form-group mb-0 text-right">
+                                            <label class="Label-00">Agent Requiremtns Only</label>
+                                            <input type="radio" id="agent" name="reqRadioCheck"
+                                                onclick="Filter_user()">
+                                        </div>
+                                        <div class="form-group mb-0 text-right ml-3">
+                                            <label class="Label-00">Non-Agent Requiremtns Only</label>
+                                            <input type="radio" id="non-agent" name="reqRadioCheck"
+                                                onclick="Filter_user()">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -828,6 +842,10 @@
         }
 
         function load_datatable1() {
+            agent = 0;
+            nonAgent = 0;
+            $('#agent').is(':checked') ? agent = 1 : 0;
+            $('#non-agent').is(':checked') ? nonAgent = 1 : 0;
             searchKeyword = $('#searchKeyword').val();
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
@@ -855,6 +873,8 @@
                     data: {
                         _token: token,
                         searchKeyword: searchKeyword,
+                        agent: agent,
+                        nonAgent: nonAgent,
                         client: client,
                         candidateDomain: candidateDomain,
                         segment: segment,
