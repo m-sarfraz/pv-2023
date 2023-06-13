@@ -138,6 +138,12 @@ table.dataTable thead .sorting {
     background-image: url("../images/sort_both.png")
 }
 
+.customColumnBtn {
+    background-color: #ffffff;
+    border-color: #cc7e29;
+    color: black;
+}
+
 table.dataTable thead .sorting_asc {
     background-image: url("../images/sort_asc.png") !important
 }
@@ -534,22 +540,26 @@ table.dataTable td {
 }
 
 @media screen and (max-width: 767px) {
+
     .dataTables_wrapper .dataTables_info,
     .dataTables_wrapper .dataTables_paginate {
         float: none;
         text-align: center
     }
+
     .dataTables_wrapper .dataTables_paginate {
         margin-top: .5em
     }
 }
 
 @media screen and (max-width: 640px) {
+
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
         float: none;
         /* text-align: center */
     }
+
     .dataTables_wrapper .dataTables_filter {
         margin-top: .5em
     }

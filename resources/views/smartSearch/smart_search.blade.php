@@ -3,7 +3,7 @@
 @section('style')
     <!-- ================= -->
     <!-- Datatable css start-->
-    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
 
     <!-- Datatable css end-->
     <!-- ================= -->
@@ -122,10 +122,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                                                                                overflow: hidden;
-                                                                                                                                text-overflow: ellipsis;
-                                                                                                                                white-space: nowrap;
-                                                                                                                                } */
+                                                                                                                                        overflow: hidden;
+                                                                                                                                        text-overflow: ellipsis;
+                                                                                                                                        white-space: nowrap;
+                                                                                                                                        } */
     </style>
 @endsection
 
@@ -1198,7 +1198,12 @@
                                 }
                             });
                     });
-
+                    $('#filterResult_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filterResult_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp;  Hide All Columns</button>'
+                    )
                 },
                 columns: [{
                         data: 'id',
@@ -1536,7 +1541,7 @@
                         if (settings.oFeatures.bServerSide === true) {
                             // This condition ensures that the callback is only executed for client-side processing
                             console.log(settings.json.totalCount);
-                            summaryAppendAjax(settings.json.array); 
+                            summaryAppendAjax(settings.json.array);
                             $('#foundRecord').val(settings.json.totalCount)
                         }
                     });
@@ -1578,7 +1583,7 @@
                         var column = this;
                         var input = $(
                                 '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
-                                )
+                            )
                             .appendTo($(column.footer()).empty())
                             .attr('data-column', column.data()) // Add custom attribute
                             .on('keyup change clear', function() {
@@ -1587,7 +1592,13 @@
                                 }
                             });
                     });
-
+                    $('#filterResult_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filterResult_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns</button>'
+                    )
+ 
                 },
                 columns: [{
                         data: 'id',

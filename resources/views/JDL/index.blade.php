@@ -50,8 +50,8 @@
         }
 
         /* overflow: hidden;
-                                                                text-overflow: ellipsis;
-                                                                /* height: 113px; */
+                                                                        text-overflow: ellipsis;
+                                                                        /* height: 113px; */
         .hidetrID tr td:nth-child(17),
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
@@ -94,8 +94,8 @@
         }
 
         /* .hidetrID tr td{
-                                                                    white-space: nowrap !important;
-                                                                    } */
+                                                                            white-space: nowrap !important;
+                                                                            } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -125,8 +125,8 @@
         }
 
         /* .customWidth {
-                                                                            width: 410px !important;
-                                                                        } */
+                                                                                    width: 410px !important;
+                                                                                } */
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -158,10 +158,10 @@
         }
 
         /*
-                                                                           this is important!
-                                                                           make sure you define this here
-                                                                           or in jQuery codef
-                                                                        */
+                                                                                   this is important!
+                                                                                   make sure you define this here
+                                                                                   or in jQuery codef
+                                                                                */
         .resizer {
             position: absolute;
             top: 0;
@@ -649,6 +649,7 @@
                     return true;
                 }
             });
+        var option_table = '';
 
         function load_datatable() {
             option_table = $('#jdlTable').DataTable({
@@ -689,6 +690,14 @@
                     if (tableID == 'filteredJdlTable_wrapper') {
                         countRecordFilter()
                     }
+                    $('#filter_table_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filter_table_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns</button>'
+                    )
+
+                    $('#jdlTable_length').addClass('d-none');
                 },
                 columns: [{
                         data: 'id',
@@ -855,7 +864,7 @@
             career_level = $('#career_level').val();
             status = $('#status').val();
             address = $('#location').val();
-            option_table1 = $('#filteredJdlTable').DataTable({
+            option_table = $('#filteredJdlTable').DataTable({
                 destroy: true,
                 // search: {
                 //     smart: false
@@ -912,6 +921,14 @@
                     if (tableID == 'filteredJdlTable_wrapper') {
                         countRecordFilter()
                     }
+                    $('#filter_table_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filter_table_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns</button>'
+                    )
+
+                    $('#filteredJdlTable_length').addClass('d-none');
                 },
                 columns: [{
                         data: 'id',

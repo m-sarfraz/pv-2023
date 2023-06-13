@@ -466,7 +466,7 @@
                 <!-- Datatable code start-->
                 <div class="table-responsive border-right pt-3" id="filterData_div">
                     <div class="tableFixHead">
-                        <table id="fmtable" class="table m-0 pt-4">
+                        <table id="fmtable" class="table w-100">
                             <thead class="bg-light w-100">
                                 <tr style="text-align:center">
                                     <th class="ant-table-cell hideIDTh noVis">secret-id</th>
@@ -482,7 +482,6 @@
                                     <th class="ant-table-cell">Placement Fee</th>
                                     <th class="ant-table-cell">Remarks</th>
                                     <th class="ant-table-cell">P.Status</th>
-                                    <th class="ant-table-cell ant-table-cell-scrollbar"></th>
                                 </tr>
                             </thead>
                             <tbody class="hidetrID  hidetrIDFinance" style="height:100px"> </tbody>
@@ -501,6 +500,11 @@
 
 {{-- script section starts here --}}
 @section('script')
+    <script src="{{ asset('assets/plugins/data-tables/script/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/dataTables.responsive.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/plugins/data-tables/script/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
+    </script>
     <script>
         $("th")
             .css({
@@ -672,6 +676,14 @@
                     if (tableID == 'fmtable1_wrapper') {
                         countRecordFilter()
                     }
+                    $('#filterData_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filterData_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns</button>'
+                    )
+                    $('#fmtable_length').hide();
+
                 },
                 columns: [{
                         data: 'array',
@@ -902,6 +914,13 @@
                     if (tableID == 'fmtable1_wrapper') {
                         countRecordFilter()
                     }
+                    $('#filterData_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
+                    )
+                    $('#filterData_div').find('.dt-buttons').append(
+                        '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns </button>'
+                    )
+                    $('#fmtable1_length').hide();
                     appendSummary(json.array);
 
                 },
@@ -1115,7 +1134,6 @@
 
             }
         };
-
         // }, 3000);
     </script>
 @endsection

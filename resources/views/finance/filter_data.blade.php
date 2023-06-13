@@ -1,5 +1,5 @@
 <div class="tableFixHead">
-    <table id="fmtable1" class="table ">
+    <table id="fmtable1" class="table w-100">
         <thead class="bg-light w-100">
             <tr style="text-align:center">
                 <th class="ant-table-cell hideIDTh noVis">secret-id</th>
@@ -13,13 +13,13 @@
                 <th class="ant-table-cell">OB Date</th>
                 <th class="ant-table-cell">Placement Fee</th>
                 <th class="ant-table-cell">Remarks</th>
-                <th class="ant-table-cell">P.Status</th>
-                <th class="ant-table-cell ant-table-cell-scrollbar"></th>
+                <th class="ant-table-cell">P.Status</th>    
             </tr>
         </thead>
         <tbody class="hidetrID hidetrIDFinance" style="height:100px"> </tbody>
     </table>
 </div>
+
 <script>
     // show detail of record on click a row in data table 
     $('#fmtable1').on('click', 'tbody tr', function() {
