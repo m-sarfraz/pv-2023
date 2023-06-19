@@ -283,8 +283,8 @@ class ProfileController extends Controller
                                 $endorsement = Endorsement::find($check->id);
                                 $finance = Finance::where('endorsement_id', $check->id)->firstOrFail();
                                 $finance_detail = Finance_detail::where('finance_id', $finance->id)->firstOrFail();
-                                $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
-                                $tap = Auth::user()->id;
+                                $origionalRecruiter = $check->origionalRecruiter;
+                                $tap = $check->tap;
                                 $Cipprogress = Cipprogress::where('endorsement_id', $check->id)->firstOrFail();
                             } else {
                                 // insert new record
@@ -294,7 +294,7 @@ class ProfileController extends Controller
                                 $finance_detail = new Finance_detail();
                                 $Cipprogress = new Cipprogress();
                                 $origionalRecruiter = (Endorsement::where('candidate_id', $query->candidate_id)->first())->origionalRecruiter;
-                                $tap = Auth::user()->id;
+                                $tap = isset($render[3]) ? $render[3] : '';
                             }
                         } else {
                             // insert new record
@@ -303,7 +303,7 @@ class ProfileController extends Controller
                             $finance = new Finance();
                             $finance_detail = new Finance_detail();
                             $Cipprogress = new Cipprogress();
-                            $origionalRecruiter = Auth::user()->id;
+                            $origionalRecruiter = $render[3] ;
                             $tap = 0;
                         }
                         $array = Str::lower(isset($render[43]) ? $render[43] : "");

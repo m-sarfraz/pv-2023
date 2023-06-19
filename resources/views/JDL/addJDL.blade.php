@@ -33,6 +33,7 @@
         $clientClassification = Helper::get_dropdown('clientClassification');
         $priority = Helper::get_dropdown('priority');
         $assignment = Helper::get_dropdown('assignment');
+        $keyword = Helper::get_dropdown('keyword');
         $location = Helper::get_dropdown('location');
         $work_schedule = Helper::get_dropdown('work_schedule');
         $recruiter = App\User::where('type', '3')->get();
@@ -201,8 +202,17 @@
                     </div>
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize">Keyword</label>
-                        <input type="text" class="form-control users-input-S-C" aria-label="Username" name="keyword"
-                            aria-describedby="basic-addon1">
+                        <select id="keyword" name="keyword"
+                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                            <option value="" class="selectedOption" selected disabled>
+                                Select Option
+                            </option>
+                            @foreach ($keyword->options as $render_keyword)
+                                <option value="{{ $render_keyword->option_name }}">
+                                    {{ $render_keyword->option_name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="row mb-xl-1 mb-9">
