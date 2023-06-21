@@ -46,7 +46,7 @@ class SmartSearchController extends Controller
         $segment = Segment::all();
         $subSegment = SubSegment::all();
         $profile = Profile::all();
-        $user_recruiter = User::where('type', 3)->get();
+        $user_recruiter = User::where('type', 3)->where('showDropdown', 'true')->get();
         $client = Helper::get_dropdown('clients');
         $address = DB::Select("select address from candidate_informations where  address!='' group by address");
         $remarks = Helper::get_dropdown('remarks_for_finance');
@@ -350,7 +350,17 @@ class SmartSearchController extends Controller
             $record->whereIn('domain_endo', $request->domain);
         }
         if (isset($request->recruiter)) {
-            $record->whereIn('saved_by', $request->recruiter);
+            if (in_array(60, $request->recruiter)) {
+                $inactiveRecruiter = User::where('status', 'false')->pluck('id')->toArray();
+                array_push($inactiveRecruiter, 60); 
+                $mergedArray = array_merge($inactiveRecruiter, $request->recruiter);
+
+                // dd($inactiveRecruiter);
+                $record->whereIn('saved_by', $mergedArray);
+            } else {
+                $record->whereIn('saved_by', $request->recruiter);
+
+            }
         }
         if (isset($request->status)) {
             $status = explode(',', $request->status);

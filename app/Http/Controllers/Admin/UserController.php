@@ -118,9 +118,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,   User $user)
+    public function update(Request $request, User $user)
     {
-      
         $arrayCheck = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -245,5 +244,21 @@ class UserController extends Controller
             ->update([
                 'activity_timeStamp' => time() + 30,
             ]);
+    }
+    public function changeStatus(Request $request)
+    {
+        try {
+            if (isset($request->dropdown)) {
+                User::where('id', $request->id)->update(['showDropdown' => $request->dropdown]);
+            }
+            if (isset($request->status)) {
+                User::where('id', $request->id)->update(['status' =>  $request->status]);
+            }
+            return response()->json(['success' => true, 'message' => 'Changes have been made successfully']);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+
+        }
     }
 }

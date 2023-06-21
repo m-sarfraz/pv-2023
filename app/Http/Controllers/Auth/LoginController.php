@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -37,11 +39,45 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    // protected function authenticated(Request $request)
-    // {
-    //     // put your thing in here
-    //     Helper::start_session(\Auth::user()->id);
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
 
-    //     // return redirect()->intended($this->redirectPath());
-    // }
+        // Attempt to authenticate the user
+        $authAttempt = Auth::attempt($credentials, $request->filled('remember'));
+
+        if ($authAttempt) {
+            // Check the user's status
+            $user = Auth::user();
+            if ($user->status == 'true') {
+                // User's status is valid, proceed with login
+                return true;
+            } else {
+                // User's status is invalid, log them out and set the status_error message
+                $this->guard()->logout();
+
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                $request->session()->flash('status_error', 'Failed to login an Inactive User.');
+
+                return false;
+            }
+        } else {
+            // Invalid credentials, set the auth_error message
+            $request->session()->flash('auth_error', 'Username and password did not match.'); 
+
+            return false;
+        }
+    }
+
 }
+
+//             return redirect()->back()->withInput()->withErrors([
+//                 'status' => 'Invalid user status.',
+//             ]);
+// // User's status is invalid, log them out and redirect with an error message
+// $this->guard()->logout();
+// $request->session()->invalidate();
+// $request->session()->regenerateToken();
+// $request->session()->flash('status_error', 'User has been marked as Inactive');

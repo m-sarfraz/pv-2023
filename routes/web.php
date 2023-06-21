@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
+    Route::post('change-user-status', 'UserController@changeStatus')->name('change-user-status');
     Route::match (['get', 'post'], 'update_password', 'UserController@updatePassword')->name('updatePassword');
 
     // Route::resource('team', 'TeamController')->name('*', 'team');
