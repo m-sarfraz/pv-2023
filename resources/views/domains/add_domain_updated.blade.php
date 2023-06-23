@@ -62,29 +62,29 @@
         }
 
         /* .tab {
-                                                                overflow: hidden;
-                                                            }
+                                                                                                                                    overflow: hidden;
+                                                                                                                                }
 
-                                                            .tab button {
-                                                                float: left;
-                                                                cursor: pointer;
-                                                                padding: 14px 16px;
-                                                                transition: 0.3s;
-                                                                font-size: 17px;
-                                                                background: transparent;
-                                                                border: 1px solid #dc8627;
-                                                                border-radius: 6px 20px;
-                                                            }
+                                                                                                                                .tab button {
+                                                                                                                                    float: left;
+                                                                                                                                    cursor: pointer;
+                                                                                                                                    padding: 14px 16px;
+                                                                                                                                    transition: 0.3s;
+                                                                                                                                    font-size: 17px;
+                                                                                                                                    background: transparent;
+                                                                                                                                    border: 1px solid #dc8627;
+                                                                                                                                    border-radius: 6px 20px;
+                                                                                                                                }
 
-                                                            .tab button:hover {
-                                                                background-color: #ddd;
-                                                            }
+                                                                                                                                .tab button:hover {
+                                                                                                                                    background-color: #ddd;
+                                                                                                                                }
 
-                                                            .tab button.active {
-                                                                background-color: #dc8627;
-                                                                color: #fff !important;
-                                                                border-radius: 6px 20px;
-                                                            } */
+                                                                                                                                .tab button.active {
+                                                                                                                                    background-color: #dc8627;
+                                                                                                                                    color: #fff !important;
+                                                                                                                                    border-radius: 6px 20px;
+                                                                                                                                } */
     </style>
 @endsection
 
@@ -96,6 +96,7 @@
         <div class="tab px-5">
             <button class="tablinks active" onclick="openTab(event, 'cprofile')">Candidate Profile Management</button>
             <button class="tablinks ml-3" onclick="openTab(event, 'client')">Client Dropdown Management</button>
+            <button class="tablinks ml-3" onclick="openTab(event, 'position')">Position Title Dropdown Management</button>
         </div>
         <div style="display: block;" id="cprofile" class="tabcontent">
             <div class=" mb-15 mb-lg-23">
@@ -373,7 +374,135 @@
                 </div>
             </div>
         </div>
+        <div id="position" style="display: none;" class="tabcontent">
+            <div class=" mb-15 mb-lg-23">
+                <div class="row">
 
+                    <div class="col-xl-12 px-lg-5">
+                        <p class="C-Heading pt-3"></p>
+                        <div class="card">
+                            <div id="loader1" style="display: none;">
+                                <div class="loader-text">Refreshing Filters...</div>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data" id="positionForm">
+                                    <fieldset>
+                                        <div class="row mb-xl-1 mb-9 align-items-end">
+
+                                            <div class="col-lg-12 mb-xl-0 mb-7">
+                                                <div class="form-group mb-0">
+                                                    @php
+                                                        $position_title = Helper::get_dropdown('position_title');
+                                                    @endphp
+                                                    <label class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Position Title:
+                                                    </label>
+                                                    <div id="loader2" class="d-none"></div>
+                                                    <select name="position" id="position"
+                                                        class="form-control border pl-0 arrow-3 h-px-20_custom font-size-4 d-flex align-items-center select2_dropdown  w-100">
+                                                        <option selected disabled>
+                                                            Select Option</option>
+                                                        @foreach ($position_title->options as $position_titleOptions)
+                                                            <option value="{{ $position_titleOptions->option_name }}">
+                                                                {{ $position_titleOptions->option_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row mb-xl-1 mb-9 align-items-end">
+                                            <div class="col-lg-12 col-md-6 col-sm-12 mb-xl-0 mb-7">
+
+                                                <div class="form-group mb-0">
+                                                    <label for="select3"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Domain
+                                                    </label>
+                                                    <select class="select2_dropdown w-100 form-control" name="domain"
+                                                        onchange="domainChange2(this)" id="domains2">
+                                                        <option value="" selected disabled="disabled">Choose options
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-xl-1 mb-9 align-items-end">
+                                            <div class="col-lg-12 mb-xl-0 mb-7">
+                                                <div class="form-group mb-0">
+                                                    <label for="select3"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Segments
+                                                    </label>
+                                                    <div class="">
+                                                        <select class="  select2_dropdown w-100 form-control"
+                                                            name="segment2" onchange="segmentChange2(this)"
+                                                            id="segment2">
+                                                            <option value="" disabled="disabled">Choose options
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-xl-1 mb-9 align-items-end">
+                                            <div class="col-lg-12 col-md-6 col-sm-12 mb-xl-0 mb-7">
+                                                <div class="form-group mb-0">
+                                                    <label for="select3"
+                                                        class="d-block text-black-2 font-size-4 font-weight-semibold mb-2">
+                                                        Sub-Segment
+                                                    </label>
+                                                    <select class="select2_dropdown w-100 form-control" id="subSegments2"
+                                                        name="subsegment2">
+                                                        <option value="" selected disabled="disabled">Choose options
+                                                        </option>
+                                                    </select>
+                                                    <div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right mt-3">
+
+                                            <button type="button" class="btn btn-sm btn-primary btn-dropdown"
+                                                onclick="savePositionTitleDropdown()">Save Data</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="card mt-3 d-none" id="addNewOptionDiv">
+                            <div id="loader1" style="display: none;"></div>
+                            <h4 class="py-2 mt-2 text-center btn-dropdown">Enter New <span id="title"></span></h4>
+                            <div class="card-body w-25 mx-auto">
+
+                                <form id="" class="option-form" method="post" action=""
+                                    enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="usr">Enter Value:</label>
+                                        <input type="text" name="option" class="form-control " id="">
+                                    </div>
+                                    <span id="alert-div"></span>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn  mx-2 btn-dropdown" type="button"
+                                            onclick="saveOptionValue()">Save</button>
+                                        <button type="button" class="btn   btn-dropdown"
+                                            onclick="hideNewOption('addNewOptionDiv','title')">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     </div>
     <div class="modal" tabindex="-1" id="exampleModal">
@@ -657,6 +786,10 @@
                                 .domains[i]
                                 .domain_name +
                                 '</option>')
+                            $('#domains2').append('<option value="' + res.domains[i].id + '">' + res
+                                .domains[i]
+                                .domain_name +
+                                '</option>')
                         }
                     }
                     for (let i = 0; i < res.client.options.length; i++) {
@@ -686,7 +819,7 @@
         }
         // function ends 
 
-        function addNewOption( title, form, route) {
+        function addNewOption(title, form, route) {
             $('#addNewOptionDiv').removeClass('d-none');
             $('.option-form').attr('id', form);
             $('.option-form').attr('action', route);
@@ -732,6 +865,40 @@
                     }
                     // $('#segment').prepend('<option value="addSegment"> Add New Segment +</option>')
                     $('#segment').prepend('<option disabled selected value="">Select Option</option>')
+
+                })
+                .fail(function(err) {
+                    console.log(err);
+                });
+
+
+        }
+        // function ends 
+        // append the segments on domina change 
+        function domainChange2(elem) {
+            $('#segment2').empty();
+            $('#subSegments2').empty();
+            $("#myModal2").addClass('d-none');
+
+
+            $.ajax({
+                    type: "GET",
+                    url: '{{ route('append-filters-domain') }}',
+                })
+                .done(function(res) {
+                    console.log(res.segments);
+                    var count = 0;
+                    for (let i = 0; i < res.segments.length; i++) {
+                        if ($(elem).val() == res.segments[i].domain_id) {
+                            count++;
+                            $('#segment2').append('<option value="' + res.segments[i].id + '">' + res
+                                .segments[i]
+                                .segment_name +
+                                '</option>');
+                        }
+                    }
+                    // $('#segment').prepend('<option value="addSegment"> Add New Segment +</option>')
+                    $('#segment2').prepend('<option disabled selected value="">Select Option</option>')
 
                 })
                 .fail(function(err) {
@@ -787,6 +954,42 @@
                 //             '</option>');
                 //     }
                 // }
+            }
+        }
+        // function ends  
+        // function for appending the sub segments on segment change 
+        function segmentChange2(elem) {
+            if ($(elem).val() == 'addSegment') {
+                // Show the modal
+                modelOpen('segment')
+                $('#subSegments2').empty();
+
+            } else {
+                $('#subSegments2').empty();
+                $("#myModalSegment").addClass('d-none');
+                $.ajax({
+                        type: "GET",
+                        url: '{{ route('append-filters-domain') }}',
+                    })
+                    .done(function(res) {
+                        console.log(res.subsegment);
+                        var count = 0;
+                        for (let i = 0; i < res.subsegment.length; i++) {
+                            if ($(elem).val() == res.subsegment[i].segment_id) {
+                                console.log('her we go');
+                                $('#subSegments2').append('<option value="' + res.subsegment[i].id +
+                                    '">' +
+                                    res.subsegment[i].sub_segment_name +
+                                    '</option>');
+                            }
+                        }
+                        $('#subSegments2').prepend(
+                            '<option disabled selected value="">Select Option</option>')
+
+                    })
+                    .fail(function(err) {
+                        console.log(err);
+                    });
             }
         }
         // function ends  
@@ -1031,5 +1234,34 @@
                 });
         }
         // function ends 
+
+        function savePositionTitleDropdown() {
+
+            form = document.getElementById('positionForm')
+            data = new FormData(form);
+            console.log(data);
+            $.ajax({
+                url: "{{ route('add-position-title') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: data,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(res) {
+                    console.log(res);
+                    if (res.success == true) {
+                        Swal.fire("success", res.message, "success").then((value) => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire("error", res.message, "success").then((value) => {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
     </script>
 @endsection

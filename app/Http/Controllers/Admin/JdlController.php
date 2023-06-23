@@ -7,14 +7,15 @@ use App\Domain;
 use App\Endorsement;
 use App\Http\Controllers\Controller;
 use App\JDL;
+use App\PositionData;
 use App\Segment;
 use App\SubSegment;
 use carbon\carbon;
 use DB;
 use Helper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
+use Str;
 use Yajra\DataTables\DataTables;
 
 class JdlController extends Controller
@@ -35,22 +36,36 @@ class JdlController extends Controller
     {
         return view('JDL.index');
     }
-    public function view_jdl_table()
+    public function view_jdl_table(Request $request)
     {
-        $now = \Carbon\Carbon::now();
+
         ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
-        if (Cache::has('jdl')) {
-            $jdlData = Cache::get('jdl');
+        $jdlData = DB::table('jdl');
+        if ($request->search['value'] != '') {
+            $columnArray = ['id', 'priority', 'ref_code', 'status', 'req_date', 'maturity', 'updated_date', 'closed_date', 'os_date', 'client', 'domain', 'segment', 'subsegment', 'p_title', 'c_level', 'sll_no', 't_fte', 'updated_fte', 'edu_attainment', 'jd', 'location', 'w_schedule', 'budget', 'poc', 'note', 'start_date', 'keyword', 'recruiter', 'assignment', 'classification', 'req_classification', 'client_classification', 'client_spiel', 'req_id', 'numberOfActive', 'numberOfInactive'];
+
+            foreach ($columnArray as $value) {
+                $search = "%" . $request->search['value'] . "%";
+                $jdlData->orWhere($value, 'like', "'$search'");
+            }
+            $sqlQuery = Str::replaceArray('?', $jdlData->getBindings(), $jdlData->toSql());
+            $result = DB::select($sqlQuery);
+            $totalCount = count($result);
+            $jdlData = $result;
         } else {
-            $jdlData = DB::table('jdl')->get();
-            Cache::put('jdl', $jdlData, $now->addMonth(1));
+            $totalCount = ($jdlData->count());
         }
+
         return Datatables::of($jdlData)
             ->addColumn('id', function ($jdlData) {
                 return $jdlData->id;
             })
             ->addIndexColumn()
+            ->addColumn('action', function ($jdlData) {
+                $b = '<input class="selectCheckBox" type="checkbox" value="' . $jdlData->id . '" onclick="selectDataForBulkUpdate(' . $jdlData->id . ')" />';
+                return $b;
+            })
             ->addColumn('priority', function ($jdlData) {
                 return $jdlData->priority;
             })
@@ -141,9 +156,12 @@ class JdlController extends Controller
             ->addColumn('recruiter', function ($jdlData) {
                 return $jdlData->recruiter;
             })
-
+            ->with([
+                'totalCount' => $totalCount,
+            ])
             ->rawColumns([
                 'budget',
+                'action',
                 'c_level',
                 'client',
                 'domain',
@@ -280,7 +298,7 @@ class JdlController extends Controller
         }
     }
     public function Filter_user_table(Request $request)
-    {
+    { 
         //     $check = $searchCheck = false;
         //     // DB::enableQueryLog();
 
@@ -399,55 +417,57 @@ class JdlController extends Controller
         $check = $searchCheck = false;
         // DB::enableQueryLog();
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
-        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
-
+        ini_set('max_execution_time', -1); //30000 seconds = 500 minutes 
         $Userdata = DB::table('jdl');
 
         if (isset($request->client)) {
-            $Userdata->whereIn('jdl.client', $request->client);
+            $Userdata->whereIn('client', $request->client);
         }
         if (isset($request->candidateDomain)) {
-            $Userdata->whereIn('jdl.domain', $request->candidateDomain);
+            $Userdata->whereIn('domain', $request->candidateDomain);
         }
         if (isset($request->segment)) {
-            $Userdata->whereIn('jdl.segment', $request->segment);
+            $Userdata->whereIn('segment', $request->segment);
         }
         if (isset($request->sub_segment)) {
-            $Userdata->whereIn('jdl.subsegment', $request->sub_segment);
+            $Userdata->whereIn('subsegment', $request->sub_segment);
         }
         if (isset($request->position_title)) {
-            $Userdata->whereIn('jdl.p_title', $request->position_title);
+            $Userdata->whereIn('p_title', $request->position_title);
         }
         if (isset($request->career_level)) {
-            $Userdata->whereIn('jdl.c_level', $request->career_level);
+            $Userdata->whereIn('c_level', $request->career_level);
         }
         if (isset($request->address)) {
-            $Userdata->whereIn('jdl.location', $request->address);
+            $Userdata->whereIn('location', $request->address);
         }
         if (isset($request->status)) {
             $status = explode(',', $request->status);
-            $Userdata->whereIn('jdl.status', $status);
+            $Userdata->whereIn('status', $status);
         }
-
         if (isset($request->keyword)) {
-            $Userdata->whereIn('jdl.keyword', $request->keyword);
+            $Userdata->whereIn('keyword', $request->keyword);
         }
 
-        if ($request->agent == 1) {
-            $Userdata->where('jdl.ref_code','LIKE' , 'A%' );
-        }
+        // if ($request->agent == 1) {
+        //     $Userdata->where('ref_code', 'LIKE', 'A%');
+        // }
 
-        if ($request->nonAgent == 1) {
-            $Userdata->where('jdl.ref_code',  'LIKE' , 'N%' );
-        }
+        // if ($request->nonAgent == 1) {
+        //     $Userdata->where('ref_code', 'LIKE', 'N%');
+        // }
         if (isset($request->priority)) {
-            $Userdata->whereIn('jdl.priority', $request->priority);
+            $Userdata->whereIn('priority', $request->priority);
         }
         if (isset($request->assignment)) {
-            $Userdata->whereIn('jdl.assignment', $request->assignment);
+            $Userdata->whereIn('assignment', $request->assignment);
         }
         if (isset($request->wschedule)) {
-            $Userdata->whereIn('jdl.w_schedule ', $request->wschedule);
+            $Userdata->whereIn('w_schedule', $request->wschedule);
+        }
+        
+        if (isset($request->turnAroundDaysVar)) { 
+            $Userdata->where('turn_around', $request->turnAroundDaysVar);
         }
         $dataJdl = $Userdata;
         return Datatables::of($dataJdl)
@@ -816,5 +836,61 @@ class JdlController extends Controller
             'location' => $location,
             'client' => $client,
         ]);
+    }
+    public function bulkUpdateRecords(Request $request)
+    {
+
+        try {
+            JDL::whereIn('id', $request->idArray)->update([
+                'location' => $request->location,
+            ]);
+            return response()->json(['type' => 'success', 'message' => 'Bulk Update has been Done!']);
+
+        } catch (Exception $e) {
+            return response()->json(['type' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    //get data ajax agsint position title
+    public function getDataAgainstPTitle(Request $request)
+    {
+        // return $request->all();
+        // return PositionData::where('position', $request->position)->exists();
+        if (PositionData::where('position', $request->position)->exists() == false) {
+            try {
+                $data = [];
+                $dropdown = PositionData::where('position', $request->p_title)->first();
+                $recruiter = Endorsement::where([
+                    'client' => $request->client,
+                    'position_title' => $dropdown->position,
+                    'domain_endo' => $dropdown->domain,
+                    'segment_endo' => $dropdown->segment,
+                    'sub_segment_endo' => $dropdown->subSegment,
+                ])->count();
+
+                if ($recruiter > 0) {
+                    $recruiter = Endorsement::where([
+                        'client' => $request->client,
+                        'position_title' => $dropdown->position,
+                        'domain_endo' => $dropdown->domain,
+                        'segment_endo' => $dropdown->segment,
+                        'sub_segment_endo' => $dropdown->subSegment,
+                    ])->get();
+                    $arr = [];
+                    foreach ($recruiter as $value) {
+                        array_push($arr, $value->origionalRecruiterName);
+                    }
+                    $data['recruiter'] = $arr;
+
+                }
+                $data['dropdown'] = $dropdown;
+                return response()->json(['success' => true, 'data' => $data]);
+            } catch (Exception $e) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()]);
+            }
+        } else {
+            return response()->json(['success' => false]);
+        }
+
     }
 }

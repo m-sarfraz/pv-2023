@@ -103,7 +103,7 @@ class ProfileController extends Controller
         }
     }
     // function for Google sheet Import starts
-    public function readsheet(\App\Services\GoogleSheet$googleSheet, Request $request)
+    public function readsheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
         ini_set('max_execution_time', 3000); //3000 seconds = 50 minutes
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
@@ -303,7 +303,7 @@ class ProfileController extends Controller
                             $finance = new Finance();
                             $finance_detail = new Finance_detail();
                             $Cipprogress = new Cipprogress();
-                            $origionalRecruiter = $render[3] ;
+                            $origionalRecruiter = $render[3];
                             $tap = 0;
                         }
                         $array = Str::lower(isset($render[43]) ? $render[43] : "");
@@ -1237,7 +1237,7 @@ class ProfileController extends Controller
         // dd($config, Config::get("datastudio.google_sheet_id"));
         return response()->json(['success' => true, 'message' => 'successfully']);
     }
-    public function connect_to_jdl_sheet(\App\Services\GoogleSheet$googleSheet, Request $request)
+    public function connect_to_jdl_sheet(\App\Services\GoogleSheet $googleSheet, Request $request)
     {
         ini_set('max_execution_time', 300); //300 seconds = 5 minutes
         // change configuration for google sheet ID
@@ -1255,7 +1255,10 @@ class ProfileController extends Controller
                 && $data[0][0][14] != 'SLL NO.' && $data[0][0][15] != 'TOTAL FTE' && $data[0][0][16] != 'UPDATED FTE' && $data[0][0][17] != 'JOB DESCRIPTION'
                 && $data[0][0][18] != 'EDUCATIONAL ATTAINMENT' && $data[0][0][19] != 'LOCATION' && $data[0][0][20] != 'WORK SCHEDULE'
                 && $data[0][0][21] != 'BUDGET' && $data[0][0][22] != 'RECRUITMENT PROCESS/POC' && $data[0][0][23] != 'NOTES'
-                && $data[0][0][24] != 'START DATE' && $data[0][0][25] != 'KEYWORD (overlapping)' && $data[0][0][26] != 'Recruiter') {
+                && $data[0][0][24] != 'START DATE' && $data[0][0][25] != 'KEYWORD (overlapping)' && $data[0][0][26] != 'Recruiter' && $data[0][0][27] == 'CLASSIFICATION'
+                && $data[0][0][28] == 'REQUIREMENT CLASSIFICATION' && $data[0][0][29] == 'CLIENT CLASSIFICATION' && $data[0][0][30] == 'REQUISITION ID #'
+                && $data[0][0][31] == '# OF ACTIVE ENDO' && $data[0][0][32] == '# OF INACTIVE ENDO' && $data[0][0][33] == 'TURN AROUND TIME'
+                && $data[0][0][34] == 'DATE UPDATED') {
                 // dd('yes');
                 return redirect()->back()->with('error-jdl-sheet', 'Data is not correct');
             } else {
@@ -1315,7 +1318,14 @@ class ProfileController extends Controller
                         $store_by_google_sheet->start_date = isset($render[24]) ? $render[24] : "";
                         $store_by_google_sheet->keyword = isset($render[25]) ? $render[25] : "";
                         $store_by_google_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-
+                        $store_by_google_sheet->classification = isset($render[27]) ? $render[27] : "";
+                        $store_by_google_sheet->req_classification = isset($render[28]) ? $render[28] : "";
+                        $store_by_google_sheet->client_classification = isset($render[29]) ? $render[29] : "";
+                        $store_by_google_sheet->req_id = isset($render[30]) ? $render[30] : "";
+                        $store_by_google_sheet->numberOfActive = isset($render[31]) ? $render[31] : "";
+                        $store_by_google_sheet->numberOfInactive = isset($render[32]) ? $render[32] : "";
+                        $store_by_google_sheet->turn_around = isset($render[33]) ? $render[33] : "";
+                        $store_by_google_sheet->updated_date = isset($render[34]) ? $render[34] : "";
                         $store_by_google_sheet->save();
                     }
 
@@ -1345,88 +1355,103 @@ class ProfileController extends Controller
                 // die('Cannot open file for reading');
                 return redirect()->back()->with('error-jdl-sheet-local', 'Cannot open file for reading');
             }
-            // $render = fgetcsv($file, 1000, ",");
-            // dd($render[0]);
 
             $row = 1;
-            // $current = []; # ids detail: 22: certification 16: client 5: courses
-            // $existing = [];
-            // while (($render = fgetcsv($file))) {
-            //     array_push($existing, $render[0]);
-            // }
-            // $currentArray = DB::table('drop_down_options')->where('drop_down_id', 22)->select('option_name')->get()->toArray();
-            // foreach($currentArray as $value){
-            //     array_push($current, $value->option_name);
-            // }
-            // return array_diff($existing , $current );
+            $render = fgetcsv($file); // Read the first row outside the loop
+            if ($render[0] != 'PRIORITY'
+                && $render[1] != 'ASSIGNMENT'
+                && $render[2] != 'STATUS'
+                && $render[3] != 'REQUIREMENT DATE'
+                && $render[4] != 'MATURITY'
+                && $render[5] != 'UPDATED DATE'
+                && $render[6] != 'CLOSED DATE'
+                && $render[7] != 'OLD SHARED DATE'
+                && $render[8] != 'CLIENT'
+                && $render[9] != 'DOMAIN'
+                && $render[10] != 'SEGMENT'
+                && $render[11] != 'SUBSEGMENT'
+                && $render[12] != 'POSITION TITLE'
+                && $render[13] != 'CAREER LEVEL'
+                && $render[14] != 'SLL NO.'
+                && $render[15] != 'TOTAL FTE'
+                && $render[16] != 'UPDATED FTE'
+                && $render[17] != 'JOB DESCRIPTION'
+                && $render[18] != 'EDUCATIONAL ATTAINMENT'
+                && $render[19] != 'LOCATION'
+                && $render[20] != 'WORK SCHEDULE'
+                && $render[21] != 'BUDGET'
+                && $render[22] != 'RECRUITMENT PROCESS/POC'
+                && $render[23] != 'NOTES'
+                && $render[24] != 'START DATE'
+                && $render[25] != 'KEYWORD (overlapping)'
+                && $render[26] != 'RECRUITER'
+                && $render[27] != 'CLASSIFICATION'
+                && $render[28] != 'REQUIREMENT CLASSIFICATION'
+                && $render[29] != 'CLIENT CLASSIFICATION'
+                && $render[30] != 'REQUISITION ID #'
+                && $render[31] != '# OF ACTIVE ENDO'
+                && $render[32] != '# OF INACTIVE ENDO'
+                && $render[33] != 'TURN AROUND TIME'
+                && $render[34] != 'DATE UPDATED') {
+                return redirect()->back()->with('error-jdl-sheet-local', 'Uploading Failed');
+
+            }
             while (($render = fgetcsv($file))) {
-                // $JDL_local_sheet = new CandidateProfile_Dropdown();
-                // $JDL_local_sheet->c_profile = isset($render[1]) ? $render[1] : "";
-                // $JDL_local_sheet->domain = isset($render[0]) ? $render[0] : "";
-                // $JDL_local_sheet->segment = isset($render[2]) ? $render[2] : "";
-                // $JDL_local_sheet->s_segment = isset($render[3]) ? $render[3] : "";
-                // $JDL_local_sheet->save();
-                // return;
-                // $JDL_local_sheet = new DropDownOption();
-                // $JDL_local_sheet->drop_down_id = 5;
-                // $JDL_local_sheet->option_name = isset($render[0]) ? $render[0] : "";
-                // $JDL_local_sheet->save();
                 $num = count($render);
                 if ($row > 6002) {
                     redirect()->back()->with('CSV_FILE_UPLOADED_JDL', '6000 of Total Reocrds have been entered.');
                 }
-                if ($render[0] != 'PRIORITY' && $render[1] != 'REF. CODE' && $render[2] != 'STATUS' && $render[3] != 'REQUIREMENT DATE' && $render[4] != 'Maturity'
-                    && $render[5] != 'UPDATED DATE' && $render[6] != 'CLOSED DATE' && $render[7] != 'OLD SHARED DATE' && $render[8] != 'CLIENT' && $render[9] != 'DOMAIN'
-                    && $render[10] != 'SEGMENT' && $render[11] != 'SUBSEGMENT' && $render[12] != 'POSITION TITLE' && $render[13] != 'CAREER LEVEL'
-                    && $render[14] != 'SLL NO.' && $render[15] != 'TOTAL FTE' && $render[16] != 'UPDATED FTE' && $render[17] != 'JOB DESCRIPTION'
-                    && $render[18] != 'EDUCATIONAL ATTAINMENT' && $render[19] != 'LOCATION' && $render[20] != 'WORK SCHEDULE'
-                    && $render[21] != 'BUDGET' && $render[22] != 'RECRUITMENT PROCESS/POC' && $render[23] != 'NOTES'
-                    && $render[24] != 'START DATE' && $render[25] != 'KEYWORD (overlapping)' && $render[26] != 'Recruiter') {
-                    $client = isset($render[8]) ? $render[8] : "";
-                    $c_level = isset($render[13]) ? $render[13] : "";
-                    $p_title = isset($render[12]) ? $render[12] : "";
-                    $query = DB::table("jdl")->where(["client" => $client, "c_level" => $c_level, "p_title" => $p_title])->first();
-                    if (isset($query->id)) {
-                        // update record
-                        $JDL_local_sheet = jdlSheet::find($query->id);
-                    } else {
-                        // insert record
-                        $JDL_local_sheet = new jdlSheet();
-                    }
-                    // $JDL_local_sheet = new jdlSheet();
-                    $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
-                    $JDL_local_sheet->ref_code = isset($render[1]) ? $render[1] : "";
-                    $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
-                    $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
-                    $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
-                    $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
-                    $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
-                    $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
-                    $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
-                    $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
-                    $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
-                    $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
-                    $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
-                    $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
-                    $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
-                    $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
-                    $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
-                    $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
-                    $JDL_local_sheet->jd = isset($render[17]) ? $render[17] : "";
-                    $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
-                    $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
-                    $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
-                    $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
-                    $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
-                    $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
-                    $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
-                    $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
-                    $JDL_local_sheet->save();
-                    $row++;
+                $client = isset($render[8]) ? $render[8] : "";
+                $c_level = isset($render[13]) ? $render[13] : "";
+                $p_title = isset($render[12]) ? $render[12] : "";
+                $query = DB::table("jdl")->where(["client" => $client, "c_level" => $c_level, "p_title" => $p_title])->first();
+                if (isset($query->id)) {
+                    // update record
+                    $JDL_local_sheet = jdlSheet::find($query->id);
                 } else {
-                    return redirect()->back()->with('error-jdl-sheet-local', 'Please upload Correct Data');
 
+                    // insert record
+                    $JDL_local_sheet = new jdlSheet();
                 }
+                // $JDL_local_sheet = new jdlSheet();
+                $JDL_local_sheet->priority = isset($render[0]) ? $render[0] : "";
+                $JDL_local_sheet->assignment = isset($render[1]) ? $render[1] : "";
+                $JDL_local_sheet->status = isset($render[2]) ? $render[2] : "";
+                $JDL_local_sheet->req_date = isset($render[3]) ? $render[3] : "";
+                $JDL_local_sheet->maturity = isset($render[4]) ? $render[4] : "";
+                $JDL_local_sheet->updated_date = isset($render[5]) ? $render[5] : "";
+                $JDL_local_sheet->closed_date = isset($render[6]) ? $render[6] : "";
+                $JDL_local_sheet->os_date = isset($render[7]) ? $render[7] : "";
+                $JDL_local_sheet->client = isset($render[8]) ? $render[8] : "";
+                $JDL_local_sheet->domain = isset($render[9]) ? $render[9] : "";
+                $JDL_local_sheet->segment = isset($render[10]) ? $render[10] : "";
+                $JDL_local_sheet->subsegment = isset($render[11]) ? $render[11] : "";
+                $JDL_local_sheet->p_title = isset($render[12]) ? $render[12] : "";
+                $JDL_local_sheet->c_level = isset($render[13]) ? $render[13] : "";
+                $JDL_local_sheet->sll_no = isset($render[14]) ? $render[14] : "";
+                $JDL_local_sheet->t_fte = isset($render[15]) ? $render[15] : "";
+                $JDL_local_sheet->updated_fte = isset($render[16]) ? $render[16] : "";
+                $JDL_local_sheet->edu_attainment = isset($render[18]) ? $render[18] : "";
+                $JDL_local_sheet->jd = isset($render[17]) ? $render[17] : "";
+                $JDL_local_sheet->location = isset($render[19]) ? $render[19] : "";
+                $JDL_local_sheet->w_schedule = isset($render[20]) ? $render[20] : "";
+                $JDL_local_sheet->budget = isset($render[21]) ? $render[21] : "";
+                $JDL_local_sheet->poc = isset($render[22]) ? $render[22] : "";
+                $JDL_local_sheet->note = isset($render[23]) ? $render[23] : "";
+                $JDL_local_sheet->start_date = isset($render[24]) ? $render[24] : "";
+                $JDL_local_sheet->keyword = isset($render[25]) ? $render[25] : "";
+                $JDL_local_sheet->recruiter = isset($render[26]) ? $render[26] : "";
+                $JDL_local_sheet->classification = isset($render[27]) ? $render[27] : "";
+                $JDL_local_sheet->req_classification = isset($render[28]) ? $render[28] : "";
+                $JDL_local_sheet->client_classification = isset($render[29]) ? $render[29] : "";
+                $JDL_local_sheet->req_id = isset($render[30]) ? $render[30] : "";
+                $JDL_local_sheet->numberOfActive = isset($render[31]) ? $render[31] : "";
+                $JDL_local_sheet->numberOfInactive = isset($render[32]) ? $render[32] : "";
+                $JDL_local_sheet->turn_around = isset($render[33]) ? $render[33] : "";
+                $JDL_local_sheet->updated_date = isset($render[34]) ? $render[34] : "";
+
+                $JDL_local_sheet->save();
+
                 $row++;
             }
 

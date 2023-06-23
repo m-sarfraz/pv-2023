@@ -49,7 +49,8 @@
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Client</label>
                         <select class="form-select p-0 users-input-S-C select2_dropdown w-100 select2-hidden-accessible "
-                            aria-label="Default select example" name="client" onchange="clientChangeAutomateFunc(this)">
+                            id="client" aria-label="Default select example" name="client"
+                            onchange="clientChangeAutomateFunc(this)">
                             <option value="" class="selectedOption" selected disabled>
                                 Select Option
                             </option>
@@ -77,8 +78,8 @@
                 </div>
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
-                        <label for="" class="Label labelFontSize mt-3">P-title</label>
-                        <select id="position" name="p_title"
+                        <label for="" class="Label labelFontSize mt-3">Position Title</label>
+                        <select id="position" name="p_title" onchange="appendDomains(this)"
                             class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" class="selectedOption" selected disabled>
                                 Select Option
@@ -88,7 +89,7 @@
                                     {{ $position_titleOptions->option_name }}
                                 </option>
                             @endforeach
-                        </select> 
+                        </select>
                     </div>
 
                     <div class="col-lg-6">
@@ -132,8 +133,8 @@
 
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Domain</label>
-                        <select id="domain" onchange="endoDomainChange(this)" name="domain"
-                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                        <select id="domain" onchange="endoDomainChange(this)" name="domain" readonly
+                            class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" class="selectedOption" selected disabled>
                                 Select Option
                             </option>
@@ -161,7 +162,7 @@
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Segment</label>
-                        <select id="segment" name="segment" onchange="endoSegmentChange('#segment')"
+                        <select id="segment" name="segment" onchange="endoSegmentChange('#segment')" readonly
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option class="selectedOption" selected disabled>
                                 Select Option</option>
@@ -188,7 +189,7 @@
                 <div class="row mb-xl-1 mb-9">
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Subsegment</label>
-                        <select id="subsegment" name="subsegment"
+                        <select id="subsegment" name="subsegment" readonly
                             class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                             <option value="" class="selectedOption" selected disabled>
                                 Select Option
@@ -269,17 +270,8 @@
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Educational Attainment</label>
 
-                        <select id="edu_attainment" name="edu_attainment"
-                            class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
-                            <option value="" class="selectedOption" selected disabled>
-                                Select Option
-                            </option>
-                            @foreach ($edu_attain->options as $edu_attainOptions)
-                                <option value="{{ $edu_attainOptions->option_name }}">
-                                    {{ $edu_attainOptions->option_name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="" class="form-control users-input-S-C" id="edu_attainment"
+                            name="edu_attainment">
 
 
                     </div>
@@ -380,14 +372,14 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-lg-6">
+                    {{-- <div class="col-lg-6">
                         <div class="form-group mb-0">
                             <label class="d-block font-size-3 mb-0">
                                 Turn Around Time
                             </label>
                             <input type="text" name="turn_around" class="form-control border h-px-20_custom" />
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-6 text-center mt-4">
                         <label for="" class="Label labelFontSize mt-3"></label>
                         <button onclick="saveJDLDataAjaxFunc()" type="button" class="btn btn-success btn-sm w-75 ">Save
@@ -478,7 +470,7 @@
             for (let index = 0; index < clientData.length; index++) {
                 if (clientData[index].client == $(elem).val()) {
                     clientClassifications.push(clientData[index]
-                    .ClientClassification); // Add client classification to the array
+                        .ClientClassification); // Add client classification to the array
                     console.log(clientData[index]);
                     // console.log(clientData[index].ClientSpiel);
                     $('#client_spiel').val(clientData[index].ClientSpiel);
@@ -693,5 +685,47 @@
         }
 
         // calculate maturity function ends
+
+        function appendDomains(elem) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            console.log($('#position').val());
+            p_title = $(elem).val();
+            client = $('#client').val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('get-positionTtitle-data') }}",
+                data: {
+                    p_title: p_title,
+                    client: client,
+                    _token: token
+                },
+
+                // Ajax success function
+                success: function(res) {
+                    console.log(res);
+                    $('#domain').append(
+                        `<option selected value = ${res.data.dropdown.domain}> ${res.data.dropdown.domain} </option>`
+                    )
+                    $('#segment').append(
+                        `<option selected value = ${res.data.dropdown.segment}> ${res.data.dropdown.segment} </option>`
+                    )
+                    $('#subsegment').append(
+                        `<option selected value = ${res.data.dropdown.subSegment}> ${res.data.dropdown.subSegment} </option>`
+                    )
+                    if (res.data.recruiter) {
+                        for (let index = 0; index < res.data.recruiter.length; index++) {
+                            $('#recruiter').append(
+                                `<option selected value = ${res.data.recruiter[index]}> ${res.data.recruiter[index]} </option>`
+                            )
+
+                        }
+                    }
+                }
+            })
+        }
     </script>
 @endsection

@@ -79,12 +79,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('jdl_filter_records_detail/{id}', 'JdlController@Filter')->name('filterRecordJDLDetail');
     Route::post('update-jdl', 'JdlController@updateJDL')->name('update-jdl');
     Route::post('delete-jdl', 'JdlController@deleteJDL')->name('delete-jdl');
-
+    Route::post('jdl-bulk-update', 'JdlController@bulkUpdateRecords')->name('jdl-bulk-update');
     Route::get('filter_records_jdl', 'JdlController@Filter_user_table')->name('filter_records_jdl');
     Route::post('filter_records_jdl_getclient', 'JdlController@filter_records_jdl_getclient')->name('filter_records_jdl_getclient');
     Route::get('append_filter_data', 'JdlController@append_filter_data')->name('append_filter_data');
     Route::get('appendJdlOptions', 'JdlController@appendJdlOptions')->name('appendJdlOptions');
-
+    Route::post('get-positionTtitle-data', 'JdlController@getDataAgainstPTitle')->name('get-positionTtitle-data');
     // Record routes
     Route::get('record', 'RecordController@index')->name('record');
     Route::get('filter_records', 'RecordController@filter')->name('filterRecord');
@@ -186,7 +186,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('add-profile', 'DomainController@add_profile')->name('add-profiles');
     Route::post('delete-option-domain', 'DomainController@deleteOption')->name('delete-option-domain');
     Route::post('delete-sub-segment', 'DomainController@delete_sub_segment')->name('delete-sub-segment');
-
+    Route::post('add-position-title', 'DomainController@addPositionTitle')->name('add-position-title');
     // client dropdown management routes
     Route::match (['get', 'post'], 'load-client-table', 'DomainController@view_client_table')->name('load-client-table');
     Route::post('delete-client-spiel', 'DomainController@deleteClientSpiel')->name('delete-client-spiel');

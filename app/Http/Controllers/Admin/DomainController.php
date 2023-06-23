@@ -8,6 +8,7 @@ use App\DropDown;
 use App\DropDownOption;
 use App\Http\Controllers\Controller;
 use App\JDL;
+use App\PositionData;
 use App\Profile;
 use App\Segment;
 use App\SubSegment;
@@ -490,5 +491,42 @@ class DomainController extends Controller
         }
     }
     // ends
+    public function addPositionTitle(Request $request)
+    {
+        // return $request->all();
+        $arrayCheck = [
+            "domain" => "required|min:1",
+            "position" => "required|min:1",
+            "segment2" => "required|min:1",
+            "subsegment2" => "required|min:1",
+        ];
+        $message = [
+            'domain.required' => 'Enter an Option value',
+            'position.required' => 'Enter an Option value',
+            'segment2.required' => 'Enter an Option value',
+            'subsegment2.required' => 'Enter an Option value',
+        ];
+        $validator = Validator::make($request->all(), $arrayCheck, $message);
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+        } else {
+            try {
+                $positionData = new PositionData();
+                $domain = (Domain::where('id', $request->domain)->first())->domain_name;
+                $segment =( Segment::where('id', $request->segment2)->first())->segment_name;
+                $subSegment = (SubSegment::where('id', $request->subsegment2)->first())->sub_segment_name ; 
+                $positionData->domain =  $domain;
+                $positionData->position = $request->position;
+                $positionData->segment =  $segment;
+                $positionData->subSegment =  $subSegment;
+                $positionData->save();
+                return response()->json(['success' => true, 'message' => 'New Record has been Inserted']);
 
+            } catch (Exception $e) {
+
+                return response()->json(['success' => false, 'message' => 'Error Has Occured!']);
+            }
+
+        }
+    }
 }

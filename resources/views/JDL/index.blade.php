@@ -50,8 +50,8 @@
         }
 
         /* overflow: hidden;
-                                                                        text-overflow: ellipsis;
-                                                                        /* height: 113px; */
+                                                                                                                                                                                                                                                                                                                                                                                                    text-overflow: ellipsis;
+                                                                                                                                                                                                                                                                                                                                                                                                    /* height: 113px; */
         .hidetrID tr td:nth-child(17),
         .hidetrID tr td:nth-child(12),
         .hidetrID tr td:nth-child(3),
@@ -94,8 +94,8 @@
         }
 
         /* .hidetrID tr td{
-                                                                            white-space: nowrap !important;
-                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                        white-space: nowrap !important;
+                                                                                                                                                                                                                                                                                                                                                                                                        } */
         #jdlTable thead tr th,
         #jdlTable tbody tr td {
             width: fit-content;
@@ -125,8 +125,38 @@
         }
 
         /* .customWidth {
-                                                                                    width: 410px !important;
-                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                width: 410px !important;
+                                                                                                                                                                                                                                                                                                                                                                                                            } */
+
+        /* Styling for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #be1717;
+            width: 30%;
+        }
+
+        .modal-title {
+            text-align: center;
+        }
+
+        /* Hide the modal when not visible */
+        .hidden {
+            display: none;
+        }
 
         .tooltip1:hover span.tooltiptext {
             display: block;
@@ -158,10 +188,10 @@
         }
 
         /*
-                                                                                   this is important!
-                                                                                   make sure you define this here
-                                                                                   or in jQuery codef
-                                                                                */
+                                                                                                                                                                                                                                                                                                                                                                                                               this is important!
+                                                                                                                                                                                                                                                                                                                                                                                                               make sure you define this here
+                                                                                                                                                                                                                                                                                                                                                                                                               or in jQuery codef
+                                                                                                                                                                                                                                                                                                                                                                                                            */
         .resizer {
             position: absolute;
             top: 0;
@@ -187,7 +217,7 @@
 
 @section('content')
     <div class="container-fluid">
-
+        <div id="loader"></div>
         <div class="row m-0 pt-4">
             <div class="col-lg-12">
                 <div class="row">
@@ -208,7 +238,7 @@
                     <div class="card-body">
                         <form action="">
                             <div class="row mb-4">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
                                             Search (keyword):
@@ -218,7 +248,7 @@
                                             value="" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
 
@@ -228,8 +258,18 @@
                                             required="" class="form-control h-px-20_custom border" value="" />
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="d-block font-size-3 mb-0">
+
+                                            Turn Aroundsss
+                                        </label>
+                                        <input type="number" name="turnAroundDays" placeholder="" id="turnAroundDays"
+                                            class="form-control h-px-20_custom border" onchange="Filter_user()" />
+                                    </div>
+                                </div>
                             </div>
-                            <p class="mb-0 pt-2">Filter by:</p>
+                            {{-- <p class="mb-0 pt-2">Filter by:</p> --}}
                             <div class="row mb-1 align-items-center">
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -329,8 +369,8 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label labelFontSize">Location</label>
-                                        <select name="location" id="location" class="select2_dropdown w-100 form-control"
-                                            multiple onchange="Filter_user()">
+                                        <select name="location" id="location"
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
 
                                         </select>
                                     </div>
@@ -344,8 +384,9 @@
                                         <label class="d-block font-size-3 mb-0">
                                             Keyword
                                         </label>
-                                        <select onchange="Filter_user()" multiple name="keyword[]" id="keyword"
-                                            class="select2_dropdown  w-100">
+                                        <select name="keyword" id="keyword" class="select2_dropdown w-100 form-control"
+                                            multiple onchange="Filter_user()">
+
                                         </select>
                                     </div>
                                 </div>
@@ -355,8 +396,9 @@
                                         <label class="d-block font-size-3 mb-0 pt-lg-1 pt-sm-0 pt-0">
                                             Priority:
                                         </label>
-                                        <select onchange="Filter_user()" multiple name="priority[]" id="priority"
-                                            class="select2_dropdown  w-100">
+
+                                        <select name="priority" id="priority"
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
 
                                         </select>
                                     </div>
@@ -368,8 +410,8 @@
                                         <label class="d-block font-size-3 mb-0 Label labelFontSize">
                                             Assignment
                                         </label>
-                                        <select onchange="Filter_user()" name="assignment[]" id="assignment"
-                                            class="select2_dropdown w-100 form-control" multiple>
+                                        <select name="assignment" id="assignment"
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
 
                                         </select>
                                     </div>
@@ -377,8 +419,9 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="Label labelFontSize">Work Schedule</label>
-                                        <select onchange="Filter_user()" name="wschedule[]" id="wschedule"
-                                            class="select2_dropdown w-100 form-control" multiple>
+
+                                        <select name="wschedule" id="wschedule"
+                                            class="select2_dropdown w-100 form-control" multiple onchange="Filter_user()">
 
                                         </select>
                                     </div>
@@ -386,15 +429,19 @@
                                 <div class="col-lg-12 mt-3">
                                     <div class="d-flex justify-content-end">
                                         <div class="form-group mb-0 text-right">
-                                            <label class="Label-00">Agent Requiremtns Only</label>
+                                            {{-- <label class="Label-00">Agent Requiremtns Only</label>
                                             <input type="radio" id="agent" name="reqRadioCheck"
-                                                onclick="Filter_user()">
+                                                onclick="Filter_user()"> --}}
+                                            <button class="btn-primary btn-sm w-100 d-none" id="bulk-update-btn"
+                                                onclick="showModal()" type="button"
+                                                style="background-color: #ca7c27;border: #c97b26;">Bulk Update Selected
+                                                Records</button>
                                         </div>
-                                        <div class="form-group mb-0 text-right ml-3">
+                                        {{-- <div class="form-group mb-0 text-right ml-3">
                                             <label class="Label-00">Non-Agent Requiremtns Only</label>
                                             <input type="radio" id="non-agent" name="reqRadioCheck"
                                                 onclick="Filter_user()">
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -412,6 +459,7 @@
                                 <tr style="whitespace-nowrap; text-align:center;">
                                     <th class="ant-table-cell hideID noVis">id</th>
                                     <th class="ant-table-cell">Sr</th>
+                                    <th class="ant-table-cell"> Action</th>
                                     <th class="ant-table-cell"> Priority</th>
                                     <th class="ant-table-cell">Keyword</th>
                                     <th class="ant-table-cell">Status</th>
@@ -456,22 +504,29 @@
         </div>
     </div>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="myModal" class="modal">
         <div class="modal-dialog m-auto" style='max-width:80%'>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Record Details:</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Bulk Update Fields:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true" onclick="closeModal()">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="record_detail"></div>
+                <div class="modal-body" id="record_detail">
+                    <div class="col-lg-12">
+                        <label for="inputField">Location:</label>
+                        <input type="text" class="form-control" id="locationBulkUpdateInput"
+                            name="locationBulkUpdateInput">
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
+                        style="background: rgb(220 134 39);color: rgb(255 255 255);border:none" data-dismiss="modal"
+                        onclick="closeModal()"> Close</button>
+                    <button type="button" class="btn btn-secondary"
                         style="background: rgb(220 134 39);color: rgb(255 255 255);border:none"
-                        data-dismiss="modal">Close</button>
+                        onclick="saveBulkDataAjax('{{ route('jdl-bulk-update') }}')">Save</button>
                 </div>
             </div>
         </div>
@@ -654,11 +709,14 @@
         function load_datatable() {
             option_table = $('#jdlTable').DataTable({
                 destroy: true,
-                // search: {
-                //     smart: false
-                // },
+                search: {
+                    smart: true
+                },
+                regex: false,
+                ordering: true,
                 processing: true,
-                serverSide: false,
+                serverSide: true,
+
                 // "language": {
                 //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
                 // }, 
@@ -682,14 +740,15 @@
 
                 },
                 initComplete: function(settings, json) {
+                    $('#No_of_count').val(settings.json.totalCount)
                     // $('#searchKeyword').trigger('input');
-                    let tableID = $('#filter_table_div').children().children().attr('id')
-                    if (tableID == 'jdlTable_wrapper') {
-                        countRecord()
-                    }
-                    if (tableID == 'filteredJdlTable_wrapper') {
-                        countRecordFilter()
-                    }
+                    $('#jdlTable').on('draw.dt', function() {
+                        if (settings.oFeatures.bServerSide === true) {
+                            // This condition ensures that the callback is only executed for client-side processing
+                            console.log(settings.json.totalCount);
+                            $('#No_of_count').val(settings.json.totalCount)
+                        }
+                    });
                     $('#filter_table_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
                     )
@@ -708,6 +767,11 @@
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+
                     },
                     {
                         data: 'priority',
@@ -864,6 +928,11 @@
             career_level = $('#career_level').val();
             status = $('#status').val();
             address = $('#location').val();
+            keyword = $('#keyword').val();
+            priority = $('#priority').val();
+            turnAroundDaysVar = $('#turnAroundDays').val();
+            wschedule = $('#wschedule').val();
+            assignment = $('#assignment').val();
             option_table = $('#filteredJdlTable').DataTable({
                 destroy: true,
                 // search: {
@@ -882,6 +951,7 @@
                     data: {
                         _token: token,
                         searchKeyword: searchKeyword,
+                        turnAroundDaysVar: turnAroundDaysVar,
                         agent: agent,
                         nonAgent: nonAgent,
                         client: client,
@@ -891,6 +961,10 @@
                         position_title: position_title,
                         career_level: career_level,
                         address: address,
+                        keyword: keyword,
+                        priority: priority,
+                        wschedule: wschedule,
+                        assignment: assignment,
                         status: status,
                     },
                 },
@@ -1143,6 +1217,7 @@
             // }
             $("#loader").show();
             // $('#searchKeyword').val('');
+            turnAroundDaysVar = $('#turnAroundDays').val();
             client = $('#client').val();
             candidateDomain = $('#candidateDomain').val();
             segment = $('#segment').val();
@@ -1157,27 +1232,22 @@
             priority = $('#priority').val();
             wschedule = $('#wschedule').val();
             assignment = $('#assignment').val();
-            console.log(keyword);
-            console.log(priority);
-            console.log(assignment);
-            console.log(wschedule);
+            console.log(turnAroundDaysVar);
             // call Ajax for returning the data as view
             $.ajax({
                 type: "GET",
                 url: "{{ url('admin/filter_records_jdl') }}",
                 data: {
                     _token: token,
-                    // searchKeyword: searchKeyword,
+                    turnAroundDaysVar: turnAroundDaysVar,
                     client: client,
                     candidateDomain: candidateDomain,
                     segment: segment,
                     sub_segment: sub_segment,
-
                     position_title: position_title,
                     career_level: career_level,
                     address: address,
                     status: status,
-
                     keyword: keyword,
                     priority: priority,
                     assignment: assignment,
@@ -1231,6 +1301,73 @@
                     }
                 },
             });
+        }
+        var candidateIDSBulkUpdateArr = [];
+
+        function selectDataForBulkUpdate(id) {
+            if ($('.selectCheckBox').is(':checked') == false) {
+                $('#bulk-update-btn').addClass('d-none');
+                $('#bulk-update-btn').removeClass('d-block');
+            } else {
+
+                $('#bulk-update-btn').addClass('d-block');
+                $('#bulk-update-btn').removeClass('d-none');
+            }
+
+            var index = candidateIDSBulkUpdateArr.indexOf(id);
+            if (index === -1) {
+                candidateIDSBulkUpdateArr.push(id);
+            } else {
+                candidateIDSBulkUpdateArr.splice(index, 1);
+            }
+            console.log(candidateIDSBulkUpdateArr);
+
+        }
+
+        function showModal() {
+            $("#myModal").show();
+
+        }
+
+        function closeModal() {
+            $("#myModal").hide();
+
+        }
+
+        function saveBulkDataAjax(route) {
+            $("#myModal").hide();
+            $("#loader").show();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            locationData = $('#locationBulkUpdateInput').val();
+            // return;
+            $.ajax({
+                type: "POST",
+                url: route,
+                data: {
+                    _token: token,
+                    location: locationData,
+                    idArray: candidateIDSBulkUpdateArr,
+                },
+                // Success fucniton of Ajax
+                success: function(data) {
+                    $("#loader").hide();
+                    Swal.fire({
+                        position: 'center',
+                        icon: data.type,
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1200);
+                }
+            });
+
         }
     </script>
 @endsection
