@@ -262,7 +262,7 @@
                                     <div class="form-group mb-0">
                                         <label class="d-block font-size-3 mb-0">
 
-                                            Turn Aroundsss
+                                            Turn Around
                                         </label>
                                         <input type="number" name="turnAroundDays" placeholder="" id="turnAroundDays"
                                             class="form-control h-px-20_custom border" onchange="Filter_user()" />

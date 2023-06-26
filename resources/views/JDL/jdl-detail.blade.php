@@ -39,7 +39,7 @@
                                     Client:
                                 </label>
 
-                                <select name="client" id="client"
+                                <select name="client" id="client" onchange="clientChangeAutomateFunc(this)"
                                     class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100 select2-hidden-accessible">
                                     @foreach ($client->options as $clientOptions)
                                         <option value="{{ $clientOptions->option_name }}"
@@ -93,7 +93,7 @@
                                 <label class="Label">
                                     Position Title
                                 </label>
-                                <select id="position" name="p_title"
+                                <select id="position" name="p_title" onchange="appendDomains(this)"
                                     class="form-control select2_dropdown  w-100 border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option value="" {{ $user->p_title == null ? 'selected' : '' }} disabled>
                                         Select Option</option>
@@ -217,8 +217,8 @@
                                     Domain:
                                 </label>
 
-                                <select name="domain" id="domain" onchange="endoDomainChange(this)"
-                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center select2_dropdown w-100">
+                                <select name="domain" id="domain" onchange="endoDomainChange(this)" readonly
+                                    class="form-control border pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center   w-100">
                                     <option value="" class="selectedOption" selected disabled>
                                         Select Option
                                     </option>
@@ -240,8 +240,8 @@
                                     Segment
                                 </label>
                                 {{-- <input type="text" class="form-control users-input-S-C" value="{{ $user->segment }}" /> --}}
-                                <select id="segment" name="segment" onchange="endoSegmentChange('#segment')"
-                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <select id="segment" name="segment" onchange="endoSegmentChange('#segment')" readonly
+                                    class="form-control border   pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option class="selectedOption" selected disabled>
                                         Select Option</option>
                                     @foreach ($segments as $segmentsOptions)
@@ -268,8 +268,8 @@
                                 </label>
                                 {{-- <input type="text" class="form-control users-input-S-C"
                                     value="{{ $user->subsegment }}" /> --}}
-                                <select id="subsegment" name="subsegment"
-                                    class="form-control border select2_dropdown pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
+                                <select id="subsegment" name="subsegment" readonly
+                                    class="form-control border   pl-0 arrow-3 h-px-20_custom w-100 font-size-4 d-flex align-items-center w-100">
                                     <option class="selectedOption" selected disabled>
                                         Select Option</option>
                                     @foreach ($subSegments as $subSegmentsOptions)
@@ -425,7 +425,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Client Spiel
                                 </label>
-                                <input name="client_spiel" type="text" class="form-control border"
+                                <input name="client_spiel" id="client_spiel" type="text" class="form-control border"
                                     placeholder="Write Client Spiel Here" value="{{ $user->client_spiel }}" />
                             </div>
                         </div>
@@ -463,7 +463,7 @@
                                     Turn Around Time
                                 </label>
                                 <input type="text" name="turn_around" id="turn_around" readonly
-                                        class="form-control border h-px-20_custom" value="{{ $user->turn_around }}" />
+                                    class="form-control border h-px-20_custom" value="{{ $user->turn_around }}" />
                             </div>
                         </div>
                     </div>
@@ -503,6 +503,47 @@
             $('#inactive_endo').val(inActiveEndo)
             select2Dropdown("select2_dropdown");
         })
+        function appendDomains(elem) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            console.log($('#position').val());
+            p_title = $(elem).val();
+            client = $('#client').val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('get-positionTtitle-data') }}",
+                data: {
+                    p_title: p_title,
+                    client: client,
+                    _token: token
+                },
+
+                // Ajax success function
+                success: function(res) {
+                    console.log(res);
+                    $('#domain').append(
+                        `<option selected value = ${res.data.dropdown.domain}> ${res.data.dropdown.domain} </option>`
+                    )
+                    $('#segment').append(
+                        `<option selected value = ${res.data.dropdown.segment}> ${res.data.dropdown.segment} </option>`
+                    )
+                    $('#subsegment').append(
+                        `<option selected value = ${res.data.dropdown.subSegment}> ${res.data.dropdown.subSegment} </option>`
+                    )
+                    if (res.data.recruiter) {
+                        for (let index = 0; index < res.data.recruiter.length; index++) {
+                            $('#recruiter').append(
+                                `<option selected value = ${res.data.recruiter[index]}> ${res.data.recruiter[index]} </option>`
+                            )
+
+                        }
+                    }
+                }
+            })
+        }
         $('#edit').on('click', function() {
             $('#mainFieldset').attr('disabled', false);
             $('#save').attr('disabled', false);
@@ -761,5 +802,38 @@
 
         }
         // delte jdl record function ends 
+
+        // on client chagne automate options of classification and spiel 
+        function clientChangeAutomateFunc(elem) {
+            var clientData = {!! $clientData !!};
+            console.log(clientData);
+
+            var clientClassifications = []; // Array to store client classifications
+
+            for (let index = 0; index < clientData.length; index++) {
+                if (clientData[index].client == $(elem).val()) {
+                    clientClassifications.push(clientData[index]
+                    .ClientClassification); // Add client classification to the array
+                    console.log(clientData[index]);
+                    // console.log(clientData[index].ClientSpiel);
+                    $('#client_spiel').val(clientData[index].ClientSpiel);
+                }
+            }
+
+
+            // Clear previous options and append new options
+            // var selectElement = $('#client_classification');
+            // selectElement.val([]).trigger('change');
+            $('#classification').empty();
+            for (let i = 0; i < clientClassifications.length; i++) {
+                $('#classification').append('<option value="' + clientClassifications[i] + '">' +
+                    clientClassifications[i] + '</option>');
+            }
+            $('#classification').trigger('change');
+            console.log('-----------------');
+            // console.log($('#client_spiel').val());
+        }
+
+        // end 
     </script>
 @endsection

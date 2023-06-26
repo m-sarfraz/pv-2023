@@ -463,7 +463,7 @@
         // on client chagne automate options of classification and spiel 
         function clientChangeAutomateFunc(elem) {
             var clientData = {!! $clientData !!};
-            // console.log(clientData);
+            console.log(clientData);
 
             var clientClassifications = []; // Array to store client classifications
 

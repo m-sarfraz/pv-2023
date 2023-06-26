@@ -226,7 +226,9 @@ class JdlController extends Controller
             $diff = $createdDateTime->diff($reqDateTime);
             $turnAround = $diff->days;
         }
+        $clientData = ClientManagement::all();
         $data = [
+            'clientData' => $clientData,
             'sub_segmentsDropDown' => $sub_segmentsDropDown,
             'segmentsDropDown' => $segmentsDropDown,
             'user' => $user,
@@ -259,9 +261,9 @@ class JdlController extends Controller
         } else {
             // return  ($request->all());
             // $recruiters = implode(',', $request->recruiter);
-            $domainName = (Domain::where('id', $request->domain)->first())->domain_name;
-            $segmentaName = (Segment::where('id', $request->segment)->first())->segment_name;
-            $subsegmentName = (SubSegment::where('id', $request->subsegment)->first())->sub_segment_name;
+            $domainName = $request->domain;
+            $segmentaName = $request->segment;
+            $subsegmentName = $request->subsegment;
             $dataArray = $request->except('_token', 'id', 'domain', 'segment', 'subsegment');
             $dataArray['domain'] = $domainName;
             $dataArray['segment'] = $segmentaName;
@@ -679,9 +681,9 @@ class JdlController extends Controller
                 return response()->json(['success' => false, 'message' => $validator->errors()]);
             } else {
                 $recruiters = implode(',', $request->recruiter);
-                $domainName = (Domain::where('id', $request->domain)->first())->domain_name;
-                $segmentaName = (Segment::where('id', $request->segment)->first())->segment_name;
-                $subsegmentName = (SubSegment::where('id', $request->subsegment)->first())->sub_segment_name;
+                $domainName = $request->domain;
+                $segmentaName = $request->segment;
+                $subsegmentName = $request->subsegment;
                 $reqDate = $request->req_date; // 2023-05-02
                 $todayDate = Carbon::now()->format('Y-m-d'); // 2023-08-02
                 $maturity = Carbon::parse($reqDate)->diffInDays(Carbon::parse($todayDate));
@@ -698,7 +700,21 @@ class JdlController extends Controller
                     return response()->json(['success' => false, 'status' => 1, 'message' => 'Job Exists in Database']);
 
                 } else {
+                    $endorsement = Endorsement::where('client', $request->client)
+                        ->where('position_title', $request->p_title)
+                        ->where('career_endo', $request->c_level)
+                        ->first();
 
+                    $createdDate = null;
+                    $turnAround = 0;
+                    if ($endorsement) {
+                        $createdDate = date('Y-m-d', strtotime($endorsement->created_at));
+                        $reqDate = date($request->req_date);
+                        $createdDateTime = Carbon::parse($createdDate);
+                        $reqDateTime = Carbon::parse($reqDate);
+                        $diff = $createdDateTime->diff($reqDateTime);
+                        $turnAround = $diff->days;
+                    }
                     $jdl = new JDL();
                     $jdl->priority = $request->priority;
                     $jdl->ref_code = $request->ref_code;
@@ -715,6 +731,7 @@ class JdlController extends Controller
                     $jdl->p_title = $request->p_title;
                     $jdl->c_level = $request->c_level;
                     $jdl->sll_no = $request->sll_no;
+                    $jdl->turn_around = $turnAround;
                     $jdl->t_fte = $request->t_fte;
                     $jdl->updated_fte = $request->updated_fte;
                     $jdl->edu_attainment = $request->edu_attainment;
@@ -731,6 +748,7 @@ class JdlController extends Controller
                     $jdl->classification = $request->classification;
                     $jdl->assignment = $request->assignment;
                     $jdl->req_classification = $request->req_classification;
+                    $jdl->client_spiel = $request->client_spiel;
                     $jdl->client_classification = $request->client_classification;
                     $jdl->save();
                     //save COMAPNY addeed log to table starts
@@ -860,31 +878,37 @@ class JdlController extends Controller
             try {
                 $data = [];
                 $dropdown = PositionData::where('position', $request->p_title)->first();
-                $recruiter = Endorsement::where([
-                    'client' => $request->client,
-                    'position_title' => $dropdown->position,
-                    'domain_endo' => $dropdown->domain,
-                    'segment_endo' => $dropdown->segment,
-                    'sub_segment_endo' => $dropdown->subSegment,
-                ])->count();
+                if ($dropdown) {
 
-                if ($recruiter > 0) {
                     $recruiter = Endorsement::where([
                         'client' => $request->client,
                         'position_title' => $dropdown->position,
                         'domain_endo' => $dropdown->domain,
                         'segment_endo' => $dropdown->segment,
                         'sub_segment_endo' => $dropdown->subSegment,
-                    ])->get();
-                    $arr = [];
-                    foreach ($recruiter as $value) {
-                        array_push($arr, $value->origionalRecruiterName);
+                    ])->count();
+
+                    if ($recruiter > 0) {
+                        $recruiter = Endorsement::where([
+                            'client' => $request->client,
+                            'position_title' => $dropdown->position,
+                            'domain_endo' => $dropdown->domain,
+                            'segment_endo' => $dropdown->segment,
+                            'sub_segment_endo' => $dropdown->subSegment,
+                        ])->get();
+                        $arr = [];
+                        foreach ($recruiter as $value) {
+                            array_push($arr, $value->origionalRecruiterName);
+                        }
+                        $data['recruiter'] = $arr;
+
                     }
-                    $data['recruiter'] = $arr;
+                    $data['dropdown'] = $dropdown;
+                    return response()->json(['success' => true, 'data' => $data]);
+                } else {
+                    return response()->json(['success' => false]);
 
                 }
-                $data['dropdown'] = $dropdown;
-                return response()->json(['success' => true, 'data' => $data]);
             } catch (Exception $e) {
                 return response()->json(['success' => false, 'message' => $e->getMessage()]);
             }
