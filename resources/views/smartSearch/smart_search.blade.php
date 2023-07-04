@@ -606,7 +606,7 @@
                             <thead class="bg-light w-100" style="">
                                 <tr style="text-align: center;">
                                     <th class="d-none"> sr</th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">
+                                    <th class="ant-table-cell">
                                         {{-- <svg title="Click Here For Columnwise Search" data-toggle="tooltip"
                                             data-placement="top" style="color:#dc8627;text-color:red;top:0;bottom:0"
                                             xmlns="http://www.w3.org/2000/svg" onclick="toggleSearchFunc()"
@@ -618,136 +618,38 @@
                                         Sr
                                     </th>
 
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Team <input
-                                            class="form-control inputTh" data-id="2" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /></th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Recruiter <input
-                                            class="form-control inputTh" data-id="3" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Recruiter" />
-                                    </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Sifted <input
-                                            class="form-control inputTh" data-id="5" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate’s Profile
-                                        <input class="form-control inputTh" data-id="6" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Candidate’s Profile" />
-                                    </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Date Invited <input
-                                            class="form-control inputTh" data-id="7" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Candidate <input
-                                            class="form-control inputTh" data-id="4" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Candidate" /></th>
+                                    <th class="ant-table-cell">Team </th>
+                                    <th class="ant-table-cell">Recruiter </th>
+                                    <th class="ant-table-cell">Date Sifted </th>
+                                    <th class="ant-table-cell">Candidate’s Profile </th>
+                                    <th class="ant-table-cell">Date Invited </th>
+                                    <th class="ant-table-cell">Candidate </th>
+                                    <th class="ant-table-cell">Gender </th>
+                                    <th class="ant-table-cell">Phone </th>
+                                    <th class="ant-table-cell">Email </th>
+                                    <th class="ant-table-cell">Address </th>
+                                    <th class="ant-table-cell">Course </th>
+                                    <th class="ant-table-cell">Educational Attainment </th>
+                                    <th class="ant-table-cell">Certificate </th>
+                                    <th class="ant-table-cell">Employment History </th>
+                                    <th class="ant-table-cell">Interview Note </th>
+                                    <th class="ant-table-cell">Exp Salary </th>
+                                    <th class="ant-table-cell">Application Status </th>
+                                    <th class="ant-table-cell">Type </th>
+                                    <th class="ant-table-cell">Endorsement Date </th>
+                                    <th class="ant-table-cell">Client </th>
+                                    <th class="ant-table-cell">Site </th>
+                                    <th class="ant-table-cell">Position Title </th>
+                                    <th class="ant-table-cell">Career </th>
+                                    <th class="ant-table-cell">Segment </th>
+                                    <th class="ant-table-cell">Sub-Segment </th>
+                                    <th class="ant-table-cell">Endorsement Status </th>
+                                    <th class="ant-table-cell">Remarks For Finance </th>
+                                    <th class="ant-table-cell">Onboarding Date </th>
 
 
 
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Gender <input
-                                            class="form-control inputTh" data-id="8" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Gender" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Phone <input
-                                            class="form-control inputTh" data-id="9" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Phone" /> </th>
 
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Email
-                                        <input class="form-control inputTh" data-id="10" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Email" />
-                                    </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Address <input
-                                            class="form-control inputTh" data-id="11" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Address" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Course <input
-                                            class="form-control inputTh" data-id="12" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Course" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Educational Attainment
-                                        <input class="form-control inputTh" data-id="13" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Educational Attainment" />
-                                    </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Certificate <input
-                                            class="form-control inputTh" data-id="14" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Certificate" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Employment History
-                                        <input class="form-control inputTh" data-id="15" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Employment History" />
-                                    </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Interview Note <input
-                                            class="form-control inputTh" data-id="16" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Interview Note" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Exp Salary <input
-                                            class="form-control inputTh" data-id="17" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Exp Salary " /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Application Status<input
-                                            class="form-control inputTh" data-id="18" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Application Status" /></th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Type <input
-                                            class="form-control inputTh" data-id="19" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Type" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Endorsement Date <input
-                                            class="form-control inputTh" data-id="20" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Team" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Client <input
-                                            class="form-control inputTh" data-id="21" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Client" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Site <input
-                                            class="form-control inputTh" data-id="22" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Site" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Position Title <input
-                                            class="form-control inputTh" data-id="23" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Position Title" /> </th>
-
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Career <input
-                                            class="form-control inputTh" data-id="24" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Career" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Segment <input
-                                            class="form-control inputTh" data-id="25" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Segment" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Sub-Segment <input
-                                            class="form-control inputTh" data-id="26" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Sub-Segment" /> </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Endorsement Status
-                                        <input class="form-control inputTh" data-id="27" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Endorsement Status" />
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Remarks For Finance
-                                        <input class="form-control inputTh" data-id="28" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Remarks For Finance" />
-                                    </th>
-                                    <th class="ant-table-cell" onclick="enableFocusOnInput(this)">Onboarding Date <input
-                                            class="form-control inputTh" data-id="29" type="text"
-                                            style="display:block" onchange="individualColomnSearchFunc(this)"
-                                            placeholder="Search Onboarding Date" /> </th>
                                 </tr>
                             </thead>
                             <tbody class="hidetrID hidetrIDSmartSearch" style="height:100px">
@@ -1025,6 +927,7 @@
 
         select2Dropdown("select2_dropdown");
         var option_table = "";
+        var option_tableFilter = "";
 
         // function for filtering the data according to selected input starts
         function FilterSearch() {
@@ -1067,15 +970,10 @@
                 cip = 0;
             }
             // option_table.settings()[0].jqXHR.abort();
-            option_table = $('#smTable').DataTable({
+            option_tableFilter = $('#smTable').DataTable({
                 destroy: true,
-                search: {
-                    smart: true
-                },
-                regex: false,
-                ordering: false,
                 processing: true,
-                serverSide: true,
+                serverSide: false,
 
                 ajax: {
                     url: "{{ route('filterSearch') }}",
@@ -1185,19 +1083,6 @@
                     // if (tableID == 'smTable_wrapper') {
                     //     countRecord()
                     // }
-                    this.api().columns().every(function() {
-                        var column = this;
-                        var input = $(
-                                '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .attr('data-column', column.data()) // Add custom attribute
-                            .on('keyup change clear', function() {
-                                if (column.search() !== this.value) {
-                                    column.search(this.value).draw();
-                                }
-                            });
-                    });
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
                     )
@@ -1579,19 +1464,19 @@
                     //     countRecord()
                     // }
                     $('#smTable_length').hide();
-                    this.api().columns().every(function() {
-                        var column = this;
-                        var input = $(
-                                '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
-                            )
-                            .appendTo($(column.footer()).empty())
-                            .attr('data-column', column.data()) // Add custom attribute
-                            .on('keyup change clear', function() {
-                                if (column.search() !== this.value) {
-                                    column.search(this.value).draw();
-                                }
-                            });
-                    });
+                    // this.api().columns().every(function() {
+                    //     var column = this;
+                    //     var input = $(
+                    //             '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
+                    //         )
+                    //         .appendTo($(column.footer()).empty())
+                    //         .attr('data-column', column.data()) // Add custom attribute
+                    //         .on('keyup change clear', function() {
+                    //             if (column.search() !== this.value) {
+                    //                 column.search(this.value).draw();
+                    //             }
+                    //         });
+                    // });
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
                     )
@@ -1909,6 +1794,7 @@
             $('#smTable_filter').children().children().trigger('input');
             $('#smTable1_filter').children().children().val($('#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
+            option_tableFilter.draw();
             // let total_recored = data.split(" ")
             // console.log(total_recored)
             // $('#foundRecord').val(total_recored[3])

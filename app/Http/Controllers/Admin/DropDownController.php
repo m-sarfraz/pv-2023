@@ -210,6 +210,9 @@ class DropDownController extends Controller
                 if ($request->drop_down_type == 'clientClassification') {
                     $check = DB::table('jdl')->where('client_classification', $view_options->option_name)->first();
                 }
+                if ($request->drop_down_type == 'reqClassification') {
+                    $check = DB::table('jdl')->where('req_classification', $view_options->option_name)->first();
+                }
                 $b = '';
                 if ($view_options->status == 1) {
                     $statusColor = 'btn-success';

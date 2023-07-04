@@ -98,57 +98,53 @@ class SmartSearchController extends Controller
                 $newArray[] = $columns[$i]['search']['value'];
             }
         }
-
+        $record = DB::table('updated_view_record');
         // Check if the new array is empty or has values
         if (empty($newArray)) {
             ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
             ini_set('memory_limit', '10000M'); //10000M  = 10 GB
             Artisan::call('cache:clear');
             if ($request->search['value'] != '') {
-                $recordQuery = DB::table('updated_view_record');
-                if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
-                    if ($request->search['value'] == strtolower('male')) {
-                        $recordQuery->where('gender', "'MALE'");
-                    }
-                    if ($request->search['value'] == strtolower('female')) {
-                        $recordQuery->where('gender', "'FEMALE'");
-                    }
-                    if ($request->search['value'] == strtolower('graduate')) {
-                        $recordQuery->where('educational_attain', "'GRADUATE'");
-                    }
-                } else {
+                // if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
+                //     if ($request->search['value'] == strtolower('male')) {
+                //         $recordQuery->where('gender', "'MALE'");
+                //     }
+                //     if ($request->search['value'] == strtolower('female')) {
+                //         $recordQuery->where('gender', "'FEMALE'");
+                //     }
+                //     if ($request->search['value'] == strtolower('graduate')) {
+                //         $recordQuery->where('educational_attain', "'GRADUATE'");
+                //     }
+                // } else {
 
-                    $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
-                    foreach ($columnArray as $value) {
-                        $search = "%" . $request->search['value'] . "%";
-                        $recordQuery->orWhere($value, 'like', "'$search'");
-                    }
+                $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
+                foreach ($columnArray as $value) {
+                    $search = "%" . $request->search['value'] . "%";
+                    $record->orWhere($value, 'like', $search);
                 }
-                $sqlQuery = Str::replaceArray('?', $recordQuery->getBindings(), $recordQuery->toSql());
-                $result = DB::select($sqlQuery);
-                $record = $result;
-                foreach ($record as $key => $value) {
-                    $this->candidate_arr[$value->endorsement_id] = $value->cid;
-                }
-                $totalCount = count($record);
+                // }
+
+                // foreach ($record as $key => $value) {
+                //     $this->candidate_arr[$value->endorsement_id] = $value->cid;
+                // }
+                $totalCount = $record->count();
+                // dd( Str::replaceArray('?', $record->getBindings(), $record->toSql()) );
+                $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
 
             } else {
                 $this->candidate_arr = 1;
                 $totalCount = Endorsement::count();
-                $record = DB::table('updated_view_record');
             }
         } else {
-            $record = DB::table('updated_view_record');
             for ($i = 0; $i < count($columns); $i++) {
                 if ($columns[$i]['search']['value'] != '') {
                     $searchValue = $columns[$i]['search']['value'];
-                    $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
+                    $record->where($columns[$i + 1]['name'], 'LIKE', "'%" . $searchValue . "%'");
 
                 }
             }
 
-            $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
-            $totalCount = $record->count();
+            $totalCount = 5;
         }
         // dd($record);
         return Datatables::of($record)
@@ -352,7 +348,7 @@ class SmartSearchController extends Controller
         if (isset($request->recruiter)) {
             if (in_array(60, $request->recruiter)) {
                 $inactiveRecruiter = User::where('status', 'false')->pluck('id')->toArray();
-                array_push($inactiveRecruiter, 60); 
+                array_push($inactiveRecruiter, 60);
                 $mergedArray = array_merge($inactiveRecruiter, $request->recruiter);
 
                 // dd($inactiveRecruiter);
@@ -406,25 +402,25 @@ class SmartSearchController extends Controller
             $record->whereDate('endi_date', '<=', $request->endo_end);
         }
 
-        $columns = $request->input('columns');
-        $newArray = [];
-        for ($i = 0; $i < count($columns); $i++) {
-            if (!empty($columns[$i]['search']['value'])) {
-                // Push the value into the new array
-                $newArray[] = $columns[$i]['search']['value'];
-            }
-        }
+        // $columns = $request->input('columns');
+        // $newArray = [];
+        // for ($i = 0; $i < count($columns); $i++) {
+        //     if (!empty($columns[$i]['search']['value'])) {
+        //         // Push the value into the new array
+        //         $newArray[] = $columns[$i]['search']['value'];
+        //     }
+        // }
 
-        if (empty($newArray)) {
-        } else {
-            for ($i = 0; $i < count($columns); $i++) {
-                if ($columns[$i]['search']['value'] != '') {
-                    $searchValue = $columns[$i]['search']['value'];
-                    $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
-                    $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
-                }
-            }
-        }
+        // if (empty($newArray)) {
+        // } else {
+        //     for ($i = 0; $i < count($columns); $i++) {
+        //         if ($columns[$i]['search']['value'] != '') {
+        //             $searchValue = $columns[$i]['search']['value'];
+        //             $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
+        //             $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
+        //         }
+        //     }
+        // }
 
         $totalCount = $record->count();
         // $arrayOfIDS = $record->select('cid', 'endorsement_id')->get();
