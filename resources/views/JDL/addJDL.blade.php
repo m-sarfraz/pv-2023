@@ -316,7 +316,7 @@
                     </div>
                     <div class="col-lg-6">
                         <label for="" class="Label labelFontSize mt-3">Start Date</label>
-                        <input type="date" class="form-control border h-px-20_custom" aria-label="Username"
+                        <input type="text" class="form-control border h-px-20_custom" aria-label="Username"
                             name="start_date" aria-describedby="basic-addon1">
                     </div>
                 </div>

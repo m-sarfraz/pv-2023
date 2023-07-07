@@ -11,6 +11,7 @@ use App\Endorsement;
 use App\Finance;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Rules\UniqueOptionNames;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +29,7 @@ class DropDownController extends Controller
     }
     public function show_dropdown_form()
     {
-        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level', 'position_title'])->get();
+        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level'])->get();
 
         return view('dropdown.add_dropdown', compact('dropdowns'));
     }
@@ -61,8 +62,12 @@ class DropDownController extends Controller
     {
         $arrayCheck = [
             'drop_down_id' => ['required', 'numeric'],
-            "option_name" => "required|array|min:1",
-            "option_name.*" => "required|string|min:1|unique:drop_down_options,option_name",
+            "option_name" => [
+                "required",
+                "array",
+                "min:1",
+                new UniqueOptionNames($request->drop_down_id)
+            ],            "option_name.*" => "required|string|min:1",
         ];
         $validator = Validator::make($request->all(), $arrayCheck);
         if ($validator->fails()) {
@@ -92,7 +97,7 @@ class DropDownController extends Controller
     }
     public function view_dropdown()
     {
-        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level', 'position_title'])->get();
+        $dropdowns = DropDown::whereNotIn('type', ['domains', 'segments', 'sub_segment', 'candidates_profile', 'career_level'])->get();
 
         return view('dropdown.add_options', compact('dropdowns'));
     }

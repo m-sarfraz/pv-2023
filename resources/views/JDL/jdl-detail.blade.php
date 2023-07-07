@@ -382,7 +382,7 @@
                                 <label class="d-block font-size-3 mb-0">
                                     Start Date
                                 </label>
-                                <input type="date" class="form-control users-input-S-C" name="start_date"
+                                <input type="text" class="form-control users-input-S-C" name="start_date"
                                     value="{{ $user->start_date }}" />
                             </div>
                         </div>

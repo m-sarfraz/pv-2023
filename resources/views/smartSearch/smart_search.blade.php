@@ -102,7 +102,7 @@
 
         .tableFixHead {
             overflow-y: auto;
-            height: 670px;
+            height: 100%;
 
         }
 
@@ -122,10 +122,10 @@
         }
 
         /* option_table.sl-text-trim td {
-                                                                                                                                        overflow: hidden;
-                                                                                                                                        text-overflow: ellipsis;
-                                                                                                                                        white-space: nowrap;
-                                                                                                                                        } */
+                                                                                                                                                                                overflow: hidden;
+                                                                                                                                                                                text-overflow: ellipsis;
+                                                                                                                                                                                white-space: nowrap;
+                                                                                                                                                                                } */
     </style>
 @endsection
 
@@ -962,19 +962,21 @@
             cname = $('#candidate').val();
             min_salary = $('#min_salary').val();
             max_salary = $('#max_salary').val();
-
+            console.log(search);
             // $('#searchKeyword').val('');
             if ($('#cip').is(':checked')) {
                 cip = 1;
             } else {
                 cip = 0;
             }
+            var globalSearchKeyword = $('#searchKeyword').val();
+
             // option_table.settings()[0].jqXHR.abort();
             option_tableFilter = $('#smTable').DataTable({
                 destroy: true,
                 processing: true,
-                serverSide: false,
-
+                serverSide: true,
+                ordering: false,
                 ajax: {
                     url: "{{ route('filterSearch') }}",
                     type: "GET",
@@ -1007,7 +1009,7 @@
                         sift_start: sift_start,
                         sift_end: sift_end,
                         portal: portal,
-                        search: search,
+                        // search: search,
                         // searchKeyword: searchKeyword,
                     },
                 },
@@ -1017,27 +1019,6 @@
                             window.open($(this).attr('data-href'), '_blank');
                         });
                     });
-                    // setTimeout(() => {
-                    //     $("#loader").hide();
-                    //     var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
-                    //     for (let items of trLoop) {
-                    //         items.addEventListener("click", myFunction);
-                    //     }
-
-                    //     function myFunction(event) {
-                    //         var data = $(this).find('td:first').text();
-                    //         data = data.split("-");
-                    //         origionalID = data[2];
-                    //         candidateID = data[0];
-                    //         var loggedInID = $('meta[name="user-id"]').attr('content');
-                    //         if (loggedInID == origionalID) {
-                    //             window.open('data-entry?id=' + candidateID, '_blank');
-                    //         } else {
-                    //             window.open('data-entry?id=' + candidateID, '_blank');
-                    //         }
-                    //     }
-
-                    // }, 500);
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
@@ -1047,41 +1028,20 @@
 
                 },
                 initComplete: function(settings, json) {
+
                     $('#smTable_length').hide();
 
                     $('#foundRecord').val(json.recordsTotal)
                     $('#sifted').val(json.recordsTotal)
-                    // divHtml = JSON.parse(localStorage.getItem('divHTML')); 
-                    // $("div[role='menu']").html()
-                    // document.querySelector(".dt-button").classList.add('customDivClass');
-                    // $("#loader").show();
-                    // $('.customDivClass').click();
-                    // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
-                    // for (let item of test) {
-                    //     item.classList.add('customClasss')
-                    //     item.addEventListener('click', saveFilter);
-                    // }
-                    // setTimeout(() => {
-                    //     $("div[role='menu']").html('');
-                    //     $("div[role='menu']").html(divHtml);
-                    //     $('.customDivClass').click();
-                    // }, 100);
                     setTimeout(() => {
                         $("#loader").hide();
                     }, 1000);
 
-                    summaryAppendAjax(json.array);
+                    // summaryAppendAjax(json.array);
                     // console.log(json.search);
-                    if (json.search != null) {
-                        $('#searchKeyword').val(json.search)
-                        $('#searchKeyword').change()
-                    }
-                    // let tableID = $('#filterResult_div').children().children().attr('id')
-                    // if (tableID == 'filteredTable_wrapper') {
-                    //     countRecordFilter()
-                    // }
-                    // if (tableID == 'smTable_wrapper') {
-                    //     countRecord()
+                    // if (json.search != null) {
+                    // $('#searchKeyword').val(json.search)
+                    $('#searchKeyword').change()
                     // }
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
@@ -1089,11 +1049,44 @@
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp;  Hide All Columns</button>'
                     )
+                    this.api().columns().every(function() {
+                        var column = this;
+                        var columnIndex = column.index();
+                        var header = $(column.header());
+                        // Remove previous input
+                        header.find('.column-search').remove();
+                        var input = $(
+                                '<input type="text"  class="form-control form-control-sm column-search" placeholder="Search" />'
+                            )
+                            .appendTo(header)
+                            .on('keyup change', function() {
+                                if (columnIndex === 8) {
+                                    column.search('^' + this.value + '$', true, false).draw();
+                                } else {
+                                    column.search(this.value).draw();
+                                }
+                            });
+
+                        input.data('column-index', columnIndex);
+
+                    });
+                    // $('#smTable').on('draw.dt', function() {
+                    //     if (settings.oFeatures.bServerSide === true && !settings.oFeatures.bSort) {
+                    //         console.log('should be appended');
+                    //         console.log('=======');
+                    //         console.log(settings.json.array);
+                    //         console.log('=======');
+                    //         // This condition ensures that the callback is only executed for client-side processing
+                    //         console.log(settings.json.totalCount);
+                    //         summaryAppendAjax(settings.json.array);
+                    //         $('#foundRecord').val(settings.json.totalCount);
+                    //     }
+                    // });
                 },
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
 
                         searchable: false
                     },
@@ -1101,24 +1094,24 @@
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         searchable: false,
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'team_name',
                         name: 'team_name',
                         // searchable: false,
                         orderable: true,
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'recruiter_name',
                         name: 'recruiter_name',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'date_shifted',
                         name: 'date_shifted',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1126,16 +1119,13 @@
                         name: 'candidate_profile',
                         // searchable: false,
                         // orderable: ,false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
-
-
-
 
                     {
                         data: 'date_invited',
                         name: 'date_invited',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1143,19 +1133,19 @@
                         name: 'fullName',
                         // searchable: false,
                         // orderable: ,false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'gender',
                         name: 'gender',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'phone',
                         name: 'phone',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1163,48 +1153,48 @@
                         name: 'Email',
                         // searchable: false,
                         // orderable: ,false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'address',
                         name: 'address',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'course',
                         name: 'course',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'educational_attain',
                         name: 'educational_attain',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'certification',
                         name: 'certification',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'emp_history',
                         name: 'emp_history',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'interview_note',
                         name: 'interview_note',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'exp_salary',
                         name: 'exp_salary',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1212,109 +1202,75 @@
                         name: 'app_status',
                         // searchable: false,
                         // orderable: ,false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'type',
                         name: 'type',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'endi_date',
                         name: 'endi_date',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'client',
                         name: 'client',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'site',
                         name: 'site',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
 
                     {
                         data: 'position_title',
                         name: 'position_title',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'career_endo',
                         name: 'career_endo',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'segment',
                         name: 'segment',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'sub_segment',
                         name: 'sub_segment',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'endostatus',
                         name: 'endostatus',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
-
-
-                    // {
-                    //     data: 'remarks',
-                    //     name: 'remarks'
-                    // ordering: true, // Enable sorting
-                    // },
-
-
 
                     {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
-
-                    // {
-                    //     data: 'invoice_number',
-                    //     name: 'invoice_number'
-                    // ordering: true, // Enable sorting
-                    // },
-
-                    // {
-                    //     data: 'OR_Number',
-                    //     name: 'OR_Number',
-                    //     // searchable: false,
-                    //     // orderable: false
-                    // ordering: true, // Enable sorting
-                    // },
-
-                    // {
-                    //     data: 'Replacement_For',
-                    //     name: 'Replacement_For',
-                    //     // searchable: false,
-                    //     // orderable: false
-                    // ordering: true, // Enable sorting
-                    // },
-
-
-
 
                 ],
                 dom: 'Blfrtip',
@@ -1336,33 +1292,13 @@
             // summaryAppendAjax()
         }
         // close 
-        // $('#smTable tfoot th').each(function() {
-        //     for (let index = 0; index < 5; index++) {
-
-        //         var title = $('#example thead th').eq($(this).index()).text();
-        //         $(this).html('<input type="text" placeholder="Search ' + index + '" />');
-        //     }
-        // });
 
         //start yajra table load 
         function load_datatable() {
             option_table = $('#smTable').DataTable({
-                // destroy: false,
-                // // search: {
-                // //     smart: false
-                // // },
-                // processing: true,
-                // serverSide: true,
-                // "language": {
-                //     processing: '<div class="spinner-border mr-3" role="status"> </div><span>Processing ...</span>'
-                // },
                 destroy: true,
-                search: {
-                    smart: true
-                },
-                regex: false,
+                processing: false,
                 ordering: false,
-                processing: true,
                 serverSide: true,
 
                 ajax: {
@@ -1376,27 +1312,6 @@
                             window.open($(this).attr('data-href'), '_blank');
                         });
                     });
-                    // setTimeout(() => {
-                    //     $("#loader").hide();
-                    //     var trLoop = document.querySelectorAll('.hidetrIDSmartSearch tr')
-                    //     for (let items of trLoop) {
-                    //         items.addEventListener("click", myFunction);
-                    //     }
-
-                    //     function myFunction(event) {
-                    //         var data = $(this).find('td:first').text();
-                    //         data = data.split("-");
-                    //         origionalID = data[2];
-                    //         candidateID = data[0];
-                    //         var loggedInID = $('meta[name="user-id"]').attr('content');
-                    //         if (loggedInID == origionalID) {
-                    //             window.open('data-entry?id=' + candidateID, '_blank');
-                    //         } else {
-                    //             window.open('data-entry?id=' + candidateID, '_blank');
-                    //         }
-                    //     }
-
-                    // }, 500);
                 },
                 createdRow: function(row, data, dataIndex) {
                     $(row).addClass('id');
@@ -1405,115 +1320,103 @@
 
 
                 },
-                // drawCallback: function(settings) {
-                //     $('.hidetrIDSmartSearch').find('tr').each(function() {
-                //         $(this).click(function() {
-                //             window.open($(this).attr('data-href'), '_blank');
-                //         });
-                //     });
-                // },
                 initComplete: function(settings, json) {
-                    console.log(settings);
-                    console.log(json);
+                    console.log('this is main table initcomplete');
                     // Apply the search 
-                    $('#foundRecord').val(json.recordsTotal)
-                    $('#sifted').val(json.recordsTotal)
-                    $('#foundRecord').val(settings.json.recordsTotal)
-                    $('#sifted').val(settings.json.recordsTotal)
-                    // summaryAppendAjax(settings.json.array);
-                    // Bind a callback to the 'draw.dt' event
+                    $('#foundRecord').val(json.recordsTotal);
+                    $('#sifted').val(json.recordsTotal);
+                    $('#foundRecord').val(settings.json.recordsTotal);
+                    $('#sifted').val(settings.json.recordsTotal);
+
                     $('#smTable').on('draw.dt', function() {
-                        if (settings.oFeatures.bServerSide === true) {
-                            // This condition ensures that the callback is only executed for client-side processing
-                            console.log(settings.json.totalCount);
-                            summaryAppendAjax(settings.json.array);
-                            $('#foundRecord').val(settings.json.totalCount)
-                        }
+                        // if (settings.oFeatures.bServerSide === true && !settings.oFeatures.bSort) {
+                        // console.log('should be appendedssss');
+                        // console.log('=======');
+                        // This condition ensures that the callback is only executed for client-side processing
+                        // console.log(settings.json.array);
+                        // summaryAppendAjax(settings.json.array);
+                        $('#foundRecord').val(settings.json.totalCount);
+                        // }
                     });
+
                     setTimeout(() => {
                         $('svg').tooltip('hide');
                     }, 5000);
-                    $("#loader").hide();
-                    // document.querySelector(".dt-button").classList.add('customDivClass');
-                    // $('.customDivClass').click();
-                    // let test = document.querySelectorAll(".dt-button.buttons-columnVisibility");
-                    // for (let item of test) {
-                    //     item.classList.add('customClasss')
-                    //     item.addEventListener('click', saveFilter);
-                    // }
-                    // setTimeout(() => {
-                    //     $('.customDivClass').click();
-                    // }, 100);
 
-                    // var that = this;
-                    // option_table.columns().every(function() {
-                    //     var that = this;
-                    //     $('input', this.footer()).on('keyup change', function() {
-                    //         console.log(this.value);
-                    //         option_table.column(9).search('^' + this.value, true, false)
-                    //             .draw();
-                    //         // that.search(this.value).draw();
-                    //     });
-                    // });
-                    // $('#searchKeyword').trigger('input');
-                    // let tableID = $('#filterResult_div').children().children().attr('id')
-                    // if (tableID == 'filteredTable_wrapper') {
-                    //     countRecordFilter()
-                    // }
-                    // if (tableID == 'smTable_wrapper') {
-                    //     countRecord()
-                    // }
+                    $("#loader").hide();
                     $('#smTable_length').hide();
-                    // this.api().columns().every(function() {
-                    //     var column = this;
-                    //     var input = $(
-                    //             '<input type="text" class="form-control form-control-sm" placeholder="Search...">'
-                    //         )
-                    //         .appendTo($(column.footer()).empty())
-                    //         .attr('data-column', column.data()) // Add custom attribute
-                    //         .on('keyup change clear', function() {
-                    //             if (column.search() !== this.value) {
-                    //                 column.search(this.value).draw();
-                    //             }
-                    //         });
-                    // });
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showAllColumnFunc()" class="customColumnBtn  btn btn-sm" id="selectAll">&nbsp; Show All Columns</button>'
-                    )
+                    );
                     $('#filterResult_div').find('.dt-buttons').append(
                         '<button type=checkbox onclick="showNoColumnFunc()" class="customColumnBtn ml-2 btn btn-sm" id="selectAll">&nbsp; Hide All Columns</button>'
-                    )
- 
+                    );
+
+                    this.api().columns().every(function() {
+                        console.log('wrong');
+
+                        var column = this;
+                        var columnIndex = column.index();
+                        var header = $(column.header());
+                        // Clone the header contents
+                        var headerContents = header.contents().clone();
+                        header.empty();
+                        headerContents.appendTo(header);
+                        var input = $(
+                                '<input type="text" class="form-control form-control-sm column-search" placeholder="Search here" />'
+                            )
+                            .appendTo(header)
+                            .on('keyup change', function() {
+                                if (columnIndex === 8) {
+                                    column.search('^' + this.value + '$', true, false).draw();
+                                } else {
+                                    column.search(this.value).draw();
+                                }
+                            });
+                        input.data('column-index', columnIndex);
+                    });
+
+                    // Focus column search input on click
+                    $('thead').on('click', 'th', function() {
+                        var columnIndex = option_table.column(this).index();
+                        var input = $(this).find('.column-search');
+
+                        if (input.length > 0) {
+                            input.focus();
+                        }
+                    });
+
+
                 },
+
                 columns: [{
                         data: 'id',
                         name: 'id',
-                        ordering: true, // Enable sorting
-
+                        ordering: false, // Enable sorting 
                         searchable: false
                     },
                     {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         searchable: false,
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'team_name',
                         name: 'team_name',
                         // searchable: false,
                         orderable: true,
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'recruiter_name',
                         name: 'recruiter_name',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting 
                     },
                     {
                         data: 'date_shifted',
                         name: 'date_shifted',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1521,7 +1424,7 @@
                         name: 'candidate_profile',
                         // searchable: false,
                         // orderable: false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
 
@@ -1530,7 +1433,7 @@
                     {
                         data: 'date_invited',
                         name: 'date_invited',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1538,19 +1441,19 @@
                         name: 'fullName',
                         // searchable: false,
                         // orderable: false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'gender',
                         name: 'gender',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'phone',
                         name: 'phone',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1558,48 +1461,48 @@
                         name: 'Email',
                         // searchable: false,
                         // orderable: false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'address',
                         name: 'address',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'course',
                         name: 'course',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
                     {
                         data: 'educational_attain',
                         name: 'educational_attain',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'certification',
                         name: 'certification',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'emp_history',
                         name: 'emp_history',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'interview_note',
                         name: 'interview_note',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'exp_salary',
                         name: 'exp_salary',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
@@ -1607,75 +1510,75 @@
                         name: 'app_status',
                         // searchable: false,
                         // orderable: false
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'type',
                         name: 'type',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'endi_date',
                         name: 'endi_date',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'client',
                         name: 'client',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'site',
                         name: 'site',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
 
                     {
                         data: 'position_title',
                         name: 'position_title',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'career_endo',
                         name: 'career_endo',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'segment',
                         name: 'segment',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'sub_segment',
                         name: 'sub_segment',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'endostatus',
                         name: 'endostatus',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     {
                         data: 'remarks_for_finance',
                         name: 'remarks_for_finance',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
 
                     // {
                     //     data: 'remarks',
                     //     name: 'remarks'
-                    // ordering: true, // Enable sorting
+                    // ordering: false, // Enable sorting
                     // },
 
 
@@ -1683,13 +1586,13 @@
                     {
                         data: 'onboardnig_date',
                         name: 'onboardnig_date',
-                        ordering: true, // Enable sorting
+                        ordering: false, // Enable sorting
                     },
 
                     // {
                     //     data: 'invoice_number',
                     //     name: 'invoice_number'
-                    // ordering: true, // Enable sorting
+                    // ordering: false, // Enable sorting
                     // },
 
                     // {
@@ -1697,7 +1600,7 @@
                     //     name: 'OR_Number',
                     //     // searchable: false,
                     //     // orderable: false
-                    // ordering: true, // Enable sorting
+                    // ordering: false, // Enable sorting
                     // },
 
                     // {
@@ -1705,7 +1608,7 @@
                     //     name: 'Replacement_For',
                     //     // searchable: false,
                     //     // orderable: false
-                    // ordering: true, // Enable sorting
+                    // ordering: false, // Enable sorting
                     // },
 
 
@@ -1728,9 +1631,9 @@
             });
         }
         // close 
-        $('#smTable').on('click', 'tbody tr', function() { 
+        $('#smTable').on('click', 'tbody tr', function() {
             $('tr').removeClass('hover-primary1');
-            $(this).addClass('hover-primary1'); 
+            $(this).addClass('hover-primary1');
         })
 
         // setInterval(() => {
@@ -1789,12 +1692,12 @@
             // return;
             // option_table.column(22).search('^' + $('#searchKeyword').val(), true, false)
             // append summary after passing the curetn candidate array for calculations 
-
+            console.log(($('#smTable_filter').children().children()));
             $('#smTable_filter').children().children().val($('#searchKeyword').val());
             $('#smTable_filter').children().children().trigger('input');
             $('#smTable1_filter').children().children().val($('#searchKeyword').val());
             $('#smTable1_filter').children().children().trigger('input');
-            option_tableFilter.draw();
+            // option_tableFilter.draw();
             // let total_recored = data.split(" ")
             // console.log(total_recored)
             // $('#foundRecord').val(total_recored[3])

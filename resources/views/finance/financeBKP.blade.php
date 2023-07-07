@@ -86,7 +86,7 @@
 
         .tableFixHead {
             overflow-y: auto;
-            height: 670px;
+            height: 100%;
         }
 
         .tableFixHead thead th {

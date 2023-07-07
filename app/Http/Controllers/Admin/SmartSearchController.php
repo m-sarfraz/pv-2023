@@ -98,37 +98,22 @@ class SmartSearchController extends Controller
                 $newArray[] = $columns[$i]['search']['value'];
             }
         }
-        $record = DB::table('updated_view_record');
         // Check if the new array is empty or has values
         if (empty($newArray)) {
+            // dd('lo');
+            $record = DB::table('updated_view_record');
+
             ini_set('max_execution_time', -1); //30000 seconds = 500 minutes
             ini_set('memory_limit', '10000M'); //10000M  = 10 GB
             Artisan::call('cache:clear');
             if ($request->search['value'] != '') {
-                // if ($request->search['value'] == strtolower('male') || $request->search['value'] == strtolower('female') || $request->search['value'] == strtolower('graduate')) {
-                //     if ($request->search['value'] == strtolower('male')) {
-                //         $recordQuery->where('gender', "'MALE'");
-                //     }
-                //     if ($request->search['value'] == strtolower('female')) {
-                //         $recordQuery->where('gender', "'FEMALE'");
-                //     }
-                //     if ($request->search['value'] == strtolower('graduate')) {
-                //         $recordQuery->where('educational_attain', "'GRADUATE'");
-                //     }
-                // } else {
 
                 $columnArray = ['team_name', 'recruiter_name', 'first_name', 'middle_name', 'last_name', 'date_shifted', 'candidate_profile', 'date_invited', 'gender', 'email', 'address', 'course', 'educational_attain', 'certification', 'emp_history', 'type', 'app_status', 'exp_salary', 'interview_note', 'endi_date', 'client', 'site', 'position_title', 'career_endo', 'segment_endo', 'sub_segment_endo', 'endostatus', 'remarks_for_finance', 'remarks_recruiter', 'onboardnig_date', 'invoice_number', 'or_number', 'replacement_for'];
                 foreach ($columnArray as $value) {
                     $search = "%" . $request->search['value'] . "%";
                     $record->orWhere($value, 'like', $search);
                 }
-                // }
-
-                // foreach ($record as $key => $value) {
-                //     $this->candidate_arr[$value->endorsement_id] = $value->cid;
-                // }
-                $totalCount = $record->count();
-                // dd( Str::replaceArray('?', $record->getBindings(), $record->toSql()) );
+                $totalCount = $record->count(); 
                 $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
 
             } else {
@@ -136,17 +121,19 @@ class SmartSearchController extends Controller
                 $totalCount = Endorsement::count();
             }
         } else {
+            $record = DB::table('updated_view_record');
             for ($i = 0; $i < count($columns); $i++) {
                 if ($columns[$i]['search']['value'] != '') {
-                    $searchValue = $columns[$i]['search']['value'];
-                    $record->where($columns[$i + 1]['name'], 'LIKE', "'%" . $searchValue . "%'");
-
+                    $searchValue = "%" . $columns[$i]['search']['value'] . "%";
+                    $record->where($columns[$i]['name'], 'LIKE', $searchValue);
+                    //    return  Str::replaceArray('?', $record->getBindings(), $record->toSql());
                 }
             }
-
-            $totalCount = 5;
+            $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
+            $totalCount = $record->count();
+            // dd($totalCount);
         }
-        // dd($record);
+        // dd($record->get());
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
@@ -303,6 +290,7 @@ class SmartSearchController extends Controller
     // filter record on basis of seelcted dropdowns
     public function filterSearch(Request $request)
     {
+
         ini_set('memory_limit', '10000M'); //10000M  = 10 GB
 
         $record = DB::table('updated_view_record');
@@ -402,27 +390,52 @@ class SmartSearchController extends Controller
             $record->whereDate('endi_date', '<=', $request->endo_end);
         }
 
-        // $columns = $request->input('columns');
-        // $newArray = [];
-        // for ($i = 0; $i < count($columns); $i++) {
-        //     if (!empty($columns[$i]['search']['value'])) {
-        //         // Push the value into the new array
-        //         $newArray[] = $columns[$i]['search']['value'];
-        //     }
-        // }
+        $columns = $request->input('columns');
+        // return ($columns);
+        // Initialize the new array
+        $newArray = [];
 
-        // if (empty($newArray)) {
-        // } else {
-        //     for ($i = 0; $i < count($columns); $i++) {
-        //         if ($columns[$i]['search']['value'] != '') {
-        //             $searchValue = $columns[$i]['search']['value'];
-        //             $record->where($columns[$i + 1]['name'], 'LIKE', "%$searchValue%");
-        //             $sqlQuery = Str::replaceArray('?', $record->getBindings(), $record->toSql());
-        //         }
-        //     }
-        // }
+        // Iterate through the $columns array using a for loop
+        for ($i = 0; $i < count($columns); $i++) {
+            // Check if the condition is met
+            if (!empty($columns[$i]['search']['value'])) {
+                // Push the value into the new array
+                $newArray[] = $columns[$i]['search']['value'];
+            }
+        }
+        // return $newArray;
 
-        $totalCount = $record->count();
+        if (empty($newArray)) {
+
+            if ($request->search['value'] != '') {
+                $record = $record->get();
+                $wordToSearch = $request->search['value'];
+                $record = $this->filterArrayByWord($record, $wordToSearch);
+                foreach ($record as $key => $value) {
+                    $this->candidate_arr[$value->endorsement_id] = $value->cid;
+                }
+            } else {
+                $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
+            }
+
+        } else {
+            for ($i = 0; $i < count($columns); $i++) {
+                if ($columns[$i]['search']['value'] != '') {
+                    $searchValue = "%" . $columns[$i]['search']['value'] . "%";
+                    $record->where($columns[$i]['name'], 'LIKE', $searchValue);
+                    //    return  Str::replaceArray('?', $record->getBindings(), $record->toSql());
+                }
+            }
+            $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
+            $totalCount = $record->count();
+        }
+        if (is_array($record)) {
+
+            $totalCount = count($record);
+        } else {
+            $totalCount = ($record->count());
+
+        }
         // $arrayOfIDS = $record->select('cid', 'endorsement_id')->get();
         // return $arrayOfIDS;
         // $this->candidate_arr = $Userdata->select('candidate_id', 'endorsement_id')->get()->toArray();
@@ -431,8 +444,8 @@ class SmartSearchController extends Controller
         // }
         //    return $this->candidate_arr;
         // return ($record);
-        $cidArray = $record->pluck('cid', 'endorsement_id')->toArray();
 
+        // dd( $this->candidate_arr );
         return Datatables::of($record)
             ->addIndexColumn()
             ->addColumn('id', function ($record) {
@@ -555,8 +568,8 @@ class SmartSearchController extends Controller
             })
             ->setTotalRecords($totalCount)
             ->with([
-                'array' => $cidArray,
-                'search' => $request->search,
+                'search' => $request->search['value'],
+                'array' => $this->candidate_arr,
             ])
             ->rawColumns([
                 'id',
@@ -593,14 +606,30 @@ class SmartSearchController extends Controller
             ->make(true);
     }
     // close
+    private function filterArrayByWord($array, $word)
+    {
+        $filteredArray = collect($array)
+            ->filter(function ($item) use ($word) {
+                foreach ($item as $key => $value) {
+                    if (is_string($value) && stripos($value, $word) !== false) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+            ->all();
 
+        return $filteredArray;
+    }
     // append summary on page load or filter change
     public function summaryAppend(Request $request)
     {
+
         ini_set('memory_limit', '1000M'); //1000M  = 1 GB
 
         // \Cache::forget('smartSearch');
         if ($request->array == 1) {
+
             // if (\Cache::get('smartSearch') != null) {
             //     $data = \Cache::get('smartSearch');
             //     return view('smartSearch.summary', $data);
@@ -623,8 +652,8 @@ class SmartSearchController extends Controller
                     'endorsements.app_status',
                     'endorsements.remarks_for_finance'
                 );
+            $unique = CandidateInformation::count();
         } else if (isset($request->array)) {
-
             $Userdata = DB::table('candidate_positions')->join('endorsements', 'candidate_positions.candidate_id', 'endorsements.candidate_id')
                 ->join('finance', 'endorsements.id', 'finance.endorsement_id')
 
@@ -648,6 +677,8 @@ class SmartSearchController extends Controller
                 )
                 ->whereIn('endorsements.id', array_keys($request->array))
                 ->whereIn('endorsements.candidate_id', array_values($request->array));
+            $unique = CandidateInformation::whereIn('id', array_values($request->array))->count();
+
         } else {
             $data = [
                 'endo' => 0,
@@ -692,7 +723,6 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1 . "and endorsements.is_deleted='0' ");
             $active_spr = DB::select($sql1);
             $sql_getActive_spr = DB::select($sql_active_spr);
-            $unique = CandidateInformation::count();
         } else {
             $sql_salary = DB::select($sql1 . "and endorsements.is_deleted='0' group by endorsements.candidate_id ");
             $sql_active = $sql . "where endorsements.app_status='Active File' and endorsements.is_deleted='0' ";
@@ -711,7 +741,6 @@ class SmartSearchController extends Controller
             $sql_spr = DB::select($sql1);
             $active_spr = DB::select($sql);
             $sql_getActive_spr = DB::select($sql_active_spr);
-            $unique = CandidateInformation::count();
         }
         $sql_spr_amount = 0;
         $sql_active_spr_amount = 0;

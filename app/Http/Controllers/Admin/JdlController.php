@@ -467,8 +467,8 @@ class JdlController extends Controller
         if (isset($request->wschedule)) {
             $Userdata->whereIn('w_schedule', $request->wschedule);
         }
-        
-        if (isset($request->turnAroundDaysVar)) { 
+
+        if (isset($request->turnAroundDaysVar)) {
             $Userdata->where('turn_around', $request->turnAroundDaysVar);
         }
         $dataJdl = $Userdata;
@@ -680,7 +680,7 @@ class JdlController extends Controller
             if ($validator->fails()) {
                 return response()->json(['success' => false, 'message' => $validator->errors()]);
             } else {
-                $recruiters = implode(',', $request->recruiter);
+                $recruiters = isset($request->recruiter) ? implode(',', $request->recruiter) : '';
                 $domainName = $request->domain;
                 $segmentaName = $request->segment;
                 $subsegmentName = $request->subsegment;
