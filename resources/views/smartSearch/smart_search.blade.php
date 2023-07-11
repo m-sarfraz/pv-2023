@@ -1060,11 +1060,9 @@
                             )
                             .appendTo(header)
                             .on('keyup change', function() {
-                                if (columnIndex === 8) {
-                                    column.search('^' + this.value + '$', true, false).draw();
-                                } else {
+                               
                                     column.search(this.value).draw();
-                                }
+                                
                             });
 
                         input.data('column-index', columnIndex);
@@ -1367,11 +1365,9 @@
                             )
                             .appendTo(header)
                             .on('keyup change', function() {
-                                if (columnIndex === 8) {
-                                    column.search('^' + this.value + '$', true, false).draw();
-                                } else {
+                              
                                     column.search(this.value).draw();
-                                }
+                                 
                             });
                         input.data('column-index', columnIndex);
                     });

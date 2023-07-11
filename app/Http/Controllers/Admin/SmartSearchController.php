@@ -125,8 +125,11 @@ class SmartSearchController extends Controller
             for ($i = 0; $i < count($columns); $i++) {
                 if ($columns[$i]['search']['value'] != '') {
                     $searchValue = "%" . $columns[$i]['search']['value'] . "%";
-                    $record->where($columns[$i]['name'], 'LIKE', $searchValue);
-                    //    return  Str::replaceArray('?', $record->getBindings(), $record->toSql());
+                    if (strtolower($columns[$i]['search']['value']) == 'male') {
+                        $record->where($columns[$i]['name'], 'male');
+                    } else {
+                        $record->where($columns[$i]['name'], 'LIKE', $searchValue);
+                    }
                 }
             }
             $this->candidate_arr = $record->pluck('cid', 'endorsement_id')->toArray();
